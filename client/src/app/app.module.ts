@@ -1,8 +1,10 @@
-import {HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {AppComponent} from './components/app/app.component';
-import { EntryPointComponent } from './entry-point/entry-point.component';
+import { HttpClientModule} from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './components/app/app.component';
+import { EntryPointComponent } from './components/app/entry-point/entry-point.component';
+import { MatDialogModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [
@@ -12,6 +14,11 @@ import { EntryPointComponent } from './entry-point/entry-point.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+  ],
+  entryComponents: [
+    EntryPointComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

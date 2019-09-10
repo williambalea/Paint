@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EntryPointComponent } from './entry-point/entry-point.component';
 
@@ -8,8 +8,10 @@ import { EntryPointComponent } from './entry-point/entry-point.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  public touche: boolean = true;
+  public enableKeyPress: boolean = false;
 
-  public constructor(public dialog: MatDialog) {}
+  public constructor(private dialog: MatDialog) {}
 
   public ngOnInit(): void {
     if(!sessionStorage.getItem("hideDialog"))
@@ -23,9 +25,19 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(hideDialog => {
       if(hideDialog)
         sessionStorage.setItem("hideDialog", JSON.stringify(hideDialog));
+      this.enableKeyPress = true;
     });
 
   }
+
+  @HostListener("window:keydown", ["$event"])
+  public onKeyDown($event: KeyboardEvent): void {
+    if(this.enableKeyPress) {
+      
+    }
+  }
+
+
 
 }
 

@@ -1,6 +1,17 @@
+<img src="assets/close-btn.svg" alt="close" height="20" width="20" (click)="closeDialog()">
+
 <div>
     <h1>Bienvenue sur PolyDessin!</h1>
-    <p>Laissez fleurir votre créativité sur le
+    <h2>
+        Laissez fleurir votre créativité sur le
         canvas avec les meilleurs outils mis à votre disposition.
-    </p>
+    </h2>
+    <h3>
+        Vous cherchez de l'aide? Jetez un coup d'oeil à notre
+        <a href="assets/polydessin.pdf">Guide d'utilisation.</a>
+    </h3>
+</div>
+
+<div>
+    <input type="checkbox" name="disablePopup" (click)="toggleHideDialog()"> Ne plus afficher
 </div>

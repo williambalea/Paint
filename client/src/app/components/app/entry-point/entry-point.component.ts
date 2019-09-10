@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-entry-point',
   templateUrl: './entry-point.component.html',
   styleUrls: ['./entry-point.component.scss']
 })
-export class EntryPointComponent implements OnInit {
+export class EntryPointComponent {
+  public isHidden: boolean = false;
 
-  constructor() { }
+  public constructor( public dialogRef: MatDialogRef<EntryPointComponent> ) {}
 
-  ngOnInit() {
+  public closeDialog(): void {
+    this.dialogRef.close(this.isHidden);
+  }
+
+  public toggleHideDialog(): void {
+    this.isHidden = !this.isHidden;
   }
 
 }

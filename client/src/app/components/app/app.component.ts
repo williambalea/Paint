@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EntryPointComponent } from './entry-point/entry-point.component';
 
 @Component({
@@ -12,14 +12,21 @@ export class AppComponent implements OnInit {
   public constructor(public dialog: MatDialog) {}
 
   public ngOnInit(): void {
-    this.openDialog();
+    if(!sessionStorage.getItem("hideDialog"))
+      this.openDialog();
   }
 
   public openDialog(): void {
-    this.dialog.open(EntryPointComponent, { disableClose: true });
+    const dialogRef: MatDialogRef<EntryPointComponent, any> = 
+      this.dialog.open(EntryPointComponent, { disableClose: true });
+
+    dialogRef.afterClosed().subscribe(hideDialog => {
+      if(hideDialog)
+        sessionStorage.setItem("hideDialog", JSON.stringify(hideDialog));
+    });
+
   }
 
-  
 }
 
 /* William : appComponent devrait être presque vide, je mets ici toutes les

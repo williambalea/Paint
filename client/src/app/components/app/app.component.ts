@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Host } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EntryPointComponent } from './entry-point/entry-point.component';
 
@@ -8,9 +8,12 @@ import { EntryPointComponent } from './entry-point/entry-point.component';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public touche: boolean = true;
   public enableKeyPress: boolean = false;
-
+  public mouseX: number = 0;
+  public mouseY: number = 0;
+  public mouseXc: number = 150;
+  public mouseYc: number = 100;
+  
   public constructor(private dialog: MatDialog) {}
 
   public ngOnInit(): void {
@@ -22,7 +25,7 @@ export class AppComponent implements OnInit {
     const dialogRef: MatDialogRef<EntryPointComponent, any> = 
       this.dialog.open(EntryPointComponent, { disableClose: true });
 
-    dialogRef.afterClosed().subscribe(hideDialog => {
+    dialogRef.afterClosed().subscribe((hideDialog: boolean) => {
       if(hideDialog)
         sessionStorage.setItem("hideDialog", JSON.stringify(hideDialog));
       this.enableKeyPress = true;
@@ -37,7 +40,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-
+  public sendMousePos(mouse: MouseEvent): void {
+    console.log("mouse mov");
+    this.mouseX = mouse.clientX;
+    this.mouseY = mouse.clientY;
+  }
 
 }
 

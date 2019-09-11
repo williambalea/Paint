@@ -7,6 +7,15 @@ interface rect {
   y: number;
   width: number;
   height: number;
+  fill: string;
+  strokeWidth: number;
+  stroke: string;
+}
+
+interface rgb {
+  r: number;
+  g: number;
+  b: number;
 }
 
 @Component({
@@ -64,13 +73,26 @@ export class AppComponent implements OnInit {
     this.rectangles.push(rectangle);
   }
 
-  // TODO: interface mouse to reduce parameters count
+  public addColor(r: number, g: number, b: number): string {
+    return `rgb(${r},${g},${b})`;
+  }
+
+  // TODO: interface mouse and style to reduce parameters count
   public makeSquare(mouseX: number, mouseY: number, offsetX: number, offsetY: number): rect {
     const width: number = Math.abs(offsetX - mouseX);
     const height: number = Math.abs(offsetY - mouseY);
     const x: number = mouseX < offsetX ? mouseX : offsetX;
     const y: number = mouseY < offsetY ? mouseY : offsetY;
-    const rectangle: rect = {x: x, y: y, width: width, height: height};
+    const fill: string = this.addColor(0, 0, 255);
+    const strokeWidth: number = 4;
+    const stroke: string = this.addColor(255,0, 0);
+    const rectangle: rect = {x: x, 
+                             y: y, 
+                             width: width, 
+                             height: height,
+                             fill: fill,
+                             strokeWidth: strokeWidth,
+                             stroke: stroke};
     return  rectangle;
   }
 }

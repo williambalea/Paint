@@ -4,6 +4,12 @@
     xmlns="http://www.w3.org/2000/svg">
 
     <g *ngFor="let rectangle of rectangles">
-        <rect [attr.x]="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height" />
+        <rect [attr.x]="rectangle.x" 
+              [attr.y]="rectangle.y" 
+              [attr.width]="rectangle.width" 
+              [attr.height]="rectangle.height" 
+              [style.fill]="rectangle.fill"
+              [style.stroke]="rectangle.stroke"
+              [style.stroke-width]="rectangle.strokeWidth"/>
     </g>
 </svg>

@@ -1,11 +1,9 @@
 <svg version="1.1"
     baseProfile="full"
     [attr.width]="this.canvasWidth" [attr.height]="this.canvasHeight"
-    xmlns="http://www.w3.org/2000/svg"
-    (mousemove)="sendMousePos($event)">
+    xmlns="http://www.w3.org/2000/svg">
 
-    <g>
-        <rect width="20" height="20" [attr.x]="this.mouseX - 17" [attr.y]="this.mouseY - 17" />
+    <g *ngFor="let rectangle of rectangles">
+        <rect [attr.x]="rectangle.x" [attr.y]="rectangle.y" [attr.width]="rectangle.width" [attr.height]="rectangle.height" />
     </g>
 </svg>
-<p>mouse pos : ({{this.mouseX}},{{this.mouseY}})</p>

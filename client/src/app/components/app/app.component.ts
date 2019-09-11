@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Host } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EntryPointComponent } from './entry-point/entry-point.component';
 
@@ -9,10 +9,11 @@ import { EntryPointComponent } from './entry-point/entry-point.component';
 })
 export class AppComponent implements OnInit {
   public enableKeyPress: boolean = false;
+
+  public canvasWidth: number = window.innerWidth;
+  public canvasHeigth: number = window.innerHeight;
   public mouseX: number = 0;
-  public mouseY: number = 0;
-  public mouseXc: number = 150;
-  public mouseYc: number = 100;
+  public mouseY: number = 0;  
   
   public constructor(private dialog: MatDialog) {}
 
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
     if(!sessionStorage.getItem("hideDialog"))
       this.openDialog();
   }
+
 
   public openDialog(): void {
     const dialogRef: MatDialogRef<EntryPointComponent, any> = 
@@ -36,12 +38,10 @@ export class AppComponent implements OnInit {
   @HostListener("window:keydown", ["$event"])
   public onKeyDown($event: KeyboardEvent): void {
     if(this.enableKeyPress) {
-      
     }
   }
 
   public sendMousePos(mouse: MouseEvent): void {
-    console.log("mouse mov");
     this.mouseX = mouse.clientX;
     this.mouseY = mouse.clientY;
   }

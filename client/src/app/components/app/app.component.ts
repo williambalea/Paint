@@ -51,19 +51,27 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener("mousedown", ["$event"])
-  public drawSquare($event: MouseEvent): void {
+  public setMouseInitalCoord($event: MouseEvent): void {
     console.log(`x: ${$event.offsetX} y: ${$event.offsetY}`);
     this.mouseInitialX = $event.offsetX;
     this.mouseInitialY = $event.offsetY;
   }
 
   @HostListener("mouseup", ["$event"])
-  public drawSquares($event: MouseEvent): void {
+  public drawSquare($event: MouseEvent): void {
     console.log(`x: ${$event.offsetX} y: ${$event.offsetY}`);
-    this.rectangles.push( {x: this.mouseInitialX, 
-                           y: this.mouseInitialY, 
-                           width: Math.abs($event.offsetX - this.mouseInitialX),
-                          height: Math.abs($event.offsetY - this.mouseInitialY)} );
+    const rectangle: rect = this.makeSquare(this.mouseInitialX, this.mouseInitialY, $event.offsetX, $event.offsetY);
+    this.rectangles.push(rectangle);
+  }
+
+  // TODO: interface mouse to reduce parameters count
+  public makeSquare(mouseX: number, mouseY: number, offsetX: number, offsetY: number): rect {
+    const width: number = Math.abs(offsetX - mouseX);
+    const height: number = Math.abs(offsetY - mouseY);
+    const x: number = mouseX < offsetX ? mouseX : offsetX;
+    const y: number = mouseY < offsetY ? mouseY : offsetY;
+    const rectangle: rect = {x: x, y: y, width: width, height: height};
+    return  rectangle;
   }
 }
 

@@ -12,12 +12,6 @@ interface rect {
   stroke: string;
 }
 
-interface rgb {
-  r: number;
-  g: number;
-  b: number;
-}
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -71,6 +65,10 @@ export class AppComponent implements OnInit {
     console.log(`x: ${$event.offsetX} y: ${$event.offsetY}`);
     const rectangle: rect = this.makeSquare(this.mouseInitialX, this.mouseInitialY, $event.offsetX, $event.offsetY);
     this.rectangles.push(rectangle);
+  }
+
+  public bound(x: number): void {
+
   }
 
   public addColor(r: number, g: number, b: number): string {

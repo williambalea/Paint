@@ -1,9 +1,20 @@
-.sideBar {
+.sidebar {
     overflow: hidden;
-    background-color: rgb(107, 6, 90);
+    background-color: rgb(121, 4, 105);
     position: fixed; 
     top: 0; 
-    left: 0;
     width: 3%;
     height: 100%;
-  }
+ }
+ .i {
+    position: absolute;
+    top : 0;
+    right: 3%;
+ }
+ .j {
+    position: absolute;
+    bottom : 7%;
+    right: 3%;
+    
+    
+ }

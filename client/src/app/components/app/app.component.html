@@ -2,7 +2,7 @@
     baseProfile="full"
     [attr.width]="this.canvasWidth" [attr.height]="this.canvasHeight"
     xmlns="http://www.w3.org/2000/svg">
-
+    
     <g *ngFor="let rectangle of rectangles">
         <rect [attr.x]="rectangle.x" 
               [attr.y]="rectangle.y" 
@@ -12,4 +12,14 @@
               [style.stroke]="rectangle.stroke"
               [style.stroke-width]="rectangle.strokeWidth"/>
     </g>
+    
+    <rect *ngIf="this.previewActive"
+          [attr.x]="this.previewX" 
+          [attr.y]="this.previewY" 
+          [attr.width]="this.previewWidth" 
+          [attr.height]="this.previewHeight" 
+          [style.fill]="this.previewFill"
+          [style.stroke]="this.previewStroke"
+          [style.stroke-width]="this.previewStrokeWidth"/>
+
 </svg>

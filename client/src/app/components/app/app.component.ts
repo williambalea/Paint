@@ -20,12 +20,22 @@ interface rect {
 export class AppComponent implements OnInit {
   public enableKeyPress: boolean = false;
 
-  // with plain svg
   public canvasWidth: number = window.innerWidth;
   public canvasHeigth: number = window.innerHeight;
   public rectangles: rect[] = [];
+
   public mouseInitialX: number;
   public mouseInitialY: number;
+
+  // TODO: to put in a service i guess and maybe make an interface for preview
+  public previewActive: boolean = false;
+  public previewWidth: number;
+  public previewHeight: number;
+  public previewX: number;
+  public previewY: number;
+  public previewFill: string;
+  public previewStroke: string;
+  public previewStrokeWidth: number;
 
   public constructor(private dialog: MatDialog) { }
 
@@ -53,45 +63,69 @@ export class AppComponent implements OnInit {
     }
   }
 
+  public addColor(r: number, g: number, b: number): string {
+    return `rgb(${r},${g},${b})`;
+  }
+
+  public REMOVEsetRectStyle(): void {
+    const r: number = Math.floor(Math.random() * 255);
+    const g: number = Math.floor(Math.random() * 255);
+    const b: number = Math.floor(Math.random() * 255);
+    this.previewFill = this.addColor(r, g, b);
+    this.previewStrokeWidth = 1;
+    this.previewStroke = this.addColor(0,0, 0);
+  }
+
   @HostListener("mousedown", ["$event"])
   public setMouseInitalCoord($event: MouseEvent): void {
-    console.log(`x: ${$event.offsetX} y: ${$event.offsetY}`);
+    this.REMOVEsetRectStyle();
+    this.previewActive = true;
+    this.previewX = $event.offsetX;
+    this.previewY = $event.offsetY;
+    console.log(
+      `previewX: ${this.previewX} 
+       previewY: ${this.previewY}
+       previewWidth: ${this.previewWidth}
+       previewHeight: ${this.previewHeight}`);
     this.mouseInitialX = $event.offsetX;
     this.mouseInitialY = $event.offsetY;
+  }
+
+  @HostListener("mousemove", ["$event"])
+  public setPreviewOffset($event: MouseEvent): void {
+    if(this.previewActive) {
+      this.previewWidth = Math.abs($event.offsetX - this.mouseInitialX);
+      this.previewHeight = Math.abs($event.offsetY - this.mouseInitialY);
+      this.previewX = this.mouseInitialX < $event.offsetX ? this.mouseInitialX : $event.offsetX;
+      this.previewY = this.mouseInitialY < $event.offsetY ? this.mouseInitialY : $event.offsetY;
+    }
   }
 
   @HostListener("mouseup", ["$event"])
   public drawSquare($event: MouseEvent): void {
     console.log(`x: ${$event.offsetX} y: ${$event.offsetY}`);
-    const rectangle: rect = this.makeSquare(this.mouseInitialX, this.mouseInitialY, $event.offsetX, $event.offsetY);
+    const rectangle: rect = this.makeSquare(this.mouseInitialX, this.mouseInitialY, this.previewX, this.previewY);
     this.rectangles.push(rectangle);
-  }
+    this.previewActive = false;
+    this.previewWidth = 0;
+    this.previewHeight = 0;
 
-  public bound(x: number): void {
-
-  }
-
-  public addColor(r: number, g: number, b: number): string {
-    return `rgb(${r},${g},${b})`;
   }
 
   // TODO: interface mouse and style to reduce parameters count
-  public makeSquare(mouseX: number, mouseY: number, offsetX: number, offsetY: number): rect {
-    const width: number = Math.abs(offsetX - mouseX);
-    const height: number = Math.abs(offsetY - mouseY);
-    const x: number = mouseX < offsetX ? mouseX : offsetX;
-    const y: number = mouseY < offsetY ? mouseY : offsetY;
-    const fill: string = this.addColor(0, 0, 255);
-    const strokeWidth: number = 4;
-    const stroke: string = this.addColor(255,0, 0);
-    const rectangle: rect = {x: x, 
-                             y: y, 
-                             width: width, 
-                             height: height,
-                             fill: fill,
-                             strokeWidth: strokeWidth,
-                             stroke: stroke};
+  public makeSquare(mouseX: number, mouseY: number, offsetX: number, offsetY: number): rect {   
+    const rectangle: rect = {x: this.previewX, 
+                             y: this.previewY, 
+                             width: this.previewWidth, 
+                             height: this.previewHeight,
+                             fill: this.previewFill,
+                             strokeWidth: this.previewStrokeWidth,
+                             stroke: this.previewStroke};
     return  rectangle;
+  }
+
+  public previewer(): void {
+
   }
 }
 

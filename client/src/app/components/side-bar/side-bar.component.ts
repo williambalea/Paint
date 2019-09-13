@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideBarComponent implements OnInit {
 
+  test : number;
+
   constructor() { }
 
   ngOnInit() {
   }
+  setValue(value:number): void {
+    this.test = value;
+  }
+ 
 
 }

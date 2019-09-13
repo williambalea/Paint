@@ -3,40 +3,39 @@
     background-color: rgb(121, 4, 105);
     position: fixed; 
     top: 0; 
-    width: 3%;
+    width: 4%;
     height: 100%;
  }
- .i {
+ .square_icon {
     position: absolute;
     top : 0;
     right: 3%;
  }
 
- .j {
+ .circle_icon {
     position: absolute;
     top : 5%;
     right: 3%;
  }
- .k {
+ .brush_icon {
     position: absolute;
     top : 10%;
     right: 3%;
  }
- .l {
+ .color_pallette_icon {
     position: absolute;
     top : 15%;
     right: 3%;
  }
- .m {
+ .color_applicator_icon {
     position: absolute;
     top : 20%;
     right: 3%;
  }
 
- .n {
+ .new_file_icon {
     position: absolute;
     bottom : 7%;
-    right: 3%;
-    
-    
+    right: 3%; 
  }
+ 

@@ -7,8 +7,9 @@ import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.
 import { BackgroundComponent } from './components/background/background.component';
 import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule } from  '@angular/material';
+import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonModule,MatMenuModule } from  '@angular/material';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
     MatListModule,
     MatButtonModule,
     MatIconModule,
-    AngularSvgIconModule
+    AngularSvgIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent],

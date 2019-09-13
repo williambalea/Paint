@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 
-interface rect {
+interface RECT {
   x: number;
   y: number;
   width: number;
@@ -18,39 +18,39 @@ interface rect {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  public enableKeyPress: boolean = false;
+  enableKeyPress: boolean = false;
 
-  public canvasWidth: number = window.innerWidth;
-  public canvasHeigth: number = 1080;
-  public rectangles: rect[] = [];
+  canvasWidth: number = window.innerWidth;
+  canvasHeigth: number = 1080;
+  rectangles: RECT[] = [];
 
   // TODO: interface mouse and style to reduce parameters count
-  public mouseInitialX: number;
-  public mouseInitialY: number;
+  mouseInitialX: number;
+  mouseInitialY: number;
 
   // TODO: to put in a service i guess and maybe make an interface for preview
-  public previewActive: boolean = false;
-  public previewWidth: number;
-  public previewHeight: number;
-  public previewX: number;
-  public previewY: number;
-  public previewFill: string;
-  public previewStroke: string;
-  public previewStrokeWidth: number;
+  previewActive: boolean = false;
+  previewWidth: number;
+  previewHeight: number;
+  previewX: number;
+  previewY: number;
+  previewFill: string;
+  previewStroke: string;
+  previewStrokeWidth: number;
 
-  public shiftPressed: boolean;
+  shiftPressed: boolean;
 
-  public constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) { }
 
-  public ngOnInit(): void {
-    if(!sessionStorage.getItem('hideDialog'))
+  ngOnInit(): void {
+    if (!sessionStorage.getItem('hideDialog')) {
       this.openDialog();
-    else
+    } else {
       this.enableKeyPress = true;
+    }
   }
 
-
-  public openDialog(): void {
+  openDialog(): void {
     const dialogRef: MatDialogRef<EntryPointComponent, any> =
       this.dialog.open(EntryPointComponent, { disableClose: true });
 
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('window:keydown', ['$event'])
-  public onKeyDown(event: KeyboardEvent): void {
+  onKeyDown(event: KeyboardEvent): void {
     if (this.enableKeyPress) {
       if (event.key === 'Shift') {
         this.previewWidth = this.previewHeight;
@@ -86,11 +86,11 @@ export class AppComponent implements OnInit {
   }
   */
 
-  public setRGBAColor(r: number, g: number, b: number, a: number): string {
+  setRGBAColor(r: number, g: number, b: number, a: number): string {
     return `rgb(${r},${g},${b},${a})`;
   }
 
-  public REMOVEsetRectStyle(): void {
+  REMOVEsetRectStyle(): void {
     const r: number = Math.floor(Math.random() * 255);
     const g: number = Math.floor(Math.random() * 255);
     const b: number = Math.floor(Math.random() * 255);
@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('mousedown', ['$event'])
-  public setMouseInitalCoord(event: MouseEvent): void {
+  setMouseInitalCoord(event: MouseEvent): void {
     this.REMOVEsetRectStyle();
     this.previewActive = true;
     this.previewX = event.offsetX;
@@ -112,10 +112,10 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('mousemove', ['$event'])
-  public setPreviewOffset(event: MouseEvent): void {
-    if(this.previewActive) {
+  setPreviewOffset(event: MouseEvent): void {
+    if (this.previewActive) {
       this.previewWidth = Math.abs(event.offsetX - this.mouseInitialX);
-      if(this.shiftPressed) {
+      if (this.shiftPressed) {
         this.previewHeight = this.previewWidth;
         this.previewX = event.offsetX > 0 ? this.mouseInitialX : -this.mouseInitialX;
         this.previewY = event.offsetY > 0 ? this.mouseInitialY : -this.mouseInitialY;
@@ -128,8 +128,8 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('mouseup')
-  public drawSquare(): void {
-    const rectangle: rect = {
+  drawSquare(): void {
+    const rectangle: RECT = {
       x: this.previewX,
       y: this.previewY,
       width: this.previewWidth,

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
   public constructor(private dialog: MatDialog) { }
 
   public ngOnInit(): void {
-    if(!sessionStorage.getItem("hideDialog"))
+    if(!sessionStorage.getItem('hideDialog'))
       this.openDialog();
     else
       this.enableKeyPress = true;
@@ -51,27 +51,28 @@ export class AppComponent implements OnInit {
 
 
   public openDialog(): void {
-    const dialogRef: MatDialogRef<EntryPointComponent, any> = 
+    const dialogRef: MatDialogRef<EntryPointComponent, any> =
       this.dialog.open(EntryPointComponent, { disableClose: true });
 
     dialogRef.afterClosed().subscribe((hideDialog: boolean) => {
-      if(hideDialog)
-        sessionStorage.setItem("hideDialog", JSON.stringify(hideDialog));
+      if (hideDialog) {
+        sessionStorage.setItem('hideDialog', JSON.stringify(hideDialog));
+      }
       this.enableKeyPress = true;
     });
 
   }
 
-  @HostListener("window:keydown", ["$event"])
+  @HostListener('window:keydown', ['$event'])
   public onKeyDown(event: KeyboardEvent): void {
-    if(this.enableKeyPress) {
-      if(event.key === "Shift") {
+    if (this.enableKeyPress) {
+      if (event.key === 'Shift') {
         this.previewWidth = this.previewHeight;
         this.shiftPressed = true;
       }
-      if(event.ctrlKey && event.key === 'z') {
+      if (event.ctrlKey && event.key === 'z') {
         this.rectangles.pop();
-        console.log("pressed z rectangles.length : " + this.rectangles.length );
+        console.log('pressed z rectangles.length : ' + this.rectangles.length );
       }
     }
   }
@@ -96,10 +97,10 @@ export class AppComponent implements OnInit {
     const a: number = Math.round(Math.random());
     this.previewFill = this.setRGBAColor(r, g, b, 1);
     this.previewStrokeWidth = 2;
-    this.previewStroke = this.setRGBAColor(0,0, 0, a);
+    this.previewStroke = this.setRGBAColor(0, 0, 0, a);
   }
 
-  @HostListener("mousedown", ["$event"])
+  @HostListener('mousedown', ['$event'])
   public setMouseInitalCoord(event: MouseEvent): void {
     this.REMOVEsetRectStyle();
     this.previewActive = true;
@@ -110,7 +111,7 @@ export class AppComponent implements OnInit {
     this.mouseInitialY = event.offsetY;
   }
 
-  @HostListener("mousemove", ["$event"])
+  @HostListener('mousemove', ['$event'])
   public setPreviewOffset(event: MouseEvent): void {
     if(this.previewActive) {
       this.previewWidth = Math.abs(event.offsetX - this.mouseInitialX);
@@ -126,16 +127,16 @@ export class AppComponent implements OnInit {
     }
   }
 
-  @HostListener("mouseup")
+  @HostListener('mouseup')
   public drawSquare(): void {
-    const rectangle: rect = { 
-      x: this.previewX, 
-      y: this.previewY, 
-      width: this.previewWidth, 
+    const rectangle: rect = {
+      x: this.previewX,
+      y: this.previewY,
+      width: this.previewWidth,
       height: this.previewHeight,
       fill: this.previewFill,
       strokeWidth: this.previewStrokeWidth,
-      stroke: this.previewStroke 
+      stroke: this.previewStroke,
     };
 
     this.rectangles.push(rectangle);

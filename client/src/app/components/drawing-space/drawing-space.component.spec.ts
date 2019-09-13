@@ -8,7 +8,7 @@ describe('DrawingSpaceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DrawingSpaceComponent ]
+      declarations: [ DrawingSpaceComponent ],
     })
     .compileComponents();
   }));

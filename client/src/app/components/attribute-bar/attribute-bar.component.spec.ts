@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AttributeBarComponent } from './attribute-bar.component';
 
 describe('AttributeBarComponent', () => {
@@ -8,7 +7,7 @@ describe('AttributeBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AttributeBarComponent ]
+      declarations: [ AttributeBarComponent ],
     })
     .compileComponents();
   }));

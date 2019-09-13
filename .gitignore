@@ -2,9 +2,6 @@
 /.vscode/chrome
 /.vs/
 
-# Keep the package-lock.json !
-!package-lock.json
-
 #ignoring node_modules
 node_modules/
 

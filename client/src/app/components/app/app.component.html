@@ -1,6 +1,7 @@
-<svg version="1.1"
+<div class="drawingBoard">
+    <svg version="1.1"
     baseProfile="full"
-    [attr.width]="this.canvasWidth" [attr.height]="this.canvasHeight"
+    [attr.width]="this.canvasWidth" [attr.height]="1080"
     xmlns="http://www.w3.org/2000/svg">
     
     <g *ngFor="let rectangle of rectangles">
@@ -22,4 +23,5 @@
           [style.stroke]="this.previewStroke"
           [style.stroke-width]="this.previewStrokeWidth"/>
 
-</svg>
+    </svg>
+</div>

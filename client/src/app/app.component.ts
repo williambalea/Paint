@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { EntryPointComponent } from './entry-point/entry-point.component';
+import { EntryPointComponent } from './components/entry-point/entry-point.component';
 
 interface rect {
   x: number;

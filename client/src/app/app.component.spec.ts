@@ -6,7 +6,6 @@ import {IndexService} from '../../services/index/index.service';
 import {AppComponent} from './app.component';
 import SpyObj = jasmine.SpyObj;
 
-
 describe('AppComponent', () => {
   let indexServiceSpy: SpyObj<IndexService>;
 
@@ -19,7 +18,7 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
       ],
       declarations: [
         AppComponent,

@@ -8,7 +8,7 @@ describe('EntryPointComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EntryPointComponent ]
+      declarations: [ EntryPointComponent ],
     })
     .compileComponents();
   }));

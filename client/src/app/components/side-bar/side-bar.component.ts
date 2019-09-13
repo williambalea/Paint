@@ -1,21 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
-  styleUrls: ['./side-bar.component.scss']
+  styleUrls: ['./side-bar.component.scss'],
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent {
 
-  test : number;
+  test: number;
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-  setValue(value:number): void {
+  setValue(value: number): void {
     this.test = value;
   }
- 
 
 }

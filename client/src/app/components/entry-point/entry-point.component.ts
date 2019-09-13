@@ -4,18 +4,20 @@ import { MatDialogRef } from '@angular/material';
 @Component({
   selector: 'app-entry-point',
   templateUrl: './entry-point.component.html',
-  styleUrls: ['./entry-point.component.scss']
+  styleUrls: ['./entry-point.component.scss'],
 })
 export class EntryPointComponent {
-  public isHidden: boolean = false;
+  isHidden: boolean;
 
-  public constructor( public dialogRef: MatDialogRef<EntryPointComponent> ) {}
+  constructor( public dialogRef: MatDialogRef<EntryPointComponent> ) {
+    this.isHidden = false;
+  }
 
-  public closeDialog(): void {
+  closeDialog(): void {
     this.dialogRef.close(this.isHidden);
   }
 
-  public toggleHideDialog(): void {
+  toggleHideDialog(): void {
     this.isHidden = !this.isHidden;
   }
 

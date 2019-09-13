@@ -8,7 +8,7 @@ describe('AttributeBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AttributeBarComponent ]
+      declarations: [ AttributeBarComponent ],
     })
     .compileComponents();
   }));

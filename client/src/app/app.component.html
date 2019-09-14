@@ -1,29 +1,3 @@
-<div class="drawingBoard">
-    <svg version="1.1"
-    baseProfile="full"
-    [attr.width]="this.canvasWidth" [attr.height]="1080"
-    xmlns="http://www.w3.org/2000/svg">
-    
-    <g *ngFor="let rectangle of rectangles">
-        <rect [attr.x]="rectangle.x" 
-              [attr.y]="rectangle.y" 
-              [attr.width]="rectangle.width" 
-              [attr.height]="rectangle.height" 
-              [style.fill]="rectangle.fill"
-              [style.stroke]="rectangle.stroke"
-              [style.stroke-width]="rectangle.strokeWidth"/>
-    </g>
-    
-    <rect *ngIf="this.previewActive"
-          [attr.x]="this.previewX" 
-          [attr.y]="this.previewY" 
-          [attr.width]="this.previewWidth" 
-          [attr.height]="this.previewHeight" 
-          [style.fill]="this.previewFill"
-          [style.stroke]="this.previewStroke"
-          [style.stroke-width]="this.previewStrokeWidth"/>
-
-    </svg>
-</div>
 <app-side-bar></app-side-bar>
+<app-drawing-space></app-drawing-space>
 

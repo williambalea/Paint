@@ -7,9 +7,11 @@ import { MatDialogRef } from '@angular/material';
   styleUrls: ['./entry-point.component.scss'],
 })
 export class EntryPointComponent {
-  isHidden: boolean = false;
+  isHidden: boolean;
 
-  constructor( public dialogRef: MatDialogRef<EntryPointComponent> ) {}
+  constructor( public dialogRef: MatDialogRef<EntryPointComponent> ) {
+    this.isHidden = false;
+  }
 
   closeDialog(): void {
     this.dialogRef.close(this.isHidden);

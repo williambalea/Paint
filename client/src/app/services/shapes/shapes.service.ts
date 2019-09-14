@@ -12,15 +12,15 @@ export class ShapesService {
 
   // TODO: put coloring in own interface
   drawRectangle(preview: Preview, fill: string, stroke: string, strokeWidth: number): void {
-    const rectangle: Rectangle = {
-      x: preview.x,
-      y: preview.y,
-      width: preview.width,
-      height: preview.height,
+    const rectangle = new Rectangle (
+      preview.x,
+      preview.y,
+      preview.width,
+      preview.height,
       fill,
       stroke,
       strokeWidth,
-    };
+    );
     this.shapes.push(rectangle);
   }
 }

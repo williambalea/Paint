@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Preview } from '../../../../../common/interface/preview';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
+import { Mouse } from '../../../../../common/interface/mouse';
 
 @Component({
   selector: 'app-drawing-space',
@@ -11,7 +12,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 })
 export class DrawingSpaceComponent implements OnInit {
   canvasWidth: number = window.innerWidth;
-  canvasHeigth: number = 1080;
+  canvasHeigth = 1080;
 
   enableKeyPress: boolean;
   shiftPressed: boolean;
@@ -23,14 +24,13 @@ export class DrawingSpaceComponent implements OnInit {
   previewActive = false;
   preview: Preview;
 
-  // TODO: interface mouse and style to reduce parameters count
-  mouseInitialX: number;
-  mouseInitialY: number;
+  origin: Mouse = {x: 0, y: 0};
 
   constructor(private dialog: MatDialog,
               private shapeService: ShapesService) {
-                this.enableKeyPress = false;
-              }
+    this.enableKeyPress = false;
+
+  }
 
   ngOnInit(): void {
     if (!sessionStorage.getItem('hideDialog')) {
@@ -86,27 +86,25 @@ export class DrawingSpaceComponent implements OnInit {
 
     this.previewActive = true;
 
-    console.log('mouse.offsetX = '  + event.offsetX);
     this.preview.x = event.offsetX;
-    console.log('this.preview.x = ' + this.preview.x);
     this.preview.y = event.offsetY;
 
-    this.mouseInitialX = event.offsetX;
-    this.mouseInitialY = event.offsetY;
+    this.origin.x = event.offsetX;
+    this.origin.y = event.offsetY;
   }
 
   @HostListener('mousemove', ['$event'])
   setPreviewOffset(event: MouseEvent): void {
     if (this.previewActive) {
-      this.preview.width = Math.abs(event.offsetX - this.mouseInitialX);
+      this.preview.width = Math.abs(event.offsetX - this.origin.x);
       if (this.shiftPressed) {
         this.preview.height = this.preview.width;
-        this.preview.x = event.offsetX > 0 ? this.mouseInitialX : -this.mouseInitialX;
-        this.preview.y = event.offsetY > 0 ? this.mouseInitialY : -this.mouseInitialY;
+        this.preview.x = event.offsetX > 0 ? this.origin.x : -this.origin.x;
+        this.preview.y = event.offsetY > 0 ? this.origin.y : -this.origin.y;
       } else {
-        this.preview.height = Math.abs(event.offsetY - this.mouseInitialY);
-        this.preview.x = this.mouseInitialX < event.offsetX ? this.mouseInitialX : event.offsetX;
-        this.preview.y = this.mouseInitialY < event.offsetY ? this.mouseInitialY : event.offsetY;
+        this.preview.height = Math.abs(event.offsetY - this.origin.y);
+        this.preview.x = this.origin.x < event.offsetX ? this.origin.x : event.offsetX;
+        this.preview.y = this.origin.y < event.offsetY ? this.origin.y : event.offsetY;
       }
     }
   }

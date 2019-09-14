@@ -1,7 +1,7 @@
 <div class="drawingBoard">
     <svg version="1.1"
     baseProfile="full"
-    [attr.width]="this.canvasWidth" [attr.height]="1080"
+    [attr.width]="this.canvasWidth" [attr.height]="this.canvasHeight"
     xmlns="http://www.w3.org/2000/svg">
     
     <g *ngFor="let shape of this.shapeService.shapes">
@@ -25,4 +25,5 @@
 
     </svg>
 </div>
+
 

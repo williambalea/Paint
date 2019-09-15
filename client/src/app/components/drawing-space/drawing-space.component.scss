@@ -5,17 +5,10 @@ html, body {
 }
 
 .drawingBoard {
-    position: fixed;
     background: #adadad;
     width: 100%;
     height: 100%;
-    left: 13%;
-}
-
-.drawingBoard {
-    position: fixed;
-    background: #adadad;
-    width: 100%;
-    height: 100%;
-    left: 13%;
+    left: 5%;
+    border-color:black;
+    border-width:2px;
 }

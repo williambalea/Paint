@@ -1,6 +1,6 @@
 import { Component,  HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Mouse } from '../../../../../common/interface/mouse';
+import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
@@ -11,10 +11,9 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
-  canvasWidth: number = window.innerWidth;
+  canvasWidth: number;
   canvasHeight: number;
-  offsetX: number;
-  offsetY: number;
+  offset: Point;
 
   enableKeyPress: boolean;
   shiftPressed: boolean;
@@ -25,7 +24,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   previewActive = false;
   preview: Preview;
-  origin: Mouse;
+  origin: Point;
 
   constructor(private dialog: MatDialog,
               private shapeService: ShapesService) {
@@ -98,17 +97,17 @@ export class DrawingSpaceComponent implements OnInit {
       x: event.offsetX,
       y: event.offsetY,
       width: 0,
-      height: 0 };
+      height: 0,
+    };
 
-    this.origin = {x: event.offsetX, y: event.offsetY};
+    this.origin = { x: event.offsetX, y: event.offsetY };
 
     this.previewActive = true;
   }
 
   @HostListener('mousemove', ['$event'])
   setPreviewOffset(event: MouseEvent): void {
-    this.offsetX = event.offsetX;
-    this.offsetY = event.offsetY;
+    this.offset = {x: event.offsetX, y: event.offsetY};
     if (this.previewActive) {
       if (this.shiftPressed) {
         this.setSquareOffset();
@@ -119,22 +118,29 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   setRectangleOffset(): void {
-    this.preview.width = Math.abs(this.offsetX - this.origin.x);
-    this.preview.height = Math.abs(this.offsetY - this.origin.y);
-    this.preview.x = Math.min(this.origin.x, this.offsetX);
-    this.preview.y = Math.min(this.origin.y, this.offsetY);
+    this.preview.width = Math.abs(this.offset.x - this.origin.x);
+    this.preview.height = Math.abs(this.offset.y - this.origin.y);
+    this.preview.x = Math.min(this.origin.x, this.offset.x);
+    this.preview.y = Math.min(this.origin.y, this.offset.y);
   }
 
   setSquareOffset(): void {
-    const deplacementX = this.offsetX - this.origin.x;
-    const deplacementY = this.offsetY - this.origin.y;
-    const width = Math.min(Math.abs(deplacementX), Math.abs(deplacementY));
-    const newOffsetX = this.origin.x + (Math.sign(deplacementX) * width);
-    const newOffsetY = this.origin.y + (Math.sign(deplacementY) * width);
+    const deplacement: Point = {
+      x: this.offset.x - this.origin.x,
+      y: this.offset.y - this.origin.y,
+    };
+
+    const width = Math.min(Math.abs(deplacement.x), Math.abs(deplacement.y));
+
+    const newOffset: Point = {
+      x: this.origin.x + (Math.sign(deplacement.x) * width),
+      y: this.origin.y + (Math.sign(deplacement.y) * width),
+    };
+
     this.preview.width = width;
     this.preview.height = width;
-    this.preview.x = Math.min(this.origin.x, newOffsetX);
-    this.preview.y = Math.min(this.origin.y, newOffsetY);
+    this.preview.x = Math.min(this.origin.x, newOffset.x);
+    this.preview.y = Math.min(this.origin.y, newOffset.y);
   }
 
   @HostListener('mouseup')

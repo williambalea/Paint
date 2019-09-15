@@ -12,6 +12,7 @@ import { ColorPickerModule } from './components/color-picker/color-picker.module
 import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.component';
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { ColorPickerModule } from './color-picker/color-picker.module';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatIconModule,
     AngularSvgIconModule,
     MatMenuModule,
+    ColorPickerModule
   ],
   entryComponents: [
     EntryPointComponent,

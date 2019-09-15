@@ -22,7 +22,6 @@ export class DrawingSpaceComponent implements OnInit {
   stroke: string;
   strokeWidth: number;
 
-  previewActive = false;
   preview: Preview;
   origin: Point;
 
@@ -31,6 +30,14 @@ export class DrawingSpaceComponent implements OnInit {
     this.canvasWidth = window.innerWidth;
     this.canvasHeight = window.innerHeight;
     this.enableKeyPress = false;
+
+    this.preview = {
+      active: false,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
 
   }
 
@@ -92,23 +99,16 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   setMouseOrigin(event: MouseEvent): void {
     this.REMOVEsetRectStyle();
-
-    this.preview = {
-      x: event.offsetX,
-      y: event.offsetY,
-      width: 0,
-      height: 0,
-    };
-
-    this.origin = { x: event.offsetX, y: event.offsetY };
-
-    this.previewActive = true;
+    this.origin = {x: event.offsetX, y: event.offsetY};
+    this.preview.active = true;
+    this.preview.x = event.offsetX;
+    this.preview.y = event.offsetY;
   }
 
   @HostListener('mousemove', ['$event'])
   setPreviewOffset(event: MouseEvent): void {
     this.offset = {x: event.offsetX, y: event.offsetY};
-    if (this.previewActive) {
+    if (this.preview.active) {
       if (this.shiftPressed) {
         this.setSquareOffset();
       } else {
@@ -146,7 +146,7 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mouseup')
   drawShape(): void {
     this.shapeService.drawRectangle(this.preview, this.fill, this.stroke, this.strokeWidth);
-    this.previewActive = false;
+    this.preview.active = false;
   }
 
 }

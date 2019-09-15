@@ -13,6 +13,8 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 export class DrawingSpaceComponent implements OnInit {
   canvasWidth: number = window.innerWidth;
   canvasHeight: number;
+  offsetX: number;
+  offsetY: number;
 
   enableKeyPress: boolean;
   shiftPressed: boolean;
@@ -61,6 +63,7 @@ export class DrawingSpaceComponent implements OnInit {
     if (this.enableKeyPress) {
       if (event.key === 'Shift') {
         this.shiftPressed = true;
+        this.setSquareOffset();
       }
     }
   }
@@ -104,24 +107,34 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousemove', ['$event'])
   setPreviewOffset(event: MouseEvent): void {
+    this.offsetX = event.offsetX;
+    this.offsetY = event.offsetY;
     if (this.previewActive) {
       if (this.shiftPressed) {
-        this.setSquareOffset(event);
+        this.setSquareOffset();
       } else {
-        this.setRectangleOffset(event);
+        this.setRectangleOffset();
       }
     }
   }
 
-  setRectangleOffset(event: MouseEvent): void {
-    this.preview.width = Math.abs(event.offsetX - this.origin.x);
-    this.preview.height = Math.abs(event.offsetY - this.origin.y);
-    this.preview.x = Math.min(this.origin.x, event.offsetX);
-    this.preview.y = Math.min(this.origin.y, event.offsetY);
+  setRectangleOffset(): void {
+    this.preview.width = Math.abs(this.offsetX - this.origin.x);
+    this.preview.height = Math.abs(this.offsetY - this.origin.y);
+    this.preview.x = Math.min(this.origin.x, this.offsetX);
+    this.preview.y = Math.min(this.origin.y, this.offsetY);
   }
 
-  setSquareOffset(event: MouseEvent): void {
-    return;
+  setSquareOffset(): void {
+    const deplacementX = this.offsetX - this.origin.x;
+    const deplacementY = this.offsetY - this.origin.y;
+    const width = Math.min(Math.abs(deplacementX), Math.abs(deplacementY));
+    const newOffsetX = this.origin.x + (Math.sign(deplacementX) * width);
+    const newOffsetY = this.origin.y + (Math.sign(deplacementY) * width);
+    this.preview.width = width;
+    this.preview.height = width;
+    this.preview.x = Math.min(this.origin.x, newOffsetX);
+    this.preview.y = Math.min(this.origin.y, newOffsetY);
   }
 
   @HostListener('mouseup')

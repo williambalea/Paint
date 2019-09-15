@@ -78,6 +78,7 @@ export class DrawingSpaceComponent implements OnInit {
   onKeyUp(event: KeyboardEvent): void {
     if (event.key === 'Shift') {
       this.shiftPressed = false;
+      this.setRectangleOffset();
     }
   }
 

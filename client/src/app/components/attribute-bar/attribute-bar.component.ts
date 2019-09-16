@@ -37,6 +37,15 @@ onSubmit(value:Number){
   return false;
 }
 
+/* MAB: Besoin de binder ces 2 fonctions avec l'interface de couleurs et les couleurs des rectangles. */
+
+assignPrimaryColor(){
+  window.alert("Choose your primary color!");
+}
+
+assignSecondaryColor(){
+  window.alert("Choose your secondary color!");
+}
   
 }
 

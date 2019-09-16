@@ -1,14 +1,12 @@
 <div class="attributeBar" >
         <div *ngIf="test == 1">
-                <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
+               <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
                                 pour pouvoir voir le contenu du canevas.-->
                         <button (click)=exitWindow()>Exit</button>
                 </div>
             <br>
                 <div class="header">
-                        Attributes options
-                       <br>
-                       
+                        <div style="font-weight:900">Outil de rectangle</div>
                 </div>
                 <div class="singleAttribute">
                         <div class="sectionHeader">
@@ -23,8 +21,7 @@
                                 
                                 <form (submit)="onSubmit(value.value)">
                                         Stroke width:
-                                        <input #value type="text" placeholder="placeHolder"/> 
-                                        px
+                                        <input #value type="text" placeholder="width in pixels"/> 
                                 </form>
                                 
                         </label>
@@ -39,29 +36,108 @@
                                         Current fill type:   <button>{{this.rectangle.fill}}</button>
                                 </div>
                                 <p>
-                                Please select one of the following 3 shape fill-in types:
+                                Please select one of the following 3:
                                 </p>
                                 <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
                                 <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
                                 <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
                                 <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
                         </label>
+                        <br>
+                        Please chose the colors you wish to use:
+                        <br>
+                        <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
+                        <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
                     </div>
-
                     <br>
             </div>
-            <!-- Pinceau -->
+            <!-- Cercle ?  -->
             <div class="placeHolder" *ngIf="test == 2">
-                        PLACEHOLDER CERCLE
+                        PLACEHOLDER CERCLE (?)
             </div>
-            <!-- Pinceau -->
+            <!-- Outil de dessin -->
             <div class="placeHolder" *ngIf="test == 3">
-                        PLACEHOLDER PINCEAU
+                <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
+                                pour pouvoir voir le contenu du canevas.-->
+                        <button (click)=exitWindow()>Exit</button>
+                </div>
+                <br>
+                <div class="header">
+                        <div style="font-weight:900">Outil de dessin</div>
+                </div>
+                <div class="singleAttribute">
+                                <div class="sectionHeader">
+                                        Drawing tool type:
+                                        <br>
+                                        <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
+                                        <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Brush</button>
+                                        <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Pencil</button>
+                                </div>
+                        <!-- si le tool est un brush -->
+                        <div *ngIf="drawTool == brush">
+                                <label >
+                                        <br>
+                                                Brush texture:
+                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #1</button>
+                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #2</button>
+                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #3</button>
+                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #4</button>
+                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #5</button>
+                                </label>
+                        </div>
+                </div>
+                <div class="singleAttribute">
+                        <div class="sectionHeader">
+                                Stroke type:
+                        </div>
+                        <br>
+                        Current Stroke Width: <button>{{this.rectangle.strokeWidth}} px</button>
+                        <br>
+                        <label >
+                                <br>
+                                <form (submit)="onSubmit(value.value)">
+                                        Stroke width:
+                                        <input #value type="text" placeholder="width in pixels"/> 
+                                </form>
+                        </label>
+                </div>
+                <div class="singleAttribute">
+                <label>
+                </label>
+
+                <div class="sectionHeader">
+                                Color type:
+                </div>
+                        Please chose the colors you wish to use:
+                        <br>
+                        <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
+                        <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                    </div>
+                    <br>
             </div>
             <!-- Color tool -->
-            <div class="placeHolder" *ngIf="test == 4">
-                        PLACEHOLDER COLOR
-            </div>  
+                <div class="placeHolder" *ngIf="test == 4">
+                        <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
+                                        pour pouvoir voir le contenu du canevas.-->
+                                <button (click)=exitWindow()>Exit</button>
+                        </div>
+                        <br>
+                        <div class="header">
+                                <div style="font-weight:900">Outil de couleurs</div>
+                        </div>
+
+                        <div class="singleAttribute">
+                                <div class="sectionHeader">
+                                                Color type:
+                                </div>
+                                <br>
+                                Please chose the colors you wish to use:
+                                <br>
+                                <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
+                                <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                                </div>
+                                <br>
+                        </div>
             <!-- Pipette -->    
             <div class="placeHolder" *ngIf="test == 5">
                         PLACEHOLDER PIPETTE

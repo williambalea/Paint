@@ -18,7 +18,7 @@ export class ColorSliderComponent implements AfterViewInit {
   @Output()
   color: EventEmitter<string> = new EventEmitter();
 
-  private ctx: CanvasRenderingContext2D;
+  private ctx: CanvasRenderingContext2D | null;
   private mousedown: boolean;
   private selectedHeight: number;
 

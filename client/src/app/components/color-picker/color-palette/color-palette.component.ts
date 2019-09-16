@@ -24,7 +24,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
 
-  private ctx: CanvasRenderingContext2D;
+  private ctx: CanvasRenderingContext2D | null;
 
   private mousedown: boolean;
 

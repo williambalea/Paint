@@ -11,28 +11,37 @@
                        
                 </div>
                 <div class="singleAttribute">
-                        <h2>
+                        <div class="sectionHeader">
                                 Stroke type:
-                        </h2>
+                        </div>
+                        <br>
                     Current Stroke Width: <button>{{this.rectangle.strokeWidth}} px</button>
 
                     <br>
                             <label >
                                 <br>
-                                Stroke width:
-                                <input type="text" formControlName="street" placeholder="width">
-                                px
+                                
+                                <form (submit)="onSubmit(value.value)">
+                                        Stroke width:
+                                        <input #value type="text" placeholder="placeHolder"/> 
+                                        px
+                                </form>
+                                
                         </label>
                 </div>
                     <div class="singleAttribute">
                         <label>
-                                <h2>
+                                <div class="sectionHeader">
                                         Fill type:
-                                </h2>
-                                <div class="attributeHeader">
-                                                Current fill type:   <button>{{this.rectangle.fill}}</button>
                                 </div>
-
+                                <br>
+                                <div class="attributeHeader">
+                                        Current fill type:   <button>{{this.rectangle.fill}}</button>
+                                </div>
+                                <p>
+                                Please select one of the following 3 shape fill-in types:
+                                </p>
+                                <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
                                 <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
                                 <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
                                 <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
@@ -40,10 +49,23 @@
                     </div>
 
                     <br>
-            </div> 
-
+            </div>
+            <!-- Pinceau -->
             <div class="placeHolder" *ngIf="test == 2">
-                        PLACEHOLDER
+                        PLACEHOLDER CERCLE
+            </div>
+            <!-- Pinceau -->
+            <div class="placeHolder" *ngIf="test == 3">
+                        PLACEHOLDER PINCEAU
+            </div>
+            <!-- Color tool -->
+            <div class="placeHolder" *ngIf="test == 4">
+                        PLACEHOLDER COLOR
+            </div>  
+            <!-- Pipette -->    
+            <div class="placeHolder" *ngIf="test == 5">
+                        PLACEHOLDER PIPETTE
             </div>      
+          
 </div>
 

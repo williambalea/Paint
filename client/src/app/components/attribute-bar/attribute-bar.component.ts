@@ -24,11 +24,18 @@ confirmInput(){
 }
 
 exitWindow(){
-  /* Avoir l'option de collapse la window d'attribut si on veut, pas juste d'alterner entre fenetres une fois
+  /* MAB: Avoir l'option de collapse la window d'attribut si on veut, pas juste d'alterner entre fenetres une fois
      la premiere ouverte */
      window.alert("Are you certain you wish to collapse this panel?");
 }
-  
+
+/* MAB: Input confirmation for number and not string */
+
+onSubmit(value:Number){
+  window.alert(value);
+  console.log(value);
+  return false;
+}
 
   
 }

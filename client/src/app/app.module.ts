@@ -35,6 +35,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatIconModule,
     AngularSvgIconModule,
     MatMenuModule,
+    ColorPickerModule
   ],
   entryComponents: [
     EntryPointComponent,

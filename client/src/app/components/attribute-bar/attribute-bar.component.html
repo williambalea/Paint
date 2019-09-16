@@ -1,11 +1,20 @@
 <div class="attributeBar" >
         <div *ngIf="test == 1">
+                <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
+                                pour pouvoir voir le contenu du canevas.-->
+                        <button (click)=exitWindow()>Exit</button>
+                </div>
+            <br>
                 <div class="header">
                         Attributes options
+                       <br>
+                       
                 </div>
                 <div class="singleAttribute">
-                    <br>
-                    Current Stroke Width:  <!-- {{ this.rectangle.strokeWidth  }}-->
+                        <h2>
+                                Stroke type:
+                        </h2>
+                    Current Stroke Width: <button>{{this.rectangle.strokeWidth}} px</button>
 
                     <br>
                             <label >
@@ -17,45 +26,24 @@
                 </div>
                     <div class="singleAttribute">
                         <label>
-                                Fill type:
-                                <br>
-                                Current fill type:  <!-- {{ this.rectangle.strokeWidth  }}-->
-                                <br>
-                                <button mat-button (click)=" setValue(1)" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
-                                <button mat-button (click)=" setValue(1)" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
-                                <button mat-button (click)=" setValue(1)" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
+                                <h2>
+                                        Fill type:
+                                </h2>
+                                <div class="attributeHeader">
+                                                Current fill type:   <button>{{this.rectangle.fill}}</button>
+                                </div>
+
+                                <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
+                                <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
+                                <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
                         </label>
                     </div>
-                    <div class="exit">
-                        <button>Exit</button>
-                    </div>
+
                     <br>
             </div> 
 
-            <div *ngIf="test == 2">   
-                    <div class="header">
-                            Attributes options
-                    </div>
-                    <div class="singleAttribute">
-                            <br>
-                            Current Stroke Width:  <!-- {{ this.rectangle.strokeWidth  }}-->
-        
-                            <br>      
-                                <label >
-                                    <br>
-                                    Stroke width:
-                                    <input type="text" formControlName="street" placeholder="width">
-                                    px
-                            </label>
-
-    
-                    </div>
-                    <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
-                                            pour pouvoir voir le contenu du canevas.-->
-                            <button>Exit</button>
-                        </div>
-                        <br>
-            </div> 
-           
+            <div class="placeHolder" *ngIf="test == 2">
+                        PLACEHOLDER
+            </div>      
 </div>
 

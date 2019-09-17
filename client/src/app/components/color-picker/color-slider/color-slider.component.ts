@@ -18,7 +18,7 @@ export class ColorSliderComponent implements AfterViewInit {
   @Output()
   color: EventEmitter<string> = new EventEmitter();
 
-  private ctx: CanvasRenderingContext2D | null;
+  private ctx: CanvasRenderingContext2D;
   private mousedown: boolean;
   private selectedHeight: number;
 
@@ -28,7 +28,7 @@ export class ColorSliderComponent implements AfterViewInit {
 
   draw() {
     if (!this.ctx) {
-      this.ctx = this.canvas.nativeElement.getContext('2d');
+      this.ctx = (this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D);
     }
     if (this.ctx != null) {
       const width = this.canvas.nativeElement.width;

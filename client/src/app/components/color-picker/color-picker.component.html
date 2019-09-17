@@ -1,8 +1,9 @@
 <div class=color-wrapper>
   <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
-  <app-color-slider (color)="hue=$event" style="margin-left:16px"></app-color-slider>
+  <app-color-slider (color)="hue=$event" style="margin-left:35px"></app-color-slider>
 </div>
 <div class="input-wrapper">
-  <span class="text">{{color}}</span>
+  <sub>0x</sub>
+  <input type="text" #box (keyup.enter)="onEnter(box.value)" value={{colorHex}}>
   <div class="color-div" [ngStyle]="{'background-color': color || 'white'}"></div>
 </div>

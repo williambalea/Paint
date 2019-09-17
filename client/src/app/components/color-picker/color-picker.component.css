@@ -1,7 +1,7 @@
 :host {
   display: block;
   width: 316px;
-  padding: 16px;
+  padding: 10%;
 }
 .color-wrapper {
   display: flex;
@@ -12,8 +12,8 @@
   background-color: white;
   margin-top: 16px;
   display: flex;
-  width: 197px;
-  border-radius: 1px;
+  width: 73%;
+  border-radius: 80px;
   border: 1px solid rgb(220, 220, 220);
   padding: 8px;
   height: 32px;

@@ -7,3 +7,4 @@ node_modules/
 
 #System files
 .DS_Store
+client/debug.log

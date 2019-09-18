@@ -1,5 +1,6 @@
 import { Component,  HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { HIDE_DIALOG, key } from '../../../../../common/constants';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 
@@ -28,7 +29,7 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!sessionStorage.getItem('hideDialog')) {
+    if (!sessionStorage.getItem(HIDE_DIALOG)) {
       this.openDialog();
     } else {
       this.enableKeyPress = true;
@@ -38,7 +39,7 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
     if (this.enableKeyPress) {
-      if (event.key === 'Shift') {
+      if (event.key === key.shift) {
         this.shiftPressed = true;
         this.shapeService.setSquareOffset();
       }
@@ -47,7 +48,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
-    if (event.key === 'Shift') {
+    if (event.key === key.shift) {
       this.shiftPressed = false;
       this.shapeService.setRectangleOffset();
     }
@@ -87,7 +88,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   closeDialog(hideDialog: boolean): void {
     if (hideDialog) {
-      sessionStorage.setItem('hideDialog', JSON.stringify(hideDialog));
+      sessionStorage.setItem(HIDE_DIALOG, JSON.stringify(hideDialog));
     }
     this.enableKeyPress = true;
   }

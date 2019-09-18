@@ -7,6 +7,7 @@ import {Rectangle} from '../../services/shapes/classes/rectangle'
   templateUrl: './attribute-bar.component.html',
   styleUrls: ['./attribute-bar.component.scss'],
 })
+
 export class AttributeBarComponent {
   @Input() test: number;
 

@@ -40,5 +40,6 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
   providers: [],
   bootstrap: [AppComponent],
 })
+
 export class AppModule {
 }

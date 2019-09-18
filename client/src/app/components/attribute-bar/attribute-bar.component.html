@@ -13,13 +13,13 @@
                                 Stroke type:
                         </div>
                         <br>
-                    Current Stroke Width: <button>{{this.rectangle.strokeWidth}} px</button>
+                    Current Stroke Width: {{this.currentStrokeWidth}} px
 
                     <br>
                             <label >
                                 <br>
                                 
-                                <form (submit)="onSubmit(value.value)">
+                                <form (submit)="assignStrokeWidth(value.value)">
                                         Stroke width:
                                         <input #value type="text" placeholder="width in pixels"/> 
                                 </form>
@@ -33,7 +33,7 @@
                                 </div>
                                 <br>
                                 <div class="attributeHeader">
-                                        Current fill type:   <button>{{this.rectangle.fill}}</button>
+                                        Current fill type:   {{this.currentFillType}}
                                 </div>
                                 <p>
                                 Please select one of the following 3:
@@ -46,8 +46,8 @@
                         <br>
                         Please chose the colors you wish to use:
                         <br>
-                        <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
-                        <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                        <br> Primary: <button (click)="assignStrokeColor()">PLACEHOLDER</button> 
+                        <br> Secondary: <button (click)="assignFillColor()">PLACEHOLDER</button>
                     </div>
                     <br>
             </div>
@@ -91,11 +91,11 @@
                                 Stroke type:
                         </div>
                         <br>
-                        Current Stroke Width: <button>{{this.rectangle.strokeWidth}} px</button>
+                        Current Stroke Width: <button>{{this.currentStrokeWidth}} px</button>
                         <br>
                         <label >
                                 <br>
-                                <form (submit)="onSubmit(value.value)">
+                                <form (submit)="assignStrokeWidth(value.value)">
                                         Stroke width:
                                         <input #value type="text" placeholder="width in pixels"/> 
                                 </form>

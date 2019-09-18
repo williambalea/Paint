@@ -69,8 +69,10 @@ export class ShapesService {
     this.preview.y = Math.min(this.origin.y, newOffset.y);
   }
 
+
+
   // TODO: put options (fill, etc.) in own interface
-  drawRectangle(preview: Preview, fill: string, stroke: string, strokeWidth: number): void {
+  drawRectangle(preview: Preview, fill: string, stroke: string, strokeWidth: number): Shape {
     const rectangle = new Rectangle (
       preview.x,
       preview.y,
@@ -81,5 +83,12 @@ export class ShapesService {
       strokeWidth,
     );
     this.shapes.push(rectangle);
+    return this.getRectangle(this.shapes.length); // return latest shape (rectangle) for handling
   }
+
+  getRectangle(shapeNumber:number): Shape{
+    return this.shapes[shapeNumber];
+  }
+
+
 }

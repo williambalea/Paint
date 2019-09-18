@@ -26,11 +26,10 @@ export class ShapesService {
 
   /* MAB: Ajout de méthodes pour l'accès des attributs du rectangle */
 
-  fetchRectangle(){
-    let rectangle = new Rectangle(1,2,3,4,"black","black",5);
+  fetchRectangle() {
+    const rectangle = new Rectangle(1, 2, 3, 4, 'black', 'black', 5);
     return rectangle;
   }
-
 
   setMouseOrigin(event: MouseEvent): void {
     this.origin = {x: event.offsetX, y: event.offsetY};

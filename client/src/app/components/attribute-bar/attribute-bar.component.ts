@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { ShapesService } from '../../services/shapes/shapes.service'
 import {Rectangle} from '../../services/shapes/classes/rectangle'
 

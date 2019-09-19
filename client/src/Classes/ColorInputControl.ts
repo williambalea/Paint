@@ -1,7 +1,7 @@
 export class ColorInputControl {
 
     private checkLength(s: string): boolean {
-        return (s.length === 8);
+        return (s.length === 6);
     }
 
     private checkChar(s: string): boolean {

@@ -1,7 +1,7 @@
 import { HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule, MatDialogModule, MatIconModule, MatListModule,
-MatMenuModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+MatMenuModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatToolbarModule} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -27,6 +27,8 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     HttpClientModule,
     MatDialogModule,
     BrowserAnimationsModule,
+    MatSliderModule,
+    MatSelectModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
@@ -35,7 +37,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatIconModule,
     AngularSvgIconModule,
     MatMenuModule,
-    ColorPickerModule
+    ColorPickerModule,
   ],
   entryComponents: [
     EntryPointComponent,

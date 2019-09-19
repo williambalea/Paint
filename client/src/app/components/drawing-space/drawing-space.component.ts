@@ -1,5 +1,6 @@
 import { Component,  HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ColorService } from 'src/app/services/color/color.service';
 import { Mouse } from '../../../../../common/interface/mouse';
 import { Preview } from '../../../../../common/interface/preview';
 import { ShapesService } from '../../services/shapes/shapes.service';
@@ -17,7 +18,6 @@ export class DrawingSpaceComponent implements OnInit {
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
-  fill: string;
   stroke: string;
   strokeWidth: number;
 
@@ -26,7 +26,8 @@ export class DrawingSpaceComponent implements OnInit {
   origin: Mouse;
 
   constructor(private dialog: MatDialog,
-              private shapeService: ShapesService) {
+              private shapeService: ShapesService,
+              private colorService: ColorService) {
     this.canvasWidth = window.innerWidth;
     this.canvasHeight = window.innerHeight;
     this.enableKeyPress = false;
@@ -73,23 +74,23 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   // TODO: to be put elswhere
-  setRGBAColor(r: number, g: number, b: number, a: number): string {
-    return `rgb(${r},${g},${b},${a})`;
-  }
+  // setRGBAColor(r: number, g: number, b: number, a: number): string {
+  //   return `rgb(${r},${g},${b},${a})`;
+  // }
 
-  REMOVEsetRectStyle(): void {
-    const r: number = Math.floor(Math.random() * 255);
-    const g: number = Math.floor(Math.random() * 255);
-    const b: number = Math.floor(Math.random() * 255);
-    const a: number = Math.round(Math.random());
-    this.fill = this.setRGBAColor(r, g, b, 1);
-    this.strokeWidth = 2;
-    this.stroke = this.setRGBAColor(0, 0, 0, a);
-  }
+  // REMOVEsetRectStyle(): void {
+  //   const r: number = Math.floor(Math.random() * 255);
+  //   const g: number = Math.floor(Math.random() * 255);
+  //   const b: number = Math.floor(Math.random() * 255);
+  //   const a: number = Math.round(Math.random());
+  //   this.fill = this.setRGBAColor(r, g, b, 1);
+  //   this.strokeWidth = 2;
+  //   this.stroke = this.setRGBAColor(0, 0, 0, a);
+  // }
 
   @HostListener('mousedown', ['$event'])
   setMouseOrigin(event: MouseEvent): void {
-    this.REMOVEsetRectStyle();
+    // this.REMOVEsetRectStyle();
 
     this.preview = {
       x: event.offsetX,
@@ -126,7 +127,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mouseup')
   drawShape(): void {
-    this.shapeService.drawRectangle(this.preview, this.fill, this.stroke, this.strokeWidth);
+    this.shapeService.drawRectangle(this.preview, this.stroke, this.colorService.getFillColor(), this.strokeWidth);
     this.previewActive = false;
   }
 

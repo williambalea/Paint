@@ -11,7 +11,7 @@ export class ShapesService {
   shapes: Shape[] = [];
 
   // TODO: put coloring in own interface
-  drawRectangle(preview: Preview, fill: string, stroke: string, strokeWidth: number): void {
+  drawRectangle(preview: Preview, stroke: string, fill: string, strokeWidth: number): void {
     const rectangle = new Rectangle (
       preview.x,
       preview.y,

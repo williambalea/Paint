@@ -13,7 +13,7 @@ import {Preview} from '../../../../../common/interface/preview'
 export class AttributeBarComponent {
   @Input() test: number;
 
-  shapeService:ShapesService;
+  constructor(private shapeService: ShapesService) {};
   preview: Preview;
 
   currentShape:Shape;
@@ -126,10 +126,10 @@ exitWindow(){
 }
 
 
-assignStrokeWidth(value:Number){
+assignStrokeWidth(value:number){
   console.log(value);
   if(confirm("Are you sure you wish to enter: "+value+" ?")){
-    this.shapeStrokeWidth = value;
+    this.shapeService.strokeWidth = value;
   }
   return false;
 }

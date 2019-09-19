@@ -14,6 +14,8 @@ export class ShapesService {
   mouse: Point;
   origin: Point;
 
+  strokeWidth: number;
+
   constructor() {
     this.preview = {
       active: false,
@@ -72,7 +74,7 @@ export class ShapesService {
 
 
   // TODO: put options (fill, etc.) in own interface
-  drawRectangle(preview: Preview, fill: string, stroke: string, strokeWidth: number): Shape {
+  drawRectangle(preview: Preview, fill: string, stroke: string): Shape {
     const rectangle = new Rectangle (
       preview.x,
       preview.y,
@@ -80,7 +82,7 @@ export class ShapesService {
       preview.height,
       fill,
       stroke,
-      strokeWidth,
+      this.strokeWidth,
     );
     this.shapes.push(rectangle);
     return this.getRectangle(this.shapes.length); // return latest shape (rectangle) for handling

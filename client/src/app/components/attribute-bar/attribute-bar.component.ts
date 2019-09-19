@@ -22,14 +22,15 @@ export class AttributeBarComponent {
 
   /* MAB: On veut une separation des attributs de chaque outil */
   // Shapes
-  shapeStrokeColor: string;
-  shapeFillColor: string;
-  shapeStrokeWidth: Number;
+  shapeStrokeColor: string = "Define me!";
+  shapeFillColor: string = "Define me!";
+  shapeStrokeWidth: Number = 1;
+  shapeFillType: string = "Define me!";
 
   // Drawing Tools
-  strokeColor:string;
-  strokeWidth: number;
-  fillColor:string;
+  strokeColor:string = "Define me!";
+  strokeWidth: number = 1;
+  fillColor:string = "Define me!";
 
   currentBrushTexture:string = " Style #1";
 
@@ -60,6 +61,7 @@ export class AttributeBarComponent {
   // Functions to assign fill colors
       assignType1Fill(){
         if(confirm("Are you sure you wish to chose type 1 fill ?")){
+          this.shapeFillType = "Type #1";
           // transparency  = 1;
           // currentStrokeColor = this.strokeColor;
         }
@@ -68,6 +70,7 @@ export class AttributeBarComponent {
 
       assignType2Fill(){
         if(confirm("Are you sure you wish to chose type 2 fill ?")){
+          this.shapeFillType = "Type #2";
           // transparency  = 0;
           // currentStrokeColor = this.fillColor;
         }
@@ -76,6 +79,7 @@ export class AttributeBarComponent {
 
       assignType3Fill(){
         if(confirm("Are you sure you wish to chose type 3 fill ?")){
+          this.shapeFillType = "Type #3";
           // transparency  = 0;
           // currentStrokeColor = this.shapeStrokeColor;
           // currentFillColor = this.shapeFillColor;
@@ -87,27 +91,27 @@ export class AttributeBarComponent {
 assignBrushTexture(parameter:string){
   if(parameter == "option1"){
     if(confirm("Are you sure you wish to choose brush type 1 ?")){
-      //this.brushTexture = placeholderTexture1;
+      this.currentBrushTexture = "texture1";
     }
   }
   if(parameter == "option2"){
     if(confirm("Are you sure you wish to choose brush type 2 ?")){
-      //this.brushTexture = placeholderTexture2;
+      this.currentBrushTexture = "texture2";
     }
   }
   if(parameter == "option3"){
     if(confirm("Are you sure you wish to choose brush type 3 ?")){
-    //this.brushTexture = placeholderTexture3;
+      this.currentBrushTexture = "texture3";
     }
   }
   if(parameter == "option4"){
     if(confirm("Are you sure you wish to choose brush type 4 ?")){
-      //this.brushTexture = placeholderTexture4;
+      this.currentBrushTexture = "texture4";
   }
     }
   if(parameter == "option5"){
     if(confirm("Are you sure you wish to choose brush type 5 ?")){
-      //this.brushTexture = placeholderTexture5;
+      this.currentBrushTexture = "texture5";
     }
   }
 }

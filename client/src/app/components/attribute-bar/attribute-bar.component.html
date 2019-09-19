@@ -10,10 +10,10 @@
                 </div>
                 <div class="singleAttribute">
                         <div class="sectionHeader">
-                                Stroke type:
+                                Stroke:
                         </div>
                         <br>
-                    Current Stroke Width: {{this.shapeStrokeWidth}} px
+                    Current Stroke Width: <b class= "dynamicValue">{{this.shapeStrokeWidth}}</b> px
 
                     <br>
                             <label >
@@ -29,28 +29,39 @@
                     <div class="singleAttribute">
                         <label>
                                 <div class="sectionHeader">
-                                        Fill type:
+                                        Fill:
                                 </div>
                                 <br>
                                 <div class="attributeHeader">
-                                        Current fill type:   {{this.shapeFillType}}
+                                        Current fill type:   <b class= "dynamicValue">{{this.shapeFillType}}</b>
                                 </div>
+                                <br>
                                 <p>
                                 Please select one of the following 3:
                                 </p>
-                                <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
                                 <button mat-button (click)="assignType1Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
                                 <button mat-button (click)="assignType2Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
                                 <button mat-button (click)="assignType3Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
+                        <br>
                         </label>
                         <br>
-                        Please chose the colors you wish to use:
-                        <br>
-                        <br> Primary: <button (click)="assignStrokeColor()">PLACEHOLDER</button> 
-                        <br> Secondary: <button (click)="assignFillColor()">PLACEHOLDER</button>
-                    </div>
-                    <br>
+                        
+ 
             </div>
+            <div class="singleAttribute">
+                        <label>
+                        </label>
+        
+                        <div class="sectionHeader">
+                                        Color:
+                        </div>
+                                Please chose the colors you wish to use:
+                                <br>
+                                <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
+                                <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                            </div>
+                            <br>
+                    </div>
             <!-- Cercle ?  -->
             <div class="placeHolder" *ngIf="test == 2">
                         PLACEHOLDER CERCLE (?)
@@ -67,7 +78,7 @@
                 </div>
                 <div class="singleAttribute">
                                 <div class="sectionHeader">
-                                        Drawing tool type:
+                                        Drawing tool:
                                         <br>
                                         <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
                                         <button mat-button (click)="selectBrush()" class ="square_icon"><mat-icon>crop_square</mat-icon>Brush</button>
@@ -77,8 +88,9 @@
                         <div *ngIf="brushState==1">
                                 <label >
                                         <br>
-                                                Current Brush Texture: {{this.currentBrushTexture}}
+                                                Current Brush Texture: <b class= "dynamicValue">{{this.currentBrushTexture}}</b>
                                         <br>
+                                        
                                         <br>
                                                 Brush texture:
                                                 <br><button mat-button (click)="assignBrushTexture('option1')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #1</button>
@@ -91,10 +103,12 @@
                 </div>
                 <div class="singleAttribute">
                         <div class="sectionHeader">
-                                Stroke type:
+                                Stroke:
                         </div>
                         <br>
-                        Current Stroke Width: {{this.strokeWidth}} px
+                        Current Stroke Width: <b class= "dynamicValue">{{this.strokeWidth}}</b>
+                        
+                        px
                         <br>
                         <label >
                                 <br>
@@ -109,7 +123,7 @@
                 </label>
 
                 <div class="sectionHeader">
-                                Color type:
+                                Color:
                 </div>
                         Please chose the colors you wish to use:
                         <br>
@@ -141,7 +155,7 @@
                                 </div>
                                 <br>
                         </div>
-            <!-- Pipette -->    
+            <!-- Pipette (?)-->    
             <div class="placeHolder" *ngIf="test == 5">
                         PLACEHOLDER PIPETTE
             </div>      

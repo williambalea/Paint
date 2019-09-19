@@ -10,16 +10,24 @@ import { ColorInputControl } from '../../../Classes/ColorInputControl';
 export class ColorPickerComponent implements OnInit {
 
   hue: string;
+  test: HTMLElement;
   color: string;
   oldPointedColor: string;
   colorHex: string;
   usingPrimary: boolean;
   transparencyString: string;
   transparency: number;
+  showBar: boolean;
   colorInputControl: ColorInputControl = new ColorInputControl();
 
   ngOnInit(): void {
     this.sendColorWrapper();
+    // this.test.addEventListener('mouseover', (event) => {
+    //   this.showBar = true;
+    // });
+    // this.test.addEventListener('mouseout', (event) => {
+    //   this.showBar = false;
+    // });
   }
 
   constructor(private colorService: ColorService) {
@@ -29,6 +37,8 @@ export class ColorPickerComponent implements OnInit {
     this.colorHex = 'FFFFFF';
     this.transparencyString = '1';
     this.usingPrimary = true;
+    this.showBar = false;
+    this.test = document.getElementById('colorParams') as HTMLElement;
   }
 
   setPrimary(): void {
@@ -62,6 +72,10 @@ export class ColorPickerComponent implements OnInit {
       this.syncValue();
       this.sendColor(this.usingPrimary);
     }
+  }
+
+  setColorFromLastTen(index: number): void {
+    this.color = this.colorService.getItemFromLastTenColors(index);
   }
 
   changeBackgroundColor(): void {

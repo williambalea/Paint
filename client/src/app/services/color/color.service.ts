@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Queue } from '../../../Classes/Queue';
 
 @Injectable({
   providedIn: 'root',
@@ -7,10 +8,19 @@ export class ColorService {
 
   private fill: string;
   private stroke: string;
-  lastTenColors: string[10];
+  private lastTenColors: Queue<string> = new Queue();
 
   constructor() {
     this.stroke = 'rgba(255, 255, 255, 1)';
+  }
+
+  addColorsToLastUsed(primaryColor: string, secondaryColor: string): void {
+    this.lastTenColors.push(primaryColor);
+    this.lastTenColors.push(secondaryColor);
+  }
+
+  getItemFromLastTenColors(index: number): string {
+    return this.lastTenColors.get(index) as string;
   }
 
   getFillColor(): string {

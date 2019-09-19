@@ -130,6 +130,7 @@ export class DrawingSpaceComponent implements OnInit {
   drawShape(): void {
     this.shapeService.drawRectangle(this.preview, this.colorService.getStrokeColor(), this.colorService.getFillColor(), this.strokeWidth);
     this.previewActive = false;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 
 }

@@ -20,6 +20,30 @@
   justify-content: center;
 }
 
+.lastTen1 {
+  background-color: lightgray;
+  margin-top: 16px;
+  display: flex;
+  width: 90%;
+  margin-left: -9%;
+  border: 1px lightgray;
+  padding: 8px;
+  height: 32px;
+  justify-content: center;
+}
+
+.lastTen2 {
+  background-color: lightgray;
+  margin-top: 16px;
+  display: flex;
+  width: 90%;
+  margin-left: -9%;
+  border: 1px lightgray;
+  padding: 8px;
+  height: 32px;
+  margin-top: -3%;
+  justify-content: center;
+}
 .color-div {
   width: 32px;
   height: 32px;

@@ -12,6 +12,11 @@ import {Preview} from '../../../../../common/interface/preview'
 
 export class AttributeBarComponent {
   @Input() test: number;
+  @Input()showRectangle: boolean;
+  @Input()showCircle : boolean;
+  @Input()showDrawTool : boolean;
+  @Input()showColorTool : boolean;
+  @Input()showPipette  : boolean;
 
   constructor(private shapeService: ShapesService) {};
   preview: Preview;
@@ -36,7 +41,7 @@ export class AttributeBarComponent {
 
   // Hide page
   show:boolean=true;
-  
+
   rectangle: Rectangle = new Rectangle(1,2,3,4,"black","black",5);
 
   /* doesnt work right now

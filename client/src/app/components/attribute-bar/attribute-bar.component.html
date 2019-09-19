@@ -1,9 +1,5 @@
 <div class="attributeBar" >
-        <div class = "placeHolder" *ngIf="test==1">
-               <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
-                                pour pouvoir voir le contenu du canevas.-->
-                        <button (click)=exitWindow()>Exit</button>
-                </div>
+        <div class = "placeHolder" *ngIf="this.showRectangle">
             <br>
                 <div class="header">
                         <div style="font-weight:900">Outil de rectangle</div>
@@ -63,15 +59,11 @@
                             <br>
                     </div>
             <!-- Cercle ?  -->
-            <div class="placeHolder" *ngIf="test == 2">
+            <div class="placeHolder" *ngIf="this.showCircle">
                         PLACEHOLDER CERCLE (?)
             </div>
             <!-- Outil de dessin -->
-            <div class="placeHolder" *ngIf="test == 3">
-                <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
-                                pour pouvoir voir le contenu du canevas.-->
-                        <button (click)=exitWindow()>Exit</button>
-                </div>
+            <div class="placeHolder" *ngIf="this.showDrawTool">
                 <br>
                 <div class="header">
                         <div style="font-weight:900">Outil de dessin</div>
@@ -133,11 +125,7 @@
                     <br>
             </div>
             <!-- Color tool -->
-                <div class="placeHolder" *ngIf="test == 4">
-                        <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
-                                        pour pouvoir voir le contenu du canevas.-->
-                                <button (click)=exitWindow()>Exit</button>
-                        </div>
+                <div class="placeHolder" *ngIf="this.showColorTool">
                         <br>
                         <div class="header">
                                 <div style="font-weight:900">Outil de couleurs</div>
@@ -156,7 +144,7 @@
                                 <br>
                         </div>
             <!-- Pipette (?)-->    
-            <div class="placeHolder" *ngIf="test == 5">
+            <div class="placeHolder" *ngIf="this.showPipette">
                         PLACEHOLDER PIPETTE
             </div>      
           

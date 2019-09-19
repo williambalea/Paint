@@ -98,9 +98,11 @@ export class DrawingSpaceComponent implements OnInit {
     const g: number = Math.floor(Math.random() * 255);
     const b: number = Math.floor(Math.random() * 255);
     // const a: number = Math.round(Math.random());
-    this.fill = this.TEMPORARYsetRGBAColor(r, g, b, 1);
+    const strokeAlpha = this.shapeService.strokeEnable ? 1 : 0;
+    const fillAlpha = this.shapeService.fillEnable ? 1 : 0;
+    this.fill = this.TEMPORARYsetRGBAColor(r, g, b, fillAlpha);
     this.strokeWidth = 2;
-    this.stroke = this.TEMPORARYsetRGBAColor(0, 0, 0, 1);
+    this.stroke = this.TEMPORARYsetRGBAColor(0, 0, 0, strokeAlpha);
   }
 
   // TODO: to be put elswhere

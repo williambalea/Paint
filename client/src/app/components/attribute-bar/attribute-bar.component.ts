@@ -36,6 +36,7 @@ export class AttributeBarComponent {
 
   // Hide page
   show:boolean=true;
+  
   rectangle: Rectangle = new Rectangle(1,2,3,4,"black","black",5);
 
   /* doesnt work right now
@@ -62,7 +63,8 @@ export class AttributeBarComponent {
       assignType1Fill(){
         if(confirm("Are you sure you wish to chose type 1 fill ?")){
           this.shapeFillType = "Type #1";
-          // transparency  = 1;
+          this.shapeService.strokeEnable = true;
+          this.shapeService.fillEnable = false;
           // currentStrokeColor = this.strokeColor;
         }
         return false;
@@ -71,7 +73,8 @@ export class AttributeBarComponent {
       assignType2Fill(){
         if(confirm("Are you sure you wish to chose type 2 fill ?")){
           this.shapeFillType = "Type #2";
-          // transparency  = 0;
+          this.shapeService.strokeEnable = false;
+          this.shapeService.fillEnable = true;
           // currentStrokeColor = this.fillColor;
         }
         return false;
@@ -80,7 +83,8 @@ export class AttributeBarComponent {
       assignType3Fill(){
         if(confirm("Are you sure you wish to chose type 3 fill ?")){
           this.shapeFillType = "Type #3";
-          // transparency  = 0;
+          this.shapeService.strokeEnable = true;
+          this.shapeService.fillEnable = true;
           // currentStrokeColor = this.shapeStrokeColor;
           // currentFillColor = this.shapeFillColor;
         }

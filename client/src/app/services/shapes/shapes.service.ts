@@ -15,6 +15,8 @@ export class ShapesService {
   origin: Point;
 
   strokeWidth: number;
+  strokeEnable = true;
+  fillEnable = true;
 
   constructor() {
     this.preview = {

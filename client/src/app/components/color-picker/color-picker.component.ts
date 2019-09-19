@@ -11,25 +11,48 @@ export class ColorPickerComponent implements OnInit {
 
   hue: string;
   color: string;
+  oldPointedColor: string;
   colorHex: string;
+  usingPrimary: boolean;
   transparencyString: string;
   transparency: number;
   colorInputControl: ColorInputControl = new ColorInputControl();
 
   ngOnInit(): void {
-    this.sendColor();
+    this.sendColorWrapper();
   }
 
   constructor(private colorService: ColorService) {
-    this.color = 'rgba(255,255,255,255)';
+    this.color = 'rgba(255,255,255,1)';
+    this.oldPointedColor = 'rgba(0,0,0,1)';
     this.transparency = 255;
     this.colorHex = 'FFFFFF';
     this.transparencyString = '1';
+    this.usingPrimary = true;
   }
 
-  sendColor(): void {
-    setInterval(() => {
+  setPrimary(): void {
+    this.usingPrimary = true;
+  }
+
+  setSecondary(): void {
+    this.usingPrimary = false;
+  }
+
+  sendColor(usingPrimary: boolean): void {
+    if (usingPrimary) {
       this.colorService.setFillColor(this.color);
+    } else {
+      this.colorService.setStrokeColor(this.color);
+    }
+  }
+
+  sendColorWrapper(): void {
+    setInterval(() => {
+      if (this.oldPointedColor !== this.color) {
+        this.sendColor(this.usingPrimary);
+        this.oldPointedColor = this.color;
+      }
     }, 250);
   }
 
@@ -37,7 +60,7 @@ export class ColorPickerComponent implements OnInit {
     if (this.colorInputControl.colorAccepted(value)) {
       this.colorHex = value;
       this.syncValue();
-      this.colorService.setFillColor(this.color);
+      this.sendColor(this.usingPrimary);
     }
   }
 
@@ -68,5 +91,9 @@ export class ColorPickerComponent implements OnInit {
                        ',' + value.b.toString() +
                        ',' + this.transparencyString + ')';
     }
+  }
+
+  swapColors(): void {
+    this.colorService.swapColors();
   }
 }

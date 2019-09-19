@@ -6,16 +6,17 @@
   <div>
     <sub>0x</sub>
   </div>
-  <input type="text" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}}>
-  <div class="color-div" [ngStyle]="{'background-color': color || 'white'}"></div>
+  <input class="text" type="text" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}}>
+  <div (click)="setPrimary()" class="color-div" [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
+  <div (click)="setSecondary()" class="color-div" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>
 </div>
-<p>Transparency:</p> 
+<p>Transparency: {{transparencyString}}</p> 
 <div class="slidecontainer">
     <input type="range" #slider min="0" max="255" value={{transparency}} class="slider" id="myRange" (change)="onEnterSlider(slider.value)">
-    <p>Value: {{transparencyString}}</p>
   </div>
   
-  <button (click)="changeBackgroundColor()">Change background color</button>
+<button (click)="changeBackgroundColor()">Change background color</button>
+<button (click)="swapColors()">Swap Colors</button>
 
 
 

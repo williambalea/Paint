@@ -6,10 +6,12 @@ import { Injectable } from '@angular/core';
 export class ColorService {
 
   private fill: string;
-  stroke: string;
+  private stroke: string;
   lastTenColors: string[10];
-  primaryColor: string;
-  secondaryColor: string;
+
+  constructor() {
+    this.stroke = 'rgba(255, 255, 255, 1)';
+  }
 
   getFillColor(): string {
     return this.fill;
@@ -19,7 +21,17 @@ export class ColorService {
     this.fill = fill;
   }
 
-  changeBackgroundColor(color: string): void {  
+  getStrokeColor(): string {
+    return this.stroke;
   }
 
+  setStrokeColor(stroke: string): void {
+    this.stroke = stroke;
+  }
+
+  swapColors(): void {
+    const temp: string = this.fill;
+    this.fill = this.stroke;
+    this.stroke = temp;
+  }
 }

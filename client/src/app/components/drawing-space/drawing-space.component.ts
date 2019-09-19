@@ -31,6 +31,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.canvasWidth = window.innerWidth;
     this.canvasHeight = window.innerHeight;
     this.enableKeyPress = false;
+    this.strokeWidth = 5;
 
   }
 
@@ -127,7 +128,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mouseup')
   drawShape(): void {
-    this.shapeService.drawRectangle(this.preview, this.stroke, this.colorService.getFillColor(), this.strokeWidth);
+    this.shapeService.drawRectangle(this.preview, this.colorService.getStrokeColor(), this.colorService.getFillColor(), this.strokeWidth);
     this.previewActive = false;
   }
 

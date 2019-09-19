@@ -18,39 +18,61 @@ export class AttributeBarComponent {
 
   currentShape:Shape;
 
-  currentStrokeColor: string;
-  currentFillColor: string;
-  currentStrokeWidth: Number;
+  /* MAB: On veut une separation des attributs de chaque outil */
+  // Shapes
+  shapeStrokeColor: string;
+  shapeFillColor: string;
+  shapeStrokeWidth: Number;
 
-  /* 
-  currentFillType: 
+  // Drawing Tools
+  strokeColor:string;
+  strokeWidth: number;
+  fillColor:string;
 
-    MAB: On va devoir definir comment on ajuste les parametres currentStrokeWidth et 
-         currentFillColor en fonction du type de filling choisi. Probablement simplement
-         question de mettre stroke width = 0 dans un cas, fill color a transparent dans
-         l'autre.
-  */
-
-
-
+  // Hide page
+  show:boolean=true;
   rectangle: Rectangle = new Rectangle(1,2,3,4,"black","black",5);
 
 
-confirmInput(){
-  window.alert("Are you sure you wish to enter: " + "PLACEHOLDER" + " ?");
+assignType1Fill(){
+  if(confirm("Are you sure you wish to chose type 1 fill ?")){
+    // transparency  = 1;
+    // currentStrokeColor = this.strokeColor;
+  }
+  return false;
+}
 
+assignType2Fill(){
+  if(confirm("Are you sure you wish to chose type 2 fill ?")){
+    // transparency  = 0;
+    // currentStrokeColor = this.fillColor;
+  }
+  return false;
+}
+
+assignType3Fill(){
+  if(confirm("Are you sure you wish to chose type 3 fill ?")){
+    // transparency  = 0;
+    // currentStrokeColor = this.shapeStrokeColor;
+    // currentFillColor = this.shapeFillColor;
+  }
+  return false;
 }
 
 exitWindow(){
   /* MAB: Avoir l'option de collapse la window d'attribut si on veut, pas juste d'alterner entre fenetres une fois
      la premiere ouverte */
-     window.alert("Are you certain you wish to collapse this panel?");
+     if(confirm("Are you certain you wish to collapse this panel?")){
+      this.show = !this.show;
+     }     
 }
 
 
 assignStrokeWidth(value:Number){
   console.log(value);
-  this.currentStrokeWidth = value;
+  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+    this.shapeStrokeWidth = value;
+  }
   return false;
 }
 
@@ -58,17 +80,44 @@ assignStrokeWidth(value:Number){
 
 assignStrokeColor(value:string){
   console.log(value);
-  this.currentStrokeColor = value;
+  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+    this.shapeStrokeColor = value;
+  }
   return false;
 }
 
+// Exemple d'input confirmation
 assignFillColor(value:string){
   console.log(value);
-  this.currentFillColor = value;
+  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+    this.shapeFillColor = value;
+  }
   return false;
 }
 
+assignPrimaryColor(value:string){
+  console.log(value);
+  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+    this.strokeColor=value;
+  }
+  return false;
+}
 
+assignSecondaryColor(value:string){
+  console.log(value);
+  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+    this.fillColor = value;
+  }
+  return false;
+}
+
+assignDrawStrokeWidth(value:number){
+  console.log(value);
+  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+    this.strokeWidth=value;
+  }
+  return false;
+}
 /* MAB: Tentative pour l'acces aux parametres d'une shape dans l'array.
         Probablement utilise lorsqu'il sera question de modifier des attributs 
         d'une forme existante. */

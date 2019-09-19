@@ -1,5 +1,5 @@
 <div class="attributeBar" >
-        <div *ngIf="test == 1">
+        <div class = "placeHolder" *ngIf="test==1">
                <div class="exit"> <!-- MAB: on va probablement vouloir pouvoir collapse l'attribute bar temporairement,
                                 pour pouvoir voir le contenu du canevas.-->
                         <button (click)=exitWindow()>Exit</button>
@@ -13,7 +13,7 @@
                                 Stroke type:
                         </div>
                         <br>
-                    Current Stroke Width: {{this.currentStrokeWidth}} px
+                    Current Stroke Width: {{this.shapeStrokeWidth}} px
 
                     <br>
                             <label >
@@ -33,15 +33,15 @@
                                 </div>
                                 <br>
                                 <div class="attributeHeader">
-                                        Current fill type:   {{this.currentFillType}}
+                                        Current fill type:   {{this.shapeFillType}}
                                 </div>
                                 <p>
                                 Please select one of the following 3:
                                 </p>
                                 <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
-                                <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
-                                <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
-                                <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
+                                <button mat-button (click)="assignType1Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
+                                <button mat-button (click)="assignType2Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
+                                <button mat-button (click)="assignType3Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
                         </label>
                         <br>
                         Please chose the colors you wish to use:
@@ -91,11 +91,11 @@
                                 Stroke type:
                         </div>
                         <br>
-                        Current Stroke Width: <button>{{this.currentStrokeWidth}} px</button>
+                        Current Stroke Width: {{this.strokeWidth}} px
                         <br>
                         <label >
                                 <br>
-                                <form (submit)="assignStrokeWidth(value.value)">
+                                <form (submit)="assignDrawStrokeWidth(value.value)">
                                         Stroke width:
                                         <input #value type="text" placeholder="width in pixels"/> 
                                 </form>

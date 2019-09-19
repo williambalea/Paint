@@ -18,6 +18,8 @@ export class AttributeBarComponent {
 
   currentShape:Shape;
 
+  brushState:boolean=false;
+
   /* MAB: On veut une separation des attributs de chaque outil */
   // Shapes
   shapeStrokeColor: string;
@@ -29,35 +31,87 @@ export class AttributeBarComponent {
   strokeWidth: number;
   fillColor:string;
 
+  currentBrushTexture:string = " Style #1";
+
   // Hide page
   show:boolean=true;
   rectangle: Rectangle = new Rectangle(1,2,3,4,"black","black",5);
 
+  /* doesnt work right now
+  generalInputValidation(input:string){
+    if(confirm("Are you sure you wish to chose this drawing tool?")){
+      input;
+    }
+  } */
 
-assignType1Fill(){
-  if(confirm("Are you sure you wish to chose type 1 fill ?")){
-    // transparency  = 1;
-    // currentStrokeColor = this.strokeColor;
+ selectBrush():void{
+   if(confirm("Are you sure you wish to chose the brush ?")){
+    this.brushState=true;
   }
-  return false;
+ }
+
+ selectPen():void{
+   if(confirm("Are you sure you wish to chose the pen ?")){
+     this.brushState=false;
+   }
+ }
+
+
+  // Functions to assign fill colors
+      assignType1Fill(){
+        if(confirm("Are you sure you wish to chose type 1 fill ?")){
+          // transparency  = 1;
+          // currentStrokeColor = this.strokeColor;
+        }
+        return false;
+      }
+
+      assignType2Fill(){
+        if(confirm("Are you sure you wish to chose type 2 fill ?")){
+          // transparency  = 0;
+          // currentStrokeColor = this.fillColor;
+        }
+        return false;
+      }
+
+      assignType3Fill(){
+        if(confirm("Are you sure you wish to chose type 3 fill ?")){
+          // transparency  = 0;
+          // currentStrokeColor = this.shapeStrokeColor;
+          // currentFillColor = this.shapeFillColor;
+        }
+        return false;
+      }
+
+// Assign the proper brush texture depending on user input
+assignBrushTexture(parameter:string){
+  if(parameter == "option1"){
+    if(confirm("Are you sure you wish to choose brush type 1 ?")){
+      //this.brushTexture = placeholderTexture1;
+    }
+  }
+  if(parameter == "option2"){
+    if(confirm("Are you sure you wish to choose brush type 2 ?")){
+      //this.brushTexture = placeholderTexture2;
+    }
+  }
+  if(parameter == "option3"){
+    if(confirm("Are you sure you wish to choose brush type 3 ?")){
+    //this.brushTexture = placeholderTexture3;
+    }
+  }
+  if(parameter == "option4"){
+    if(confirm("Are you sure you wish to choose brush type 4 ?")){
+      //this.brushTexture = placeholderTexture4;
+  }
+    }
+  if(parameter == "option5"){
+    if(confirm("Are you sure you wish to choose brush type 5 ?")){
+      //this.brushTexture = placeholderTexture5;
+    }
+  }
 }
 
-assignType2Fill(){
-  if(confirm("Are you sure you wish to chose type 2 fill ?")){
-    // transparency  = 0;
-    // currentStrokeColor = this.fillColor;
-  }
-  return false;
-}
-
-assignType3Fill(){
-  if(confirm("Are you sure you wish to chose type 3 fill ?")){
-    // transparency  = 0;
-    // currentStrokeColor = this.shapeStrokeColor;
-    // currentFillColor = this.shapeFillColor;
-  }
-  return false;
-}
 
 exitWindow(){
   /* MAB: Avoir l'option de collapse la window d'attribut si on veut, pas juste d'alterner entre fenetres une fois

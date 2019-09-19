@@ -70,19 +70,22 @@
                                         Drawing tool type:
                                         <br>
                                         <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
-                                        <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Brush</button>
-                                        <button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Pencil</button>
+                                        <button mat-button (click)="selectBrush()" class ="square_icon"><mat-icon>crop_square</mat-icon>Brush</button>
+                                        <button mat-button (click)="selectPen()" class ="square_icon"><mat-icon>crop_square</mat-icon>Pencil</button>
                                 </div>
                         <!-- si le tool est un brush -->
-                        <div *ngIf="drawTool == brush">
+                        <div *ngIf="brushState==1">
                                 <label >
                                         <br>
+                                                Current Brush Texture: {{this.currentBrushTexture}}
+                                        <br>
+                                        <br>
                                                 Brush texture:
-                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #1</button>
-                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #2</button>
-                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #3</button>
-                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #4</button>
-                                                <br><button mat-button (click)="confirmInput()" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #5</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option1')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #1</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option2')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #2</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option3')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #3</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option4')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #4</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option5')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #5</button>
                                 </label>
                         </div>
                 </div>

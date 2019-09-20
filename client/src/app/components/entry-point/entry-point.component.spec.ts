@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EntryPointComponent } from './entry-point.component';
 
-fdescribe('EntryPointComponent', () => {
+describe('EntryPointComponent', () => {
   let component: EntryPointComponent;
   let fixture: ComponentFixture<EntryPointComponent>;
   let matDialogRefSpy: jasmine.SpyObj<MatDialogRef<EntryPointComponent>>;
@@ -37,7 +37,7 @@ fdescribe('EntryPointComponent', () => {
   });
 
   it('should call close() on the dialog', () => {
-    component.closeDialog()
+    component.closeDialog();
     expect(matDialogRefSpy.close.calls.count()).toBe(1, 'spy method called once');
   });
 });

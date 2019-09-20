@@ -5,6 +5,8 @@ import { Mouse } from '../../../../../common/interface/mouse';
 import { Preview } from '../../../../../common/interface/preview';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
+import { Shape } from 'src/app/services/shapes/classes/shape';
+import { Rectangle } from 'src/app/services/shapes/classes/rectangle';
 
 @Component({
   selector: 'app-drawing-space',
@@ -110,6 +112,21 @@ export class DrawingSpaceComponent implements OnInit {
 
   setSquareOffset(event: MouseEvent): void {
     return;
+  }
+
+  onClick(shape: Shape): void {
+    console.log('left click on elem');
+    const oldElement = shape as Rectangle;
+    const newElement: Rectangle =  new Rectangle(oldElement.x, oldElement.y, oldElement.width,
+              oldElement.height, this.colorService.getFillColor(), oldElement.stroke, oldElement.strokeWidth);
+    this.shapeService.shapes.splice(this.shapeService.shapes.indexOf(shape));
+    this.shapeService.shapes.push(newElement);
+  }
+
+  onContextMenu($event: Event, shape: Shape): void {
+    console.log('right click on elem');
+    $event.preventDefault();
+
   }
 
   @HostListener('mouseup')

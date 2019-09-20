@@ -28,12 +28,13 @@ export class ShapesService {
     };
   }
 
-  /* MAB: Ajout de méthodes pour l'accès des attributs du rectangle */
+  /* MAB: Ajout de méthodes pour l'accès des attributs du rectangle 
 
   fetchRectangle(){
     let rectangle = new Rectangle(1,2,3,4,"black","black",5);
     return rectangle;
   }
+  */
 
 
   setMouseOrigin(event: MouseEvent): void {
@@ -87,12 +88,26 @@ export class ShapesService {
       this.strokeWidth,
     );
     this.shapes.push(rectangle);
-    return this.getRectangle(this.shapes.length); // return latest shape (rectangle) for handling
+    return this.getShape(this.shapes.length); // return latest shape (rectangle) for handling
   }
 
-  getRectangle(shapeNumber:number): Shape{
+  getShape(shapeNumber:number): Shape{
     return this.shapes[shapeNumber];
   }
 
+  /*
+  //TODO: find out how the nature of a line impacts how the preview works.
+  drawLine(preview:Preview, stroke:string, strokeWidth:number): Shape{
+    const line = new Line (
+      preview.x,
+      preview.y,
+      fill,
+      stroke,
+      strokeWidth    
+    );
+    this.shapes.push(line);
+    return this.getShape(this.shapes.length);
+  }
+  */
 
 }

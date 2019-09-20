@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RectangleComponent } from './rectangle.component';
+import { DeleteConfirmationComponent } from './delete-confirmation.component';
 
-describe('RectangleComponent', () => {
-  let component: RectangleComponent;
-  let fixture: ComponentFixture<RectangleComponent>;
+describe('DeleteConfirmationComponent', () => {
+  let component: DeleteConfirmationComponent;
+  let fixture: ComponentFixture<DeleteConfirmationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RectangleComponent ],
+      declarations: [ DeleteConfirmationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RectangleComponent);
+    fixture = TestBed.createComponent(DeleteConfirmationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,10 +1,18 @@
-import { Component,  HostListener, OnInit } from '@angular/core';
+import { Component,  HostListener , OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
 import { Mouse } from '../../../../../common/interface/mouse';
 import { Preview } from '../../../../../common/interface/preview';
+import { HIDE_DIALOG, key } from '../../../../../common/constants';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
+import { Subscription } from 'rxjs';
+import {FileParametersServiceService} from '../../services/file-parameters-service.service';
+//import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+//import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+
+//import { SideBarComponent } from '../side-bar/side-bar.component';
+//import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-drawing-space',
@@ -12,36 +20,56 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
-  canvasWidth: number = window.innerWidth;
-  canvasHeight: number;
-
+  canvasWidth: number ; // user intput
+  canvasHeight: number ; // user input
+  canvasColor: string ;
+  subscription: Subscription;  
+  width : number = 0;
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
+  // TODO: make an interface
+  fill: string;
   stroke: string;
   strokeWidth: number;
 
   previewActive = false;
-  preview: Preview;
-  origin: Mouse;
 
-  constructor(private dialog: MatDialog,
-              private shapeService: ShapesService,
-              private colorService: ColorService) {
-    this.canvasWidth = window.innerWidth;
-    this.canvasHeight = window.innerHeight;
-    this.enableKeyPress = false;
-    this.strokeWidth = 5;
+ 
+  
+  constructor(private dialog: MatDialog,private shapeService: ShapesService,private fileParameters: FileParametersServiceService, private colorService: ColorService)
+   {
+    this.enableKeyPress = false;  
+  
+   }
 
-  }
 
   ngOnInit(): void {
-    if (!sessionStorage.getItem('hideDialog')) {
+    if (!sessionStorage.getItem(HIDE_DIALOG)) {
       this.openDialog();
     } else {
       this.enableKeyPress = true;
     }
+
+    this.subscription = this.fileParameters.canvaswidth$
+       .subscribe(canvasWidth => this.canvasWidth = canvasWidth);
+    this.subscription = this.fileParameters.canvasheight$
+       .subscribe(canvasHeight => this.canvasHeight = canvasHeight);
+    this.subscription = this.fileParameters.canvascolor$
+       .subscribe(canvasColor => this.canvasColor = canvasColor);
   }
+ 
+
+  
+  // canvas resize
+	@HostListener('window:resize', ['$event'])
+	onResize(event: { target: { innerWidth: number; }; }) {
+    this.width = event.target.innerWidth-500;
+    this.canvasWidth = event.target.innerWidth-500;
+    
+    
+  }
+
 
   openDialog(): void {
     const dialogRef: MatDialogRef<EntryPointComponent, any> =
@@ -61,62 +89,61 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
     if (this.enableKeyPress) {
-      if (event.key === 'Shift') {
+      if (event.key === key.shift) {
         this.shiftPressed = true;
+        this.shapeService.setSquareOffset();
       }
     }
   }
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
-    if (event.key === 'Shift') {
+    if (event.key === key.shift) {
       this.shiftPressed = false;
+      this.shapeService.setRectangleOffset();
     }
   }
-
+  
   @HostListener('mousedown', ['$event'])
-  setMouseOrigin(event: MouseEvent): void {
+  onMouseDown(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
-    // this.REMOVEsetRectStyle();
-
-    this.preview = {
-      x: event.offsetX,
-      y: event.offsetY,
-      width: 0,
-      height: 0 };
-
-    this.origin = {x: event.offsetX, y: event.offsetY};
-
-    this.previewActive = true;
+    this.TEMPORARYsetRectStyle();
+    this.shapeService.setMouseOrigin(event);
   }
 
   @HostListener('mousemove', ['$event'])
   setPreviewOffset(event: MouseEvent): void {
-    if (this.previewActive) {
+    this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
+    if (this.shapeService.preview.active) {
       if (this.shiftPressed) {
-        this.setSquareOffset(event);
+        this.shapeService.setSquareOffset();
       } else {
-        this.setRectangleOffset(event);
+        this.shapeService.setRectangleOffset();
       }
     }
   }
 
-  setRectangleOffset(event: MouseEvent): void {
-    this.preview.width = Math.abs(event.offsetX - this.origin.x);
-    this.preview.height = Math.abs(event.offsetY - this.origin.y);
-    this.preview.x = Math.min(this.origin.x, event.offsetX);
-    this.preview.y = Math.min(this.origin.y, event.offsetY);
-  }
-
-  setSquareOffset(event: MouseEvent): void {
-    return;
+  TEMPORARYsetRectStyle(): void {
+    const r: number = Math.floor(Math.random() * 255);
+    const g: number = Math.floor(Math.random() * 255);
+    const b: number = Math.floor(Math.random() * 255);
+    // const a: number = Math.round(Math.random());
+    const strokeAlpha = this.shapeService.strokeEnable ? 1 : 0;
+    const fillAlpha = this.shapeService.fillEnable ? 1 : 0;
+    this.fill = this.TEMPORARYsetRGBAColor(r, g, b, fillAlpha);
+    this.strokeWidth = 2;
+    this.stroke = this.TEMPORARYsetRGBAColor(0, 0, 0, strokeAlpha);
   }
 
   @HostListener('mouseup')
   drawShape(): void {
-    this.shapeService.drawRectangle(this.preview, this.colorService.getStrokeColor(), this.colorService.getFillColor(), this.strokeWidth);
-    this.previewActive = false;
+    this.shapeService.preview.active = false;
+    this.shapeService.drawRectangle(this.shapeService.preview, this.colorService.getFillColor(), this.colorService.getStrokeColor());
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
+  }
+
+  TEMPORARYsetRGBAColor(r: number, g: number, b: number, a: number): string {
+    return `rgb(${r},${g},${b},${a})`;
   }
 
 }

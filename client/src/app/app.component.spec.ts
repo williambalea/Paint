@@ -1,9 +1,13 @@
 import {HttpClientModule} from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {async, TestBed} from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 import {RouterTestingModule} from '@angular/router/testing';
 import {of} from 'rxjs';
-import {IndexService} from '../../services/index/index.service';
 import {AppComponent} from './app.component';
+import {DrawingSpaceComponent} from './components/drawing-space/drawing-space.component';
+import {SideBarComponent} from './components/side-bar/side-bar.component';
+import {IndexService} from './services/index/index.service';
 import SpyObj = jasmine.SpyObj;
 
 describe('AppComponent', () => {
@@ -22,9 +26,13 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
+        SideBarComponent,
+        DrawingSpaceComponent,
       ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
         {provide: IndexService, useValue: indexServiceSpy},
+        {provide: MatDialog, useValue: {}},
       ],
     });
   }));
@@ -33,11 +41,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'LOG2990'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('LOG2990');
   });
 });

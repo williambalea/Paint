@@ -84,7 +84,6 @@ export class ShapesService {
 
   drawRectangle(): Shape {
     this.setRectangleType();
-
     const rectangle = new Rectangle (
       this.preview.x,
       this.preview.y,

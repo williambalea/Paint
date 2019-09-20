@@ -3,8 +3,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
 import { HIDE_DIALOG, key } from '../../../../../common/constants';
+import { Shape } from '../../../app/services/shapes/classes/shape'; 
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
-import { Shape } from '../../services/shapes/classes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 
@@ -84,6 +84,17 @@ export class DrawingSpaceComponent implements OnInit {
       this.shiftPressed = false;
       this.shapeService.setRectangleOffset();
     }
+  }
+
+  onLeftClick($event: Event, shape: Shape): void {
+    const index: number = this.shapeService.shapes.indexOf(shape);
+    this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
+  }
+
+  onRightClick($event: Event, shape: Shape): void {
+    $event.preventDefault();
+    const index: number = this.shapeService.shapes.indexOf(shape);
+    this.shapeService.shapes[index].changeSecondaryColor(this.colorService.getStrokeColor());
   }
 
   @HostListener('mousedown', ['$event'])

@@ -1,11 +1,152 @@
 <div class="attributeBar" >
-        <p *ngIf="test == 1">
-                <button>{{test}}</button>
-            </p> 
+        <div class = "placeHolder" *ngIf="this.showRectangle">
+            <br>
+                <div class="header">
+                        <div style="font-weight:900">Outil de rectangle</div>
+                </div>
+                <div class="singleAttribute">
+                        <div class="sectionHeader">
+                                Stroke:
+                        </div>
+                        <br>
+                    Current Stroke Width: <b class= "dynamicValue">{{this.shapeService.strokeWidth}}</b> px
 
-            <p *ngIf="test == 2">
-                        <button>{{test}}</button>
-                    </p> 
-           
+                    <br>
+                            <label >
+                                <br>
+                                
+                                <form (submit)="assignStrokeWidth(value.value)">
+                                        Stroke width:
+                                        <input #value type="text" placeholder="width in pixels"/> 
+                                </form>
+                                
+                        </label>
+                </div>
+                    <div class="singleAttribute">
+                        <label>
+                                <div class="sectionHeader">
+                                        Fill:
+                                </div>
+                                <br>
+                                <div class="attributeHeader">
+                                        Current fill type:   <b class= "dynamicValue">{{this.shapeFillType}}</b>
+                                </div>
+                                <br>
+                                <p>
+                                Please select one of the following 3:
+                                </p>
+                                <button mat-button (click)="assignType1Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
+                                <button mat-button (click)="assignType2Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
+                                <button mat-button (click)="assignType3Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
+                        <br>
+                        </label>
+                        <br>
+                        
+ 
+            </div>
+            <div class="singleAttribute">
+                        <label>
+                        </label>
+        
+                        <div class="sectionHeader">
+                                        Color:
+                        </div>
+                                Please chose the colors you wish to use:
+                                <br>
+                                <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
+                                <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                            </div>
+                            <br>
+                    </div>
+            <!-- Cercle ?  -->
+            <div class="placeHolder" *ngIf="this.showCircle">
+                        PLACEHOLDER CERCLE (?)
+            </div>
+            <!-- Outil de dessin -->
+            <div class="placeHolder" *ngIf="this.showDrawTool">
+                <br>
+                <div class="header">
+                        <div style="font-weight:900">Outil de dessin</div>
+                </div>
+                <div class="singleAttribute">
+                                <div class="sectionHeader">
+                                        Drawing tool:
+                                        <br>
+                                        <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
+                                        <button mat-button (click)="selectBrush()" class ="square_icon"><mat-icon>crop_square</mat-icon>Brush</button>
+                                        <button mat-button (click)="selectPen()" class ="square_icon"><mat-icon>crop_square</mat-icon>Pencil</button>
+                                </div>
+                        <!-- si le tool est un brush -->
+                        <div *ngIf="brushState==1">
+                                <label >
+                                        <br>
+                                                Current Brush Texture: <b class= "dynamicValue">{{this.currentBrushTexture}}</b>
+                                        <br>
+                                        
+                                        <br>
+                                                Brush texture:
+                                                <br><button mat-button (click)="assignBrushTexture('option1')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #1</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option2')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #2</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option3')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #3</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option4')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #4</button>
+                                                <br><button mat-button (click)="assignBrushTexture('option5')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #5</button>
+                                </label>
+                        </div>
+                </div>
+                <div class="singleAttribute">
+                        <div class="sectionHeader">
+                                Stroke:
+                        </div>
+                        <br>
+                        Current Stroke Width: <b class= "dynamicValue">{{this.strokeWidth}}</b>
+                        
+                        px
+                        <br>
+                        <label >
+                                <br>
+                                <form (submit)="assignDrawStrokeWidth(value.value)">
+                                        Stroke width:
+                                        <input #value type="text" placeholder="width in pixels"/> 
+                                </form>
+                        </label>
+                </div>
+                <div class="singleAttribute">
+                <label>
+                </label>
+
+                <div class="sectionHeader">
+                                Color:
+                </div>
+                        Please chose the colors you wish to use:
+                        <br>
+                        <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
+                        <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                    </div>
+                    <br>
+            </div>
+            <!-- Color tool -->
+                <div class="placeHolder" *ngIf="this.showColorTool">
+                        <br>
+                        <div class="header">
+                                <div style="font-weight:900">Outil de couleurs</div>
+                        </div>
+
+                        <div class="singleAttribute">
+                                <div class="sectionHeader">
+                                                Color type:
+                                </div>
+                                <br>
+                                Please chose the colors you wish to use:
+                                <br>
+                                <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
+                                <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                                </div>
+                                <br>
+                        </div>
+            <!-- Pipette (?)-->    
+            <div class="placeHolder" *ngIf="this.showPipette">
+                        PLACEHOLDER PIPETTE
+            </div>      
+          
 </div>
 

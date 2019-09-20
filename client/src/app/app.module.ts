@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule, MatDialogModule, MatIconModule, MatListModule,
 MatMenuModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AppComponent } from './app.component';
 import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.component';
@@ -57,5 +57,6 @@ import {MatInputModule} from '@angular/material';
   providers: [],
   bootstrap: [AppComponent],
 })
+
 export class AppModule {
 }

@@ -17,14 +17,14 @@
               [style.stroke-width]="shape.strokeWidth"/>
     </g>
     
-    <rect *ngIf="this.previewActive"
-          [attr.x]="this.preview.x" 
-          [attr.y]="this.preview.y" 
-          [attr.width]="this.preview.width" 
-          [attr.height]="this.preview.height" 
+    <rect *ngIf="this.shapeService.preview.active"
+          [attr.x]="this.shapeService.preview.x" 
+          [attr.y]="this.shapeService.preview.y" 
+          [attr.width]="this.shapeService.preview.width" 
+          [attr.height]="this.shapeService.preview.height" 
           [style.fill]="this.fill"
           [style.stroke]="this.stroke"
-          [style.stroke-width]="this.strokeWidth"/>
+          [style.stroke-width]="this.shapeService.strokeWidth"/>
 
     </svg>
 </div>

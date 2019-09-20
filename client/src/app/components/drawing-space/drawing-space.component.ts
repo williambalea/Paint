@@ -1,7 +1,6 @@
 import { Component,  HostListener , OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Mouse } from '../../../../../common/interface/mouse';
-import { Preview } from '../../../../../common/interface/preview';
+import { HIDE_DIALOG, key } from '../../../../../common/constants';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { Subscription } from 'rxjs';
@@ -29,6 +28,7 @@ export class DrawingSpaceComponent implements OnInit {
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
+  // TODO: make an interface
   fill: string;
   stroke: string;
   strokeWidth: number;
@@ -46,8 +46,7 @@ export class DrawingSpaceComponent implements OnInit {
 
 
   ngOnInit(): void {
-   
-    if (!sessionStorage.getItem('hideDialog')) {
+    if (!sessionStorage.getItem(HIDE_DIALOG)) {
       this.openDialog();
     } else {
       this.enableKeyPress = true;
@@ -91,75 +90,75 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
     if (this.enableKeyPress) {
-      if (event.key === 'Shift') {
+      if (event.key === key.shift) {
         this.shiftPressed = true;
+        this.shapeService.setSquareOffset();
       }
     }
   }
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
-    if (event.key === 'Shift') {
+    if (event.key === key.shift) {
       this.shiftPressed = false;
+      this.shapeService.setRectangleOffset();
     }
   }
 
-  // TODO: to be put elswhere
-  setRGBAColor(r: number, g: number, b: number, a: number): string {
-    return `rgb(${r},${g},${b},${a})`;
-  }
-
-  REMOVEsetRectStyle(): void {
-    const r: number = Math.floor(Math.random() * 255);
-    const g: number = Math.floor(Math.random() * 255);
-    const b: number = Math.floor(Math.random() * 255);
-    const a: number = Math.round(Math.random());
-    this.fill = this.setRGBAColor(r, g, b, 1);
-    this.strokeWidth = 2;
-    this.stroke = this.setRGBAColor(0, 0, 0, a);
-  }
-
   @HostListener('mousedown', ['$event'])
-  setMouseOrigin(event: MouseEvent): void {
-    this.REMOVEsetRectStyle();
-
-    this.preview = {
-      x: event.offsetX,
-      y: event.offsetY,
-      width: 0,
-      height: 0 };
-
-    this.origin = {x: event.offsetX, y: event.offsetY};
-
-    this.previewActive = true;
+  onMouseDown(event: MouseEvent): void {
+    this.TEMPORARYsetRectStyle();
+    this.shapeService.setMouseOrigin(event);
   }
 
   @HostListener('mousemove', ['$event'])
   setPreviewOffset(event: MouseEvent): void {
-    if (this.previewActive) {
+    this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
+    if (this.shapeService.preview.active) {
       if (this.shiftPressed) {
-        this.setSquareOffset(event);
+        this.shapeService.setSquareOffset();
       } else {
-        this.setRectangleOffset(event);
+        this.shapeService.setRectangleOffset();
       }
     }
   }
 
-  setRectangleOffset(event: MouseEvent): void {
-    this.preview.width = Math.abs(event.offsetX - this.origin.x);
-    this.preview.height = Math.abs(event.offsetY - this.origin.y);
-    this.preview.x = Math.min(this.origin.x, event.offsetX);
-    this.preview.y = Math.min(this.origin.y, event.offsetY);
-  }
-
-  setSquareOffset(event: MouseEvent): void {
-    return;
-  }
-
   @HostListener('mouseup')
   drawShape(): void {
-    this.shapeService.drawRectangle(this.preview, this.fill, this.stroke, this.strokeWidth);
-    this.previewActive = false;
+    this.shapeService.drawRectangle(this.shapeService.preview, this.fill, this.stroke);
+    this.shapeService.preview.active = false;
+  }
+
+  openDialog(): void {
+    const dialogRef: MatDialogRef<EntryPointComponent, any> =
+      this.dialog.open(EntryPointComponent, { disableClose: true });
+
+    dialogRef.afterClosed()
+    .subscribe((hideDialog: boolean) => { this.closeDialog(hideDialog); });
+  }
+
+  closeDialog(hideDialog: boolean): void {
+    if (hideDialog) {
+      sessionStorage.setItem(HIDE_DIALOG, JSON.stringify(hideDialog));
+    }
+    this.enableKeyPress = true;
+  }
+
+  TEMPORARYsetRectStyle(): void {
+    const r: number = Math.floor(Math.random() * 255);
+    const g: number = Math.floor(Math.random() * 255);
+    const b: number = Math.floor(Math.random() * 255);
+    // const a: number = Math.round(Math.random());
+    const strokeAlpha = this.shapeService.strokeEnable ? 1 : 0;
+    const fillAlpha = this.shapeService.fillEnable ? 1 : 0;
+    this.fill = this.TEMPORARYsetRGBAColor(r, g, b, fillAlpha);
+    this.strokeWidth = 2;
+    this.stroke = this.TEMPORARYsetRGBAColor(0, 0, 0, strokeAlpha);
+  }
+
+  // TODO: to be put elswhere
+  TEMPORARYsetRGBAColor(r: number, g: number, b: number, a: number): string {
+    return `rgb(${r},${g},${b},${a})`;
   }
 
 }

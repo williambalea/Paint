@@ -36,7 +36,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   draw() {
     if (!this.ctx) {
-      this.ctx = (this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D);
+      this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
     if (this.ctx != null) {
       const width = this.canvas.nativeElement.width;

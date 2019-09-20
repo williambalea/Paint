@@ -9,7 +9,7 @@ describe('NewFileModalwindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewFileModalwindowComponent ]
+      declarations: [ NewFileModalwindowComponent ],
     })
     .compileComponents();
   }));

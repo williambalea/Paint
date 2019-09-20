@@ -23,4 +23,4 @@ describe('NewFileModalwindowComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-}); 
+});

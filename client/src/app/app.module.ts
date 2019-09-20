@@ -16,9 +16,10 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { AlertsModule } from 'angular-alert-module';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
+
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {MatInputModule} from '@angular/material';
     // AngularResizedEventModule,
     AlertsModule.forRoot(),
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
   ],

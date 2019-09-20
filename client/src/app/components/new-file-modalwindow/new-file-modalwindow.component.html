@@ -1,25 +1,35 @@
- 
+<form [formGroup]="form">
 <h1 mat-dialog-title>Choose canvas parameters: </h1>
 <div mat-dialog-content>
     <p>Enter canvas width</p>
+    <div class="field">
+    <div class="control">
     <mat-form-field>
-      <input matInput [(ngModel)]="canvasWidth">
+      <input type = "number" min="0" formControlName = "canvasWidth" matInput [(ngModel)]="canvasWidth" >
     </mat-form-field>
+    </div>
+    </div>
     <p>Enter canvas height</p>
+    <div class="field">
+    <div class="control">
     <mat-form-field>
-      <input matInput [(ngModel)]="canvasHeight">
+      <input type = "number" min="0" formControlName = "canvasHeight" matInput [(ngModel)]="canvasHeight">
     </mat-form-field>
+    </div>
+    </div>
 
     <p>Enter canvas color</p>
     <mat-form-field>
       <input matInput [(ngModel)]="canvasColor">
     </mat-form-field>
-    
+
 </div>
 
 <div mat-dialog-actions>
     <button mat-button (click)="submitParameters(canvasWidth, canvasHeight,canvasColor)" cdkFocusInitial>submit</button>
-    <button mat-button (click)=" deleteContent()" class ="delete"><mat-icon>delete</mat-icon></button> 
+    <button mat-button (click)=" deleteContent()" class ="delete"><mat-icon>delete</mat-icon></button>
    <!-- <button mat-button [mat-dialog-close]="canvasWidth" cdkFocusInitial>cancel</button> -->
 </div>
+
+</form>
 

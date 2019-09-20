@@ -34,8 +34,7 @@ export class DrawingSpaceComponent implements OnInit {
   strokeWidth: number;
 
   previewActive = false;
-  preview: Preview;
-  origin: Mouse;
+
  
   
   constructor(private dialog: MatDialog,private shapeService: ShapesService,private fileParameters: FileParametersServiceService,)
@@ -129,20 +128,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.shapeService.preview.active = false;
   }
 
-  openDialog(): void {
-    const dialogRef: MatDialogRef<EntryPointComponent, any> =
-      this.dialog.open(EntryPointComponent, { disableClose: true });
-
-    dialogRef.afterClosed()
-    .subscribe((hideDialog: boolean) => { this.closeDialog(hideDialog); });
-  }
-
-  closeDialog(hideDialog: boolean): void {
-    if (hideDialog) {
-      sessionStorage.setItem(HIDE_DIALOG, JSON.stringify(hideDialog));
-    }
-    this.enableKeyPress = true;
-  }
+ 
 
   TEMPORARYsetRectStyle(): void {
     const r: number = Math.floor(Math.random() * 255);

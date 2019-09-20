@@ -8,15 +8,25 @@ export class ColorService {
 
   private fill: string;
   private stroke: string;
+  private makingColorChanges: boolean;
   private lastTenColors: Queue<string> = new Queue();
 
   constructor() {
     this.stroke = 'rgba(255, 255, 255, 1)';
+    this.makingColorChanges = false;
   }
 
   addColorsToLastUsed(primaryColor: string, secondaryColor: string): void {
     this.lastTenColors.push(primaryColor);
     this.lastTenColors.push(secondaryColor);
+  }
+
+  getMakingColorChanges(): boolean {
+    return this.makingColorChanges;
+  }
+
+  setMakingColorChanges(value: boolean): void {
+    this.makingColorChanges = value;
   }
 
   getItemFromLastTenColors(index: number): string {

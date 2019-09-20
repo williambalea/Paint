@@ -1,9 +1,16 @@
-import { Component,  HostListener, OnInit } from '@angular/core';
+import { Component,  HostListener , OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Mouse } from '../../../../../common/interface/mouse';
 import { Preview } from '../../../../../common/interface/preview';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
+import { Subscription } from 'rxjs';
+import {FileParametersServiceService} from '../../services/file-parameters-service.service';
+//import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+//import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+
+//import { SideBarComponent } from '../side-bar/side-bar.component';
+//import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-drawing-space',
@@ -11,9 +18,14 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
-  canvasWidth: number = window.innerWidth;
-  canvasHeight: number;
+  canvasWidth: number ; // user intput
+  canvasHeight: number ; // user input
+  canvasColor : string ;
+  subscription:Subscription;
 
+  
+  
+  width : number = 0;
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
@@ -24,22 +36,42 @@ export class DrawingSpaceComponent implements OnInit {
   previewActive = false;
   preview: Preview;
   origin: Mouse;
+ 
+  
+  constructor(private dialog: MatDialog,private shapeService: ShapesService,private fileParameters: FileParametersServiceService,)
+   {
+    this.enableKeyPress = false;  
+  
+   }
 
-  constructor(private dialog: MatDialog,
-              private shapeService: ShapesService) {
-    this.canvasWidth = window.innerWidth;
-    this.canvasHeight = window.innerHeight;
-    this.enableKeyPress = false;
-
-  }
 
   ngOnInit(): void {
+   
     if (!sessionStorage.getItem('hideDialog')) {
       this.openDialog();
     } else {
       this.enableKeyPress = true;
     }
+
+    this.subscription = this.fileParameters.canvaswidth$
+       .subscribe(canvasWidth => this.canvasWidth = canvasWidth);
+    this.subscription = this.fileParameters.canvasheight$
+       .subscribe(canvasHeight => this.canvasHeight = canvasHeight);
+    this.subscription = this.fileParameters.canvascolor$
+       .subscribe(canvasColor => this.canvasColor = canvasColor);
   }
+ 
+
+  
+  // canvas resize
+	@HostListener('window:resize', ['$event'])
+	onResize(event: { target: { innerWidth: number; }; }) {
+    this.width = event.target.innerWidth-500;
+    this.canvasWidth = event.target.innerWidth-500;
+    
+    
+  }
+
 
   openDialog(): void {
     const dialogRef: MatDialogRef<EntryPointComponent, any> =

@@ -26,7 +26,7 @@
     <div>
       <sub>0x</sub>
     </div>
-    <input class="text" type="text" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}}>
+    <input class="text" type="text" minlength="6" maxlength="6" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}}>
   </div>
 </div>
 

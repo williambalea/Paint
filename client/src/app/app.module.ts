@@ -11,6 +11,13 @@ import { BackgroundComponent } from './components/background/background.componen
 import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.component';
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { AngularResizedEventModule } from 'angular-resize-event';
+import { AlertsModule } from 'angular-alert-module';
+import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
+import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
+import { FormsModule } from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -20,6 +27,9 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     AttributeBarComponent,
     BackgroundComponent,
     DrawingSpaceComponent,
+    DeleteConfirmationComponent,
+    NewFileModalwindowComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -33,9 +43,16 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatIconModule,
     AngularSvgIconModule,
     MatMenuModule,
+    AngularResizedEventModule,
+    AlertsModule.forRoot(),
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   entryComponents: [
     EntryPointComponent,
+    DeleteConfirmationComponent,
+    NewFileModalwindowComponent
   ],
   providers: [],
   bootstrap: [AppComponent],

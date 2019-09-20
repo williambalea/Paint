@@ -3,10 +3,12 @@ import { Preview } from '../../../../../common/interface/preview';
 import { Rectangle } from './classes/rectangle';
 import { Shape } from './classes/shape';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class ShapesService {
+  
 
   shapes: Shape[] = [];
 
@@ -22,5 +24,11 @@ export class ShapesService {
       strokeWidth,
     );
     this.shapes.push(rectangle);
+    }
+
+  clearShapes():void {
+    this.shapes = [];
   }
 }
+
+  

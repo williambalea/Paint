@@ -1,8 +1,15 @@
-import { Component,  HostListener, OnInit } from '@angular/core';
+import { Component,  HostListener , OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HIDE_DIALOG, key } from '../../../../../common/constants';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
+import { Subscription } from 'rxjs';
+import {FileParametersServiceService} from '../../services/file-parameters-service.service';
+//import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+//import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+
+//import { SideBarComponent } from '../side-bar/side-bar.component';
+//import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-drawing-space',
@@ -10,9 +17,14 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
-  canvasWidth: number;
-  canvasHeight: number;
+  canvasWidth: number ; // user intput
+  canvasHeight: number ; // user input
+  canvasColor : string ;
+  subscription:Subscription;
 
+  
+  
+  width : number = 0;
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
@@ -21,12 +33,17 @@ export class DrawingSpaceComponent implements OnInit {
   stroke: string;
   strokeWidth: number;
 
-  constructor(private dialog: MatDialog,
-              private shapeService: ShapesService) {
-    this.canvasWidth = window.innerWidth;
-    this.canvasHeight = window.innerHeight;
-    this.enableKeyPress = false;
-  }
+  previewActive = false;
+  preview: Preview;
+  origin: Mouse;
+ 
+  
+  constructor(private dialog: MatDialog,private shapeService: ShapesService,private fileParameters: FileParametersServiceService,)
+   {
+    this.enableKeyPress = false;  
+  
+   }
+
 
   ngOnInit(): void {
     if (!sessionStorage.getItem(HIDE_DIALOG)) {
@@ -34,6 +51,40 @@ export class DrawingSpaceComponent implements OnInit {
     } else {
       this.enableKeyPress = true;
     }
+
+    this.subscription = this.fileParameters.canvaswidth$
+       .subscribe(canvasWidth => this.canvasWidth = canvasWidth);
+    this.subscription = this.fileParameters.canvasheight$
+       .subscribe(canvasHeight => this.canvasHeight = canvasHeight);
+    this.subscription = this.fileParameters.canvascolor$
+       .subscribe(canvasColor => this.canvasColor = canvasColor);
+  }
+ 
+
+  
+  // canvas resize
+	@HostListener('window:resize', ['$event'])
+	onResize(event: { target: { innerWidth: number; }; }) {
+    this.width = event.target.innerWidth-500;
+    this.canvasWidth = event.target.innerWidth-500;
+    
+    
+  }
+
+
+  openDialog(): void {
+    const dialogRef: MatDialogRef<EntryPointComponent, any> =
+      this.dialog.open(EntryPointComponent, { disableClose: true });
+
+    dialogRef.afterClosed()
+    .subscribe((hideDialog: boolean) => { this.closeDialog(hideDialog); });
+  }
+
+  closeDialog(hideDialog: boolean): void {
+    if (hideDialog) {
+      sessionStorage.setItem('hideDialog', JSON.stringify(hideDialog));
+    }
+    this.enableKeyPress = true;
   }
 
   @HostListener('window:keydown', ['$event'])

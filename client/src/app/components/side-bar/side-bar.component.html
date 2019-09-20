@@ -4,7 +4,8 @@
         <button mat-button (click)=" setValue(3)" class ="brush_icon"><mat-icon>color_lens</mat-icon></button>
         <button mat-button (click)=" setValue(4)" class ="color_pallette_icon"><mat-icon>brush</mat-icon></button>
         <button mat-button (click)=" setValue(5)" class ="color_applicator_icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button (click)=" setValue(6)" class ="new_file_icon"><mat-icon>add</mat-icon></button>
+        <button mat-button (click)=" createNewFile()" class ="new_file_icon"><mat-icon>add</mat-icon></button>
+      <!--  <button mat-button (click)=" deleteContent()" class ="delete"><mat-icon>delete</mat-icon></button> -->
 </mat-toolbar>
 
 <app-attribute-bar [test]="test" 

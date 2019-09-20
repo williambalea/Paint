@@ -4,6 +4,7 @@ import { Preview } from '../../../../../common/interface/preview';
 import { Rectangle } from './classes/rectangle';
 import { Shape } from './classes/shape';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -88,6 +89,10 @@ export class ShapesService {
     );
     this.shapes.push(rectangle);
     return this.getShape(this.shapes.length); // return latest shape (rectangle) for handling
+    }
+
+  clearShapes():void {
+    this.shapes = [];
   }
 
   getShape(shapeNumber:number): Shape{
@@ -110,3 +115,5 @@ export class ShapesService {
   */
 
 }
+
+  

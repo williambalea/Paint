@@ -26,4 +26,12 @@ export class Rectangle extends Shape {
         this.stroke = stroke;
         this.strokeWidth = strokeWidth;
     }
+
+    changePrimaryColor(color: string): void {
+        this.fill = color;
+    }
+
+    changeSecondaryColor(color: string): void {
+        this.stroke = color;
+    }
 }

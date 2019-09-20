@@ -28,7 +28,7 @@ export class ColorSliderComponent implements AfterViewInit {
 
   draw() {
     if (!this.ctx) {
-      this.ctx = (this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D);
+      this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
     if (this.ctx != null) {
       const width = this.canvas.nativeElement.width;

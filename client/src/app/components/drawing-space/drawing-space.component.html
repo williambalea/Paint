@@ -4,7 +4,7 @@
     [attr.width]="this.canvasWidth" [attr.height]="this.canvasHeight"
     xmlns="http://www.w3.org/2000/svg">
     
-    <g *ngFor="let shape of this.shapeService.shapes" (click)="onClick($event, shape)" (contextmenu)="onContextMenu($event, shape)">
+    <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick($event, shape)" (contextmenu)="onRightClick($event, shape)">
         <rect [attr.x]="shape.x" 
         [attr.y]="shape.y" 
         [attr.width]="shape.width" 

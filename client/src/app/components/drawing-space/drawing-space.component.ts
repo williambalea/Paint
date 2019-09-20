@@ -1,12 +1,11 @@
 import { Component,  HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
+import { Shape } from 'src/app/services/shapes/classes/shape';
 import { Mouse } from '../../../../../common/interface/mouse';
 import { Preview } from '../../../../../common/interface/preview';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
-import { Shape } from 'src/app/services/shapes/classes/shape';
-import { Rectangle } from 'src/app/services/shapes/classes/rectangle';
 
 @Component({
   selector: 'app-drawing-space',
@@ -114,19 +113,15 @@ export class DrawingSpaceComponent implements OnInit {
     return;
   }
 
-  onClick(shape: Shape): void {
-    console.log('left click on elem');
-    const oldElement = shape as Rectangle;
-    const newElement: Rectangle =  new Rectangle(oldElement.x, oldElement.y, oldElement.width,
-              oldElement.height, this.colorService.getFillColor(), oldElement.stroke, oldElement.strokeWidth);
-    this.shapeService.shapes.splice(this.shapeService.shapes.indexOf(shape));
-    this.shapeService.shapes.push(newElement);
+  onLeftClick($event: Event, shape: Shape): void {
+    const index: number = this.shapeService.shapes.indexOf(shape);
+    this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
   }
 
-  onContextMenu($event: Event, shape: Shape): void {
-    console.log('right click on elem');
+  onRightClick($event: Event, shape: Shape): void {
     $event.preventDefault();
-
+    const index: number = this.shapeService.shapes.indexOf(shape);
+    this.shapeService.shapes[index].changeSecondaryColor(this.colorService.getStrokeColor());
   }
 
   @HostListener('mouseup')

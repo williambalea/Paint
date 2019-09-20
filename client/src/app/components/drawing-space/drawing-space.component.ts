@@ -1,5 +1,6 @@
 import { Component,  HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { HIDE_DIALOG, key } from '../../../../../common/constants';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 
@@ -28,7 +29,7 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!sessionStorage.getItem('hideDialog')) {
+    if (!sessionStorage.getItem(HIDE_DIALOG)) {
       this.openDialog();
     } else {
       this.enableKeyPress = true;
@@ -38,7 +39,7 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
     if (this.enableKeyPress) {
-      if (event.key === 'Shift') {
+      if (event.key === key.shift) {
         this.shiftPressed = true;
         this.shapeService.setSquareOffset();
       }
@@ -47,7 +48,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
-    if (event.key === 'Shift') {
+    if (event.key === key.shift) {
       this.shiftPressed = false;
       this.shapeService.setRectangleOffset();
     }
@@ -73,7 +74,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mouseup')
   drawShape(): void {
-    this.shapeService.drawRectangle(this.shapeService.preview, this.fill, this.stroke, this.strokeWidth);
+    this.shapeService.drawRectangle(this.shapeService.preview, this.fill, this.stroke);
     this.shapeService.preview.active = false;
   }
 
@@ -87,7 +88,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   closeDialog(hideDialog: boolean): void {
     if (hideDialog) {
-      sessionStorage.setItem('hideDialog', JSON.stringify(hideDialog));
+      sessionStorage.setItem(HIDE_DIALOG, JSON.stringify(hideDialog));
     }
     this.enableKeyPress = true;
   }
@@ -96,10 +97,12 @@ export class DrawingSpaceComponent implements OnInit {
     const r: number = Math.floor(Math.random() * 255);
     const g: number = Math.floor(Math.random() * 255);
     const b: number = Math.floor(Math.random() * 255);
-    const a: number = Math.round(Math.random());
-    this.fill = this.TEMPORARYsetRGBAColor(r, g, b, 1);
+    // const a: number = Math.round(Math.random());
+    const strokeAlpha = this.shapeService.strokeEnable ? 1 : 0;
+    const fillAlpha = this.shapeService.fillEnable ? 1 : 0;
+    this.fill = this.TEMPORARYsetRGBAColor(r, g, b, fillAlpha);
     this.strokeWidth = 2;
-    this.stroke = this.TEMPORARYsetRGBAColor(0, 0, 0, a);
+    this.stroke = this.TEMPORARYsetRGBAColor(0, 0, 0, strokeAlpha);
   }
 
   // TODO: to be put elswhere

@@ -4,16 +4,11 @@
     position: fixed;
     top: 0; 
     left:5%;
-    border-style:solid;
-    border-width: 1px;
-    border-color:black;
 
     margin-top: 1%;
     margin-bottom: 1%;
     margin-right: 1%;
-    margin-left: 1%;
-
-    
+    margin-left: 1%;  
   }
 
   .singleAttribute{
@@ -21,22 +16,19 @@
     border-style:solid;
     border-width: 2px;
     border-color:black;
-    background-color: rgb(175, 170, 177);
+    background-color: rgb(198, 195, 199);
     margin-top: 1%;
     margin-bottom: 1%;
     margin-right: 1%;
     margin-left: 1%;
-
   }
 
   .header{
     font-size: 30px;
-    background-color: grey;
     margin-top: 1%;
     margin-bottom: 1%;
     margin-right: 1%;
     margin-left: 1%;
-
   }
 
   .exit{
@@ -57,4 +49,9 @@
   .sectionHeader{
     font-size:25px;
     font-weight: 500;
+  }
+
+  .dynamicValue{
+    color:red;
+    font-weight: 20;
   }

@@ -14,6 +14,10 @@ export class ShapesService {
   mouse: Point;
   origin: Point;
 
+  strokeWidth: number;
+  strokeEnable = true;
+  fillEnable = true;
+
   constructor() {
     this.preview = {
       active: false,
@@ -24,12 +28,13 @@ export class ShapesService {
     };
   }
 
-  /* MAB: Ajout de méthodes pour l'accès des attributs du rectangle */
+  /* MAB: Ajout de méthodes pour l'accès des attributs du rectangle 
 
   fetchRectangle() {
     const rectangle = new Rectangle(1, 2, 3, 4, 'black', 'black', 5);
     return rectangle;
   }
+  */
 
   setMouseOrigin(event: MouseEvent): void {
     this.origin = {x: event.offsetX, y: event.offsetY};
@@ -68,8 +73,10 @@ export class ShapesService {
     this.preview.y = Math.min(this.origin.y, newOffset.y);
   }
 
+
+
   // TODO: put options (fill, etc.) in own interface
-  drawRectangle(preview: Preview, fill: string, stroke: string, strokeWidth: number): void {
+  drawRectangle(preview: Preview, fill: string, stroke: string): Shape {
     const rectangle = new Rectangle (
       preview.x,
       preview.y,
@@ -77,8 +84,29 @@ export class ShapesService {
       preview.height,
       fill,
       stroke,
-      strokeWidth,
+      this.strokeWidth,
     );
     this.shapes.push(rectangle);
+    return this.getShape(this.shapes.length); // return latest shape (rectangle) for handling
   }
+
+  getShape(shapeNumber:number): Shape{
+    return this.shapes[shapeNumber];
+  }
+
+  /*
+  //TODO: find out how the nature of a line impacts how the preview works.
+  drawLine(preview:Preview, stroke:string, strokeWidth:number): Shape{
+    const line = new Line (
+      preview.x,
+      preview.y,
+      fill,
+      stroke,
+      strokeWidth    
+    );
+    this.shapes.push(line);
+    return this.getShape(this.shapes.length);
+  }
+  */
+
 }

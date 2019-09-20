@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
@@ -12,12 +12,15 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
 export class NewFileModalwindowComponent implements OnInit {
   form: FormGroup;
   control: FormControl;
-  customErrors = {required: 'Please accept the terms'}
-  canvasWidth : number;
+  customErrors = {required: 'Please accept the terms'};
+  canvasWidth: number;
   canvasHeight: number;
-  canvasColor : number;
+  canvasColor: number;
 
-  constructor(private fileParameters: FileParametersServiceService,private dialog: MatDialog,private shapeService: ShapesService, private builder: FormBuilder) {
+  constructor(private fileParameters: FileParametersServiceService,
+              private dialog: MatDialog,
+              private shapeService: ShapesService,
+              private builder: FormBuilder) {
 
   }
   ngOnInit() {
@@ -25,7 +28,7 @@ export class NewFileModalwindowComponent implements OnInit {
 
     this.form = this.builder.group({
       canvasWidth: ['', [Validators.required, Validators.min(0)]],
-      canvasHeight: ['',[Validators.required, Validators.min(0)]],
+      canvasHeight: ['', [Validators.required, Validators.min(0)]],
     });
   }
 

@@ -74,10 +74,10 @@ export class ShapesService {
   }
 
   setRectangleType(): void {
-    if(!this.fillEnable) {
+    if (!this.fillEnable) {
       this.fillColor = this.removeColor(this.fillColor);
     }
-    if(!this.strokeEnable) {
+    if (!this.strokeEnable) {
       this.strokeColor = this.removeColor(this.strokeColor);
     }
   }
@@ -106,8 +106,7 @@ export class ShapesService {
   }
 
   removeColor(fill: string): string {
-    const individualParams: string[] = 
-      fill.substr(5, fill.length - 1).split(',', 4);
+    const individualParams: string[] = fill.substr(5, fill.length - 1).split(',', 4);
     return `rgba(${individualParams[0]},${individualParams[1]},${individualParams[2]},0)`;
   }
 

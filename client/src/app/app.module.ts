@@ -1,6 +1,5 @@
 import { HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule,
   MatMenuModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatToolbarModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -16,13 +15,8 @@ import { DeleteConfirmationComponent } from './components/delete-confirmation/de
 import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.component';
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
-<<<<<<< HEAD
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material';
-=======
 import { SideBarComponent } from './components/side-bar/side-bar.component';
->>>>>>> 240e81b958b96cb3e3031e19cc06ff77eb31a0fc
 
 
 @NgModule({

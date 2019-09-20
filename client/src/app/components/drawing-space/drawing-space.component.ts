@@ -22,11 +22,6 @@ export class DrawingSpaceComponent implements OnInit {
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
-  // TODO: make an interface
-  fill: string;
-  stroke: string;
-  strokeWidth: number;
-
   previewActive = false;
 
   constructor( private dialog: MatDialog,
@@ -100,8 +95,10 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
-    this.TEMPORARYsetRectStyle();
     this.shapeService.setMouseOrigin(event);
+    this.shapeService.fillColor = this.colorService.getFillColor();
+    this.shapeService.strokeColor = this.colorService.getStrokeColor();
+    this.shapeService.setRectangleType();
   }
 
   @HostListener('mousemove', ['$event'])
@@ -116,22 +113,10 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  TEMPORARYsetRectStyle(): void {
-    const r: number = Math.floor(Math.random() * 255);
-    const g: number = Math.floor(Math.random() * 255);
-    const b: number = Math.floor(Math.random() * 255);
-    // const a: number = Math.round(Math.random());
-    const strokeAlpha = this.shapeService.strokeEnable ? 1 : 0;
-    const fillAlpha = this.shapeService.fillEnable ? 1 : 0;
-    this.fill = this.TEMPORARYsetRGBAColor(r, g, b, fillAlpha);
-    this.strokeWidth = 2;
-    this.stroke = this.TEMPORARYsetRGBAColor(0, 0, 0, strokeAlpha);
-  }
-
   @HostListener('mouseup')
   drawShape(): void {
     this.shapeService.preview.active = false;
-    this.shapeService.drawRectangle(this.shapeService.preview, this.colorService.getFillColor(), this.colorService.getStrokeColor());
+    this.shapeService.drawRectangle();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 

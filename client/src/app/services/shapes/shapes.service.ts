@@ -10,10 +10,15 @@ import { Shape } from './classes/shape';
 export class ShapesService {
 
   shapes: Shape[] = [];
-  preview: Preview;
   mouse: Point;
   origin: Point;
+
+  preview: Preview;
+
   strokeWidth: number;
+  fillColor: string;
+  strokeColor: string;
+
   strokeEnable = true;
   fillEnable = true;
 
@@ -25,6 +30,10 @@ export class ShapesService {
       width: 0,
       height: 0,
     };
+
+    // TODO: set default values for rectangles
+    this.fillColor = 'rgba(255,255,255,255)';
+    this.strokeColor = 'rgba(255,255,255,255)';
   }
 
   setMouseOrigin(event: MouseEvent): void {
@@ -64,14 +73,25 @@ export class ShapesService {
     this.preview.y = Math.min(this.origin.y, newOffset.y);
   }
 
-  drawRectangle(preview: Preview, fill: string, stroke: string): Shape {
+  setRectangleType(): void {
+    if(!this.fillEnable) {
+      this.fillColor = this.removeColor(this.fillColor);
+    }
+    if(!this.strokeEnable) {
+      this.strokeColor = this.removeColor(this.strokeColor);
+    }
+  }
+
+  drawRectangle(): Shape {
+    this.setRectangleType();
+
     const rectangle = new Rectangle (
-      preview.x,
-      preview.y,
-      preview.width,
-      preview.height,
-      fill,
-      stroke,
+      this.preview.x,
+      this.preview.y,
+      this.preview.width,
+      this.preview.height,
+      this.fillColor,
+      this.strokeColor,
       this.strokeWidth,
     );
     this.shapes.push(rectangle);
@@ -85,4 +105,11 @@ export class ShapesService {
   getShape(shapeNumber: number): Shape{
     return this.shapes[shapeNumber];
   }
+
+  removeColor(fill: string): string {
+    const individualParams: string[] = 
+      fill.substr(5, fill.length - 1).split(',', 4);
+    return `rgba(${individualParams[0]},${individualParams[1]},${individualParams[2]},0)`;
+  }
+
 }

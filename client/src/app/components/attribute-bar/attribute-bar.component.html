@@ -35,9 +35,18 @@
                                 <p>
                                 Please select one of the following 3:
                                 </p>
-                                <button mat-button (click)="assignType1Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>1</button>
-                                <button mat-button (click)="assignType2Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>2</button>
-                                <button mat-button (click)="assignType3Fill()" class ="square_icon"><mat-icon>crop_square</mat-icon>3</button>
+                                <div (click)="assignType1Fill()">
+                                        <input type="radio">
+                                        <label>Bordered</label>
+                                </div>
+                                <div (click)="assignType2Fill()">
+                                        <input type="radio">
+                                        <label>Filled</label>
+                                </div>
+                                <div (click)="assignType3Fill()">
+                                        <input type="radio">
+                                        <label>Bordered and Filled</label>
+                                </div>
                         <br>
                         </label>
                         <br>

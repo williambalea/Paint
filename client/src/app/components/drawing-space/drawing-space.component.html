@@ -22,8 +22,8 @@
             [attr.y]="this.shapeService.preview.y" 
             [attr.width]="this.shapeService.preview.width" 
             [attr.height]="this.shapeService.preview.height" 
-            [style.fill]="colorService.getFillColor()"
-            [style.stroke]="colorService.getStrokeColor()"
+            [style.fill]="this.shapeService.fillColor"
+            [style.stroke]="this.shapeService.strokeColor"
             [style.stroke-width]="this.shapeService.strokeWidth"/>
     </svg>
 </div>

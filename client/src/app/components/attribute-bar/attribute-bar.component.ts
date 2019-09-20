@@ -38,126 +38,73 @@ export class AttributeBarComponent {
 
   rectangle: Rectangle = new Rectangle(1, 2, 3, 4,'black', "black", 5);
 
- selectBrush(): void {
-   if (confirm('Are you sure you wish to chose the brush ?')) {
+  selectBrush(): void {
     this.brushState = true;
   }
- }
 
- selectPen(): void {
-   if (confirm('Are you sure you wish to chose the pen ?')) {
-     this.brushState = false;
-   }
- }
+  selectPen(): void {
+    this.brushState = false;
+  }
 
-      assignType1Fill() {
-        if (confirm('Are you sure you wish to chose type 1 fill ?')) {
-          this.shapeFillType = 'Type #1';
-          this.shapeService.strokeEnable = true;
-          this.shapeService.fillEnable = false;
-        }
-        return false;
-      }
+  assignType1Fill() {
+    this.shapeFillType = 'Type #1';
+    this.shapeService.strokeEnable = true;
+    this.shapeService.fillEnable = false;
+    this.shapeService.removeColor(this.shapeService.fillColor);
+    return false;
+  }
 
-      assignType2Fill() {
-        if (confirm('Are you sure you wish to chose type 2 fill ?')) {
-          this.shapeFillType = 'Type #2';
-          this.shapeService.strokeEnable = false;
-          this.shapeService.fillEnable = true;
-        }
-        return false;
-      }
+  assignType2Fill() {
+    this.shapeFillType = 'Type #2';
+    this.shapeService.strokeEnable = false;
+    this.shapeService.removeColor(this.shapeService.strokeColor);
+    this.shapeService.fillEnable = true;
+    return false;
+  }
 
-      assignType3Fill() {
-        if (confirm('Are you sure you wish to chose type 3 fill ?')) {
-          this.shapeFillType = 'Type #3';
-          this.shapeService.strokeEnable = true;
-          this.shapeService.fillEnable = true;
+  assignType3Fill() {
+    this.shapeFillType = 'Type #3';
+    this.shapeService.strokeEnable = true;
+    this.shapeService.fillEnable = true;
+    return false;
+  }
 
-        }
-        return false;
-      }
-
-assignBrushTexture(parameter: string) {
-  if (parameter === 'option1') {
-    if (confirm('Are you sure you wish to choose brush type 1 ?')) {
+  assignBrushTexture(parameter: string) {
+    if (parameter === 'option1') {
       this.currentBrushTexture = 'texture1';
     }
-  }
-  if (parameter === 'option2') {
-    if (confirm('Are you sure you wish to choose brush type 2 ?')) {
+    if (parameter === 'option2') {
       this.currentBrushTexture = 'texture2';
     }
-  }
-  if (parameter === 'option3') {
-    if (confirm('Are you sure you wish to choose brush type 3 ?')) {
+    if (parameter === 'option3') {
       this.currentBrushTexture = 'texture3';
     }
-  }
-  if (parameter === 'option4') {
-    if (confirm('Are you sure you wish to choose brush type 4 ?')) {
-      this.currentBrushTexture = 'texture4';
-  }
+    if (parameter === 'option4') {
+        this.currentBrushTexture = 'texture4';
     }
-  if (parameter === 'option5') {
-    if (confirm('Are you sure you wish to choose brush type 5 ?')) {
+    if (parameter === 'option5') {
       this.currentBrushTexture = 'texture5';
     }
   }
-}
 
-exitWindow() {
-     if (confirm('Are you certain you wish to collapse this panel?')) {
-      this.show = !this.show;
-     }
-}
-
-assignStrokeWidth(value: number) {
-  console.log(value);
-  if (confirm('Are you sure you wish to enter: ' + value + ' ?')) {
+  assignStrokeWidth(value: number) {
     this.shapeService.strokeWidth = value;
+    return false;
   }
-  return false;
-}
 
-assignStrokeColor(value: string) {
-  console.log(value);
-  if (confirm('Are you sure you wish to enter: ' + value + ' ?')) {
+  assignStrokeColor(value: string) {
     this.shapeStrokeColor = value;
+    return false;
   }
-  return false;
-}
 
-assignFillColor(value: string) {
-  console.log(value);
-  if (confirm('Are you sure you wish to enter: '+ value +' ?')) {
+  assignFillColor(value: string) {
     this.shapeFillColor = value;
+    return false;
   }
-  return false;
-}
 
-assignPrimaryColor(value: string) {
-  console.log(value);
-  if (confirm('Are you sure you wish to enter: '+ value + " ?")) {
-    this.strokeColor = value;
-  }
-  return false;
-}
-
-assignSecondaryColor(value: string) {
-  console.log(value);
-  if (confirm('Are you sure you wish to enter: '+ value +' ?')) {
-    this.fillColor = value;
-  }
-  return false;
-}
-
-assignDrawStrokeWidth(value: number) {
-  console.log(value);
-  if (confirm('Are you sure you wish to enter: ' + value + '?')) {
+  assignDrawStrokeWidth(value: number) {
     this.strokeWidth = value;
+    return false;
   }
-  return false;
-}
 
 }

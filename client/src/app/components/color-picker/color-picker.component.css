@@ -57,3 +57,26 @@
   line-height: 32px;
   width: 35%,
 }
+
+.secondary {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgb(220, 220, 220);
+  margin-left: 40%;
+  margin-bottom: 5%;
+  margin-top: -16%;
+}
+
+.primary {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgb(220, 220, 220);
+  margin-left: 20%;
+  margin-bottom: 5%;
+}
+
+.slidecontainer{
+  margin-left: 20%;
+}

@@ -22,12 +22,6 @@ export class ColorPickerComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendColorWrapper();
-    // this.test.addEventListener('mouseover', (event) => {
-    //   this.showBar = true;
-    // });
-    // this.test.addEventListener('mouseout', (event) => {
-    //   this.showBar = false;
-    // });
   }
 
   constructor(private colorService: ColorService) {
@@ -42,10 +36,12 @@ export class ColorPickerComponent implements OnInit {
   }
 
   setPrimary(): void {
+    this.colorService.setMakingColorChanges(true);
     this.usingPrimary = true;
   }
 
   setSecondary(): void {
+    this.colorService.setMakingColorChanges(true);
     this.usingPrimary = false;
   }
 
@@ -80,7 +76,11 @@ export class ColorPickerComponent implements OnInit {
 
   changeBackgroundColor(): void {
     const elem: HTMLElement = document.getElementsByClassName('drawingBoard')[0] as HTMLElement;
-    elem.style.background = this.colorService.getFillColor();
+    if (this.usingPrimary) {
+      elem.style.background = this.colorService.getFillColor();
+    } else {
+      elem.style.background = this.colorService.getStrokeColor();
+    }
   }
 
   onEnterSlider(value: number): void {

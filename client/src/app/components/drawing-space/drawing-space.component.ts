@@ -74,23 +74,9 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  // TODO: to be put elswhere
-  // setRGBAColor(r: number, g: number, b: number, a: number): string {
-  //   return `rgb(${r},${g},${b},${a})`;
-  // }
-
-  // REMOVEsetRectStyle(): void {
-  //   const r: number = Math.floor(Math.random() * 255);
-  //   const g: number = Math.floor(Math.random() * 255);
-  //   const b: number = Math.floor(Math.random() * 255);
-  //   const a: number = Math.round(Math.random());
-  //   this.fill = this.setRGBAColor(r, g, b, 1);
-  //   this.strokeWidth = 2;
-  //   this.stroke = this.setRGBAColor(0, 0, 0, a);
-  // }
-
   @HostListener('mousedown', ['$event'])
   setMouseOrigin(event: MouseEvent): void {
+    this.colorService.setMakingColorChanges(false);
     // this.REMOVEsetRectStyle();
 
     this.preview = {

@@ -74,7 +74,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mouseup')
   drawShape(): void {
-    this.shapeService.drawRectangle(this.shapeService.preview, this.fill, this.stroke, this.strokeWidth);
+    this.shapeService.drawRectangle(this.shapeService.preview, this.fill, this.stroke);
     this.shapeService.preview.active = false;
   }
 

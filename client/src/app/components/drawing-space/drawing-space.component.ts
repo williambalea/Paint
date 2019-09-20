@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
 import { HIDE_DIALOG, key } from '../../../../../common/constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
+import { Shape } from '../../services/shapes/classes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 
@@ -49,7 +50,6 @@ export class DrawingSpaceComponent implements OnInit {
        .subscribe((canvasColor) => this.canvasColor = canvasColor);
   }
 
-  // canvas resize
   @HostListener('window:resize', ['$event'])
   onResize(event: { target: { innerWidth: number; }; }) {
     this.width = event.target.innerWidth - 500;
@@ -118,6 +118,17 @@ export class DrawingSpaceComponent implements OnInit {
     this.fill = this.TEMPORARYsetRGBAColor(r, g, b, fillAlpha);
     this.strokeWidth = 2;
     this.stroke = this.TEMPORARYsetRGBAColor(0, 0, 0, strokeAlpha);
+  }
+
+  onLeftClick($event: Event, shape: Shape): void {
+    const index: number = this.shapeService.shapes.indexOf(shape);
+    this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
+  }
+
+  onRightClick($event: Event, shape: Shape): void {
+    $event.preventDefault();
+    const index: number = this.shapeService.shapes.indexOf(shape);
+    this.shapeService.shapes[index].changeSecondaryColor(this.colorService.getStrokeColor());
   }
 
   @HostListener('mouseup')

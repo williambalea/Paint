@@ -1,15 +1,4 @@
 <div class="attributeBar" >
-    <p *ngIf="test == 1">
-        <button>{{test}}</button>
-    </p> 
-
-    <p *ngIf="test == 2">
-        <button>{{test}}</button>
-    </p> 
-
-    <div class="card">
-        <app-color-picker></app-color-picker>
-    </div>
         <div class = "placeHolder" *ngIf="this.showRectangle">
             <br>
                 <div class="header">
@@ -62,10 +51,9 @@
                         <div class="sectionHeader">
                                         Color:
                         </div>
-                                Please chose the colors you wish to use:
-                                <br>
-                                <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
-                                <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                        <div class="card">
+                                        <app-color-picker></app-color-picker>
+                                    </div>
                             </div>
                             <br>
                     </div>
@@ -128,36 +116,18 @@
                 <div class="sectionHeader">
                                 Color:
                 </div>
-                        Please chose the colors you wish to use:
-                        <br>
-                        <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
-                        <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
+                <div class="card">
+                                <app-color-picker></app-color-picker>
+                            </div>
                     </div>
                     <br>
-            </div>
-            <!-- Color tool -->
-                <div class="placeHolder" *ngIf="this.showColorTool">
-                        <br>
-                        <div class="header">
-                                <div style="font-weight:900">Outil de couleurs</div>
-                        </div>
-
-                        <div class="singleAttribute">
-                                <div class="sectionHeader">
-                                                Color type:
-                                </div>
-                                <br>
-                                Please chose the colors you wish to use:
-                                <br>
-                                <br> Primary: <button (click)="assignPrimaryColor()">PLACEHOLDER</button> 
-                                <br> Secondary: <button (click)="assignSecondaryColor()">PLACEHOLDER</button>
-                                </div>
-                                <br>
-                        </div>
-            <!-- Pipette (?)-->    
+            </div> 
             <div class="placeHolder" *ngIf="this.showPipette">
                         PLACEHOLDER PIPETTE
-            </div>      
+            </div> 
+            
           
 </div>
+
+
 

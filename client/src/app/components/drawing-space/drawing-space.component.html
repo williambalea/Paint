@@ -22,12 +22,10 @@
             [attr.y]="this.shapeService.preview.y" 
             [attr.width]="this.shapeService.preview.width" 
             [attr.height]="this.shapeService.preview.height" 
-            [style.fill]="this.fill"
-            [style.stroke]="this.stroke"
+            [style.fill]="colorService.getFillColor()"
+            [style.stroke]="colorService.getStrokeColor()"
             [style.stroke-width]="this.shapeService.strokeWidth"/>
     </svg>
-
-<button onclick="changeBackgroundColor()">Change Background Color</button>
 </div>
 
  

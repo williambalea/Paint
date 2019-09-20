@@ -1,8 +1,8 @@
 import { Component, Input} from '@angular/core';
-import { ShapesService } from '../../services/shapes/shapes.service'
-import {Shape} from '../../services/shapes/classes/shape'
-import {Rectangle} from '../../services/shapes/classes/rectangle'
 import {Preview} from '../../../../../common/interface/preview'
+import {Rectangle} from '../../services/shapes/classes/rectangle'
+import {Shape} from '../../services/shapes/classes/shape'
+import { ShapesService } from '../../services/shapes/shapes.service'
 
 @Component({
   selector: 'app-attribute-bar',
@@ -13,188 +13,151 @@ import {Preview} from '../../../../../common/interface/preview'
 export class AttributeBarComponent {
   @Input() test: number;
   @Input()showRectangle: boolean;
-  @Input()showCircle : boolean;
-  @Input()showDrawTool : boolean;
-  @Input()showColorTool : boolean;
-  @Input()showPipette  : boolean;
+  @Input()showCircle: boolean;
+  @Input()showDrawTool: boolean;
+  @Input()showColorTool: boolean;
+  @Input()showPipette: boolean;
 
-  constructor(private shapeService: ShapesService) {};
+  constructor(private shapeService: ShapesService) {}
   preview: Preview;
 
-  currentShape:Shape;
-
-  brushState:boolean=false;
-
-  /* MAB: On veut une separation des attributs de chaque outil */
-  // Shapes
-  shapeStrokeColor: string = "Define me!";
-  shapeFillColor: string = "Define me!";
+  currentShape: Shape;
+  brushState = false;
+  shapeStrokeColor = 'Define me!';
+  shapeFillColor = 'Define me!';
   shapeStrokeWidth: Number = 1;
-  shapeFillType: string = "Define me!";
+  shapeFillType = 'Define me!';
 
-  // Drawing Tools
-  strokeColor:string = "Define me!";
-  strokeWidth: number = 1;
-  fillColor:string = "Define me!";
+  strokeColor = 'Define me!';
+  strokeWidth = 1;
+  fillColor = 'Define me!';
 
-  currentBrushTexture:string = " Style #1";
+  currentBrushTexture = ' Style #1';
 
-  // Hide page
-  show:boolean=true;
+  show= true;
 
-  rectangle: Rectangle = new Rectangle(1,2,3,4,"black","black",5);
+  rectangle: Rectangle = new Rectangle(1, 2, 3, 4,'black', "black", 5);
 
-  /* doesnt work right now
-  generalInputValidation(input:string){
-    if(confirm("Are you sure you wish to chose this drawing tool?")){
-      input;
-    }
-  } */
-
- selectBrush():void{
-   if(confirm("Are you sure you wish to chose the brush ?")){
-    this.brushState=true;
+ selectBrush(): void {
+   if (confirm('Are you sure you wish to chose the brush ?')) {
+    this.brushState = true;
   }
  }
 
- selectPen():void{
-   if(confirm("Are you sure you wish to chose the pen ?")){
-     this.brushState=false;
+ selectPen(): void {
+   if (confirm('Are you sure you wish to chose the pen ?')) {
+     this.brushState = false;
    }
  }
 
-
-  // Functions to assign fill colors
-      assignType1Fill(){
-        if(confirm("Are you sure you wish to chose type 1 fill ?")){
-          this.shapeFillType = "Type #1";
+      assignType1Fill() {
+        if (confirm('Are you sure you wish to chose type 1 fill ?')) {
+          this.shapeFillType = 'Type #1';
           this.shapeService.strokeEnable = true;
           this.shapeService.fillEnable = false;
-          // currentStrokeColor = this.strokeColor;
         }
         return false;
       }
 
-      assignType2Fill(){
-        if(confirm("Are you sure you wish to chose type 2 fill ?")){
-          this.shapeFillType = "Type #2";
+      assignType2Fill() {
+        if (confirm('Are you sure you wish to chose type 2 fill ?')) {
+          this.shapeFillType = 'Type #2';
           this.shapeService.strokeEnable = false;
           this.shapeService.fillEnable = true;
-          // currentStrokeColor = this.fillColor;
         }
         return false;
       }
 
-      assignType3Fill(){
-        if(confirm("Are you sure you wish to chose type 3 fill ?")){
-          this.shapeFillType = "Type #3";
+      assignType3Fill() {
+        if (confirm('Are you sure you wish to chose type 3 fill ?')) {
+          this.shapeFillType = 'Type #3';
           this.shapeService.strokeEnable = true;
           this.shapeService.fillEnable = true;
-          // currentStrokeColor = this.shapeStrokeColor;
-          // currentFillColor = this.shapeFillColor;
+
         }
         return false;
       }
 
-// Assign the proper brush texture depending on user input
-assignBrushTexture(parameter:string){
-  if(parameter == "option1"){
-    if(confirm("Are you sure you wish to choose brush type 1 ?")){
-      this.currentBrushTexture = "texture1";
+assignBrushTexture(parameter: string) {
+  if (parameter === 'option1') {
+    if (confirm('Are you sure you wish to choose brush type 1 ?')) {
+      this.currentBrushTexture = 'texture1';
     }
   }
-  if(parameter == "option2"){
-    if(confirm("Are you sure you wish to choose brush type 2 ?")){
-      this.currentBrushTexture = "texture2";
+  if (parameter === 'option2') {
+    if (confirm('Are you sure you wish to choose brush type 2 ?')) {
+      this.currentBrushTexture = 'texture2';
     }
   }
-  if(parameter == "option3"){
-    if(confirm("Are you sure you wish to choose brush type 3 ?")){
-      this.currentBrushTexture = "texture3";
+  if (parameter === 'option3') {
+    if (confirm('Are you sure you wish to choose brush type 3 ?')) {
+      this.currentBrushTexture = 'texture3';
     }
   }
-  if(parameter == "option4"){
-    if(confirm("Are you sure you wish to choose brush type 4 ?")){
-      this.currentBrushTexture = "texture4";
+  if (parameter === 'option4') {
+    if (confirm('Are you sure you wish to choose brush type 4 ?')) {
+      this.currentBrushTexture = 'texture4';
   }
     }
-  if(parameter == "option5"){
-    if(confirm("Are you sure you wish to choose brush type 5 ?")){
-      this.currentBrushTexture = "texture5";
+  if (parameter === 'option5') {
+    if (confirm('Are you sure you wish to choose brush type 5 ?')) {
+      this.currentBrushTexture = 'texture5';
     }
   }
 }
 
-
-exitWindow(){
-  /* MAB: Avoir l'option de collapse la window d'attribut si on veut, pas juste d'alterner entre fenetres une fois
-     la premiere ouverte */
-     if(confirm("Are you certain you wish to collapse this panel?")){
+exitWindow() {
+     if (confirm('Are you certain you wish to collapse this panel?')) {
       this.show = !this.show;
-     }     
+     }
 }
 
-
-assignStrokeWidth(value:number){
+assignStrokeWidth(value: number) {
   console.log(value);
-  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+  if (confirm('Are you sure you wish to enter: ' + value + ' ?')) {
     this.shapeService.strokeWidth = value;
   }
   return false;
 }
 
-/* MAB: Besoin de binder ces 2 fonctions avec l'interface de couleurs et les couleurs des rectangles. */
-
-assignStrokeColor(value:string){
+assignStrokeColor(value: string) {
   console.log(value);
-  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+  if (confirm('Are you sure you wish to enter: ' + value + ' ?')) {
     this.shapeStrokeColor = value;
   }
   return false;
 }
 
-// Exemple d'input confirmation
-assignFillColor(value:string){
+assignFillColor(value: string) {
   console.log(value);
-  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+  if (confirm('Are you sure you wish to enter: '+ value +' ?')) {
     this.shapeFillColor = value;
   }
   return false;
 }
 
-assignPrimaryColor(value:string){
+assignPrimaryColor(value: string) {
   console.log(value);
-  if(confirm("Are you sure you wish to enter: "+value+" ?")){
-    this.strokeColor=value;
+  if (confirm('Are you sure you wish to enter: '+ value + " ?")) {
+    this.strokeColor = value;
   }
   return false;
 }
 
-assignSecondaryColor(value:string){
+assignSecondaryColor(value: string) {
   console.log(value);
-  if(confirm("Are you sure you wish to enter: "+value+" ?")){
+  if (confirm('Are you sure you wish to enter: '+ value +' ?')) {
     this.fillColor = value;
   }
   return false;
 }
 
-assignDrawStrokeWidth(value:number){
+assignDrawStrokeWidth(value: number) {
   console.log(value);
-  if(confirm("Are you sure you wish to enter: "+value+" ?")){
-    this.strokeWidth=value;
+  if (confirm('Are you sure you wish to enter: ' + value + '?')) {
+    this.strokeWidth = value;
   }
   return false;
 }
-/* MAB: Tentative pour l'acces aux parametres d'une shape dans l'array.
-        Probablement utilise lorsqu'il sera question de modifier des attributs 
-        d'une forme existante. */
-
-accessShape(index:number): Shape{
-let currentRectangle: Shape = this.shapeService.shapes[index];
-return currentRectangle
-}
 
 }
-
-
-

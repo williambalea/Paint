@@ -1,18 +1,12 @@
 import { Component,  HostListener , OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
-import { Mouse } from '../../../../../common/interface/mouse';
-import { Preview } from '../../../../../common/interface/preview';
 import { HIDE_DIALOG, key } from '../../../../../common/constants';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { Subscription } from 'rxjs';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
-//import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
-//import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 
-//import { SideBarComponent } from '../side-bar/side-bar.component';
-//import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-drawing-space',
@@ -23,8 +17,8 @@ export class DrawingSpaceComponent implements OnInit {
   canvasWidth: number ; // user intput
   canvasHeight: number ; // user input
   canvasColor: string ;
-  subscription: Subscription;  
-  width : number = 0;
+  subscription: Subscription;
+  width: number = 0;
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
@@ -35,13 +29,12 @@ export class DrawingSpaceComponent implements OnInit {
 
   previewActive = false;
 
- 
-  
-  constructor(private dialog: MatDialog,private shapeService: ShapesService,private fileParameters: FileParametersServiceService, private colorService: ColorService)
-   {
-    this.enableKeyPress = false;  
-  
-   }
+  constructor( private dialog: MatDialog,
+                private shapeService: ShapesService,
+                private fileParameters: FileParametersServiceService,
+                private colorService: ColorService) {
+    this.enableKeyPress = false;
+  }
 
 
   ngOnInit(): void {

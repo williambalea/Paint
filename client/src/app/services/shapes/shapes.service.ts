@@ -102,7 +102,7 @@ export class ShapesService {
     this.shapes = [];
   }
 
-  getShape(shapeNumber: number): Shape{
+  getShape(shapeNumber: number): Shape {
     return this.shapes[shapeNumber];
   }
 

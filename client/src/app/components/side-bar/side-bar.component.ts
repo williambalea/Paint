@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-//import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
-//import { ShapesService } from '../../services/shapes/shapes.service';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
-
-
 
 @Component({
   selector: 'app-side-bar',
@@ -19,13 +15,16 @@ export class SideBarComponent {
   showDrawTool = false;
   showColorTool = false;
   showPipette  = false;
-  canvasWidth : number;
-  newFile : boolean = false;
+  canvasWidth: number;
+  newFile = false;
 
-  constructor(private dialog: MatDialog,/*private shapeService: ShapesService*/){}
+  constructor(private dialog: MatDialog ) {
+
+  }
+
   setValue(value: number): void {
     this.test = value;
-    switch(value){
+    switch (value) {
       case 1:
         this.showRectangle = !this.showRectangle;
         this.showCircle = false;
@@ -61,17 +60,10 @@ export class SideBarComponent {
           this.showDrawTool = false;
           this.showPipette = !this.showPipette;
           break;
-        
     }
   }
-/*
-  deleteContent(): void {
-    if (this.shapeService.shapes.length != 0){
-      this.dialog.open(DeleteConfirmationComponent);
-    }
-    
-  }*/
-  createNewFile(){
+
+  createNewFile() {
   this.dialog.open(NewFileModalwindowComponent);
   }
 }

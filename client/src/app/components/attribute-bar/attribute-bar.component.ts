@@ -1,8 +1,8 @@
 import { Component, Input} from '@angular/core';
-import {Preview} from '../../../../../common/interface/preview'
-import {Rectangle} from '../../services/shapes/classes/rectangle'
-import {Shape} from '../../services/shapes/classes/shape'
-import { ShapesService } from '../../services/shapes/shapes.service'
+import {Preview} from '../../../../../common/interface/preview';
+import {Rectangle} from '../../services/shapes/classes/rectangle';
+import {Shape} from '../../services/shapes/classes/shape';
+import { ShapesService } from '../../services/shapes/shapes.service';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -25,7 +25,7 @@ export class AttributeBarComponent {
   brushState = false;
   shapeStrokeColor = 'Define me!';
   shapeFillColor = 'Define me!';
-  shapeStrokeWidth: Number = 1;
+  shapeStrokeWidth = 1;
   shapeFillType = 'Define me!';
 
   strokeColor = 'Define me!';
@@ -34,9 +34,9 @@ export class AttributeBarComponent {
 
   currentBrushTexture = ' Style #1';
 
-  show= true;
+  show = true;
 
-  rectangle: Rectangle = new Rectangle(1, 2, 3, 4,'black', "black", 5);
+  rectangle: Rectangle = new Rectangle(1, 2, 3, 4, 'black', 'black', 5);
 
   selectBrush(): void {
     this.brushState = true;

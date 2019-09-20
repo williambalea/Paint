@@ -1,0 +1,10 @@
+#ignoring .vscode folder but we keep some files for debuging
+/.vscode/chrome
+/.vs/
+
+#ignoring node_modules
+node_modules/
+
+#System files
+.DS_Store
+client/debug.log

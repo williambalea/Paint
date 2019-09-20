@@ -1,12 +1,11 @@
 import { Component,  HostListener , OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
 import { HIDE_DIALOG, key } from '../../../../../common/constants';
+import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
-import { Subscription } from 'rxjs';
-import {FileParametersServiceService} from '../../services/file-parameters-service.service';
-
 
 @Component({
   selector: 'app-drawing-space',
@@ -14,15 +13,14 @@ import {FileParametersServiceService} from '../../services/file-parameters-servi
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
-  canvasWidth: number ; // user intput
-  canvasHeight: number ; // user input
+  canvasWidth: number ;
+  canvasHeight: number ;
   canvasColor: string ;
   subscription: Subscription;
-  width: number = 0;
+  width = 0;
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
-  // TODO: make an interface
   fill: string;
   stroke: string;
   strokeWidth: number;
@@ -30,12 +28,11 @@ export class DrawingSpaceComponent implements OnInit {
   previewActive = false;
 
   constructor( private dialog: MatDialog,
-                private shapeService: ShapesService,
-                private fileParameters: FileParametersServiceService,
-                private colorService: ColorService) {
+               private shapeService: ShapesService,
+               private fileParameters: FileParametersServiceService,
+               private colorService: ColorService) {
     this.enableKeyPress = false;
   }
-
 
   ngOnInit(): void {
     if (!sessionStorage.getItem(HIDE_DIALOG)) {
@@ -45,24 +42,20 @@ export class DrawingSpaceComponent implements OnInit {
     }
 
     this.subscription = this.fileParameters.canvaswidth$
-       .subscribe(canvasWidth => this.canvasWidth = canvasWidth);
+       .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
     this.subscription = this.fileParameters.canvasheight$
-       .subscribe(canvasHeight => this.canvasHeight = canvasHeight);
+       .subscribe((canvasHeight) => this.canvasHeight = canvasHeight);
     this.subscription = this.fileParameters.canvascolor$
-       .subscribe(canvasColor => this.canvasColor = canvasColor);
+       .subscribe((canvasColor) => this.canvasColor = canvasColor);
   }
- 
 
-  
   // canvas resize
-	@HostListener('window:resize', ['$event'])
-	onResize(event: { target: { innerWidth: number; }; }) {
-    this.width = event.target.innerWidth-500;
-    this.canvasWidth = event.target.innerWidth-500;
-    
-    
-  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: { target: { innerWidth: number; }; }) {
+    this.width = event.target.innerWidth - 500;
+    this.canvasWidth = event.target.innerWidth - 500;
 
+  }
 
   openDialog(): void {
     const dialogRef: MatDialogRef<EntryPointComponent, any> =
@@ -96,7 +89,7 @@ export class DrawingSpaceComponent implements OnInit {
       this.shapeService.setRectangleOffset();
     }
   }
-  
+
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
@@ -120,7 +113,6 @@ export class DrawingSpaceComponent implements OnInit {
     const r: number = Math.floor(Math.random() * 255);
     const g: number = Math.floor(Math.random() * 255);
     const b: number = Math.floor(Math.random() * 255);
-    // const a: number = Math.round(Math.random());
     const strokeAlpha = this.shapeService.strokeEnable ? 1 : 0;
     const fillAlpha = this.shapeService.fillEnable ? 1 : 0;
     this.fill = this.TEMPORARYsetRGBAColor(r, g, b, fillAlpha);

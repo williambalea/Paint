@@ -1,24 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { ShapesService } from '../../services/shapes/shapes.service';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ShapesService } from '../../services/shapes/shapes.service';
 
 @Component({
   selector: 'app-delete-confirmation',
   templateUrl: './delete-confirmation.component.html',
-  styleUrls: ['./delete-confirmation.component.scss']
+  styleUrls: ['./delete-confirmation.component.scss'],
 })
-export class DeleteConfirmationComponent implements OnInit {
+export class DeleteConfirmationComponent {
 
-  constructor(private shapeService: ShapesService,private dialogRef: MatDialogRef<DeleteConfirmationComponent>) { }
+  constructor(private shapeService: ShapesService, private dialogRef: MatDialogRef<DeleteConfirmationComponent>) { }
 
-  ngOnInit() {
-  }
-  message: string = "Are you sure?"
-  
-  clear() : void {
+  message = 'Are you sure?';
+
+  clear(): void {
     this.shapeService.clearShapes();
     this.dialogRef.close(true);
   }
- 
-
 }

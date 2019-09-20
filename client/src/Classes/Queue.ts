@@ -6,7 +6,7 @@ export class Queue<T> {
     store: T[];
 
     push(val: T) {
-        if(this.store.length === 10) {
+        if (this.store.length === 10) {
             this.pop();
         }
         if (this.store.indexOf(val) === -1) {

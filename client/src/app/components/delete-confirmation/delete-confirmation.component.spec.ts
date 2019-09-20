@@ -8,7 +8,7 @@ describe('DeleteConfirmationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeleteConfirmationComponent ]
+      declarations: [ DeleteConfirmationComponent ],
     })
     .compileComponents();
   }));

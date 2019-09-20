@@ -1,8 +1,8 @@
 import { Component, Input} from '@angular/core';
-import {Preview} from '../../../../../common/interface/preview'
-import {Rectangle} from '../../services/shapes/classes/rectangle'
-import {Shape} from '../../services/shapes/classes/shape'
-import { ShapesService } from '../../services/shapes/shapes.service'
+import {Preview} from '../../../../../common/interface/preview';
+import {Rectangle} from '../../services/shapes/classes/rectangle';
+import {Shape} from '../../services/shapes/classes/shape';
+import { ShapesService } from '../../services/shapes/shapes.service';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -25,7 +25,7 @@ export class AttributeBarComponent {
   brushState = false;
   shapeStrokeColor = 'Define me!';
   shapeFillColor = 'Define me!';
-  shapeStrokeWidth: Number = 1;
+  shapeStrokeWidth = 1;
   shapeFillType = 'Define me!';
 
   strokeColor = 'Define me!';
@@ -34,9 +34,9 @@ export class AttributeBarComponent {
 
   currentBrushTexture = ' Style #1';
 
-  show= true;
+  show = true;
 
-  rectangle: Rectangle = new Rectangle(1, 2, 3, 4,'black', "black", 5);
+  rectangle: Rectangle = new Rectangle(1, 2, 3, 4, 'black', 'black', 5);
 
  selectBrush(): void {
    if (confirm('Are you sure you wish to chose the brush ?')) {
@@ -130,7 +130,7 @@ assignStrokeColor(value: string) {
 
 assignFillColor(value: string) {
   console.log(value);
-  if (confirm('Are you sure you wish to enter: '+ value +' ?')) {
+  if (confirm('Are you sure you wish to enter: ' + value + '?')) {
     this.shapeFillColor = value;
   }
   return false;
@@ -138,7 +138,7 @@ assignFillColor(value: string) {
 
 assignPrimaryColor(value: string) {
   console.log(value);
-  if (confirm('Are you sure you wish to enter: '+ value + " ?")) {
+  if (confirm('Are you sure you wish to enter: ' + value + '?')) {
     this.strokeColor = value;
   }
   return false;
@@ -146,7 +146,7 @@ assignPrimaryColor(value: string) {
 
 assignSecondaryColor(value: string) {
   console.log(value);
-  if (confirm('Are you sure you wish to enter: '+ value +' ?')) {
+  if (confirm('Are you sure you wish to enter: ' + value + '?')) {
     this.fillColor = value;
   }
   return false;

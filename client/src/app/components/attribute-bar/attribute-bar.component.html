@@ -6,7 +6,7 @@
     </div>
     <div class="singleAttribute">
             <div class="sectionHeader">
-                    Stroke: {{this.shapeService.strokeWidth}}
+                    Stroke:
             </div>
             <br>
             Current Stroke Width: <b class= "dynamicValue">{{this.shapeService.strokeWidth}}</b> px            <br>
@@ -101,12 +101,50 @@
                             
                             <br>
                                     Brush texture:
-                                    <br><button mat-button (click)="assignBrushTexture('option1')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #1</button>
-                                    <br><button mat-button (click)="assignBrushTexture('option2')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #2</button>
-                                    <br><button mat-button (click)="assignBrushTexture('option3')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #3</button>
-                                    <br><button mat-button (click)="assignBrushTexture('option4')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #4</button>
-                                    <br><button mat-button (click)="assignBrushTexture('option5')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #5</button>
+                                    
                     </label>
+                    <div>
+                        <label>
+                                <input
+                                type="radio"
+                                name="rectangleType"
+                                value="Style #1"
+                                (change)="radioChangeHandlerBrush($event)" >
+                                Style #1
+                        </label><br>
+                        <label>
+                                <input
+                                type="radio"
+                                name="rectangleType"
+                                value="Style #2"
+                                (change)="radioChangeHandlerBrush($event)" >
+                                Style #2
+                        </label><br>
+                        <label>
+                                <input
+                                type="radio"
+                                name="rectangleType"
+                                value="Style #3"
+                                (change)="radioChangeHandlerBrush($event)" checked>
+                                Style #3
+                        </label><br>
+                        <label>
+                                <input
+                                type="radio"
+                                name="rectangleType"
+                                value="Style #4"
+                                (change)="radioChangeHandlerBrush($event)" checked>
+                                Style #4
+                        </label><br>
+                        <label>
+                                <input
+                                type="radio"
+                                name="rectangleType"
+                                value="Style #5"
+                                (change)="radioChangeHandlerBrush($event)" checked>
+                                Style #5
+                        </label><br>
+                </div>
             </div>
     </div>
     <div class="singleAttribute">

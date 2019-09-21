@@ -18,6 +18,8 @@ export class AttributeBarComponent {
   @Input()showColorTool: boolean;
   @Input()showPipette: boolean;
 
+  selectedType = 'Bordered & Filled';
+
   constructor(private shapeService: ShapesService) {}
   preview: Preview;
 
@@ -26,7 +28,6 @@ export class AttributeBarComponent {
   shapeStrokeColor = 'Define me!';
   shapeFillColor = 'Define me!';
   shapeStrokeWidth = 1;
-  shapeFillType = 'Define me!';
 
   strokeColor = 'Define me!';
   strokeWidth = 1;
@@ -46,27 +47,29 @@ export class AttributeBarComponent {
     this.brushState = false;
   }
 
-  assignType1Fill() {
-    this.shapeFillType = 'Type #1';
-    this.shapeService.strokeEnable = true;
-    this.shapeService.fillEnable = false;
-    this.shapeService.removeColor(this.shapeService.fillColor);
-    return false;
+  radioChangeHandler(event: { target: {value: string}; }) {
+    this.selectedType = event.target.value;
+    this.assignRectangleType();
   }
 
-  assignType2Fill() {
-    this.shapeFillType = 'Type #2';
-    this.shapeService.strokeEnable = false;
-    this.shapeService.removeColor(this.shapeService.strokeColor);
-    this.shapeService.fillEnable = true;
-    return false;
-  }
-
-  assignType3Fill() {
-    this.shapeFillType = 'Type #3';
-    this.shapeService.strokeEnable = true;
-    this.shapeService.fillEnable = true;
-    return false;
+  assignRectangleType() {
+    switch (this.selectedType) {
+      case 'Bordered':
+        this.shapeService.strokeEnable = true;
+        this.shapeService.fillEnable = false;
+        this.shapeService.removeColor(this.shapeService.fillColor);
+        break;
+      case 'Filled':
+        this.shapeService.strokeEnable = false;
+        this.shapeService.removeColor(this.shapeService.strokeColor);
+        this.shapeService.fillEnable = true;
+        break;
+      case 'Bordered & Filled':
+        this.shapeService.strokeEnable = true;
+        this.shapeService.fillEnable = true;
+        break;
+      default:
+    }
   }
 
   assignBrushTexture(parameter: string) {

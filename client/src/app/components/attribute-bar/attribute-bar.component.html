@@ -1,142 +1,143 @@
 <div class="attributeBar" >
-        <div class = "placeHolder" *ngIf="this.showRectangle">
+    <div class = "placeHolder" *ngIf="this.showRectangle">
+    <br>
+    <div class="header">
+            <div style="font-weight:900">Rectangle Tool</div>
+    </div>
+    <div class="singleAttribute">
+            <div class="sectionHeader">
+                    Stroke: {{this.shapeService.strokeWidth}}
+            </div>
             <br>
-                <div class="header">
-                        <div style="font-weight:900">Outil de rectangle</div>
-                </div>
-                <div class="singleAttribute">
-                        <div class="sectionHeader">
-                                Stroke:
-                        </div>
-                        <br>
-                    Current Stroke Width: <b class= "dynamicValue">{{this.shapeService.strokeWidth}}</b> px
-
+            Current Stroke Width: <b class= "dynamicValue">{{this.shapeService.strokeWidth}}</b> px            <br>
+                    <label >
                     <br>
-                            <label >
-                                <br>
-                                
-                                <form (submit)="assignStrokeWidth(value.value)">
-                                        Stroke width:
-                                        <input #value type="text" placeholder="width in pixels"/> 
-                                </form>
-                                
-                        </label>
-                </div>
-                    <div class="singleAttribute">
-                        <label>
-                                <div class="sectionHeader">
-                                        Fill:
-                                </div>
-                                <br>
-                                <div class="attributeHeader">
-                                        Current fill type:   <b class= "dynamicValue">{{this.shapeFillType}}</b>
-                                </div>
-                                <br>
-                                <p>
-                                Please select one of the following 3:
-                                </p>
-                                <div (click)="assignType1Fill()">
-                                        <input type="radio">
-                                        <label>Bordered</label>
-                                </div>
-                                <div (click)="assignType2Fill()">
-                                        <input type="radio">
-                                        <label>Filled</label>
-                                </div>
-                                <div (click)="assignType3Fill()">
-                                        <input type="radio">
-                                        <label>Bordered and Filled</label>
-                                </div>
-                        <br>
-                        </label>
-                        <br>
-                        
- 
-            </div>
+                    
+                    <form (submit)="assignStrokeWidth(value.value)">
+                            Stroke width:
+                            <input #value type="text" placeholder="width in pixels"/> 
+                    </form>
+                    
+            </label>
+    </div>
             <div class="singleAttribute">
-                        <label>
-                        </label>
-        
-                        <div class="sectionHeader">
-                                        Color:
-                        </div>
-                        <div class="card">
-                                        <app-color-picker></app-color-picker>
-                                    </div>
-                            </div>
-                            <br>
+            <label>
+                    <div class="sectionHeader">
+                            Fill:
                     </div>
-            <!-- Cercle ?  -->
-            <div class="placeHolder" *ngIf="this.showCircle">
-                        PLACEHOLDER CERCLE (?)
+                    <br>
+                    <div class="attributeHeader">
+                            Current fill type:   <b class= "dynamicValue">{{this.selectedType}}</b>
+                    </div>
+                    <br>
+                    <p>
+                    Please select one of the following 3:
+                    </p>
+                    <div>
+                            <label>
+                                    <input
+                                    type="radio"
+                                    name="rectangleType"
+                                    value="Bordered"
+                                    (change)="radioChangeHandler($event)" >
+                                    Bordered
+                            </label><br>
+                            <label>
+                                    <input
+                                    type="radio"
+                                    name="rectangleType"
+                                    value="Filled"
+                                    (change)="radioChangeHandler($event)" >
+                                    Filled
+                            </label><br>
+                            <label>
+                                    <input
+                                    type="radio"
+                                    name="rectangleType"
+                                    value="Bordered & Filled"
+                                    (change)="radioChangeHandler($event)" checked>
+                                    Bordered & Filled
+                            </label>
+                    </div>
+            <br>
+            </label>
+            <br>
+                </div>
+    <div class="singleAttribute">
+            <label>
+            </label>            <div class="sectionHeader">
+                            Color:
             </div>
-            <!-- Outil de dessin -->
-            <div class="placeHolder" *ngIf="this.showDrawTool">
-                <br>
-                <div class="header">
-                        <div style="font-weight:900">Outil de dessin</div>
-                </div>
-                <div class="singleAttribute">
-                                <div class="sectionHeader">
-                                        Drawing tool:
-                                        <br>
-                                        <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
-                                        <button mat-button (click)="selectBrush()" class ="square_icon"><mat-icon>crop_square</mat-icon>Brush</button>
-                                        <button mat-button (click)="selectPen()" class ="square_icon"><mat-icon>crop_square</mat-icon>Pencil</button>
-                                </div>
-                        <!-- si le tool est un brush -->
-                        <div *ngIf="brushState==1">
-                                <label >
-                                        <br>
-                                                Current Brush Texture: <b class= "dynamicValue">{{this.currentBrushTexture}}</b>
-                                        <br>
-                                        
-                                        <br>
-                                                Brush texture:
-                                                <br><button mat-button (click)="assignBrushTexture('option1')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #1</button>
-                                                <br><button mat-button (click)="assignBrushTexture('option2')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #2</button>
-                                                <br><button mat-button (click)="assignBrushTexture('option3')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #3</button>
-                                                <br><button mat-button (click)="assignBrushTexture('option4')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #4</button>
-                                                <br><button mat-button (click)="assignBrushTexture('option5')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #5</button>
-                                </label>
-                        </div>
-                </div>
-                <div class="singleAttribute">
-                        <div class="sectionHeader">
-                                Stroke:
-                        </div>
-                        <br>
-                        Current Stroke Width: <b class= "dynamicValue">{{this.strokeWidth}}</b>
-                        
-                        px
-                        <br>
-                        <label >
-                                <br>
-                                <form (submit)="assignDrawStrokeWidth(value.value)">
-                                        Stroke width:
-                                        <input #value type="text" placeholder="width in pixels"/> 
-                                </form>
-                        </label>
-                </div>
-                <div class="singleAttribute">
-                <label>
-                </label>
-
-                <div class="sectionHeader">
-                                Color:
-                </div>
-                <div class="card">
-                                <app-color-picker></app-color-picker>
+            <div class="card">
+                            <app-color-picker></app-color-picker>
                             </div>
                     </div>
                     <br>
-            </div> 
-            <div class="placeHolder" *ngIf="this.showPipette">
-                        PLACEHOLDER PIPETTE
-            </div> 
+            </div>
+    <!-- Cercle ?  -->
+    <div class="placeHolder" *ngIf="this.showCircle">
+            PLACEHOLDER CERCLE (?)
+    </div>
+    <!-- Outil de dessin -->
+    <div class="placeHolder" *ngIf="this.showDrawTool">
+    <br>
+    <div class="header">
+            <div style="font-weight:900">Outil de dessin</div>
+    </div>
+    <div class="singleAttribute">
+                    <div class="sectionHeader">
+                            Drawing tool:
+                            <br>
+                            <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
+                            <button mat-button (click)="selectBrush()" class ="square_icon"><mat-icon>crop_square</mat-icon>Brush</button>
+                            <button mat-button (click)="selectPen()" class ="square_icon"><mat-icon>crop_square</mat-icon>Pencil</button>
+                    </div>
+            <!-- si le tool est un brush -->
+            <div *ngIf="brushState==1">
+                    <label >
+                            <br>
+                                    Current Brush Texture: <b class= "dynamicValue">{{this.currentBrushTexture}}</b>
+                            <br>
+                            
+                            <br>
+                                    Brush texture:
+                                    <br><button mat-button (click)="assignBrushTexture('option1')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #1</button>
+                                    <br><button mat-button (click)="assignBrushTexture('option2')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #2</button>
+                                    <br><button mat-button (click)="assignBrushTexture('option3')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #3</button>
+                                    <br><button mat-button (click)="assignBrushTexture('option4')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #4</button>
+                                    <br><button mat-button (click)="assignBrushTexture('option5')" class ="square_icon"><mat-icon>crop_square</mat-icon>Style #5</button>
+                    </label>
+            </div>
+    </div>
+    <div class="singleAttribute">
+            <div class="sectionHeader">
+                    Stroke:
+            </div>
+            <br>
+            Current Stroke Width: <b class= "dynamicValue">{{this.strokeWidth}}</b>
             
-          
+            px
+            <br>
+            <label >
+                    <br>
+                    <form (submit)="assignDrawStrokeWidth(value.value)">
+                            Stroke width:
+                            <input #value type="text" placeholder="width in pixels"/> 
+                    </form>
+            </label>
+    </div>
+    <div class="singleAttribute">
+    <label>
+    </label>    <div class="sectionHeader">
+                    Color:
+    </div>
+    <div class="card">
+                    <app-color-picker></app-color-picker>
+                    </div>
+            </div>
+            <br>
+    </div> 
+    <div class="placeHolder" *ngIf="this.showPipette">
+            PLACEHOLDER PIPETTE
+    </div>
 </div>
-
-
-

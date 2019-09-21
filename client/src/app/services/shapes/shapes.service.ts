@@ -34,6 +34,7 @@ export class ShapesService {
     // TODO: set default values for rectangles
     this.fillColor = 'rgba(255,255,255,255)';
     this.strokeColor = 'rgba(255,255,255,255)';
+    this.strokeWidth = 1;
   }
 
   setMouseOrigin(event: MouseEvent): void {

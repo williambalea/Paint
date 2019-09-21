@@ -7,28 +7,43 @@ import { NewFileModalwindowComponent } from '../components/new-file-modalwindow/
   providedIn: 'root',
 })
 export class FileParametersServiceService {
-
- canvasWidth = new BehaviorSubject<number>(500);
- canvasHeight = new BehaviorSubject<number>(500);
- canvasColor = new BehaviorSubject<string>('white');
+  tempx : number;
+  tempy : number;
+  tempz : string;
+ // Observable navItem source
+ canvasWidth = new BehaviorSubject<number>(window.innerWidth);
+ canvasHeight = new BehaviorSubject<number>(window.innerHeight);
+ canvasColor = new BehaviorSubject<string>("white");
+ // Observable navItem stream
  canvaswidth$ = this.canvasWidth.asObservable();
  canvasheight$ = this.canvasHeight.asObservable();
- canvascolor$ = this.canvasColor.asObservable();
- dialogRef: MatDialogRef<NewFileModalwindowComponent, any> ;
- newFile = false;
 
- changeParameters(widht: number, height: number, color: string) {
+ dialogRef: MatDialogRef<NewFileModalwindowComponent, any> ;
+ newFile : boolean = false;
+
+ changeParameters(widht: number, height: number) {
+   console.log("service", widht);
    this.canvasWidth.next(widht);
    this.canvasHeight.next(height);
-   this.canvasColor.next(color);
  }
 
-  subscribeToChanges(dialogref: MatDialogRef<NewFileModalwindowComponent, any>) {
-    dialogref.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      this.canvasWidth = result;
-      console.log('essai', this.canvasWidth);
-    });
+ 
+  
+  constructor() {
+   }
 
+
+  subscribeToChanges(dialogref : MatDialogRef<NewFileModalwindowComponent, any>) {
+    dialogref.afterClosed().subscribe(result => {
+      this.canvasWidth = result;
+    });
   }
+  
+  setParameters(canvaswidth: number,canvasheight: number): void {
+    this.tempx = canvaswidth;
+    this.tempy = canvasheight;
+   
+    console.log(this.canvasWidth,this.canvasHeight);
+  }
+
 }

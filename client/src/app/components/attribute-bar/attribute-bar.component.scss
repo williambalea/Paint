@@ -1,24 +1,28 @@
 .attributeBar {
-  overflow: hidden;
+  overflow: auto;
   background-color: lightgrey;
   position: fixed; 
   top: 0; 
   left:4% ;
-  width: 16%;
+  width: 25%;
   height: 100%;
   overflow-y: auto;
+
 }
 
 .singleAttribute{
   border-style:solid;
   border-style:solid;
-  border-width: 2px;
+  border-width: 1px;
   border-color:black;
   background-color: rgb(198, 195, 199);
   margin-top: 1%;
   margin-bottom: 1%;
   margin-right: 1%;
   margin-left: 1%;
+  left:0;
+  width: 85%;
+
 }
 
 .header{
@@ -53,3 +57,27 @@
   color:red;
   font-weight: 20;
 }
+
+.colorPicker{
+  position: absolute;
+  left: 0;
+  bottom:0;
+  border-style:solid;
+  border-style:solid;
+  border-width: 1px;
+  border-color:black;
+  background-color: rgb(198, 195, 199);
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-right: 1%;
+  margin-left: 1%;
+  width: 85%;
+}
+
+.content{
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+

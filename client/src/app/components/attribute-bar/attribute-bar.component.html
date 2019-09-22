@@ -18,10 +18,9 @@
             Current Stroke Width: <b class= "dynamicValue">{{this.shapeService.strokeWidth}}</b> px
 					<br>
 					<br>                    
-                    <form (submit)="assignStrokeWidth(value.value)">
-                            Stroke width:
-                            <input #value type="text" placeholder="width in pixels"/> 
-                    </form>
+                    <div>
+                        <input style="width: 95%" type="range" #slider min="1" max="25" value={{this.shapeStrokeWidth}} class="slider" id="shape" (change)="shapeWidthSlider(slider.value)">
+                    </div>
     </div>
         <div class="singleAttribute">
                     <div class="sectionHeader">
@@ -147,10 +146,9 @@
             <br>
             <label >
                     <br>
-                    <form (submit)="assignDrawStrokeWidth(value.value)">
-                            Stroke width:
-                            <input #value type="text" placeholder="width in pixels"/> 
-                    </form>
+                    <div>
+                         <input style="width: 83%" type="range" #slider min="1" max="25" value={{this.strokeWidth}} class="slider" id="drawTool" (change)="widthSlider(slider.value)">
+                    </div>
             </label>
     </div>
             <br>

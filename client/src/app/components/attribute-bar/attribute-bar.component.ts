@@ -117,4 +117,11 @@ export class AttributeBarComponent {
     return false;
   }
 
+  shapeWidthSlider(value: number): void {
+    this.shapeService.strokeWidth = value;
+  }
+
+  widthSlider(value: number): void {
+    this.strokeWidth = value;
+  }
 }

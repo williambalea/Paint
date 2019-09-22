@@ -16,9 +16,8 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 export class DrawingSpaceComponent implements OnInit {
   canvasWidth: number ;
   canvasHeight: number ;
- 
   subscription: Subscription;
-  width = 0;
+  width: number;
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
@@ -29,6 +28,7 @@ export class DrawingSpaceComponent implements OnInit {
                private fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
     this.enableKeyPress = false;
+    this.width = 0;
   }
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class DrawingSpaceComponent implements OnInit {
 
     this.subscription = this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
-       console.log("drawingspace",this.width);
+    console.dir('drawingspace', this.width);
     this.subscription = this.fileParameters.canvasheight$
        .subscribe((canvasHeight) => this.canvasHeight = canvasHeight);
 

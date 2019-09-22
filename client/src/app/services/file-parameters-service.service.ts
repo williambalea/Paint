@@ -7,43 +7,39 @@ import { NewFileModalwindowComponent } from '../components/new-file-modalwindow/
   providedIn: 'root',
 })
 export class FileParametersServiceService {
-  tempx : number;
-  tempy : number;
-  tempz : string;
- // Observable navItem source
- canvasWidth = new BehaviorSubject<number>(window.innerWidth);
- canvasHeight = new BehaviorSubject<number>(window.innerHeight);
- canvasColor = new BehaviorSubject<string>("white");
- // Observable navItem stream
- canvaswidth$ = this.canvasWidth.asObservable();
- canvasheight$ = this.canvasHeight.asObservable();
+  tempx: number;
+  tempy: number;
+  tempz: string;
+  canvasWidth = new BehaviorSubject<number>(window.innerWidth);
+  canvasHeight = new BehaviorSubject<number>(window.innerHeight);
+  canvasColor = new BehaviorSubject<string>('white');
+  canvaswidth$ = this.canvasWidth.asObservable();
+  canvasheight$ = this.canvasHeight.asObservable();
 
- dialogRef: MatDialogRef<NewFileModalwindowComponent, any> ;
- newFile : boolean = false;
+  dialogRef: MatDialogRef<NewFileModalwindowComponent, any> ;
+  newFile: boolean;
 
- changeParameters(widht: number, height: number) {
-   console.log("service", widht);
-   this.canvasWidth.next(widht);
-   this.canvasHeight.next(height);
- }
+  changeParameters(widht: number, height: number) {
+    console.dir('service', widht);
+    this.canvasWidth.next(widht);
+    this.canvasHeight.next(height);
+  }
 
- 
-  
   constructor() {
-   }
+    this.newFile = false;
+  }
 
-
-  subscribeToChanges(dialogref : MatDialogRef<NewFileModalwindowComponent, any>) {
-    dialogref.afterClosed().subscribe(result => {
+  subscribeToChanges(dialogref: MatDialogRef<NewFileModalwindowComponent, any>) {
+    dialogref.afterClosed().subscribe((result) => {
       this.canvasWidth = result;
     });
   }
-  
-  setParameters(canvaswidth: number,canvasheight: number): void {
+
+  setParameters(canvaswidth: number, canvasheight: number): void {
     this.tempx = canvaswidth;
     this.tempy = canvasheight;
-   
-    console.log(this.canvasWidth,this.canvasHeight);
+
+    console.dir(this.canvasWidth, this.canvasHeight);
   }
 
 }

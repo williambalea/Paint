@@ -1,29 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
-
-
+import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 
 @Component({
   selector: 'app-delete-confirmation',
   templateUrl: './delete-confirmation.component.html',
   styleUrls: ['./delete-confirmation.component.scss'],
 })
-export class DeleteConfirmationComponent implements OnInit {
+export class DeleteConfirmationComponent {
 
-  constructor(private shapeService: ShapesService,private dialogRef: MatDialogRef<DeleteConfirmationComponent>,private fileParameters: FileParametersServiceService) { }
- 
-  ngOnInit() {
-  }
-  message: string = "Are you sure?"
-  
-  
+  message: string;
+  constructor( private shapeService: ShapesService,
+               private dialogRef: MatDialogRef<DeleteConfirmationComponent>,
+               private fileParameters: FileParametersServiceService) {
+                 this.message = 'Are you sure?';
+               }
 
-  clear() : void {
-  
+  clear(): void {
     this.shapeService.clearShapes();
-    this.fileParameters.changeParameters(this.fileParameters.tempx,this.fileParameters.tempy);
+    this.fileParameters.changeParameters(this.fileParameters.tempx, this.fileParameters.tempy);
     this.dialogRef.close(true);
   }
 }

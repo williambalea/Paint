@@ -22,7 +22,9 @@ export class DrawingSpaceComponent implements OnInit {
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
-  previewActive = false;
+  temporaryToRemovePlease = false;
+  pathClick = false;
+  path = '';
 
   constructor( private dialog: MatDialog,
                private shapeService: ShapesService,
@@ -99,30 +101,46 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
-    this.colorService.setMakingColorChanges(false);
-    this.shapeService.setMouseOrigin(event);
-    this.shapeService.fillColor = this.colorService.getFillColor();
-    this.shapeService.strokeColor = this.colorService.getStrokeColor();
-    this.shapeService.setRectangleType();
+    if (this.temporaryToRemovePlease) {
+      // TODO: select correct tool
+      this.colorService.setMakingColorChanges(false);
+      this.shapeService.setMouseOrigin(event);
+      this.shapeService.fillColor = this.colorService.getFillColor();
+      this.shapeService.strokeColor = this.colorService.getStrokeColor();
+      this.shapeService.setRectangleType();
+    }
+    this.pathClick = true;
+    this.path += `M${event.offsetX} ${event.offsetY}`;
   }
 
   @HostListener('mousemove', ['$event'])
   setPreviewOffset(event: MouseEvent): void {
-    this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
-    if (this.shapeService.preview.active) {
-      if (this.shiftPressed) {
-        this.shapeService.setSquareOffset();
-      } else {
-        this.shapeService.setRectangleOffset();
+    if (this.temporaryToRemovePlease) {
+      // TODO: select correct tool
+      this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
+      if (this.shapeService.preview.active) {
+        if (this.shiftPressed) {
+          this.shapeService.setSquareOffset();
+        } else {
+          this.shapeService.setRectangleOffset();
+        }
       }
+    }
+    if (this.pathClick) {
+      // TODO: select correct tool
+      this.path += `L${event.offsetX} ${event.offsetY}`;
     }
   }
 
   @HostListener('mouseup')
   drawShape(): void {
-    this.shapeService.preview.active = false;
-    this.shapeService.drawRectangle();
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
+    if (this.temporaryToRemovePlease) {
+      // TODO: select correct tool
+      this.shapeService.preview.active = false;
+      this.shapeService.drawRectangle();
+      this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
+    }
+    this.pathClick = false;
   }
 
   TEMPORARYsetRGBAColor(r: number, g: number, b: number, a: number): string {

@@ -15,6 +15,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 })
 export class DrawingSpaceComponent implements OnInit {
   @Input()selectedTool: tool;
+
   canvasWidth: number ;
   canvasHeight: number ;
   canvasColor: string ;
@@ -23,7 +24,6 @@ export class DrawingSpaceComponent implements OnInit {
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
-  temporaryToRemovePlease = false;
   pathClick = false;
   path = '';
 
@@ -102,50 +102,113 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
-    if (this.temporaryToRemovePlease) {
-      // TODO: select correct tool
-      this.colorService.setMakingColorChanges(false);
-      this.shapeService.setMouseOrigin(event);
-      this.shapeService.fillColor = this.colorService.getFillColor();
-      this.shapeService.strokeColor = this.colorService.getStrokeColor();
-      this.shapeService.setRectangleType();
+    switch (this.selectedTool) {
+      case tool.rectangle:
+        this.mouseDownRectangle(event);
+        break;
+
+      case tool.circle:
+        break;
+
+      case tool.draw:
+        this.mouseDownPencil(event);
+        break;
+
+      case tool.color:
+          break;
+
+      case tool.pipette:
+          break;
+
+      default:
     }
+  }
+
+  mouseDownRectangle(event: MouseEvent): void {
+    this.colorService.setMakingColorChanges(false);
+    this.shapeService.setMouseOrigin(event);
+    this.shapeService.fillColor = this.colorService.getFillColor();
+    this.shapeService.strokeColor = this.colorService.getStrokeColor();
+    this.shapeService.setRectangleType();
+  }
+
+  mouseDownPencil(event: MouseEvent): void {
     this.pathClick = true;
-    this.path += `M${event.offsetX} ${event.offsetY}`;
+    this.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
   }
 
   @HostListener('mousemove', ['$event'])
-  setPreviewOffset(event: MouseEvent): void {
-    if (this.temporaryToRemovePlease) {
-      // TODO: select correct tool
-      this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
-      if (this.shapeService.preview.active) {
-        if (this.shiftPressed) {
-          this.shapeService.setSquareOffset();
-        } else {
-          this.shapeService.setRectangleOffset();
-        }
+  onMouseMove(event: MouseEvent): void {
+    switch (this.selectedTool) {
+      case tool.rectangle:
+        this.mouseMoveRectangle(event);
+        break;
+
+      case tool.circle:
+        break;
+
+      case tool.color:
+        break;
+
+      case tool.draw:
+        this.mouseMovePencil(event);
+        break;
+
+      case tool.pipette:
+        break;
+
+      default:
+    }
+  }
+
+  mouseMoveRectangle(event: MouseEvent): void {
+    this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
+    if (this.shapeService.preview.active) {
+      if (this.shiftPressed) {
+        this.shapeService.setSquareOffset();
+      } else {
+        this.shapeService.setRectangleOffset();
       }
     }
+  }
+
+  mouseMovePencil(event: MouseEvent): void {
     if (this.pathClick) {
-      // TODO: select correct tool
       this.path += `L${event.offsetX} ${event.offsetY}`;
     }
   }
 
   @HostListener('mouseup')
-  drawShape(): void {
-    if (this.temporaryToRemovePlease) {
-      // TODO: select correct tool
-      this.shapeService.preview.active = false;
-      this.shapeService.drawRectangle();
-      this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
+  onMouseUp(): void {
+    switch (this.selectedTool) {
+      case tool.rectangle:
+        this.mouseUpRectangle();
+        break;
+
+      case tool.circle:
+        break;
+
+      case tool.color:
+        break;
+
+      case tool.draw:
+        this.mouseUpPencil();
+        break;
+
+      case tool.pipette:
+        break;
+
+      default:
     }
+  }
+
+  mouseUpRectangle(): void {
+    this.shapeService.preview.active = false;
+    this.shapeService.drawRectangle();
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
+  }
+
+  mouseUpPencil(): void {
     this.pathClick = false;
   }
-
-  TEMPORARYsetRGBAColor(r: number, g: number, b: number, a: number): string {
-    return `rgb(${r},${g},${b},${a})`;
-  }
-
 }

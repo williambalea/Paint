@@ -21,7 +21,6 @@
 }
 
 .lastTen1 {
-  background-color: lightgray;
   margin-top: 16px;
   display: flex;
   width: 90%;
@@ -33,7 +32,6 @@
 }
 
 .lastTen2 {
-  background-color: lightgray;
   margin-top: 16px;
   display: flex;
   width: 90%;
@@ -77,6 +75,10 @@
   margin-bottom: 5%;
 }
 
-.slidecontainer{
+.slidecontainer {
   margin-left: 20%;
+}
+
+.changeButton {
+  margin-inline-start: -5%;
 }

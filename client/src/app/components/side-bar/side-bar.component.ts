@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ColorService } from 'src/app/services/color/color.service';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 
 @Component({
@@ -18,7 +19,7 @@ export class SideBarComponent {
   canvasWidth: number;
   newFile = false;
 
-  constructor(private dialog: MatDialog ) {
+  constructor(private dialog: MatDialog, private colorService: ColorService) {
 
   }
 
@@ -64,6 +65,7 @@ export class SideBarComponent {
   }
 
   createNewFile() {
-  this.dialog.open(NewFileModalwindowComponent);
+    this.dialog.open(NewFileModalwindowComponent);
+    this.colorService.setMakingColorChanges(true);
   }
 }

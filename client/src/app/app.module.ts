@@ -51,6 +51,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    ReactiveFormsModule,
   ],
   entryComponents: [
     EntryPointComponent,

@@ -1,4 +1,5 @@
 import { Component, Input} from '@angular/core';
+import { tool } from '../../../../../common/constants';
 import {Preview} from '../../../../../common/interface/preview';
 import {Rectangle} from '../../services/shapes/classes/rectangle';
 import {Shape} from '../../services/shapes/classes/shape';
@@ -11,17 +12,15 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 })
 
 export class AttributeBarComponent {
-  @Input() test: number;
-  @Input()showRectangle: boolean;
-  @Input()showCircle: boolean;
-  @Input()showDrawTool: boolean;
-  @Input()showColorTool: boolean;
-  @Input()showPipette: boolean;
+  tool = tool;
+  @Input()selectedTool: tool;
 
   selectedType = 'Bordered & Filled';
 
   constructor(private shapeService: ShapesService) {}
   preview: Preview;
+
+  get toolTypes() { return tool; }
 
   currentShape: Shape;
   brushState = false;

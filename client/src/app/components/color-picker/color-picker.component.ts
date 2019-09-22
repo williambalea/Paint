@@ -75,7 +75,7 @@ export class ColorPickerComponent implements OnInit {
   }
 
   changeBackgroundColor(): void {
-    const elem: HTMLElement = document.getElementsByClassName('drawingBoard')[0] as HTMLElement;
+    const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
     if (this.usingPrimary) {
       elem.style.background = this.colorService.getFillColor();
     } else {

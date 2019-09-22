@@ -16,22 +16,21 @@ export class NewFileModalwindowComponent implements OnInit {
   form: FormGroup;
   control: FormControl;
   customErrors = {required: 'Please accept the terms'}
-  canvasWidth : number;
+  canvasWidth: number;
   canvasHeight: number;
 
-
- 
-  constructor(private fileParameters: FileParametersServiceService,private dialog: MatDialog,private shapeService: ShapesService,private builder: FormBuilder,public dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
-    
+  constructor(private fileParameters: FileParametersServiceService,
+              private dialog: MatDialog,
+              private shapeService: ShapesService,
+              private builder: FormBuilder,
+              public dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
   }
- 
-
 
   ngOnInit() {
     this.control = this.builder.control('', Validators.required);
     this.form = this.builder.group({
       canvaswidth: ['', [Validators.required, Validators.min(0)]],
-      canvasheight: ['',[Validators.required, Validators.min(0)]],
+      canvasheight: ['', [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -39,18 +38,14 @@ export class NewFileModalwindowComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  submitParameters(canvaswidth : number, canvasheight : number){
-    console.log("newfile submit", canvaswidth);
-    if (this.shapeService.shapes.length != 0){
-      console.log("newfile",canvaswidth );
+  submitParameters(canvaswidth: number, canvasheight: number) {
+    console.log('newfile submit', canvaswidth);
+    if (this.shapeService.shapes.length !== 0) {
+      console.log('newfile', canvaswidth );
       this.dialog.open(DeleteConfirmationComponent);
-      this.fileParameters.setParameters(canvaswidth,canvasheight);
-    }
-    else
-    {
-      this.fileParameters.changeParameters(canvaswidth,canvasheight);
+      this.fileParameters.setParameters(canvaswidth, canvasheight);
+    } else {
+      this.fileParameters.changeParameters(canvaswidth, canvasheight);
     }
   }
-    
-
 }

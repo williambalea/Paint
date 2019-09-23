@@ -10,7 +10,7 @@ import {  AfterViewInit,
 @Component({
   selector: 'app-color-slider',
   templateUrl: './color-slider.component.html',
-  styleUrls: ['./color-slider.component.css'],
+  styleUrls: ['./color-slider.component.scss'],
 })
 export class ColorSliderComponent implements AfterViewInit {
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;

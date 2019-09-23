@@ -13,7 +13,7 @@ import { AfterViewInit,
 @Component({
   selector: 'app-color-palette',
   templateUrl: './color-palette.component.html',
-  styleUrls: ['./color-palette.component.css'],
+  styleUrls: ['./color-palette.component.scss'],
 })
 export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   @Input()

@@ -1,18 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ColorService } from 'src/app/services/color/color.service';
 import { ColorPickerComponent } from './color-picker.component';
-
-const colorService: ColorService = new ColorService();
-const colorPickerComponent: ColorPickerComponent = new ColorPickerComponent(colorService);
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('ColorPickerComponent', () => {
-  it('Should initialise attributes correctly', () => {
-    expect(colorPickerComponent).toBe();
-    expect(colorPickerComponent).toBe();
-    expect(colorPickerComponent).toBe();
-    expect(colorPickerComponent).toBe();
-    expect(colorPickerComponent).toBe();
-    expect(colorPickerComponent).toBe();
+  let component: ColorPickerComponent;
+  let fixture: ComponentFixture<ColorPickerComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ColorPickerComponent ],
+      schemas:[
+        CUSTOM_ELEMENTS_SCHEMA
+      ],
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ColorPickerComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });

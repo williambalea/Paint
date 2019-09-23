@@ -9,15 +9,16 @@ import { ColorInputControl } from '../../../Classes/ColorInputControl';
 })
 export class ColorPickerComponent implements OnInit {
 
-  private hue: string;
-  private color: string;
-  private oldPointedColor: string;
-  private colorHex: string;
-  private usingPrimary: boolean;
-  private transparencyString: string;
-  private transparency: number;
-  // private showBar: boolean;
-  private colorInputControl: ColorInputControl = new ColorInputControl();
+  hue: string;
+  test: HTMLElement;
+  color: string;
+  oldPointedColor: string;
+  colorHex: string;
+  usingPrimary: boolean;
+  transparencyString: string;
+  transparency: number;
+  showBar: boolean;
+  colorInputControl: ColorInputControl = new ColorInputControl();
 
   ngOnInit(): void {
     this.sendColorWrapper();
@@ -31,10 +32,7 @@ export class ColorPickerComponent implements OnInit {
     this.transparencyString = '1';
     this.usingPrimary = true;
     this.showBar = false;
-  }
-
-  getHue(): string {
-    return this.hue;
+    this.test = document.getElementById('colorParams') as HTMLElement;
   }
 
   setPrimary(): void {

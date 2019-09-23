@@ -1,0 +1,160 @@
+<div class="attributeBar">
+    <div class="colorPicker">
+        <div class="sectionHeader">
+            Color:
+        </div>
+        <app-color-picker></app-color-picker>
+    </div>
+    <!--Rectangle-->
+    <div *ngIf="this.showRectangle">
+        <div class="header">
+            <div style="font-weight:900">Rectangle Tool</div>
+        </div>
+        <div class="singleAttribute">
+            <div class="sectionHeader">
+                Stroke:
+            </div>
+            <br>
+            Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b> px
+            <br>
+            <br>
+            <div>
+                <input style="width: 95%" type="range" #slider min="1" max="25" value={{this.shapeService.strokeWidth}}
+                    [(ngModel)]="this.shapeService.strokeWidth" class="slider" id="shape"
+                    (change)="shapeWidthSlider(slider.value)">
+            </div>
+        </div>
+        <div class="singleAttribute">
+            <div class="sectionHeader">
+                Fill:
+            </div>
+            <br>
+            <div class="attributeHeader">
+                Current fill type: <b class="dynamicValue">{{this.selectedType}}</b>
+            </div>
+            <br>
+            <div>
+                <p>
+                    Please select one of the following 3:
+                </p>
+                <div class="content">
+                    <label>
+                        <input type="radio" name="rectangleType" value="Bordered" (change)="radioChangeHandler($event)">
+                        Bordered
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Filled" (change)="radioChangeHandler($event)">
+                        Filled
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Bordered & Filled"
+                            (change)="radioChangeHandler($event)" checked>
+                        Bordered & Filled
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- Brush -->
+    <div *ngIf="this.showBrushTool">
+        <div class="header">
+            <div style="font-weight:900">Brush</div>
+        </div>
+        <div class="singleAttribute">
+                <div class="sectionHeader">
+                    Stroke:
+                </div>
+                <br>
+                Current Stroke Width: <b class="dynamicValue">{{this.brushStrokeWidth}}</b> px
+                <br>
+                <label>
+                    <br>
+                    <div>
+                        <input style="width: 83%" type="range" #slider min="1" max="25" value={{this.brushStrokeWidth}}
+                            [(ngModel)]="this.brushStrokeWidth"
+                            class="slider" id="drawTool" (change)="brushWidthSlider(slider.value)">
+                    </div>
+                </label>
+        </div>
+        <div class="singleAttribute">
+            <div class="sectionHeader">
+                Texture
+            </div>
+            <div>
+                <label>
+                    <br>
+                    Current Brush Texture: <b class="dynamicValue">{{this.currentBrushTexture}}</b>
+                    <br>
+                    <br>
+                    Brush texture:
+                </label>
+                <div class="content">
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #1"
+                            (change)="radioChangeHandlerBrush($event)">
+                        Style #1
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #2"
+                            (change)="radioChangeHandlerBrush($event)">
+                        Style #2
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #3"
+                            (change)="radioChangeHandlerBrush($event)" checked>
+                        Style #3
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #4"
+                            (change)="radioChangeHandlerBrush($event)" checked>
+                        Style #4
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #5"
+                            (change)="radioChangeHandlerBrush($event)" checked>
+                        Style #5
+                    </label><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pen -->
+    <div *ngIf="this.showPenTool">
+        <div class="header">
+            <div style="font-weight:900">Pen</div>
+        </div>
+        <div class="singleAttribute">
+            <div class="sectionHeader">
+                Stroke:
+            </div>
+            <br>
+            Current Stroke Width: <b class="dynamicValue">{{this.penStrokeWidth}}</b>
+            px
+            <br>
+            <label>
+                <br>
+                <div>
+                    <input style="width: 83%" type="range" #slider min="1" max="25" value={{this.penStrokeWidth}}
+                        [(ngModel)]="this.penStrokeWidth"
+                        class="slider" id="drawTool" (change)="penWidthSlider(slider.value)">
+                </div>
+            </label>
+        </div>
+        <br>
+    </div>
+    <!-- Applicateur de couleur -->
+    <div *ngIf="this.showPipette">
+        <div class="header">
+                <div style="font-weight:900">Applicateur de couleur</div>
+            </div>
+            <div class="singleAttribute">
+                <div class="sectionHeader">
+                </div>
+                <br>
+                PLACEHOLDER: 
+                <br>
+            </div>
+            <br>
+    </div>
+</div>

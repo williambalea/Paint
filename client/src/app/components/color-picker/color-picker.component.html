@@ -1,0 +1,43 @@
+<div *ngIf="colorService.getMakingColorChanges()">
+  <div class=color-wrapper>
+    <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
+    <app-color-slider (color)="hue=$event" style="margin-left:5%"></app-color-slider>
+  </div>
+  <div class="lastTen1">
+    <span class="color-div" (click)="setColorFromLastTen(0)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(0) || 'white'}"></span>
+    <span class="color-div" (click)="setColorFromLastTen(1)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(1) || 'white'}"></span>
+    <span class="color-div" (click)="setColorFromLastTen(2)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(2) || 'white'}"></span>
+    <span class="color-div" (click)="setColorFromLastTen(3)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(3) || 'white'}"></span>
+    <span class="color-div" (click)="setColorFromLastTen(4)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(4) || 'white'}"></span>
+  </div>
+
+  <div class="lastTen2">
+    <span class="color-div" (click)="setColorFromLastTen(5)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(5) || 'white'}"></span>
+    <span class="color-div" (click)="setColorFromLastTen(6)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(6) || 'white'}"></span>
+    <span class="color-div" (click)="setColorFromLastTen(7)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(7) || 'white'}"></span>
+    <span class="color-div" (click)="setColorFromLastTen(8)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(8) || 'white'}"></span>
+    <span class="color-div" (click)="setColorFromLastTen(9)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(9) || 'white'}"></span>
+  </div>
+  <p>Transparency: {{transparencyString}}</p> 
+  <div class="slidecontainer">
+      <input type="range" #slider min="0" max="255" value={{transparency}} class="slider" id="myRange" (change)="onEnterSlider(slider.value)">
+  </div>
+  <div class="input-wrapper">
+    <div>
+      <sub>0x</sub>
+    </div>
+    <input class="text" type="text" minlength="6" maxlength="6" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}}>
+  </div>
+</div>
+
+<p *ngIf="usingPrimary">Selected Color: Primary</p> 
+<p *ngIf="!usingPrimary">Selected Color: Secondary</p> 
+
+<div (click)="setPrimary()" class="primary" [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
+<div (click)="setSecondary()" class="secondary" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>
+  
+<button class="changeButton" (click)="changeBackgroundColor()">Change background color</button>
+<button (click)="swapColors()">Swap Colors</button>
+
+
+

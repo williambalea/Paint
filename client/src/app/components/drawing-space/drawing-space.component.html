@@ -1,0 +1,33 @@
+<div class="drawingBoard" (window:resize)="onResize($event)">  
+    <svg id="canvas" version="1.1"
+        baseProfile="full"
+        [attr.width]= "this.canvasWidth"
+        [attr.height]= "this.canvasHeight"
+        [style.background-color]= "this.canvasColor"
+        style="border:1px solid black;"
+        xmlns="http://www.w3.org/2000/svg" >
+    <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick($event, shape)" (contextmenu)="onRightClick($event, shape)">
+            <rect [attr.x]="shape.x" 
+            [attr.y]="shape.y" 
+            [attr.width]="shape.width" 
+            [attr.height]="shape.height" 
+            [style.fill]="shape.fill"
+            [style.stroke]="shape.stroke"
+            [style.stroke-width]="shape.strokeWidth"/>
+        </g>
+        
+        <rect *ngIf="this.shapeService.preview.active"
+            [attr.x]="this.shapeService.preview.x" 
+            [attr.y]="this.shapeService.preview.y" 
+            [attr.width]="this.shapeService.preview.width" 
+            [attr.height]="this.shapeService.preview.height" 
+            [style.fill]="this.shapeService.fillColor"
+            [style.stroke]="this.shapeService.strokeColor"
+            [style.stroke-width]="this.shapeService.strokeWidth"/>
+    </svg>          
+
+</div>
+
+ 
+
+

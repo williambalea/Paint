@@ -1,159 +1,141 @@
-<div class="attributeBar" >
+<div class="attributeBar">
     <div class="colorPicker">
-		<div class = "sectionHeader">
-			Color:
-		</div>
-		<app-color-picker></app-color-picker>
+        <div class="sectionHeader">
+            Color:
+        </div>
+        <app-color-picker></app-color-picker>
     </div>
-    
+
     <div *ngIf="this.showRectangle">
-    <div class="header">
+        <div class="header">
             <div style="font-weight:900">Rectangle Tool</div>
-    </div>
-    <div class="singleAttribute">
+        </div>
+        <div class="singleAttribute">
             <div class="sectionHeader">
-                    Stroke:
+                Stroke:
             </div>
             <br>
-            Current Stroke Width: <b class= "dynamicValue">{{this.shapeService.strokeWidth}}</b> px
-					<br>
-					<br>                    
-                    <div>
-                        <input style="width: 95%" type="range" #slider min="1" max="25" value={{this.shapeStrokeWidth}} class="slider" id="shape" (change)="shapeWidthSlider(slider.value)">
-                    </div>
-    </div>
-        <div class="singleAttribute">
-                    <div class="sectionHeader">
-                            Fill:
-                    </div>
-                    <br>
-                    <div class="attributeHeader">
-                            Current fill type:   <b class= "dynamicValue">{{this.selectedType}}</b>
-                    </div>
-					<br>
-					<div>
-                    <p>
-                    Please select one of the following 3:
-                    </p>
-                    <div class="content">
-                            <label>
-                                    <input
-                                    type="radio"
-                                    name="rectangleType"
-                                    value="Bordered"
-                                    (change)="radioChangeHandler($event)" >
-                                    Bordered
-                            </label><br>
-                            <label>
-                                    <input
-                                    type="radio"
-                                    name="rectangleType"
-                                    value="Filled"
-                                    (change)="radioChangeHandler($event)" >
-                                    Filled
-                            </label><br>
-                            <label>
-                                    <input
-                                    type="radio"
-                                    name="rectangleType"
-                                    value="Bordered & Filled"
-                                    (change)="radioChangeHandler($event)" checked>
-                                    Bordered & Filled
-                            </label>
-					</div>
-				</div>
-            </div>         
+            Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b> px
+            <br>
+            <br>
+            <div>
+                <input style="width: 95%" type="range" #slider min="1" max="25" value={{this.shapeService.strokeWidth}}
+                    [(ngModel)]="this.shapeService.strokeWidth" class="slider" id="shape"
+                    (change)="shapeWidthSlider(slider.value)">
+            </div>
         </div>
-                    <br>
+        <div class="singleAttribute">
+            <div class="sectionHeader">
+                Fill:
+            </div>
+            <br>
+            <div class="attributeHeader">
+                Current fill type: <b class="dynamicValue">{{this.selectedType}}</b>
+            </div>
+            <br>
+            <div>
+                <p>
+                    Please select one of the following 3:
+                </p>
+                <div class="content">
+                    <label>
+                        <input type="radio" name="rectangleType" value="Bordered" (change)="radioChangeHandler($event)">
+                        Bordered
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Filled" (change)="radioChangeHandler($event)">
+                        Filled
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Bordered & Filled"
+                            (change)="radioChangeHandler($event)" checked>
+                        Bordered & Filled
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
     <!-- Cercle ?  -->
     <div class="placeHolder" *ngIf="this.showCircle">
-            PLACEHOLDER CERCLE (?)
+        PLACEHOLDER CERCLE (?)
     </div>
     <!-- Outil de dessin -->
     <div *ngIf="this.showDrawTool">
-    <div class="header">
+        <div class="header">
             <div style="font-weight:900">Drawing tool</div>
-    </div>
-    <div class="singleAttribute">
-                    <div class="sectionHeader">
-                            Tool type:
-                            <br>
-                            <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
-                            <button mat-button (click)="selectBrush()" class ="square_icon"><mat-icon>crop_square</mat-icon>Brush</button>
-                            <button mat-button (click)="selectPen()" class ="square_icon"><mat-icon>crop_square</mat-icon>Pencil</button>
-                    </div>
+        </div>
+        <div class="singleAttribute">
+            <div class="sectionHeader">
+                Tool type:
+                <br>
+                <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
+                <button mat-button (click)="selectBrush()" class="square_icon">
+                    <mat-icon>crop_square</mat-icon>Brush
+                </button>
+                <button mat-button (click)="selectPen()" class="square_icon">
+                    <mat-icon>crop_square</mat-icon>Pencil
+                </button>
+            </div>
             <!-- si le tool est un brush -->
             <div *ngIf="brushState==1">
-                    <label >
-                            <br>
-                                    Current Brush Texture: <b class= "dynamicValue">{{this.currentBrushTexture}}</b>
-                            <br>
-                            <br>
-                                    Brush texture:
-                    </label>
-                    <div class="content">
-                        <label>
-                                <input
-                                type="radio"
-                                name="rectangleType"
-                                value="Style #1"
-                                (change)="radioChangeHandlerBrush($event)" >
-                                Style #1
-                        </label><br>
-                        <label>
-                                <input
-                                type="radio"
-                                name="rectangleType"
-                                value="Style #2"
-                                (change)="radioChangeHandlerBrush($event)" >
-                                Style #2
-                        </label><br>
-                        <label>
-                                <input
-                                type="radio"
-                                name="rectangleType"
-                                value="Style #3"
-                                (change)="radioChangeHandlerBrush($event)" checked>
-                                Style #3
-                        </label><br>
-                        <label>
-                                <input
-                                type="radio"
-                                name="rectangleType"
-                                value="Style #4"
-                                (change)="radioChangeHandlerBrush($event)" checked>
-                                Style #4
-                        </label><br>
-                        <label>
-                                <input
-                                type="radio"
-                                name="rectangleType"
-                                value="Style #5"
-                                (change)="radioChangeHandlerBrush($event)" checked>
-                                Style #5
-                        </label><br>
+                <label>
+                    <br>
+                    Current Brush Texture: <b class="dynamicValue">{{this.currentBrushTexture}}</b>
+                    <br>
+                    <br>
+                    Brush texture:
+                </label>
+                <div class="content">
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #1"
+                            (change)="radioChangeHandlerBrush($event)">
+                        Style #1
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #2"
+                            (change)="radioChangeHandlerBrush($event)">
+                        Style #2
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #3"
+                            (change)="radioChangeHandlerBrush($event)" checked>
+                        Style #3
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #4"
+                            (change)="radioChangeHandlerBrush($event)" checked>
+                        Style #4
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Style #5"
+                            (change)="radioChangeHandlerBrush($event)" checked>
+                        Style #5
+                    </label><br>
                 </div>
             </div>
-    </div>
-    <div class="singleAttribute">
+        </div>
+        <div class="singleAttribute">
             <div class="sectionHeader">
-                    Stroke:
+                Stroke:
             </div>
             <br>
-            Current Stroke Width: <b class= "dynamicValue">{{this.strokeWidth}}</b>
-            
+            Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b>
+
             px
             <br>
-            <label >
-                    <br>
-                    <div>
-                         <input style="width: 83%" type="range" #slider min="1" max="25" value={{this.strokeWidth}} class="slider" id="drawTool" (change)="widthSlider(slider.value)">
-                    </div>
+            <label>
+                <br>
+                <div>
+                    <input style="width: 83%" type="range" #slider min="1" max="25" value={{this.shapeService.strokeWidth}}
+                        [(ngModel)]="this.shapeService.strokeWidth"
+                        class="slider" id="drawTool" (change)="shapeWidthSlider(slider.value)">
+                </div>
             </label>
+        </div>
+        <br>
     </div>
-            <br>
-    </div> 
     <div class="placeHolder" *ngIf="this.showPipette">
-            PLACEHOLDER PIPETTE
+        PLACEHOLDER PIPETTE
     </div>
 </div>

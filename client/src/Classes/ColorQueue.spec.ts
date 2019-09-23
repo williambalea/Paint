@@ -22,4 +22,8 @@ describe('ColorQueue', () => {
         queue.push(0);
         expect(copy.store === queue.store).toBeTruthy();
     });
+
+    it('Check return', () => {
+        expect(copy.get(1)).toBeGreaterThanOrEqual(0);
+    });
 });

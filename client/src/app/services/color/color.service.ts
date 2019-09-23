@@ -9,12 +9,13 @@ export class ColorService {
   private fill: string;
   private stroke: string;
   private makingColorChanges: boolean;
-  private lastTenColors: ColorQueue<string> = new ColorQueue();
+  private lastTenColors: ColorQueue<string>;
 
   constructor() {
     this.fill = 'rgba(255, 255, 255, 1)';
     this.stroke = 'rgba(0, 0, 0, 1)';
     this.makingColorChanges = false;
+    this.lastTenColors = new ColorQueue();
   }
 
   addColorsToLastUsed(primaryColor: string, secondaryColor: string): void {

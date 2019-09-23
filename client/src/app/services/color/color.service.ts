@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Queue } from '../../../Classes/Queue';
+import { ColorQueue } from '../../../Classes/ColorQueue';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +9,11 @@ export class ColorService {
   private fill: string;
   private stroke: string;
   private makingColorChanges: boolean;
-  private lastTenColors: Queue<string> = new Queue();
+  private lastTenColors: ColorQueue<string> = new ColorQueue();
 
   constructor() {
-    this.stroke = 'rgba(255, 255, 255, 1)';
+    this.fill = 'rgba(255, 255, 255, 1)';
+    this.stroke = 'rgba(0, 0, 0, 1)';
     this.makingColorChanges = false;
   }
 

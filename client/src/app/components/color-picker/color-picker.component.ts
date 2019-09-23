@@ -5,7 +5,7 @@ import { ColorInputControl } from '../../../Classes/ColorInputControl';
 @Component({
   selector: 'app-color-picker',
   templateUrl: './color-picker.component.html',
-  styleUrls: ['./color-picker.component.css'],
+  styleUrls: ['./color-picker.component.scss'],
 })
 export class ColorPickerComponent implements OnInit {
 
@@ -75,7 +75,7 @@ export class ColorPickerComponent implements OnInit {
   }
 
   changeBackgroundColor(): void {
-    const elem: HTMLElement = document.getElementsByClassName('drawingBoard')[0] as HTMLElement;
+    const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
     if (this.usingPrimary) {
       elem.style.background = this.colorService.getFillColor();
     } else {

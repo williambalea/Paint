@@ -40,12 +40,12 @@ describe('A starting set of test examples to showcase test-suite behaviour', () 
         // i.e: each test should contain it's proper setup (or use beforeEach
         // to initialize/reset the state of a variable)
         it('should be a certain value on run #1', () => {
-            console.log(variableNeedingToBeChangedEachRun);
+            console.dir(variableNeedingToBeChangedEachRun);
             expect(variableNeedingToBeChangedEachRun).to.be.greaterThan(0);
             previousValue = variableNeedingToBeChangedEachRun;
         });
         it('should be a (most probably different) value on run #2', () => {
-            console.log(variableNeedingToBeChangedEachRun);
+            console.dir(variableNeedingToBeChangedEachRun);
             expect(variableNeedingToBeChangedEachRun).to.be.greaterThan(0).and.not.eq(previousValue);
         });
     });

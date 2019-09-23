@@ -1,37 +1,37 @@
+<div class = "modalWindow">
 <form [formGroup]="form">
 <h1 mat-dialog-title>Choose canvas parameters: </h1>
+
 <div mat-dialog-content>
+   
     <p>Enter canvas width</p>
     <div class="field">
-    <div class="control">
+    <div class="control"> 
     <mat-form-field>
-      <input type = "number" min="0" formControlName = "canvasWidth" matInput [(ngModel)]="canvasWidth" >
-      <mat-error>Enter numbers greater than zero</mat-error>
+      <input type = "number" min="0" formControlName = "canvaswidth" matInput [(ngModel)]="canvasWidth" >
+      <mat-error>Enter numbers greater than zero</mat-error> 
     </mat-form-field>
-    </div>
-    </div>
-    <p>Enter canvas height</p>
-    <div class="field">
-    <div class="control">
-    <mat-form-field>
-      <input type = "number" min="0" formControlName = "canvasHeight" matInput [(ngModel)]="canvasHeight">
-      <mat-error>Enter numbers greater than zero</mat-error>
+   </div>
+    </div> 
+     <p>Enter canvas height</p>
+  <div class="field">
+    <div class="control"> 
+ <mat-form-field>
+      <input type = "number" min="0" formControlName = "canvasheight" matInput [(ngModel)]="canvasHeight">
+       <mat-error>Enter numbers greater than zero</mat-error> 
     </mat-form-field>
-    </div>
+   </div>
+   <app-color-picker></app-color-picker>
     </div>
 
-    <p>Enter canvas color</p>
-    <mat-form-field>
-      <input matInput [(ngModel)]="canvasColor">
-    </mat-form-field>
-
+   
 </div>
 
 <div mat-dialog-actions>
-    <button mat-button (click)="submitParameters(canvasWidth, canvasHeight,canvasColor)" cdkFocusInitial>submit</button>
-    <button mat-button (click)=" deleteContent()" class ="delete"><mat-icon>delete</mat-icon></button>
-   <!-- <button mat-button [mat-dialog-close]="canvasWidth" cdkFocusInitial>cancel</button> -->
+    <button mat-button (click)="submitParameters(canvasWidth, canvasHeight)" cdkFocusInitial>submit</button>   
+    <!--<button mat-button (click)=" close()" class ="delete"><mat-icon>delete</mat-icon></button> -->
+    <button mat-button [mat-dialog-close]="canvasWidth" cdkFocusInitial>cancel</button> 
 </div>
-
 </form>
 
+</div>

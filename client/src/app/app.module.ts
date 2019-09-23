@@ -1,5 +1,5 @@
 import { HttpClientModule} from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule,
   MatMenuModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatToolbarModule} from '@angular/material';
@@ -51,14 +51,20 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    ReactiveFormsModule,
   ],
   entryComponents: [
     EntryPointComponent,
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
   ],
+  schemas:[
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [
+    AppComponent
+  ],
 })
 
 export class AppModule {

@@ -7,28 +7,39 @@ import { NewFileModalwindowComponent } from '../components/new-file-modalwindow/
   providedIn: 'root',
 })
 export class FileParametersServiceService {
+  tempx: number;
+  tempy: number;
+  tempz: string;
+  canvasWidth = new BehaviorSubject<number>(window.innerWidth);
+  canvasHeight = new BehaviorSubject<number>(window.innerHeight);
+  canvasColor = new BehaviorSubject<string>('white');
+  canvaswidth$ = this.canvasWidth.asObservable();
+  canvasheight$ = this.canvasHeight.asObservable();
 
- canvasWidth = new BehaviorSubject<number>(500);
- canvasHeight = new BehaviorSubject<number>(500);
- canvasColor = new BehaviorSubject<string>('white');
- canvaswidth$ = this.canvasWidth.asObservable();
- canvasheight$ = this.canvasHeight.asObservable();
- canvascolor$ = this.canvasColor.asObservable();
- dialogRef: MatDialogRef<NewFileModalwindowComponent, any> ;
- newFile = false;
+  dialogRef: MatDialogRef<NewFileModalwindowComponent, any> ;
+  newFile: boolean;
 
- changeParameters(widht: number, height: number, color: string) {
-   this.canvasWidth.next(widht);
-   this.canvasHeight.next(height);
-   this.canvasColor.next(color);
- }
+  changeParameters(widht: number, height: number) {
+    console.dir('service', widht);
+    this.canvasWidth.next(widht);
+    this.canvasHeight.next(height);
+  }
+
+  constructor() {
+    this.newFile = false;
+  }
 
   subscribeToChanges(dialogref: MatDialogRef<NewFileModalwindowComponent, any>) {
     dialogref.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.canvasWidth = result;
-      console.log('essai', this.canvasWidth);
     });
-
   }
+
+  setParameters(canvaswidth: number, canvasheight: number): void {
+    this.tempx = canvaswidth;
+    this.tempy = canvasheight;
+
+    console.dir(this.canvasWidth, this.canvasHeight);
+  }
+
 }

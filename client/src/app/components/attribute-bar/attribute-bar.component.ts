@@ -16,6 +16,7 @@ export class AttributeBarComponent {
   @Input()selectedTool: tool;
 
   selectedType = 'Bordered & Filled';
+  currentBrushTexture = 'texture #5';
 
   constructor(private shapeService: ShapesService) {}
   preview: Preview;
@@ -32,8 +33,6 @@ export class AttributeBarComponent {
   strokeWidth = 1;
   fillColor = 'Define me!';
 
-  currentBrushTexture = ' Style #1';
-
   show = true;
 
   // rectangle: Rectangle = new Rectangle(1, 2, 3, 4, 'black', 'black', 5);
@@ -49,6 +48,11 @@ export class AttributeBarComponent {
   radioChangeHandler(event: { target: {value: string}; }) {
     this.selectedType = event.target.value;
     this.assignRectangleType();
+  }
+
+  radioChangeHandlerBrush(event: { target: {value: string}; }) {
+    this.selectedType = event.target.value;
+    this.assignBrushTexture();
   }
 
   assignRectangleType() {
@@ -71,21 +75,24 @@ export class AttributeBarComponent {
     }
   }
 
-  assignBrushTexture(parameter: string) {
-    if (parameter === 'option1') {
-      this.currentBrushTexture = 'texture1';
-    }
-    if (parameter === 'option2') {
-      this.currentBrushTexture = 'texture2';
-    }
-    if (parameter === 'option3') {
-      this.currentBrushTexture = 'texture3';
-    }
-    if (parameter === 'option4') {
-        this.currentBrushTexture = 'texture4';
-    }
-    if (parameter === 'option5') {
-      this.currentBrushTexture = 'texture5';
+  assignBrushTexture() {
+    switch (this.selectedType) {
+      case 'Style #1':
+        this.currentBrushTexture = 'texture #1';
+        break;
+      case 'Style #2':
+        this.currentBrushTexture = 'texture #2';
+        break;
+      case 'Style #3':
+        this.currentBrushTexture = 'texture #3';
+        break;
+      case 'Style #4':
+        this.currentBrushTexture = 'texture #4';
+        break;
+      case 'Style #5':
+        this.currentBrushTexture = 'texture #5';
+        break;
+      default:
     }
   }
 
@@ -109,4 +116,11 @@ export class AttributeBarComponent {
     return false;
   }
 
+  shapeWidthSlider(value: number): void {
+    this.shapeService.strokeWidth = value;
+  }
+
+  widthSlider(value: number): void {
+    this.strokeWidth = value;
+  }
 }

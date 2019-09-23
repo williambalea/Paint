@@ -1,9 +1,11 @@
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { ColorService } from 'src/app/services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+
 @Component({
   selector: 'app-new-file-modalwindow',
   templateUrl: './new-file-modalwindow.component.html',
@@ -15,33 +17,36 @@ export class NewFileModalwindowComponent implements OnInit {
   customErrors = {required: 'Please accept the terms'};
   canvasWidth: number;
   canvasHeight: number;
-  canvasColor: number;
 
   constructor(private fileParameters: FileParametersServiceService,
               private dialog: MatDialog,
               private shapeService: ShapesService,
-              private builder: FormBuilder) {
-
+              private builder: FormBuilder,
+              private colorService: ColorService,
+              public dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
   }
+
   ngOnInit() {
     this.control = this.builder.control('', Validators.required);
-
     this.form = this.builder.group({
-      canvasWidth: ['', [Validators.required, Validators.min(0)]],
-      canvasHeight: ['', [Validators.required, Validators.min(0)]],
+      canvaswidth: ['', [Validators.required, Validators.min(0)]],
+      canvasheight: ['', [Validators.required, Validators.min(0)]],
     });
   }
 
-  submitParameters(canvaswidth: number, canvasheight: number, canvascolor: string) {
-    console.log('selected nav item ');
-    this.fileParameters.changeParameters(canvaswidth, canvasheight, canvascolor);
+  close() {
+    this.dialogRef.close();
+    this.colorService.setMakingColorChanges(false);
   }
 
-  deleteContent(): void {
+  submitParameters(canvaswidth: number, canvasheight: number) {
+    console.dir('newfile submit', canvaswidth);
     if (this.shapeService.shapes.length !== 0) {
+      console.dir('newfile', canvaswidth );
       this.dialog.open(DeleteConfirmationComponent);
+      this.fileParameters.setParameters(canvaswidth, canvasheight);
+    } else {
+      this.fileParameters.changeParameters(canvaswidth, canvasheight);
     }
-
   }
-
 }

@@ -19,9 +19,8 @@ export class DrawingSpaceComponent implements OnInit {
 
   canvasWidth: number ;
   canvasHeight: number ;
-  canvasColor: string ;
   subscription: Subscription;
-  width = 0;
+  width: number;
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
@@ -30,6 +29,7 @@ export class DrawingSpaceComponent implements OnInit {
                private fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
     this.enableKeyPress = false;
+    this.width = 0;
   }
 
   ngOnInit(): void {
@@ -41,10 +41,10 @@ export class DrawingSpaceComponent implements OnInit {
 
     this.subscription = this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
+    console.dir('drawingspace', this.width);
     this.subscription = this.fileParameters.canvasheight$
        .subscribe((canvasHeight) => this.canvasHeight = canvasHeight);
-    this.subscription = this.fileParameters.canvascolor$
-       .subscribe((canvasColor) => this.canvasColor = canvasColor);
+
   }
 
   @HostListener('window:resize', ['$event'])

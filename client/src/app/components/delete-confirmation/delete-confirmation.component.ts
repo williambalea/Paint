@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ShapesService } from '../../services/shapes/shapes.service';
+import { ShapesService } from 'src/app/services/shapes/shapes.service';
+import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -9,12 +10,16 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 })
 export class DeleteConfirmationComponent {
 
-  constructor(private shapeService: ShapesService, private dialogRef: MatDialogRef<DeleteConfirmationComponent>) { }
-
-  message = 'Are you sure?';
+  message: string;
+  constructor( private shapeService: ShapesService,
+               private dialogRef: MatDialogRef<DeleteConfirmationComponent>,
+               private fileParameters: FileParametersServiceService) {
+                 this.message = 'Are you sure?';
+               }
 
   clear(): void {
     this.shapeService.clearShapes();
+    this.fileParameters.changeParameters(this.fileParameters.tempx, this.fileParameters.tempy);
     this.dialogRef.close(true);
   }
 }

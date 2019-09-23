@@ -36,7 +36,7 @@
 <div (click)="setPrimary()" class="primary" [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
 <div (click)="setSecondary()" class="secondary" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>
   
-<button (click)="changeBackgroundColor()">Change background color</button>
+<button class="changeButton" (click)="changeBackgroundColor()">Change background color</button>
 <button (click)="swapColors()">Swap Colors</button>
 
 

@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve --open",
     "build": "ng build",
-    "test": "ng test",
-    "coverage": "ng test --code-coverage --sourceMap=true",
+    "test": "ng test --browsers=ChromeHeadlessNoSandbox",
+    "coverage": "ng test --code-coverage --sourceMap=true  --browsers=ChromeHeadlessNoSandbox",
     "lint": "ng lint --type-check --format stylish"
   },
   "private": true,

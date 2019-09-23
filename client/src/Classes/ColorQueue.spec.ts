@@ -22,5 +22,4 @@ describe('ColorQueue', () => {
         queue.push(0);
         expect(copy.store === queue.store).toBeTruthy();
     });
-
 });

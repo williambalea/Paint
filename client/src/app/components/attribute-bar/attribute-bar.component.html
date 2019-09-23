@@ -5,7 +5,7 @@
         </div>
         <app-color-picker></app-color-picker>
     </div>
-
+    <!--Rectangle-->
     <div *ngIf="this.showRectangle">
         <div class="header">
             <div style="font-weight:900">Rectangle Tool</div>
@@ -56,29 +56,32 @@
         </div>
     </div>
     <br>
-    <!-- Cercle ?  -->
-    <div class="placeHolder" *ngIf="this.showCircle">
-        PLACEHOLDER CERCLE (?)
-    </div>
-    <!-- Outil de dessin -->
-    <div *ngIf="this.showDrawTool">
+    <!-- Brush -->
+    <div *ngIf="this.showBrushTool">
         <div class="header">
-            <div style="font-weight:900">Drawing tool</div>
+            <div style="font-weight:900">Brush</div>
+        </div>
+        <div class="singleAttribute">
+                <div class="sectionHeader">
+                    Stroke:
+                </div>
+                <br>
+                Current Stroke Width: <b class="dynamicValue">{{this.brushStrokeWidth}}</b> px
+                <br>
+                <label>
+                    <br>
+                    <div>
+                        <input style="width: 83%" type="range" #slider min="1" max="25" value={{this.brushStrokeWidth}}
+                            [(ngModel)]="this.brushStrokeWidth"
+                            class="slider" id="drawTool" (change)="brushWidthSlider(slider.value)">
+                    </div>
+                </label>
         </div>
         <div class="singleAttribute">
             <div class="sectionHeader">
-                Tool type:
-                <br>
-                <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
-                <button mat-button (click)="selectBrush()" class="square_icon">
-                    <mat-icon>crop_square</mat-icon>Brush
-                </button>
-                <button mat-button (click)="selectPen()" class="square_icon">
-                    <mat-icon>crop_square</mat-icon>Pencil
-                </button>
+                Texture
             </div>
-            <!-- si le tool est un brush -->
-            <div *ngIf="brushState==1">
+            <div>
                 <label>
                     <br>
                     Current Brush Texture: <b class="dynamicValue">{{this.currentBrushTexture}}</b>
@@ -115,27 +118,43 @@
                 </div>
             </div>
         </div>
+    </div>
+    <!-- Pen -->
+    <div *ngIf="this.showPenTool">
+        <div class="header">
+            <div style="font-weight:900">Pen</div>
+        </div>
         <div class="singleAttribute">
             <div class="sectionHeader">
                 Stroke:
             </div>
             <br>
-            Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b>
-
+            Current Stroke Width: <b class="dynamicValue">{{this.penStrokeWidth}}</b>
             px
             <br>
             <label>
                 <br>
                 <div>
-                    <input style="width: 83%" type="range" #slider min="1" max="25" value={{this.shapeService.strokeWidth}}
-                        [(ngModel)]="this.shapeService.strokeWidth"
-                        class="slider" id="drawTool" (change)="shapeWidthSlider(slider.value)">
+                    <input style="width: 83%" type="range" #slider min="1" max="25" value={{this.penStrokeWidth}}
+                        [(ngModel)]="this.penStrokeWidth"
+                        class="slider" id="drawTool" (change)="penWidthSlider(slider.value)">
                 </div>
             </label>
         </div>
         <br>
     </div>
-    <div class="placeHolder" *ngIf="this.showPipette">
-        PLACEHOLDER PIPETTE
+    <!-- Applicateur de couleur -->
+    <div *ngIf="this.showPipette">
+        <div class="header">
+                <div style="font-weight:900">Applicateur de couleur</div>
+            </div>
+            <div class="singleAttribute">
+                <div class="sectionHeader">
+                </div>
+                <br>
+                PLACEHOLDER: 
+                <br>
+            </div>
+            <br>
     </div>
 </div>

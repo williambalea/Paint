@@ -1,6 +1,5 @@
 import { Component, Input} from '@angular/core';
 import {Preview} from '../../../../../common/interface/preview';
-import {Rectangle} from '../../services/shapes/classes/rectangle';
 import {Shape} from '../../services/shapes/classes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
 
@@ -13,9 +12,8 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 export class AttributeBarComponent {
   @Input() test: number;
   @Input()showRectangle: boolean;
-  @Input()showCircle: boolean;
-  @Input()showDrawTool: boolean;
-  @Input()showColorTool: boolean;
+  @Input()showBrushTool: boolean;
+  @Input()showPenTool: boolean;
   @Input()showPipette: boolean;
 
   selectedType = 'Bordered & Filled';
@@ -29,14 +27,14 @@ export class AttributeBarComponent {
   shapeStrokeColor = 'Define me!';
   shapeFillColor = 'Define me!';
   shapeStrokeWidth = 1;
+  penStrokeColor = 'Define me!';
+  penStrokeWidth = 1;
+  brushStrokeColor = 'Define me!';
+  brushStrokeWidth = 1;
 
-  strokeColor = 'Define me!';
-  strokeWidth = 1;
   fillColor = 'Define me!';
 
   show = true;
-
-  rectangle: Rectangle = new Rectangle(1, 2, 3, 4, 'black', 'black', 5);
 
   selectBrush(): void {
     this.brushState = true;
@@ -112,16 +110,26 @@ export class AttributeBarComponent {
     return false;
   }
 
-  assignDrawStrokeWidth(value: number) {
-    this.strokeWidth = value;
+  assignBrushStrokeWidth(value: number) {
+    this.brushStrokeWidth = value;
+    return false;
+  }
+
+  assignPenStrokeWidth(value: number) {
+    this.penStrokeWidth = value;
     return false;
   }
 
   shapeWidthSlider(value: number): void {
     this.shapeService.strokeWidth = value;
   }
-
-  widthSlider(value: number): void {
-    this.strokeWidth = value;
+  
+  brushWidthSlider(value: number): void {
+    this.brushStrokeWidth = value;
   }
+
+  penWidthSlider(value: number): void {
+    this.penStrokeWidth = value;
+  }
+
 }

@@ -14,6 +14,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
+  tool = tool;
   @Input()selectedTool: tool;
 
   canvasWidth: number ;
@@ -23,9 +24,6 @@ export class DrawingSpaceComponent implements OnInit {
   width = 0;
   enableKeyPress: boolean;
   shiftPressed: boolean;
-
-  pathClick = false;
-  path = '';
 
   constructor( private dialog: MatDialog,
                private shapeService: ShapesService,
@@ -102,6 +100,9 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
+    this.shapeService.fillColor = this.colorService.getFillColor();
+    this.shapeService.strokeColor = this.colorService.getStrokeColor();
+    this.shapeService.preview.active = true;
     switch (this.selectedTool) {
       case tool.rectangle:
         this.mouseDownRectangle(event);
@@ -127,14 +128,11 @@ export class DrawingSpaceComponent implements OnInit {
   mouseDownRectangle(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
     this.shapeService.setMouseOrigin(event);
-    this.shapeService.fillColor = this.colorService.getFillColor();
-    this.shapeService.strokeColor = this.colorService.getStrokeColor();
     this.shapeService.setRectangleType();
   }
 
   mouseDownPencil(event: MouseEvent): void {
-    this.pathClick = true;
-    this.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
+    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
   }
 
   @HostListener('mousemove', ['$event'])
@@ -173,13 +171,14 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   mouseMovePencil(event: MouseEvent): void {
-    if (this.pathClick) {
-      this.path += `L${event.offsetX} ${event.offsetY}`;
+    if (this.shapeService.preview.active) {
+      this.shapeService.preview.path += `L${event.offsetX} ${event.offsetY}`;
     }
   }
 
   @HostListener('mouseup')
   onMouseUp(): void {
+    this.shapeService.preview.active = false;
     switch (this.selectedTool) {
       case tool.rectangle:
         this.mouseUpRectangle();
@@ -203,12 +202,13 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   mouseUpRectangle(): void {
-    this.shapeService.preview.active = false;
     this.shapeService.drawRectangle();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
+    this.shapeService.resetPreview();
   }
 
   mouseUpPencil(): void {
-    this.pathClick = false;
+    this.shapeService.drawPencil();
+    this.shapeService.resetPreview();
   }
 }

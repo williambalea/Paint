@@ -67,3 +67,5 @@ export enum tool {
   draw,
   pipette,
 }
+
+export const EMPTY_STRING = '';

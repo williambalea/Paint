@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { tool, EMPTY_STRING } from '../../../../../common/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
+import { Pencil } from './classes/pencil';
 import { Rectangle } from './classes/rectangle';
 import { Shape } from './classes/shape';
 
@@ -23,29 +25,16 @@ export class ShapesService {
   fillEnable = true;
 
   constructor() {
-    this.preview = {
-      active: false,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    };
-
-    // TODO: set default values for rectangles
-    this.fillColor = 'rgba(255,255,255,255)';
-    this.strokeColor = 'rgba(255,255,255,255)';
+    this.resetPreview();
     this.strokeWidth = 1;
   }
 
   setMouseOrigin(event: MouseEvent): void {
     this.origin = {x: event.offsetX, y: event.offsetY};
-    this.preview = {
-      active: true,
-      x: event.offsetX,
-      y: event.offsetY,
-      width: 0,
-      height: 0,
-    };
+    this.preview.x = event.offsetX;
+    this.preview.y = event.offsetY;
+    this.preview.width = 0;
+    this.preview.height = 0;
   }
 
   setRectangleOffset(): void {
@@ -86,6 +75,7 @@ export class ShapesService {
   drawRectangle(): Shape {
     this.setRectangleType();
     const rectangle = new Rectangle (
+      tool.rectangle,
       this.preview.x,
       this.preview.y,
       this.preview.width,
@@ -96,7 +86,18 @@ export class ShapesService {
     );
     this.shapes.push(rectangle);
     return this.getShape(this.shapes.length);
-    }
+  }
+
+  drawPencil(): void {
+    const pencil = new Pencil (
+      // TODO: tool.draw should be separated in tool.pencil and tool.brush
+      tool.draw,
+      this.preview.path,
+      this.fillColor,
+      this.strokeWidth,
+    );
+    this.shapes.push(pencil);
+  }
 
   clearShapes(): void {
     this.shapes = [];
@@ -109,6 +110,17 @@ export class ShapesService {
   removeColor(fill: string): string {
     const individualParams: string[] = fill.substr(5, fill.length - 1).split(',', 4);
     return `rgba(${individualParams[0]},${individualParams[1]},${individualParams[2]},0)`;
+  }
+
+  resetPreview(): void {
+    this.preview = {
+      active: false,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      path: EMPTY_STRING,
+    };
   }
 
 }

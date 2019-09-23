@@ -120,13 +120,13 @@
                     Stroke:
                 </div>
                 <br>
-                Current Stroke Width: <b class="dynamicValue">{{this.strokeWidth}}</b>
+                Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b>
 
                 px
                 <br>
                 <label>
                     <br>
-                    <form (submit)="assignDrawStrokeWidth(value.value)">
+                    <form (submit)="assignStrokeWidth(value.value)">
                         Stroke width:
                         <input #value type="text" placeholder="width in pixels" />
                     </form>

@@ -4,4 +4,5 @@ export interface Preview {
     y: number;
     width: number;
     height: number;
+    path: string;
 }

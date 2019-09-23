@@ -1,7 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { tool } from '../../../../../common/constants';
 import {Preview} from '../../../../../common/interface/preview';
-import {Rectangle} from '../../services/shapes/classes/rectangle';
+// import {Rectangle} from '../../services/shapes/classes/rectangle';
 import {Shape} from '../../services/shapes/classes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
 
@@ -36,7 +36,7 @@ export class AttributeBarComponent {
 
   show = true;
 
-  rectangle: Rectangle = new Rectangle(1, 2, 3, 4, 'black', 'black', 5);
+  // rectangle: Rectangle = new Rectangle(1, 2, 3, 4, 'black', 'black', 5);
 
   selectBrush(): void {
     this.brushState = true;

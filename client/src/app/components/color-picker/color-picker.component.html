@@ -18,9 +18,9 @@
     <span class="color-div" (click)="setColorFromLastTen(8)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(8) || 'white'}"></span>
     <span class="color-div" (click)="setColorFromLastTen(9)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(9) || 'white'}"></span>
   </div>
-  <p>Transparency: {{transparencyString}}</p> 
+  <p>Transparency: {{transparency / 255 | number: '1.2-2'}}</p> 
   <div class="slidecontainer">
-      <input type="range" #slider min="0" max="255" value={{transparency}} class="slider" id="myRange" (change)="onEnterSlider(slider.value)">
+      <input type="range" #slider min="0" max="255" value={{transparency}} [(ngModel)]="this.transparency" class="slider" id="myRange" (change)="onEnterSlider(slider.value)">
   </div>
   <div class="input-wrapper">
     <div>

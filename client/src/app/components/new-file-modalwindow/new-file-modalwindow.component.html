@@ -29,8 +29,7 @@
 
 <div mat-dialog-actions>
     <button mat-button (click)="submitParameters(canvasWidth, canvasHeight)" cdkFocusInitial>submit</button>   
-    <!--<button mat-button (click)=" close()" class ="delete"><mat-icon>delete</mat-icon></button> -->
-    <button mat-button [mat-dialog-close]="canvasWidth" cdkFocusInitial>cancel</button> 
+    <button mat-button (click)="close()" [mat-dialog-close]="canvasWidth" cdkFocusInitial>cancel</button> 
 </div>
 </form>
 

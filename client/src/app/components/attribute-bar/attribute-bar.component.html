@@ -1,11 +1,9 @@
 <div class="attributeBar">
 
-    <div class="colorPicker">
-
+    <div class="colorPicker" *ngIf="this.colorService.getShowInAttributeBar()">
         <div class="sectionHeader">
             Color:
         </div>
-
         <app-color-picker></app-color-picker>
     </div>
 

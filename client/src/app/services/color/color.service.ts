@@ -9,12 +9,14 @@ export class ColorService {
   private fill: string;
   private stroke: string;
   private makingColorChanges: boolean;
+  private showInAttributeBar: boolean;
   private lastTenColors: ColorQueue<string> = new ColorQueue();
 
   constructor() {
     this.fill = 'rgba(255, 255, 255, 1)';
     this.stroke = 'rgba(0, 0, 0, 1)';
     this.makingColorChanges = false;
+    this.showInAttributeBar = true;
   }
 
   addColorsToLastUsed(primaryColor: string, secondaryColor: string): void {
@@ -54,5 +56,13 @@ export class ColorService {
     const temp: string = this.fill;
     this.fill = this.stroke;
     this.stroke = temp;
+  }
+
+  setShowInAttributeBar(show: boolean): void {
+    this.showInAttributeBar = show;
+  }
+
+  getShowInAttributeBar(): boolean {
+    return this.showInAttributeBar;
   }
 }

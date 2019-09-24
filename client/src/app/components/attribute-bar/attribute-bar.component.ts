@@ -1,4 +1,5 @@
 import { Component, Input} from '@angular/core';
+import { ColorService } from 'src/app/services/color/color.service';
 import { tool } from '../../../../../common/constants';
 import {Preview} from '../../../../../common/interface/preview';
 import {Shape} from '../../services/shapes/classes/shape';
@@ -17,7 +18,7 @@ export class AttributeBarComponent {
   selectedType = 'Bordered & Filled';
   currentBrushTexture = 'texture #5';
 
-  constructor(private shapeService: ShapesService) {}
+  constructor(private shapeService: ShapesService, private colorService: ColorService) {}
   preview: Preview;
 
   get toolTypes() { return tool; }

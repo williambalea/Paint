@@ -20,7 +20,8 @@ export class SideBarComponent {
   }
 
   createNewFile() {
-    this.dialog.open(NewFileModalwindowComponent);
+    this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
     this.colorService.setMakingColorChanges(true);
+    this.colorService.setShowInAttributeBar(false);
   }
 }

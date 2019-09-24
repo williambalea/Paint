@@ -37,6 +37,7 @@ export class NewFileModalwindowComponent implements OnInit {
   close() {
     this.dialogRef.close();
     this.colorService.setMakingColorChanges(false);
+    this.colorService.setShowInAttributeBar(true);
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {
@@ -48,5 +49,6 @@ export class NewFileModalwindowComponent implements OnInit {
     } else {
       this.fileParameters.changeParameters(canvaswidth, canvasheight);
     }
+    this.close();
   }
 }

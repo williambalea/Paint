@@ -32,6 +32,38 @@ export class ColorPickerComponent implements OnInit {
     this.colorInputControl = new ColorInputControl();
   }
 
+  getInputControl(): ColorInputControl {
+    return this.colorInputControl;
+  }
+
+  getUsingPrimary(): boolean {
+    return this.usingPrimary;
+  }
+
+  getTransparencyString(): string {
+    return this.transparencyString;
+  }
+
+  getColorHex(): string {
+    return this.colorHex;
+  }
+
+  getTransparency(): number {
+    return this.transparency;
+  }
+
+  getColor(): string {
+    return this.color;
+  }
+
+  setColor(newColor: string): void {
+    this.color = newColor;
+  }
+
+  getOldPointedColor(): string {
+    return this.oldPointedColor;
+  }
+
   getHue(): string {
     return this.hue;
   }
@@ -77,11 +109,7 @@ export class ColorPickerComponent implements OnInit {
 
   changeBackgroundColor(): void {
     const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
-    if (this.usingPrimary) {
-      elem.style.background = this.colorService.getFillColor();
-    } else {
-      elem.style.background = this.colorService.getStrokeColor();
-    }
+    elem.style.background = (this.usingPrimary) ? this.colorService.getFillColor() : this.colorService.getStrokeColor();
   }
 
   onEnterSlider(value: number): void {

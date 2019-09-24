@@ -18,7 +18,15 @@
 
                 <div class="sectionHeader">
                     Stroke:
-                </div><br>
+                </div>
+
+                <div>
+                    <svg width="200" height="50">
+                        <line x1="20" y1="30" x2="180" y2="30"
+                        [style.stroke-width]="this.shapeService.rectangleStrokeWidth" 
+                        style="stroke:rgb(0,0,0)"/>
+                    </svg>
+                </div>
 
                 Current Stroke Width: <b class="dynamicValue">{{this.shapeService.rectangleStrokeWidth}}</b> px<br>
                 <label>
@@ -113,7 +121,14 @@
                 <div class="singleAttribute">
 
                     <div class="sectionHeader">Stroke:</div>
-                    <br>
+                    
+                    <div>
+                            <svg width="200" height="50">
+                                <line x1="20" y1="30" x2="180" y2="30"
+                                [style.stroke-width]="this.shapeService.penStrokeWidth" 
+                                style="stroke:rgb(0,0,0);stroke-linecap: round"/>
+                            </svg>
+                        </div>
 
                     Current Stroke Width: <b class="dynamicValue">{{this.shapeService.penStrokeWidth}}</b>
                     px

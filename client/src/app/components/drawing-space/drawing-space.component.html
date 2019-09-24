@@ -34,10 +34,10 @@
             [attr.height]="this.shapeService.preview.height" 
             [style.fill]="this.shapeService.fillColor"
             [style.stroke]="this.shapeService.strokeColor"
-            [style.stroke-width]="this.shapeService.strokeWidth"/>
+            [style.stroke-width]="this.shapeService.rectangleStrokeWidth"/>
 
     <path   [attr.d]="shapeService.preview.path"
-            [style.stroke-width]="this.shapeService.strokeWidth"
+            [style.stroke-width]="this.shapeService.penStrokeWidth"
             [style.stroke]="this.shapeService.fillColor"
             shape-rendering="geometricPrecision"
             style="fill: none;stroke-linejoin: round;stroke-linecap: round"/>

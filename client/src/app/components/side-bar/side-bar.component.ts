@@ -10,10 +10,12 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
   styleUrls: ['./side-bar.component.scss'],
 })
 export class SideBarComponent {
-  tool = tool;
+  tool: typeof tool;
   selectedTool: tool;
 
-  constructor(private dialog: MatDialog, private colorService: ColorService) {}
+  constructor(private dialog: MatDialog, private colorService: ColorService) {
+    this.tool = tool;
+  }
 
   selectTool(chosenTool: tool): void {
     this.selectedTool = chosenTool;

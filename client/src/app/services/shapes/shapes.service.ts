@@ -16,19 +16,20 @@ export class ShapesService {
   origin: Point;
 
   preview: Preview;
-  rectangle: Rectangle;
-  pen: Pen;
 
-  strokeWidth: number;
+  rectangleStrokeWidth: number;
   fillColor: string;
   strokeColor: string;
+
+  penStrokeWidth: number;
 
   strokeEnable = true;
   fillEnable = true;
 
   constructor() {
     this.resetPreview();
-    this.strokeWidth = 1;
+    this.rectangleStrokeWidth = 1;
+    this.penStrokeWidth = 1;
   }
 
   setMouseOrigin(event: MouseEvent): void {
@@ -84,18 +85,18 @@ export class ShapesService {
       this.preview.height,
       this.fillColor,
       this.strokeColor,
-      this.strokeWidth,
+      this.rectangleStrokeWidth,
     );
     this.shapes.push(rectangle);
     return this.getShape(this.shapes.length);
   }
 
-  drawPencil(): void {
+  drawPen(): void {
     const pen = new Pen (
       tool.pen,
       this.preview.path,
       this.fillColor,
-      this.strokeWidth,
+      this.penStrokeWidth,
     );
     this.shapes.push(pen);
   }

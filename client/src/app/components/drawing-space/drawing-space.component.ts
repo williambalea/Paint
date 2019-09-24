@@ -14,7 +14,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
-  tool = tool;
+  tool: typeof tool;
   @Input()selectedTool: tool;
 
   canvasWidth: number ;
@@ -28,6 +28,7 @@ export class DrawingSpaceComponent implements OnInit {
                private shapeService: ShapesService,
                private fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
+    this.tool = tool;
     this.enableKeyPress = false;
     this.width = 0;
   }
@@ -112,7 +113,7 @@ export class DrawingSpaceComponent implements OnInit {
         break;
 
       case tool.pen:
-        this.mouseDownPencil(event);
+        this.mouseDownPen(event);
         break;
 
       case tool.colorApplicator:
@@ -128,7 +129,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.shapeService.setRectangleType();
   }
 
-  mouseDownPencil(event: MouseEvent): void {
+  mouseDownPen(event: MouseEvent): void {
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
   }
 
@@ -146,7 +147,7 @@ export class DrawingSpaceComponent implements OnInit {
         break;
 
       case tool.pen:
-        this.mouseMovePencil(event);
+        this.mouseMovePen(event);
         break;
 
       default:
@@ -164,7 +165,7 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  mouseMovePencil(event: MouseEvent): void {
+  mouseMovePen(event: MouseEvent): void {
     if (this.shapeService.preview.active) {
       this.shapeService.preview.path += `L${event.offsetX} ${event.offsetY}`;
     }
@@ -185,7 +186,7 @@ export class DrawingSpaceComponent implements OnInit {
         break;
 
       case tool.pen:
-        this.mouseUpPencil();
+        this.mouseUpPen();
         break;
 
       default:
@@ -198,8 +199,8 @@ export class DrawingSpaceComponent implements OnInit {
     this.shapeService.resetPreview();
   }
 
-  mouseUpPencil(): void {
-    this.shapeService.drawPencil();
+  mouseUpPen(): void {
+    this.shapeService.drawPen();
     this.shapeService.resetPreview();
   }
 }

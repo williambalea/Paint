@@ -20,12 +20,12 @@
                     Stroke:
                 </div><br>
 
-                Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b> px<br>
+                Current Stroke Width: <b class="dynamicValue">{{this.shapeService.rectangleStrokeWidth}}</b> px<br>
                 <label>
                     <br>
                     <div>
                         <input style="width: 83%" type="range" #slider min="1" max="25"
-                            value={{this.shapeService.strokeWidth}} [(ngModel)]="this.shapeService.strokeWidth"
+                            value={{this.shapeService.rectangleStrokeWidth}} [(ngModel)]="this.shapeService.rectangleStrokeWidth"
                             class="slider" id="drawTool" (change)="shapeWidthSlider(slider.value)">
                     </div>
                 </label>
@@ -115,7 +115,7 @@
                     <div class="sectionHeader">Stroke:</div>
                     <br>
 
-                    Current Stroke Width: <b class="dynamicValue">{{this.penStrokeWidth}}</b>
+                    Current Stroke Width: <b class="dynamicValue">{{this.shapeService.penStrokeWidth}}</b>
                     px
                     <br>
 
@@ -123,8 +123,8 @@
                         <br>
                         <div>
                             <input style="width: 83%" type="range" #slider min="1" max="25"
-                                value={{this.penStrokeWidth}} [(ngModel)]="this.penStrokeWidth" class="slider"
-                                id="drawTool" (change)="shapeWidthSlider(slider.value)">
+                                value={{this.shapeService.penStrokeWidth}} [(ngModel)]="this.shapeService.penStrokeWidth" class="slider"
+                                id="drawTool" (change)="penWidthSlider(slider.value)">
                         </div>
                     </label>
 

@@ -12,14 +12,16 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 })
 
 export class AttributeBarComponent {
-  tool = tool;
+  tool: typeof tool;
   @Input()selectedTool: tool;
 
   selectedType = 'Bordered & Filled';
   currentBrushTexture = 'texture #5';
-
-  constructor(private shapeService: ShapesService, private colorService: ColorService) {}
   preview: Preview;
+
+  constructor(private shapeService: ShapesService, private colorService: ColorService) {
+    this.tool = tool;
+  }
 
   get toolTypes() { return tool; }
 
@@ -97,7 +99,7 @@ export class AttributeBarComponent {
   }
 
   assignStrokeWidth(value: number) {
-    this.shapeService.strokeWidth = value;
+    this.shapeService.rectangleStrokeWidth = value;
     return false;
   }
 
@@ -122,7 +124,7 @@ export class AttributeBarComponent {
   }
 
   shapeWidthSlider(value: number): void {
-    this.shapeService.strokeWidth = value;
+    this.shapeService.rectangleStrokeWidth = value;
   }
 
   brushWidthSlider(value: number): void {
@@ -130,7 +132,7 @@ export class AttributeBarComponent {
   }
 
   penWidthSlider(value: number): void {
-    this.penStrokeWidth = value;
+    this.shapeService.penStrokeWidth = value;
   }
 
 }

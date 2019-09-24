@@ -1,3 +1,7 @@
+a, a:visited, a:hover, a:focus, a:hover, a:active {
+   text-decoration: none; color:black;
+ }
+ 
 .sidebar {
     overflow: hidden;
     background-color: white;
@@ -31,6 +35,13 @@
     bottom : 7%;
     right: 3%; 
  }
+
+ .help {
+    position: absolute;
+    bottom: 1%;
+    right: 3%;
+ }
+
  .delete{
    position: absolute;
     bottom : 14%;

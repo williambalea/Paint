@@ -38,6 +38,8 @@ export class NewFileModalwindowComponent implements OnInit {
     this.dialogRef.close();
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
+    const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
+    elem.style.background = this.colorService.getFillColor();
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {

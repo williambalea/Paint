@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { tool, EMPTY_STRING } from '../../../../../common/constants';
+import { EMPTY_STRING, tool } from '../../../../../common/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
-import { Pencil } from './classes/pencil';
+import { Pen } from './classes/pen';
 import { Rectangle } from './classes/rectangle';
 import { Shape } from './classes/shape';
 
@@ -16,6 +16,8 @@ export class ShapesService {
   origin: Point;
 
   preview: Preview;
+  rectangle: Rectangle;
+  pen: Pen;
 
   strokeWidth: number;
   fillColor: string;
@@ -89,14 +91,13 @@ export class ShapesService {
   }
 
   drawPencil(): void {
-    const pencil = new Pencil (
-      // TODO: tool.draw should be separated in tool.pencil and tool.brush
+    const pen = new Pen (
       tool.pen,
       this.preview.path,
       this.fillColor,
       this.strokeWidth,
     );
-    this.shapes.push(pencil);
+    this.shapes.push(pen);
   }
 
   clearShapes(): void {

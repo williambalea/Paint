@@ -15,8 +15,8 @@ export class NewFileModalwindowComponent implements OnInit {
   form: FormGroup;
   control: FormControl;
   customErrors = {required: 'Please accept the terms'};
-  canvasWidth: number;
-  canvasHeight: number;
+  canvasWidth: number = window.innerWidth;
+  canvasHeight: number = window.innerHeight;
 
   constructor(private fileParameters: FileParametersServiceService,
               private dialog: MatDialog,
@@ -43,7 +43,7 @@ export class NewFileModalwindowComponent implements OnInit {
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {
-    console.dir('newfile submit', canvaswidth);
+    this.fileParameters.tempresize = true;
     if (this.shapeService.shapes.length !== 0) {
       console.dir('newfile', canvaswidth );
       this.dialog.open(DeleteConfirmationComponent);

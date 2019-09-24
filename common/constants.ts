@@ -59,3 +59,12 @@ export enum key {
 }
 
 export const HIDE_DIALOG = 'hideDialog';
+
+export enum tool {
+  rectangle,
+  brush,
+  pen,
+  colorApplicator,
+}
+
+export const EMPTY_STRING = '';

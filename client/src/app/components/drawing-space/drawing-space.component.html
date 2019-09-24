@@ -7,25 +7,41 @@
         style="border:1px solid black;"
         xmlns="http://www.w3.org/2000/svg" >
     <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick($event, shape)" (contextmenu)="onRightClick($event, shape)">
-            <rect [attr.x]="shape.x" 
+        <g [ngSwitch]="shape.type">
+
+            <rect *ngSwitchCase="tool.rectangle"
+            [attr.x]="shape.x" 
             [attr.y]="shape.y" 
             [attr.width]="shape.width" 
             [attr.height]="shape.height" 
             [style.fill]="shape.fill"
             [style.stroke]="shape.stroke"
             [style.stroke-width]="shape.strokeWidth"/>
+
+            <path *ngSwitchCase="tool.pen"
+            [attr.d]="shape.path"
+            [style.stroke-width]="shape.strokeWidth"
+            [style.stroke]="shape.stroke"
+            shape-rendering="geometricPrecision"
+            style="fill: none;stroke-linejoin: round;stroke-linecap: round"/>
+
         </g>
+    </g>
         
-        <rect *ngIf="this.shapeService.preview.active"
-            [attr.x]="this.shapeService.preview.x" 
+    <rect   [attr.x]="this.shapeService.preview.x" 
             [attr.y]="this.shapeService.preview.y" 
             [attr.width]="this.shapeService.preview.width" 
             [attr.height]="this.shapeService.preview.height" 
             [style.fill]="this.shapeService.fillColor"
             [style.stroke]="this.shapeService.strokeColor"
             [style.stroke-width]="this.shapeService.strokeWidth"/>
-    </svg>          
 
+    <path   [attr.d]="shapeService.preview.path"
+            [style.stroke-width]="this.shapeService.strokeWidth"
+            [style.stroke]="this.shapeService.fillColor"
+            shape-rendering="geometricPrecision"
+            style="fill: none;stroke-linejoin: round;stroke-linecap: round"/>
+    </svg>
 </div>
 
  

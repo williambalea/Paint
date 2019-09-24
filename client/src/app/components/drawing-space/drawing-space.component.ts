@@ -1,8 +1,8 @@
-import { Component,  HostListener , OnInit} from '@angular/core';
+import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
-import { HIDE_DIALOG, key } from '../../../../../common/constants';
+import { HIDE_DIALOG, key, tool } from '../../../../../common/constants';
 import { Shape } from '../../../app/services/shapes/classes/shape';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
@@ -14,14 +14,15 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
+  tool = tool;
+  @Input()selectedTool: tool;
+
   canvasWidth: number ;
   canvasHeight: number ;
   subscription: Subscription;
   width: number;
   enableKeyPress: boolean;
   shiftPressed: boolean;
-
-  previewActive = false;
 
   constructor( private dialog: MatDialog,
                private shapeService: ShapesService,
@@ -99,15 +100,60 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
-    this.colorService.setMakingColorChanges(false);
-    this.shapeService.setMouseOrigin(event);
     this.shapeService.fillColor = this.colorService.getFillColor();
     this.shapeService.strokeColor = this.colorService.getStrokeColor();
+    this.shapeService.preview.active = true;
+    switch (this.selectedTool) {
+      case tool.rectangle:
+        this.mouseDownRectangle(event);
+        break;
+
+      case tool.brush:
+        break;
+
+      case tool.pen:
+        this.mouseDownPencil(event);
+        break;
+
+      case tool.colorApplicator:
+          break;
+
+      default:
+    }
+  }
+
+  mouseDownRectangle(event: MouseEvent): void {
+    this.colorService.setMakingColorChanges(false);
+    this.shapeService.setMouseOrigin(event);
     this.shapeService.setRectangleType();
   }
 
+  mouseDownPencil(event: MouseEvent): void {
+    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
+  }
+
   @HostListener('mousemove', ['$event'])
-  setPreviewOffset(event: MouseEvent): void {
+  onMouseMove(event: MouseEvent): void {
+    switch (this.selectedTool) {
+      case tool.rectangle:
+        this.mouseMoveRectangle(event);
+        break;
+
+      case tool.brush:
+        break;
+
+      case tool.colorApplicator:
+        break;
+
+      case tool.pen:
+        this.mouseMovePencil(event);
+        break;
+
+      default:
+    }
+  }
+
+  mouseMoveRectangle(event: MouseEvent): void {
     this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
     if (this.shapeService.preview.active) {
       if (this.shiftPressed) {
@@ -118,15 +164,42 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
+  mouseMovePencil(event: MouseEvent): void {
+    if (this.shapeService.preview.active) {
+      this.shapeService.preview.path += `L${event.offsetX} ${event.offsetY}`;
+    }
+  }
+
   @HostListener('mouseup')
-  drawShape(): void {
+  onMouseUp(): void {
     this.shapeService.preview.active = false;
+    switch (this.selectedTool) {
+      case tool.rectangle:
+        this.mouseUpRectangle();
+        break;
+
+      case tool.brush:
+        break;
+
+      case tool.colorApplicator:
+        break;
+
+      case tool.pen:
+        this.mouseUpPencil();
+        break;
+
+      default:
+    }
+  }
+
+  mouseUpRectangle(): void {
     this.shapeService.drawRectangle();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
+    this.shapeService.resetPreview();
   }
 
-  TEMPORARYsetRGBAColor(r: number, g: number, b: number, a: number): string {
-    return `rgb(${r},${g},${b},${a})`;
+  mouseUpPencil(): void {
+    this.shapeService.drawPencil();
+    this.shapeService.resetPreview();
   }
-
 }

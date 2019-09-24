@@ -1,4 +1,5 @@
 import { Component, Input} from '@angular/core';
+import { tool } from '../../../../../common/constants';
 import {Preview} from '../../../../../common/interface/preview';
 import {Shape} from '../../services/shapes/classes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
@@ -10,17 +11,16 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 })
 
 export class AttributeBarComponent {
-  @Input() test: number;
-  @Input()showRectangle: boolean;
-  @Input()showBrushTool: boolean;
-  @Input()showPenTool: boolean;
-  @Input()showPipette: boolean;
+  tool = tool;
+  @Input()selectedTool: tool;
 
   selectedType = 'Bordered & Filled';
   currentBrushTexture = 'texture #5';
 
   constructor(private shapeService: ShapesService) {}
   preview: Preview;
+
+  get toolTypes() { return tool; }
 
   currentShape: Shape;
   brushState = false;
@@ -123,7 +123,7 @@ export class AttributeBarComponent {
   shapeWidthSlider(value: number): void {
     this.shapeService.strokeWidth = value;
   }
-  
+
   brushWidthSlider(value: number): void {
     this.brushStrokeWidth = value;
   }

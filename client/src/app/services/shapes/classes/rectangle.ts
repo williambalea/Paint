@@ -1,3 +1,4 @@
+import { tool } from '../../../../../../common/constants';
 import { Shape } from './shape';
 
 export class Rectangle extends Shape {
@@ -10,14 +11,15 @@ export class Rectangle extends Shape {
     stroke: string;
     strokeWidth: number;
 
-    constructor(x: number,
+    constructor(type: tool,
+                x: number,
                 y: number,
                 width: number,
                 height: number,
                 fill: string,
                 stroke: string,
                 strokeWidth: number) {
-        super();
+        super(type);
         this.x = x;
         this.y = y;
         this.width = width;

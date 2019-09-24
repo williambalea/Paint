@@ -91,7 +91,7 @@ export class ShapesService {
   drawPencil(): void {
     const pencil = new Pencil (
       // TODO: tool.draw should be separated in tool.pencil and tool.brush
-      tool.draw,
+      tool.pen,
       this.preview.path,
       this.fillColor,
       this.strokeWidth,

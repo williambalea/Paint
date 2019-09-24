@@ -2,6 +2,9 @@
 /.vscode/chrome
 /.vs/
 
+#ignoring coverage folder
+coverage/
+
 #ignoring node_modules
 node_modules/
 

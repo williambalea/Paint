@@ -1,5 +1,4 @@
 .attributeBar {
-  overflow: auto;
   background-color: lightgrey;
   position: fixed; 
   top: 0; 
@@ -7,6 +6,7 @@
   width: 25%;
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 
 }
 

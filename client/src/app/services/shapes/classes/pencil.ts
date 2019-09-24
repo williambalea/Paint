@@ -13,6 +13,10 @@ export class Pencil extends Shape {
         this.strokeWidth = strokeWidth;
     }
 
-    changePrimaryColor(color: string) {}
-    changeSecondaryColor(color: string) {}
+    changePrimaryColor(color: string) {
+        this.stroke = color;
+    }
+    changeSecondaryColor(color: string) {
+        return;
+    }
 }

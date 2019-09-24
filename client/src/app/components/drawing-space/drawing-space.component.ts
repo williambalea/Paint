@@ -108,17 +108,14 @@ export class DrawingSpaceComponent implements OnInit {
         this.mouseDownRectangle(event);
         break;
 
-      case tool.circle:
+      case tool.brush:
         break;
 
-      case tool.draw:
+      case tool.pen:
         this.mouseDownPencil(event);
         break;
 
-      case tool.color:
-          break;
-
-      case tool.pipette:
+      case tool.colorApplicator:
           break;
 
       default:
@@ -142,17 +139,14 @@ export class DrawingSpaceComponent implements OnInit {
         this.mouseMoveRectangle(event);
         break;
 
-      case tool.circle:
+      case tool.brush:
         break;
 
-      case tool.color:
+      case tool.colorApplicator:
         break;
 
-      case tool.draw:
+      case tool.pen:
         this.mouseMovePencil(event);
-        break;
-
-      case tool.pipette:
         break;
 
       default:
@@ -184,17 +178,14 @@ export class DrawingSpaceComponent implements OnInit {
         this.mouseUpRectangle();
         break;
 
-      case tool.circle:
+      case tool.brush:
         break;
 
-      case tool.color:
+      case tool.colorApplicator:
         break;
 
-      case tool.draw:
+      case tool.pen:
         this.mouseUpPencil();
-        break;
-
-      case tool.pipette:
         break;
 
       default:

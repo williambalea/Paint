@@ -1,153 +1,155 @@
 <div class="attributeBar">
 
-    <div [ngSwitch]="this.selectedTool">
+    <div class="colorPicker">
 
-        <div class="placeHolder" *ngSwitchCase="tool.rectangle"><br>
+        <div class="sectionHeader">
+            Color:
+        </div>
+
+        <app-color-picker></app-color-picker>
+    </div>
+
+    <div [ngSwitch]="selectedTool">
+
+        <!--Rectangle-->
+        <div *ngSwitchCase="tool.rectangle">
+
             <div class="header" style="font-weight:900">Rectangle Tool</div>
+
             <div class="singleAttribute">
-                <div class="sectionHeader">
-                    Stroke: {{this.shapeService.strokeWidth}}
-                </div><br>
-                Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b> px<br>
 
-                <label>
-                    <br>
-                    <form (submit)="assignStrokeWidth(value.value)">
-                        Stroke width:
-                        <input #value type="text" placeholder="width in pixels" />
-                    </form>
-
-                </label>
-
-            </div>
-            <div class="singleAttribute">
-                <label>
-                    <div class="sectionHeader">
-                        Fill:
-                    </div>
-                    <br>
-                    <div class="attributeHeader">
-                        Current fill type: <b class="dynamicValue">{{this.selectedType}}</b>
-                    </div>
-                    <br>
-                    <p>
-                        Please select one of the following 3:
-                    </p>
-                    <div>
-                        <label>
-                            <input type="radio" name="rectangleType" value="Bordered"
-                                (change)="radioChangeHandler($event)">
-                            Bordered
-                        </label><br>
-                        <label>
-                            <input type="radio" name="rectangleType" value="Filled"
-                                (change)="radioChangeHandler($event)">
-                            Filled
-                        </label><br>
-                        <label>
-                            <input type="radio" name="rectangleType" value="Bordered & Filled"
-                                (change)="radioChangeHandler($event)" checked>
-                            Bordered & Filled
-                        </label>
-                    </div>
-                    <br>
-                </label>
-                <br>
-            </div>
-            <div class="singleAttribute">
-                <label>
-                </label>
-                <div class="sectionHeader">
-                    Color:
-                </div>
-                <div class="card">
-                    <app-color-picker></app-color-picker>
-                </div>
-            </div>
-            <br>
-        </div>
-
-        <div class="placeHolder" *ngSwitchCase="tool.circle">
-            PLACEHOLDER CERCLE (?)
-        </div>
-
-        <div class="placeHolder" *ngSwitchCase="tool.draw">
-            <br>
-            <div class="header">
-                <div style="font-weight:900">Outil de dessin</div>
-            </div>
-            <div class="singleAttribute">
-                <div class="sectionHeader">
-                    Drawing tool:
-                    <br>
-                    <!-- We might want to switch for a simple ngSwitch binding in this specific case -->
-                    <button mat-button (click)="selectBrush()" class="square_icon">
-                        <mat-icon>crop_square</mat-icon>Brush
-                    </button>
-                    <button mat-button (click)="selectPen()" class="square_icon">
-                        <mat-icon>crop_square</mat-icon>Pencil
-                    </button>
-                </div>
-                <!-- si le tool est un brush -->
-                <div *ngIf="brushState==1">
-                    <label>
-                        <br>
-                        Current Brush Texture: <b class="dynamicValue">{{this.currentBrushTexture}}</b>
-                        <br>
-
-                        <br>
-                        Brush texture:
-                        <br><button mat-button (click)="assignBrushTexture('option1')" class="square_icon">
-                            <mat-icon>crop_square</mat-icon>Style #1
-                        </button>
-                        <br><button mat-button (click)="assignBrushTexture('option2')" class="square_icon">
-                            <mat-icon>crop_square</mat-icon>Style #2
-                        </button>
-                        <br><button mat-button (click)="assignBrushTexture('option3')" class="square_icon">
-                            <mat-icon>crop_square</mat-icon>Style #3
-                        </button>
-                        <br><button mat-button (click)="assignBrushTexture('option4')" class="square_icon">
-                            <mat-icon>crop_square</mat-icon>Style #4
-                        </button>
-                        <br><button mat-button (click)="assignBrushTexture('option5')" class="square_icon">
-                            <mat-icon>crop_square</mat-icon>Style #5
-                        </button>
-                    </label>
-                </div>
-            </div>
-            <div class="singleAttribute">
                 <div class="sectionHeader">
                     Stroke:
-                </div>
-                <br>
-                Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b>
+                </div><br>
 
-                px
-                <br>
+                Current Stroke Width: <b class="dynamicValue">{{this.shapeService.strokeWidth}}</b> px<br>
                 <label>
                     <br>
-                    <form (submit)="assignStrokeWidth(value.value)">
-                        Stroke width:
-                        <input #value type="text" placeholder="width in pixels" />
-                    </form>
+                    <div>
+                        <input style="width: 83%" type="range" #slider min="1" max="25"
+                            value={{this.shapeService.strokeWidth}} [(ngModel)]="this.shapeService.strokeWidth"
+                            class="slider" id="drawTool" (change)="shapeWidthSlider(slider.value)">
+                    </div>
                 </label>
             </div>
+
             <div class="singleAttribute">
-                <label>
-                </label>
+
                 <div class="sectionHeader">
-                    Color:
-                </div>
-                <div class="card">
-                    <app-color-picker></app-color-picker>
-                </div>
+                    Fill:
+                </div><br>
+
+                <div class="attributeHeader">
+                    Current fill type: <b class="dynamicValue">{{this.selectedType}}</b>
+                </div><br>
+
+                <p> Please select one of the following 3:</p>
+
+                <div>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Bordered" (change)="radioChangeHandler($event)">
+                        Bordered
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Filled" (change)="radioChangeHandler($event)">
+                        Filled
+                    </label><br>
+                    <label>
+                        <input type="radio" name="rectangleType" value="Bordered & Filled"
+                            (change)="radioChangeHandler($event)" checked>
+                        Bordered & Filled
+                    </label>
+                </div><br>
+
             </div>
-            <br>
+
+
         </div>
 
-        <div class="placeHolder" *ngSwitchCase="tool.pipette">
-            PLACEHOLDER PIPETTE
-        </div>
+        <!-- Brush -->
+        <div *ngSwitchCase="tool.brush">
+
+                <div class="header" style="font-weight:900">Brush</div>
+
+                    <div class="singleAttribute">
+
+                        <div class="sectionHeader">Stroke:</div>
+                        <br>
+
+                    Current Stroke Width: <b class="dynamicValue">{{this.brushStrokeWidth}}</b> px
+                    <br>
+
+                    <label>
+
+                        <br>
+                        <div>
+                            <input style="width: 83%" type="range" #slider min="1" max="25"
+                                value={{this.brushStrokeWidth}} [(ngModel)]="this.brushStrokeWidth" class="slider"
+                                id="drawTool" (change)="brushWidthSlider(slider.value)">
+                        </div>
+
+                    </label>
+
+                </div>
+                <div class="singleAttribute">
+                    <div class="sectionHeader">
+                        Texture
+                    </div>
+                    <div>
+                        <label>
+                            <br>
+                            <form (submit)="assignStrokeWidth(value.value)">
+                                Stroke width:
+                                <input #value type="text" placeholder="width in pixels" />
+                            </form>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pen -->
+            <div *ngSwitchCase="tool.pen">
+
+                <div class="header" style="font-weight:900">Pen</div>
+
+                <div class="singleAttribute">
+
+                    <div class="sectionHeader">Stroke:</div>
+                    <br>
+
+                    Current Stroke Width: <b class="dynamicValue">{{this.penStrokeWidth}}</b>
+                    px
+                    <br>
+
+                    <label>
+                        <br>
+                        <div>
+                            <input style="width: 83%" type="range" #slider min="1" max="25"
+                                value={{this.penStrokeWidth}} [(ngModel)]="this.penStrokeWidth" class="slider"
+                                id="drawTool" (change)="shapeWidthSlider(slider.value)">
+                        </div>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <!-- Applicateur de couleur -->
+            <div *ngSwitchCase="tool.colorApplicator">
+
+                <div class="header" style="font-weight:900">Applicateur de couleur</div>
+
+                <div class="singleAttribute">
+
+                    <div class="sectionHeader">
+                        colorApplicator
+                    </div>
+                    <br>
+
+                </div>
+                <br>
+
+            </div>
 
     </div>
 

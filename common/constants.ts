@@ -62,10 +62,9 @@ export const HIDE_DIALOG = 'hideDialog';
 
 export enum tool {
   rectangle,
-  circle,
-  color,
-  draw,
-  pipette,
+  brush,
+  pen,
+  colorApplicator,
 }
 
 export const EMPTY_STRING = '';

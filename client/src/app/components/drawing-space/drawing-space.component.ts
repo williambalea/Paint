@@ -16,7 +16,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 export class DrawingSpaceComponent implements OnInit {
   tool: typeof tool;
   @Input()selectedTool: tool;
-  resizeFlag : boolean = false;
+  resizeFlag: boolean = false;
   canvasWidth: number ;
   canvasHeight: number ;
   subscription: Subscription;
@@ -51,7 +51,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: { target: { innerWidth: number; }; }) {
-    if (!this.resizeFlag){
+    if (!this.resizeFlag) {
     this.width = event.target.innerWidth;
     this.canvasWidth = event.target.innerWidth;
   }
@@ -92,14 +92,18 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   onLeftClick($event: Event, shape: Shape): void {
-    const index: number = this.shapeService.shapes.indexOf(shape);
-    this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
+    if (this.selectedTool === tool.colorApplicator) {
+      const index: number = this.shapeService.shapes.indexOf(shape);
+      this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
+    }
   }
 
   onRightClick($event: Event, shape: Shape): void {
     $event.preventDefault();
-    const index: number = this.shapeService.shapes.indexOf(shape);
-    this.shapeService.shapes[index].changeSecondaryColor(this.colorService.getStrokeColor());
+    if (this.selectedTool === tool.colorApplicator) {
+      const index: number = this.shapeService.shapes.indexOf(shape);
+      this.shapeService.shapes[index].changeSecondaryColor(this.colorService.getStrokeColor());
+    }
   }
 
   @HostListener('mousedown', ['$event'])
@@ -133,6 +137,7 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   mouseDownPen(event: MouseEvent): void {
+    this.colorService.setMakingColorChanges(false);
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
   }
 
@@ -204,6 +209,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   mouseUpPen(): void {
     this.shapeService.drawPen();
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
     this.shapeService.resetPreview();
   }
 }

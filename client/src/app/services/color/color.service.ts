@@ -19,9 +19,11 @@ export class ColorService {
     this.showInAttributeBar = true;
   }
 
-  addColorsToLastUsed(primaryColor: string, secondaryColor: string): void {
+  addColorsToLastUsed(primaryColor: string, secondaryColor ?: string): void {
     this.lastTenColors.push(primaryColor);
-    this.lastTenColors.push(secondaryColor);
+    if (secondaryColor) {
+      this.lastTenColors.push(secondaryColor);
+    }
   }
 
   getMakingColorChanges(): boolean {

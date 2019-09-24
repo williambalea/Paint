@@ -16,7 +16,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 export class DrawingSpaceComponent implements OnInit {
   tool: typeof tool;
   @Input()selectedTool: tool;
-
+  resizeFlag : boolean = false;
   canvasWidth: number ;
   canvasHeight: number ;
   subscription: Subscription;
@@ -42,16 +42,19 @@ export class DrawingSpaceComponent implements OnInit {
 
     this.subscription = this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
-    console.dir('drawingspace', this.width);
     this.subscription = this.fileParameters.canvasheight$
        .subscribe((canvasHeight) => this.canvasHeight = canvasHeight);
+    this.subscription = this.fileParameters.resizeflag$
+       .subscribe((resizeFlag) => this.resizeFlag = resizeFlag);
 
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: { target: { innerWidth: number; }; }) {
-    this.width = event.target.innerWidth - 500;
-    this.canvasWidth = event.target.innerWidth - 500;
+    if (!this.resizeFlag){
+    this.width = event.target.innerWidth;
+    this.canvasWidth = event.target.innerWidth;
+  }
 
   }
 

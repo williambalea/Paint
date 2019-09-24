@@ -134,5 +134,9 @@ export class AttributeBarComponent {
   penWidthSlider(value: number): void {
     this.shapeService.penStrokeWidth = value;
   }
+  
+  getColorService() : ColorService {
+    return this.colorService;
+  }
 
 }

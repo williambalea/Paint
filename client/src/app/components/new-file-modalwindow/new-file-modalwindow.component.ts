@@ -31,7 +31,6 @@ export class NewFileModalwindowComponent implements OnInit {
   ngOnInit() {
     this.canvasWidth= window.innerWidth;
     this.canvasHeight= window.innerHeight;
-    
     this.control = this.builder.control('', Validators.required);
     this.form = this.builder.group({
       canvaswidth: ['', [Validators.required, Validators.min(0)]],

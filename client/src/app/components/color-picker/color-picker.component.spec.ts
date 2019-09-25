@@ -26,7 +26,7 @@ describe('ColorPickerComponent', () => {
 
   it('Should process Hex input correctly', () => {
     colorPickerComponent.onEnterHex('F385A5');
-    expect(colorPickerComponent.getColor()).toEqual('rgba(243,133,165,1.00)');
+    expect(colorPickerComponent.getColor().indexOf('rgba(243,133,165,') !== -1).toBeTruthy();
   });
 
   it('Should swap colors correctly', () => {
@@ -43,10 +43,9 @@ describe('ColorPickerComponent', () => {
     expect(colorPickerComponent.getTransparencyString()).toEqual('1.00');
   });
 
-  it('Should call sendColor from sendColorWrapper', () => {
-    spyOn(colorPickerComponent, 'sendColor');
+  it('Should call sendColor from sendColorWrapper (ie change oldPointedColor)', () => {
     colorPickerComponent.sendColorWrapper();
-    expect(colorPickerComponent.sendColor).toHaveBeenCalled();
+    expect(colorPickerComponent.getOldPointedColor()).toEqual('rgba(0,0,0,1)');
   });
 
 });

@@ -1,5 +1,6 @@
 import * as http from 'http';
 import {inject, injectable} from 'inversify';
+import { NB } from '../../common/constants';
 import {Application} from './app';
 import Types from './types';
 
@@ -7,7 +8,7 @@ import Types from './types';
 export class Server {
 
     private readonly appPort: string | number | boolean = this.normalizePort(process.env.PORT || '3000');
-    private readonly baseDix: number = 10;
+    private readonly baseDix: number = NB.Ten;
     private server: http.Server;
 
     constructor(@inject(Types.Application) private application: Application) {
@@ -27,7 +28,7 @@ export class Server {
         const port: number = (typeof val === 'string') ? parseInt(val, this.baseDix) : val;
         if (isNaN(port)) {
             return val;
-        } else if (port >= 0) {
+        } else if (port >= NB.Zero) {
             return port;
         } else {
             return false;
@@ -42,11 +43,11 @@ export class Server {
         switch (error.code) {
             case 'EACCES':
                 console.error(`${bind} requires elevated privileges`);
-                process.exit(1);
+                process.exit(NB.One);
                 break;
             case 'EADDRINUSE':
                 console.error(`${bind} is already in use`);
-                process.exit(1);
+                process.exit(NB.One);
                 break;
             default:
                 throw error;

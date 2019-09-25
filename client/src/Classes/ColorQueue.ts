@@ -1,3 +1,5 @@
+import { NB } from '../../../common/constants';
+
 export class ColorQueue<T> {
     store: T[];
 
@@ -6,8 +8,8 @@ export class ColorQueue<T> {
     }
 
     push(val: T) {
-        if (this.store.indexOf(val) === -1) {
-            if (this.store.length === 10) {
+        if (this.store.indexOf(val) === NB.MinusOne) {
+            if (this.store.length === NB.Ten) {
                 this.pop();
             }
             this.store.push(val);

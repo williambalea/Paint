@@ -9,6 +9,7 @@ import { AfterViewInit,
         SimpleChanges,
         ViewChild
 } from '@angular/core';
+import { NB } from '../../../../../../common/constants';
 
 @Component({
   selector: 'app-color-palette',
@@ -35,23 +36,23 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)';
-    this.ctx.fillRect(0, 0, width, height);
-    const whiteGrad = this.ctx.createLinearGradient(0, 0, width, 0);
-    whiteGrad.addColorStop(0, 'rgba(255,255,255,1)');
-    whiteGrad.addColorStop(1, 'rgba(255,255,255,0)');
+    this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
+    const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, width, NB.Zero);
+    whiteGrad.addColorStop(NB.Zero, 'rgba(255,255,255,1)');
+    whiteGrad.addColorStop(NB.One, 'rgba(255,255,255,0)');
     this.ctx.fillStyle = whiteGrad;
-    this.ctx.fillRect(0, 0, width, height);
-    const blackGrad = this.ctx.createLinearGradient(0, 0, 0, height);
-    blackGrad.addColorStop(0, 'rgba(0,0,0,0)');
-    blackGrad.addColorStop(1, 'rgba(0,0,0,1)');
+    this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
+    const blackGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
+    blackGrad.addColorStop(NB.Zero, 'rgba(0,0,0,0)');
+    blackGrad.addColorStop(NB.One, 'rgba(0,0,0,1)');
     this.ctx.fillStyle = blackGrad;
-    this.ctx.fillRect(0, 0, width, height);
+    this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
     if (this.selectedPosition) {
         this.ctx.strokeStyle = 'white';
         this.ctx.fillStyle = 'white';
         this.ctx.beginPath();
-        this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, 10, 0, 2 * Math.PI);
-        this.ctx.lineWidth = 5;
+        this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
+        this.ctx.lineWidth = NB.Five;
         this.ctx.stroke();
     }
   }
@@ -92,7 +93,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   }
 
   getColorAtPosition(x: number, y: number) {
-    const imageData = this.ctx.getImageData(x, y, 1, 1).data;
-    return 'rgba(' + imageData[0] + ',' + imageData[1] + ',' + imageData[2] + ',1)';
+    const imageData = this.ctx.getImageData(x, y, NB.One, NB.One).data;
+    return 'rgba(' + imageData[NB.Zero] + ',' + imageData[NB.One] + ',' + imageData[NB.Two] + ',1)';
   }
 }

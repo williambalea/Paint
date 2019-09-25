@@ -8,7 +8,7 @@
     <div class="field">
     <div class="control"> 
     <mat-form-field>
-      <input type = "number" min="0" formControlName = "canvaswidth" value ={{this.canvasWidth}} matInput [(ngModel)]="canvasWidth" >
+      <input type = "canvasWidth" min="0" formControlName = "canvaswidth" value ={{this.canvasWidth}} matInput [(ngModel)]="canvasWidth" > 
       <mat-error>Enter numbers greater than zero</mat-error> 
     </mat-form-field>
    </div>
@@ -17,7 +17,7 @@
   <div class="field">
     <div class="control"> 
  <mat-form-field>
-      <input type = "number" min="0" formControlName = "canvasheight" value ={{this.canvasHeight}} matInput [(ngModel)]="canvasHeight">
+      <input type = "canvasHeight" min="0" formControlName = "canvasheight" value ={{this.canvasHeight}} matInput [(ngModel)]="canvasHeight">
        <mat-error>Enter numbers greater than zero</mat-error> 
     </mat-form-field>
    </div>
@@ -28,7 +28,7 @@
 </div>
 
 <div mat-dialog-actions>
-    <button mat-button (click)="submitParameters(canvasWidth, canvasHeight)" cdkFocusInitial>submit</button>   
+    <button mat-button (click)="submitParameters(canvasWidth, canvasHeight) ; this.close()" cdkFocusInitial>submit</button>   
     <button mat-button (click)="close()" [mat-dialog-close]="canvasWidth" cdkFocusInitial>cancel</button> 
 </div>
 </form>

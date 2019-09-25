@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { NewFileModalwindowComponent } from '../components/new-file-modalwindow/new-file-modalwindow.component';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -11,7 +12,7 @@ export class FileParametersServiceService {
   tempx: number;
   tempy: number;
   tempz: string;
-  tempresize: boolean;
+  tempresize: boolean ;
   canvasWidth: BehaviorSubject<number> = new BehaviorSubject<number>(window.innerWidth);
   canvasHeight: BehaviorSubject<number>  = new BehaviorSubject<number>(window.innerHeight);
   resizeFlag: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -22,8 +23,15 @@ export class FileParametersServiceService {
   dialogRef: MatDialogRef<NewFileModalwindowComponent, any>;
   newFile: boolean;
 
+
+
   constructor() {
     this.newFile = false;
+    this.tempresize =false;
+  }
+  
+  getTempResize () : boolean {
+    return this.tempresize;
   }
 
   changeParameters(widht: number, height: number) {
@@ -32,6 +40,7 @@ export class FileParametersServiceService {
     this.canvasHeight.next(height);
   }
 
+ 
   subscribeToChanges(dialogref: MatDialogRef<NewFileModalwindowComponent, any>) {
     dialogref.afterClosed().subscribe((result) => {
       this.canvasWidth = result;

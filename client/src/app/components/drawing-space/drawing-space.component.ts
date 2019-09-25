@@ -16,7 +16,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 export class DrawingSpaceComponent implements OnInit {
   tool: typeof tool;
   @Input()selectedTool: tool;
-  resizeFlag: boolean = false;
+  resizeFlag: boolean;
   canvasWidth: number ;
   canvasHeight: number ;
   subscription: Subscription;
@@ -31,10 +31,11 @@ export class DrawingSpaceComponent implements OnInit {
     this.tool = tool;
     this.enableKeyPress = false;
     this.width = 0;
+    this.resizeFlag = false;
   }
 
   ngOnInit(): void {
-    if (!sessionStorage.getItem(HIDE_DIALOG)) {
+    if (!localStorage.getItem(HIDE_DIALOG)) {
       this.openDialog();
     } else {
       this.enableKeyPress = true;
@@ -68,7 +69,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   closeDialog(hideDialog: boolean): void {
     if (hideDialog) {
-      sessionStorage.setItem('hideDialog', JSON.stringify(hideDialog));
+      localStorage.setItem('hideDialog', JSON.stringify(hideDialog));
     }
     this.enableKeyPress = true;
   }

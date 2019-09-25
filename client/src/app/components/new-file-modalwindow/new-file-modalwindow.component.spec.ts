@@ -1,20 +1,20 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FileParametersServiceService } from '../../services/file-parameters-service.service';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
-import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material';
-import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
 import { ColorService } from 'src/app/services/color/color.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
+import { FileParametersServiceService } from '../../services/file-parameters-service.service';
+import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
 
 describe('NewFileModalwindowComponent', () => {
   let component: NewFileModalwindowComponent;
   let fixture: ComponentFixture<NewFileModalwindowComponent>;
-  let  dialogRef: MatDialogRef<NewFileModalwindowComponent, any>;
+  let dialogRef: MatDialogRef<NewFileModalwindowComponent, any>;
   let colorService: ColorService;
-  let  builder: FormBuilder;
-  let  shapeService: ShapesService;
+  let builder: FormBuilder;
+  let shapeService: ShapesService;
   let dialog: MatDialog;
   let fileParameters
   

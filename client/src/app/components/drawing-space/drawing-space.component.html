@@ -66,7 +66,7 @@
 
         <filter id="chalk" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">
             <feTurbulence baseFrequency="1" type="fractalNoise" seed="240" numOctaves="2" result="result1" scale="33" />
-            <feDisplacementMap xChannelSelector="A" yChannelSelector="R" scale="19.5" in="SourceGraphic" in2="result1" seed="241" baseFrequency="0.9 0.1"/>
+            <feDisplacementMap xChannelSelector="A" yChannelSelector="R" scale="50" in="SourceGraphic" in2="result1" seed="241" baseFrequency="0.9 0.1"/>
             <feGaussianBlur stdDeviation="0.1"/>
         </filter>
 
@@ -84,8 +84,8 @@
 
         <filter id="rough" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">
             <feTurbulence result="result1" numOctaves="2" seed="240" type="turbulence" baseFrequency="1 1"/>
-            <feDisplacementMap baseFrequency="0.9 0.1" seed="241" in2="result1" in="SourceGraphic" scale="4.5" yChannelSelector="R" xChannelSelector="A"/>
-            <feGaussianBlur stdDeviation="0.14" />
+            <feDisplacementMap baseFrequency="0.9 0.1" seed="241" in2="result1" in="SourceGraphic" scale="20" yChannelSelector="R" xChannelSelector="A"/>
+            <feGaussianBlur stdDeviation="0.3" />
         </filter>
 
         <filter id="smooth" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">

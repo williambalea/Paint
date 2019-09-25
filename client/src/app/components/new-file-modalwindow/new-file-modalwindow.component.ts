@@ -16,20 +16,21 @@ export class NewFileModalwindowComponent implements OnInit {
   form: FormGroup;
   control: FormControl;
   customErrors = {required: 'Please accept the terms'};
-  canvasWidth: number;
-  canvasHeight: number;
+  canvasWidth: number ;
+  canvasHeight: number ;
 
-  constructor(private fileParameters: FileParametersServiceService,
+  constructor( public fileParameters: FileParametersServiceService,
               private dialog: MatDialog,
               private shapeService: ShapesService,
               private builder: FormBuilder,
               private colorService: ColorService,
               public dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
-                this.canvasHeight = window.innerHeight;
-                this.canvasWidth = window.innerHeight;
+                
   }
 
   ngOnInit() {
+    this.canvasWidth= window.innerWidth;
+    this.canvasHeight= window.innerHeight;
     this.control = this.builder.control('', Validators.required);
     this.form = this.builder.group({
       canvaswidth: ['', [Validators.required, Validators.min(0)]],
@@ -48,12 +49,10 @@ export class NewFileModalwindowComponent implements OnInit {
   submitParameters(canvaswidth: number, canvasheight: number) {
     this.fileParameters.tempresize = true;
     if (this.shapeService.shapes.length !== 0) {
-      console.dir('newfile', canvaswidth );
       this.dialog.open(DeleteConfirmationComponent);
       this.fileParameters.setParameters(canvaswidth, canvasheight);
     } else {
       this.fileParameters.changeParameters(canvaswidth, canvasheight);
     }
-    this.close();
   }
 }

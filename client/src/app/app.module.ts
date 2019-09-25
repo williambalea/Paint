@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatListModule,
   MatMenuModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatToolbarModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -46,7 +47,6 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatMenuModule,
     ColorPickerModule,
     FormsModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,

@@ -12,10 +12,10 @@ export class FileParametersServiceService {
   tempy: number;
   tempz: string;
   tempresize: boolean;
-  canvasWidth: BehaviorSubject<number>;
-  canvasHeight: BehaviorSubject<number>;
-  resizeFlag: BehaviorSubject<boolean>;
-  canvasColor: BehaviorSubject<string>;
+  canvasWidth: BehaviorSubject<number> = new BehaviorSubject<number>(window.innerWidth);
+  canvasHeight: BehaviorSubject<number>  = new BehaviorSubject<number>(window.innerHeight);
+  resizeFlag: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  canvasColor: BehaviorSubject<string> = new BehaviorSubject<string>('white');
   canvaswidth$ = this.canvasWidth.asObservable();
   canvasheight$ = this.canvasHeight.asObservable();
   resizeflag$ = this.resizeFlag.asObservable();
@@ -24,10 +24,6 @@ export class FileParametersServiceService {
 
   constructor() {
     this.newFile = false;
-    this.canvasWidth = new BehaviorSubject<number>(window.innerWidth);
-    this.canvasHeight = new BehaviorSubject<number>(window.innerHeight);
-    this.resizeFlag = new BehaviorSubject<boolean>(false);
-    this.canvasColor = new BehaviorSubject<string>('white');
   }
 
   changeParameters(widht: number, height: number) {

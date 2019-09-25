@@ -1,9 +1,8 @@
-import { MatDialog, MatDialogModule } from '@angular/material';
+import { Overlay } from '@angular/cdk/overlay';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatDialog, MatDialogModule } from '@angular/material';
 import { SideBarComponent } from './side-bar.component';
-import { Overlay } from '@angular/cdk/overlay';
 
 describe('SideBarComponent', () => {
   let component: SideBarComponent;
@@ -12,10 +11,10 @@ describe('SideBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SideBarComponent ],
-      imports:[
-        MatDialogModule
+      imports: [
+        MatDialogModule,
       ],
-      providers:[
+      providers: [
         MatDialog,
         Overlay,
       ],

@@ -1,10 +1,8 @@
-import { MatDialogModule, MatDialogRef } from '@angular/material';
-
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material';
+import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
 
 describe('NewFileModalwindowComponent', () => {
   let component: NewFileModalwindowComponent;
@@ -12,16 +10,16 @@ describe('NewFileModalwindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         ReactiveFormsModule,
-        MatDialogModule
+        MatDialogModule,
       ],
-      providers:[
+      providers: [
         { provide: MatDialogRef, useValue: {} },
       ],
       declarations: [ NewFileModalwindowComponent ],
-      schemas:[
-        CUSTOM_ELEMENTS_SCHEMA
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA,
       ],
 
     })

@@ -20,9 +20,11 @@ export class ColorPickerComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendColorWrapper();
+    console.dir(this.hue);
   }
 
   constructor(private colorService: ColorService) {
+    this.hue = '';
     this.color = 'rgba(255,255,255,1)';
     this.oldPointedColor = 'rgba(0,0,0,1)';
     this.transparency = 255;

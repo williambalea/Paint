@@ -10,26 +10,24 @@ import { Shape } from './classes/shape';
   providedIn: 'root',
 })
 export class ShapesService {
-
+  // TODO: QA
   shapes: Shape[] = [];
   mouse: Point;
   origin: Point;
-
   preview: Preview;
-
   rectangleStrokeWidth: number;
   fillColor: string;
   strokeColor: string;
-
   penStrokeWidth: number;
-
-  strokeEnable = true;
-  fillEnable = true;
+  strokeEnable: boolean;
+  fillEnable: boolean;
 
   constructor() {
     this.resetPreview();
     this.rectangleStrokeWidth = 1;
     this.penStrokeWidth = 1;
+    this.strokeEnable = false;
+    this.fillEnable = true;
   }
 
   setMouseOrigin(event: MouseEvent): void {

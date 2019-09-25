@@ -4,17 +4,6 @@ import { ColorPickerComponent } from '../color-picker/color-picker.component';
 const colorService: ColorService = new ColorService();
 const colorPickerComponent: ColorPickerComponent = new ColorPickerComponent(colorService);
 describe('ColorPickerComponent', () => {
-  it('Should initialise attributes correctly', () => {
-    expect(colorPickerComponent).toBeDefined();
-    expect(colorPickerComponent.getColor()).toEqual('rgba(255,255,255,1)');
-    expect(colorPickerComponent.getOldPointedColor()).toEqual('rgba(0,0,0,1)');
-    expect(colorPickerComponent.getTransparency()).toEqual(255);
-    expect(colorPickerComponent.getColorHex()).toEqual('FFFFFF');
-    expect(colorPickerComponent.getTransparencyString()).toEqual('1');
-    expect(colorPickerComponent.getUsingPrimary()).toEqual(true);
-    expect(colorPickerComponent.getInputControl()).toBeDefined();
-  });
-
   it('It should set primary correctly', () => {
     colorPickerComponent.setPrimary();
     expect(colorPickerComponent.getUsingPrimary()).toBeTruthy();
@@ -37,7 +26,7 @@ describe('ColorPickerComponent', () => {
 
   it('Should process Hex input correctly', () => {
     colorPickerComponent.onEnterHex('F385A5');
-    expect(colorPickerComponent.getColor()).toEqual('rgba(243,133,165,1)');
+    expect(colorPickerComponent.getColor()).toEqual('rgba(243,133,165,1.00)');
   });
 
   it('Should swap colors correctly', () => {

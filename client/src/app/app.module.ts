@@ -6,7 +6,6 @@ import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatLis
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// { AlertsModule } from 'angular-alert-module';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AppComponent } from './app.component';
 import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.component';
@@ -46,7 +45,6 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     AngularSvgIconModule,
     MatMenuModule,
     ColorPickerModule,
-    //AlertsModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -59,12 +57,12 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
   ],
-  schemas:[
-    CUSTOM_ELEMENTS_SCHEMA
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
   ],
   providers: [],
   bootstrap: [
-    AppComponent
+    AppComponent,
   ],
 })
 

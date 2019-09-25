@@ -10,6 +10,7 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
   styleUrls: ['./side-bar.component.scss'],
 })
 export class SideBarComponent {
+  // TODO QA
   tool: typeof tool;
   selectedTool: tool;
 

@@ -12,11 +12,12 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
   styleUrls: ['./new-file-modalwindow.component.scss'],
 })
 export class NewFileModalwindowComponent implements OnInit {
+  // TODO: QA
   form: FormGroup;
   control: FormControl;
   customErrors = {required: 'Please accept the terms'};
-  canvasWidth: number = window.innerWidth;
-  canvasHeight: number = window.innerHeight;
+  canvasWidth: number;
+  canvasHeight: number;
 
   constructor(private fileParameters: FileParametersServiceService,
               private dialog: MatDialog,
@@ -24,6 +25,8 @@ export class NewFileModalwindowComponent implements OnInit {
               private builder: FormBuilder,
               private colorService: ColorService,
               public dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
+                this.canvasHeight = window.innerHeight;
+                this.canvasWidth = window.innerHeight;
   }
 
   ngOnInit() {

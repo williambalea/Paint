@@ -1,4 +1,4 @@
-import { tool } from '../../../../../../common/constants';
+import { TOOL } from '../../../../../../common/constants';
 import { Shape } from './shape';
 
 export class Pen extends Shape {
@@ -6,7 +6,7 @@ export class Pen extends Shape {
     stroke: string;
     strokeWidth: number;
 
-    constructor(type: tool, path: string, stroke: string, strokeWidth: number) {
+    constructor(type: TOOL, path: string, stroke: string, strokeWidth: number) {
         super(type);
         this.path = path;
         this.stroke = stroke;

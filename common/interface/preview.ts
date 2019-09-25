@@ -5,4 +5,5 @@ export interface Preview {
     width: number;
     height: number;
     path: string;
+    filter: string;
 }

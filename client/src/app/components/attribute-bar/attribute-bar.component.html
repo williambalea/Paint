@@ -34,7 +34,7 @@
                     <div>
                         <input style="width: 83%" type="range" #slider min="1" max="25"
                             value={{this.shapeService.rectangleStrokeWidth}} [(ngModel)]="this.shapeService.rectangleStrokeWidth"
-                            class="slider" id="drawTool" (change)="shapeWidthSlider(slider.value)">
+                            class="slider" id="drawTool">
                     </div>
                 </label>
             </div>
@@ -82,7 +82,15 @@
                         <div class="sectionHeader">Stroke:</div>
                         <br>
 
-                    Current Stroke Width: <b class="dynamicValue">{{this.brushStrokeWidth}}</b> px
+                        <div>
+                            <svg width="200" height="50" >
+                                <line x1="20" y1="30" x2="180" y2="30"
+                                [style.stroke-width]="this.shapeService.brushStrokeWidth"
+                                style="stroke:rgb(0,0,0);stroke-linecap: round"/>
+                            </svg>
+                        </div>
+
+                    Current Stroke Width: <b class="dynamicValue">{{this.shapeService.brushStrokeWidth}}</b> px
                     <br>
 
                     <label>
@@ -90,8 +98,8 @@
                         <br>
                         <div>
                             <input style="width: 83%" type="range" #slider min="1" max="25"
-                                value={{this.brushStrokeWidth}} [(ngModel)]="this.brushStrokeWidth" class="slider"
-                                id="drawTool" (change)="brushWidthSlider(slider.value)">
+                                value={{this.shapeService.brushStrokeWidth}} [(ngModel)]="this.shapeService.brushStrokeWidth" class="slider"
+                                id="drawTool">
                         </div>
 
                     </label>
@@ -104,10 +112,16 @@
                     <div>
                         <label>
                             <br>
-                            <form (submit)="assignStrokeWidth(value.value)">
-                                Stroke width:
-                                <input #value type="text" placeholder="width in pixels" />
-                            </form>
+                            Style: 
+                            <mat-form-field>
+                                    <mat-select [(ngModel)]="this.shapeService.brushStyle">
+                                        <mat-option [value]="this.brush.chalk">{{this.brush.chalk}}</mat-option>
+                                        <mat-option [value]="this.brush.smear">{{this.brush.smear}}</mat-option>
+                                        <mat-option [value]="this.brush.rough">{{this.brush.rough}}</mat-option>
+                                        <mat-option [value]="this.brush.smooth">{{this.brush.smooth}}</mat-option>
+                                        <mat-option [value]="this.brush.bubbly">{{this.brush.bubbly}}</mat-option>
+                                    </mat-select>
+                            </mat-form-field>
                         </label>
                     </div>
                 </div>
@@ -139,7 +153,7 @@
                         <div>
                             <input style="width: 83%" type="range" #slider min="1" max="25"
                                 value={{this.shapeService.penStrokeWidth}} [(ngModel)]="this.shapeService.penStrokeWidth" class="slider"
-                                id="drawTool" (change)="penWidthSlider(slider.value)">
+                                id="drawTool">
                         </div>
                     </label>
 
@@ -150,12 +164,12 @@
             <!-- Applicateur de couleur -->
             <div *ngSwitchCase="tool.colorApplicator">
 
-                <div class="header" style="font-weight:900">Applicateur de couleur</div>
+                <div class="header" style="font-weight:900">Color Applicator</div>
 
                 <div class="singleAttribute">
 
-                    <div class="sectionHeader">
-                        colorApplicator
+                    <div>
+                        Change the color of any drawn object with the primary color selected
                     </div>
                     <br>
 

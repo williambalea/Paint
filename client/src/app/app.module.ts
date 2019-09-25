@@ -46,7 +46,6 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatMenuModule,
     ColorPickerModule,
     FormsModule,
-    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,

@@ -1,9 +1,9 @@
-import { tool } from '../../../../../../common/constants';
+import { TOOL } from '../../../../../../common/constants';
 
 export abstract class Shape {
-    type: tool;
+    type: TOOL;
 
-    constructor(type: tool) {
+    constructor(type: TOOL) {
         this.type = type;
     }
 

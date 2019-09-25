@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { EMPTY_STRING, NB, tool } from '../../../../../common/constants';
+import { BRUSH, EMPTY_STRING, NB, TOOL } from '../../../../../common/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
+import { Brush } from './classes/brush';
 import { Pen } from './classes/pen';
 import { Rectangle } from './classes/rectangle';
 import { Shape } from './classes/shape';
@@ -19,6 +20,8 @@ export class ShapesService {
   fillColor: string;
   strokeColor: string;
   penStrokeWidth: number;
+  brushStrokeWidth: number;
+  brushStyle: BRUSH;
   strokeEnable: boolean;
   fillEnable: boolean;
 
@@ -26,7 +29,9 @@ export class ShapesService {
     this.resetPreview();
     this.rectangleStrokeWidth = NB.One;
     this.penStrokeWidth = NB.One;
-    this.strokeEnable = false;
+    this.brushStrokeWidth = NB.One;
+    this.brushStyle = BRUSH.smooth;
+    this.strokeEnable = true;
     this.fillEnable = true;
   }
 
@@ -80,7 +85,7 @@ export class ShapesService {
   drawRectangle(): Shape {
     this.setRectangleType();
     const rectangle = new Rectangle (
-      tool.rectangle,
+      TOOL.rectangle,
       this.preview.x,
       this.preview.y,
       this.preview.width,
@@ -95,12 +100,23 @@ export class ShapesService {
 
   drawPen(): void {
     const pen = new Pen (
-      tool.pen,
+      TOOL.pen,
       this.preview.path,
       this.fillColor,
       this.penStrokeWidth,
     );
     this.shapes.push(pen);
+  }
+
+  drawBrush(): void {
+    const brush = new Brush (
+      TOOL.brush,
+      this.preview.path,
+      this.fillColor,
+      this.brushStrokeWidth,
+      this.preview.filter,
+    );
+    this.shapes.push(brush);
   }
 
   clearShapes(): void {
@@ -124,6 +140,7 @@ export class ShapesService {
       width: NB.Zero,
       height: NB.Zero,
       path: EMPTY_STRING,
+      filter: EMPTY_STRING,
     };
   }
 

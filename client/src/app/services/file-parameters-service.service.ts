@@ -11,7 +11,7 @@ export class FileParametersServiceService {
   tempx: number;
   tempy: number;
   tempz: string;
-  tempresize: boolean;
+  tempresize: boolean ;
   canvasWidth: BehaviorSubject<number> = new BehaviorSubject<number>(window.innerWidth);
   canvasHeight: BehaviorSubject<number>  = new BehaviorSubject<number>(window.innerHeight);
   resizeFlag: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -24,6 +24,11 @@ export class FileParametersServiceService {
 
   constructor() {
     this.newFile = false;
+    this.tempresize = false;
+  }
+
+  getTempResize(): boolean {
+    return this.tempresize;
   }
 
   changeParameters(widht: number, height: number) {

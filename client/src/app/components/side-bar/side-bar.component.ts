@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
-import { tool } from '../../../../../common/constants';
+import { TOOL } from '../../../../../common/constants';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 
 @Component({
@@ -11,14 +11,14 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
 })
 export class SideBarComponent {
   // TODO QA
-  tool: typeof tool;
-  selectedTool: tool;
+  tool: typeof TOOL;
+  selectedTool: TOOL;
 
   constructor(private dialog: MatDialog, private colorService: ColorService) {
-    this.tool = tool;
+    this.tool = TOOL;
   }
 
-  selectTool(chosenTool: tool): void {
+  selectTool(chosenTool: TOOL): void {
     this.selectedTool = chosenTool;
   }
 

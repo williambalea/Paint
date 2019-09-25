@@ -66,7 +66,7 @@
 
         <filter id="chalk" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">
             <feTurbulence baseFrequency="1" type="fractalNoise" seed="240" numOctaves="2" result="result1" scale="33" />
-            <feDisplacementMap xChannelSelector="A" yChannelSelector="R" scale="50" in="SourceGraphic" in2="result1" seed="241" baseFrequency="0.9 0.1"/>
+            <feDisplacementMap xChannelSelector="A" yChannelSelector="R" scale="70" in="SourceGraphic" in2="result1" seed="241" baseFrequency="0.9 0.1"/>
             <feGaussianBlur stdDeviation="0.1"/>
         </filter>
 
@@ -95,10 +95,10 @@
         </filter>
 
         <filter id="bubbly" x="-15" y="-25" height="40" width="50" style="color-interpolation-filters:sRGB;">
-            <feTurbulence baseFrequency="0 0.998" type="fractalNoise" seed="667" numOctaves="1" result="result1" stdDeviation="0.01 5.15"/>
-            <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="result1" result="fbSourceGraphic"/>
+            <feTurbulence baseFrequency="0.058 0.932" type="fractalNoise" seed="667" numOctaves="1" result="result1" stdDeviation="0.01 5.15"/>
+            <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="70" in="SourceGraphic" in2="result1" result="fbSourceGraphic"/>
             <feColorMatrix result="fbSourceGraphicAlpha" in="fbSourceGraphic" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"/>
-            <feGaussianBlur stdDeviation="6 0.01" result="blur" in="fbSourceGraphic" baseFrequency="1 0"/>
+            <feGaussianBlur stdDeviation="1.53 0" result="blur" in="fbSourceGraphic" baseFrequency="1 0"/>
             <feComposite in2="blur" in="fbSourceGraphic" operator="in" result="composite1" />
             <feComposite in2="composite1" in="composite1" k2="1" operator="in" result="composite2"/>
         </filter>

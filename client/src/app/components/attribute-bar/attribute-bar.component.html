@@ -34,7 +34,7 @@
                     <div>
                         <input style="width: 83%" type="range" #slider min="1" max="25"
                             value={{this.shapeService.rectangleStrokeWidth}} [(ngModel)]="this.shapeService.rectangleStrokeWidth"
-                            class="slider" id="drawTool" (change)="shapeWidthSlider(slider.value)">
+                            class="slider" id="drawTool">
                     </div>
                 </label>
             </div>
@@ -82,7 +82,73 @@
                         <div class="sectionHeader">Stroke:</div>
                         <br>
 
-                    Current Stroke Width: <b class="dynamicValue">{{this.brushStrokeWidth}}</b> px
+                        <div>
+                            <svg width="200" height="50">
+                                <line x1="20" y1="30" x2="180" y2="30"
+                                [style.stroke-width]="this.shapeService.brushStrokeWidth"
+                                style="stroke:rgb(0,0,0);stroke-linecap: round"/>
+
+                                <!-- to move in external file -->
+                                <defs>
+
+                                        <filter id="chalk" style="color-interpolation-filters:sRGB;">
+                                            <feTurbulence baseFrequency="1" type="fractalNoise" seed="240" numOctaves="2" result="result1" scale="33" />
+                                            <feDisplacementMap xChannelSelector="A" yChannelSelector="R" scale="19.5" in="SourceGraphic" in2="result1" seed="241" baseFrequency="0.9 0.1"/>
+                                            <feGaussianBlur stdDeviation="0.1"/>
+                                        </filter>
+                                
+                                        <filter id="smear" style="color-interpolation-filters:sRGB;">
+                                            <feTurbulence type="fractalNoise" numOctaves="3" baseFrequency="0.25 0.4" seed="5"/>
+                                            <feColorMatrix result="result5" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "/>
+                                            <feComposite in="SourceGraphic" operator="in" in2="result5"/>
+                                            <feMorphology operator="dilate" radius="1.5" result="result3"/>
+                                            <feTurbulence numOctaves="5" baseFrequency="0.03" type="fractalNoise" seed="7"/>
+                                            <feGaussianBlur stdDeviation="0.5" result="result91"/>
+                                            <feDisplacementMap in="result3" xChannelSelector="R" yChannelSelector="G" scale="27" result="result4" in2="result91"/>
+                                            <feComposite in="result4" k3="0.8" k1="1.3" result="result2" operator="arithmetic" in2="result4"/>
+                                            <feBlend in2="result2" mode="screen" in="result2"/>
+                                        </filter>
+                                
+                                        <filter id="rough" style="color-interpolation-filters:sRGB;">
+                                            <feTurbulence result="result1" numOctaves="2" seed="240" type="turbulence" baseFrequency="1 1"/>
+                                            <feDisplacementMap baseFrequency="0.9 0.1" seed="241" in2="result1" in="SourceGraphic" scale="4.5" yChannelSelector="R" xChannelSelector="A"/>
+                                            <feGaussianBlur stdDeviation="0.14" />
+                                        </filter>
+                                
+                                        <filter id="smooth" style="color-interpolation-filters:sRGB;">
+                                            <feGaussianBlur result="result6" stdDeviation="3.5 7.1" in="SourceGraphic"/>
+                                            <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result7" in="SourceGraphic" id="feColorMatrix226"/>
+                                            <feComposite operator="in" in="result6" in2="result7"/>
+                                        </filter>
+                                
+                                        <filter id="bubbly" style="color-interpolation-filters:sRGB;">
+                                            <feGaussianBlur stdDeviation="2" result="result1"/>
+                                            <feOffset dx="2" dy="2"/>
+                                            <feConvolveMatrix result="result3" order="3 3" kernelMatrix="2 0 0 0 8 0 4 0 -4 " divisor="2" bias="0" targetX="0"/>
+                                            <feComposite operator="xor" result="result2" in="result3" in2="result1"/>
+                                            <feColorMatrix values="91.7" result="fbSourceGraphic" type="hueRotate"/>
+                                            <feBlend mode="multiply" result="result4" in="fbSourceGraphic" in2="result3"/>
+                                            <feComposite operator="in" result="result6" in="fbSourceGraphic" in2="result4"/>
+                                        </filter>
+                                
+                                        <filter id="smoke" style="color-interpolation-filters:sRGB;">
+                                            <feGaussianBlur stdDeviation="3.16" result="result8"/>
+                                            <feTurbulence seed="27" result="result7" type="fractalNoise" numOctaves="5" baseFrequency="0.025"/>
+                                            <feComposite in2="result8" result="result6" operator="over" in="result7"/>
+                                            <feColorMatrix result="result9" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 6 -4 "/>
+                                            <feDisplacementMap in="result7" in2="result9" xChannelSelector="A" yChannelSelector="A" scale="45" result="result4"/>
+                                            <feComposite in2="result4" result="result2" operator="in" in="result8"/>
+                                            <feComposite result="fbSourceGraphic" in="result2" operator="in" in2="result9"/>
+                                            <feComposite operator="arithmetic" k2="1" k1="0.5" in="fbSourceGraphic" in2="fbSourceGraphic" result="result91"/>
+                                            <feBlend in="fbSourceGraphic" mode="multiply" in2="result91"/>
+                                        </filter>
+                                
+                                    </defs>
+
+                            </svg>
+                        </div>
+
+                    Current Stroke Width: <b class="dynamicValue">{{this.shapeService.brushStrokeWidth}}</b> px
                     <br>
 
                     <label>
@@ -90,8 +156,8 @@
                         <br>
                         <div>
                             <input style="width: 83%" type="range" #slider min="1" max="25"
-                                value={{this.brushStrokeWidth}} [(ngModel)]="this.brushStrokeWidth" class="slider"
-                                id="drawTool" (change)="brushWidthSlider(slider.value)">
+                                value={{this.shapeService.brushStrokeWidth}} [(ngModel)]="this.shapeService.brushStrokeWidth" class="slider"
+                                id="drawTool">
                         </div>
 
                     </label>
@@ -139,7 +205,7 @@
                         <div>
                             <input style="width: 83%" type="range" #slider min="1" max="25"
                                 value={{this.shapeService.penStrokeWidth}} [(ngModel)]="this.shapeService.penStrokeWidth" class="slider"
-                                id="drawTool" (change)="penWidthSlider(slider.value)">
+                                id="drawTool">
                         </div>
                     </label>
 

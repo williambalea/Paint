@@ -19,6 +19,7 @@ export class ShapesService {
   fillColor: string;
   strokeColor: string;
   penStrokeWidth: number;
+  brushStrokeWidth: number;
   strokeEnable: boolean;
   fillEnable: boolean;
 
@@ -26,7 +27,8 @@ export class ShapesService {
     this.resetPreview();
     this.rectangleStrokeWidth = 1;
     this.penStrokeWidth = 1;
-    this.strokeEnable = false;
+    this.brushStrokeWidth = 1;
+    this.strokeEnable = true;
     this.fillEnable = true;
   }
 

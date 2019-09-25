@@ -30,6 +30,10 @@ export class ShapesService {
     this.fillEnable = true;
   }
 
+  getShapes(): Shape[] {
+    return this.shapes;
+  }
+
   setMouseOrigin(event: MouseEvent): void {
     this.origin = {x: event.offsetX, y: event.offsetY};
     this.preview.x = event.offsetX;

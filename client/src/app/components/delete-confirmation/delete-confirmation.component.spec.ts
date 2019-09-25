@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material';
+import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from './delete-confirmation.component';
 
 describe('DeleteConfirmationComponent', () => {
+  const shapeService: ShapesService = new ShapesService();
   let component: DeleteConfirmationComponent;
   let fixture: ComponentFixture<DeleteConfirmationComponent>;
 
@@ -27,5 +29,10 @@ describe('DeleteConfirmationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Should handle clear function correctly', () => {
+    component.clear();
+    expect(shapeService.getShapes.length).toEqual(0);
   });
 });

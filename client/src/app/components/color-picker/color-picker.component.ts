@@ -21,7 +21,6 @@ export class ColorPickerComponent implements OnInit {
 
   ngOnInit(): void {
     this.sendColorWrapper();
-    console.dir(this.hue);
   }
 
   constructor(private colorService: ColorService) {
@@ -35,8 +34,16 @@ export class ColorPickerComponent implements OnInit {
     this.colorInputControl = new ColorInputControl();
   }
 
-  getInputControl(): ColorInputControl {
-    return this.colorInputControl;
+  getHue(): string {
+    return this.hue;
+  }
+
+  setOldPointedColor(color: string): void {
+    this.oldPointedColor = color;
+  }
+
+  getOldPointedColor(): string {
+    return this.oldPointedColor;
   }
 
   getUsingPrimary(): boolean {
@@ -45,10 +52,6 @@ export class ColorPickerComponent implements OnInit {
 
   getTransparencyString(): string {
     return this.transparencyString;
-  }
-
-  getColorHex(): string {
-    return this.colorHex;
   }
 
   getTransparency(): number {
@@ -61,14 +64,6 @@ export class ColorPickerComponent implements OnInit {
 
   setColor(newColor: string): void {
     this.color = newColor;
-  }
-
-  getOldPointedColor(): string {
-    return this.oldPointedColor;
-  }
-
-  getHue(): string {
-    return this.hue;
   }
 
   setPrimary(): void {

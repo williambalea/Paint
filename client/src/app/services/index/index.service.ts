@@ -12,6 +12,7 @@ export class IndexService {
   private readonly BASE_URL: string = 'http://localhost:3000/api/index';
 
   constructor(private http: HttpClient) {
+
   }
 
   basicGet(): Observable<Message> {

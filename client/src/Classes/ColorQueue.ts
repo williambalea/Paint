@@ -1,9 +1,9 @@
 export class ColorQueue<T> {
+    store: T[];
 
     constructor() {
         this.store = [];
     }
-    store: T[];
 
     push(val: T) {
         if (this.store.indexOf(val) === -1) {

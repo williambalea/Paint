@@ -14,11 +14,12 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
+  // TODO: QA
   tool: typeof tool;
   @Input()selectedTool: tool;
   resizeFlag: boolean;
-  canvasWidth: number ;
-  canvasHeight: number ;
+  canvasWidth: number;
+  canvasHeight: number;
   subscription: Subscription;
   width: number;
   enableKeyPress: boolean;

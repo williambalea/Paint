@@ -7,28 +7,33 @@ import { NewFileModalwindowComponent } from '../components/new-file-modalwindow/
   providedIn: 'root',
 })
 export class FileParametersServiceService {
+  // TODO: QA
   tempx: number;
   tempy: number;
   tempz: string;
-  tempresize : boolean;
-  canvasWidth = new BehaviorSubject<number>(window.innerWidth);
-  canvasHeight = new BehaviorSubject<number>(window.innerHeight);
-  resizeFlag = new BehaviorSubject<boolean>(false);
-  canvasColor = new BehaviorSubject<string>('white');
+  tempresize: boolean;
+  canvasWidth: BehaviorSubject<number>;
+  canvasHeight: BehaviorSubject<number>;
+  resizeFlag: BehaviorSubject<boolean>;
+  canvasColor: BehaviorSubject<string>;
   canvaswidth$ = this.canvasWidth.asObservable();
   canvasheight$ = this.canvasHeight.asObservable();
   resizeflag$ = this.resizeFlag.asObservable();
-  dialogRef: MatDialogRef<NewFileModalwindowComponent, any> ;
+  dialogRef: MatDialogRef<NewFileModalwindowComponent, any>;
   newFile: boolean;
+
+  constructor() {
+    this.newFile = false;
+    this.canvasWidth = new BehaviorSubject<number>(window.innerWidth);
+    this.canvasHeight = new BehaviorSubject<number>(window.innerHeight);
+    this.resizeFlag = new BehaviorSubject<boolean>(false);
+    this.canvasColor = new BehaviorSubject<string>('white');
+  }
 
   changeParameters(widht: number, height: number) {
     this.resizeFlag.next(this.tempresize);
     this.canvasWidth.next(widht);
     this.canvasHeight.next(height);
-  }
-
-  constructor() {
-    this.newFile = false;
   }
 
   subscribeToChanges(dialogref: MatDialogRef<NewFileModalwindowComponent, any>) {

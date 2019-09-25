@@ -15,29 +15,38 @@ export class AttributeBarComponent {
   tool: typeof tool;
   @Input()selectedTool: tool;
 
-  selectedType = 'Bordered & Filled';
-  currentBrushTexture = 'texture #5';
+  selectedType: string;
+  currentBrushTexture: string;
   preview: Preview;
+  currentShape: Shape;
+  brushState: boolean;
+  shapeStrokeColor: string;
+  shapeFillColor: string;
+  shapeStrokeWidth: number;
+  penStrokeColor: string;
+  penStrokeWidth: number;
+  brushStrokeColor: string;
+  brushStrokeWidth: number;
+  fillColor: string;
+  show: boolean;
 
   constructor(private shapeService: ShapesService, private colorService: ColorService) {
+    this.selectedType = 'Bordered & Filled';
+    this.currentBrushTexture = 'texture #5';
     this.tool = tool;
+    this.brushState = false;
+    this.shapeStrokeColor = 'Define me!';
+    this.shapeFillColor = 'Define me!';
+    this.shapeStrokeWidth = 1;
+    this.penStrokeColor = 'Define me!';
+    this.penStrokeWidth = 1;
+    this.brushStrokeColor = 'Define me!';
+    this.brushStrokeWidth = 1;
+    this.fillColor = 'Define me!';
+    this.show = true;
   }
 
   get toolTypes() { return tool; }
-
-  currentShape: Shape;
-  brushState = false;
-  shapeStrokeColor = 'Define me!';
-  shapeFillColor = 'Define me!';
-  shapeStrokeWidth = 1;
-  penStrokeColor = 'Define me!';
-  penStrokeWidth = 1;
-  brushStrokeColor = 'Define me!';
-  brushStrokeWidth = 1;
-
-  fillColor = 'Define me!';
-
-  show = true;
 
   selectBrush(): void {
     this.brushState = true;
@@ -134,8 +143,8 @@ export class AttributeBarComponent {
   penWidthSlider(value: number): void {
     this.shapeService.penStrokeWidth = value;
   }
-  
-  getColorService() : ColorService {
+
+  getColorService(): ColorService {
     return this.colorService;
   }
 

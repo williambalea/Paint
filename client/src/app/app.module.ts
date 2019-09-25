@@ -50,7 +50,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   entryComponents: [
     EntryPointComponent,

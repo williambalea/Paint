@@ -1,9 +1,10 @@
-import { ColorService } from './../../services/color/color.service';
-import { FormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AttributeBarComponent } from './attribute-bar.component';
+import { FormsModule } from '@angular/forms';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
+import { NB } from '../../../../../common/constants';
+import { ColorService } from './../../services/color/color.service';
+import { AttributeBarComponent } from './attribute-bar.component';
 
 const shapesService: ShapesService = new ShapesService();
 const colorService: ColorService = new ColorService();
@@ -16,8 +17,8 @@ describe('AttributeBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AttributeBarComponent ],
-      imports:[
-        FormsModule
+      imports: [
+        FormsModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
@@ -34,7 +35,7 @@ describe('AttributeBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should set brushState to true',() => {
+  it('Should set brushState to true', () => {
     attributeBarComponent.selectBrush();
     expect(attributeBarComponent.brushState).toBe(true);
   });
@@ -52,35 +53,33 @@ describe('AttributeBarComponent', () => {
 
   // })
 
-
-  it('Should set stroke width correctly',()=> {
-    let value: number = 10;
+  it('Should set stroke width correctly', () => {
+    const value = NB.Ten;
     attributeBarComponent.assignStrokeWidth(value);
     expect(shapesService.rectangleStrokeWidth).toEqual(value);
   });
 
-  it('Should set stroke color correctly',()=>{
-    let value:string = 'FFFFFF';
+  it('Should set stroke color correctly', () => {
+    const value = 'FFFFFF';
     attributeBarComponent.assignStrokeColor(value);
     expect(attributeBarComponent.shapeStrokeColor).toEqual(value);
   });
 
-  it('Should set FillColor correctly',() => {
-    let value: string = '111111';
+  it('Should set FillColor correctly', () => {
+    const value = '111111';
     attributeBarComponent.assignFillColor(value);
     expect(attributeBarComponent.shapeFillColor).toEqual(value);
   } );
 
-  it('Should set BrushStrokeWidth correctly',() => {
-    let value:number = 10;
+  it('Should set BrushStrokeWidth correctly', () => {
+    const value = NB.Ten;
     attributeBarComponent.assignBrushStrokeWidth(value);
     expect(attributeBarComponent.brushStrokeWidth).toEqual(value);
   });
 
-  it('Should set PenStroleWidth correctly',() => {
-    attributeBarComponent.assignPenStrokeWidth(10);
-    expect(attributeBarComponent.penStrokeWidth).toEqual(10);
+  it('Should set PenStroleWidth correctly', () => {
+    attributeBarComponent.assignPenStrokeWidth(NB.Ten);
+    expect(attributeBarComponent.penStrokeWidth).toEqual(NB.Ten);
   });
-
 
 });

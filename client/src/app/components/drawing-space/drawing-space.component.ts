@@ -146,7 +146,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   mouseDownBrush(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
-    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
+    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l1 1`;
     this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
   }
 

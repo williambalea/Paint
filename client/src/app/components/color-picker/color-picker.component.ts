@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
+import { NB } from '../../../../../common/constants';
 import { ColorInputControl } from '../../../Classes/ColorInputControl';
 
 @Component({
@@ -27,7 +28,7 @@ export class ColorPickerComponent implements OnInit {
     this.hue = '';
     this.color = 'rgba(255,255,255,1)';
     this.oldPointedColor = 'rgba(0,0,0,1)';
-    this.transparency = 255;
+    this.transparency = NB.TwoHundredFiftyFive;
     this.colorHex = 'FFFFFF';
     this.transparencyString = '1';
     this.usingPrimary = true;
@@ -94,7 +95,7 @@ export class ColorPickerComponent implements OnInit {
         this.sendColor(this.usingPrimary);
         this.oldPointedColor = this.color;
       }
-    }, 250);
+    }, NB.TwoHundredFifty);
   }
 
   onEnterHex(value: string): void {
@@ -116,19 +117,19 @@ export class ColorPickerComponent implements OnInit {
 
   onEnterSlider(value: number): void {
     this.transparency = value;
-    this.transparencyString = (this.transparency / 255).toFixed(2).toString();
-    this.color = this.color.substr(5 , this.color.length);
-    this.color = this.color.substr(0 , this.color.length - 1);
+    this.transparencyString = (this.transparency / NB.TwoHundredFiftyFive).toFixed(NB.Two).toString();
+    this.color = this.color.substr(NB.Five , this.color.length);
+    this.color = this.color.substr(NB.Zero , this.color.length - NB.One);
     const rgb: string[] = this.color.split(',');
-    this.color = 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',' + this.transparencyString + ')';
+    this.color = 'rgba(' + rgb[NB.Zero] + ',' + rgb[NB.One] + ',' + rgb[NB.Two] + ',' + this.transparencyString + ')';
   }
 
   syncValue(): void  {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.colorHex);
     const value: { r: number, g: number , b: number } | null = result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16),
+      r: parseInt(result[NB.One], NB.Sixteen),
+      g: parseInt(result[NB.Two], NB.Sixteen),
+      b: parseInt(result[NB.Three], NB.Sixteen),
     } : null;
     if ( value != null ) {
       this.color = 'rgba(' + value.r.toString() +

@@ -1,6 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { tool } from '../../../../../common/constants';
+import { NB, tool } from '../../../../../common/constants';
 import {Preview} from '../../../../../common/interface/preview';
 import {Shape} from '../../services/shapes/classes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
@@ -37,11 +37,11 @@ export class AttributeBarComponent {
     this.brushState = false;
     this.shapeStrokeColor = 'Define me!';
     this.shapeFillColor = 'Define me!';
-    this.shapeStrokeWidth = 1;
+    this.shapeStrokeWidth = NB.One;
     this.penStrokeColor = 'Define me!';
-    this.penStrokeWidth = 1;
+    this.penStrokeWidth = NB.One;
     this.brushStrokeColor = 'Define me!';
-    this.brushStrokeWidth = 1;
+    this.brushStrokeWidth = NB.One;
     this.fillColor = 'Define me!';
     this.show = true;
   }

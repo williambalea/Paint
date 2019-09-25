@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY_STRING, tool } from '../../../../../common/constants';
+import { EMPTY_STRING, NB, tool } from '../../../../../common/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Pen } from './classes/pen';
@@ -24,8 +24,8 @@ export class ShapesService {
 
   constructor() {
     this.resetPreview();
-    this.rectangleStrokeWidth = 1;
-    this.penStrokeWidth = 1;
+    this.rectangleStrokeWidth = NB.One;
+    this.penStrokeWidth = NB.One;
     this.strokeEnable = false;
     this.fillEnable = true;
   }
@@ -108,17 +108,17 @@ export class ShapesService {
   }
 
   removeColor(fill: string): string {
-    const individualParams: string[] = fill.substr(5, fill.length - 1).split(',', 4);
-    return `rgba(${individualParams[0]},${individualParams[1]},${individualParams[2]},0)`;
+    const individualParams: string[] = fill.substr(NB.Five, fill.length - NB.One).split(',', NB.Four);
+    return `rgba(${individualParams[NB.Zero]},${individualParams[NB.One]},${individualParams[NB.Two]},0)`;
   }
 
   resetPreview(): void {
     this.preview = {
       active: false,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
+      x: NB.Zero,
+      y: NB.Zero,
+      width: NB.Zero,
+      height: NB.Zero,
       path: EMPTY_STRING,
     };
   }

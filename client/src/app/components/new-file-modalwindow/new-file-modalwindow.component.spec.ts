@@ -3,12 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
-import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material';
 import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
-import { ColorService } from 'src/app/services/color/color.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
-import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
+
 
 describe('NewFileModalwindowComponent', () => {
   let component: NewFileModalwindowComponent;

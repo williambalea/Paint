@@ -64,13 +64,13 @@
 
     <defs>
 
-        <filter id="chalk" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">
+        <filter id="chalk" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
             <feTurbulence baseFrequency="1" type="fractalNoise" seed="240" numOctaves="2" result="result1" scale="33" />
             <feDisplacementMap xChannelSelector="A" yChannelSelector="R" scale="70" in="SourceGraphic" in2="result1" seed="241" baseFrequency="0.9 0.1"/>
             <feGaussianBlur stdDeviation="0.1"/>
         </filter>
 
-        <filter id="smear" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">
+        <filter id="smear" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
             <feTurbulence type="fractalNoise" numOctaves="3" baseFrequency="0.25 0.4" seed="5"/>
             <feColorMatrix result="result5" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "/>
             <feComposite in="SourceGraphic" operator="in" in2="result5"/>
@@ -82,19 +82,19 @@
             <feBlend in2="result2" mode="screen" in="result2"/>
         </filter>
 
-        <filter id="rough" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">
+        <filter id="rough" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
             <feTurbulence result="result1" numOctaves="2" seed="240" type="turbulence" baseFrequency="1 1"/>
             <feDisplacementMap baseFrequency="0.9 0.1" seed="241" in2="result1" in="SourceGraphic" scale="20" yChannelSelector="R" xChannelSelector="A"/>
             <feGaussianBlur stdDeviation="0.3" />
         </filter>
 
-        <filter id="smooth" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">
+        <filter id="smooth" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
             <feGaussianBlur result="result6" stdDeviation="3.5 7.1" in="SourceGraphic"/>
             <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result7" in="SourceGraphic" id="feColorMatrix226"/>
             <feComposite operator="in" in="result6" in2="result7"/>
         </filter>
 
-        <filter id="bubbly" x="-15" y="-25" height="40" width="50" style="color-interpolation-filters:sRGB;">
+        <filter id="bubbly" x="-15px" y="-25px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
             <feTurbulence baseFrequency="0.058 0.932" type="fractalNoise" seed="667" numOctaves="1" result="result1" stdDeviation="0.01 5.15"/>
             <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="70" in="SourceGraphic" in2="result1" result="fbSourceGraphic"/>
             <feColorMatrix result="fbSourceGraphicAlpha" in="fbSourceGraphic" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"/>
@@ -103,7 +103,7 @@
             <feComposite in2="composite1" in="composite1" k2="1" operator="in" result="composite2"/>
         </filter>
 
-        <filter id="smoke" x="-15" y="-15" height="40" width="50" style="color-interpolation-filters:sRGB;">
+        <filter id="smoke" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
             <feGaussianBlur stdDeviation="3.16" result="result8"/>
             <feTurbulence seed="27" result="result7" type="fractalNoise" numOctaves="5" baseFrequency="0.025"/>
             <feComposite in2="result8" result="result6" operator="over" in="result7"/>

@@ -10,13 +10,14 @@ export class ColorService {
   private stroke: string;
   private makingColorChanges: boolean;
   private showInAttributeBar: boolean;
-  private lastTenColors: ColorQueue<string> = new ColorQueue();
+  private lastTenColors: ColorQueue<string>;
 
   constructor() {
     this.fill = 'rgba(255, 255, 255, 1)';
     this.stroke = 'rgba(0, 0, 0, 1)';
     this.makingColorChanges = false;
     this.showInAttributeBar = true;
+    this.lastTenColors = new ColorQueue();
   }
 
   addColorsToLastUsed(primaryColor: string, secondaryColor ?: string): void {
@@ -24,6 +25,10 @@ export class ColorService {
     if (secondaryColor) {
       this.lastTenColors.push(secondaryColor);
     }
+  }
+
+  verifyIfColorExistsInLastTen(color: string): boolean {
+    return this.lastTenColors.store.indexOf(color) !== undefined;
   }
 
   getMakingColorChanges(): boolean {

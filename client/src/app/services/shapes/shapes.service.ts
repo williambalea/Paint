@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { EMPTY_STRING, TOOL } from '../../../../../common/constants';
+import { BRUSH, EMPTY_STRING, TOOL } from '../../../../../common/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
+import { Brush } from './classes/brush';
 import { Pen } from './classes/pen';
 import { Rectangle } from './classes/rectangle';
 import { Shape } from './classes/shape';
@@ -20,6 +21,7 @@ export class ShapesService {
   strokeColor: string;
   penStrokeWidth: number;
   brushStrokeWidth: number;
+  brushStyle: BRUSH;
   strokeEnable: boolean;
   fillEnable: boolean;
 
@@ -28,6 +30,7 @@ export class ShapesService {
     this.rectangleStrokeWidth = 1;
     this.penStrokeWidth = 1;
     this.brushStrokeWidth = 1;
+    this.brushStyle = BRUSH.smooth;
     this.strokeEnable = true;
     this.fillEnable = true;
   }
@@ -101,6 +104,17 @@ export class ShapesService {
     this.shapes.push(pen);
   }
 
+  drawBrush(): void {
+    const brush = new Brush (
+      TOOL.brush,
+      this.preview.path,
+      this.fillColor,
+      this.brushStrokeWidth,
+      this.preview.filter,
+    );
+    this.shapes.push(brush);
+  }
+
   clearShapes(): void {
     this.shapes = [];
   }
@@ -122,6 +136,7 @@ export class ShapesService {
       width: 0,
       height: 0,
       path: EMPTY_STRING,
+      filter: EMPTY_STRING,
     };
   }
 

@@ -1,12 +1,12 @@
-import { BRUSH, TOOL } from '../../../../../../common/constants';
+import { TOOL } from '../../../../../../common/constants';
 import { Pen } from './pen';
 
 export class Brush extends Pen {
-    brushType: BRUSH;
+    filter: string;
 
-    constructor(type: TOOL, path: string, stroke: string, strokeWidth: number, brushType: BRUSH) {
+    constructor(type: TOOL, path: string, stroke: string, strokeWidth: number, filter: string ) {
         super(type, path, stroke, strokeWidth);
-        this.brushType = brushType;
+        this.filter = filter;
     }
 
     changePrimaryColor(color: string) {

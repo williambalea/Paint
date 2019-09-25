@@ -11,15 +11,15 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 
 export class AttributeBarComponent {
   tool: typeof TOOL;
+  brush: typeof BRUSH;
   @Input()selectedTool: TOOL;
 
   selectedType: string;
-  brushType: BRUSH;
 
   constructor(private shapeService: ShapesService, private colorService: ColorService) {
     this.selectedType = 'Bordered & Filled';
     this.tool = TOOL;
-    this.brushType = BRUSH.smooth;
+    this.brush = BRUSH;
   }
 
   radioChangeHandler(event: { target: {value: string}; }) {
@@ -45,10 +45,6 @@ export class AttributeBarComponent {
         break;
       default:
     }
-  }
-
-  assignBrushTexture() {
-    console.log(this.brushType);
   }
 
   assignStrokeWidth(value: number) {

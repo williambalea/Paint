@@ -119,6 +119,7 @@ export class DrawingSpaceComponent implements OnInit {
         break;
 
       case TOOL.brush:
+        this.mouseDownBrush(event);
         break;
 
       case TOOL.pen:
@@ -143,6 +144,12 @@ export class DrawingSpaceComponent implements OnInit {
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
   }
 
+  mouseDownBrush(event: MouseEvent): void {
+    this.colorService.setMakingColorChanges(false);
+    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
+    this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
+  }
+
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     switch (this.selectedTool) {
@@ -151,13 +158,11 @@ export class DrawingSpaceComponent implements OnInit {
         break;
 
       case TOOL.brush:
+      case TOOL.pen:
+        this.mouseMovePenBrush(event);
         break;
 
       case TOOL.colorApplicator:
-        break;
-
-      case TOOL.pen:
-        this.mouseMovePen(event);
         break;
 
       default:
@@ -175,7 +180,7 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  mouseMovePen(event: MouseEvent): void {
+  mouseMovePenBrush(event: MouseEvent): void {
     if (this.shapeService.preview.active) {
       this.shapeService.preview.path += `L${event.offsetX} ${event.offsetY}`;
     }
@@ -186,32 +191,23 @@ export class DrawingSpaceComponent implements OnInit {
     this.shapeService.preview.active = false;
     switch (this.selectedTool) {
       case TOOL.rectangle:
-        this.mouseUpRectangle();
+        this.shapeService.drawRectangle();
         break;
 
       case TOOL.brush:
+        this.shapeService.drawBrush();
         break;
 
       case TOOL.colorApplicator:
         break;
 
       case TOOL.pen:
-        this.mouseUpPen();
+        this.shapeService.drawPen();
         break;
 
       default:
     }
-  }
-
-  mouseUpRectangle(): void {
-    this.shapeService.drawRectangle();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
-    this.shapeService.resetPreview();
-  }
-
-  mouseUpPen(): void {
-    this.shapeService.drawPen();
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
     this.shapeService.resetPreview();
   }
 }

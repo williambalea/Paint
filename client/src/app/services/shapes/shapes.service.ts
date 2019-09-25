@@ -26,7 +26,7 @@ export class ShapesService {
     this.resetPreview();
     this.rectangleStrokeWidth = NB.One;
     this.penStrokeWidth = NB.One;
-    this.strokeEnable = false;
+    this.strokeEnable = true;
     this.fillEnable = true;
   }
 

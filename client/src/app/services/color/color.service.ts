@@ -11,7 +11,6 @@ export class ColorService {
   private makingColorChanges: boolean;
   private showInAttributeBar: boolean;
   private lastTenColors: ColorQueue<string>;
-
   constructor() {
     this.fill = 'rgba(255, 255, 255, 1)';
     this.stroke = 'rgba(0, 0, 0, 1)';

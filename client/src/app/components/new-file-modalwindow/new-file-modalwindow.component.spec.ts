@@ -5,14 +5,14 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material';
 import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
-import { ColorService } from 'src/app/services/color/color.service';
+
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
 
 describe('NewFileModalwindowComponent', () => {
   let component: NewFileModalwindowComponent;
   let fixture: ComponentFixture<NewFileModalwindowComponent>;
   let  dialogRef: MatDialogRef<NewFileModalwindowComponent, any>;
-  let colorService: ColorService;
+ 
   let  builder: FormBuilder;
   let  shapeService: ShapesService;
   let dialog: MatDialog;
@@ -42,6 +42,7 @@ describe('NewFileModalwindowComponent', () => {
     component = fixture.componentInstance;
     fileParameters= new FileParametersServiceService();
     shapeService= new ShapesService();
+   
   });
   
   it('should create', () => {
@@ -61,7 +62,7 @@ describe('NewFileModalwindowComponent', () => {
   });
 
   it ('submitParameters(canvasWidth, canvasHeight) should set resize flag to true', () => {
-    const comp = new NewFileModalwindowComponent( fileParameters,dialog,shapeService,builder,colorService,dialogRef);
+    const comp = new NewFileModalwindowComponent( fileParameters,dialog,shapeService,builder,dialogRef);
     spyOn(fileParameters, 'getTempResize').and.returnValue(false);
     fixture.detectChanges();
     // check hardcoded values
@@ -70,4 +71,5 @@ describe('NewFileModalwindowComponent', () => {
     expect(comp.fileParameters.tempresize).toBeTruthy();
   });
  
+
 });

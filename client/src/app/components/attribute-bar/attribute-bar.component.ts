@@ -1,6 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { tool } from '../../../../../common/constants';
+import { TOOL } from '../../../../../common/constants';
 import {Preview} from '../../../../../common/interface/preview';
 import {Shape} from '../../services/shapes/classes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
@@ -12,8 +12,8 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 })
 
 export class AttributeBarComponent {
-  tool: typeof tool;
-  @Input()selectedTool: tool;
+  tool: typeof TOOL;
+  @Input()selectedTool: TOOL;
 
   selectedType: string;
   currentBrushTexture: string;
@@ -33,7 +33,7 @@ export class AttributeBarComponent {
   constructor(private shapeService: ShapesService, private colorService: ColorService) {
     this.selectedType = 'Bordered & Filled';
     this.currentBrushTexture = 'texture #5';
-    this.tool = tool;
+    this.tool = TOOL;
     this.brushState = false;
     this.shapeStrokeColor = 'Define me!';
     this.shapeFillColor = 'Define me!';
@@ -46,7 +46,7 @@ export class AttributeBarComponent {
     this.show = true;
   }
 
-  get toolTypes() { return tool; }
+  get toolTypes() { return TOOL; }
 
   selectBrush(): void {
     this.brushState = true;

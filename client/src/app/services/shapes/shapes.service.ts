@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY_STRING, tool } from '../../../../../common/constants';
+import { EMPTY_STRING, TOOL } from '../../../../../common/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Pen } from './classes/pen';
@@ -76,7 +76,7 @@ export class ShapesService {
   drawRectangle(): Shape {
     this.setRectangleType();
     const rectangle = new Rectangle (
-      tool.rectangle,
+      TOOL.rectangle,
       this.preview.x,
       this.preview.y,
       this.preview.width,
@@ -91,7 +91,7 @@ export class ShapesService {
 
   drawPen(): void {
     const pen = new Pen (
-      tool.pen,
+      TOOL.pen,
       this.preview.path,
       this.fillColor,
       this.penStrokeWidth,

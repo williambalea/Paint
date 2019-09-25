@@ -1,4 +1,4 @@
-import { tool } from '../../../../../../common/constants';
+import { TOOL } from '../../../../../../common/constants';
 import { Shape } from './shape';
 
 export class Rectangle extends Shape {
@@ -11,7 +11,7 @@ export class Rectangle extends Shape {
     stroke: string;
     strokeWidth: number;
 
-    constructor(type: tool,
+    constructor(type: TOOL,
                 x: number,
                 y: number,
                 width: number,

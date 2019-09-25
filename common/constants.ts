@@ -54,17 +54,25 @@ export enum NB {
   TenThousand = 10000,
   }
 
-export enum key {
+export enum KEY {
   shift = 'Shift',
 }
 
 export const HIDE_DIALOG = 'hideDialog';
 
-export enum tool {
+export enum TOOL {
   rectangle,
   brush,
   pen,
   colorApplicator,
+}
+
+export enum BRUSH {
+  chalk = 'chalk',
+  smear = 'smear',
+  rough = 'rough',
+  smooth = 'smooth',
+  bubbly = 'bubbly',
 }
 
 export const EMPTY_STRING = '';

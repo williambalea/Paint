@@ -1,8 +1,7 @@
 import { ColorQueue } from './ColorQueue';
 
-// tslint:disable: prefer-const
-let queue: ColorQueue<number> = new ColorQueue();
-let copy: ColorQueue<number> = new ColorQueue();
+const queue: ColorQueue<number> = new ColorQueue();
+const copy: ColorQueue<number> = new ColorQueue();
 
 describe('ColorQueue', () => {
     it('Should add correctly 10 different elements', () => {
@@ -12,9 +11,9 @@ describe('ColorQueue', () => {
         expect(queue.getLength()).toEqual(10);
     });
 
-    it('Adding one element keeps length equal to 10', () => {
+    it('Adding one element should not make length more thant 10', () => {
         queue.push(11);
-        expect(queue.getLength()).toBe(10);
+        expect(queue.getLength()).toBeLessThanOrEqual(10);
     });
 
     copy.store = queue.store;

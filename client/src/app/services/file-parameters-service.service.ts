@@ -31,22 +31,20 @@ export class FileParametersServiceService {
     return this.tempresize;
   }
 
+  setParameters(canvaswidth: number, canvasheight: number): void {
+    this.tempx = canvaswidth;
+    this.tempy = canvasheight;
+  }
+
   changeParameters(widht: number, height: number) {
     this.resizeFlag.next(this.tempresize);
     this.canvasWidth.next(widht);
     this.canvasHeight.next(height);
   }
 
-  subscribeToChanges(dialogref: MatDialogRef<NewFileModalwindowComponent, any>) {
+  /*subscribeToChanges(dialogref: MatDialogRef<NewFileModalwindowComponent, any>) {
     dialogref.afterClosed().subscribe((result) => {
-      this.canvasWidth = result;
     });
-  }
-
-  setParameters(canvaswidth: number, canvasheight: number): void {
-    this.tempx = canvaswidth;
-    this.tempy = canvasheight;
-
-  }
+  }*/
 
 }

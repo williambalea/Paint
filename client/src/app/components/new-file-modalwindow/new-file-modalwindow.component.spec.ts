@@ -1,20 +1,26 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
-import { ShapesService } from 'src/app/services/shapes/shapes.service';
+//import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
+//import { ColorService } from 'src/app/services/color/color.service';
 
 describe('NewFileModalwindowComponent', () => {
   let component: NewFileModalwindowComponent;
   let fixture: ComponentFixture<NewFileModalwindowComponent>;
-  let dialogRef: MatDialogRef<NewFileModalwindowComponent, any>;
+ /* let dialogRef: MatDialogRef<NewFileModalwindowComponent, any>;
   let builder: FormBuilder;
   let shapeService: ShapesService;
   let dialog: MatDialog;
+  let colorService : ColorService;*/
   let fileParameters;
+  const dialogMock = {
+    close: () => { }
+   };
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,7 +29,7 @@ describe('NewFileModalwindowComponent', () => {
         MatDialogModule,
       ],
       providers: [
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: dialogMock },
         FileParametersServiceService,
       ],
       declarations: [ NewFileModalwindowComponent ],
@@ -39,7 +45,8 @@ describe('NewFileModalwindowComponent', () => {
     fixture = TestBed.createComponent(NewFileModalwindowComponent);
     component = fixture.componentInstance;
     fileParameters = new FileParametersServiceService();
-    shapeService = new ShapesService();
+   // shapeService = new ShapesService();
+    //colorService = new ColorService();
 
   });
   it('should create', () => {
@@ -57,13 +64,31 @@ describe('NewFileModalwindowComponent', () => {
     fixture.detectChanges();
     expect(Number(el.nativeElement.value)).toBe(window.innerHeight);
   });
+  
+  it('close() should call dialogRef.close,', () =>{
+    let spy = spyOn(component.dialogRef, 'close').and.callThrough();
+     component.close();
+     expect(spy).toHaveBeenCalled(); 
+  });
+
+  it('close() should call setMakingColorChanges', () =>{
+    let spy = spyOn(component.colorService, 'setMakingColorChanges').and.callThrough();
+     component.close();
+     expect(spy).toHaveBeenCalled(); 
+  });
+
+  it('close() should call setShowInAttributeBar', () =>{
+    let spy = spyOn(component.colorService, 'setShowInAttributeBar').and.callThrough();
+     component.close();
+     expect(spy).toHaveBeenCalled(); 
+  });
+
 
   it ('submitParameters(canvasWidth, canvasHeight) should set resize flag to true', () => {
-    const comp = new NewFileModalwindowComponent(fileParameters, dialog, shapeService, builder, dialogRef);
     spyOn(fileParameters, 'getTempResize').and.returnValue(false);
     fixture.detectChanges();
-    comp.submitParameters(3, 4);
+    component.submitParameters(3, 4);
     fixture.detectChanges();
-    expect(comp.fileParameters.tempresize).toBeTruthy();
+    expect(component.fileParameters.tempresize).toBeTruthy();
   });
 });

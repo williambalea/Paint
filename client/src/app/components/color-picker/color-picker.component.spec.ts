@@ -1,27 +1,24 @@
 import { ColorService } from 'src/app/services/color/color.service';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 
-const colorService: ColorService = new ColorService();
-const colorPickerComponent: ColorPickerComponent = new ColorPickerComponent(colorService);
 describe('ColorPickerComponent', () => {
+  const colorService: ColorService = new ColorService();
+  const colorPickerComponent: ColorPickerComponent = new ColorPickerComponent(colorService);
+
   it('It should set primary correctly', () => {
     colorPickerComponent.setPrimary();
-    expect(colorPickerComponent.getUsingPrimary()).toBeTruthy();
     expect(colorService.getMakingColorChanges()).toBeTruthy();
   });
 
   it('It should set secondary correctly', () => {
     colorPickerComponent.setSecondary();
-    expect(colorPickerComponent.getUsingPrimary()).toBeFalsy();
     expect(colorService.getMakingColorChanges()).toBeTruthy();
   });
 
   it('Should send color correctly', () => {
     colorPickerComponent.setColor('rgba(240, 240, 240, 1)');
-    colorPickerComponent.sendColor(true);
+    colorPickerComponent.sendColor();
     expect(colorService.getFillColor()).toEqual('rgba(240, 240, 240, 1)');
-    colorPickerComponent.sendColor(false);
-    expect(colorService.getStrokeColor()).toEqual('rgba(240, 240, 240, 1)');
   });
 
   it('Should process Hex input correctly', () => {

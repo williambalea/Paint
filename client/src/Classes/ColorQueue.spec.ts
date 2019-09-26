@@ -1,9 +1,9 @@
 import { ColorQueue } from './ColorQueue';
 
-const queue: ColorQueue<number> = new ColorQueue();
-const copy: ColorQueue<number> = new ColorQueue();
-
 describe('ColorQueue', () => {
+    const queue: ColorQueue<number> = new ColorQueue();
+    const copy: ColorQueue<number> = new ColorQueue();
+
     it('Should add correctly 10 different elements', () => {
         for (let index = 0; index < 10; index++) {
             queue.push(index);

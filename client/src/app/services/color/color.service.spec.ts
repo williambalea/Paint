@@ -18,7 +18,6 @@ describe('ColorService', () => {
   });
 
   it('Should get correctly items from last 10 used colors array', () => {
-    colorService.setFillColor('rbga(80, 80, 80, 1)');
     expect(colorService.getItemFromLastTenColors(0)).toBeDefined();
   });
 });

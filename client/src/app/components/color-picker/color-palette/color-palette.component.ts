@@ -25,11 +25,11 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   private mousedown: boolean;
   selectedPosition: { x: number; y: number };
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.draw();
   }
 
-  draw() {
+  draw(): void {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
@@ -57,7 +57,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.hue) {
       this.draw();
       const pos = this.selectedPosition;
@@ -68,18 +68,18 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   }
 
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(event: MouseEvent) {
+  onMouseUp(event: MouseEvent): void {
     this.mousedown = false;
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     this.mousedown = true;
     this.selectedPosition = { x: event.offsetX, y: event.offsetY };
     this.draw();
     this.color.emit(this.getColorAtPosition(event.offsetX, event.offsetY));
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove(event: MouseEvent): void {
     if (this.mousedown) {
       this.selectedPosition = { x: event.offsetX, y: event.offsetY };
       this.draw();
@@ -87,12 +87,12 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  emitColor(x: number, y: number) {
+  emitColor(x: number, y: number): void {
     const rgbaColor = this.getColorAtPosition(x, y);
     this.color.emit(rgbaColor);
   }
 
-  getColorAtPosition(x: number, y: number) {
+  getColorAtPosition(x: number, y: number): string {
     const imageData = this.ctx.getImageData(x, y, NB.One, NB.One).data;
     return 'rgba(' + imageData[NB.Zero] + ',' + imageData[NB.One] + ',' + imageData[NB.Two] + ',1)';
   }

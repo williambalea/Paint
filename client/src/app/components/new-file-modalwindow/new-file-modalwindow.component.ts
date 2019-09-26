@@ -37,9 +37,9 @@ export class NewFileModalwindowComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close();
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
+    this.dialogRef.close();
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {
@@ -47,10 +47,12 @@ export class NewFileModalwindowComponent implements OnInit {
     if (this.shapeService.shapes.length !== 0) {
       this.dialog.open(DeleteConfirmationComponent);
       this.fileParameters.setParameters(canvaswidth, canvasheight);
-      this.dialogRef.close();
     } else {
       this.fileParameters.changeParameters(canvaswidth, canvasheight);
       this.colorService.changeBackgroundColor();
+      this.colorService.setMakingColorChanges(false);
+      this.colorService.setShowInAttributeBar(true);
     }
+    this.dialogRef.close();
   }
 }

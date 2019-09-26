@@ -23,8 +23,8 @@ export class DeleteConfirmationComponent {
     this.shapeService.clearShapes();
     this.fileParameters.changeParameters(this.fileParameters.tempx, this.fileParameters.tempy);
     this.colorService.changeBackgroundColor();
-    this.dialogRef.close(true);
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
+    this.dialogRef.close(true);
   }
 }

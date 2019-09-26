@@ -2,7 +2,8 @@ import { TOOL } from '../constants';
 import { Rectangle } from './rectangle';
 
 const rectangle = new Rectangle(TOOL.rectangle, 1, 2, 3, 4, 'black', 'black', 5);
-const color = 'white';
+const fill = 'white';
+const stroke = 'red';
 
 describe('Rectangle', () => {
 
@@ -11,8 +12,13 @@ describe('Rectangle', () => {
     });
 
     it('Primary color should modify a string value', () => {
-        rectangle.changePrimaryColor(color);
+        rectangle.changePrimaryColor(fill);
         expect(rectangle.fill).toBe('white');
+    });
+
+    it('Primary color should modify a string value', () => {
+        rectangle.changeSecondaryColor(stroke);
+        expect(rectangle.fill).toBe('red');
     });
 
 });

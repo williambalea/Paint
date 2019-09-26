@@ -71,7 +71,7 @@ export class ColorPickerComponent implements OnInit {
   }
 
   sendColor(): void {
-    this.colorService.getUsingPrimary ? this.colorService.setFillColor(this.color) : this.colorService.setStrokeColor(this.color);
+    this.colorService.getUsingPrimary() ? this.colorService.setFillColor(this.color) : this.colorService.setStrokeColor(this.color);
   }
 
   sendColorWrapper(): void {
@@ -89,7 +89,6 @@ export class ColorPickerComponent implements OnInit {
     temp = temp.substring(5, temp.length);
     temp = temp.substring(0, temp.length - 1);
     const rgbValues: string[] = temp.split(',');
-    console.log(rgbValues);
     const tempHex: string = Number(rgbValues[0]).toString(16).toUpperCase() +
                             Number(rgbValues[1]).toString(16).toUpperCase() +
                             Number(rgbValues[2]).toString(16).toUpperCase();
@@ -102,6 +101,10 @@ export class ColorPickerComponent implements OnInit {
       this.syncValue();
       this.sendColor();
     }
+  }
+
+  getHexValue(): string {
+    return this.colorHex;
   }
 
   setColorFromLastTen(index: number): void {

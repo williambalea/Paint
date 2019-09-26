@@ -18,20 +18,17 @@ export class NewFileModalwindowComponent implements OnInit {
   customErrors = {required: 'Please accept the terms'};
   canvasWidth: number ;
   canvasHeight: number ;
-  
 
   constructor( public fileParameters: FileParametersServiceService,
-              private dialog: MatDialog,
-              private shapeService: ShapesService,
-              private builder: FormBuilder,
-              public colorService : ColorService,
-              public dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
-                
-  }
+               private dialog: MatDialog,
+               private shapeService: ShapesService,
+               private builder: FormBuilder,
+               public colorService: ColorService,
+               public dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
   ngOnInit() {
-    this.canvasWidth= window.innerWidth;
-    this.canvasHeight= window.innerHeight;
+    this.canvasWidth = window.innerWidth;
+    this.canvasHeight = window.innerHeight;
     this.control = this.builder.control('', Validators.required);
     this.form = this.builder.group({
       canvaswidth: ['', [Validators.required, Validators.min(0)]],

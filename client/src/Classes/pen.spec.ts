@@ -6,7 +6,7 @@ const color = 'red';
 
 describe('Pen', () => {
 
-    it('Rectangle fill should be a string', () => {
+    it('Pen path should be a string', () => {
         expect(pen.path).toBe('pen');
     });
 

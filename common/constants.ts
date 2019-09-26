@@ -63,6 +63,11 @@ export enum NB {
 
 export enum KEY {
   shift = 'Shift',
+  o = 'o',
+  c = 'c',
+  w = 'w',
+  one = '1',
+  r = 'r',
 }
 
 export const HIDE_DIALOG = 'hideDialog';

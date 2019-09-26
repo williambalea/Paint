@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
-import { TOOL } from '../../../../../common/constants';
+import { KEY, TOOL } from '../../../../../common/constants';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 
 @Component({
@@ -26,5 +26,27 @@ export class SideBarComponent {
     this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
     this.colorService.setMakingColorChanges(true);
     this.colorService.setShowInAttributeBar(false);
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+    switch (event.key) {
+      case KEY.o:
+        this.createNewFile();
+        break;
+      case KEY.one:
+        this.selectedTool = TOOL.rectangle;
+        break;
+      case KEY.w:
+        this.selectedTool = TOOL.brush;
+        break;
+      case KEY.c:
+        this.selectedTool = TOOL.pen;
+        break;
+      case KEY.r:
+        this.selectedTool = TOOL.colorApplicator;
+        break;
+      default:
+    }
   }
 }

@@ -27,9 +27,9 @@ export class ShapesService {
 
   constructor() {
     this.resetPreview();
-    this.rectangleStrokeWidth = NB.One;
-    this.penStrokeWidth = NB.One;
-    this.brushStrokeWidth = NB.One;
+    this.rectangleStrokeWidth = NB.Seven;
+    this.penStrokeWidth = NB.Seven;
+    this.brushStrokeWidth = NB.Seven;
     this.brushStyle = BRUSH.smooth;
     this.strokeEnable = true;
     this.fillEnable = true;

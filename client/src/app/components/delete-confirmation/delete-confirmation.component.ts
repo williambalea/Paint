@@ -11,15 +11,15 @@ import {FileParametersServiceService} from '../../services/file-parameters-servi
 export class DeleteConfirmationComponent {
 
   message: string;
-  constructor( private shapeService: ShapesService,
-               private dialogRef: MatDialogRef<DeleteConfirmationComponent>,
-               private fileParameters: FileParametersServiceService) {
+  constructor( public shapeService: ShapesService,
+               public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
+               public fileParameters: FileParametersServiceService) {
                  this.message = 'Are you sure?';
                }
 
   clear(): void {
     this.shapeService.clearShapes();
     this.fileParameters.changeParameters(this.fileParameters.tempx, this.fileParameters.tempy);
-    this.dialogRef.close(true);
+    this.dialogRef.close();
   }
 }

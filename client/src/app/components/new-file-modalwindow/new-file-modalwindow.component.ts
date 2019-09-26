@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-//import { ColorService } from 'src/app/services/color/color.service';
+import { ColorService } from 'src/app/services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
@@ -18,12 +18,13 @@ export class NewFileModalwindowComponent implements OnInit {
   customErrors = {required: 'Please accept the terms'};
   canvasWidth: number ;
   canvasHeight: number ;
+  
 
   constructor( public fileParameters: FileParametersServiceService,
               private dialog: MatDialog,
               private shapeService: ShapesService,
               private builder: FormBuilder,
-              
+              public colorService : ColorService,
               public dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
                 
   }
@@ -40,7 +41,8 @@ export class NewFileModalwindowComponent implements OnInit {
 
   close() {
     this.dialogRef.close();
-  
+    this.colorService.setMakingColorChanges(false);
+    this.colorService.setShowInAttributeBar(true);
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {

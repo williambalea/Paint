@@ -26,12 +26,12 @@
       <div>
         <sub>0x</sub>
       </div>
-      <input class="text" type="text" minlength="6" maxlength="6" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}}>
+      <input class="text" type="text" minlength="6" maxlength="6" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}} [(ngModel)]="colorHex">
     </div>
 </div>
   
-<p *ngIf="usingPrimary">Selected Color: Primary</p> 
-<p *ngIf="!usingPrimary">Selected Color: Secondary</p> 
+<p *ngIf="colorService.getUsingPrimary()">Selected Color: Primary</p> 
+<p *ngIf="!colorService.getUsingPrimary()">Selected Color: Secondary</p> 
 
 <div (click)="setPrimary()" class="primary" [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
 <div (click)="setSecondary()" class="secondary" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>

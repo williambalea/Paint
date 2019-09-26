@@ -10,12 +10,15 @@ export class ColorService {
   private stroke: string;
   private makingColorChanges: boolean;
   private showInAttributeBar: boolean;
+  private usingPrimary: boolean;
   private lastTenColors: ColorQueue<string>;
+
   constructor() {
     this.fill = 'rgba(255, 255, 255, 1)';
     this.stroke = 'rgba(0, 0, 0, 1)';
     this.makingColorChanges = false;
     this.showInAttributeBar = true;
+    this.usingPrimary = true;
     this.lastTenColors = new ColorQueue();
   }
 
@@ -24,6 +27,14 @@ export class ColorService {
     if (secondaryColor) {
       this.lastTenColors.push(secondaryColor);
     }
+  }
+
+  getUsingPrimary(): boolean {
+    return this.usingPrimary;
+  }
+
+  setUsingPrimary(val: boolean): void {
+    this.usingPrimary = val;
   }
 
   verifyIfColorExistsInLastTen(color: string): boolean {
@@ -70,5 +81,10 @@ export class ColorService {
 
   getShowInAttributeBar(): boolean {
     return this.showInAttributeBar;
+  }
+
+  changeBackgroundColor(): void {
+    const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
+    elem.style.background = (this.usingPrimary) ? this.getFillColor() : this.getStrokeColor();
   }
 }

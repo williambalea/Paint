@@ -16,7 +16,6 @@ export class ColorPickerComponent implements OnInit {
   private transparency: number;
   private colorHex: string;
   private transparencyString: string;
-  private usingPrimary: boolean;
   private colorInputControl: ColorInputControl;
 
   ngOnInit(): void {
@@ -30,7 +29,6 @@ export class ColorPickerComponent implements OnInit {
     this.transparency = NB.TwoHundredFiftyFive;
     this.colorHex = 'FFFFFF';
     this.transparencyString = '1';
-    this.usingPrimary = true;
     this.colorInputControl = new ColorInputControl();
   }
 
@@ -44,10 +42,6 @@ export class ColorPickerComponent implements OnInit {
 
   getOldPointedColor(): string {
     return this.oldPointedColor;
-  }
-
-  getUsingPrimary(): boolean {
-    return this.usingPrimary;
   }
 
   getTransparencyString(): string {
@@ -68,16 +62,17 @@ export class ColorPickerComponent implements OnInit {
 
   setPrimary(): void {
     this.colorService.setMakingColorChanges(true);
-    this.usingPrimary = true;
+    this.colorService.setUsingPrimary(true);
   }
 
   setSecondary(): void {
     this.colorService.setMakingColorChanges(true);
-    this.usingPrimary = false;
+    this.colorService.setUsingPrimary(false);
   }
 
-  sendColor(usingPrimary: boolean): void {
-    if (usingPrimary) {
+  sendColor(): void {
+    // this.colorService.getUsingPrimary ? this.colorService.setFillColor(this.color) : this.colorService.setStrokeColor(this.color);
+    if (this.colorService.getUsingPrimary()) {
       this.colorService.setFillColor(this.color);
     } else {
       this.colorService.setStrokeColor(this.color);
@@ -87,7 +82,7 @@ export class ColorPickerComponent implements OnInit {
   sendColorWrapper(): void {
     setInterval(() => {
       if (this.oldPointedColor !== this.color) {
-        this.sendColor(this.usingPrimary);
+        this.sendColor();
         this.oldPointedColor = this.color;
       }
     }, NB.TwoHundredFifty);
@@ -97,7 +92,7 @@ export class ColorPickerComponent implements OnInit {
     if (this.colorInputControl.colorAccepted(value)) {
       this.colorHex = value;
       this.syncValue();
-      this.sendColor(this.usingPrimary);
+      this.sendColor();
     }
   }
 
@@ -106,8 +101,7 @@ export class ColorPickerComponent implements OnInit {
   }
 
   changeBackgroundColor(): void {
-    const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
-    elem.style.background = (this.usingPrimary) ? this.colorService.getFillColor() : this.colorService.getStrokeColor();
+    this.colorService.changeBackgroundColor();
   }
 
   onEnterSlider(value: number): void {

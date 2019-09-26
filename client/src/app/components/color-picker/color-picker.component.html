@@ -29,9 +29,10 @@
       <input class="text" type="text" minlength="6" maxlength="6" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}} [(ngModel)]="colorHex">
     </div>
 </div>
+
 <br>
-<div *ngIf="usingPrimary">Selected Color: <b class="dynamicValue">Primary</b></div>
-<div *ngIf="!usingPrimary">Selected Color: <b class="dynamicValue">Secondary</b></div><br> 
+<div *ngIf="colorService.getUsingPrimary()">Selected Color: <b class="dynamicValue">Primary</b></div>
+<div *ngIf="!colorService.getUsingPrimary()">Selected Color: <b class="dynamicValue">Secondary</b></div><br> 
 
 <div (click)="setPrimary()" class="primary" [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
 <div (click)="setSecondary()" class="secondary" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>

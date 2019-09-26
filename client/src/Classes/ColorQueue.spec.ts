@@ -11,6 +11,10 @@ describe('ColorQueue', () => {
         expect(queue.getLength()).toEqual(10);
     });
 
+    it('Should return value from queue correctly', () => {
+        expect(queue.get(5)).toBeDefined();
+    });
+
     it('Adding one element should not make length more thant 10', () => {
         queue.push(11);
         expect(queue.getLength()).toBeLessThanOrEqual(10);

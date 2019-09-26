@@ -16,8 +16,4 @@ describe('ColorService', () => {
     colorService.setShowInAttributeBar(false);
     expect(colorService.getShowInAttributeBar()).toBeFalsy();
   });
-
-  it('Should get correctly items from last 10 used colors array', () => {
-    expect(colorService.getItemFromLastTenColors(1)).toBeDefined();
-  });
 });

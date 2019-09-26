@@ -19,7 +19,28 @@ describe('ColorPaletteComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('Should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Should executeMouseMove correctly', () => {
+    spyOn(component, 'emitColor');
+    const event: MouseEvent = new MouseEvent('window:mousemove');
+    component.setMouseDown(true);
+    component.onMouseMove(event);
+    expect(component.emitColor).toHaveBeenCalled();
+  });
+
+  it('Should execute onMouseDown correctly', () => {
+    spyOn(component, 'draw');
+    const event: MouseEvent = new MouseEvent('window:mouseup');
+    component.onMouseDown(event);
+    expect(component.draw).toHaveBeenCalled();
+  });
+
+  it('Should executeMouseUp correctly', () => {
+    const event: MouseEvent = new MouseEvent('window:mousedowns');
+    component.onMouseUp(event);
+    expect(component.getMouseDown()).toBeFalsy();
   });
 });

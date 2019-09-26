@@ -57,6 +57,14 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
 
+  getMouseDown(): boolean {
+    return this.mousedown;
+  }
+
+  setMouseDown(val: boolean) {
+    this.mousedown = val;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.hue) {
       this.draw();

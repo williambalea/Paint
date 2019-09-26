@@ -1,4 +1,4 @@
-import { TOOL } from '../../../../constants';
+import { TOOL } from '../constants';
 
 export abstract class Shape {
     type: TOOL;

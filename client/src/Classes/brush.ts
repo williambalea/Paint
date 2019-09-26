@@ -1,4 +1,4 @@
-import { TOOL } from '../../../../constants';
+import { TOOL } from '../constants';
 import { Pen } from './pen';
 
 export class Brush extends Pen {

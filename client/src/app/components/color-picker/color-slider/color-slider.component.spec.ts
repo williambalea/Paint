@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ColorSliderComponent } from './color-slider.component';
 import { NB } from 'src/constants';
+import { ColorSliderComponent } from './color-slider.component';
 
 describe('ColorSliderComponent', () => {
   let component: ColorSliderComponent;

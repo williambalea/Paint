@@ -60,7 +60,7 @@
 //   it('should call changeParameters function when invoking clear function', () => {
 //     let spy = spyOn(component.fileParameters, 'changeParameters').and.callThrough();
 //     component.clear();
-//     expect(spy).toHaveBeenCalled(); 
+//     expect(spy).toHaveBeenCalled();
 //   });
 
 //   it('Should handle clear function correctly', () => {

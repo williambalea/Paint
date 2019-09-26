@@ -7,7 +7,7 @@ const color = 'red';
 describe('Pen', () => {
 
     it('Pen path should be a string', () => {
-        expect(pen.path).toBe('pen');
+        expect(pen.path).toBe('black');
     });
 
     it('Primary color is changed', () => {
@@ -16,8 +16,9 @@ describe('Pen', () => {
     });
 
     it('Secondary color is not modified', () => {
+        const penClone = pen;
         pen.changeSecondaryColor(color);
-        expect(pen.stroke).toBe('black');
+        expect(pen).toEqual(penClone);
     });
 
 });

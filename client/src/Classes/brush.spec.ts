@@ -16,8 +16,9 @@ describe('Brush', () => {
     });
 
     it('Secondary color is not modified', () => {
+        const brushClone = brush;
         brush.changeSecondaryColor(color);
-        expect(brush.stroke).toBe('black');
+        expect(brush).toEqual(brushClone);
     });
 
 });

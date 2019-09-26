@@ -8,7 +8,7 @@ const stroke = 'red';
 describe('Rectangle', () => {
 
     it('Rectangle fill should be a string', () => {
-        expect(rectangle.fill).toBe('black');
+        expect(typeof(rectangle.fill)).toBe(typeof(fill));
     });
 
     it('Primary color should modify a string value', () => {
@@ -16,9 +16,9 @@ describe('Rectangle', () => {
         expect(rectangle.fill).toBe('white');
     });
 
-    it('Primary color should modify a string value', () => {
+    it('Secondary color should modify a string value', () => {
         rectangle.changeSecondaryColor(stroke);
-        expect(rectangle.fill).toBe('red');
+        expect(rectangle.stroke).toBe('red');
     });
 
 });

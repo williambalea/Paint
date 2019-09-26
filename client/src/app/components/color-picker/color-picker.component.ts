@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { NB } from '../../../constants';
 import { ColorInputControl } from '../../../Classes/ColorInputControl';
+import { NB } from '../../../constants';
 
 @Component({
   selector: 'app-color-picker',

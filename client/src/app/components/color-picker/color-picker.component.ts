@@ -78,9 +78,22 @@ export class ColorPickerComponent implements OnInit {
     setInterval(() => {
       if (this.oldPointedColor !== this.color) {
         this.sendColor();
+        this.updateHexValue();
         this.oldPointedColor = this.color;
       }
     }, NB.TwoHundredFifty);
+  }
+
+  updateHexValue(): void {
+    let temp: string = this.color;
+    temp = temp.substring(5, temp.length);
+    temp = temp.substring(0, temp.length - 1);
+    const rgbValues: string[] = temp.split(',');
+    console.log(rgbValues);
+    const tempHex: string = Number(rgbValues[0]).toString(16).toUpperCase() +
+                            Number(rgbValues[1]).toString(16).toUpperCase() +
+                            Number(rgbValues[2]).toString(16).toUpperCase();
+    this.colorHex = tempHex;
   }
 
   onEnterHex(value: string): void {

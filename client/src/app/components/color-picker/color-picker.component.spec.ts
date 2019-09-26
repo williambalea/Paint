@@ -45,4 +45,10 @@ describe('ColorPickerComponent', () => {
     expect(colorPickerComponent.getOldPointedColor()).toEqual('rgba(0,0,0,1)');
   });
 
+  it('Should update Hex value correctly', () => {
+    colorPickerComponent.setColor('rbga(137, 158, 142, 1)');
+    colorPickerComponent.updateHexValue();
+    expect(colorPickerComponent.getHexValue()).toEqual('899E8E');
+  });
+
 });

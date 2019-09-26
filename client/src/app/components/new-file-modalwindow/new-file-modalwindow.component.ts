@@ -43,15 +43,11 @@ export class NewFileModalwindowComponent implements OnInit {
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {
-    console.dir('1' + this.colorService.getFillColor());
     this.fileParameters.tempresize = true;
-    console.dir('2' + this.colorService.getFillColor());
     if (this.shapeService.shapes.length !== 0) {
-      console.dir('3' + this.colorService.getFillColor());
       this.dialog.open(DeleteConfirmationComponent);
-      console.dir('4' + this.colorService.getFillColor());
       this.fileParameters.setParameters(canvaswidth, canvasheight);
-      console.dir('5' + this.colorService.getFillColor());
+      this.dialogRef.close();
     } else {
       this.fileParameters.changeParameters(canvaswidth, canvasheight);
       this.colorService.changeBackgroundColor();

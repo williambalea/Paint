@@ -21,7 +21,6 @@ export class ColorService {
     this.usingPrimary = true;
     this.lastTenColors = new ColorQueue();
   }
-  
 
   addColorsToLastUsed(primaryColor: string, secondaryColor ?: string): void {
     this.lastTenColors.push(primaryColor);

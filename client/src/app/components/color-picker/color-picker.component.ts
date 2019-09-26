@@ -71,12 +71,7 @@ export class ColorPickerComponent implements OnInit {
   }
 
   sendColor(): void {
-    // this.colorService.getUsingPrimary ? this.colorService.setFillColor(this.color) : this.colorService.setStrokeColor(this.color);
-    if (this.colorService.getUsingPrimary()) {
-      this.colorService.setFillColor(this.color);
-    } else {
-      this.colorService.setStrokeColor(this.color);
-    }
+    this.colorService.getUsingPrimary ? this.colorService.setFillColor(this.color) : this.colorService.setStrokeColor(this.color);
   }
 
   sendColorWrapper(): void {

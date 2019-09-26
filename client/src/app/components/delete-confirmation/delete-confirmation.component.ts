@@ -20,13 +20,11 @@ export class DeleteConfirmationComponent {
                }
 
   clear(): void {
-    console.dir('6' + this.colorService.getFillColor());
     this.shapeService.clearShapes();
-    console.dir('7' + this.colorService.getFillColor());
     this.fileParameters.changeParameters(this.fileParameters.tempx, this.fileParameters.tempy);
-    console.dir('8' + this.colorService.getFillColor());
     this.colorService.changeBackgroundColor();
-    console.dir('9' + this.colorService.getFillColor());
     this.dialogRef.close(true);
+    this.colorService.setMakingColorChanges(false);
+    this.colorService.setShowInAttributeBar(true);
   }
 }

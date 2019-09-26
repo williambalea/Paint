@@ -1,4 +1,4 @@
-import { NB } from '../../../common/constants';
+import { NB } from '../constants';
 
 export class ColorQueue<T> {
     store: T[];

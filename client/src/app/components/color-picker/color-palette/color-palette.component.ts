@@ -9,7 +9,7 @@ import { AfterViewInit,
         SimpleChanges,
         ViewChild
 } from '@angular/core';
-import { NB } from '../../../../../../common/constants';
+import { NB } from '../../../../constants';
 
 @Component({
   selector: 'app-color-palette',

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BRUSH, EMPTY_STRING, NB, TOOL } from '../../../../../common/constants';
+import { BRUSH, EMPTY_STRING, NB, TOOL } from '../../../constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Brush } from './classes/brush';

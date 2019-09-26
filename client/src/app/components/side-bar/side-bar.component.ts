@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
-import { KEY, TOOL } from '../../../../../common/constants';
+import { KEY, TOOL } from '../../../constants';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 
 @Component({

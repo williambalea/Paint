@@ -6,7 +6,7 @@ import {  AfterViewInit,
           Output,
           ViewChild
 } from '@angular/core';
-import { NB } from '../../../../../../common/constants';
+import { NB } from '../../../../constants';
 
 @Component({
   selector: 'app-color-slider',

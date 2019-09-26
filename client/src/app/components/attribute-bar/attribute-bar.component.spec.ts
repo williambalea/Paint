@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
-import { NB } from '../../../../../common/constants';
+import { NB } from '../../../constants';
 import { ColorService } from './../../services/color/color.service';
 import { AttributeBarComponent } from './attribute-bar.component';
 

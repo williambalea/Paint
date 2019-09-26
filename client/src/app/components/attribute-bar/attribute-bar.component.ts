@@ -1,6 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { BRUSH, TOOL } from '../../../../../common/constants';
+import { BRUSH, TOOL } from '../../../constants';
 import { ShapesService } from '../../services/shapes/shapes.service';
 
 @Component({

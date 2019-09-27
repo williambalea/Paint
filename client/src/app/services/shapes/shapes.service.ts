@@ -12,7 +12,7 @@ import { BRUSH, EMPTY_STRING, NB, TOOL } from '../../../constants';
 })
 export class ShapesService {
   // TODO: QA
-  shapes: Shape[] = [];
+  shapes: Shape[];
   mouse: Point;
   origin: Point;
   preview: Preview;
@@ -26,6 +26,7 @@ export class ShapesService {
   fillEnable: boolean;
 
   constructor() {
+    this.shapes = [];
     this.resetPreview();
     this.rectangleStrokeWidth = NB.Seven;
     this.penStrokeWidth = NB.Seven;

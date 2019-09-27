@@ -174,7 +174,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   mouseMovePenBrush(event: MouseEvent): void {
     if (this.shapeService.preview.active) {
-      this.shapeService.preview.path += `L${event.offsetX} ${event.offsetY}`;
+      this.shapeService.preview.path += `l${event.movementX} ${event.movementY}`;
     }
   }
 

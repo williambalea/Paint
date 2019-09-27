@@ -55,7 +55,7 @@ export class ColorSliderComponent implements AfterViewInit {
     return gradient;
   }
 
-  renderCanvas():void{
+  renderCanvasObject():void{
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     this.ctx.clearRect(NB.Zero, NB.Zero, width, height);
@@ -68,7 +68,7 @@ export class ColorSliderComponent implements AfterViewInit {
 
   draw(): void {
     this.initialDrawCondition();
-    this.renderCanvas();
+    this.renderCanvasObject();
     this.selectPosition();
   }
 

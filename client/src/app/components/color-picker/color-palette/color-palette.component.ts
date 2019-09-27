@@ -30,49 +30,77 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.draw();
   }
 
-  draw(): void {
-    if (!this.ctx) {
-      this.ctx = this.canvas.nativeElement.getContext(STRINGS.twoD) as CanvasRenderingContext2D;
-    }
+  initialDrawCondition(): void {
+  if (!this.ctx) {
+    this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+  }}
+
+  selectPosition(): void{
+    if (this.selectedPosition) {
+      this.ctx.strokeStyle = 'white';
+      this.ctx.fillStyle = 'white';
+      this.ctx.beginPath();
+      this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
+      this.ctx.lineWidth = NB.Five;
+      this.ctx.stroke();
+  }}
+   setWhiteGrad(): void {
+    const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, this.canvas.nativeElement.width, NB.Zero);
+    whiteGrad.addColorStop(NB.Zero, 'rgba(255,255,255,1)');
+    whiteGrad.addColorStop(NB.One, 'rgba(255,255,255,0)');
+    this.ctx.fillStyle = whiteGrad;
+   }
+
+   setBlackGrad(): void {
+    const blackGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, this.canvas.nativeElement.height);
+    blackGrad.addColorStop(NB.Zero, 'rgba(0,0,0,0)');
+    blackGrad.addColorStop(NB.One, 'rgba(0,0,0,1)');
+    this.ctx.fillStyle = blackGrad;
+   }
+
+  renderCanvasObject(){
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
-    this.ctx.fillStyle = this.hue || COLORS.whiteRGBA;
+    this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)';
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
+    this.setWhiteGrad();
+    this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
+    this.setBlackGrad();
+    this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
+  }
+
+  draw(): void {
+    this.initialDrawCondition();
+    this.renderCanvasObject();
+    this.selectPosition();
+  }
+
+  drawGradient(width: number): CanvasGradient {
     const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, width, NB.Zero);
     whiteGrad.addColorStop(NB.Zero, COLORS.whiteRGBA);
     whiteGrad.addColorStop(NB.One,  COLORS.whiteRGBATransparent);
-    this.ctx.fillStyle = whiteGrad;
-    this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
-    const blackGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
-    blackGrad.addColorStop(NB.Zero, COLORS.whiteRGBATransparent);
-    blackGrad.addColorStop(NB.One, COLORS.blackRGBA);
-    this.ctx.fillStyle = blackGrad;
-    this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
-    if (this.selectedPosition) {
-        this.ctx.strokeStyle = STRINGS.white;
-        this.ctx.fillStyle = STRINGS.white;
-        this.ctx.beginPath();
-        this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
-        this.ctx.lineWidth = NB.Five;
-        this.ctx.stroke();
-    }
+    return whiteGrad;
   }
 
   getMouseDown(): boolean {
     return this.mousedown;
   }
 
-  setMouseDown(val: boolean) {
+  setMouseDown(val: boolean): void {
     this.mousedown = val;
+  }
+
+  emitColorOnPosition(): void {
+    const position = this.selectedPosition;
+    if (position) {
+      this.color.emit(this.getColorAtPosition(position.x, position.y));
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.hue) {
       this.draw();
-      const pos = this.selectedPosition;
-      if (pos) {
-        this.color.emit(this.getColorAtPosition(pos.x, pos.y));
-      }
+      this.emitColorOnPosition();
     }
   }
 

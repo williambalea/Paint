@@ -42,9 +42,4 @@ export class FileParametersServiceService {
     this.canvasHeight.next(height);
   }
 
-  /*subscribeToChanges(dialogref: MatDialogRef<NewFileModalwindowComponent, any>) {
-    dialogref.afterClosed().subscribe((result) => {
-    });
-  }*/
-
 }

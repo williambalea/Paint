@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
 import { KEY, TOOL } from '../../../constants';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
@@ -25,17 +25,14 @@ export class SideBarComponent {
     this.selectedTool = chosenTool;
   }
 
-  createNewFile(): void {
-    this.enableKeyPress = false;
-
-    const dialogRef: MatDialogRef<NewFileModalwindowComponent, any> =
-      this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
-
+  setColorNewFile(): void {
     this.colorService.setMakingColorChanges(true);
     this.colorService.setShowInAttributeBar(false);
+  }
 
-    dialogRef.afterClosed()
-    .subscribe(() => { this.enableKeyPress = true; });
+  createNewFile(): void {
+    this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
+    this.setColorNewFile();
   }
 
   @HostListener('window:keydown', ['$event'])

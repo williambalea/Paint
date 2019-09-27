@@ -22,34 +22,45 @@ export class AttributeBarComponent {
     this.brush = BRUSH;
   }
 
-  radioChangeHandler(event: { target: {value: string}; }) {
+  radioChangeHandler(event: { target: {value: string}; }): void {
     this.selectedType = event.target.value;
     this.assignRectangleType();
   }
 
+  assignBorderedRectangle(): void {
+    this.shapeService.strokeEnable = true;
+    this.shapeService.fillEnable = false;
+    this.shapeService.removeColor(this.shapeService.fillColor)
+  }
+
+  assignFilledRectangle(): void {
+    this.shapeService.strokeEnable = false;
+    this.shapeService.removeColor(this.shapeService.strokeColor);
+    this.shapeService.fillEnable = true;
+  }
+
+  assignBorderedAndFilledRectangle(): void {
+    this.shapeService.strokeEnable = true;
+    this.shapeService.fillEnable = true;
+  }
+
   assignRectangleType(): void {
     switch (this.selectedType) {
-      case RECTANGLE_TYPE.bordered:
-        this.shapeService.strokeEnable = true;
-        this.shapeService.fillEnable = false;
-        this.shapeService.removeColor(this.shapeService.fillColor);
+      case 'Bordered':
+        this.assignBorderedRectangle();
         break;
-      case RECTANGLE_TYPE.filled:
-        this.shapeService.strokeEnable = false;
-        this.shapeService.removeColor(this.shapeService.strokeColor);
-        this.shapeService.fillEnable = true;
+      case 'Filled':
+        this.assignFilledRectangle();
         break;
-      case RECTANGLE_TYPE.borderedAndFilled:
-        this.shapeService.strokeEnable = true;
-        this.shapeService.fillEnable = true;
+      case 'Bordered & Filled':
+        this.assignBorderedAndFilledRectangle();
         break;
       default:
     }
   }
 
-  assignStrokeWidth(value: number) {
+  assignStrokeWidth(value: number): void {
     this.shapeService.rectangleStrokeWidth = value;
-    return false;
   }
 
   getColorService(): ColorService {

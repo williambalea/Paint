@@ -26,35 +26,56 @@ export class NewFileModalwindowComponent implements OnInit {
                public colorService: ColorService,
                public dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
-  ngOnInit(): void {
-    this.canvasWidth = window.innerWidth;
-    this.canvasHeight = window.innerHeight;
-    this.control = this.builder.control('', Validators.required);
+  assignForm(): void {
     this.form = this.builder.group({
       canvaswidth: ['', [Validators.required, Validators.min(0)]],
       canvasheight: ['', [Validators.required, Validators.min(0)]],
     });
+  }
+
+  assignCanvas(): void {
+    this.canvasWidth = window.innerWidth;
+    this.canvasHeight = window.innerHeight;
+  }
+
+  ngOnInit(): void {
+    this.assignCanvas();
+    this.control = this.builder.control('', Validators.required);
+    this.assignForm();
     this.colorService.setShowBackgroundButton(false);
   }
 
-  close(): void {
+  closeColorService(): void {
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
     this.colorService.setShowBackgroundButton(true);
+  }
+
+  closeModalWindow(): void {
+    this.closeColorService();
     this.dialogRef.close();
   }
 
+  deleteConfirmation(canvaswidth: number, canvasheight: number): void {
+    this.dialog.open(DeleteConfirmationComponent);
+    this.fileParameters.setParameters(canvaswidth, canvasheight);
+  }
+
+  modifyCanvasDisplay(): void {
+    this.colorService.changeBackgroundColor();
+    this.colorService.setMakingColorChanges(false);
+    this.colorService.setShowInAttributeBar(true);
+    this.colorService.setShowBackgroundButton(true);
+  }
+
+
   submitParameters(canvaswidth: number, canvasheight: number) {
     this.fileParameters.tempresize = true;
-    if (this.shapeService.shapes.length !== 0) {
-      this.dialog.open(DeleteConfirmationComponent);
-      this.fileParameters.setParameters(canvaswidth, canvasheight);
+    if (this.shapeService.shapes.length) {
+      this.deleteConfirmation(canvaswidth, canvasheight);
     } else {
       this.fileParameters.changeParameters(canvaswidth, canvasheight);
-      this.colorService.changeBackgroundColor();
-      this.colorService.setMakingColorChanges(false);
-      this.colorService.setShowInAttributeBar(true);
-      this.colorService.setShowBackgroundButton(true);
+      this.modifyCanvasDisplay();
     }
     this.dialogRef.close();
   }

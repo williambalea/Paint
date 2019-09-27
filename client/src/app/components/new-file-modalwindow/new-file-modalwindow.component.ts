@@ -26,42 +26,42 @@ export class NewFileModalwindowComponent implements OnInit {
                public colorService: ColorService,
                public dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
-  assignForm(){
+  assignForm(): void {
     this.form = this.builder.group({
       canvaswidth: ['', [Validators.required, Validators.min(0)]],
       canvasheight: ['', [Validators.required, Validators.min(0)]],
     });
   }
 
-  assignCanvas(){
+  assignCanvas(): void {
     this.canvasWidth = window.innerWidth;
     this.canvasHeight = window.innerHeight;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.assignCanvas();
     this.control = this.builder.control('', Validators.required);
     this.assignForm();
     this.colorService.setShowBackgroundButton(false);
   }
 
-  closeColorService(){
+  closeColorService(): void {
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
     this.colorService.setShowBackgroundButton(true);
   }
 
-  closeModalWindow() {
+  closeModalWindow(): void {
     this.closeColorService();
     this.dialogRef.close();
   }
 
-  deleteConfirmation(canvaswidth: number, canvasheight: number){
+  deleteConfirmation(canvaswidth: number, canvasheight: number): void {
     this.dialog.open(DeleteConfirmationComponent);
     this.fileParameters.setParameters(canvaswidth, canvasheight);
   }
 
-  modifyCanvasDisplay(){
+  modifyCanvasDisplay(): void {
     this.colorService.changeBackgroundColor();
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);

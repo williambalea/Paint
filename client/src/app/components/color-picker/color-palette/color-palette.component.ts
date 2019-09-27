@@ -29,10 +29,23 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.draw();
   }
 
+  initialDrawCondition(){
+  if (!this.ctx) {
+    this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+  }}
+
+  selectPosition(){
+    if (this.selectedPosition) {
+      this.ctx.strokeStyle = 'white';
+      this.ctx.fillStyle = 'white';
+      this.ctx.beginPath();
+      this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
+      this.ctx.lineWidth = NB.Five;
+      this.ctx.stroke();
+  }}
+
   draw(): void {
-    if (!this.ctx) {
-      this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
-    }
+    this.initialDrawCondition();
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)';
@@ -47,14 +60,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     blackGrad.addColorStop(NB.One, 'rgba(0,0,0,1)');
     this.ctx.fillStyle = blackGrad;
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
-    if (this.selectedPosition) {
-        this.ctx.strokeStyle = 'white';
-        this.ctx.fillStyle = 'white';
-        this.ctx.beginPath();
-        this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
-        this.ctx.lineWidth = NB.Five;
-        this.ctx.stroke();
-    }
+    this.selectPosition();
   }
 
   getMouseDown(): boolean {

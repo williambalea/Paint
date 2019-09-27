@@ -27,7 +27,7 @@ export class AttributeBarComponent {
     this.assignRectangleType();
   }
 
-  assignRectangleType() {
+  assignRectangleType(): void {
     switch (this.selectedType) {
       case RECTANGLE_TYPE.bordered:
         this.shapeService.strokeEnable = true;

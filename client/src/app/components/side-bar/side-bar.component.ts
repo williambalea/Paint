@@ -22,7 +22,7 @@ export class SideBarComponent {
     this.selectedTool = chosenTool;
   }
 
-  createNewFile() {
+  createNewFile(): void {
     this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
     this.colorService.setMakingColorChanges(true);
     this.colorService.setShowInAttributeBar(false);

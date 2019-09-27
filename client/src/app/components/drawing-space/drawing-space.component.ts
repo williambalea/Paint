@@ -35,20 +35,18 @@ export class DrawingSpaceComponent implements OnInit {
     this.resizeFlag = false;
   }
 
-  ngOnInit(): void {
-    if (!localStorage.getItem(HIDE_DIALOG)) {
-      this.openDialog();
-    } else {
-      this.enableKeyPress = true;
-    }
-
+  setSubscription(){
     this.subscription = this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
     this.subscription = this.fileParameters.canvasheight$
        .subscribe((canvasHeight) => this.canvasHeight = canvasHeight);
     this.subscription = this.fileParameters.resizeflag$
        .subscribe((resizeFlag) => this.resizeFlag = resizeFlag);
+  }
 
+  ngOnInit(): void {
+    !localStorage.getItem(HIDE_DIALOG) ? this.openDialog() : this.enableKeyPress = true;
+    this.setSubscription();
   }
 
   @HostListener('window:resize', ['$event'])

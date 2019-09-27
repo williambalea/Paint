@@ -22,7 +22,7 @@ export class AttributeBarComponent {
     this.brush = BRUSH;
   }
 
-  radioChangeHandler(event: { target: {value: string}; }) {
+  radioChangeHandler(event: { target: {value: string}; }): void {
     this.selectedType = event.target.value;
     this.assignRectangleType();
   }
@@ -59,9 +59,8 @@ export class AttributeBarComponent {
     }
   }
 
-  assignStrokeWidth(value: number) {
+  assignStrokeWidth(value: number): void {
     this.shapeService.rectangleStrokeWidth = value;
-    return false;
   }
 
   getColorService(): ColorService {

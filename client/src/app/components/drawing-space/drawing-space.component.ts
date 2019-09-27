@@ -35,13 +35,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.resizeFlag = false;
   }
 
-<<<<<<< HEAD
-  setSubscription(){
-=======
-  ngOnInit(): void {
-    (!localStorage.getItem(HIDE_DIALOG)) ? this.openDialog() : this.enableKeyPress = true;
-
->>>>>>> dev
+  setSubscription(): void {
     this.subscription = this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
     this.subscription = this.fileParameters.canvasheight$
@@ -160,7 +154,6 @@ export class DrawingSpaceComponent implements OnInit {
     this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
   }
 
-
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     switch (this.selectedTool) {
@@ -183,11 +176,7 @@ export class DrawingSpaceComponent implements OnInit {
   mouseMoveRectangle(event: MouseEvent): void {
     this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
     if (this.shapeService.preview.active) {
-<<<<<<< HEAD
       this.shiftPressed ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
-=======
-      (this.shiftPressed) ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
->>>>>>> dev
     }
   }
 

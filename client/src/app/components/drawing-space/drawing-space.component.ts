@@ -1,6 +1,5 @@
 import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
 import { Shape } from '../../../Classes/Shapes/shape';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
@@ -20,14 +19,13 @@ export class DrawingSpaceComponent implements OnInit {
   resizeFlag: boolean;
   canvasWidth: number;
   canvasHeight: number;
-  subscription: Subscription;
   width: number;
   enableKeyPress: boolean;
   shiftPressed: boolean;
 
   constructor( private dialog: MatDialog,
                private shapeService: ShapesService,
-               private fileParameters: FileParametersServiceService,
+               public fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
     this.tool = TOOL;
     this.enableKeyPress = false;
@@ -35,19 +33,21 @@ export class DrawingSpaceComponent implements OnInit {
     this.resizeFlag = false;
   }
 
-  setSubscription(): void {
-    this.subscription = this.fileParameters.canvaswidth$
+  ngOnInit(): void {
+    (!localStorage.getItem(HIDE_DIALOG)) ? this.openDialog() : this.enableKeyPress = true;
+
+    this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
-    this.subscription = this.fileParameters.canvasheight$
+    this.fileParameters.canvasheight$
        .subscribe((canvasHeight) => this.canvasHeight = canvasHeight);
-    this.subscription = this.fileParameters.resizeflag$
+    this.fileParameters.resizeflag$
        .subscribe((resizeFlag) => this.resizeFlag = resizeFlag);
   }
 
-  ngOnInit(): void {
+ /* ngOnInit(): void {
     !localStorage.getItem(HIDE_DIALOG) ? this.openDialog() : this.enableKeyPress = true;
     this.setSubscription();
-  }
+  }*/
 
   @HostListener('window:resize', ['$event'])
   onResize(event: { target: { innerWidth: number; }; }) {

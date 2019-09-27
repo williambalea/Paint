@@ -8,7 +8,6 @@ describe('FileParametersServiceService', () => {
 });
 
   it('should be created', () => {
-    // const service: FileParametersServiceService = TestBed.get(FileParametersServiceService);
     expect(service).toBeTruthy();
   });
 
@@ -31,5 +30,8 @@ describe('FileParametersServiceService', () => {
     expect(service.canvasWidth.value).toEqual(width);
     expect(service.canvasHeight.value).toEqual(height);
   });
+ 
+
+
 
 });

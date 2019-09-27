@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { NewFileModalwindowComponent } from '../components/new-file-modalwindow/new-file-modalwindow.component';
 
 @Injectable({
@@ -30,6 +30,8 @@ export class FileParametersServiceService {
   getTempResize(): boolean {
     return this.tempresize;
   }
+
+  getObservableValue() { return of("observable value"); }
 
   setParameters(canvaswidth: number, canvasheight: number): void {
     this.tempx = canvaswidth;

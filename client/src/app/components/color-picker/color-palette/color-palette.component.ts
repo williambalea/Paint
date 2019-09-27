@@ -1,3 +1,4 @@
+// Inspiré de https://github.com/LukasMarx/angular-color-picker
 import { AfterViewInit,
         Component,
         ElementRef,
@@ -9,7 +10,7 @@ import { AfterViewInit,
         SimpleChanges,
         ViewChild
 } from '@angular/core';
-import { NB } from '../../../../constants';
+import { COLORS, NB, STRINGS } from '../../../../constants';
 
 @Component({
   selector: 'app-color-palette',
@@ -20,7 +21,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   @Input() hue: string;
   @Output() color: EventEmitter<string> = new EventEmitter(true);
-  @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild(STRINGS.canvas, {static: false}) canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean;
   selectedPosition: { x: number; y: number };
@@ -31,25 +32,25 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   draw(): void {
     if (!this.ctx) {
-      this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+      this.ctx = this.canvas.nativeElement.getContext(STRINGS.twoD) as CanvasRenderingContext2D;
     }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
-    this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)';
+    this.ctx.fillStyle = this.hue || COLORS.whiteRGBA;
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
     const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, width, NB.Zero);
-    whiteGrad.addColorStop(NB.Zero, 'rgba(255,255,255,1)');
-    whiteGrad.addColorStop(NB.One, 'rgba(255,255,255,0)');
+    whiteGrad.addColorStop(NB.Zero, COLORS.whiteRGBA);
+    whiteGrad.addColorStop(NB.One,  COLORS.whiteRGBATransparent);
     this.ctx.fillStyle = whiteGrad;
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
     const blackGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
-    blackGrad.addColorStop(NB.Zero, 'rgba(0,0,0,0)');
-    blackGrad.addColorStop(NB.One, 'rgba(0,0,0,1)');
+    blackGrad.addColorStop(NB.Zero, COLORS.whiteRGBATransparent);
+    blackGrad.addColorStop(NB.One, COLORS.blackRGBA);
     this.ctx.fillStyle = blackGrad;
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
     if (this.selectedPosition) {
-        this.ctx.strokeStyle = 'white';
-        this.ctx.fillStyle = 'white';
+        this.ctx.strokeStyle = STRINGS.white;
+        this.ctx.fillStyle = STRINGS.white;
         this.ctx.beginPath();
         this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
         this.ctx.lineWidth = NB.Five;

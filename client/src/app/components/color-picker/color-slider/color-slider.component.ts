@@ -1,3 +1,4 @@
+// Inspiré de https://github.com/LukasMarx/angular-color-picker
 import {  AfterViewInit,
           Component,
           ElementRef,
@@ -6,7 +7,7 @@ import {  AfterViewInit,
           Output,
           ViewChild
 } from '@angular/core';
-import { NB } from '../../../../constants';
+import { COLORS, NB, STRINGS } from '../../../../constants';
 
 @Component({
   selector: 'app-color-slider',
@@ -15,7 +16,7 @@ import { NB } from '../../../../constants';
 })
 export class ColorSliderComponent implements AfterViewInit {
 
-  @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild(STRINGS.canvas, {static: false}) canvas: ElementRef<HTMLCanvasElement>;
   @Output() color: EventEmitter<string> = new EventEmitter();
 
   private ctx: CanvasRenderingContext2D;
@@ -28,19 +29,19 @@ export class ColorSliderComponent implements AfterViewInit {
 
   draw(): void {
     if (!this.ctx) {
-      this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
+      this.ctx = this.canvas.nativeElement.getContext(STRINGS.twoD) as CanvasRenderingContext2D;
     }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     this.ctx.clearRect(NB.Zero, NB.Zero, width, height);
     const gradient = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
-    gradient.addColorStop(NB.Zero, 'rgba(255, 0, 0, 1)');
-    gradient.addColorStop(NB.ZeroPointSeventeen, 'rgba(255, 255, 0, 1)');
-    gradient.addColorStop(NB.ZeroPointThirtyFour, 'rgba(0, 255, 0, 1)');
-    gradient.addColorStop(NB.ZeroPointFiftyOne, 'rgba(0, 255, 255, 1)');
-    gradient.addColorStop(NB.ZeroPointSixtyEight, 'rgba(0, 0, 255, 1)');
-    gradient.addColorStop(NB.ZeroPointEightyFive, 'rgba(255, 0, 255, 1)');
-    gradient.addColorStop(NB.One, 'rgba(255, 0, 0, 1)');
+    gradient.addColorStop(NB.Zero, COLORS.redRGBA);
+    gradient.addColorStop(NB.ZeroPointSeventeen, COLORS.yellowRBGA);
+    gradient.addColorStop(NB.ZeroPointThirtyFour, COLORS.greenRBGA);
+    gradient.addColorStop(NB.ZeroPointFiftyOne, COLORS.cyanRBGA);
+    gradient.addColorStop(NB.ZeroPointSixtyEight, COLORS.blueRGBA);
+    gradient.addColorStop(NB.ZeroPointEightyFive, COLORS.magentaRBGA);
+    gradient.addColorStop(NB.One, COLORS.redRGBA);
     this.ctx.beginPath();
     this.ctx.rect(NB.Zero, NB.Zero, width, height);
     this.ctx.fillStyle = gradient;
@@ -48,7 +49,7 @@ export class ColorSliderComponent implements AfterViewInit {
     this.ctx.closePath();
     if (this.selectedHeight) {
       this.ctx.beginPath();
-      this.ctx.strokeStyle = 'white';
+      this.ctx.strokeStyle = STRINGS.white;
       this.ctx.lineWidth = NB.Five;
       this.ctx.rect(NB.Zero, this.selectedHeight - NB.Five, width, NB.Ten);
       this.ctx.stroke();

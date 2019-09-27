@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { COLORS } from 'src/constants';
 import { ColorQueue } from '../../../Classes/ColorQueue';
 
 @Injectable({
@@ -16,14 +17,14 @@ export class ColorService {
   private backgroundColor: string;
 
   constructor() {
-    this.fill = 'rgba(0, 0, 0, 1)';
-    this.stroke = 'rgba(255, 255, 255, 1)';
+    this.fill = COLORS.blackRGBA;
+    this.stroke = COLORS.whiteRGBA;
     this.makingColorChanges = false;
     this.showInAttributeBar = true;
     this.usingPrimary = true;
-    this.lastTenColors = new ColorQueue('rgba(255, 255, 255, 1)');
+    this.lastTenColors = new ColorQueue(COLORS.whiteRGBA);
     this.showBackgroundButton = true;
-    this.backgroundColor = 'rgba(255, 255, 255, 1)';
+    this.backgroundColor = COLORS.whiteRGBA;
   }
 
   getBackgroundColor(): string {
@@ -104,7 +105,6 @@ export class ColorService {
   }
 
   changeBackgroundColor(): void {
-    // const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
     this.backgroundColor = (this.usingPrimary) ? this.getFillColor() : this.getStrokeColor();
   }
 }

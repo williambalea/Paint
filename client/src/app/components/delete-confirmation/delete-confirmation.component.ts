@@ -18,14 +18,17 @@ export class DeleteConfirmationComponent {
                private fileParameters: FileParametersServiceService) {
                  this.message = 'Are you sure?';
                }
-
-  clear(): void {
-    this.shapeService.clearShapes();
-    this.fileParameters.changeParameters(this.fileParameters.tempx, this.fileParameters.tempy);
+  clearColor() : void {
     this.colorService.changeBackgroundColor();
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
     this.colorService.setShowBackgroundButton(true);
+  }
+
+  clear(): void {
+    this.shapeService.clearShapes();
+    this.fileParameters.changeParameters(this.fileParameters.tempx, this.fileParameters.tempy);
+    this.clearColor();
     this.dialogRef.close(true);
   }
 }

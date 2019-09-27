@@ -36,11 +36,7 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!localStorage.getItem(HIDE_DIALOG)) {
-      this.openDialog();
-    } else {
-      this.enableKeyPress = true;
-    }
+    (!localStorage.getItem(HIDE_DIALOG)) ? this.openDialog() : this.enableKeyPress = true;
 
     this.subscription = this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
@@ -93,7 +89,7 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  onLeftClick($event: Event, shape: Shape): void {
+  onLeftClick(shape: Shape): void {
     if (this.selectedTool === TOOL.colorApplicator) {
       const index: number = this.shapeService.shapes.indexOf(shape);
       this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
@@ -172,11 +168,7 @@ export class DrawingSpaceComponent implements OnInit {
   mouseMoveRectangle(event: MouseEvent): void {
     this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
     if (this.shapeService.preview.active) {
-      if (this.shiftPressed) {
-        this.shapeService.setSquareOffset();
-      } else {
-        this.shapeService.setRectangleOffset();
-      }
+      (this.shiftPressed) ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
     }
   }
 

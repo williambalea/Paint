@@ -71,13 +71,17 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.mousedown = val;
   }
 
+  emitColorOnPosition(){
+    const position = this.selectedPosition;
+    if (position) {
+      this.color.emit(this.getColorAtPosition(position.x, position.y));
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.hue) {
       this.draw();
-      const pos = this.selectedPosition;
-      if (pos) {
-        this.color.emit(this.getColorAtPosition(pos.x, pos.y));
-      }
+      this.emitColorOnPosition();
     }
   }
 

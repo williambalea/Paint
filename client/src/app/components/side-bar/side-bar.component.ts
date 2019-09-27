@@ -22,10 +22,14 @@ export class SideBarComponent {
     this.selectedTool = chosenTool;
   }
 
-  createNewFile() {
-    this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
+  setColorNewFile(){
     this.colorService.setMakingColorChanges(true);
     this.colorService.setShowInAttributeBar(false);
+  }
+
+  createNewFile() {
+    this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
+    this.setColorNewFile();
   }
 
   @HostListener('window:keydown', ['$event'])

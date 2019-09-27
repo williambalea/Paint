@@ -71,7 +71,7 @@ export class NewFileModalwindowComponent implements OnInit {
 
   submitParameters(canvaswidth: number, canvasheight: number) {
     this.fileParameters.tempresize = true;
-    if (this.shapeService.shapes.length !== 0) {
+    if (this.shapeService.shapes.length) {
       this.deleteConfirmation(canvaswidth, canvasheight);
     } else {
       this.fileParameters.changeParameters(canvaswidth, canvasheight);

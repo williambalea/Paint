@@ -26,7 +26,7 @@ export class NewFileModalwindowComponent implements OnInit {
                public colorService: ColorService,
                public dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.canvasWidth = window.innerWidth;
     this.canvasHeight = window.innerHeight;
     this.control = this.builder.control('', Validators.required);
@@ -37,7 +37,7 @@ export class NewFileModalwindowComponent implements OnInit {
     this.colorService.setShowBackgroundButton(false);
   }
 
-  close() {
+  close(): void {
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
     this.colorService.setShowBackgroundButton(true);

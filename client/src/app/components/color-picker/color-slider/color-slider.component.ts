@@ -66,7 +66,6 @@ export class ColorSliderComponent implements AfterViewInit {
     this.ctx.fill();
     this.ctx.closePath();
     this.selectPosition();
-
   }
 
   getMouseDown(): boolean {

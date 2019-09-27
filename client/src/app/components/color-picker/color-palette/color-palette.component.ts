@@ -43,6 +43,19 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
       this.ctx.lineWidth = NB.Five;
       this.ctx.stroke();
   }}
+   setWhiteGrad(): void {
+    const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, this.canvas.nativeElement.width, NB.Zero);
+    whiteGrad.addColorStop(NB.Zero, 'rgba(255,255,255,1)');
+    whiteGrad.addColorStop(NB.One, 'rgba(255,255,255,0)');
+    this.ctx.fillStyle = whiteGrad;
+   }
+
+   setBlackGrad(): void {
+    const blackGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, this.canvas.nativeElement.height);
+    blackGrad.addColorStop(NB.Zero, 'rgba(0,0,0,0)');
+    blackGrad.addColorStop(NB.One, 'rgba(0,0,0,1)');
+    this.ctx.fillStyle = blackGrad;
+   }
 
   draw(): void {
     this.initialDrawCondition();
@@ -50,15 +63,9 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     const height = this.canvas.nativeElement.height;
     this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)';
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
-    const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, width, NB.Zero);
-    whiteGrad.addColorStop(NB.Zero, 'rgba(255,255,255,1)');
-    whiteGrad.addColorStop(NB.One, 'rgba(255,255,255,0)');
-    this.ctx.fillStyle = whiteGrad;
+    this.setWhiteGrad();
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
-    const blackGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
-    blackGrad.addColorStop(NB.Zero, 'rgba(0,0,0,0)');
-    blackGrad.addColorStop(NB.One, 'rgba(0,0,0,1)');
-    this.ctx.fillStyle = blackGrad;
+    this.setBlackGrad();
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
     this.selectPosition();
   }

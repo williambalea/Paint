@@ -44,7 +44,7 @@ export class AttributeBarComponent {
     this.shapeService.fillEnable = true;
   }
 
-  assignRectangleType() {
+  assignRectangleType(): void {
     switch (this.selectedType) {
       case 'Bordered':
         this.assignBorderedRectangle();

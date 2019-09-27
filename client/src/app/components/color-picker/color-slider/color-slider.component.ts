@@ -26,13 +26,13 @@ export class ColorSliderComponent implements AfterViewInit {
     this.draw();
   }
 
-  initialDrawCondition(){
+  initialDrawCondition(): void{
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
   }
 
-  selectPosition(){
+  selectPosition() : void {
     if (this.selectedHeight) {
       this.ctx.beginPath();
       this.ctx.strokeStyle = 'white';
@@ -55,8 +55,7 @@ export class ColorSliderComponent implements AfterViewInit {
     return gradient;
   }
 
-  draw(): void {
-    this.initialDrawCondition();
+  renderCanvas():void{
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     this.ctx.clearRect(NB.Zero, NB.Zero, width, height);
@@ -65,6 +64,11 @@ export class ColorSliderComponent implements AfterViewInit {
     this.ctx.fillStyle = this.setGradient();
     this.ctx.fill();
     this.ctx.closePath();
+  }
+
+  draw(): void {
+    this.initialDrawCondition();
+    this.renderCanvas();
     this.selectPosition();
   }
 

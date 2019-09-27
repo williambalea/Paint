@@ -29,12 +29,12 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.draw();
   }
 
-  initialDrawCondition(){
+  initialDrawCondition(): void{
   if (!this.ctx) {
     this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
   }}
 
-  selectPosition(){
+  selectPosition(): void{
     if (this.selectedPosition) {
       this.ctx.strokeStyle = 'white';
       this.ctx.fillStyle = 'white';
@@ -57,8 +57,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.ctx.fillStyle = blackGrad;
    }
 
-  draw(): void {
-    this.initialDrawCondition();
+  renderCanvasObject(){
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)';
@@ -67,6 +66,11 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
     this.setBlackGrad();
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
+  }
+
+  draw(): void {
+    this.initialDrawCondition();
+    this.renderCanvasObject();
     this.selectPosition();
   }
 
@@ -74,11 +78,11 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     return this.mousedown;
   }
 
-  setMouseDown(val: boolean) {
+  setMouseDown(val: boolean) : void {
     this.mousedown = val;
   }
 
-  emitColorOnPosition(){
+  emitColorOnPosition(): void {
     const position = this.selectedPosition;
     if (position) {
       this.color.emit(this.getColorAtPosition(position.x, position.y));

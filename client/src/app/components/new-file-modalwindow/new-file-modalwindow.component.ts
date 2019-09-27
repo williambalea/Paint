@@ -40,6 +40,7 @@ export class NewFileModalwindowComponent implements OnInit {
   close() {
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
+    this.colorService.setShowBackgroundButton(true);
     this.dialogRef.close();
   }
 

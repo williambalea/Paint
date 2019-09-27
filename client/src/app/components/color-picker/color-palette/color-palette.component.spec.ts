@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ColorPaletteComponent } from './color-palette.component';
 
 describe('ColorPaletteComponent', () => {
@@ -23,6 +22,16 @@ describe('ColorPaletteComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('Should emit color correctly', () => {
+    const color = 'rgba(243, 180, 142, 1)';
+    const x = 10;
+    const y = 10;
+    spyOn(component, 'getColorAtPosition').and.returnValue(color);
+    spyOn(component.color, 'emit');
+    component.emitColor(x, y);
+    expect(component.color.emit).toHaveBeenCalledWith(color);
+  });
+
   it('Should executeMouseMove correctly', () => {
     spyOn(component, 'emitColor');
     const event: MouseEvent = new MouseEvent('window:mousemove');
@@ -36,6 +45,19 @@ describe('ColorPaletteComponent', () => {
     const event: MouseEvent = new MouseEvent('window:mouseup');
     component.onMouseDown(event);
     expect(component.draw).toHaveBeenCalled();
+  });
+
+  it('Should emit color on ngOnChanges', () => {
+    spyOn(component, 'draw');
+    spyOn(component.color, 'emit');
+    spyOn(component, 'getColorAtPosition');
+    const x = 10;
+    const y = 10;
+    // On met un any ici pour pouvoir faire appel a hue.and.returnValue
+    const changes: any = jasmine.createSpyObj('SimpleChanges', ['hue']);
+    component.selectedPosition = {x, y}; changes.hue.and.returnValue(true);
+    component.ngOnChanges(changes);
+    expect(component.color.emit).toHaveBeenCalled();
   });
 
   it('Should executeMouseUp correctly', () => {

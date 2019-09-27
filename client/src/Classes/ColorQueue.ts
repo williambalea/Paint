@@ -3,8 +3,8 @@ import { NB } from '../constants';
 export class ColorQueue<T> {
     store: T[];
 
-    constructor() {
-        this.store = [];
+    constructor(val: T) {
+        this.store = [val, val, val, val, val, val, val, val, val, val];
     }
 
     push(val: T) {

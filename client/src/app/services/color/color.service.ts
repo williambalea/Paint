@@ -10,21 +10,51 @@ export class ColorService {
   private stroke: string;
   private makingColorChanges: boolean;
   private showInAttributeBar: boolean;
+  private usingPrimary: boolean;
   private lastTenColors: ColorQueue<string>;
+  private showBackgroundButton: boolean;
+  private backgroundColor: string;
+
   constructor() {
-    this.fill = 'rgba(255, 255, 255, 1)';
-    this.stroke = 'rgba(0, 0, 0, 1)';
+    this.fill = 'rgba(0, 0, 0, 1)';
+    this.stroke = 'rgba(255, 255, 255, 1)';
     this.makingColorChanges = false;
     this.showInAttributeBar = true;
-    this.lastTenColors = new ColorQueue();
+    this.usingPrimary = true;
+    this.lastTenColors = new ColorQueue('rgba(255, 255, 255, 1)');
+    this.showBackgroundButton = true;
+    this.backgroundColor = 'rgba(255, 255, 255, 1)';
   }
-  
+
+  getBackgroundColor(): string {
+    return this.backgroundColor;
+  }
+
+  setBackgroundColor(newColor: string): void {
+    this.backgroundColor = newColor;
+  }
+
+  getShowBackgroundButton(): boolean {
+    return this.showBackgroundButton;
+  }
+
+  setShowBackgroundButton(val: boolean): void {
+    this.showBackgroundButton = val;
+  }
 
   addColorsToLastUsed(primaryColor: string, secondaryColor ?: string): void {
     this.lastTenColors.push(primaryColor);
     if (secondaryColor) {
       this.lastTenColors.push(secondaryColor);
     }
+  }
+
+  getUsingPrimary(): boolean {
+    return this.usingPrimary;
+  }
+
+  setUsingPrimary(val: boolean): void {
+    this.usingPrimary = val;
   }
 
   verifyIfColorExistsInLastTen(color: string): boolean {
@@ -71,5 +101,10 @@ export class ColorService {
 
   getShowInAttributeBar(): boolean {
     return this.showInAttributeBar;
+  }
+
+  changeBackgroundColor(): void {
+    // const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
+    this.backgroundColor = (this.usingPrimary) ? this.getFillColor() : this.getStrokeColor();
   }
 }

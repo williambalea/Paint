@@ -3,7 +3,7 @@
         baseProfile="full"
         [attr.width]= "this.canvasWidth"
         [attr.height]= "this.canvasHeight"
-        [style.background-color]= "this.canvasColor"
+        [style.background-color]= "colorService.getBackgroundColor()"
         style="border:1px solid black;"
         xmlns="http://www.w3.org/2000/svg" >
     <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick($event, shape)" (contextmenu)="onRightClick($event, shape)">

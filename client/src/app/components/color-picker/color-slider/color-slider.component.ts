@@ -22,11 +22,11 @@ export class ColorSliderComponent implements AfterViewInit {
   private mousedown: boolean;
   private selectedHeight: number;
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.draw();
   }
 
-  draw() {
+  draw(): void {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
@@ -56,19 +56,27 @@ export class ColorSliderComponent implements AfterViewInit {
     }
   }
 
+  getMouseDown(): boolean {
+    return this.mousedown;
+  }
+
+  setMouseDown(val: boolean): void {
+    this.mousedown = val;
+  }
+
   @HostListener('window:mouseup', ['$event'])
-  onMouseUp(event: MouseEvent) {
+  onMouseUp(event: MouseEvent): void {
     this.mousedown = false;
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     this.mousedown = true;
     this.selectedHeight = event.offsetY;
     this.draw();
     this.emitColor(event.offsetX, event.offsetY);
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove(event: MouseEvent): void {
     if (this.mousedown) {
       this.selectedHeight = event.offsetY;
       this.draw();
@@ -76,12 +84,12 @@ export class ColorSliderComponent implements AfterViewInit {
     }
   }
 
-  emitColor(x: number, y: number) {
+  emitColor(x: number, y: number): void {
     const rgbaColor = this.getColorAtPosition(x, y);
     this.color.emit(rgbaColor);
   }
 
-  getColorAtPosition(x: number, y: number) {
+  getColorAtPosition(x: number, y: number): string {
     const imageData = this.ctx.getImageData(x, y, NB.One, NB.One).data;
     return 'rgba(' + imageData[NB.Zero] + ',' + imageData[NB.One] + ',' + imageData[NB.Two] + ',1)';
   }

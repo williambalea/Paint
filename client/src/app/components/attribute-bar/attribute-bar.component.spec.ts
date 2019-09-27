@@ -35,12 +35,18 @@ describe('AttributeBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('Should enter switchcase Bordered', () => {
-  //   attributeBarComponent.selectedType = 'Filled';
-  //   attributeBarComponent.assignRectangleType();
+  // it('Should enter switch case Filled', () => {
+  //   component.selectedType = 'Filled';
+  //   component.assignRectangleType();
   //   expect(shapesService.fillEnable).toBe(true);
+  //   expect(shapesService.strokeEnable).toBe(false);
+  // });
 
-  // })
+  it('Should enter switch case Bordered', () => {
+    attributeBarComponent.assignRectangleType();
+    expect(shapesService.fillEnable).toBe(true);
+    expect(shapesService.strokeEnable).toBe(true);
+  });
 
   it('Should set stroke width correctly', () => {
     const value = NB.Ten;

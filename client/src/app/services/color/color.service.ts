@@ -12,6 +12,7 @@ export class ColorService {
   private showInAttributeBar: boolean;
   private usingPrimary: boolean;
   private lastTenColors: ColorQueue<string>;
+  private showBackgroundButton: boolean;
 
   constructor() {
     this.fill = 'rgba(255, 255, 255, 1)';
@@ -20,6 +21,15 @@ export class ColorService {
     this.showInAttributeBar = true;
     this.usingPrimary = true;
     this.lastTenColors = new ColorQueue();
+    this.showBackgroundButton = true;
+  }
+
+  getShowBackgroundButton(): boolean {
+    return this.showBackgroundButton;
+  }
+
+  setShowBackgroundButton(val: boolean): void {
+    this.showBackgroundButton = val;
   }
 
   addColorsToLastUsed(primaryColor: string, secondaryColor ?: string): void {

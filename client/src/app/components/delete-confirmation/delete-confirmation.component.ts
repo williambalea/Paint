@@ -25,6 +25,7 @@ export class DeleteConfirmationComponent {
     this.colorService.changeBackgroundColor();
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
+    this.colorService.setShowBackgroundButton(true);
     this.dialogRef.close(true);
   }
 }

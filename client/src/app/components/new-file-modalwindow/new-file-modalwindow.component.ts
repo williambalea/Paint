@@ -34,6 +34,7 @@ export class NewFileModalwindowComponent implements OnInit {
       canvaswidth: ['', [Validators.required, Validators.min(0)]],
       canvasheight: ['', [Validators.required, Validators.min(0)]],
     });
+    this.colorService.setShowBackgroundButton(false);
   }
 
   close() {
@@ -52,6 +53,7 @@ export class NewFileModalwindowComponent implements OnInit {
       this.colorService.changeBackgroundColor();
       this.colorService.setMakingColorChanges(false);
       this.colorService.setShowInAttributeBar(true);
+      this.colorService.setShowBackgroundButton(true);
     }
     this.dialogRef.close();
   }

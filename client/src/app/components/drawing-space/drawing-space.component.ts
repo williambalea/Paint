@@ -54,9 +54,7 @@ export class DrawingSpaceComponent implements OnInit {
     if (!this.resizeFlag) {
     this.width = event.target.innerWidth;
     this.canvasWidth = event.target.innerWidth;
-  }
-
-  }
+  }}
 
   openDialog(): void {
     const dialogRef: MatDialogRef<EntryPointComponent, any> =
@@ -106,11 +104,13 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  @HostListener('mousedown', ['$event'])
-  onMouseDown(event: MouseEvent): void {
+  defineShapeService(): void {
     this.shapeService.fillColor = this.colorService.getFillColor();
     this.shapeService.strokeColor = this.colorService.getStrokeColor();
     this.shapeService.preview.active = true;
+  }
+
+  assignMouseDownEvent(event: MouseEvent): void {
     switch (this.selectedTool) {
       case TOOL.rectangle:
         this.mouseDownRectangle(event);
@@ -131,6 +131,12 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
+  @HostListener('mousedown', ['$event'])
+  onMouseDown(event: MouseEvent): void {
+    this.defineShapeService();
+    this.assignMouseDownEvent(event);
+  }
+
   mouseDownRectangle(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
     this.shapeService.setMouseOrigin(event);
@@ -147,6 +153,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l1 1`;
     this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
   }
+
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
@@ -170,11 +177,7 @@ export class DrawingSpaceComponent implements OnInit {
   mouseMoveRectangle(event: MouseEvent): void {
     this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
     if (this.shapeService.preview.active) {
-      if (this.shiftPressed) {
-        this.shapeService.setSquareOffset();
-      } else {
-        this.shapeService.setRectangleOffset();
-      }
+      this.shiftPressed ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
     }
   }
 
@@ -184,9 +187,7 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  @HostListener('mouseup')
-  onMouseUp(): void {
-    this.shapeService.preview.active = false;
+  assignMouseUpEvent(): void {
     switch (this.selectedTool) {
       case TOOL.rectangle:
         this.shapeService.drawRectangle();
@@ -205,6 +206,12 @@ export class DrawingSpaceComponent implements OnInit {
 
       default:
     }
+  }
+
+  @HostListener('mouseup')
+  onMouseUp(): void {
+    this.shapeService.preview.active = false;
+    this.assignMouseUpEvent();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
     this.shapeService.resetPreview();
   }

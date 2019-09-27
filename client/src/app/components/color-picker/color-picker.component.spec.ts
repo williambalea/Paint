@@ -43,7 +43,7 @@ describe('ColorPickerComponent', () => {
 
   it('Should call sendColor from sendColorWrapper (ie change oldPointedColor)', () => {
     colorPickerComponent.sendColorWrapper();
-    expect(colorPickerComponent.getOldPointedColor()).toEqual('rgba(0,0,0,1)');
+    expect(colorPickerComponent.getOldPointedColor()).toEqual('rgba(255,255,255,1)');
   });
 
   it('Should update Hex value correctly', () => {

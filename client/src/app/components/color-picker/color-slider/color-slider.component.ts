@@ -26,14 +26,25 @@ export class ColorSliderComponent implements AfterViewInit {
     this.draw();
   }
 
-  draw(): void {
+  initialDrawCondition(){
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
     }
-    const width = this.canvas.nativeElement.width;
-    const height = this.canvas.nativeElement.height;
-    this.ctx.clearRect(NB.Zero, NB.Zero, width, height);
-    const gradient = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
+  }
+
+  selectPosition(){
+    if (this.selectedHeight) {
+      this.ctx.beginPath();
+      this.ctx.strokeStyle = 'white';
+      this.ctx.lineWidth = NB.Five;
+      this.ctx.rect(NB.Zero, this.selectedHeight - NB.Five, this.canvas.nativeElement.width, NB.Ten);
+      this.ctx.stroke();
+      this.ctx.closePath();
+    }
+  }
+
+  setGradient(){
+    const gradient = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, this.canvas.nativeElement.height);
     gradient.addColorStop(NB.Zero, 'rgba(255, 0, 0, 1)');
     gradient.addColorStop(NB.ZeroPointSeventeen, 'rgba(255, 255, 0, 1)');
     gradient.addColorStop(NB.ZeroPointThirtyFour, 'rgba(0, 255, 0, 1)');
@@ -41,19 +52,21 @@ export class ColorSliderComponent implements AfterViewInit {
     gradient.addColorStop(NB.ZeroPointSixtyEight, 'rgba(0, 0, 255, 1)');
     gradient.addColorStop(NB.ZeroPointEightyFive, 'rgba(255, 0, 255, 1)');
     gradient.addColorStop(NB.One, 'rgba(255, 0, 0, 1)');
+    return gradient;
+  }
+
+  draw(): void {
+    this.initialDrawCondition();
+    const width = this.canvas.nativeElement.width;
+    const height = this.canvas.nativeElement.height;
+    this.ctx.clearRect(NB.Zero, NB.Zero, width, height);
     this.ctx.beginPath();
     this.ctx.rect(NB.Zero, NB.Zero, width, height);
-    this.ctx.fillStyle = gradient;
+    this.ctx.fillStyle = this.setGradient();
     this.ctx.fill();
     this.ctx.closePath();
-    if (this.selectedHeight) {
-      this.ctx.beginPath();
-      this.ctx.strokeStyle = 'white';
-      this.ctx.lineWidth = NB.Five;
-      this.ctx.rect(NB.Zero, this.selectedHeight - NB.Five, width, NB.Ten);
-      this.ctx.stroke();
-      this.ctx.closePath();
-    }
+    this.selectPosition();
+
   }
 
   getMouseDown(): boolean {

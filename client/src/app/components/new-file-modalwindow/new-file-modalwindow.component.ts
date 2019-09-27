@@ -41,7 +41,6 @@ export class NewFileModalwindowComponent implements OnInit {
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);
     this.colorService.setShowBackgroundButton(true);
-    // TODO : donner nom à true
     this.dialogRef.close();
   }
 

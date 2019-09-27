@@ -27,21 +27,33 @@ export class AttributeBarComponent {
     this.assignRectangleType();
   }
 
+  assignBorderedRectangle(): void {
+    this.shapeService.strokeEnable = true;
+    this.shapeService.fillEnable = false;
+    this.shapeService.removeColor(this.shapeService.fillColor)
+  }
+
+  assignFilledRectangle(): void {
+    this.shapeService.strokeEnable = false;
+    this.shapeService.removeColor(this.shapeService.strokeColor);
+    this.shapeService.fillEnable = true;
+  }
+
+  assignBorderedAndFilledRectangle(): void {
+    this.shapeService.strokeEnable = true;
+    this.shapeService.fillEnable = true;
+  }
+
   assignRectangleType() {
     switch (this.selectedType) {
       case 'Bordered':
-        this.shapeService.strokeEnable = true;
-        this.shapeService.fillEnable = false;
-        this.shapeService.removeColor(this.shapeService.fillColor);
+        this.assignBorderedRectangle();
         break;
       case 'Filled':
-        this.shapeService.strokeEnable = false;
-        this.shapeService.removeColor(this.shapeService.strokeColor);
-        this.shapeService.fillEnable = true;
+        this.assignFilledRectangle();
         break;
       case 'Bordered & Filled':
-        this.shapeService.strokeEnable = true;
-        this.shapeService.fillEnable = true;
+        this.assignBorderedAndFilledRectangle();
         break;
       default:
     }

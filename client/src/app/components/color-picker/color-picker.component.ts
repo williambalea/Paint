@@ -24,8 +24,8 @@ export class ColorPickerComponent implements OnInit {
 
   constructor(private colorService: ColorService) {
     this.hue = '';
-    this.color = 'rgba(255,255,255,1)';
-    this.oldPointedColor = 'rgba(0,0,0,1)';
+    this.color = 'rgba(0,0,0,1)';
+    this.oldPointedColor = 'rgba(255,255,255,1)';
     this.transparency = NB.TwoHundredFiftyFive;
     this.colorHex = 'FFFFFF';
     this.transparencyString = '1';

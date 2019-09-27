@@ -104,7 +104,6 @@ export class ColorService {
   }
 
   changeBackgroundColor(): void {
-    // const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
     this.backgroundColor = (this.usingPrimary) ? this.getFillColor() : this.getStrokeColor();
   }
 }

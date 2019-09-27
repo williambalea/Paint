@@ -27,21 +27,14 @@ export class ColorSliderComponent implements AfterViewInit {
     this.draw();
   }
 
-  draw(): void {
+  draw(): CanvasGradient {
     if (!this.ctx) {
       this.ctx = this.canvas.nativeElement.getContext(STRINGS.twoD) as CanvasRenderingContext2D;
     }
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     this.ctx.clearRect(NB.Zero, NB.Zero, width, height);
-    const gradient = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
-    gradient.addColorStop(NB.Zero, COLORS.redRGBA);
-    gradient.addColorStop(NB.ZeroPointSeventeen, COLORS.yellowRBGA);
-    gradient.addColorStop(NB.ZeroPointThirtyFour, COLORS.greenRBGA);
-    gradient.addColorStop(NB.ZeroPointFiftyOne, COLORS.cyanRBGA);
-    gradient.addColorStop(NB.ZeroPointSixtyEight, COLORS.blueRGBA);
-    gradient.addColorStop(NB.ZeroPointEightyFive, COLORS.magentaRBGA);
-    gradient.addColorStop(NB.One, COLORS.redRGBA);
+    const gradient = this.drawGradient(height);
     this.ctx.beginPath();
     this.ctx.rect(NB.Zero, NB.Zero, width, height);
     this.ctx.fillStyle = gradient;
@@ -55,6 +48,19 @@ export class ColorSliderComponent implements AfterViewInit {
       this.ctx.stroke();
       this.ctx.closePath();
     }
+    return gradient;
+  }
+
+  drawGradient(height: number): CanvasGradient {
+    const gradient = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
+    gradient.addColorStop(NB.Zero, COLORS.redRGBA);
+    gradient.addColorStop(NB.ZeroPointSeventeen, COLORS.yellowRBGA);
+    gradient.addColorStop(NB.ZeroPointThirtyFour, COLORS.greenRBGA);
+    gradient.addColorStop(NB.ZeroPointFiftyOne, COLORS.cyanRBGA);
+    gradient.addColorStop(NB.ZeroPointSixtyEight, COLORS.blueRGBA);
+    gradient.addColorStop(NB.ZeroPointEightyFive, COLORS.magentaRBGA);
+    gradient.addColorStop(NB.One, COLORS.redRGBA);
+    return gradient;
   }
 
   getMouseDown(): boolean {

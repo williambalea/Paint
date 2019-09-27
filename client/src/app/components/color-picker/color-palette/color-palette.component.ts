@@ -38,10 +38,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     const height = this.canvas.nativeElement.height;
     this.ctx.fillStyle = this.hue || COLORS.whiteRGBA;
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
-    const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, width, NB.Zero);
-    whiteGrad.addColorStop(NB.Zero, COLORS.whiteRGBA);
-    whiteGrad.addColorStop(NB.One,  COLORS.whiteRGBATransparent);
-    this.ctx.fillStyle = whiteGrad;
+    this.ctx.fillStyle = this.drawGradient(width);
     this.ctx.fillRect(NB.Zero, NB.Zero, width, height);
     const blackGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, height);
     blackGrad.addColorStop(NB.Zero, COLORS.whiteRGBATransparent);
@@ -56,6 +53,13 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
         this.ctx.lineWidth = NB.Five;
         this.ctx.stroke();
     }
+  }
+
+  drawGradient(width: number): CanvasGradient {
+    const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, width, NB.Zero);
+    whiteGrad.addColorStop(NB.Zero, COLORS.whiteRGBA);
+    whiteGrad.addColorStop(NB.One,  COLORS.whiteRGBATransparent);
+    return whiteGrad;
   }
 
   getMouseDown(): boolean {

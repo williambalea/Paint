@@ -1,4 +1,4 @@
-import { TOOL } from '../constants';
+import { TOOL } from '../../constants';
 import { Rectangle } from './rectangle';
 
 const rectangle = new Rectangle(TOOL.rectangle, 1, 2, 3, 4, 'black', 'black', 5);

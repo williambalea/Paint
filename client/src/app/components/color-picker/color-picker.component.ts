@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { ColorInputControl } from '../../../Classes/ColorInputControl';
-import { NB } from '../../../constants';
+import { COLORS, EMPTY_STRING, NB, STRING_NB } from '../../../constants';
 
 @Component({
   selector: 'app-color-picker',
@@ -23,12 +23,12 @@ export class ColorPickerComponent implements OnInit {
   }
 
   constructor(private colorService: ColorService) {
-    this.hue = '';
-    this.color = 'rgba(0,0,0,1)';
-    this.oldPointedColor = 'rgba(255,255,255,1)';
+    this.hue = EMPTY_STRING;
+    this.color = COLORS.blackRGBA;
+    this.oldPointedColor = COLORS.whiteRGBA;
     this.transparency = NB.TwoHundredFiftyFive;
-    this.colorHex = 'FFFFFF';
-    this.transparencyString = '1';
+    this.colorHex = COLORS.whiteHEX;
+    this.transparencyString = STRING_NB.One;
     this.colorInputControl = new ColorInputControl();
   }
 
@@ -86,12 +86,12 @@ export class ColorPickerComponent implements OnInit {
 
   updateHexValue(): void {
     let temp: string = this.color;
-    temp = temp.substring(5, temp.length);
-    temp = temp.substring(0, temp.length - 1);
+    temp = temp.substring(NB.Five, temp.length);
+    temp = temp.substring(NB.Zero, temp.length - NB.One);
     const rgbValues: string[] = temp.split(',');
-    const tempHex: string = Number(rgbValues[0]).toString(16).toUpperCase() +
-                            Number(rgbValues[1]).toString(16).toUpperCase() +
-                            Number(rgbValues[2]).toString(16).toUpperCase();
+    const tempHex: string = Number(rgbValues[NB.Zero]).toString(NB.Sixteen).toUpperCase() +
+                            Number(rgbValues[NB.One]).toString(NB.Sixteen).toUpperCase() +
+                            Number(rgbValues[NB.Two]).toString(NB.Sixteen).toUpperCase();
     this.colorHex = tempHex;
   }
 

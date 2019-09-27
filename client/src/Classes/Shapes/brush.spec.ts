@@ -1,4 +1,4 @@
-import { TOOL } from '../constants';
+import { TOOL } from '../../constants';
 import { Brush } from './brush';
 
 const brush = new Brush(TOOL.brush, 'black', 'black', 5, 'filter');

@@ -1,6 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { BRUSH, TOOL } from '../../../constants';
+import { BRUSH, RECTANGLE_TYPE, TOOL } from '../../../constants';
 import { ShapesService } from '../../services/shapes/shapes.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class AttributeBarComponent {
   selectedType: string;
 
   constructor(private shapeService: ShapesService, private colorService: ColorService) {
-    this.selectedType = 'Bordered & Filled';
+    this.selectedType = RECTANGLE_TYPE.borderedAndFilled;
     this.tool = TOOL;
     this.brush = BRUSH;
   }

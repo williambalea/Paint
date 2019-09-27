@@ -87,4 +87,34 @@ export enum BRUSH {
   bubbly = 'bubbly',
 }
 
+export enum STRING_NB {
+  One = '1',
+}
+
+export enum RECTANGLE_TYPE {
+  bordered = 'Bordered',
+  filled = 'Filled',
+  borderedAndFilled = 'Bordered & Filled',
+}
+
+export enum STRINGS {
+  white = 'white',
+  canvas = 'canvas',
+  twoD = '2d',
+}
+
+export enum COLORS {
+  whiteRGBA = 'rgba(255,255,255,1)',
+  whiteRGBATransparent = 'rgba(255,255,255,0)',
+  whiteHEX = 'FFFFFF',
+  blackRGBA = 'rgba(0,0,0,1)',
+  blackRGBATransparent = 'rgba(0,0,0,1)',
+  redRGBA = 'rgba(255, 0, 0, 1)',
+  yellowRBGA = 'rgba(255, 255, 0, 1)',
+  greenRBGA = 'rgba(0, 255, 0, 1)',
+  cyanRBGA = 'rgba(0, 255, 255, 1)',
+  blueRGBA = 'rgba(0, 0, 255, 1)',
+  magentaRBGA = 'rgba(255, 0, 255, 1)',
+}
+
 export const EMPTY_STRING = '';

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
-import { Brush } from '../../../Classes/brush';
-import { Pen } from '../../../Classes/pen';
-import { Rectangle } from '../../../Classes/rectangle';
-import { Shape } from '../../../Classes/shape';
+import { Brush } from '../../../Classes/Shapes/brush';
+import { Pen } from '../../../Classes/Shapes/pen';
+import { Rectangle } from '../../../Classes/Shapes/rectangle';
+import { Shape } from '../../../Classes/Shapes/shape';
 import { BRUSH, EMPTY_STRING, NB, TOOL } from '../../../constants';
 
 @Injectable({

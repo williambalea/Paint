@@ -2,7 +2,7 @@ import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
-import { Shape } from '../../../Classes/shape';
+import { Shape } from '../../../Classes/Shapes/shape';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
@@ -35,7 +35,13 @@ export class DrawingSpaceComponent implements OnInit {
     this.resizeFlag = false;
   }
 
+<<<<<<< HEAD
   setSubscription(){
+=======
+  ngOnInit(): void {
+    (!localStorage.getItem(HIDE_DIALOG)) ? this.openDialog() : this.enableKeyPress = true;
+
+>>>>>>> dev
     this.subscription = this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
     this.subscription = this.fileParameters.canvasheight$
@@ -89,7 +95,7 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  onLeftClick($event: Event, shape: Shape): void {
+  onLeftClick(shape: Shape): void {
     if (this.selectedTool === TOOL.colorApplicator) {
       const index: number = this.shapeService.shapes.indexOf(shape);
       this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
@@ -177,13 +183,17 @@ export class DrawingSpaceComponent implements OnInit {
   mouseMoveRectangle(event: MouseEvent): void {
     this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
     if (this.shapeService.preview.active) {
+<<<<<<< HEAD
       this.shiftPressed ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
+=======
+      (this.shiftPressed) ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
+>>>>>>> dev
     }
   }
 
   mouseMovePenBrush(event: MouseEvent): void {
     if (this.shapeService.preview.active) {
-      this.shapeService.preview.path += `L${event.offsetX} ${event.offsetY}`;
+      this.shapeService.preview.path += `l${event.movementX} ${event.movementY}`;
     }
   }
 

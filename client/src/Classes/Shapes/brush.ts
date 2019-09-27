@@ -1,4 +1,4 @@
-import { TOOL } from '../constants';
+import { TOOL } from '../../constants';
 import { Pen } from './pen';
 
 export class Brush extends Pen {
@@ -11,8 +11,5 @@ export class Brush extends Pen {
 
     changePrimaryColor(color: string) {
         this.stroke = color;
-    }
-    changeSecondaryColor(color: string) {
-        return;
     }
 }

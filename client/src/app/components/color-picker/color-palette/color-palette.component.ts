@@ -1,3 +1,4 @@
+// Inspiré de https://github.com/LukasMarx/angular-color-picker
 import { AfterViewInit,
         Component,
         ElementRef,
@@ -9,7 +10,7 @@ import { AfterViewInit,
         SimpleChanges,
         ViewChild
 } from '@angular/core';
-import { NB } from '../../../../constants';
+import { COLORS, NB, STRINGS } from '../../../../constants';
 
 @Component({
   selector: 'app-color-palette',
@@ -20,7 +21,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   @Input() hue: string;
   @Output() color: EventEmitter<string> = new EventEmitter(true);
-  @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild(STRINGS.canvas, {static: false}) canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean;
   selectedPosition: { x: number; y: number };
@@ -29,7 +30,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.draw();
   }
 
-  initialDrawCondition(): void{
+  initialDrawCondition(): void {
   if (!this.ctx) {
     this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
   }}
@@ -74,11 +75,18 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.selectPosition();
   }
 
+  drawGradient(width: number): CanvasGradient {
+    const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, width, NB.Zero);
+    whiteGrad.addColorStop(NB.Zero, COLORS.whiteRGBA);
+    whiteGrad.addColorStop(NB.One,  COLORS.whiteRGBATransparent);
+    return whiteGrad;
+  }
+
   getMouseDown(): boolean {
     return this.mousedown;
   }
 
-  setMouseDown(val: boolean) : void {
+  setMouseDown(val: boolean): void {
     this.mousedown = val;
   }
 

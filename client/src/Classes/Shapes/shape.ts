@@ -1,4 +1,4 @@
-import { TOOL } from '../constants';
+import { TOOL } from '../../constants';
 
 export abstract class Shape {
     type: TOOL;
@@ -9,6 +9,8 @@ export abstract class Shape {
 
     abstract changePrimaryColor(color: string): void;
 
-    abstract changeSecondaryColor(color: string): void;
+    changeSecondaryColor(color: string): void {
+        return;
+    }
 
 }

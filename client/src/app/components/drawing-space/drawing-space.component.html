@@ -6,7 +6,7 @@
         [style.background-color]= "colorService.getBackgroundColor()"
         style="border:1px solid black;"
         xmlns="http://www.w3.org/2000/svg" >
-    <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick($event, shape)" (contextmenu)="onRightClick($event, shape)">
+    <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick(shape)" (contextmenu)="onRightClick($event, shape)">
         <g [ngSwitch]="shape.type">
 
             <rect *ngSwitchCase="tool.rectangle"

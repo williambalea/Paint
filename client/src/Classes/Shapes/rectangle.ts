@@ -1,4 +1,4 @@
-import { TOOL } from '../constants';
+import { TOOL } from '../../constants';
 import { Shape } from './shape';
 
 export class Rectangle extends Shape {

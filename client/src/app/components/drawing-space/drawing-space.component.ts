@@ -2,7 +2,7 @@ import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
-import { Shape } from '../../../Classes/shape';
+import { Shape } from '../../../Classes/Shapes/shape';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';

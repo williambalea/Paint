@@ -9,16 +9,20 @@ export class MatDialogMock {
   }
 }
 
-describe('DrawingSpaceComponent', () => {
+fdescribe('DrawingSpaceComponent', () => {
   let component: DrawingSpaceComponent;
   let fixture: ComponentFixture<DrawingSpaceComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DrawingSpaceComponent ],
-      providers: [ { provide: MatDialog, useClass: MatDialogMock } ],
+      providers: [
+        DrawingSpaceComponent,
+        { provide: MatDialog, useClass: MatDialogMock },
+      ],
     })
     .compileComponents();
+    component = TestBed.get(DrawingSpaceComponent);
   }));
 
   beforeEach(() => {
@@ -30,4 +34,5 @@ describe('DrawingSpaceComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

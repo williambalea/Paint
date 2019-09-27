@@ -13,6 +13,7 @@ export class ColorService {
   private usingPrimary: boolean;
   private lastTenColors: ColorQueue<string>;
   private showBackgroundButton: boolean;
+  private backgroundColor: string;
 
   constructor() {
     this.fill = 'rgba(255, 255, 255, 1)';
@@ -20,8 +21,17 @@ export class ColorService {
     this.makingColorChanges = false;
     this.showInAttributeBar = true;
     this.usingPrimary = true;
-    this.lastTenColors = new ColorQueue();
+    this.lastTenColors = new ColorQueue('rgba(255, 255, 255, 1)');
     this.showBackgroundButton = true;
+    this.backgroundColor = 'rgba(255, 255, 255, 1)';
+  }
+
+  getBackgroundColor(): string {
+    return this.backgroundColor;
+  }
+
+  setBackgroundColor(newColor: string): void {
+    this.backgroundColor = newColor;
   }
 
   getShowBackgroundButton(): boolean {
@@ -94,7 +104,7 @@ export class ColorService {
   }
 
   changeBackgroundColor(): void {
-    const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
-    elem.style.background = (this.usingPrimary) ? this.getFillColor() : this.getStrokeColor();
+    // const elem: HTMLElement = document.getElementById('canvas') as HTMLElement;
+    this.backgroundColor = (this.usingPrimary) ? this.getFillColor() : this.getStrokeColor();
   }
 }

@@ -16,6 +16,7 @@ describe('ColorPickerComponent', () => {
   });
 
   it('Should send color correctly', () => {
+    colorPickerComponent.setPrimary();
     colorPickerComponent.setColor('rgba(240, 240, 240, 1)');
     colorPickerComponent.sendColor();
     expect(colorService.getFillColor()).toEqual('rgba(240, 240, 240, 1)');

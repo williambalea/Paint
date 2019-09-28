@@ -1,21 +1,21 @@
 // Inspiré de https://github.com/LukasMarx/angular-color-picker
 import { AfterViewInit,
-        Component,
-        ElementRef,
-        EventEmitter,
-        HostListener,
-        Input,
-        OnChanges,
-        Output,
-        SimpleChanges,
-        ViewChild
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 import { COLORS, NB, STRINGS } from '../../../../constants';
 
 @Component({
-  selector: 'app-color-palette',
-  templateUrl: './color-palette.component.html',
-  styleUrls: ['./color-palette.component.scss'],
+selector: 'app-color-palette',
+templateUrl: './color-palette.component.html',
+styleUrls: ['./color-palette.component.scss'],
 })
 export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
@@ -31,34 +31,34 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   }
 
   initialDrawCondition(): void {
-  if (!this.ctx) {
+    if (!this.ctx) {
     this.ctx = this.canvas.nativeElement.getContext(STRINGS.twoD) as CanvasRenderingContext2D;
   }}
 
   selectPosition(): void {
     if (this.selectedPosition) {
-      this.ctx.strokeStyle = STRINGS.white;
-      this.ctx.fillStyle = STRINGS.white;
-      this.ctx.beginPath();
-      this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
-      this.ctx.lineWidth = NB.Five;
-      this.ctx.stroke();
+    this.ctx.strokeStyle = STRINGS.white;
+    this.ctx.fillStyle = STRINGS.white;
+    this.ctx.beginPath();
+    this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
+    this.ctx.lineWidth = NB.Five;
+    this.ctx.stroke();
     }
   }
 
-   setWhiteGrad(): void {
+  setWhiteGrad(): void {
     const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, this.canvas.nativeElement.width, NB.Zero);
     whiteGrad.addColorStop(NB.Zero, COLORS.whiteRGBA);
     whiteGrad.addColorStop(NB.One, COLORS.whiteRGBATransparent);
     this.ctx.fillStyle = whiteGrad;
-   }
+  }
 
-   setBlackGrad(): void {
+  setBlackGrad(): void {
     const blackGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, NB.Zero, this.canvas.nativeElement.height);
     blackGrad.addColorStop(NB.Zero, COLORS.blackRGBATransparent);
     blackGrad.addColorStop(NB.One, COLORS.blackRGBA);
     this.ctx.fillStyle = blackGrad;
-   }
+  }
 
   renderCanvasObject(): void {
     const width = this.canvas.nativeElement.width;

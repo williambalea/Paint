@@ -46,13 +46,13 @@ export class AttributeBarComponent {
 
   assignRectangleType(): void {
     switch (this.selectedType) {
-      case 'Bordered':
+      case RECTANGLE_TYPE.bordered:
         this.assignBorderedRectangle();
         break;
-      case 'Filled':
+      case RECTANGLE_TYPE.filled:
         this.assignFilledRectangle();
         break;
-      case 'Bordered & Filled':
+      case RECTANGLE_TYPE.borderedAndFilled:
         this.assignBorderedAndFilledRectangle();
         break;
       default:

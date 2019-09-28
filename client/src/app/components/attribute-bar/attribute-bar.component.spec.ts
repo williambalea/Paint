@@ -2,27 +2,37 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
-import { NB } from '../../../constants';
+import { NB, RECTANGLE_TYPE } from '../../../constants';
 import { ColorService } from './../../services/color/color.service';
 import { AttributeBarComponent } from './attribute-bar.component';
 
-const shapesService: ShapesService = new ShapesService();
-const colorService: ColorService = new ColorService();
-const attributeBarComponent: AttributeBarComponent = new AttributeBarComponent(shapesService, colorService);
+export class ShapesServiceMock {
+  strokeEnable: boolean;
+  fillEnable: boolean;
+  fillColor: string;
+  removeColor(): void {return; }
+}
 
 describe('AttributeBarComponent', () => {
   let component: AttributeBarComponent;
   let fixture: ComponentFixture<AttributeBarComponent>;
+  let shapesService: ShapesService;
+  let colorService: ColorService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AttributeBarComponent ],
+      providers: [AttributeBarComponent,
+                  {provide: ShapesService, useClass: ShapesServiceMock}],
       imports: [
         FormsModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
+    component = TestBed.get(AttributeBarComponent);
+    colorService = TestBed.get(ColorService);
+    shapesService = TestBed.get(ShapesService);
   }));
 
   beforeEach(() => {
@@ -35,53 +45,65 @@ describe('AttributeBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('Should assign Bordered Rectangle', () => {
-  //   attributeBarComponent.assignBorderedRectangle();
-  //   expect (shapesService.strokeEnable).toBe(true);
-  //   expect (shapesService.fillEnable).toBe(false);
-  //   expect (shapesService.removeColor(shapesService.fillColor)).toBeDefined();
-  // });
+  it('Should assign Bordered Rectangle', () => {
+    const spy = spyOn(shapesService, 'removeColor');
+    component.assignBorderedRectangle();
+    expect(shapesService.strokeEnable).toBe(true);
+    expect(shapesService.fillEnable).toBe(false);
+    expect(spy).toHaveBeenCalled();
+  });
 
-  // it('Should assign Filled Rectangle', () => {
-  //   attributeBarComponent.assignFilledRectangle();
-  //   expect (shapesService.strokeEnable).toBe(false);
-  //   expect (shapesService.removeColor(shapesService.strokeColor)).toBeDefined();
-  //   expect (shapesService.fillEnable).toBe(true);
-  // });
-
-  it('Should assign Filled and Bordered rectangle', () => {
-    attributeBarComponent.assignBorderedAndFilledRectangle();
-    expect (shapesService.strokeEnable).toBe(true);
+  it('Should assign Filled Rectangle', () => {
+    const spy = spyOn(shapesService, 'removeColor');
+    component.assignFilledRectangle();
+    expect (spy).toHaveBeenCalled();
+    expect (shapesService.strokeEnable).toBe(false);
     expect (shapesService.fillEnable).toBe(true);
   });
 
-  // it('Should enter switch case BorderedAndFilled', () => {
-  //   attributeBarComponent.assignRectangleType();
-  //   component.selectedType = 'BorderedAndFilled';
-  //   expect(attributeBarComponent.assignBorderedAndFilledRectangle).toBeDefined();
-  // });
+  it('Should assign Filled and Bordered rectangle', () => {
+    component.assignBorderedAndFilledRectangle();
+    expect(shapesService.strokeEnable).toBeTruthy();
+    expect(shapesService.fillEnable).toBeTruthy();
+  });
 
-  // it('Should enter switch case Filled', () => {
-  //   attributeBarComponent.assignRectangleType();
-  //   component.selectedType = 'Filled';
-  //   expect(attributeBarComponent.assignFilledRectangle).toBeDefined();
-  // });
+  it('Should enter switch case BorderedAndFilled', () => {
+    const spy = spyOn(component, 'assignBorderedAndFilledRectangle');
+    component.selectedType = RECTANGLE_TYPE.borderedAndFilled;
+    component.assignRectangleType();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('Should enter switch case Filled', () => {
+    const spy = spyOn(component, 'assignFilledRectangle');
+    component.selectedType = RECTANGLE_TYPE.filled;
+    component.assignRectangleType();
+    expect(spy).toHaveBeenCalled();
+  });
 
   it('Should enter switch case Bordered', () => {
-    attributeBarComponent.assignRectangleType();
-    component.selectedType = 'Bordered';
-    expect(attributeBarComponent.assignBorderedRectangle).toBeDefined();
+    const spy = spyOn(component, 'assignBorderedRectangle');
+    component.selectedType = RECTANGLE_TYPE.bordered;
+    component.assignRectangleType();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('Should set stroke width correctly', () => {
     const value = NB.Ten;
-    attributeBarComponent.assignStrokeWidth(value);
+    component.assignStrokeWidth(value);
     expect(shapesService.rectangleStrokeWidth).toEqual(value);
   });
 
   it('Should return color service', () => {
-    attributeBarComponent.getColorService();
+    component.getColorService();
     expect(colorService).toBeDefined();
+  });
+
+  it('Should call radio handler', () => {
+    const spy = spyOn(component, 'assignRectangleType');
+    component.radioChangeHandler({target: {value: RECTANGLE_TYPE.filled}});
+    expect(component.selectedType).toEqual(RECTANGLE_TYPE.filled);
+    expect(spy).toHaveBeenCalled();
   });
 
 });

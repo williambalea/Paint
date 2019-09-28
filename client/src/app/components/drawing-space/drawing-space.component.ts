@@ -21,7 +21,7 @@ export class DrawingSpaceComponent implements OnInit {
   shiftPressed: boolean;
 
   constructor( private shapeService: ShapesService,
-               public fileParameters: FileParametersServiceService,
+               private fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
     this.tool = TOOL;
     this.width = 0;

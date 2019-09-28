@@ -1,3 +1,4 @@
+
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,34 +13,34 @@ describe('NewFileModalwindowComponent', () => {
   // let fileParameters;
 
   const dialogMock = {
-  close: () => {
-  return;
-  },
+    close: () => {
+    return;
+    },
   };
 
   beforeEach(async(() => {
-  TestBed.configureTestingModule({
-  imports: [
-  ReactiveFormsModule,
-  MatDialogModule,
-  ],
-  providers: [
-  { provide: MatDialogRef, useValue: dialogMock },
-  FileParametersServiceService,
-  ],
-  declarations: [ NewFileModalwindowComponent ],
-  schemas: [
-  CUSTOM_ELEMENTS_SCHEMA,
-  ],
+    TestBed.configureTestingModule({
+    imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    ],
+    providers: [
+    { provide: MatDialogRef, useValue: dialogMock },
+    FileParametersServiceService,
+    ],
+    declarations: [ NewFileModalwindowComponent ],
+    schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    ],
 
-  })
-  .compileComponents();
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {
-  fixture = TestBed.createComponent(NewFileModalwindowComponent);
-  component = fixture.componentInstance;
-  // fileParameters = new FileParametersServiceService();
+    fixture = TestBed.createComponent(NewFileModalwindowComponent);
+    component = fixture.componentInstance;
+    // fileParameters = new FileParametersServiceService();
   });
 
   it('should create', () => {
@@ -58,6 +59,7 @@ describe('NewFileModalwindowComponent', () => {
     expect(Number(el.nativeElement.value)).toBe(window.innerHeight);
   });
 
+  /*
   it('should call submitParameters function when clicking submit button', async(() => {
     spyOn(component, 'submitParameters');
     const button = fixture.debugElement.query(By.css('button[type=submit]')).nativeElement;
@@ -83,5 +85,5 @@ describe('NewFileModalwindowComponent', () => {
     component.submitParameters(3, 4);
     fixture.detectChanges();
     expect(component.fileParameters.tempresize).toBeTruthy();
-  });
+  });*/
 });

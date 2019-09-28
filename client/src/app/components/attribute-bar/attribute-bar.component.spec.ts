@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { ColorService } from 'src/app/services/color/color.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { NB, RECTANGLE_TYPE } from '../../../constants';
 import { ColorService } from './../../services/color/color.service';
@@ -13,8 +14,8 @@ export class ShapesServiceMock {
   removeColor(): void {return; }
 }
 
-describe('AttributeBarComponent', () => {
-  let component: AttributeBarComponent;
+fdescribe('AttributeBarComponent', () => {
+  let component: AttributeBarComponent = new AttributeBarComponent(shapesService, colorService);
   let fixture: ComponentFixture<AttributeBarComponent>;
   let shapesService: ShapesService;
   let colorService: ColorService;

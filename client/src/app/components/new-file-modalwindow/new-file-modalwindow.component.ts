@@ -83,4 +83,3 @@ export class NewFileModalwindowComponent implements OnInit {
     }
   }
 }
-

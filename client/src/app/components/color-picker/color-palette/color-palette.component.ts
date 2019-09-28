@@ -35,7 +35,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.ctx = this.canvas.nativeElement.getContext('2d') as CanvasRenderingContext2D;
   }}
 
-  selectPosition(): void{
+  selectPosition(): void {
     if (this.selectedPosition) {
       this.ctx.strokeStyle = 'white';
       this.ctx.fillStyle = 'white';
@@ -43,7 +43,9 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
       this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
       this.ctx.lineWidth = NB.Five;
       this.ctx.stroke();
-  }}
+    }
+  }
+
    setWhiteGrad(): void {
     const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, this.canvas.nativeElement.width, NB.Zero);
     whiteGrad.addColorStop(NB.Zero, 'rgba(255,255,255,1)');
@@ -58,7 +60,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.ctx.fillStyle = blackGrad;
    }
 
-  renderCanvasObject(){
+  renderCanvasObject(): void {
     const width = this.canvas.nativeElement.width;
     const height = this.canvas.nativeElement.height;
     this.ctx.fillStyle = this.hue || 'rgba(255,255,255,1)';

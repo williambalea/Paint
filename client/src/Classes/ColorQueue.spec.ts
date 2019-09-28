@@ -1,7 +1,7 @@
 import { ColorQueue } from './ColorQueue';
 
 describe('ColorQueue', () => {
-    const val: number = 1;
+    const val = 1;
     const queue: ColorQueue<number> = new ColorQueue(val);
     const copy: ColorQueue<number> = new ColorQueue(val);
 

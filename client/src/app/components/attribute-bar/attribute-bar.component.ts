@@ -30,7 +30,7 @@ export class AttributeBarComponent {
   assignBorderedRectangle(): void {
     this.shapeService.strokeEnable = true;
     this.shapeService.fillEnable = false;
-    this.shapeService.removeColor(this.shapeService.fillColor)
+    this.shapeService.removeColor(this.shapeService.fillColor);
   }
 
   assignFilledRectangle(): void {

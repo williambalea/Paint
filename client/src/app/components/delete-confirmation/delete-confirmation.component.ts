@@ -18,7 +18,8 @@ export class DeleteConfirmationComponent {
                public fileParameters: FileParametersServiceService) {
                  this.message = 'Are you sure?';
                }
-  clearColor() : void {
+
+  clearColor(): void {
     this.colorService.changeBackgroundColor();
     this.colorService.setMakingColorChanges(false);
     this.colorService.setShowInAttributeBar(true);

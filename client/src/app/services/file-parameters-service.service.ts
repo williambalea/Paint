@@ -31,7 +31,7 @@ export class FileParametersServiceService {
     return this.tempresize;
   }
 
-  getObservableValue() { return of("observable value"); }
+  getObservableValue() { return of('observable value'); }
 
   setParameters(canvaswidth: number, canvasheight: number): void {
     this.tempx = canvaswidth;

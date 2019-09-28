@@ -1,7 +1,5 @@
 
 import { Component, OnInit } from '@angular/core';
-
-
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
@@ -70,7 +68,6 @@ export class NewFileModalwindowComponent implements OnInit {
     this.colorService.setShowInAttributeBar(true);
     this.colorService.setShowBackgroundButton(true);
   }
-
 
   submitParameters(canvaswidth: number, canvasheight: number) {
     this.fileParameters.tempresize = true;

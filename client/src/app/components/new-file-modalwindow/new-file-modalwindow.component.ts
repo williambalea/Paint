@@ -69,14 +69,14 @@ export class NewFileModalwindowComponent implements OnInit {
     this.colorService.setShowBackgroundButton(true);
   }
 
+  createNewDrawing(canvaswidth: number, canvasheight: number): void {
+    this.fileParameters.changeParameters(canvaswidth, canvasheight);
+    this.modifyCanvasDisplay();
+  }
+
   submitParameters(canvaswidth: number, canvasheight: number) {
     this.fileParameters.tempresize = true;
-    if (this.shapeService.shapes.length) {
-      this.deleteConfirmation(canvaswidth, canvasheight);
-    } else {
-      this.fileParameters.changeParameters(canvaswidth, canvasheight);
-      this.modifyCanvasDisplay();
-    }
+    this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
     this.dialogRef.close();
   }
 }

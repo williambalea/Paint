@@ -29,8 +29,8 @@ export class NewFileModalwindowComponent implements OnInit {
 
   assignForm(): void {
     this.form = this.formBuilder.group({
-      canvaswidth: ['', [Validators.required, Validators.min(0)]],
-      canvasheight: ['', [Validators.required, Validators.min(0) ]],
+      canvaswidth: ['', [Validators.required, Validators.min(0),Validators.pattern("^[0-9]*$")]],
+      canvasheight: ['', [Validators.required, Validators.min(0) ,Validators.pattern("^[0-9]*$")]],
     });
   }
 

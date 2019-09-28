@@ -66,23 +66,19 @@ describe('NewFileModalwindowComponent', () => {
     component.closeModalWindow();
     expect(spy).toHaveBeenCalled();
   });
-/*
-  it('closeModalWindow should call dialogRef.close', () => {
-    const spy = spyOn(component.dialogRef, 'close').and.callThrough();
-    component.closeModalWindow();
-    expect(spy).toHaveBeenCalled();
+
+  it("canvas width should not be valid if value < 0 ", () => {
+    component.assignForm();
+    const form = component.form.controls["canvaswidth"];
+    form.setValue(0);
+    expect(component.form.valid).toBeFalsy();
   });
 
-  it('close() should call setShowInAttributeBar', () => {
-    const spy = spyOn(component.colorService, 'setShowInAttributeBar').and.callThrough();
-    component.close();
-    expect(spy).toHaveBeenCalled();
+  it("canvas height should not be valid if value < 0 ", () => {
+    component.assignForm();
+    const form = component.form.controls["canvasheight"];
+    form.setValue(0);
+    expect(component.form.valid).toBeFalsy();
   });
 
-  it ('submitParameters(canvasWidth, canvasHeight) should set resize flag to true', () => {
-    spyOn(fileParameters, 'getTempResize').and.returnValue(false);
-    component.submitParameters(3, 4);
-    fixture.detectChanges();
-    expect(component.fileParameters.tempresize).toBeTruthy();
-  });*/
 });

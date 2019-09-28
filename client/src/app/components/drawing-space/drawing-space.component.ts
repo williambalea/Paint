@@ -143,12 +143,12 @@ export class DrawingSpaceComponent implements OnInit {
 
   mouseDownPen(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
-    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01`;
+    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01 `;
   }
 
   mouseDownBrush(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
-    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l1 1`;
+    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l1 1 `;
     this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
   }
 
@@ -180,7 +180,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   mouseMovePenBrush(event: MouseEvent): void {
     if (this.shapeService.preview.active) {
-      this.shapeService.preview.path += `l${event.movementX} ${event.movementY}`;
+      this.shapeService.preview.path += `L${event.offsetX} ${event.offsetY} `;
     }
   }
 

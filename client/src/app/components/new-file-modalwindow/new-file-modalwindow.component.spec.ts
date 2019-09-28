@@ -59,24 +59,22 @@ describe('NewFileModalwindowComponent', () => {
     expect(Number(el.nativeElement.value)).toBe(window.innerHeight);
   });
 
-  
-
   it('closeModalWindow should call closeColorService', () => {
     const spy = spyOn(component, 'closeColorService').and.callThrough();
     component.closeModalWindow();
     expect(spy).toHaveBeenCalled();
   });
 
-  it("canvas width should not be valid if value < 0 ", () => {
+  it('canvas width should not be valid if value < 0 ', () => {
     component.assignForm();
-    const form = component.form.controls["canvaswidth"];
+    const form = component.form.controls.canvaswidth;
     form.setValue(0);
     expect(component.form.valid).toBeFalsy();
   });
 
-  it("canvas height should not be valid if value < 0 ", () => {
+  it('canvas height should not be valid if value < 0 ', () => {
     component.assignForm();
-    const form = component.form.controls["canvasheight"];
+    const form = component.form.controls.canvasheight;
     form.setValue(0);
     expect(component.form.valid).toBeFalsy();
   });

@@ -1,7 +1,5 @@
 
 import { Component, OnInit } from '@angular/core';
-
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
@@ -29,8 +27,8 @@ export class NewFileModalwindowComponent implements OnInit {
 
   assignForm(): void {
     this.form = this.formBuilder.group({
-      canvaswidth: ['', [Validators.required, Validators.min(0),Validators.pattern("^[0-9]*$")]],
-      canvasheight: ['', [Validators.required, Validators.min(0) ,Validators.pattern("^[0-9]*$")]],
+      canvaswidth: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
+      canvasheight: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
     });
   }
 
@@ -74,10 +72,11 @@ export class NewFileModalwindowComponent implements OnInit {
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {
-   if (this.form.valid) {
-    this.fileParameters.tempresize = true;
-    this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
-    this.dialogRef.close();
+    if (this.form.valid) {
+      this.fileParameters.tempresize = true;
+      this.shapeService.shapes.length ?
+      this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
+      this.dialogRef.close();
+    }
   }
-}
 }

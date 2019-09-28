@@ -1,4 +1,4 @@
-/*import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColorPaletteComponent } from './color-palette.component';
 
 describe('ColorPaletteComponent', () => {
@@ -33,9 +33,9 @@ describe('ColorPaletteComponent', () => {
   });
 
   it('Should draw degraded palette correctly', () => {
-    spyOn(component, 'drawGradient');
+    spyOn(component, 'selectPosition');
     component.draw();
-    expect(component.drawGradient).toHaveBeenCalled();
+    expect(component.selectPosition).toHaveBeenCalled();
   });
 
   it('Should executeMouseMove correctly', () => {
@@ -72,4 +72,3 @@ describe('ColorPaletteComponent', () => {
     expect(component.getMouseDown()).toBeFalsy();
   });
 });
-*/

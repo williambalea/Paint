@@ -149,7 +149,9 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   mouseMoveRectangle(event: MouseEvent): void {
-    this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
+    this.shapeService.mouse = {x: event.hasOwnProperty('offsetX') ? event.offsetX : event.x, y: event.offsetY};
+    console.dir('X:' + event.offsetX);
+    console.dir('Y:' + event.offsetY);
     if (this.shapeService.preview.active) {
       this.shiftPressed ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
     }

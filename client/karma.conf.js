@@ -29,6 +29,7 @@ module.exports = function (config) {
     autoWatch: true,
     singleRun: false,
     browsers: ['Chrome'],
+    browserNoActivityTimeout: 40000000,
     customLaunchers: {
       FirefoxHeadless: {
         base: 'Firefox',

@@ -24,7 +24,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   @ViewChild(STRINGS.canvas, {static: false}) canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean;
-  private selectedPosition: { x: number; y: number };
+  selectedPosition: { x: number; y: number };
 
   constructor() {
     this.selectedPosition = {x: 75, y: 75};
@@ -79,13 +79,6 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     this.initialDrawCondition();
     this.renderCanvasObject();
     this.selectPosition();
-  }
-
-  drawGradient(width: number): CanvasGradient {
-    const whiteGrad = this.ctx.createLinearGradient(NB.Zero, NB.Zero, width, NB.Zero);
-    whiteGrad.addColorStop(NB.Zero, COLORS.whiteRGBA);
-    whiteGrad.addColorStop(NB.One,  COLORS.whiteRGBATransparent);
-    return whiteGrad;
   }
 
   getMouseDown(): boolean {

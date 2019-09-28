@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NB } from 'src/constants';
 import { DrawingSpaceComponent } from './drawing-space.component';
 
-fdescribe('DrawingSpaceComponent', () => {
+describe('DrawingSpaceComponent', () => {
   let component: DrawingSpaceComponent;
   let fixture: ComponentFixture<DrawingSpaceComponent>;
 

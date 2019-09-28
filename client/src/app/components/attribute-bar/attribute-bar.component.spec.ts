@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { ColorService } from 'src/app/services/color/color.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { NB, RECTANGLE_TYPE } from '../../../constants';
-import { ColorService } from './../../services/color/color.service';
 import { AttributeBarComponent } from './attribute-bar.component';
 
 export class ShapesServiceMock {
@@ -14,8 +13,8 @@ export class ShapesServiceMock {
   removeColor(): void {return; }
 }
 
-fdescribe('AttributeBarComponent', () => {
-  let component: AttributeBarComponent = new AttributeBarComponent(shapesService, colorService);
+describe('AttributeBarComponent', () => {
+  let component: AttributeBarComponent;
   let fixture: ComponentFixture<AttributeBarComponent>;
   let shapesService: ShapesService;
   let colorService: ColorService;

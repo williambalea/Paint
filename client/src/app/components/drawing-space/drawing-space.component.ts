@@ -1,11 +1,9 @@
 import { Component,  HostListener , Input, OnInit} from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
 import { Shape } from '../../../Classes/Shapes/shape';
-import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
+import { KEY, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
-import { EntryPointComponent } from '../entry-point/entry-point.component';
 
 @Component({
   selector: 'app-drawing-space',
@@ -20,15 +18,12 @@ export class DrawingSpaceComponent implements OnInit {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
-  enableKeyPress: boolean;
   shiftPressed: boolean;
 
-  constructor( private dialog: MatDialog,
-               private shapeService: ShapesService,
+  constructor( private shapeService: ShapesService,
                public fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
     this.tool = TOOL;
-    this.enableKeyPress = false;
     this.width = 0;
     this.resizeFlag = false;
   }
@@ -43,7 +38,6 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    !localStorage.getItem(HIDE_DIALOG) ? this.openDialog() : this.enableKeyPress = true;
     this.setCanvasParameters();
   }
 
@@ -54,28 +48,11 @@ export class DrawingSpaceComponent implements OnInit {
     this.canvasWidth = event.target.innerWidth;
   }}
 
-  openDialog(): void {
-    const dialogRef: MatDialogRef<EntryPointComponent, any> =
-      this.dialog.open(EntryPointComponent, { disableClose: true });
-
-    dialogRef.afterClosed()
-    .subscribe((hideDialog: boolean) => { this.closeDialog(hideDialog); });
-  }
-
-  closeDialog(hideDialog: boolean): void {
-    if (hideDialog) {
-      localStorage.setItem('hideDialog', JSON.stringify(hideDialog));
-    }
-    this.enableKeyPress = true;
-  }
-
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.enableKeyPress) {
-      if (event.key === KEY.shift) {
-        this.shiftPressed = true;
-        this.shapeService.setSquareOffset();
-      }
+    if (event.key === KEY.shift) {
+      this.shiftPressed = true;
+      this.shapeService.setSquareOffset();
     }
   }
 

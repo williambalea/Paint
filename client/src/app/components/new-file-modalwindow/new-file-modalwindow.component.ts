@@ -30,7 +30,7 @@ export class NewFileModalwindowComponent implements OnInit {
   assignForm(): void {
     this.form = this.formBuilder.group({
       canvaswidth: ['', [Validators.required, Validators.min(0)]],
-      canvasheight: ['', [Validators.required, Validators.min(0)]],
+      canvasheight: ['', [Validators.required, Validators.min(0) ]],
     });
   }
 
@@ -42,7 +42,6 @@ export class NewFileModalwindowComponent implements OnInit {
   ngOnInit(): void {
     this.assignCanvas();
     this.assignForm();
-    
     this.colorService.setShowBackgroundButton(false);
   }
 
@@ -59,7 +58,6 @@ export class NewFileModalwindowComponent implements OnInit {
 
   deleteConfirmation(canvaswidth: number, canvasheight: number): void {
     this.dialog.open(DeleteConfirmationComponent);
-    
     this.fileParameters.setParameters(canvaswidth, canvasheight);
   }
 
@@ -77,7 +75,6 @@ export class NewFileModalwindowComponent implements OnInit {
 
   submitParameters(canvaswidth: number, canvasheight: number) {
    if (this.form.valid) {
-
     this.fileParameters.tempresize = true;
     this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
     this.dialogRef.close();

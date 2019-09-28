@@ -59,18 +59,17 @@ describe('NewFileModalwindowComponent', () => {
     expect(Number(el.nativeElement.value)).toBe(window.innerHeight);
   });
 
-  /*
-  it('should call submitParameters function when clicking submit button', async(() => {
-    spyOn(component, 'submitParameters');
-    const button = fixture.debugElement.query(By.css('button[type=submit]')).nativeElement;
-    button.click();
-    fixture.detectChanges();
-    expect(component.submitParameters).toHaveBeenCalled();
-  }));
+  
 
-  it('close() should call dialogRef.close,', () => {
+  it('closeModalWindow should call closeColorService', () => {
+    const spy = spyOn(component, 'closeColorService').and.callThrough();
+    component.closeModalWindow();
+    expect(spy).toHaveBeenCalled();
+  });
+/*
+  it('closeModalWindow should call dialogRef.close', () => {
     const spy = spyOn(component.dialogRef, 'close').and.callThrough();
-    component.close();
+    component.closeModalWindow();
     expect(spy).toHaveBeenCalled();
   });
 

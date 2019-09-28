@@ -23,19 +23,11 @@ describe('ColorSliderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-<<<<<<< HEAD
-  // it('Should draw degraded slider correctly', () => {
-  //   spyOn(component, 'drawGradient');
-  //   component.draw();
-  //   expect(component.drawGradient).toHaveBeenCalled();
-  // });
-=======
   it('Should draw degraded slider correctly', () => {
     spyOn(component, 'selectPosition');
     component.draw();
     expect(component.selectPosition).toHaveBeenCalled();
   });
->>>>>>> 5711d2f7dab2636dc79ae8896c4f2b549d1d9530
 
   it('Should executeMouseMove correctly', () => {
     spyOn(component, 'emitColor');

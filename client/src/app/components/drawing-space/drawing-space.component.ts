@@ -21,7 +21,7 @@ export class DrawingSpaceComponent implements OnInit {
   shiftPressed: boolean;
 
   constructor( private shapeService: ShapesService,
-               public fileParameters: FileParametersServiceService,
+               private fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
     this.tool = TOOL;
     this.width = 0;
@@ -116,17 +116,20 @@ export class DrawingSpaceComponent implements OnInit {
     this.colorService.setMakingColorChanges(false);
     this.shapeService.setMouseOrigin(event);
     this.shapeService.setRectangleType();
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 
   mouseDownPen(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01 `;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
   }
 
   mouseDownBrush(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l1 1 `;
     this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
   }
 
   @HostListener('mousemove', ['$event'])
@@ -150,8 +153,6 @@ export class DrawingSpaceComponent implements OnInit {
 
   mouseMoveRectangle(event: MouseEvent): void {
     this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
-    console.dir('X:' + event.offsetX);
-    console.dir('Y:' + event.offsetY);
     if (this.shapeService.preview.active) {
       this.shiftPressed ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
     }
@@ -188,7 +189,6 @@ export class DrawingSpaceComponent implements OnInit {
   onMouseUp(): void {
     this.shapeService.preview.active = false;
     this.assignMouseUpEvent();
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
     this.shapeService.resetPreview();
   }
 }

@@ -1,24 +1,42 @@
+import { Pen } from 'src/Classes/Shapes/pen';
+import { Rectangle } from 'src/Classes/Shapes/rectangle';
+import { Brush } from './../../../Classes/Shapes/brush';
 import { ShapesService } from './shapes.service';
 
 describe('ShapesService', () => {
-  const shapeService: ShapesService = new ShapesService();
-  let count = 0;
+  let service: ShapesService;
+  beforeEach(() => {
+    service = new ShapesService();
+  });
 
   it('Should draw Rectangle', () => {
-    count++;
-    shapeService.drawRectangle();
-    expect(shapeService.getShapes().length).toEqual(count);
+    service.drawRectangle();
+    expect(service.shapes.length).toEqual(1);
+    expect(service.shapes[0]).toEqual(jasmine.any(Rectangle));
   });
 
   it('Should draw brush', () => {
-    count++;
-    shapeService.drawBrush();
-    expect(shapeService.getShapes().length).toEqual(count);
+    service.drawBrush();
+    expect(service.shapes.length).toEqual(1);
+    expect(service.shapes[0]).toEqual(jasmine.any(Brush));
   });
 
   it('Should draw Pen', () => {
-    count++;
-    shapeService.drawPen();
-    expect(shapeService.getShapes().length).toEqual(count);
+    service.drawPen();
+    expect(service.shapes.length).toEqual(1);
+    expect(service.shapes[0]).toEqual(jasmine.any(Pen));
   });
+
+  it('Should clear all shapes', () => {
+    service.clearShapes();
+    expect(service.shapes.length).toEqual(0);
+    service.drawPen();
+    expect(service.shapes.length).toEqual(1);
+    service.drawRectangle();
+    expect(service.shapes.length).toEqual(2);
+    service.clearShapes();
+    expect(service.shapes.length).toEqual(0);
+  });
+
+
 });

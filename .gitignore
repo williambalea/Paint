@@ -2,8 +2,12 @@
 /.vscode/chrome
 /.vs/
 
-# Keep the package-lock.json !
-!package-lock.json
+#ignoring coverage folder
+coverage/
 
 #ignoring node_modules
 node_modules/
+
+#System files
+.DS_Store
+client/debug.log

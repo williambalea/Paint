@@ -1,0 +1,91 @@
+:host {
+  display: block;
+  width: 316px;
+  padding: 10%;
+}
+.color-wrapper {
+  display: flex;
+  height: 150px;
+}
+
+.input-wrapper {
+  background-color: white;
+  margin-top: 16px;
+  display: flex;
+  width: 73%;
+  border-radius: 80px;
+  border: 1px solid rgb(220, 220, 220);
+  padding: 8px;
+  height: 32px;
+  justify-content: center;
+}
+
+.lastTen1 {
+  margin-top: 16px;
+  display: flex;
+  width: 90%;
+  margin-left: -9%;
+  border: 1px lightgray;
+  padding: 8px;
+  height: 32px;
+  justify-content: center;
+}
+
+.lastTen2 {
+  margin-top: 16px;
+  display: flex;
+  width: 90%;
+  margin-left: -9%;
+  border: 1px lightgray;
+  padding: 8px;
+  height: 32px;
+  margin-top: -3%;
+  justify-content: center;
+}
+.color-div {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgb(220, 220, 220);
+}
+
+.text {
+  flex: 1;
+  font-family: 'Helvetica';
+  line-height: 32px;
+  width: 35%,
+}
+
+.secondary {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgb(220, 220, 220);
+  margin-left: 40%;
+  margin-bottom: 5%;
+  margin-top: -16%;
+}
+
+.primary {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgb(220, 220, 220);
+  margin-left: 20%;
+  margin-bottom: 5%;
+}
+
+.slidecontainer {
+  margin-left: 20%;
+  color:red;
+  font-weight: 20;
+}
+
+.changeButton {
+  margin-inline-start: -5%;
+}
+
+.dynamicValue{
+  color:red;
+  font-weight: 20;
+}

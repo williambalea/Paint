@@ -1,0 +1,104 @@
+<div class="drawingBoard" (window:resize)="onResize($event)">  
+    <svg id="canvas" version="1.1"
+        baseProfile="full"
+        [attr.width]= "this.canvasWidth"
+        [attr.height]= "this.canvasHeight"
+        [style.background-color]= "colorService.getBackgroundColor()"
+        style="border:1px solid black;"
+        xmlns="http://www.w3.org/2000/svg" >
+    <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick(shape)" (contextmenu)="onRightClick($event, shape)">
+        <g [ngSwitch]="shape.type">
+
+            <rect *ngSwitchCase="tool.rectangle"
+            [attr.x]="shape.x" 
+            [attr.y]="shape.y" 
+            [attr.width]="shape.width" 
+            [attr.height]="shape.height" 
+            [style.fill]="shape.fill"
+            [style.stroke]="shape.stroke"
+            [style.stroke-width]="shape.strokeWidth"/>
+
+            <path *ngSwitchCase="tool.pen"
+            [attr.d]="shape.path"
+            [style.stroke-width]="shape.strokeWidth"
+            [style.stroke]="shape.stroke"
+            shape-rendering="geometricPrecision"
+            style="fill: none;stroke-linejoin: round;stroke-linecap: round"/>
+
+            <path *ngSwitchCase="tool.brush"
+            [attr.d]="shape.path"
+            [style.stroke-width]="shape.strokeWidth"
+            [style.stroke]="shape.stroke"
+            [style.filter]="shape.filter"
+            style="fill: none;stroke-linejoin: round;stroke-linecap: round"/>
+
+        </g>
+    </g>
+
+    <g [ngSwitch]="this.selectedTool">
+
+    <rect *ngSwitchCase="tool.rectangle"
+    [attr.x]="this.shapeService.preview.x" 
+    [attr.y]="this.shapeService.preview.y" 
+    [attr.width]="this.shapeService.preview.width" 
+    [attr.height]="this.shapeService.preview.height" 
+    [style.fill]="this.shapeService.fillColor"
+    [style.stroke]="this.shapeService.strokeColor"
+    [style.stroke-width]="this.shapeService.rectangleStrokeWidth"/>
+
+    <path *ngSwitchCase="tool.pen"
+    [attr.d]="shapeService.preview.path"
+    [style.stroke-width]="this.shapeService.penStrokeWidth"
+    [style.stroke]="this.shapeService.fillColor"
+    shape-rendering="geometricPrecision"
+    style="fill: none;stroke-linejoin: round;stroke-linecap: round"/>
+
+    <path *ngSwitchCase="tool.brush"
+    [attr.d]="shapeService.preview.path"
+    [style.stroke-width]="this.shapeService.brushStrokeWidth"
+    [style.stroke]="this.shapeService.fillColor"
+    [style.filter]="this.shapeService.preview.filter"
+    style="fill: none;stroke-linejoin: round;stroke-linecap: round"/>
+
+    </g>
+
+    <defs>
+
+        <filter id="chalk" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
+            <feTurbulence type="turbulence" baseFrequency="0.08" numOctaves="2" result="turbulence"/>
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="24" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+
+        <filter id="smear" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
+            <feTurbulence type="fractalNoise" numOctaves="3" baseFrequency="0.25 0.4" seed="5"/>
+            <feComposite in="SourceGraphic" operator="in" in2="result5"/>
+            <feMorphology operator="dilate" radius="1.5" result="result3"/>
+            <feTurbulence numOctaves="5" baseFrequency="0.03" type="fractalNoise" seed="7"/>
+            <feDisplacementMap in="result3" xChannelSelector="R" yChannelSelector="G" scale="27" result="result4" in2="result91"/>
+        </filter>
+
+        <filter id="rough" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
+            <feTurbulence type="turbulence" baseFrequency="0.1" numOctaves="2" result="turbulence"/>
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+            <feGaussianBlur stdDeviation="0.8" />
+        </filter>
+
+        <filter id="smooth" x="-15px" y="-15px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
+            <feGaussianBlur result="result6" stdDeviation="3.5 7.1" in="SourceGraphic"/>
+            <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result7" in="SourceGraphic" id="feColorMatrix226"/>
+            <feComposite operator="in" in="result6" in2="result7"/>
+        </filter>
+
+        <filter id="bubbly" x="-15px" y="-25px" height="40px" width="50px" style="color-interpolation-filters:sRGB;">
+            <feTurbulence baseFrequency="0.058 0.932" type="fractalNoise" seed="667" numOctaves="1" result="result1" stdDeviation="0.01 5.15"/>
+            <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic" in2="result1" result="fbSourceGraphic"/>
+        </filter>
+
+    </defs>
+
+    </svg>
+</div>
+
+ 
+
+

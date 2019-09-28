@@ -116,17 +116,20 @@ export class DrawingSpaceComponent implements OnInit {
     this.colorService.setMakingColorChanges(false);
     this.shapeService.setMouseOrigin(event);
     this.shapeService.setRectangleType();
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 
   mouseDownPen(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01 `;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
   }
 
   mouseDownBrush(event: MouseEvent): void {
     this.colorService.setMakingColorChanges(false);
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l1 1 `;
     this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
   }
 
   @HostListener('mousemove', ['$event'])
@@ -186,7 +189,6 @@ export class DrawingSpaceComponent implements OnInit {
   onMouseUp(): void {
     this.shapeService.preview.active = false;
     this.assignMouseUpEvent();
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
     this.shapeService.resetPreview();
   }
 }

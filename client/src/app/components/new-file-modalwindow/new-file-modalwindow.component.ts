@@ -71,14 +71,15 @@ export class NewFileModalwindowComponent implements OnInit {
     this.modifyCanvasDisplay();
   }
 
-  validForm() : boolean {
+  validForm(): boolean {
      return (this.form.valid);
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {
-   if (this.validForm()) {
+    if (this.validForm()) {
     this.fileParameters.tempresize = true;
     this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
     this.dialogRef.close();
+    }
   }
 }

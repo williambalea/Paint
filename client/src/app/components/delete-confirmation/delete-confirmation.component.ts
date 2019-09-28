@@ -16,7 +16,7 @@ export class DeleteConfirmationComponent {
                public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
                public colorService: ColorService,
                public fileParameters: FileParametersServiceService) {
-                 this.message = 'Are you sure?';
+               this.message = 'Are you sure?';
                }
 
   clearColor(): void {

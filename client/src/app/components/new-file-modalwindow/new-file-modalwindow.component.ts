@@ -1,6 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
@@ -15,20 +17,18 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
 export class NewFileModalwindowComponent implements OnInit {
   // TODO: QA
   form: FormGroup;
-  control: FormControl;
-  customErrors = {required: 'Please accept the terms'};
   canvasWidth: number ;
   canvasHeight: number ;
 
   constructor( public fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
                private shapeService: ShapesService,
-               private builder: FormBuilder,
+               private formBuilder: FormBuilder,
                public colorService: ColorService,
                public dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
   assignForm(): void {
-    this.form = this.builder.group({
+    this.form = this.formBuilder.group({
       canvaswidth: ['', [Validators.required, Validators.min(0)]],
       canvasheight: ['', [Validators.required, Validators.min(0)]],
     });
@@ -41,8 +41,8 @@ export class NewFileModalwindowComponent implements OnInit {
 
   ngOnInit(): void {
     this.assignCanvas();
-    this.control = this.builder.control('', Validators.required);
     this.assignForm();
+    
     this.colorService.setShowBackgroundButton(false);
   }
 
@@ -59,6 +59,7 @@ export class NewFileModalwindowComponent implements OnInit {
 
   deleteConfirmation(canvaswidth: number, canvasheight: number): void {
     this.dialog.open(DeleteConfirmationComponent);
+    
     this.fileParameters.setParameters(canvaswidth, canvasheight);
   }
 
@@ -75,8 +76,11 @@ export class NewFileModalwindowComponent implements OnInit {
   }
 
   submitParameters(canvaswidth: number, canvasheight: number) {
+   if (this.form.valid) {
+
     this.fileParameters.tempresize = true;
     this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
     this.dialogRef.close();
   }
+}
 }

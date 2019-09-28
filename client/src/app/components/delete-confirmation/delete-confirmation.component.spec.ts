@@ -5,7 +5,8 @@
   import { DeleteConfirmationComponent } from './delete-confirmation.component';
 
   describe('DeleteConfirmationComponent', () => {
-  let shapeService: ShapesService = new ShapesService();
+
+  let shapeService: ShapesService;
   let component: DeleteConfirmationComponent;
   let fixture: ComponentFixture<DeleteConfirmationComponent>;
   const dialogMock = {
@@ -13,6 +14,7 @@
       return;
     },
   };
+
 
   beforeEach(async(() => {
   shapeService = new ShapesService();
@@ -46,16 +48,18 @@
     expect(component.clear).toHaveBeenCalled();
   }));
 
-  it('should call dialogRef.close function when invoking clear function', () => {
-    const spy = spyOn(component.dialogRef, 'close').and.callThrough();
-    component.clear();
-    expect(spy).toHaveBeenCalled();
-  });
 
-  it('should call clearShapes function when invoking clear function', () => {
-    const spy = spyOn(component.shapeService, 'clearShapes').and.callThrough();
-    component.clear();
-    expect(spy).toHaveBeenCalled();
+    it('should call dialogRef.close function when invoking clear function',() => {
+       let spy = spyOn(component.dialogRef, 'close').and.callThrough();
+       component.clear();
+       expect(spy).toHaveBeenCalled();
+   });
+
+   it('should call clearShapes function when invoking clear function', () => {
+     let spy = spyOn(component.shapeService, 'clearShapes').and.callThrough();
+     component.clear();
+     expect(spy).toHaveBeenCalled();
+
   });
 
   it('should call changeParameters function when invoking clear function', () => {
@@ -64,8 +68,40 @@
     expect(spy).toHaveBeenCalled();
   });
 
-  it('Should handle clear function correctly', () => {
+
+  it('should call clearColor function when invoking clear function', () => {
+    const spy = spyOn(component, 'clearColor').and.callThrough();
     component.clear();
-    expect(shapeService.getShapes.length).toEqual(0);
+    expect(spy).toHaveBeenCalled();
+ });
+   
+ it('should call changeBackgroundColor function when invoking clearColor function', () => {
+  const spy = spyOn(component.colorService, 'changeBackgroundColor').and.callThrough();
+  component.clearColor();
+  expect(spy).toHaveBeenCalled();
+});
+ 
+it('should call setMakingColorChanges function when invoking clearColor function', () => {
+  const spy = spyOn(component.colorService, 'setMakingColorChanges').and.callThrough();
+  component.clearColor();
+  expect(spy).toHaveBeenCalled();
+});
+
+it('should call setShowInAttributeBar function when invoking clearColor function', () => {
+  const spy = spyOn(component.colorService, 'setShowInAttributeBar').and.callThrough();
+  component.clearColor();
+  expect(spy).toHaveBeenCalled();
+});
+
+it('should call setShowBackgroundButton function when invoking clearColor function', () => {
+  const spy = spyOn(component.colorService, 'setShowBackgroundButton').and.callThrough();
+  component.clearColor();
+  expect(spy).toHaveBeenCalled();
+});
+
+it(' clear function should clear canvas from any drawing', () => {
+  component.clear();
+  expect(shapeService.getShapes.length).toEqual(0);
+
   });
 });

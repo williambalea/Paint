@@ -2,14 +2,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material';
-import { By } from '@angular/platform-browser';
+// import { By } from '@angular/platform-browser';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
 
 describe('NewFileModalwindowComponent', () => {
   let component: NewFileModalwindowComponent;
   let fixture: ComponentFixture<NewFileModalwindowComponent>;
-  let fileParameters;
+  // let fileParameters;
 
   const dialogMock = {
     close: () => {
@@ -39,7 +39,7 @@ describe('NewFileModalwindowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NewFileModalwindowComponent);
     component = fixture.componentInstance;
-    fileParameters = new FileParametersServiceService();
+    // fileParameters = new FileParametersServiceService();
 
   });
   it('should create', () => {

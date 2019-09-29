@@ -109,15 +109,14 @@ describe('NewFileModalwindowComponent', () => {
   spyOn(component, 'validForm').and.returnValue(true);
   component.submitParameters(10, 10);
   expect(spy).toHaveBeenCalled();
-});
-/*
-  it ('submitParameters should call deleteConfirmation if canvas not empty', () =>{
-    component.shapeService.shapes.length=1;
+  });
+
+  it ('submitParameters should call deleteConfirmation if canvas not empty', () => {
+    component.shapeService.shapes.length = 1;
     const spy = spyOn(component, 'deleteConfirmation').and.callThrough();
     spyOn(component, 'validForm').and.returnValue(true);
-    component.submitParameters(10,10);
+    component.submitParameters(10, 10);
     expect(spy).toHaveBeenCalled();
   });
-*/
 
 });

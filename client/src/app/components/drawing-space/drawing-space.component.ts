@@ -1,7 +1,7 @@
 import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { Shape } from '../../../Classes/Shapes/shape';
-import { KEY, TOOL } from '../../../constants';
+import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 
@@ -79,7 +79,7 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  defineShapeService(): void {
+  defineShapeColor(): void {
     this.shapeService.fillColor = this.colorService.getFillColor();
     this.shapeService.strokeColor = this.colorService.getStrokeColor();
     this.shapeService.preview.active = true;
@@ -99,33 +99,28 @@ export class DrawingSpaceComponent implements OnInit {
         this.mouseDownPen(event);
         break;
 
-      case TOOL.colorApplicator:
-          break;
-
       default:
     }
   }
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
-    this.defineShapeService();
+    this.defineShapeColor();
+    this.colorService.setMakingColorChanges(false);
     this.assignMouseDownEvent(event);
   }
 
   mouseDownRectangle(event: MouseEvent): void {
-    this.colorService.setMakingColorChanges(false);
     this.shapeService.setMouseOrigin(event);
     this.shapeService.setRectangleType();
   }
 
   mouseDownPen(event: MouseEvent): void {
-    this.colorService.setMakingColorChanges(false);
-    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l0.01 0.01 `;
+    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} ${INIT_MOVE_PEN}`;
   }
 
   mouseDownBrush(event: MouseEvent): void {
-    this.colorService.setMakingColorChanges(false);
-    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} l1 1 `;
+    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} ${INIT_MOVE_BRUSH}`;
     this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
   }
 
@@ -139,9 +134,6 @@ export class DrawingSpaceComponent implements OnInit {
       case TOOL.brush:
       case TOOL.pen:
         this.mouseMovePenBrush(event);
-        break;
-
-      case TOOL.colorApplicator:
         break;
 
       default:
@@ -171,9 +163,6 @@ export class DrawingSpaceComponent implements OnInit {
         this.shapeService.drawBrush();
         break;
 
-      case TOOL.colorApplicator:
-        break;
-
       case TOOL.pen:
         this.shapeService.drawPen();
         break;
@@ -184,7 +173,6 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mouseup')
   onMouseUp(): void {
-    this.shapeService.preview.active = false;
     this.assignMouseUpEvent();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
     this.shapeService.resetPreview();

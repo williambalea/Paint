@@ -21,7 +21,7 @@ export class DrawingSpaceComponent implements OnInit {
   shiftPressed: boolean;
 
   constructor( private shapeService: ShapesService,
-               public fileParameters: FileParametersServiceService,
+               private fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
     this.tool = TOOL;
     this.width = 0;
@@ -113,15 +113,18 @@ export class DrawingSpaceComponent implements OnInit {
   mouseDownRectangle(event: MouseEvent): void {
     this.shapeService.setMouseOrigin(event);
     this.shapeService.setRectangleType();
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 
   mouseDownPen(event: MouseEvent): void {
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} ${INIT_MOVE_PEN}`;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
   }
 
   mouseDownBrush(event: MouseEvent): void {
     this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} ${INIT_MOVE_BRUSH}`;
     this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
   }
 
   @HostListener('mousemove', ['$event'])
@@ -174,7 +177,6 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mouseup')
   onMouseUp(): void {
     this.assignMouseUpEvent();
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
     this.shapeService.resetPreview();
   }
 }

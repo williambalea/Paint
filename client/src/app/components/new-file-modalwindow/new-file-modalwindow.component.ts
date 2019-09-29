@@ -1,8 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-
-
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
@@ -17,22 +15,20 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
 export class NewFileModalwindowComponent implements OnInit {
   // TODO: QA
   form: FormGroup;
-  control: FormControl;
-  customErrors = {required: 'Please accept the terms'};
   canvasWidth: number ;
   canvasHeight: number ;
 
   constructor( public fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
-               private shapeService: ShapesService,
-               private builder: FormBuilder,
+               public shapeService: ShapesService,
+               private formBuilder: FormBuilder,
                public colorService: ColorService,
                public dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
   assignForm(): void {
-    this.form = this.builder.group({
-      canvaswidth: ['', [Validators.required, Validators.min(0)]],
-      canvasheight: ['', [Validators.required, Validators.min(0)]],
+    this.form = this.formBuilder.group({
+      canvaswidth: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
+      canvasheight: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
     });
   }
 
@@ -43,7 +39,6 @@ export class NewFileModalwindowComponent implements OnInit {
 
   ngOnInit(): void {
     this.assignCanvas();
-    this.control = this.builder.control('', Validators.required);
     this.assignForm();
     this.colorService.setShowBackgroundButton(false);
   }
@@ -71,15 +66,20 @@ export class NewFileModalwindowComponent implements OnInit {
     this.colorService.setShowBackgroundButton(true);
   }
 
+  createNewDrawing(canvaswidth: number, canvasheight: number): void {
+    this.fileParameters.changeParameters(canvaswidth, canvasheight);
+    this.modifyCanvasDisplay();
+  }
+
+  validForm(): boolean {
+     return (this.form.valid);
+  }
 
   submitParameters(canvaswidth: number, canvasheight: number) {
+    if (this.validForm()) {
     this.fileParameters.tempresize = true;
-    if (this.shapeService.shapes.length) {
-      this.deleteConfirmation(canvaswidth, canvasheight);
-    } else {
-      this.fileParameters.changeParameters(canvaswidth, canvasheight);
-      this.modifyCanvasDisplay();
-    }
+    this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
     this.dialogRef.close();
+    }
   }
 }

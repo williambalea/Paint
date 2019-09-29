@@ -33,9 +33,9 @@ describe('ColorPaletteComponent', () => {
   });
 
   it('Should draw degraded palette correctly', () => {
-    spyOn(component, 'drawGradient');
+    spyOn(component, 'selectPosition');
     component.draw();
-    expect(component.drawGradient).toHaveBeenCalled();
+    expect(component.selectPosition).toHaveBeenCalled();
   });
 
   it('Should executeMouseMove correctly', () => {

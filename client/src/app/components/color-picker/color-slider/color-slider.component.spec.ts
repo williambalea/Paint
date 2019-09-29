@@ -24,9 +24,9 @@ describe('ColorSliderComponent', () => {
   });
 
   it('Should draw degraded slider correctly', () => {
-    spyOn(component, 'drawGradient');
+    spyOn(component, 'selectPosition');
     component.draw();
-    expect(component.drawGradient).toHaveBeenCalled();
+    expect(component.selectPosition).toHaveBeenCalled();
   });
 
   it('Should executeMouseMove correctly', () => {
@@ -45,14 +45,13 @@ describe('ColorSliderComponent', () => {
   });
 
   it('Should executeMouseUp correctly', () => {
-    const event: MouseEvent = new MouseEvent('window:mousedowns');
-    component.onMouseUp(event);
+    component.onMouseUp();
     expect(component.getMouseDown()).toBeFalsy();
   });
 
   it('Should return a valid color', () => {
     const testString: string = component.getColorAtPosition(NB.Zero, NB.Zero);
     expect(testString.indexOf('rgba(')).toBeDefined();
-    expect(testString.split(',').length).toEqual(4);
+    expect(testString.split(',').length).toEqual(NB.Four);
   });
 });

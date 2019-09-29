@@ -106,7 +106,7 @@ export enum COLORS {
   whiteRGBATransparent = 'rgba(255,255,255,0)',
   whiteHEX = 'FFFFFF',
   blackRGBA = 'rgba(0,0,0,1)',
-  blackRGBATransparent = 'rgba(0,0,0,1)',
+  blackRGBATransparent = 'rgba(0,0,0,0)',
   redRGBA = 'rgba(255, 0, 0, 1)',
   yellowRBGA = 'rgba(255, 255, 0, 1)',
   greenRBGA = 'rgba(0, 255, 0, 1)',

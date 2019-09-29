@@ -115,7 +115,7 @@ export class ColorPickerComponent implements OnInit {
     this.colorService.changeBackgroundColor();
   }
 
-  setColorEnterSlider(){
+  setColorEnterSlider(): void {
     this.color = this.color.substr(NB.Five , this.color.length);
     this.color = this.color.substr(NB.Zero , this.color.length - NB.One);
     const rgb: string[] = this.color.split(',');
@@ -125,7 +125,7 @@ export class ColorPickerComponent implements OnInit {
   onEnterSlider(value: number): void {
     this.transparency = value;
     this.transparencyString = (this.transparency / NB.TwoHundredFiftyFive).toFixed(NB.Two).toString();
-    this.setColorEnterSlider()
+    this.setColorEnterSlider();
   }
 
   syncValue(): void  {

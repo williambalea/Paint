@@ -109,11 +109,11 @@ describe('NewFileModalwindowComponent', () => {
   });
 
   it('submitParameters should set resize flag to true', () => {
-    const spy = spyOn(component, 'validForm').and.returnValue(true);
+    spyOn(component, 'validForm').and.returnValue(false);
+    const spy = spyOn(component, 'assignForm').and.callThrough();
     component.submitParameters(10, 10);
     expect(spy).toHaveBeenCalled();
-    expect(fileParameters.tempresize).toBeTruthy();
-  });
+ });
 
   it ('submitParameters should create new drawing if canvas empty', () => {
     shapeService.shapes.length = 0;

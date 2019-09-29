@@ -20,10 +20,7 @@ describe('IndexService', () => {
 
   it('should return expected message (HttpClient called once)', inject([IndexService], (service: IndexService) => {
     const expectedMessage: Message = {body: 'Hello', title: 'World'};
-
     httpClientSpy.get.and.returnValue(of(expectedMessage));
-
-    // check the content of the mocked call
     service.basicGet().subscribe(
       (response: Message) => {
         expect(response.title).toEqual(expectedMessage.title, 'Title check');
@@ -31,8 +28,6 @@ describe('IndexService', () => {
       },
       fail,
     );
-
-    // check if only one call was made
     expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');
   }));
 });

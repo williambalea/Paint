@@ -13,7 +13,7 @@ export class Pen extends Shape {
         this.strokeWidth = strokeWidth;
     }
 
-    changePrimaryColor(color: string) {
+    changePrimaryColor(color: string): void {
         this.stroke = color;
     }
 }

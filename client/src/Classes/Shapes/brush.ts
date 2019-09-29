@@ -9,7 +9,7 @@ export class Brush extends Pen {
         this.filter = filter;
     }
 
-    changePrimaryColor(color: string) {
+    changePrimaryColor(color: string): void {
         this.stroke = color;
     }
 }

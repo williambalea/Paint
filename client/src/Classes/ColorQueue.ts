@@ -7,7 +7,7 @@ export class ColorQueue<T> {
         this.store = [val, val, val, val, val, val, val, val, val, val];
     }
 
-    push(val: T) {
+    push(val: T): void {
         if (this.store.indexOf(val) === NB.MinusOne) {
             if (this.store.length === NB.Ten) {
                 this.pop();

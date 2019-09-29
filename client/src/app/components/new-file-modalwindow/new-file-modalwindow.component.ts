@@ -13,7 +13,6 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
   styleUrls: ['./new-file-modalwindow.component.scss'],
 })
 export class NewFileModalwindowComponent implements OnInit {
-  // TODO: QA
   form: FormGroup;
   canvasWidth: number ;
   canvasHeight: number ;
@@ -75,7 +74,7 @@ export class NewFileModalwindowComponent implements OnInit {
      return (this.form.valid);
   }
 
-  submitParameters(canvaswidth: number, canvasheight: number) {
+  submitParameters(canvaswidth: number, canvasheight: number): void {
     if (this.validForm()) {
     this.fileParameters.tempresize = true;
     this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);

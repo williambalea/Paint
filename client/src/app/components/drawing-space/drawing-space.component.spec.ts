@@ -171,15 +171,19 @@ describe('DrawingSpaceComponent', () => {
 
     component.selectedTool = TOOL.rectangle;
     component.assignMouseDownEvent(new MouseEvent('mousedown'));
-    expect(rectangleSpy).toHaveBeenCalled();
 
     component.selectedTool = TOOL.brush;
     component.assignMouseDownEvent(new MouseEvent('mousedown'));
-    expect(brushSpy).toHaveBeenCalled();
 
     component.selectedTool = TOOL.pen;
     component.assignMouseDownEvent(new MouseEvent('mousedown'));
-    expect(penSpy).toHaveBeenCalled();
+
+    component.selectedTool = 10;
+    component.assignMouseDownEvent(new MouseEvent('mousedown'));
+
+    expect(rectangleSpy).toHaveBeenCalledTimes(1);
+    expect(brushSpy).toHaveBeenCalledTimes(1);
+    expect(penSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should define the shape colors and manage the mouseDown by the selectedTool', () => {
@@ -294,16 +298,10 @@ describe('DrawingSpaceComponent', () => {
 
   it('should add last used color to palette and draw shape by selectedTool', () => {
     const assignSpy = spyOn(component, 'assignMouseUpEvent');
-    const addLastSpy = spyOn(colorService, 'addColorsToLastUsed');
-    const fillSpy = spyOn(colorService, 'getFillColor');
-    const strokeSpy = spyOn(colorService, 'getStrokeColor');
     const resetSpy = spyOn(shapesService, 'resetPreview');
 
     component.onMouseUp();
     expect(assignSpy).toHaveBeenCalled();
-    expect(addLastSpy).toHaveBeenCalled();
-    expect(fillSpy).toHaveBeenCalled();
-    expect(strokeSpy).toHaveBeenCalled();
     expect(resetSpy).toHaveBeenCalled();
   });
 });

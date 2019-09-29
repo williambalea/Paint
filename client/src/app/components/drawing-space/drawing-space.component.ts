@@ -18,6 +18,7 @@ export class DrawingSpaceComponent implements OnInit {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
+  pointerEvent: string;
   shiftPressed: boolean;
 
   constructor( private shapeService: ShapesService,
@@ -26,6 +27,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.tool = TOOL;
     this.width = 0;
     this.resizeFlag = false;
+    this.pointerEvent = 'visiblePainted';
   }
 
   setCanvasParameters(): void {
@@ -85,6 +87,14 @@ export class DrawingSpaceComponent implements OnInit {
     this.shapeService.preview.active = true;
   }
 
+  @HostListener('mousedown', ['$event'])
+  onMouseDown(event: MouseEvent): void {
+    this.defineShapeColor();
+    this.colorService.setMakingColorChanges(false);
+    this.assignMouseDownEvent(event);
+    this.pointerEvent = 'none';
+  }
+
   assignMouseDownEvent(event: MouseEvent): void {
     switch (this.selectedTool) {
       case TOOL.rectangle:
@@ -101,13 +111,6 @@ export class DrawingSpaceComponent implements OnInit {
 
       default:
     }
-  }
-
-  @HostListener('mousedown', ['$event'])
-  onMouseDown(event: MouseEvent): void {
-    this.defineShapeColor();
-    this.colorService.setMakingColorChanges(false);
-    this.assignMouseDownEvent(event);
   }
 
   mouseDownRectangle(event: MouseEvent): void {
@@ -156,6 +159,13 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
+  @HostListener('mouseup')
+  onMouseUp(): void {
+    this.assignMouseUpEvent();
+    this.shapeService.resetPreview();
+    this.pointerEvent = 'visiblePainted';
+  }
+
   assignMouseUpEvent(): void {
     switch (this.selectedTool) {
       case TOOL.rectangle:
@@ -174,9 +184,4 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  @HostListener('mouseup')
-  onMouseUp(): void {
-    this.assignMouseUpEvent();
-    this.shapeService.resetPreview();
-  }
 }

@@ -70,14 +70,14 @@ describe('NewFileModalwindowComponent', () => {
 
   it('canvas width input should not be valid if value < 0 ', () => {
     component.assignForm();
-    const form = component.form.controls["canvaswidth"];
+    const form = component.form.controls.canvaswidth;
     form.setValue(0);
     expect(component.form.valid).toBeFalsy();
   });
 
   it('canvas height input should not be valid if value < 0 ', () => {
     component.assignForm();
-    const form = component.form.controls["canvasheight"];
+    const form = component.form.controls.canvasheight;
     form.setValue(0);
     expect(component.form.valid).toBeFalsy();
   });

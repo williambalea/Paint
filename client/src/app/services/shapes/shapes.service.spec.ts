@@ -11,7 +11,7 @@ describe('ShapesService', () => {
     TestBed.configureTestingModule({
       providers: [
         ShapesService,
-      ]
+      ],
     }).compileComponents();
     service = TestBed.get(ShapesService);
   });
@@ -64,6 +64,5 @@ describe('ShapesService', () => {
     service.clearShapes();
     expect(service.shapes.length).toEqual(0);
   });
-
 
 });

@@ -6,7 +6,7 @@ import { Brush } from './../../../Classes/Shapes/brush';
 import { ShapesService } from './shapes.service';
 // import { Shape } from 'src/Classes/Shapes/shape';
 
-fdescribe('ShapesService', () => {
+describe('ShapesService', () => {
   let service: ShapesService;
 
   beforeEach(() => {

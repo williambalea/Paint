@@ -8,7 +8,8 @@ import { HIDE_DIALOG, KEY, TOOL } from 'src/constants';
 import { SideBarComponent } from './side-bar.component';
 
 export class MatDialogMock {
-  open() {
+  // on ne precise pas le type de retour car on n'est pas certain de ce dernier.
+  open(): any {
     return { afterClosed: () => of({ name: 'some object' }) };
   }
 }

@@ -117,5 +117,5 @@ export enum COLORS {
 
 export const EMPTY_STRING = '';
 export const HIDE_DIALOG = 'hideDialog';
-export const INIT_MOVE_PEN = 'L0.01 0.01 ';
-export const INIT_MOVE_BRUSH = 'L1 1 ';
+export const INIT_MOVE_PEN = 'l0.01 0.01 ';
+export const INIT_MOVE_BRUSH = 'l1 1 ';

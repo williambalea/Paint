@@ -31,7 +31,6 @@ export class FileParametersServiceService {
     return this.tempresize;
   }
 
-
   setParameters(canvaswidth: number, canvasheight: number): void {
     this.tempx = canvaswidth;
     this.tempy = canvasheight;

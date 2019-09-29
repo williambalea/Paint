@@ -2,25 +2,24 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ColorService } from 'src/app/services/color/color.service';
+import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
-import { ShapesService } from 'src/app/services/shapes/shapes.service';
-import { ColorService } from 'src/app/services/color/color.service';
 
 describe('NewFileModalwindowComponent', () => {
   let component: NewFileModalwindowComponent;
   let shapeService: ShapesService;
-  let fileParameters : FileParametersServiceService;
-  let colorService : ColorService;
-  let dialog : MatDialog;
+  let fileParameters: FileParametersServiceService;
+  let colorService: ColorService;
+  let dialog: MatDialog;
   let fixture: ComponentFixture<NewFileModalwindowComponent>;
-  let dialogRef : MatDialogRef<NewFileModalwindowComponent>;
-  
+  let dialogRef: MatDialogRef<NewFileModalwindowComponent>;
 
   const dialogMock = {
     close: () => {
@@ -55,7 +54,7 @@ describe('NewFileModalwindowComponent', () => {
     dialog = TestBed.get(MatDialog);
     colorService = TestBed.get(ColorService);
     component = fixture.componentInstance;
-    
+
   });
 
   it('should create', () => {
@@ -138,36 +137,35 @@ describe('NewFileModalwindowComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-
   it ('modifyCanvasDisplay should call corresponding colorService functions', () => {
-    const spy_1 = spyOn(colorService, 'changeBackgroundColor').and.callThrough();
-    const spy_2 = spyOn(colorService, 'setMakingColorChanges').and.callThrough();
-    const spy_3 = spyOn(colorService, 'setShowInAttributeBar').and.callThrough();
-    const spy_4 = spyOn(colorService, 'setShowBackgroundButton').and.callThrough();
+    const spy1 = spyOn(colorService, 'changeBackgroundColor').and.callThrough();
+    const spy2 = spyOn(colorService, 'setMakingColorChanges').and.callThrough();
+    const spy3 = spyOn(colorService, 'setShowInAttributeBar').and.callThrough();
+    const spy4 = spyOn(colorService, 'setShowBackgroundButton').and.callThrough();
     component.modifyCanvasDisplay();
-    expect(spy_1).toHaveBeenCalled();
-    expect(spy_2).toHaveBeenCalled();
-    expect(spy_3).toHaveBeenCalled();
-    expect(spy_4).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalled();
+    expect(spy4).toHaveBeenCalled();
   });
 
   it ('createNewDrawing should call change parameters function and modify canvas function', () => {
-    const spy_1 = spyOn(fileParameters, 'changeParameters').and.callThrough();
-    const spy_2 = spyOn(component, 'modifyCanvasDisplay').and.callThrough();
-    component.createNewDrawing(10,10);
-    expect(spy_1).toHaveBeenCalled();
-    expect(spy_2).toHaveBeenCalled();
+    const spy1 = spyOn(fileParameters, 'changeParameters').and.callThrough();
+    const spy2 = spyOn(component, 'modifyCanvasDisplay').and.callThrough();
+    component.createNewDrawing(10, 10);
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
   });
 
   it ('deleteConfirmation should open delete confirmation dialog', () => {
     const spy = spyOn(dialog, 'open').and.callThrough();
-    component.deleteConfirmation(10,10);
+    component.deleteConfirmation(10, 10);
     expect(spy).toHaveBeenCalled();
   });
 
   it ('deleteConfirmation should call setParameters function', () => {
     const spy = spyOn(fileParameters, 'setParameters').and.callThrough();
-    component.deleteConfirmation(10,10);
+    component.deleteConfirmation(10, 10);
     expect(spy).toHaveBeenCalled();
   });
 
@@ -184,13 +182,13 @@ describe('NewFileModalwindowComponent', () => {
   });
 
   it ('ngOnInit should call setting functions', () => {
-    const spy_1 = spyOn(component, 'assignCanvas').and.callThrough();
-    const spy_2 = spyOn(component, 'assignForm').and.callThrough();
-    const spy_3 = spyOn(colorService, 'setShowBackgroundButton').and.callThrough();
+    const spy1 = spyOn(component, 'assignCanvas').and.callThrough();
+    const spy2 = spyOn(component, 'assignForm').and.callThrough();
+    const spy3 = spyOn(colorService, 'setShowBackgroundButton').and.callThrough();
     component.ngOnInit();
-    expect(spy_1).toHaveBeenCalled();
-    expect(spy_2).toHaveBeenCalled();
-    expect(spy_3).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalled();
   });
 
   it ('assignCanvas should set default canvas size to maximum values of screen window', () => {
@@ -198,12 +196,12 @@ describe('NewFileModalwindowComponent', () => {
     expect(component.canvasWidth).toEqual(window.innerWidth);
     expect(component.canvasHeight).toEqual(window.innerHeight);
   });
-   
+
   it ('validForm should return true if', () => {
     component.ngOnInit();
     const form = component.form.controls.canvaswidth;
     form.setValue(70);
-    
+
     const spy = spyOn(component, 'validForm').and.callThrough();
     component.validForm();
     expect(spy).toBeTruthy();

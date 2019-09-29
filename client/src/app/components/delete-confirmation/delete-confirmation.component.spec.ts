@@ -1,18 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { ColorService } from 'src/app/services/color/color.service';
+import { FileParametersServiceService } from 'src/app/services/file-parameters-service.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from './delete-confirmation.component';
-import { FileParametersServiceService } from 'src/app/services/file-parameters-service.service';
-import { ColorService } from 'src/app/services/color/color.service';
 
 describe('DeleteConfirmationComponent', () => {
-    
+
     let component: DeleteConfirmationComponent;
     let shapeService: ShapesService;
-    let fileParameters : FileParametersServiceService;
-    let colorService : ColorService;
-    let dialogRef : MatDialogRef<DeleteConfirmationComponent>;
+    let fileParameters: FileParametersServiceService;
+    let colorService: ColorService;
+    let dialogRef: MatDialogRef<DeleteConfirmationComponent>;
     let fixture: ComponentFixture<DeleteConfirmationComponent>;
 
     const dialogMock = {

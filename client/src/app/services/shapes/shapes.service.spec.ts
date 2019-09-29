@@ -65,4 +65,11 @@ describe('ShapesService', () => {
     expect(service.shapes.length).toEqual(0);
   });
 
+  it('Should set color transparency to zero', () => {
+    service.fillColor = COLORS.greenRBGA;
+    expect(service.fillColor).toEqual('rgba(0, 255, 0, 1)');
+    service.fillColor = service.removeColor(service.fillColor);
+    expect(service.fillColor).toEqual('rgba(0, 255, 0,0)');
+  });
+
 });

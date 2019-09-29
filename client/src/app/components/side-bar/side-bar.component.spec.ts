@@ -166,4 +166,11 @@ describe('SideBarComponent', () => {
     expect(component.selectedTool).toEqual(TOOL.colorApplicator);
   });
 
+  it('should do nothing when pressing other keys', () => {
+    component.enableKeyPress = true;
+    const pressingOther = new KeyboardEvent('keydown', {key: 'i'});
+    component.onKeyDown(pressingOther);
+    expect(component.selectedTool).not.toBeDefined();
+  });
+
 });

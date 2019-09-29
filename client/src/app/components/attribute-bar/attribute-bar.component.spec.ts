@@ -88,6 +88,17 @@ describe('AttributeBarComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('Should enter switch case default', () => {
+    component.selectedType = '';
+    const borderedSpy = spyOn(component, 'assignBorderedRectangle');
+    const filledSpy = spyOn(component, 'assignFilledRectangle');
+    const bfSpy = spyOn(component, 'assignBorderedAndFilledRectangle');
+    component.assignRectangleType();
+    expect(borderedSpy).not.toHaveBeenCalled();
+    expect(filledSpy).not.toHaveBeenCalled();
+    expect(bfSpy).not.toHaveBeenCalled();
+  });
+
   it('Should set stroke width correctly', () => {
     const value = NB.Ten;
     component.assignStrokeWidth(value);

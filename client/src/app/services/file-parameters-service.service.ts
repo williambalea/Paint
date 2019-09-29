@@ -7,7 +7,6 @@ import { NewFileModalwindowComponent } from '../components/new-file-modalwindow/
   providedIn: 'root',
 })
 export class FileParametersServiceService {
-  // TODO: QA
   tempx: number;
   tempy: number;
   tempz: string;
@@ -36,7 +35,7 @@ export class FileParametersServiceService {
     this.tempy = canvasheight;
   }
 
-  changeParameters(widht: number, height: number) {
+  changeParameters(widht: number, height: number): void {
     this.resizeFlag.next(this.tempresize);
     this.canvasWidth.next(widht);
     this.canvasHeight.next(height);

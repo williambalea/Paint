@@ -198,4 +198,14 @@ describe('NewFileModalwindowComponent', () => {
     expect(component.canvasWidth).toEqual(window.innerWidth);
     expect(component.canvasHeight).toEqual(window.innerHeight);
   });
+   
+  it ('validForm should return true if', () => {
+    component.ngOnInit();
+    const form = component.form.controls.canvaswidth;
+    form.setValue(70);
+    
+    const spy = spyOn(component, 'validForm').and.callThrough();
+    component.validForm();
+    expect(spy).toBeTruthy();
+  });
 });

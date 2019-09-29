@@ -92,7 +92,9 @@ export class DrawingSpaceComponent implements OnInit {
     this.defineShapeColor();
     this.colorService.setMakingColorChanges(false);
     this.assignMouseDownEvent(event);
-    this.pointerEvent = 'none';
+    if (this.selectedTool !== TOOL.colorApplicator) {
+      this.pointerEvent = 'none';
+    }
   }
 
   assignMouseDownEvent(event: MouseEvent): void {

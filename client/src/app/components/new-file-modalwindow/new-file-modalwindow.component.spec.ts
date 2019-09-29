@@ -113,7 +113,7 @@ describe('NewFileModalwindowComponent', () => {
     component.submitParameters(10, 10);
     expect(spy).toHaveBeenCalled();
     expect(fileParameters.tempresize).toBeTruthy();
- });
+  });
 
   it ('submitParameters should create new drawing if canvas empty', () => {
     shapeService.shapes.length = 0;

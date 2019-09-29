@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
@@ -19,11 +19,6 @@ export class EntryPointComponent {
 
   toggleHideDialog(): void {
     this.isHidden = !this.isHidden;
-  }
-
-  @HostListener('window:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent): void {
-    event.preventDefault();
   }
 
 }

@@ -99,41 +99,29 @@ describe('DrawingSpaceComponent', () => {
   it('should activate square mode when holding shift', () => {
     const spy = spyOn(shapesService, 'setSquareOffset');
     const pressingShift = new KeyboardEvent('keydown', {key: KEY.shift});
+    const pressingOther = new KeyboardEvent('keydown', {key: KEY.o});
+
+    component.onKeyDown(pressingOther);
+    expect(component.shiftPressed).toBeFalsy();
     component.onKeyDown(pressingShift);
     expect(component.shiftPressed).toBeTruthy();
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should return to rectangle mode when releasing shift', () => {
+    component.shiftPressed = true;
     const spy = spyOn(shapesService, 'setRectangleOffset');
     const pressingShift = new KeyboardEvent('keyup', {key: KEY.shift});
+    const pressingOther = new KeyboardEvent('keydown', {key: KEY.o});
+
+    component.onKeyUp(pressingOther);
+    expect(component.shiftPressed).toBeTruthy();
     component.onKeyUp(pressingShift);
     expect(component.shiftPressed).toBeFalsy();
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should change the color of the clicked shape with filling color', () => {
-      component.selectedTool = TOOL.colorApplicator;
-      const rect = new Rectangle(
-        TOOL.rectangle,
-        NB.One,
-        NB.One,
-        NB.One,
-        NB.One,
-        COLORS.blackRGBA,
-        COLORS.blackRGBA,
-        NB.One,
-      );
-      shapesService.shapes = [rect];
-      const changePrimarySpy = spyOn(shapesService.shapes[0], 'changePrimaryColor');
-      const fillColorSpy = spyOn(colorService, 'getFillColor');
-      component.onLeftClick(rect);
-      expect(changePrimarySpy).toHaveBeenCalled();
-      expect(fillColorSpy).toHaveBeenCalled();
-    });
-
-  it('should change the color of the clicked shape with stroke color', () => {
-    component.selectedTool = TOOL.colorApplicator;
     const rect = new Rectangle(
       TOOL.rectangle,
       NB.One,
@@ -145,14 +133,47 @@ describe('DrawingSpaceComponent', () => {
       NB.One,
     );
     shapesService.shapes = [rect];
+
+    const changePrimarySpy = spyOn(shapesService.shapes[0], 'changePrimaryColor');
+    const fillColorSpy = spyOn(colorService, 'getFillColor');
+
+    component.selectedTool = TOOL.rectangle;
+    component.onLeftClick(rect);
+
+    component.selectedTool = TOOL.colorApplicator;
+    component.onLeftClick(rect);
+
+    expect(changePrimarySpy).toHaveBeenCalledTimes(1);
+    expect(fillColorSpy).toHaveBeenCalledTimes(1);
+    });
+
+  it('should change the color of the clicked shape with stroke color', () => {
+    const rect = new Rectangle(
+      TOOL.rectangle,
+      NB.One,
+      NB.One,
+      NB.One,
+      NB.One,
+      COLORS.blackRGBA,
+      COLORS.blackRGBA,
+      NB.One,
+    );
+    shapesService.shapes = [rect];
+
     const event = new MouseEvent('contextmenu');
     const changePrimarySpy = spyOn(shapesService.shapes[0], 'changeSecondaryColor');
     const fillColorSpy = spyOn(colorService, 'getStrokeColor');
     const preventSpy = spyOn(event, 'preventDefault');
+
+    component.selectedTool = TOOL.rectangle;
     component.onRightClick(event, rect);
-    expect(preventSpy).toHaveBeenCalled();
-    expect(changePrimarySpy).toHaveBeenCalled();
-    expect(fillColorSpy).toHaveBeenCalled();
+
+    component.selectedTool = TOOL.colorApplicator;
+    component.onRightClick(event, rect);
+
+    expect(preventSpy).toHaveBeenCalledTimes(2);
+    expect(changePrimarySpy).toHaveBeenCalledTimes(1);
+    expect(fillColorSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should define shapes colors', () => {
@@ -218,18 +239,22 @@ describe('DrawingSpaceComponent', () => {
 
   it('should draw the correct shape by selectedTool', () => {
     const moveRect = spyOn(component, 'mouseMoveRectangle');
+    const movePenBrush = spyOn(component, 'mouseMovePenBrush');
+
     component.selectedTool = TOOL.rectangle;
     component.onMouseMove(new MouseEvent('mousemove'));
-    expect(moveRect).toHaveBeenCalled();
 
-    const movePenBrush = spyOn(component, 'mouseMovePenBrush');
     component.selectedTool = TOOL.pen;
     component.onMouseMove(new MouseEvent('mousemove'));
-    expect(movePenBrush).toHaveBeenCalled();
 
     component.selectedTool = TOOL.brush;
     component.onMouseMove(new MouseEvent('mousemove'));
-    expect(movePenBrush).toHaveBeenCalled();
+
+    component.selectedTool = TOOL.colorApplicator;
+    component.onMouseMove(new MouseEvent('mousemove'));
+
+    expect(moveRect).toHaveBeenCalledTimes(1);
+    expect(movePenBrush).toHaveBeenCalledTimes(2);
   });
 
   it('should set the shape mouse position and draw if the preview is active', () => {
@@ -289,6 +314,9 @@ describe('DrawingSpaceComponent', () => {
     component.assignMouseUpEvent();
 
     component.selectedTool = TOOL.pen;
+    component.assignMouseUpEvent();
+
+    component.selectedTool = TOOL.colorApplicator;
     component.assignMouseUpEvent();
 
     expect(rectSpy).toHaveBeenCalledTimes(1);

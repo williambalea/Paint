@@ -12,10 +12,10 @@ import {FileParametersServiceService} from '../../services/file-parameters-servi
 export class DeleteConfirmationComponent {
 
   message: string;
-  constructor( public shapeService: ShapesService,
-               public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
-               public colorService: ColorService,
-               public fileParameters: FileParametersServiceService) {
+  constructor( private shapeService: ShapesService,
+               private dialogRef: MatDialogRef<DeleteConfirmationComponent>,
+               private colorService: ColorService,
+               private fileParameters: FileParametersServiceService) {
                this.message = 'Are you sure?';
                }
 

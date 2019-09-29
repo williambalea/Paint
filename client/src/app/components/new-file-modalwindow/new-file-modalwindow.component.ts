@@ -18,12 +18,12 @@ export class NewFileModalwindowComponent implements OnInit {
   canvasWidth: number ;
   canvasHeight: number ;
 
-  constructor( public fileParameters: FileParametersServiceService,
+  constructor( private fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
-               public shapeService: ShapesService,
+               private shapeService: ShapesService,
                private formBuilder: FormBuilder,
-               public colorService: ColorService,
-               public dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
+               private colorService: ColorService,
+               private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
   assignForm(): void {
     this.form = this.formBuilder.group({

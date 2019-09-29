@@ -3,11 +3,18 @@ import { MatDialogModule, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from './delete-confirmation.component';
+import { FileParametersServiceService } from 'src/app/services/file-parameters-service.service';
+import { ColorService } from 'src/app/services/color/color.service';
 
 describe('DeleteConfirmationComponent', () => {
-    let shapeService: ShapesService;
+    
     let component: DeleteConfirmationComponent;
+    let shapeService: ShapesService;
+    let fileParameters : FileParametersServiceService;
+    let colorService : ColorService;
+    let dialogRef : MatDialogRef<DeleteConfirmationComponent>;
     let fixture: ComponentFixture<DeleteConfirmationComponent>;
+
     const dialogMock = {
         close: () => {
         return;
@@ -30,6 +37,10 @@ describe('DeleteConfirmationComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(DeleteConfirmationComponent);
+        shapeService = TestBed.get(ShapesService);
+        fileParameters = TestBed.get(FileParametersServiceService);
+        colorService = TestBed.get(ColorService);
+        dialogRef = TestBed.get(MatDialogRef);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -47,19 +58,19 @@ describe('DeleteConfirmationComponent', () => {
     }));
 
     it('should call dialogRef.close function when invoking clear function', () => {
-        const spy = spyOn(component.dialogRef, 'close').and.callThrough();
+        const spy = spyOn(dialogRef, 'close').and.callThrough();
         component.clear();
         expect(spy).toHaveBeenCalled();
     });
 
     it('should call clearShapes function when invoking clear function', () => {
-        const spy = spyOn(component.shapeService, 'clearShapes').and.callThrough();
+        const spy = spyOn(shapeService, 'clearShapes').and.callThrough();
         component.clear();
         expect(spy).toHaveBeenCalled();
     });
 
     it('should call changeParameters function when invoking clear function', () => {
-        const spy = spyOn(component.fileParameters, 'changeParameters').and.callThrough();
+        const spy = spyOn(fileParameters, 'changeParameters').and.callThrough();
         component.clear();
         expect(spy).toHaveBeenCalled();
     });
@@ -71,25 +82,25 @@ describe('DeleteConfirmationComponent', () => {
     });
 
     it('should call changeBackgroundColor function when invoking clearColor function', () => {
-        const spy = spyOn(component.colorService, 'changeBackgroundColor').and.callThrough();
+        const spy = spyOn(colorService, 'changeBackgroundColor').and.callThrough();
         component.clearColor();
         expect(spy).toHaveBeenCalled();
     });
 
     it('should call setMakingColorChanges function when invoking clearColor function', () => {
-        const spy = spyOn(component.colorService, 'setMakingColorChanges').and.callThrough();
+        const spy = spyOn(colorService, 'setMakingColorChanges').and.callThrough();
         component.clearColor();
         expect(spy).toHaveBeenCalled();
     });
 
     it('should call setShowInAttributeBar function when invoking clearColor function', () => {
-        const spy = spyOn(component.colorService, 'setShowInAttributeBar').and.callThrough();
+        const spy = spyOn(colorService, 'setShowInAttributeBar').and.callThrough();
         component.clearColor();
         expect(spy).toHaveBeenCalled();
     });
 
     it('should call setShowBackgroundButton function when invoking clearColor function', () => {
-        const spy = spyOn(component.colorService, 'setShowBackgroundButton').and.callThrough();
+        const spy = spyOn(colorService, 'setShowBackgroundButton').and.callThrough();
         component.clearColor();
         expect(spy).toHaveBeenCalled();
     });

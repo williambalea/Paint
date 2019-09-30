@@ -3,7 +3,7 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { Rectangle } from 'src/Classes/Shapes/rectangle';
 import { Shape } from 'src/Classes/Shapes/shape';
-import { COLORS, EMPTY_STRING, KEY, NB, TOOL } from 'src/constants';
+import { COLORS, EMPTY_STRING, KEY, NB, POINTER_EVENT, TOOL } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { DrawingSpaceComponent } from './drawing-space.component';
@@ -216,6 +216,17 @@ describe('DrawingSpaceComponent', () => {
     expect(spyDefine).toHaveBeenCalled();
     expect(spyColor).toHaveBeenCalled();
     expect(spyMouse).toHaveBeenCalled();
+  });
+
+  it('Should set pointerEvent to \'none\' if not using colorApplicator', () => {
+    const mouseDown = new MouseEvent('mousedown');
+    component.selectedTool = TOOL.colorApplicator;
+    component.onMouseDown(mouseDown);
+    expect(component.pointerEvent).toEqual(POINTER_EVENT.visiblePainted);
+
+    component.selectedTool = TOOL.rectangle;
+    component.onMouseDown(mouseDown);
+    expect(component.pointerEvent).toEqual(POINTER_EVENT.none);
   });
 
   it('should initialize rectangle shape', () => {

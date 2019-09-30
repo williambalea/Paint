@@ -89,6 +89,11 @@ export enum STRING_NB {
   One = '1',
 }
 
+export enum POINTER_EVENT {
+  none = 'none',
+  visiblePainted = 'visiblePainted',
+}
+
 export enum RECTANGLE_TYPE {
   bordered = 'Bordered',
   filled = 'Filled',

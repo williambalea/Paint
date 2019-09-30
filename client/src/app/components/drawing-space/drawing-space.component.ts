@@ -1,7 +1,7 @@
 import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { Shape } from '../../../Classes/Shapes/shape';
-import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, TOOL } from '../../../constants';
+import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, TOOL, POINTER_EVENT } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 
@@ -27,7 +27,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.tool = TOOL;
     this.width = 0;
     this.resizeFlag = false;
-    this.pointerEvent = 'visiblePainted';
+    this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 
   setCanvasParameters(): void {
@@ -93,7 +93,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.colorService.setMakingColorChanges(false);
     this.assignMouseDownEvent(event);
     if (this.selectedTool !== TOOL.colorApplicator) {
-      this.pointerEvent = 'none';
+      this.pointerEvent = POINTER_EVENT.none;
     }
   }
 
@@ -165,7 +165,7 @@ export class DrawingSpaceComponent implements OnInit {
   onMouseUp(): void {
     this.assignMouseUpEvent();
     this.shapeService.resetPreview();
-    this.pointerEvent = 'visiblePainted';
+    this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 
   assignMouseUpEvent(): void {

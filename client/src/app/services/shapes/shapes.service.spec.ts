@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Pen } from 'src/Classes/Shapes/pen';
 import { Rectangle } from 'src/Classes/Shapes/rectangle';
-import { COLORS } from 'src/constants';
+import { COLORS, TOOL } from 'src/constants';
 import { Brush } from './../../../Classes/Shapes/brush';
 import { ShapesService } from './shapes.service';
-// import { Shape } from 'src/Classes/Shapes/shape';
 
-fdescribe('ShapesService', () => {
+describe('ShapesService', () => {
   let service: ShapesService;
 
   beforeEach(() => {
@@ -74,83 +73,78 @@ fdescribe('ShapesService', () => {
     expect(service.fillColor).toEqual('rgba(0, 255, 0,0)');
   });
 
-  // it('Should return a shape', () => {
-  //   const index = NB.Five;
-  //   service.getShape(index);
-  //   expect(service.getShape(index)).toHaveBeenCalled();
-  // });
-
   it('Should call setRectangleOffset', () => {
     const spy = spyOn(service, 'setRectangleOffset');
     service.setRectangleOffset();
     expect(spy).toHaveBeenCalled();
   });
-/*
+
   it('Should modify rectangleOffset attributes', () => {
-    const width = 10;
-    const height = 20;
-    const previewWidth = 0;
-    const previewHeight = 0;
-    const mouseX = 50;
-    const mouseY = 75;
-    let spyPreview = new Preview();
-    spyOn(spyPreview, '')
-    const mockPreview = {x: previewWidth, y: previewHeight};
-    const mockMouse = {x: mouseX, y: mouseY};
-    service.mouse = mockMouse;
-    service.preview = mockPreview;
-
-    service.preview.width = previewWidth;
-    service.preview.height = previewHeight;
+    service.mouse = {x: 50, y: 50};
+    service.origin = {x: 75, y: 100};
+    service.preview = {
+      active: false,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      path: '',
+      filter: '',
+    };
     service.setRectangleOffset();
-    expect(service.preview.width).not.toEqual(width);
-    expect(service.preview.height).not.toEqual(height);
+
+    expect(service.preview.width).toEqual(Math.abs(service.mouse.x - service.origin.x));
+    expect(service.preview.height).toEqual(Math.abs(service.mouse.y - service.origin.y));
+    expect(service.preview.x).toEqual(Math.min(service.origin.x, service.mouse.x));
+    expect(service.preview.y).toEqual(Math.min(service.origin.y, service.mouse.y));
   });
-*/
 
-  // it('Should modify rectangleOffset attributes', () => {
-  //   const width = 10;
-  //   const height = 20;
-  //   const previewWidth = 0;
-  //   const previewHeight = 0;
-  //   const offsetValueY = 10;
-  //   const offsetValueX = 20;
-  //   const event = {x: offsetValueX, y: offsetValueY};
-  //   const mouseX = 50;
-  //   const mouseY = 75;
-  //   const origin = event;
-  //   service.origin = origin;
+  it('Should modify squareOffset attributes', () => {
+    service.mouse = {x: 50, y: 50};
+    service.origin = {x: 75, y: 100};
+    service.preview = {
+      active: false,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      path: '',
+      filter: '',
+    };
+    service.setSquareOffset();
 
-  //   service.preview.width = previewWidth;
-  //   service.preview.height = previewHeight;
-  //   service.mouse.x = mouseX;
-  //   service.mouse.y = mouseY;
-  //   service.setRectangleOffset();
-  //   expect(service.preview.width).not.toEqual(width);
-  //   expect(service.preview.height).not.toEqual(height);
-  // });
+    expect(service.preview.width).not.toEqual(0);
+    expect(service.preview.height).not.toEqual(0);
+    expect(service.preview.x).not.toEqual(0);
+    expect(service.preview.y).not.toEqual(0);
+  });
 
-  // it('Should call setSquareOffset', () => {
-  //   const width = 5;
-  //   const height = 10;
-  //   const x = 0;
-  //   const y = 0;
-  //   const x2 = 20;
-  //   const y2 = 20;
-  //   service.preview.width = width;
-  //   service.preview.height = height;
-  //   service.mouse.x = x;
-  //   service.mouse.y = y;
-  //   service.origin.x = x2;
-  //   service.origin.y = y2;
+  it('Should return all shape objects', () => {
+    service.shapes = [];
+    const shape = new Rectangle(TOOL.rectangle, 0, 0, 50, 50, '', '', 1);
+    service.shapes.push(shape);
+    const shapesTable = service.getShapes();
+    expect(shapesTable).toEqual(service.shapes);
+  });
 
-  //   const spy = spyOn(service, 'setSquareOffset');
-  //   // const secondSpy = spyOn(Math, 'min');
-  //   service.setSquareOffset();
-  //   expect(spy).toHaveBeenCalled();
-  //   // expect(secondSpy).toHaveBeenCalled();
-  //   expect(service.preview.width).not.toEqual(5);
-  //   expect(service.preview.height).not.toEqual(10);
-  // });
+  it('Should initialise origin and preview', () => {
+    service.origin = {x: 75, y: 100};
+    service.preview = {
+      active: false,
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      path: '',
+      filter: '',
+    };
+    const event = new MouseEvent('mouseDown');
+    event.initMouseEvent('mouseDown', true, false, window, 0, 0, 0, 100, 100, false, false, false, false, 0, null);
+    service.setMouseOrigin(event);
+    expect(service.preview.x).not.toEqual(0);
+    expect(service.preview.y).not.toEqual(0);
+    expect(service.preview.width).toEqual(0);
+    expect(service.preview.height).toEqual(0);
+  });
 
 });

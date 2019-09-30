@@ -5,7 +5,7 @@ import { Brush } from '../../../Classes/Shapes/brush';
 import { Pen } from '../../../Classes/Shapes/pen';
 import { Rectangle } from '../../../Classes/Shapes/rectangle';
 import { Shape } from '../../../Classes/Shapes/shape';
-import { BRUSH, EMPTY_STRING, NB, TOOL, COLORS } from '../../../constants';
+import { BRUSH, COLORS, EMPTY_STRING, NB, TOOL } from '../../../constants';
 
 @Injectable({
   providedIn: 'root',

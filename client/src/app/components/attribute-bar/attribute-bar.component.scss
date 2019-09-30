@@ -29,6 +29,25 @@
   margin-bottom: 1%;
   margin-right: 1%;
   margin-left: 1%;
+  font-weight:900;
+}
+
+.lineStyle{
+  font-weight:900;
+}
+
+.lineStyleRound{
+  stroke:rgb(0,0,0);
+  stroke-linecap: round;
+}
+
+.svgStyle{
+  width:200px;
+  height:50px;
+}
+
+.inputFormStyle{
+  width: 83%;
 }
 
 .exit{

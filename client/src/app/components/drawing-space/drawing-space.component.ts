@@ -1,7 +1,7 @@
 import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { Shape } from '../../../Classes/Shapes/shape';
-import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, TOOL, POINTER_EVENT } from '../../../constants';
+import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, POINTER_EVENT, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 

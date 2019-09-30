@@ -36,7 +36,7 @@
   font-weight:900;
 }
 
-.lineStyleRound{
+#lineStyleRound{
   stroke:rgb(0,0,0);
   stroke-linecap: round;
 }
@@ -90,5 +90,9 @@
   margin-bottom: 1%;
   margin-left: 5%;
   margin-right: 5%;
+}
+
+#rectangleStroke {
+  stroke:rgb(0,0,0);
 }
 

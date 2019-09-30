@@ -11,7 +11,6 @@ import { BRUSH, EMPTY_STRING, NB, TOOL } from '../../../constants';
   providedIn: 'root',
 })
 export class ShapesService {
-  // TODO: QA
   shapes: Shape[];
   mouse: Point;
   origin: Point;

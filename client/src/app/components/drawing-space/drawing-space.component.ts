@@ -11,7 +11,6 @@ import { ShapesService } from '../../services/shapes/shapes.service';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit {
-  // TODO: QA
   tool: typeof TOOL;
   @Input()selectedTool: TOOL;
   resizeFlag: boolean;
@@ -44,7 +43,7 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: { target: { innerWidth: number; }; }) {
+  onResize(event: { target: { innerWidth: number; }; }): void {
     if (!this.resizeFlag) {
     this.width = event.target.innerWidth;
     this.canvasWidth = event.target.innerWidth;

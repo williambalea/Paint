@@ -129,18 +129,14 @@ export class ColorPickerComponent implements OnInit {
   }
 
   syncValue(): void  {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.colorHex);
-    const value: { r: number, g: number , b: number } | null = result ? {
-      r: parseInt(result[NB.One], NB.Sixteen),
-      g: parseInt(result[NB.Two], NB.Sixteen),
-      b: parseInt(result[NB.Three], NB.Sixteen),
-    } : null;
-    if ( value != null ) {
-      this.color = 'rgba(' + value.r.toString() +
-                       ',' + value.g.toString() +
-                       ',' + value.b.toString() +
-                       ',' + this.transparencyString + ')';
-    }
+    const temp = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.colorHex) as RegExpExecArray;
+    const r: number = parseInt(temp[NB.One], NB.Sixteen);
+    const g: number = parseInt(temp[NB.Two], NB.Sixteen);
+    const b: number = parseInt(temp[NB.Three], NB.Sixteen);
+    this.color = 'rgba(' + r.toString() +
+                      ',' + g.toString() +
+                      ',' + b.toString() +
+                      ',' + this.transparencyString + ')';
   }
 
   swapColors(): void {

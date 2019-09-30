@@ -41,6 +41,7 @@ export enum NB {
   SixtyTwo = 62,
   SixtyFour = 64,
   SeventyFour = 74,
+  SeventyFive = 75,
   Eighty = 80,
   OneHundred = 100,
   OneHundredEightTwo = 182,

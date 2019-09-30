@@ -27,7 +27,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
   selectedPosition: { x: number; y: number };
 
   constructor() {
-    this.selectedPosition = {x: NB.SeventyFour, y: NB.SeventyFour};
+    this.selectedPosition = {x: NB.SeventyFive, y: NB.SeventyFive};
     this.color = new EventEmitter(true);
   }
 

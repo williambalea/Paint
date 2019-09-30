@@ -13,4 +13,18 @@ div,html, body {
     left: 26%;
 }
 
+#canvas {
+    border:1px solid black;
+}
+
+#path {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+filter * {
+    color-interpolation-filters: sRGB;
+}
+
 

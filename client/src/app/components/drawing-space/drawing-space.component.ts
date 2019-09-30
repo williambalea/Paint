@@ -1,7 +1,7 @@
 import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { Shape } from '../../../Classes/Shapes/shape';
-import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, POINTER_EVENT, TOOL } from '../../../constants';
+import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 
@@ -24,8 +24,9 @@ export class DrawingSpaceComponent implements OnInit {
                private fileParameters: FileParametersServiceService,
                private colorService: ColorService) {
     this.tool = TOOL;
-    this.width = 0;
+    this.width = NB.Zero;
     this.resizeFlag = false;
+    this.shiftPressed = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 

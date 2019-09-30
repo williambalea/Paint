@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
+import { STRINGS } from 'src/constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class DeleteConfirmationComponent {
                private dialogRef: MatDialogRef<DeleteConfirmationComponent>,
                private colorService: ColorService,
                private fileParameters: FileParametersServiceService) {
-               this.message = 'Are you sure?';
+               this.message = STRINGS.areYouSure;
                }
 
   clearColor(): void {

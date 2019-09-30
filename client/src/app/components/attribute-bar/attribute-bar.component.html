@@ -2,7 +2,6 @@
 
     <div [ngSwitch]="selectedTool">
 
-        <!--Rectangle-->
         <div *ngSwitchCase="tool.rectangle">
 
             <div class="header" style="font-weight:900">Rectangle Tool</div>
@@ -65,7 +64,6 @@
 
         </div>
 
-        <!-- Brush -->
         <div *ngSwitchCase="tool.brush">
 
                 <div class="header" style="font-weight:900">Brush</div>
@@ -120,7 +118,6 @@
                 </div>
             </div>
 
-            <!-- Pen -->
             <div *ngSwitchCase="tool.pen">
 
                 <div class="header" style="font-weight:900">Pen</div>
@@ -154,7 +151,6 @@
 
             </div>
 
-            <!-- Applicateur de couleur -->
             <div *ngSwitchCase="tool.colorApplicator">
 
                 <div class="header" style="font-weight:900">Color Applicator</div>

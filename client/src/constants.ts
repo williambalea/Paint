@@ -104,6 +104,7 @@ export enum STRINGS {
   white = 'white',
   canvas = 'canvas',
   twoD = '2d',
+  areYouSure = 'Are you sure ?',
 }
 
 export enum COLORS {

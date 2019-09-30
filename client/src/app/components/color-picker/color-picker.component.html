@@ -3,7 +3,7 @@
 <div *ngIf="colorService.getMakingColorChanges()">
     <div class=color-wrapper>
       <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
-      <app-color-slider (color)="hue=$event" style="margin-left:5%"></app-color-slider>
+      <app-color-slider (color)="hue=$event"></app-color-slider>
     </div>
     <div class="lastTen1">
       <span class="color-div" (click)="setColorFromLastTen(0)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(0) || 'white'}"></span>

@@ -1,3 +1,5 @@
+<div>
+<span class="sectionHeader">Color:</span>
 <div *ngIf="colorService.getMakingColorChanges()">
     <div class=color-wrapper>
       <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
@@ -36,7 +38,7 @@
 <div (click)="setSecondary()" class="secondary" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>
 <button *ngIf="colorService.getShowBackgroundButton()" class="changeButton" (click)="changeBackgroundColor()">Change background color</button>
 <button (click)="swapColors()">Swap Colors</button>
-  
+</div>
   
   
   

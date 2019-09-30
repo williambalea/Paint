@@ -5,6 +5,12 @@ describe('ColorPickerComponent', () => {
   const colorService: ColorService = new ColorService();
   const colorPickerComponent: ColorPickerComponent = new ColorPickerComponent(colorService);
 
+  it('Should call sendColorWrapper OnInit', () => {
+    spyOn(colorPickerComponent, 'sendColorWrapper');
+    colorPickerComponent.ngOnInit();
+    expect(colorPickerComponent.sendColorWrapper).toHaveBeenCalled();
+  });
+
   it('It should set primary correctly', () => {
     colorPickerComponent.setPrimary();
     expect(colorService.getMakingColorChanges()).toBeTruthy();
@@ -36,9 +42,10 @@ describe('ColorPickerComponent', () => {
   });
 
   it('Should process transparency correctly', () => {
-    colorPickerComponent.onEnterSlider(255);
-    expect(colorPickerComponent.getTransparency()).toEqual(255);
-    expect(colorPickerComponent.getTransparencyString()).toEqual('1.00');
+    colorPickerComponent.setTransparency(230);
+    colorPickerComponent.onEnterSlider();
+    expect(colorPickerComponent.getTransparency()).toEqual(230);
+    expect(colorPickerComponent.getTransparencyString()).toEqual('0.90');
   });
 
   it('Should call sendColor from sendColorWrapper (ie change oldPointedColor)', () => {

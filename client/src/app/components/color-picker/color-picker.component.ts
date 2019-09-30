@@ -3,11 +3,18 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { ColorInputControl } from '../../../Classes/ColorInputControl';
 import { COLORS, EMPTY_STRING, NB, STRING_NB } from '../../../constants';
 
+interface ColorRGB {
+  R: number;
+  G: number;
+  B: number;
+}
+
 @Component({
   selector: 'app-color-picker',
   templateUrl: './color-picker.component.html',
   styleUrls: ['./color-picker.component.scss'],
 })
+
 export class ColorPickerComponent implements OnInit {
 
   private hue: string;
@@ -17,6 +24,7 @@ export class ColorPickerComponent implements OnInit {
   private colorHex: string;
   private transparencyString: string;
   private colorInputControl: ColorInputControl;
+  inputRBG: ColorRGB;
 
   ngOnInit(): void {
     this.sendColorWrapper();
@@ -30,6 +38,7 @@ export class ColorPickerComponent implements OnInit {
     this.colorHex = COLORS.whiteHEX;
     this.transparencyString = STRING_NB.One;
     this.colorInputControl = new ColorInputControl();
+    this.inputRBG = {R: 0, G: 0, B: 0};
   }
 
   getHue(): string {
@@ -74,11 +83,21 @@ export class ColorPickerComponent implements OnInit {
     this.colorService.getUsingPrimary() ? this.colorService.setFillColor(this.color) : this.colorService.setStrokeColor(this.color);
   }
 
+  syncInputRBG(): void {
+    this.color = 'rgba(' + this.inputRBG.R.toString() + ',' +
+                            this.inputRBG.G.toString() + ',' +
+                            this.inputRBG.B.toString() +  ',' +
+                            this.transparencyString +
+                  ')';
+    console.log(this.color);
+  }
+
   sendColorWrapper(): void {
     setInterval(() => {
       if (this.oldPointedColor !== this.color) {
         this.sendColor();
         this.updateHexValue();
+        this.updateRGBValue();
         this.oldPointedColor = this.color;
       }
     }, NB.TwoHundredFifty);
@@ -93,6 +112,16 @@ export class ColorPickerComponent implements OnInit {
                             Number(rgbValues[NB.One]).toString(NB.Sixteen).toUpperCase() +
                             Number(rgbValues[NB.Two]).toString(NB.Sixteen).toUpperCase();
     this.colorHex = tempHex;
+  }
+
+  updateRGBValue(): void {
+    let temp: string = this.color;
+    temp = temp.substring(NB.Five, temp.length);
+    temp = temp.substring(NB.Zero, temp.length - NB.One);
+    const rgbValues: string[] = temp.split(',');
+    this.inputRBG.R = Number(rgbValues[0]);
+    this.inputRBG.G = Number(rgbValues[1]);
+    this.inputRBG.B = Number(rgbValues[2]);
   }
 
   onEnterHex(value: string): void {

@@ -20,15 +20,20 @@
       <span class="color-div" (click)="setColorFromLastTen(8)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(8) || 'white'}"></span>
       <span class="color-div" (click)="setColorFromLastTen(9)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(9) || 'white'}"></span>
     </div>
-    <div >
-        Transparency:<b class="slidecontainer">{{transparency / 255 | number: '1.2-2'}}</b>
-        <input type="range" #slider min="0" max="255" value={{transparency}} [(ngModel)]="this.transparency" class="slider" id="myRange" (change)="onEnterSlider(slider.value)">
-    </div>
     <div class="input-wrapper">
       <div>
         <sub>0x</sub>
       </div>
       <input class="text" type="text" minlength="6" maxlength="6" #box (keyup.enter)="onEnterHex(box.value)" value={{colorHex}} [(ngModel)]="colorHex">
+    </div>
+    <div >
+        Transparency:<b class="slidecontainer">{{transparency / 255 | number: '1.2-2'}}</b>
+        <input type="range" #slider min="0" max="255" value={{transparency}} [(ngModel)]="this.transparency" class="slider" id="myRange" (change)="onEnterSlider(slider.value)">
+    </div>
+    <div>
+      R: <input size="3" min="0" max="255" [attr.value]="inputRBG.R" [(ngModel)]="inputRBG.R" (keyup.enter)="syncInputRBG()">
+      G: <input size="3" min="0" max="255" [attr.value]="inputRBG.G" [(ngModel)]="inputRBG.G" (keyup.enter)="syncInputRBG()">
+      B: <input size="3" min="0" max="255" [attr.value]="inputRBG.B" [(ngModel)]="inputRBG.B" (keyup.enter)="syncInputRBG()"> 
     </div>
 </div>
 <div *ngIf="colorService.getUsingPrimary()">Selected Color: <b class="dynamicValue">Primary</b></div>

@@ -20,14 +20,15 @@ styleUrls: ['./color-palette.component.scss'],
 export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   @Input() hue: string;
-  @Output() color: EventEmitter<string> = new EventEmitter(true);
+  @Output() color: EventEmitter<string>;
   @ViewChild(STRINGS.canvas, {static: false}) canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean;
   selectedPosition: { x: number; y: number };
 
   constructor() {
-    this.selectedPosition = {x: 75, y: 75};
+    this.selectedPosition = {x: NB.SeventyFour, y: NB.SeventyFour};
+    this.color = new EventEmitter(true);
   }
 
   ngAfterViewInit(): void {

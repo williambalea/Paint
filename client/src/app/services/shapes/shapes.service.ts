@@ -5,7 +5,7 @@ import { Brush } from '../../../Classes/Shapes/brush';
 import { Pen } from '../../../Classes/Shapes/pen';
 import { Rectangle } from '../../../Classes/Shapes/rectangle';
 import { Shape } from '../../../Classes/Shapes/shape';
-import { BRUSH, EMPTY_STRING, NB, TOOL } from '../../../constants';
+import { BRUSH, COLORS, EMPTY_STRING, NB, TOOL } from '../../../constants';
 
 @Injectable({
   providedIn: 'root',
@@ -27,12 +27,16 @@ export class ShapesService {
   constructor() {
     this.shapes = [];
     this.resetPreview();
+    this.fillColor = COLORS.blackRGBA;
+    this.strokeColor = COLORS.whiteRGBA;
     this.rectangleStrokeWidth = NB.Seven;
     this.penStrokeWidth = NB.Seven;
     this.brushStrokeWidth = NB.Seven;
     this.brushStyle = BRUSH.smooth;
     this.strokeEnable = true;
     this.fillEnable = true;
+    this.mouse = {x: NB.Zero, y: NB.Zero};
+    this.origin = {x: NB.Zero, y: NB.Zero};
   }
 
   getShapes(): Shape[] {

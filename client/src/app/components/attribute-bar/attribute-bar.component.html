@@ -2,10 +2,9 @@
 
     <div [ngSwitch]="selectedTool">
 
-        <!--Rectangle-->
         <div *ngSwitchCase="tool.rectangle">
 
-            <div class="header" style="font-weight:900">Rectangle Tool</div>
+            <div class="header">Rectangle Tool</div>
 
             <div class="singleAttribute">
 
@@ -14,10 +13,9 @@
                 </div>
 
                 <div>
-                    <svg width="200" height="50">
-                        <line x1="20" y1="30" x2="180" y2="30"
-                        [style.stroke-width]="this.shapeService.rectangleStrokeWidth" 
-                        style="stroke:rgb(0,0,0)"/>
+                    <svg class="svgStyle">
+                        <line class="lineStyle" x1="20" y1="30" x2="180" y2="30"
+                        [style.stroke-width]="this.shapeService.rectangleStrokeWidth"/>
                     </svg>
                 </div>
 
@@ -25,9 +23,9 @@
                 <label>
                     <br>
                     <div>
-                        <input style="width: 83%" type="range" #slider min="1" max="25"
+                        <input class="inputFormStyle" type="range" #slider min="1" max="25"
                             value={{this.shapeService.rectangleStrokeWidth}} [(ngModel)]="this.shapeService.rectangleStrokeWidth"
-                            class="slider" id="drawTool">
+                            id="drawTool">
                     </div>
                 </label>
             </div>
@@ -62,13 +60,11 @@
 
             </div>
 
-
         </div>
 
-        <!-- Brush -->
         <div *ngSwitchCase="tool.brush">
 
-                <div class="header" style="font-weight:900">Brush</div>
+                <div class="header">Brush</div>
 
                     <div class="singleAttribute">
 
@@ -76,10 +72,9 @@
                         <br>
 
                         <div>
-                            <svg width="200" height="50" >
-                                <line x1="20" y1="30" x2="180" y2="30"
-                                [style.stroke-width]="this.shapeService.brushStrokeWidth"
-                                style="stroke:rgb(0,0,0);stroke-linecap: round"/>
+                            <svg class="svgStyle">
+                                <line class="lineStyleRound" x1="20" y1="30" x2="180" y2="30"
+                                [style.stroke-width]="this.shapeService.brushStrokeWidth"/>
                             </svg>
                         </div>
 
@@ -90,8 +85,8 @@
 
                         <br>
                         <div>
-                            <input style="width: 83%" type="range" #slider min="1" max="25"
-                                value={{this.shapeService.brushStrokeWidth}} [(ngModel)]="this.shapeService.brushStrokeWidth" class="slider"
+                            <input class="inputFormStyle" type="range" #slider min="1" max="25"
+                                value={{this.shapeService.brushStrokeWidth}} [(ngModel)]="this.shapeService.brushStrokeWidth"
                                 id="drawTool">
                         </div>
 
@@ -120,20 +115,18 @@
                 </div>
             </div>
 
-            <!-- Pen -->
             <div *ngSwitchCase="tool.pen">
 
-                <div class="header" style="font-weight:900">Pen</div>
+                <div class="header">Pen</div>
 
                 <div class="singleAttribute">
 
                     <div class="sectionHeader">Stroke:</div>
                     
                     <div>
-                            <svg width="200" height="50">
-                                <line x1="20" y1="30" x2="180" y2="30"
-                                [style.stroke-width]="this.shapeService.penStrokeWidth" 
-                                style="stroke:rgb(0,0,0);stroke-linecap: round"/>
+                            <svg class="svgStyle">
+                                <line class="lineStyleRound" x1="20" y1="30" x2="180" y2="30"
+                                [style.stroke-width]="this.shapeService.penStrokeWidth"/>
                             </svg>
                         </div>
 
@@ -144,8 +137,8 @@
                     <label>
                         <br>
                         <div>
-                            <input style="width: 83%" type="range" #slider min="1" max="25"
-                                value={{this.shapeService.penStrokeWidth}} [(ngModel)]="this.shapeService.penStrokeWidth" class="slider"
+                            <input class="inputFormStyle" type="range" #slider min="1" max="25"
+                                value={{this.shapeService.penStrokeWidth}} [(ngModel)]="this.shapeService.penStrokeWidth"
                                 id="drawTool">
                         </div>
                     </label>
@@ -154,10 +147,9 @@
 
             </div>
 
-            <!-- Applicateur de couleur -->
             <div *ngSwitchCase="tool.colorApplicator">
 
-                <div class="header" style="font-weight:900">Color Applicator</div>
+                <div class="header">Color Applicator</div>
 
                 <div class="singleAttribute">
 
@@ -172,10 +164,7 @@
             </div>
 
     </div>
-    <div class="colorPicker" *ngIf="this.colorService.getShowInAttributeBar()">
-        <div class="sectionHeader">
-            Color:
-        </div>
+    <div *ngIf="this.colorService.getShowInAttributeBar()">
         <app-color-picker></app-color-picker>
     </div>
 

@@ -1,7 +1,7 @@
 :host {
   display: block;
-  width: 316px;
-  padding: 10%;
+  width: 280px;
+  padding: 0%;
 }
 .color-wrapper {
   display: flex;
@@ -76,13 +76,13 @@
 }
 
 .slidecontainer {
-  margin-left: 20%;
+  margin-left: 10px;
   color:red;
   font-weight: 20;
 }
 
 .changeButton {
-  margin-inline-start: -5%;
+  margin-inline-start: 0%;
 }
 
 .dynamicValue{

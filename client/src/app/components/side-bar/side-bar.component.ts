@@ -4,6 +4,7 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+import { Shape } from 'src/Classes/Shapes/shape';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,6 +14,8 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
 export class SideBarComponent implements OnInit {
   tool: typeof TOOL;
   selectedTool: TOOL;
+
+  selectedShape: Shape;
 
   enableKeyPress: boolean;
 

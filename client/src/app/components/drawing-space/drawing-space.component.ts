@@ -1,9 +1,10 @@
-import { Component,  HostListener , Input, OnInit} from '@angular/core';
+import { Component,  HostListener , Input, OnInit, Renderer2} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { Shape } from '../../../Classes/Shapes/shape';
+import { Shape } from '../../services/shapes/shape';
 import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
+import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 
 @Component({
   selector: 'app-drawing-space',
@@ -13,6 +14,7 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 export class DrawingSpaceComponent implements OnInit {
   tool: typeof TOOL;
   @Input()selectedTool: TOOL;
+  @Input()selectedShape: Shape;
   resizeFlag: boolean;
   canvasWidth: number;
   canvasHeight: number;
@@ -22,12 +24,13 @@ export class DrawingSpaceComponent implements OnInit {
 
   constructor( private shapeService: ShapesService,
                private fileParameters: FileParametersServiceService,
-               private colorService: ColorService) {
+               private colorService: ColorService, private renderer: Renderer2, private rectangleService: RectangleService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.shiftPressed = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
+
   }
 
   setCanvasParameters(): void {
@@ -66,20 +69,20 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  onLeftClick(shape: Shape): void {
-    if (this.selectedTool === TOOL.colorApplicator) {
-      const index: number = this.shapeService.shapes.indexOf(shape);
-      this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
-    }
-  }
+  // onLeftClick(shape: Shape): void {
+  //   if (this.selectedTool === TOOL.colorApplicator) {
+  //     const index: number = this.shapeService.shapes.indexOf(shape);
+  //     this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
+  //   }
+  // }
 
-  onRightClick($event: Event, shape: Shape): void {
-    $event.preventDefault();
-    if (this.selectedTool === TOOL.colorApplicator) {
-      const index: number = this.shapeService.shapes.indexOf(shape);
-      this.shapeService.shapes[index].changeSecondaryColor(this.colorService.getStrokeColor());
-    }
-  }
+  // onRightClick($event: Event, shape: Shape): void {
+  //   $event.preventDefault();
+  //   if (this.selectedTool === TOOL.colorApplicator) {
+  //     const index: number = this.shapeService.shapes.indexOf(shape);
+  //     this.shapeService.shapes[index].changeSecondaryColor(this.colorService.getStrokeColor());
+  //   }
+  // }
 
   defineShapeColor(): void {
     this.shapeService.fillColor = this.colorService.getFillColor();
@@ -89,6 +92,9 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
+
+    this.selectedShape.onMouseDown(event);
+
     this.defineShapeColor();
     this.colorService.setMakingColorChanges(false);
     this.assignMouseDownEvent(event);
@@ -134,6 +140,9 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
+
+    this.selectedShape.onMouseMove(event);
+
     switch (this.selectedTool) {
       case TOOL.rectangle:
         this.mouseMoveRectangle(event);
@@ -163,6 +172,10 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mouseup')
   onMouseUp(): void {
+
+    this.selectedShape.onMouseUp();
+    this.renderer.listen(this.rectangleService.rectangle, 'click', () => { console.log('click gauche'); });
+
     this.assignMouseUpEvent();
     this.shapeService.resetPreview();
     this.pointerEvent = POINTER_EVENT.visiblePainted;

@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
+import { Shape } from 'src/Classes/Shapes/shape';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
-import { Shape } from 'src/Classes/Shapes/shape';
 
 @Component({
   selector: 'app-side-bar',

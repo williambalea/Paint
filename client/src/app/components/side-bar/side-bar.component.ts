@@ -16,7 +16,7 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
   providers: [RectangleService, BrushService, PenService],
 })
 export class SideBarComponent implements OnInit {
-  //tool: typeof TOOL;
+  // tool: typeof TOOL;
   selectedTool: string;
 
   selectedShape: Shape;
@@ -28,7 +28,7 @@ export class SideBarComponent implements OnInit {
               private rectangleService: RectangleService,
               private brushService: BrushService,
               private penService: PenService) {
-    //this.tool = TOOL;
+    // this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
     this.selectedShape = this.brushService;
@@ -63,16 +63,17 @@ export class SideBarComponent implements OnInit {
     case TOOL.brush:
         this.selectedShape = this.brushService;
         this.selectedTool = TOOL.brush;
-      break;
+        break;
     case TOOL.pen:
         this.selectedShape = this.penService;
         this.selectedTool = TOOL.pen;
-      break;
+        break;
     case TOOL.colorApplicator :
         this.selectedTool = TOOL.colorApplicator;
+        break;
     default:
    }
-   
+
   }
 
   setColorNewFile(): void {
@@ -101,17 +102,17 @@ export class SideBarComponent implements OnInit {
           break;
         case KEY.one:
           this.selectedShape = this.rectangleService;
-          //this.selectedTool = TOOL.rectangle;
+          // this.selectedTool = TOOL.rectangle;
           break;
         case KEY.w:
             this.selectedShape = this.brushService;
-          break;
+            break;
         case KEY.c:
             this.selectedShape = this.penService;
-          break;
+            break;
         case KEY.r:
             this.selectedTool = TOOL.colorApplicator;
-          break;
+            break;
         default:
       }
     }

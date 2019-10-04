@@ -5,8 +5,8 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 
-import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { InputService } from 'src/app/services/input.service';
+import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-new-file-modalwindow',
@@ -17,13 +17,12 @@ export class NewFileModalwindowComponent implements OnInit {
   form: FormGroup;
   canvasWidth: number ;
   canvasHeight: number ;
-  
 
   constructor( private fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
                private formBuilder: FormBuilder,
                private colorService: ColorService,
-               private inputService : InputService,
+               private inputService: InputService,
                private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
   assignForm(): void {

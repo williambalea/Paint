@@ -24,7 +24,6 @@ export class DrawingSpaceComponent implements OnInit {
   canvasHeight: number;
   width: number;
   pointerEvent: string;
- 
 
   constructor( private shapeService: ShapesService,
                private fileParameters: FileParametersServiceService,
@@ -34,7 +33,6 @@ export class DrawingSpaceComponent implements OnInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
-    
   }
 
   test(): void {
@@ -77,20 +75,19 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  // onLeftClick(shape: Shape): void {
-  //   if (this.selectedTool === TOOL.colorApplicator) {
-  //     const index: number = this.shapeService.shapes.indexOf(shape);
-  //     this.shapeService.shapes[index].changePrimaryColor(this.colorService.getFillColor());
-  //   }
-  // }
+  onLeftClick(event: MouseEvent, shape: any): void {
+    if (this.selectedTool === TOOL.colorApplicator) {
+      event.preventDefault();
+      this.renderer.setStyle(shape, 'fill', this.colorService.getFillColor());
+    }
+  }
 
-  // onRightClick($event: Event, shape: Shape): void {
-  //   $event.preventDefault();
-  //   if (this.selectedTool === TOOL.colorApplicator) {
-  //     const index: number = this.shapeService.shapes.indexOf(shape);
-  //     this.shapeService.shapes[index].changeSecondaryColor(this.colorService.getStrokeColor());
-  //   }
-  // }
+  onRightClick(event: MouseEvent, shape: any): void {
+    event.preventDefault();
+    if (this.selectedTool === TOOL.colorApplicator) {
+      this.renderer.setStyle(shape, 'stroke', this.colorService.getStrokeColor());
+    }
+  }
 
   defineShapeColor(): void {
     this.shapeService.fillColor = this.colorService.getFillColor();
@@ -99,12 +96,17 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   @HostListener('mousedown', ['$event'])
-  onMouseDown(event: MouseEvent): void {
+  onMouseDown(): void {
 
     const shape: any = this.selectedShape.onMouseDown();
+    this.renderer.listen(shape, 'click', (event: MouseEvent) => {
+      this.onLeftClick(event, shape);
+    });
+    this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
+      this.onRightClick(event, shape);
+    });
     this.renderer.appendChild(this.canvas.nativeElement, shape);
     this.inputService.isBlank = false;
-    
     this.colorService.setMakingColorChanges(false);
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.pointerEvent = POINTER_EVENT.none;
@@ -118,7 +120,6 @@ export class DrawingSpaceComponent implements OnInit {
     this.inputService.setMouseOffset(event);
     this.selectedShape.onMouseMove();
   }
-
 
   @HostListener('mouseup')
   onMouseUp(): void {

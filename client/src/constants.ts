@@ -72,10 +72,10 @@ export enum KEY {
 }
 
 export enum TOOL {
-  rectangle,
-  brush,
-  pen,
-  colorApplicator,
+  rectangle = 'rectangle',
+  brush = 'brush',
+  pen = 'pen',
+  colorApplicator = 'colorApplicator',
 }
 
 export enum BRUSH {

@@ -1,7 +1,7 @@
 import { Component,  ElementRef , HostListener, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
-import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
+import { KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
@@ -24,6 +24,7 @@ export class DrawingSpaceComponent implements OnInit {
   canvasHeight: number;
   width: number;
   pointerEvent: string;
+ 
 
   constructor( private shapeService: ShapesService,
                private fileParameters: FileParametersServiceService,
@@ -33,7 +34,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
-
+    
   }
 
   test(): void {
@@ -101,42 +102,13 @@ export class DrawingSpaceComponent implements OnInit {
   onMouseDown(event: MouseEvent): void {
 
     const shape: any = this.selectedShape.onMouseDown();
-    this.renderer.listen(shape, 'click', () => {
-      console.log('click');
-    });
     this.renderer.appendChild(this.canvas.nativeElement, shape);
-
-    this.defineShapeColor();
+    this.inputService.isBlank = false;
+    
     this.colorService.setMakingColorChanges(false);
-    this.assignMouseDownEvent(event);
-    if (this.selectedTool !== TOOL.colorApplicator) {
+    /*if (this.selectedTool !== TOOL.colorApplicator) {
       this.pointerEvent = POINTER_EVENT.none;
-    }
-  }
-
-  assignMouseDownEvent(event: MouseEvent): void {
-    switch (this.selectedTool) {
-      case TOOL.brush:
-        this.mouseDownBrush(event);
-        break;
-
-      case TOOL.pen:
-        this.mouseDownPen(event);
-        break;
-
-      default:
-    }
-  }
-
-  mouseDownPen(event: MouseEvent): void {
-    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} ${INIT_MOVE_PEN}`;
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
-  }
-
-  mouseDownBrush(event: MouseEvent): void {
-    this.shapeService.preview.path += `M${event.offsetX} ${event.offsetY} ${INIT_MOVE_BRUSH}`;
-    this.shapeService.preview.filter = `url(#${this.shapeService.brushStyle})`;
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
+    }*/
   }
 
   @HostListener('mousemove', ['$event'])
@@ -144,45 +116,13 @@ export class DrawingSpaceComponent implements OnInit {
 
     this.inputService.setMouseOffset(event);
     this.selectedShape.onMouseMove();
-
-    switch (this.selectedTool) {
-      case TOOL.brush:
-      case TOOL.pen:
-        this.mouseMovePenBrush(event);
-        break;
-
-      default:
-    }
   }
 
-  mouseMovePenBrush(event: MouseEvent): void {
-    if (this.shapeService.preview.active) {
-      this.shapeService.preview.path += `L${event.offsetX} ${event.offsetY} `;
-    }
-  }
 
   @HostListener('mouseup')
   onMouseUp(): void {
-
     this.selectedShape.onMouseUp();
-
-    this.assignMouseUpEvent();
-    this.shapeService.resetPreview();
-    this.pointerEvent = POINTER_EVENT.visiblePainted;
-  }
-
-  assignMouseUpEvent(): void {
-    switch (this.selectedTool) {
-      case TOOL.brush:
-        this.shapeService.drawBrush();
-        break;
-
-      case TOOL.pen:
-        this.shapeService.drawPen();
-        break;
-
-      default:
-    }
+   // this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 
 }

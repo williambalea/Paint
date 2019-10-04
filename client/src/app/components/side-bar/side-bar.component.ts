@@ -16,8 +16,8 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
   providers: [RectangleService, BrushService, PenService],
 })
 export class SideBarComponent implements OnInit {
-  tool: typeof TOOL;
-  selectedTool: TOOL;
+  //tool: typeof TOOL;
+  selectedTool: string;
 
   selectedShape: Shape;
 
@@ -28,9 +28,8 @@ export class SideBarComponent implements OnInit {
               private rectangleService: RectangleService,
               private brushService: BrushService,
               private penService: PenService) {
-    this.tool = TOOL;
+    //this.tool = TOOL;
     this.enableKeyPress = false;
-    this.selectedShape = this.rectangleService;
     this.selectedShape = this.penService;
     this.selectedShape = this.brushService;
 
@@ -55,8 +54,23 @@ export class SideBarComponent implements OnInit {
     this.enableKeyPress = true;
   }
 
-  selectTool(chosenTool: TOOL): void {
-    this.selectedTool = chosenTool;
+  selectTool(tool: string): void {
+   switch (tool) {
+    case TOOL.rectangle:
+      this.selectedShape = this.rectangleService;
+      this.selectedTool = TOOL.rectangle;
+      break;
+    case TOOL.brush:
+        this.selectedShape = this.brushService;
+        this.selectedTool = TOOL.brush;
+      break;
+    case TOOL.pen:
+        this.selectedShape = this.penService;
+        this.selectedTool = TOOL.pen;
+      break;
+    default:
+   }
+   
   }
 
   setColorNewFile(): void {
@@ -84,16 +98,17 @@ export class SideBarComponent implements OnInit {
           this.createNewFile();
           break;
         case KEY.one:
-          this.selectedTool = TOOL.rectangle;
+          this.selectedShape = this.rectangleService;
+          //this.selectedTool = TOOL.rectangle;
           break;
         case KEY.w:
-          this.selectedTool = TOOL.brush;
+            this.selectedShape = this.brushService;
           break;
         case KEY.c:
-          this.selectedTool = TOOL.pen;
+            this.selectedShape = this.penService;
           break;
         case KEY.r:
-          this.selectedTool = TOOL.colorApplicator;
+            this.selectedTool = TOOL.colorApplicator;
           break;
         default:
       }

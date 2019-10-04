@@ -1,7 +1,7 @@
 <mat-toolbar class= "sidebar">
-        <button mat-button (click)="selectTool(tool.rectangle)" class ="square_icon"><mat-icon>crop_square</mat-icon></button>
-        <button mat-button (click)="selectTool(tool.brush)" class ="brush_icon"><mat-icon>brush</mat-icon></button>
-        <button mat-button (click)="selectTool(tool.pen)" class ="pen_icon"><mat-icon>create</mat-icon></button>
+        <button mat-button (click)="selectTool('rectangle')" class ="square_icon"><mat-icon>crop_square</mat-icon></button>
+        <button mat-button (click)="selectTool('brush')" class ="brush_icon"><mat-icon>brush</mat-icon></button>
+        <button mat-button (click)="selectTool('pen')" class ="pen_icon"><mat-icon>create</mat-icon></button>
         <button mat-button (click)="selectTool(tool.colorApplicator)" class ="color_applicator_icon"><mat-icon>colorize</mat-icon></button>
         <button mat-button (click)="createNewFile()" class ="new_file_icon"><mat-icon>add</mat-icon></button>
         <button mat-button class="help"><mat-icon><a href="assets/userGuide.pdf" target="_blank">help_outline</a></mat-icon></button>

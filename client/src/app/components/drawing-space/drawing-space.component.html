@@ -5,61 +5,7 @@
         [attr.height]= "this.canvasHeight"
         [style.background-color]= "colorService.getBackgroundColor()"
         xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" #canvas>
-    <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick(shape)" (contextmenu)="onRightClick($event, shape)">
-        <g [ngSwitch]="shape.type">
-
-            <rect *ngSwitchCase="tool.rectangle"
-            [attr.x]="shape.x" 
-            [attr.y]="shape.y" 
-            [attr.width]="shape.width" 
-            [attr.height]="shape.height" 
-            [style.fill]="shape.fill"
-            [style.stroke]="shape.stroke"
-            [style.stroke-width]="shape.strokeWidth"/>
-
-            <path id="path"
-            *ngSwitchCase="tool.pen"
-            [attr.d]="shape.path"
-            [style.stroke-width]="shape.strokeWidth"
-            [style.stroke]="shape.stroke"
-            shape-rendering="geometricPrecision"/>
-
-            <path id="path"
-            *ngSwitchCase="tool.brush"
-            [attr.d]="shape.path"
-            [style.stroke-width]="shape.strokeWidth"
-            [style.stroke]="shape.stroke"
-            [style.filter]="shape.filter"/>
-
-        </g>
-    </g>
-
-    <g [ngSwitch]="this.selectedTool">
-
-    <rect *ngSwitchCase="tool.rectangle"
-    [attr.x]="this.shapeService.preview.x" 
-    [attr.y]="this.shapeService.preview.y" 
-    [attr.width]="this.shapeService.preview.width" 
-    [attr.height]="this.shapeService.preview.height" 
-    [style.fill]="this.shapeService.fillColor"
-    [style.stroke]="this.shapeService.strokeColor"
-    [style.stroke-width]="this.shapeService.rectangleStrokeWidth"/>
-
-    <path id="path"
-    *ngSwitchCase="tool.pen"
-    [attr.d]="shapeService.preview.path"
-    [style.stroke-width]="this.shapeService.penStrokeWidth"
-    [style.stroke]="this.shapeService.fillColor"
-    shape-rendering="geometricPrecision"/>
-
-    <path id="path"
-    *ngSwitchCase="tool.brush"
-    [attr.d]="shapeService.preview.path"
-    [style.stroke-width]="this.shapeService.brushStrokeWidth"
-    [style.stroke]="this.shapeService.fillColor"
-    [style.filter]="this.shapeService.preview.filter"/>
-
-    </g>
+  
 
     <defs>
 

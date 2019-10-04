@@ -1,10 +1,10 @@
-import { Component,  HostListener , Input, OnInit, Renderer2} from '@angular/core';
+import { Component,  HostListener , Input, OnInit} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { Shape } from '../../services/shapes/shape';
+import { InputService } from 'src/app/services/input.service';
 import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
+import { Shape } from '../../services/shapes/shape';
 import { ShapesService } from '../../services/shapes/shapes.service';
-import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 
 @Component({
   selector: 'app-drawing-space',
@@ -20,15 +20,14 @@ export class DrawingSpaceComponent implements OnInit {
   canvasHeight: number;
   width: number;
   pointerEvent: string;
-  shiftPressed: boolean;
 
   constructor( private shapeService: ShapesService,
                private fileParameters: FileParametersServiceService,
-               private colorService: ColorService, private renderer: Renderer2, private rectangleService: RectangleService) {
+               private colorService: ColorService,
+               private inputService: InputService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
-    this.shiftPressed = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
 
   }
@@ -56,16 +55,16 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
     if (event.key === KEY.shift) {
-      this.shiftPressed = true;
-      this.shapeService.setSquareOffset();
+      this.inputService.shiftPressed = true;
+      this.selectedShape.onMouseMove();
     }
   }
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
     if (event.key === KEY.shift) {
-      this.shiftPressed = false;
-      this.shapeService.setRectangleOffset();
+      this.inputService.shiftPressed = false;
+      this.selectedShape.onMouseMove();
     }
   }
 
@@ -93,7 +92,7 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
 
-    this.selectedShape.onMouseDown(event);
+    this.selectedShape.onMouseDown();
 
     this.defineShapeColor();
     this.colorService.setMakingColorChanges(false);
@@ -105,10 +104,6 @@ export class DrawingSpaceComponent implements OnInit {
 
   assignMouseDownEvent(event: MouseEvent): void {
     switch (this.selectedTool) {
-      case TOOL.rectangle:
-        this.mouseDownRectangle(event);
-        break;
-
       case TOOL.brush:
         this.mouseDownBrush(event);
         break;
@@ -119,12 +114,6 @@ export class DrawingSpaceComponent implements OnInit {
 
       default:
     }
-  }
-
-  mouseDownRectangle(event: MouseEvent): void {
-    this.shapeService.setMouseOrigin(event);
-    this.shapeService.setRectangleType();
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 
   mouseDownPen(event: MouseEvent): void {
@@ -141,26 +130,16 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
 
-    this.selectedShape.onMouseMove(event);
+    this.inputService.setMouseOffset(event);
+    this.selectedShape.onMouseMove();
 
     switch (this.selectedTool) {
-      case TOOL.rectangle:
-        this.mouseMoveRectangle(event);
-        break;
-
       case TOOL.brush:
       case TOOL.pen:
         this.mouseMovePenBrush(event);
         break;
 
       default:
-    }
-  }
-
-  mouseMoveRectangle(event: MouseEvent): void {
-    this.shapeService.mouse = {x: event.offsetX, y: event.offsetY};
-    if (this.shapeService.preview.active) {
-      this.shiftPressed ? this.shapeService.setSquareOffset() : this.shapeService.setRectangleOffset();
     }
   }
 
@@ -174,7 +153,6 @@ export class DrawingSpaceComponent implements OnInit {
   onMouseUp(): void {
 
     this.selectedShape.onMouseUp();
-    this.renderer.listen(this.rectangleService.rectangle, 'click', () => { console.log('click gauche'); });
 
     this.assignMouseUpEvent();
     this.shapeService.resetPreview();
@@ -183,10 +161,6 @@ export class DrawingSpaceComponent implements OnInit {
 
   assignMouseUpEvent(): void {
     switch (this.selectedTool) {
-      case TOOL.rectangle:
-        this.shapeService.drawRectangle();
-        break;
-
       case TOOL.brush:
         this.shapeService.drawBrush();
         break;

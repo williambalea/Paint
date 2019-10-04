@@ -1,5 +1,5 @@
 export interface Shape {
-    onMouseDown(event: MouseEvent): void;
-    onMouseMove(event: MouseEvent): void;
+    onMouseDown(): void;
+    onMouseMove(): void;
     onMouseUp(): void;
 }

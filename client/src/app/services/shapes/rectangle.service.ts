@@ -125,11 +125,8 @@ export class RectangleService implements Shape {
     this.renderer.setAttribute(this.rectangle, 'height', this.height.toString());
     this.renderer.setStyle(this.rectangle, 'fill', this.fill);
     this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
-    console.log(this.strokeWidth);
     this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
   }
-
-  
 
   assignBorderedRectangle(): void {
     this.strokeEnable = true;

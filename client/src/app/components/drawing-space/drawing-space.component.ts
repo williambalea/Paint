@@ -32,6 +32,10 @@ export class DrawingSpaceComponent implements OnInit {
 
   }
 
+  test(): void {
+    console.log('click');
+  }
+
   setCanvasParameters(): void {
     this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);

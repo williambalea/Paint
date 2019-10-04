@@ -1,7 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
+import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { BRUSH, RECTANGLE_TYPE, TOOL } from '../../../constants';
-import { ShapesService } from '../../services/shapes/shapes.service';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -16,7 +16,8 @@ export class AttributeBarComponent {
 
   selectedType: string;
 
-  constructor(private shapeService: ShapesService, private colorService: ColorService) {
+  constructor(private colorService: ColorService,
+              private rectangleService: RectangleService) {
     this.selectedType = RECTANGLE_TYPE.borderedAndFilled;
     this.tool = TOOL;
     this.brush = BRUSH;
@@ -24,43 +25,8 @@ export class AttributeBarComponent {
 
   radioChangeHandler(event: { target: {value: string}; }): void {
     this.selectedType = event.target.value;
-    this.assignRectangleType();
-  }
-
-  assignBorderedRectangle(): void {
-    this.shapeService.strokeEnable = true;
-    this.shapeService.fillEnable = false;
-    this.shapeService.removeColor(this.shapeService.fillColor);
-  }
-
-  assignFilledRectangle(): void {
-    this.shapeService.strokeEnable = false;
-    this.shapeService.removeColor(this.shapeService.strokeColor);
-    this.shapeService.fillEnable = true;
-  }
-
-  assignBorderedAndFilledRectangle(): void {
-    this.shapeService.strokeEnable = true;
-    this.shapeService.fillEnable = true;
-  }
-
-  assignRectangleType(): void {
-    switch (this.selectedType) {
-      case RECTANGLE_TYPE.bordered:
-        this.assignBorderedRectangle();
-        break;
-      case RECTANGLE_TYPE.filled:
-        this.assignFilledRectangle();
-        break;
-      case RECTANGLE_TYPE.borderedAndFilled:
-        this.assignBorderedAndFilledRectangle();
-        break;
-      default:
-    }
-  }
-
-  assignStrokeWidth(value: number): void {
-    this.shapeService.rectangleStrokeWidth = value;
+    this.rectangleService.rectangleType = event.target.value;
+    this.rectangleService.assignRectangleType();
   }
 
   getColorService(): ColorService {

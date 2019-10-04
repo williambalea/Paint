@@ -1,8 +1,9 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { EMPTY_STRING, NB } from 'src/constants';
+import { EMPTY_STRING, NB, RECTANGLE_TYPE } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
-import { Shape } from './shape';
 import { ColorService } from '../color/color.service';
+import { InputService } from '../input.service';
+import { Shape } from './shape';
 
 @Injectable({
   providedIn: 'root',
@@ -15,20 +16,27 @@ export class RectangleService implements Shape {
   fill: string;
   stroke: string;
   strokeWidth: number;
+  active: boolean;
+  rectangleType: string;
 
   fillEnable: boolean;
   strokeEnable: boolean;
-
-  active: boolean;
-  shiftPressed: boolean;
 
   mouse: Point;
   origin: Point;
   rectangle: HTMLElement;
 
   constructor(private colorService: ColorService,
-              private renderer: Renderer2) {
+              private renderer: Renderer2,
+              private inputService: InputService) {
     this.reset();
+    this.strokeWidth = NB.Seven;
+    this.fill = EMPTY_STRING;
+    this.stroke = EMPTY_STRING;
+    this.rectangleType = RECTANGLE_TYPE.borderedAndFilled;
+
+    this.fillEnable = true;
+    this.strokeEnable = true;
   }
 
   reset(): void {
@@ -36,31 +44,24 @@ export class RectangleService implements Shape {
     this.y =  NB.Zero;
     this.width = NB.Zero;
     this.height = NB.Zero;
-    this.fill = EMPTY_STRING;
-    this.stroke = EMPTY_STRING;
-    this.strokeWidth = NB.Zero;
-
-    this.fillEnable = true;
-    this.strokeEnable = true;
 
     this.active = false;
-    this.shiftPressed = false;
   }
 
-  onMouseDown(event: MouseEvent): void {
+  onMouseDown(): void {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
-    this.setOrigin(event);
+    this.setOrigin(this.inputService.getMouse());
     this.setRectangleType();
     this.rectangle = this.renderer.createElement('rect', 'svg');
     this.renderer.appendChild(document.getElementById('canvas'), this.rectangle);
   }
 
-  onMouseMove(event: MouseEvent): void {
-    this.mouse = {x: event.offsetX, y: event.offsetY};
+  onMouseMove(): void {
+    this.mouse = this.inputService.getMouse();
     if (this.active) {
-      this.shiftPressed ? this.setSquareOffset() : this.setRectangleOffset();
+      this.inputService.shiftPressed ? this.setSquareOffset() : this.setRectangleOffset();
       this.draw();
     }
   }
@@ -71,10 +72,10 @@ export class RectangleService implements Shape {
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 
-  setOrigin(event: MouseEvent): void {
-    this.origin = {x: event.offsetX, y: event.offsetY};
-    this.x = event.offsetX;
-    this.y = event.offsetY;
+  setOrigin(mouse: Point): void {
+    this.origin = mouse;
+    this.x = mouse.x;
+    this.y = mouse.y;
   }
 
   setRectangleType(): void {
@@ -124,10 +125,40 @@ export class RectangleService implements Shape {
     this.renderer.setAttribute(this.rectangle, 'height', this.height.toString());
     this.renderer.setStyle(this.rectangle, 'fill', this.fill);
     this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
-    this.renderer.setStyle(this.rectangle, 'stroke-width', '7'); // hardcode
-    this.rectangle.addEventListener('contextmenu', (event: MouseEvent) => {
-      event.preventDefault();
-      console.log("click!"); }, true);
+    console.log(this.strokeWidth);
+    this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
+  }
+
+  
+
+  assignBorderedRectangle(): void {
+    this.strokeEnable = true;
+    this.fillEnable = false;
+  }
+
+  assignFilledRectangle(): void {
+    this.strokeEnable = false;
+    this.fillEnable = true;
+  }
+
+  assignBorderedAndFilledRectangle(): void {
+    this.strokeEnable = true;
+    this.fillEnable = true;
+  }
+
+  assignRectangleType(): void {
+    switch (this.rectangleType) {
+      case RECTANGLE_TYPE.bordered:
+        this.assignBorderedRectangle();
+        break;
+      case RECTANGLE_TYPE.filled:
+        this.assignFilledRectangle();
+        break;
+      case RECTANGLE_TYPE.borderedAndFilled:
+        this.assignBorderedAndFilledRectangle();
+        break;
+      default:
+    }
   }
 
   changePrimaryColor(color: string): void {

@@ -1,8 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
-import { Shape } from 'src/Classes/Shapes/shape';
+import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
+import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 
@@ -10,6 +11,7 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
+  providers: [RectangleService],
 })
 export class SideBarComponent implements OnInit {
   tool: typeof TOOL;
@@ -19,9 +21,10 @@ export class SideBarComponent implements OnInit {
 
   enableKeyPress: boolean;
 
-  constructor(private dialog: MatDialog, private colorService: ColorService) {
+  constructor(private dialog: MatDialog, private colorService: ColorService, private rectangleService: RectangleService) {
     this.tool = TOOL;
     this.enableKeyPress = false;
+    this.selectedShape = this.rectangleService;
   }
 
   ngOnInit(): void {

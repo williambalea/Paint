@@ -88,7 +88,11 @@
   margin-right: 5%;
 }
 
-#rectangleStroke {
-  stroke:rgb(0,0,0);
+#rectangleNoStroke {
+  stroke:rgba(0,0,0,0);
+}
+
+#rectangleNoFill {
+  fill: rgba(0,0,0,0);
 }
 

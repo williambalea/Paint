@@ -1,5 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { EMPTY_STRING, NB } from 'src/constants';
+import { EMPTY_STRING, NB, RECTANGLE_TYPE } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
@@ -17,6 +17,7 @@ export class RectangleService implements Shape {
   stroke: string;
   strokeWidth: number;
   active: boolean;
+  rectangleType: string;
 
   fillEnable: boolean;
   strokeEnable: boolean;
@@ -29,6 +30,11 @@ export class RectangleService implements Shape {
               private renderer: Renderer2,
               private inputService: InputService) {
     this.reset();
+    this.strokeWidth = NB.Seven;
+    this.fill = EMPTY_STRING;
+    this.stroke = EMPTY_STRING;
+    this.rectangleType = RECTANGLE_TYPE.borderedAndFilled;
+
     this.fillEnable = true;
     this.strokeEnable = true;
   }
@@ -38,9 +44,6 @@ export class RectangleService implements Shape {
     this.y =  NB.Zero;
     this.width = NB.Zero;
     this.height = NB.Zero;
-    this.fill = EMPTY_STRING;
-    this.stroke = EMPTY_STRING;
-    this.strokeWidth = NB.Zero;
 
     this.active = false;
   }
@@ -122,7 +125,40 @@ export class RectangleService implements Shape {
     this.renderer.setAttribute(this.rectangle, 'height', this.height.toString());
     this.renderer.setStyle(this.rectangle, 'fill', this.fill);
     this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
-    this.renderer.setStyle(this.rectangle, 'stroke-width', '7'); // hardcode
+    console.log(this.strokeWidth);
+    this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
+  }
+
+  
+
+  assignBorderedRectangle(): void {
+    this.strokeEnable = true;
+    this.fillEnable = false;
+  }
+
+  assignFilledRectangle(): void {
+    this.strokeEnable = false;
+    this.fillEnable = true;
+  }
+
+  assignBorderedAndFilledRectangle(): void {
+    this.strokeEnable = true;
+    this.fillEnable = true;
+  }
+
+  assignRectangleType(): void {
+    switch (this.rectangleType) {
+      case RECTANGLE_TYPE.bordered:
+        this.assignBorderedRectangle();
+        break;
+      case RECTANGLE_TYPE.filled:
+        this.assignFilledRectangle();
+        break;
+      case RECTANGLE_TYPE.borderedAndFilled:
+        this.assignBorderedAndFilledRectangle();
+        break;
+      default:
+    }
   }
 
   changePrimaryColor(color: string): void {

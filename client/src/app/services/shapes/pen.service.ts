@@ -1,4 +1,5 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable } from '@angular/core';
+//renderer 2
 import { EMPTY_STRING, NB } from 'src/constants';
 import { Shape } from './shape';
 
@@ -12,7 +13,8 @@ export class PenService implements Shape {
   strokeWidth: number;
   pathEnable: boolean;
 
-  constructor(private renderer: Renderer2) {
+  constructor() {
+    //private renderer: Renderer2
     this.reset();
   }
 
@@ -22,7 +24,8 @@ export class PenService implements Shape {
     this.strokeWidth = NB.Zero;
     this.pathEnable = false;
   }
-  // onMouseDown(event: MouseEvent): void{
+  onMouseDown(): void{
+    //event: MouseEvent
   //   this.path = this.renderer.createElement('path', 'svg');
   //   this.renderer.appendChild(document.getElementById('canvas'), this.path);
   //   this.linepath = `M${event.offsetX} ${event.offsetY} `;
@@ -30,13 +33,13 @@ export class PenService implements Shape {
 
   //   this.pathEnable = true;
   //   this.onMouseMove(event);
-  // }
-  // onMouseMove(event: MouseEvent): void {
+  }
+  onMouseMove(): void {
   //   if (this.pathEnable) {
   //     this.linepath += `L${event.offsetX} ${event.offsetY} `;
   //     this.renderer.setAttribute(this.path, 'd', this.linepath);
   //   }
-  // }
+  }
   onMouseUp(): void {
       this.pathEnable = false;
   }

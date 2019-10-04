@@ -30,7 +30,6 @@ export class SideBarComponent implements OnInit {
     this.enableKeyPress = false;
     this.selectedShape = this.brushService;
     this.selectedShape = this.rectangleService;
-   
   }
 
   ngOnInit(): void {

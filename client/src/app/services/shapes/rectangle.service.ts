@@ -63,14 +63,14 @@ export class RectangleService implements Shape {
     if (this.active) {
       this.inputService.shiftPressed ? this.setSquareOffset() : this.setRectangleOffset();
       this.draw();
-     
+
     }
   }
 
   onMouseUp(): void {
     this.reset();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
-   
+
   }
 
   setOrigin(mouse: Point): void {

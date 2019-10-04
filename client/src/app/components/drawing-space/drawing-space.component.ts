@@ -1,4 +1,4 @@
-import { Component,  HostListener , Input, OnInit, ViewChild, ElementRef, Renderer2} from '@angular/core';
+import { Component,  ElementRef , HostListener, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
 import { INIT_MOVE_BRUSH, INIT_MOVE_PEN, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
@@ -13,9 +13,8 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 })
 export class DrawingSpaceComponent implements OnInit {
 
-  @ViewChild('canvas', {static: false}) 
-  public canvas: ElementRef;
- 
+  @ViewChild('canvas', {static: false})
+  canvas: ElementRef;
 
   tool: typeof TOOL;
   @Input()selectedTool: TOOL;
@@ -25,12 +24,11 @@ export class DrawingSpaceComponent implements OnInit {
   canvasHeight: number;
   width: number;
   pointerEvent: string;
-  
 
   constructor( private shapeService: ShapesService,
                private fileParameters: FileParametersServiceService,
                private colorService: ColorService,
-               private inputService: InputService, private renderer : Renderer2) {
+               private inputService: InputService, private renderer: Renderer2) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -102,7 +100,10 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
 
-    const shape : any = this.selectedShape.onMouseDown();
+    const shape: any = this.selectedShape.onMouseDown();
+    this.renderer.listen(shape, 'click', () => {
+      console.log('click');
+    });
     this.renderer.appendChild(this.canvas.nativeElement, shape);
 
     this.defineShapeColor();

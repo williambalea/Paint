@@ -88,11 +88,11 @@
                         <div>
                             <svg class="lineStyleRound" width="200" height="50" >
                                 <line x1="20" y1="30" x2="180" y2="30"
-                                [style.stroke-width]="this.shapeService.brushStrokeWidth"/>
+                                [style.stroke-width]="this.brushService.brushStrokeWidth"/>
                             </svg>
                         </div>
 
-                    Current Stroke Width: <b class="dynamicValue">{{this.shapeService.brushStrokeWidth}}</b> px
+                    Current Stroke Width: <b class="dynamicValue">{{this.brushService.brushStrokeWidth}}</b> px
                     <br>
 
                     <label>
@@ -100,7 +100,7 @@
                         <br>
                         <div>
                             <input class="inputFormStyle" type="range" #slider min="1" max="25"
-                                value={{this.shapeService.brushStrokeWidth}} [(ngModel)]="this.shapeService.brushStrokeWidth"
+                                value={{this.brushService.brushStrokeWidth}} [(ngModel)]="this.brushService.brushStrokeWidth"
                                 id="drawTool">
                         </div>
 
@@ -116,7 +116,7 @@
                             <br>
                             Style:
                             <mat-form-field>
-                                    <mat-select [(ngModel)]="this.shapeService.brushStyle">
+                                    <mat-select [(ngModel)]="this.brushService.brushStyle">
                                         <mat-option [value]="this.brush.chalk">{{this.brush.chalk}}</mat-option>
                                         <mat-option [value]="this.brush.smear">{{this.brush.smear}}</mat-option>
                                         <mat-option [value]="this.brush.rough">{{this.brush.rough}}</mat-option>

@@ -31,8 +31,8 @@ export class SideBarComponent implements OnInit {
     this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.rectangleService;
-    this.selectedShape = this.brushService;
     this.selectedShape = this.penService;
+    this.selectedShape = this.brushService;
 
   }
 

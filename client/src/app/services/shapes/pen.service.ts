@@ -1,5 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { EMPTY_STRING, NB } from 'src/constants';
+import { EMPTY_STRING, INIT_MOVE_PEN, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
@@ -33,8 +33,12 @@ export class PenService implements Shape {
     this.stroke = this.colorService.getFillColor();
     this.path = this.renderer.createElement('path', 'svg');
     this.renderer.appendChild(document.getElementById('canvas'), this.path);
-    this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
+    this.renderer.setStyle(this.path, 'stroke', 'black');
+    this.renderer.setStyle(this.path, 'stroke-width', '7');
+    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
+    this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
+
   }
 
   onMouseMove(): void {
@@ -51,8 +55,6 @@ export class PenService implements Shape {
   draw() {
     this.linepath += `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
-    this.renderer.setStyle(this.path, 'stroke', 'black');
-    this.renderer.setStyle(this.path, 'stroke-width', '7');
     this.renderer.setStyle(this.path, 'fill', 'none');
   }
 }

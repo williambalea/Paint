@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
+import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
@@ -12,7 +13,7 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService],
+  providers: [RectangleService, BrushService, PenService],
 })
 export class SideBarComponent implements OnInit {
   tool: typeof TOOL;
@@ -25,11 +26,13 @@ export class SideBarComponent implements OnInit {
   constructor(private dialog: MatDialog,
               private colorService: ColorService,
               private rectangleService: RectangleService,
-              private brushService: BrushService) {
+              private brushService: BrushService,
+              private penService: PenService) {
     this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.rectangleService;
     this.selectedShape = this.brushService;
+    this.selectedShape = this.penService;
   }
 
   ngOnInit(): void {

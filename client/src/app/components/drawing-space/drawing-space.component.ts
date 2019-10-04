@@ -106,9 +106,10 @@ export class DrawingSpaceComponent implements OnInit {
     this.inputService.isBlank = false;
     
     this.colorService.setMakingColorChanges(false);
-    /*if (this.selectedTool !== TOOL.colorApplicator) {
+    if (this.selectedTool !== TOOL.colorApplicator) {
       this.pointerEvent = POINTER_EVENT.none;
-    }*/
+      console.log('allo');
+    }
   }
 
   @HostListener('mousemove', ['$event'])
@@ -122,7 +123,7 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mouseup')
   onMouseUp(): void {
     this.selectedShape.onMouseUp();
-   // this.pointerEvent = POINTER_EVENT.visiblePainted;
+    this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 
 }

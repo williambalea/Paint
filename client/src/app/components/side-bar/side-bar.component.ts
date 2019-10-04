@@ -68,6 +68,8 @@ export class SideBarComponent implements OnInit {
         this.selectedShape = this.penService;
         this.selectedTool = TOOL.pen;
       break;
+    case TOOL.colorApplicator :
+        this.selectedTool = TOOL.colorApplicator;
     default:
    }
    

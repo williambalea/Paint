@@ -109,6 +109,11 @@ export class DrawingSpaceComponent implements OnInit {
     this.inputService.isBlank = false;
     this.colorService.setMakingColorChanges(false);
     if (this.selectedTool !== TOOL.colorApplicator) {
+      const shape: any = this.selectedShape.onMouseDown();
+      this.renderer.appendChild(this.canvas.nativeElement, shape);
+      this.inputService.isBlank = false;
+      
+      this.colorService.setMakingColorChanges(false);
       this.pointerEvent = POINTER_EVENT.none;
       console.log('allo');
     }
@@ -116,15 +121,18 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
-
+    if (this.selectedTool !== TOOL.colorApplicator){
     this.inputService.setMouseOffset(event);
     this.selectedShape.onMouseMove();
+    }
   }
 
   @HostListener('mouseup')
   onMouseUp(): void {
+    if (this.selectedTool !== TOOL.colorApplicator){
     this.selectedShape.onMouseUp();
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
+}
 
 }

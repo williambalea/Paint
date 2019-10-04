@@ -1,45 +1,58 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { EMPTY_STRING, NB } from 'src/constants';
+import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class PenService implements Shape {
   linepath: string;
-  path: string;
   stroke: string;
   strokeWidth: number;
-  pathEnable: boolean;
+  active: boolean;
 
-  constructor(private renderer: Renderer2, private inputService: InputService) {
+  path: HTMLElement;
+
+  constructor(private renderer: Renderer2,
+              private inputService: InputService,
+              private colorService: ColorService) {
     this.reset();
   }
 
   reset(): void {
-    this.path = EMPTY_STRING;
     this.stroke = EMPTY_STRING;
     this.strokeWidth = NB.Zero;
-    this.pathEnable = false;
+    this.active = false;
   }
+
   onMouseDown(): void {
+    this.active = true;
+    this.stroke = this.colorService.getFillColor();
     this.path = this.renderer.createElement('path', 'svg');
     this.renderer.appendChild(document.getElementById('canvas'), this.path);
     this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
-
-    this.pathEnable = true;
-    this.onMouseMove();
   }
 
   onMouseMove(): void {
-    if (this.pathEnable) {
-      this.linepath += `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
-      this.renderer.setAttribute(this.path, 'd', this.linepath);
+    if (this.active) {
+      this.draw();
     }
   }
   onMouseUp(): void {
-      this.pathEnable = false;
+    this.reset();
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
+
+  }
+
+  draw() {
+    this.linepath += `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
+    this.renderer.setAttribute(this.path, 'd', this.linepath);
+    this.renderer.setStyle(this.path, 'stroke', 'black');
+    this.renderer.setStyle(this.path, 'stroke-width', '7');
+    this.renderer.setStyle(this.path, 'fill', 'none');
   }
 }

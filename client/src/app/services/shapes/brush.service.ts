@@ -30,8 +30,13 @@ export class BrushService implements Shape {
     this.path = this.renderer.createElement('path', 'svg');
     this.renderer.appendChild(document.getElementById('canvas'), this.path);
 
-    this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_BRUSH}`;
+    this.linepath += `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_BRUSH}`;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
+    this.renderer.setStyle(this.path, 'stroke-linecap','round');
+    this.renderer.setStyle(this.path, 'stroke', 'black');
+    this.renderer.setStyle(this.path, 'stroke-width', '7');
+    this.renderer.setStyle(this.path, 'fill', 'none');
+    this.renderer.setStyle(this.path, 'filter', this.filter.toString());
     this.active = true;
   }
   onMouseMove(): void {

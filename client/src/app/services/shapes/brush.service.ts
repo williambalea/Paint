@@ -14,9 +14,7 @@ export class BrushService implements Shape {
   filter: string;
   brushStyle: BRUSH;
   stroke: string;
-
   active: boolean;
-
   path: HTMLElement;
 
   constructor(private renderer: Renderer2, private colorService: ColorService, private inputService: InputService) {
@@ -25,30 +23,18 @@ export class BrushService implements Shape {
     this.reset(); }
 
   onMouseDown(): any {
-
     this.filter = `url(#${this.brushStyle})`;
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
     this.path = this.renderer.createElement('path', 'svg');
     this.linepath += `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_BRUSH}`;
-    this.renderer.setAttribute(this.path, 'd', this.linepath);
-    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
-    this.renderer.setStyle(this.path, 'stroke', 'black');
-    this.renderer.setStyle(this.path, 'stroke-width', this.brushStrokeWidth.toString());
-    this.renderer.setStyle(this.path, 'fill', 'none');
-    this.renderer.setStyle(this.path, 'filter', this.filter.toString());
+    this.draw();
     this.active = true;
     return this.path;
   }
   onMouseMove(): void {
     if (this.active) {
-
       this.linepath += `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
-      this.renderer.setAttribute(this.path, 'd', this.linepath);
-      this.renderer.setStyle(this.path, 'stroke', this.colorService.getFillColor());
-      this.renderer.setStyle(this.path, 'stroke-width', this.brushStrokeWidth.toString());
-      this.renderer.setStyle(this.path, 'fill', 'none');
-      this.renderer.setStyle(this.path, 'filter', this.filter.toString());
+      this.draw();
     }
   }
   onMouseUp(): void {
@@ -68,5 +54,15 @@ export class BrushService implements Shape {
 
   changeSecondaryColor(color: string): void {
       this.stroke = color;
+  }
+
+  draw() {
+    this.renderer.setAttribute(this.path, 'd', this.linepath);
+    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
+    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
+    this.renderer.setStyle(this.path, 'stroke', this.colorService.getFillColor());
+    this.renderer.setStyle(this.path, 'stroke-width', this.brushStrokeWidth.toString());
+    this.renderer.setStyle(this.path, 'fill', 'none');
+    this.renderer.setStyle(this.path, 'filter', this.filter.toString());
   }
 }

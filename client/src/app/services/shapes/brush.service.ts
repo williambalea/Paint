@@ -32,6 +32,7 @@ export class BrushService implements Shape {
     this.linepath += `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_BRUSH}`;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
+    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
     this.renderer.setStyle(this.path, 'stroke', 'black');
     this.renderer.setStyle(this.path, 'stroke-width', this.brushStrokeWidth.toString());
     this.renderer.setStyle(this.path, 'fill', 'none');

@@ -34,6 +34,7 @@ export class PenService implements Shape {
     this.path = this.renderer.createElement('path', 'svg');
     this.renderer.setStyle(this.path, 'stroke', 'black');
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
+    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
     this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
     this.renderer.setAttribute(this.path, 'd', this.linepath);

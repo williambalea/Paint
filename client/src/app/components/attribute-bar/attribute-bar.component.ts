@@ -1,5 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
+import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { BRUSH, TOOL } from '../../../constants';
 
@@ -15,7 +16,8 @@ export class AttributeBarComponent {
   @Input()selectedTool: TOOL;
 
   constructor(private colorService: ColorService,
-              private rectangleService: RectangleService) {
+              private rectangleService: RectangleService,
+              private penService: PenService) {
     this.tool = TOOL;
     this.brush = BRUSH;
   }
@@ -27,6 +29,10 @@ export class AttributeBarComponent {
 
   getColorService(): ColorService {
     return this.colorService;
+  }
+
+  getPenService(): PenService {
+    return this.penService;
   }
 
 }

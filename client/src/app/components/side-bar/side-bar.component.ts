@@ -72,6 +72,7 @@ export class SideBarComponent implements OnInit {
       .subscribe((hideDialog: boolean) => { this.enableKeyPress = true; });
 
     this.setColorNewFile();
+
   }
 
   @HostListener('window:keydown', ['$event'])

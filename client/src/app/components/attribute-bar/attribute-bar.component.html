@@ -114,7 +114,7 @@
                     <div>
                         <label>
                             <br>
-                            Style: 
+                            Style:
                             <mat-form-field>
                                     <mat-select [(ngModel)]="this.shapeService.brushStyle">
                                         <mat-option [value]="this.brush.chalk">{{this.brush.chalk}}</mat-option>
@@ -136,7 +136,7 @@
                 <div class="singleAttribute">
 
                     <div class="sectionHeader">Stroke:</div>
-                    
+
                     <div>
                         <svg class="lineStyleRound" width="200" height="50">
                             <line x1="20" y1="30" x2="180" y2="30"
@@ -144,7 +144,7 @@
                         </svg>
                         </div>
 
-                    Current Stroke Width: <b class="dynamicValue">{{this.shapeService.penStrokeWidth}}</b>
+                    Current Stroke Width: <b class="dynamicValue">{{this.penService.strokeWidth}}</b>
                     px
                     <br>
 

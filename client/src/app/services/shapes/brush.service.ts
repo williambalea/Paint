@@ -1,8 +1,8 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { Shape } from './shape';
-import {  BRUSH, EMPTY_STRING, NB, COLORS, INIT_MOVE_BRUSH } from 'src/constants';
+import {  BRUSH, COLORS, EMPTY_STRING, INIT_MOVE_BRUSH, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
+import { Shape } from './shape';
 
 
 @Injectable({
@@ -44,7 +44,11 @@ export class BrushService implements Shape {
 
       this.linepath += `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
-    
+
+      this.renderer.setStyle(this.path, 'stroke', this.colorService.getFillColor());
+      this.renderer.setStyle(this.path, 'stroke-width', '7');
+      this.renderer.setStyle(this.path, 'fill', 'none');
+      this.renderer.setStyle(this.path, 'filter', this.filter.toString());
     }
   }
   onMouseUp(): void {

@@ -48,14 +48,14 @@ export class RectangleService implements Shape {
     this.active = false;
   }
 
-  onMouseDown(): void {
+  onMouseDown(): any {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin(this.inputService.getMouse());
     this.setRectangleType();
     this.rectangle = this.renderer.createElement('rect', 'svg');
-    this.renderer.appendChild(document.getElementById('canvas'), this.rectangle);
+    return this.rectangle;
   }
 
   onMouseMove(): void {
@@ -63,12 +63,14 @@ export class RectangleService implements Shape {
     if (this.active) {
       this.inputService.shiftPressed ? this.setSquareOffset() : this.setRectangleOffset();
       this.draw();
+     
     }
   }
 
   onMouseUp(): void {
     this.reset();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
+   
   }
 
   setOrigin(mouse: Point): void {

@@ -28,8 +28,9 @@ export class SideBarComponent implements OnInit {
               private brushService: BrushService) {
     this.tool = TOOL;
     this.enableKeyPress = false;
-    this.selectedShape = this.rectangleService;
     this.selectedShape = this.brushService;
+    this.selectedShape = this.rectangleService;
+   
   }
 
   ngOnInit(): void {

@@ -67,7 +67,6 @@ export class RectangleService implements Shape {
   }
 
   onMouseUp(): void {
-    this.active = false;
     this.reset();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }

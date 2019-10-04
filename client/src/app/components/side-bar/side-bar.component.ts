@@ -30,9 +30,9 @@ export class SideBarComponent implements OnInit {
               private penService: PenService) {
     this.tool = TOOL;
     this.enableKeyPress = false;
-    this.selectedShape = this.brushService;
-    this.selectedShape = this.penService;
     this.selectedShape = this.rectangleService;
+    this.selectedShape = this.penService;
+    this.selectedShape = this.brushService;
   }
 
   ngOnInit(): void {

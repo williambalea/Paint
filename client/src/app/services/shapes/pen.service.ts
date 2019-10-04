@@ -28,17 +28,16 @@ export class PenService implements Shape {
     this.active = false;
   }
 
-  onMouseDown(): void {
+  onMouseDown(): any {
     this.active = true;
     this.stroke = this.colorService.getFillColor();
     this.path = this.renderer.createElement('path', 'svg');
-    this.renderer.appendChild(document.getElementById('canvas'), this.path);
     this.renderer.setStyle(this.path, 'stroke', 'black');
     this.renderer.setStyle(this.path, 'stroke-width', '7');
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
     this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
-
+    return this.path;
   }
 
   onMouseMove(): void {

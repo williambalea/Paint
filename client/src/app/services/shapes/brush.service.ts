@@ -21,14 +21,11 @@ export class BrushService implements Shape {
 
   constructor(private renderer: Renderer2, private colorService: ColorService, private inputService: InputService) { this.reset(); }
 
-  onMouseDown(): void {
+  onMouseDown(): any {
 
     this.filter = `url(#${this.brushStyle})`;
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
-
     this.path = this.renderer.createElement('path', 'svg');
-    this.renderer.appendChild(document.getElementById('canvas'), this.path);
-
     this.linepath += `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_BRUSH}`;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
@@ -37,6 +34,7 @@ export class BrushService implements Shape {
     this.renderer.setStyle(this.path, 'fill', 'none');
     this.renderer.setStyle(this.path, 'filter', this.filter.toString());
     this.active = true;
+    return this.path;
   }
   onMouseMove(): void {
     if (this.active) {

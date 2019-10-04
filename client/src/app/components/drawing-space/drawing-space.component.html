@@ -4,7 +4,7 @@
         [attr.width]= "this.canvasWidth"
         [attr.height]= "this.canvasHeight"
         [style.background-color]= "colorService.getBackgroundColor()"
-        xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent">
+        xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" #canvas>
     <g *ngFor="let shape of this.shapeService.shapes" (click)="onLeftClick(shape)" (contextmenu)="onRightClick($event, shape)">
         <g [ngSwitch]="shape.type">
 

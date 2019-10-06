@@ -52,12 +52,13 @@ export class DrawingSpaceComponent implements OnInit {
     this.setCanvasParameters();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: { target: { innerWidth: number; }; }): void {
-    if (!this.resizeFlag) {
-    this.width = event.target.innerWidth;
-    this.canvasWidth = event.target.innerWidth;
-  }}
+  // TODO: Ines, elle sert à quoi cette fonction?
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: { target: { innerWidth: number; }; }): void {
+  //   if (!this.resizeFlag) {
+  //   this.width = event.target.innerWidth;
+  //   this.canvasWidth = event.target.innerWidth;
+  // }}
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {

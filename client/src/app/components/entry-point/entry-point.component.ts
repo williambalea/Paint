@@ -1,12 +1,5 @@
-import { Component, NgModule } from '@angular/core';
-import { MatCheckboxModule, MatDialogRef } from '@angular/material';
-
-const material = [MatCheckboxModule];
-
-@NgModule({
-  imports: [material],
-  exports: [material],
-})
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-entry-point',

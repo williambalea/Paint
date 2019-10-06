@@ -18,6 +18,7 @@ p {
     flex-direction: column;
     align-items: center;
     border-bottom: 1px solid lightgrey;
+    padding-left: 3px;
 }
 
 .toolScroll {
@@ -32,6 +33,7 @@ p {
     top: 30px;
     height: calc(100% - 111px);
     overflow-y: scroll;
+    padding-left: 3px;
 }
 
 .toolFixed {
@@ -46,15 +48,17 @@ p {
     bottom: 0%;
     height: 80px;
     border-top: 1px solid lightgrey;
+    padding-left: 3px;
 }
 
-.icon {
+.selected {
     width: 40px;
     height: 40px;
+    background-color: rgb(220, 220, 220);
 }
 
 .bottom {
-    width: 60px;
+    width: 50px;
     height: 40px;
 }
 
@@ -72,6 +76,11 @@ p {
 
 .help {
     border: 2px;
+    width: 40px;
+    height: 40px;
+}
+
+button {
     width: 40px;
     height: 40px;
 }

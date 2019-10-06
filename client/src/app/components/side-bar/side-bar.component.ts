@@ -73,7 +73,6 @@ export class SideBarComponent implements OnInit {
         break;
     default:
    }
-
   }
 
   setColorNewFile(): void {

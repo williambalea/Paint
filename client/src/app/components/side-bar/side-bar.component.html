@@ -1,26 +1,26 @@
 <div id="toolTitle"><p>Tools</p></div>
     <div class="toolScroll">
-        <button mat-button (click)="selectTool('rectangle')" class ="icon"><mat-icon>crop_square</mat-icon></button>
-        <button mat-button (click)="selectTool('brush')" class ="icon"><mat-icon>brush</mat-icon></button>
-        <button mat-button (click)="selectTool('pen')" class ="icon"><mat-icon>create</mat-icon></button>
-        <button mat-button (click)="selectTool('colorApplicator')" class ="icon"><mat-icon>colorize</mat-icon></button>
+        <button mat-button (click)="selectTool('rectangle')" [class.selected]="this.selectedTool === 'rectangle'"><mat-icon>crop_square</mat-icon></button>
+        <button mat-button (click)="selectTool('brush')" [class.selected]="this.selectedTool === 'brush'"><mat-icon>brush</mat-icon></button>
+        <button mat-button (click)="selectTool('pen')" [class.selected]="this.selectedTool === 'pen'"><mat-icon>create</mat-icon></button>
+        <button mat-button (click)="selectTool('colorApplicator')" [class.selected]="this.selectedTool === 'colorApplicator'"><mat-icon>colorize</mat-icon></button>
 
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
-        <button mat-button class ="icon"><mat-icon>crop_square</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>colorize</mat-icon></button>
+        <button mat-button><mat-icon>crop_square</mat-icon></button>
 
 </div>
 <div class="toolFixed">

@@ -120,6 +120,7 @@ export enum COLORS {
   cyanRBGA = 'rgba(0, 255, 255, 1)',
   blueRGBA = 'rgba(0, 0, 255, 1)',
   magentaRBGA = 'rgba(255, 0, 255, 1)',
+  centerGrey = '848484',
 }
 
 export const EMPTY_STRING = '';

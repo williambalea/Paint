@@ -25,6 +25,7 @@ export class DrawingSpaceComponent implements OnInit {
   width: number;
   pointerEvent: string;
 
+
   constructor( private shapeService: ShapesService,
                private fileParameters: FileParametersServiceService,
                private colorService: ColorService,
@@ -50,6 +51,8 @@ export class DrawingSpaceComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCanvasParameters();
+
+ 
   }
 
   @HostListener('window:resize', ['$event'])
@@ -98,7 +101,7 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(): void {
 
-    const shape: any = this.selectedShape.onMouseDown();
+   const shape: any = this.selectedShape.onMouseDown();
     this.renderer.listen(shape, 'click', (event: MouseEvent) => {
       this.onLeftClick(event, shape);
     });

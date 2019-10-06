@@ -8,12 +8,15 @@ import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+import { PolygonService } from 'src/app/services/shapes/polygon.service';
 
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService, PenService],
+  providers: [RectangleService, BrushService, PenService,
+    PolygonService
+  ],
 })
 export class SideBarComponent implements OnInit {
   // tool: typeof TOOL;
@@ -22,16 +25,18 @@ export class SideBarComponent implements OnInit {
   selectedShape: Shape;
 
   enableKeyPress: boolean;
+  
 
   constructor(private dialog: MatDialog,
               private colorService: ColorService,
               private rectangleService: RectangleService,
               private brushService: BrushService,
-              private penService: PenService) {
+              private penService: PenService,
+              private polygonService: PolygonService,
+            ) {
     // this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
-    this.selectedShape = this.brushService;
 
   }
 
@@ -70,6 +75,11 @@ export class SideBarComponent implements OnInit {
         break;
     case TOOL.colorApplicator :
         this.selectedTool = TOOL.colorApplicator;
+        break;
+    case TOOL.polygon:
+        console.log('allo1');
+        this.selectedShape = this.polygonService;
+        this.selectedTool = TOOL.pen;
         break;
     default:
    }

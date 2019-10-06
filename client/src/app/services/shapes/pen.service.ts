@@ -32,7 +32,7 @@ export class PenService implements Shape {
     this.active = true;
     this.stroke = this.colorService.getFillColor();
     this.path = this.renderer.createElement('path', 'svg');
-    this.renderer.setStyle(this.path, 'stroke', 'black');
+    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
     this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());

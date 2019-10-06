@@ -7,9 +7,7 @@ div,html, body {
 
 .drawingBoard {
     position: fixed;
-    background: white;
     width: calc(100% - 350px);
-    height: 100%;
     left: 350px;
     background: url("../../../assets/checkers.png");
 }

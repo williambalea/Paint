@@ -1,5 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import {  BRUSH, COLORS, EMPTY_STRING, INIT_MOVE_BRUSH, NB } from 'src/constants';
+import { COLORS, EMPTY_STRING, INIT_MOVE_BRUSH, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
@@ -12,18 +12,16 @@ export class BrushService implements Shape {
   brushStrokeWidth: number;
   fillColor: string;
   filter: string;
-  brushStyle: BRUSH;
   stroke: string;
   active: boolean;
   path: HTMLElement;
 
   constructor(private renderer: Renderer2, private colorService: ColorService, private inputService: InputService) {
     this.brushStrokeWidth = NB.Seven;
-    this.brushStyle = BRUSH.smooth;
+    this.filter = `url(#smooth)`;
     this.reset(); }
 
   onMouseDown(): any {
-    this.filter = `url(#${this.brushStyle})`;
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
     this.path = this.renderer.createElement('path', 'svg');
     this.linepath += `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_BRUSH}`;
@@ -43,7 +41,6 @@ export class BrushService implements Shape {
 
   reset() {
     this.linepath = EMPTY_STRING;
-    this.filter = EMPTY_STRING;
     this.stroke = EMPTY_STRING;
     this.fillColor = COLORS.blackRGBA;
     this.active = false;
@@ -54,6 +51,10 @@ export class BrushService implements Shape {
 
   changeSecondaryColor(color: string): void {
       this.stroke = color;
+  }
+
+  changeFilter(newFilter: string): void {
+    this.filter = `url(#${newFilter})`;
   }
 
   draw() {

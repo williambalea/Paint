@@ -62,9 +62,38 @@
 
 
             <div class="svg">
-                <svg class="lineStyleRound" width="200" height="100">
-                    <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
-                        [style.stroke-width]="this.brushService.brushStrokeWidth" />
+                <svg class="lineStyleRound" width="200" height="100" baseProfile="full" version="1.1">
+                    <filter id="chalk" x="-15px" y="-15px" height="40px" width="50px">
+                        <feTurbulence type="turbulence" baseFrequency="0.08" numOctaves="2" result="turbulence"/>
+                        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="24" xChannelSelector="R" yChannelSelector="G"/>
+                    </filter>
+                    <filter id="smear" x="-15px" y="-15px" height="40px" width="50px">
+                        <feTurbulence type="fractalNoise" numOctaves="3" baseFrequency="0.25 0.4" seed="5"/>
+                        <feComposite in="SourceGraphic" operator="in" in2="result5"/>
+                        <feMorphology operator="dilate" radius="1.5" result="result3"/>
+                        <feTurbulence numOctaves="5" baseFrequency="0.03" type="fractalNoise" seed="7"/>
+                        <feDisplacementMap in="result3" xChannelSelector="R" yChannelSelector="G" scale="27" result="result4" in2="result91"/>
+                    </filter>
+            
+                    <filter id="rough" x="-15px" y="-15px" height="40px" width="50px">
+                        <feTurbulence type="turbulence" baseFrequency="0.1" numOctaves="2" result="turbulence"/>
+                        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+                        <feGaussianBlur stdDeviation="0.8" />
+                    </filter>
+            
+                    <filter id="smooth" x="-15px" y="-15px" height="40px" width="50px">
+                        <feGaussianBlur result="result6" stdDeviation="3.5 7.1" in="SourceGraphic"/>
+                        <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result7" in="SourceGraphic" id="feColorMatrix226"/>
+                        <feComposite operator="in" in="result6" in2="result7"/>
+                    </filter>
+            
+                    <filter id="bubbly" x="-15px" y="-25px" height="40px" width="50px">
+                        <feTurbulence baseFrequency="0.058 0.932" type="fractalNoise" seed="667" numOctaves="1" result="result1" stdDeviation="0.01 5.15"/>
+                        <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic" in2="result1" result="fbSourceGraphic"/>
+                    </filter>
+
+                    <path d="M20 70 L50 40 L70 30 L90 35 L140 72 L150 70 L180 40" [style.stroke]="this.colorService.getFillColor()"
+                        [style.stroke-width]="this.brushService.brushStrokeWidth" [attr.filter]="this.brushService.filter" />
                 </svg>
             </div>
 

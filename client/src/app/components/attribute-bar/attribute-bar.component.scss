@@ -42,6 +42,8 @@
 .lineStyleRound{
   stroke:rgb(0,0,0);
   stroke-linecap: round;
+  fill: none;
+  stroke-linejoin: round;
 }
 
 .inputFormStyle{

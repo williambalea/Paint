@@ -31,7 +31,7 @@ export class AttributeBarComponent {
   }
 
   brushRadioChangeHandler(event: MatRadioChange): void {
-    this.brushService.brushStyle = event.value;
+    this.brushService.changeFilter(event.value);
   }
 
   getColorService(): ColorService {

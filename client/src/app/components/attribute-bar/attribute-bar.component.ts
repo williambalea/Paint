@@ -1,4 +1,5 @@
 import { Component, Input} from '@angular/core';
+import { MatRadioChange } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
@@ -24,8 +25,8 @@ export class AttributeBarComponent {
     this.brush = BRUSH;
   }
 
-  radioChangeHandler(event: { target: {value: string}; }): void {
-    this.rectangleService.rectangleType = event.target.value;
+  radioChangeHandler(event: MatRadioChange): void {
+    this.rectangleService.rectangleType = event.value;
     this.rectangleService.assignRectangleType();
   }
 

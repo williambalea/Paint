@@ -2,8 +2,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule,
-         MatListModule, MatMenuModule, MatSelectModule, MatSidenavModule, MatSliderModule,
-         MatToolbarModule} from '@angular/material';
+         MatListModule, MatMenuModule, MatRadioModule, MatSelectModule, MatSidenavModule,
+         MatSliderModule, MatToolbarModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -41,6 +41,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatRadioModule,
     ColorPickerModule,
     MatButtonModule,
     MatIconModule,

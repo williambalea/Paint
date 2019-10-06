@@ -9,155 +9,160 @@
             <div>
                 <div class="svg">
                     <svg width="200" height="100">
-                        <rect *ngIf="this.rectangleService.strokeEnable && this.rectangleService.fillEnable"
-                        x="50" y="25" width="100" height="50"
-                        [style.fill]="this.colorService.getFillColor()"
-                        [style.stroke]="this.colorService.getStrokeColor()"
-                        [style.stroke-width]="this.rectangleService.strokeWidth"/>
+                        <rect *ngIf="this.rectangleService.strokeEnable && this.rectangleService.fillEnable" x="50"
+                            y="25" width="100" height="50" [style.fill]="this.colorService.getFillColor()"
+                            [style.stroke]="this.colorService.getStrokeColor()"
+                            [style.stroke-width]="this.rectangleService.strokeWidth" />
 
                         <rect *ngIf="!this.rectangleService.strokeEnable && this.rectangleService.fillEnable"
-                        id="rectangleNoStroke"
-                        x="50" y="25" width="100" height="50"
-                        [style.fill]="this.colorService.getFillColor()"
-                        [style.stroke-width]="this.rectangleService.strokeWidth"/>
+                            id="rectangleNoStroke" x="50" y="25" width="100" height="50"
+                            [style.fill]="this.colorService.getFillColor()"
+                            [style.stroke-width]="this.rectangleService.strokeWidth" />
 
                         <rect *ngIf="this.rectangleService.strokeEnable && !this.rectangleService.fillEnable"
-                        id="rectangleNoFill"
-                        x="50" y="25" width="100" height="50"
-                        [style.stroke]="this.colorService.getStrokeColor()"
-                        [style.stroke-width]="this.rectangleService.strokeWidth"/>
+                            id="rectangleNoFill" x="50" y="25" width="100" height="50"
+                            [style.stroke]="this.colorService.getStrokeColor()"
+                            [style.stroke-width]="this.rectangleService.strokeWidth" />
                     </svg>
                 </div>
 
                 <div class="attribute">
 
-                        <div class="attributeHeader">Type</div>
-        
-                        <div>
-                            <mat-radio-group>
-                                <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered</mat-radio-button><br>
-                                <mat-radio-button value="Filled" (change)="radioChangeHandler($event)">Filled</mat-radio-button><br>
-                                <mat-radio-button value="Bordered & Filled" (change)="radioChangeHandler($event)" checked>Bordered & Filled</mat-radio-button><br>
-                            </mat-radio-group>
-                        </div>
-        
+                    <div class="attributeHeader">Type</div>
+
+                    <div>
+                        <mat-radio-group>
+                            <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
+                            </mat-radio-button><br>
+                            <mat-radio-button value="Filled" (change)="radioChangeHandler($event)">Filled
+                            </mat-radio-button><br>
+                            <mat-radio-button value="Bordered & Filled" (change)="radioChangeHandler($event)" checked>
+                                Bordered & Filled</mat-radio-button><br>
+                        </mat-radio-group>
                     </div>
-        
-                    <div class="attribute">
-                        <div class="attributeHeader">
+
+                </div>
+
+                <div class="attribute">
+                    <div class="attributeHeader">
                         Border Width<br>
                         {{this.rectangleService.strokeWidth}} px
                     </div>
-                    <mat-slider min="1"
-                    max="40"
-                    value={{this.rectangleService.strokeWidth}}
-                    [(ngModel)]="this.rectangleService.strokeWidth"
-                    (input)="this.rectangleService.strokeWidth = $event.value">
-                </mat-slider>
+                    <mat-slider min="1" max="40" value={{this.rectangleService.strokeWidth}}
+                        [(ngModel)]="this.rectangleService.strokeWidth"
+                        (input)="this.rectangleService.strokeWidth = $event.value">
+                    </mat-slider>
+                </div>
             </div>
         </div>
 
         <div *ngSwitchCase="tool.brush">
 
-                <div class="header">Brush</div>
+            <div class="header">Brush</div>
 
-                    <div>
 
-                        <div class="sectionHeader">Stroke:</div>
-
-                        <div>
-                            <svg class="lineStyleRound" width="200" height="50" >
-                                <line x1="20" y1="30" x2="180" y2="30"
-                                [style.stroke]="this.colorService.getFillColor()"
-                                [style.stroke-width]="this.brushService.brushStrokeWidth"/>
-                            </svg>
-                        </div>
-
-                    Current Stroke Width: <b class="dynamicValue">{{this.brushService.brushStrokeWidth}}</b> px
-                    <br>
-
-                    <label>
-
-                        <br>
-                        <div>
-                            <input class="inputFormStyle" type="range" #slider min="1" max="25"
-                                value={{this.brushService.brushStrokeWidth}} [(ngModel)]="this.brushService.brushStrokeWidth"
-                                id="drawTool">
-                        </div>
-
-                    </label>
-
-                </div>
-                <div>
-                    <div class="sectionHeader">
-                        Texture
-                    </div>
-                    <div>
-                        <label>
-                            <br>
-                            Style:
-                            <mat-form-field>
-                                    <mat-select [(ngModel)]="this.brushService.brushStyle">
-                                        <mat-option [value]="this.brush.chalk">{{this.brush.chalk}}</mat-option>
-                                        <mat-option [value]="this.brush.smear">{{this.brush.smear}}</mat-option>
-                                        <mat-option [value]="this.brush.rough">{{this.brush.rough}}</mat-option>
-                                        <mat-option [value]="this.brush.smooth">{{this.brush.smooth}}</mat-option>
-                                        <mat-option [value]="this.brush.bubbly">{{this.brush.bubbly}}</mat-option>
-                                    </mat-select>
-                            </mat-form-field>
-                        </label>
-                    </div>
-                </div>
+            <div class="svg">
+                <svg class="lineStyleRound" width="200" height="100">
+                    <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
+                        [style.stroke-width]="this.brushService.brushStrokeWidth" />
+                </svg>
             </div>
 
-            <div *ngSwitchCase="tool.pen">
+            <div class="attribute">
 
-                <div class="header">Pen</div>
+                <div class="attributeHeader">Type</div>
+                <div>
+                    <mat-radio-group>
+                        <mat-radio-button [value]="this.brush.chalk" (change)="brushRadioChangeHandler($event)">
+                            {{this.brush.chalk}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.brush.smear" (change)="brushRadioChangeHandler($event)">
+                            {{this.brush.smear}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.brush.rough" (change)="brushRadioChangeHandler($event)">
+                            {{this.brush.rough}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.brush.smooth" (change)="brushRadioChangeHandler($event)"
+                            checked>{{this.brush.smooth}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.brush.bubbly" (change)="brushRadioChangeHandler($event)">
+                            {{this.brush.bubbly}}</mat-radio-button><br>
+                    </mat-radio-group>
+                </div>
+
+            </div>
+
+            <div class="attribute">
+                <div class="attributeHeader">
+                    Size<br>
+                    {{this.brushService.brushStrokeWidth}} px
+                </div>
 
                 <div>
+                    <mat-slider min="1" max="40" value={{this.brushService.brushStrokeWidth}}
+                        [(ngModel)]="this.brushService.brushStrokeWidth"
+                        (input)="this.brushService.brushStrokeWidth = $event.value">
+                    </mat-slider>
+                </div>
+            </div>
+        </div>
 
-                    <div class="sectionHeader">Stroke:</div>
+        <div *ngSwitchCase="tool.pen">
+
+            <div class="header">Pen</div>
+
+            <div>
+
+                <div class="svg">
+                    <svg class="lineStyleRound" width="200" height="100">
+                        <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
+                            [style.stroke-width]="this.penService.strokeWidth" />
+                    </svg>
+                </div>
+
+                <div class="attribute">
+                    <div class="attributeHeader">
+                        Size<br>
+                        {{this.penService.strokeWidth}} px
+                    </div>
 
                     <div>
-                        <svg class="lineStyleRound" width="200" height="50">
-                            <line x1="20" y1="30" x2="180" y2="30"
-                            [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="this.penService.strokeWidth"/>
+                        <mat-slider min="1" max="40" value={{this.penService.strokeWidth}}
+                            [(ngModel)]="this.penService.strokeWidth"
+                            (input)="this.penService.strokeWidth = $event.value">
+                        </mat-slider>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div *ngSwitchCase="tool.colorApplicator">
+
+            <div class="header">Color Applicator</div>
+
+            <div class="attribute">
+
+                <div class="attributeHeader">New Fill Color</div>
+
+                <div class="svg">
+                    <svg width="200" height="100">
+                        <rect x="3" y="3" width="194" height="84" rx="5" ry="5" [style.fill]="this.colorService.getFillColor()"/>
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="attribute">
+
+                    <div class="attributeHeader">New Border Color</div>
+    
+                    <div class="svg">
+                        <svg width="200" height="100">
+                            <rect x="3" y="3" width="194" height="84" rx="5" ry="5" [style.fill]="this.colorService.getStrokeColor()"/>
                         </svg>
-                        </div>
-
-                    Current Stroke Width: <b class="dynamicValue">{{this.penService.strokeWidth}}</b>
-                    px
-                    <br>
-
-                    <label>
-                        <br>
-                        <div>
-                            <input class="inputFormStyle" type="range" #slider min="1" max="25"
-                                value={{this.penService.strokeWidth}} [(ngModel)]="this.penService.strokeWidth"
-                                id="drawTool">
-                        </div>
-                    </label>
-
-                </div>
-
-            </div>
-
-            <div *ngSwitchCase="tool.colorApplicator">
-
-                <div class="header">Color Applicator</div>
-
-                <div>
-
-                    <div>
-                        Change the color of any drawn object with the primary color selected
                     </div>
-                    <br>
-
+    
                 </div>
-                <br>
 
-            </div>
+        </div>
 
     </div>
     <div *ngIf="this.colorService.getShowInAttributeBar()">

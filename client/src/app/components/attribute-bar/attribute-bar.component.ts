@@ -30,6 +30,10 @@ export class AttributeBarComponent {
     this.rectangleService.assignRectangleType();
   }
 
+  brushRadioChangeHandler(event: MatRadioChange): void {
+    this.brushService.brushStyle = event.value;
+  }
+
   getColorService(): ColorService {
     return this.colorService;
   }

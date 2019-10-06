@@ -17,32 +17,6 @@ describe('ShapesService', () => {
     service = TestBed.get(ShapesService);
   });
 
-  it('Should remove filling color if fillEnable is false', () => {
-    service.fillEnable = false;
-    service.strokeEnable = true;
-    service.fillColor = COLORS.blueRGBA;
-    const spy = spyOn(service, 'removeColor').and.callThrough();
-    service.setRectangleType();
-    expect(service.fillColor).toEqual('rgba(0, 0, 255,0)');
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('Should remove stoke color if strokeEnable is false', () => {
-    service.fillEnable = true;
-    service.strokeEnable = false;
-    service.strokeColor = COLORS.blueRGBA;
-    const spy = spyOn(service, 'removeColor').and.callThrough();
-    service.setRectangleType();
-    expect(service.strokeColor).toEqual('rgba(0, 0, 255,0)');
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('Should draw Rectangle', () => {
-    service.drawRectangle();
-    expect(service.shapes.length).toEqual(1);
-    expect(service.shapes[0]).toEqual(jasmine.any(Rectangle));
-  });
-
   it('Should draw brush', () => {
     service.drawBrush();
     expect(service.shapes.length).toEqual(1);
@@ -60,8 +34,6 @@ describe('ShapesService', () => {
     expect(service.shapes.length).toEqual(0);
     service.drawPen();
     expect(service.shapes.length).toEqual(1);
-    service.drawRectangle();
-    expect(service.shapes.length).toEqual(2);
     service.clearShapes();
     expect(service.shapes.length).toEqual(0);
   });
@@ -71,52 +43,6 @@ describe('ShapesService', () => {
     expect(service.fillColor).toEqual('rgba(0, 255, 0, 1)');
     service.fillColor = service.removeColor(service.fillColor);
     expect(service.fillColor).toEqual('rgba(0, 255, 0,0)');
-  });
-
-  it('Should call setRectangleOffset', () => {
-    const spy = spyOn(service, 'setRectangleOffset');
-    service.setRectangleOffset();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  it('Should modify rectangleOffset attributes', () => {
-    service.mouse = {x: 50, y: 50};
-    service.origin = {x: 75, y: 100};
-    service.preview = {
-      active: false,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-      path: '',
-      filter: '',
-    };
-    service.setRectangleOffset();
-
-    expect(service.preview.width).toEqual(Math.abs(service.mouse.x - service.origin.x));
-    expect(service.preview.height).toEqual(Math.abs(service.mouse.y - service.origin.y));
-    expect(service.preview.x).toEqual(Math.min(service.origin.x, service.mouse.x));
-    expect(service.preview.y).toEqual(Math.min(service.origin.y, service.mouse.y));
-  });
-
-  it('Should modify squareOffset attributes', () => {
-    service.mouse = {x: 50, y: 50};
-    service.origin = {x: 75, y: 100};
-    service.preview = {
-      active: false,
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-      path: '',
-      filter: '',
-    };
-    service.setSquareOffset();
-
-    expect(service.preview.width).not.toEqual(0);
-    expect(service.preview.height).not.toEqual(0);
-    expect(service.preview.x).not.toEqual(0);
-    expect(service.preview.y).not.toEqual(0);
   });
 
   it('Should return all shape objects', () => {

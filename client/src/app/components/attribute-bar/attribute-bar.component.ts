@@ -1,7 +1,9 @@
 import { Component, Input} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { BRUSH, RECTANGLE_TYPE, TOOL } from '../../../constants';
-import { ShapesService } from '../../services/shapes/shapes.service';
+import { BrushService } from 'src/app/services/shapes/brush.service';
+import { PenService } from 'src/app/services/shapes/pen.service';
+import { RectangleService } from 'src/app/services/shapes/rectangle.service';
+import { BRUSH, TOOL } from '../../../constants';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -14,57 +16,29 @@ export class AttributeBarComponent {
   brush: typeof BRUSH;
   @Input()selectedTool: TOOL;
 
-  selectedType: string;
-
-  constructor(private shapeService: ShapesService, private colorService: ColorService) {
-    this.selectedType = RECTANGLE_TYPE.borderedAndFilled;
+  constructor(private colorService: ColorService,
+              private rectangleService: RectangleService,
+              private penService: PenService,
+              private brushService: BrushService) {
     this.tool = TOOL;
     this.brush = BRUSH;
   }
 
   radioChangeHandler(event: { target: {value: string}; }): void {
-    this.selectedType = event.target.value;
-    this.assignRectangleType();
-  }
-
-  assignBorderedRectangle(): void {
-    this.shapeService.strokeEnable = true;
-    this.shapeService.fillEnable = false;
-    this.shapeService.removeColor(this.shapeService.fillColor);
-  }
-
-  assignFilledRectangle(): void {
-    this.shapeService.strokeEnable = false;
-    this.shapeService.removeColor(this.shapeService.strokeColor);
-    this.shapeService.fillEnable = true;
-  }
-
-  assignBorderedAndFilledRectangle(): void {
-    this.shapeService.strokeEnable = true;
-    this.shapeService.fillEnable = true;
-  }
-
-  assignRectangleType(): void {
-    switch (this.selectedType) {
-      case RECTANGLE_TYPE.bordered:
-        this.assignBorderedRectangle();
-        break;
-      case RECTANGLE_TYPE.filled:
-        this.assignFilledRectangle();
-        break;
-      case RECTANGLE_TYPE.borderedAndFilled:
-        this.assignBorderedAndFilledRectangle();
-        break;
-      default:
-    }
-  }
-
-  assignStrokeWidth(value: number): void {
-    this.shapeService.rectangleStrokeWidth = value;
+    this.rectangleService.rectangleType = event.target.value;
+    this.rectangleService.assignRectangleType();
   }
 
   getColorService(): ColorService {
     return this.colorService;
+  }
+
+  getPenService(): PenService {
+    return this.penService;
+  }
+
+  getBrushService(): BrushService {
+    return this.brushService;
   }
 
 }

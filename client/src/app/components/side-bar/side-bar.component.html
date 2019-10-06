@@ -1,9 +1,10 @@
 <div id="toolTitle"><p>Tools</p></div>
-<div class= "toolScroll">
-    <button mat-button (click)="selectTool(tool.rectangle)" class ="icon"><mat-icon>crop_square</mat-icon></button>
-    <button mat-button (click)="selectTool(tool.brush)" class ="icon"><mat-icon>brush</mat-icon></button>
-    <button mat-button (click)="selectTool(tool.pen)" class ="icon"><mat-icon>create</mat-icon></button>
-    <button mat-button (click)="selectTool(tool.colorApplicator)" class ="icon"><mat-icon>colorize</mat-icon></button>
+    <div class= "toolScroll">
+        <button mat-button (click)="selectTool('rectangle')" class ="icon"><mat-icon>crop_square</mat-icon></button>
+        <button mat-button (click)="selectTool('brush')" class ="icon"><mat-icon>brush</mat-icon></button>
+        <button mat-button (click)="selectTool('pen')" class ="icon"><mat-icon>create</mat-icon></button>
+        <button mat-button (click)="selectTool('colorApplicator')" class ="icon"><mat-icon>colorize</mat-icon></button>
+        <button mat-button (click)="createNewFile()" class ="icon"><mat-icon>add</mat-icon></button>
 
     <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
     <button mat-button class ="icon"><mat-icon>colorize</mat-icon></button>
@@ -30,5 +31,6 @@
 
 
 <app-attribute-bar [selectedTool]="selectedTool"></app-attribute-bar>
-<app-drawing-space [selectedTool]="selectedTool"></app-drawing-space>
+<app-drawing-space [selectedTool]="selectedTool"
+                   [selectedShape]="selectedShape"></app-drawing-space>
 

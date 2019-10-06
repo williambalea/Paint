@@ -3,7 +3,6 @@ import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Brush } from '../../../Classes/Shapes/brush';
 import { Pen } from '../../../Classes/Shapes/pen';
-import { Rectangle } from '../../../Classes/Shapes/rectangle';
 import { Shape } from '../../../Classes/Shapes/shape';
 import { BRUSH, COLORS, EMPTY_STRING, NB, TOOL } from '../../../constants';
 
@@ -15,7 +14,6 @@ export class ShapesService {
   mouse: Point;
   origin: Point;
   preview: Preview;
-  rectangleStrokeWidth: number;
   fillColor: string;
   strokeColor: string;
   penStrokeWidth: number;
@@ -29,7 +27,6 @@ export class ShapesService {
     this.resetPreview();
     this.fillColor = COLORS.blackRGBA;
     this.strokeColor = COLORS.whiteRGBA;
-    this.rectangleStrokeWidth = NB.Seven;
     this.penStrokeWidth = NB.Seven;
     this.brushStrokeWidth = NB.Seven;
     this.brushStyle = BRUSH.smooth;
@@ -49,57 +46,6 @@ export class ShapesService {
     this.preview.y = event.offsetY;
     this.preview.width = 0;
     this.preview.height = 0;
-  }
-
-  setRectangleOffset(): void {
-    this.preview.width = Math.abs(this.mouse.x - this.origin.x);
-    this.preview.height = Math.abs(this.mouse.y - this.origin.y);
-    this.preview.x = Math.min(this.origin.x, this.mouse.x);
-    this.preview.y = Math.min(this.origin.y, this.mouse.y);
-  }
-
-  setSquareOffset(): void {
-    const deplacement: Point = {
-      x: this.mouse.x - this.origin.x,
-      y: this.mouse.y - this.origin.y,
-    };
-
-    const width = Math.min(Math.abs(deplacement.x), Math.abs(deplacement.y));
-
-    const newOffset: Point = {
-      x: this.origin.x + (Math.sign(deplacement.x) * width),
-      y: this.origin.y + (Math.sign(deplacement.y) * width),
-    };
-
-    this.preview.width = width;
-    this.preview.height = width;
-    this.preview.x = Math.min(this.origin.x, newOffset.x);
-    this.preview.y = Math.min(this.origin.y, newOffset.y);
-  }
-
-  setRectangleType(): void {
-    if (!this.fillEnable) {
-      this.fillColor = this.removeColor(this.fillColor);
-    }
-    if (!this.strokeEnable) {
-      this.strokeColor = this.removeColor(this.strokeColor);
-    }
-  }
-
-  drawRectangle(): Shape {
-    this.setRectangleType();
-    const rectangle = new Rectangle (
-      TOOL.rectangle,
-      this.preview.x,
-      this.preview.y,
-      this.preview.width,
-      this.preview.height,
-      this.fillColor,
-      this.strokeColor,
-      this.rectangleStrokeWidth,
-    );
-    this.shapes.push(rectangle);
-    return this.getShape(this.shapes.length);
   }
 
   drawPen(): void {

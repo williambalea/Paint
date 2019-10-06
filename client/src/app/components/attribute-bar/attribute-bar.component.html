@@ -43,19 +43,19 @@
         
                     </div>
         
-                </div>
-                <div class="attribute">
-                    <div class="attributeHeader">
+                    <div class="attribute">
+                        <div class="attributeHeader">
                         Border Width<br>
                         {{this.rectangleService.strokeWidth}} px
                     </div>
                     <mat-slider min="1"
-                                max="40"
-                                value={{this.rectangleService.strokeWidth}}
-                                [(ngModel)]="this.rectangleService.strokeWidth"
-                                (input)="this.rectangleService.strokeWidth = $event.value">
-                    </mat-slider>
-                </div>
+                    max="40"
+                    value={{this.rectangleService.strokeWidth}}
+                    [(ngModel)]="this.rectangleService.strokeWidth"
+                    (input)="this.rectangleService.strokeWidth = $event.value">
+                </mat-slider>
+            </div>
+        </div>
 
         <div *ngSwitchCase="tool.brush">
 

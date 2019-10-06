@@ -1,5 +1,5 @@
 .attributeBar {
-  background-color: lightgrey;
+  background-color: rgb(235, 235, 235);
   position: fixed; 
   top: 0px; 
   left: 60px ;
@@ -8,17 +8,6 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-
-// .singleAttribute{
-//   border-style:solid;
-//   border-style:solid;
-//   border-width: 1px;
-//   border-color:black;
-//   background-color: rgb(198, 195, 199);
-//   left:0;
-//   width: 85%;
-// }
-
 
 .header{
   font-size: 16px;
@@ -32,6 +21,7 @@
 
 .attribute {
   border: 2px solid rgb(250, 250, 250);
+  background-color: rgb(250, 250, 250);
   margin: 5px;
   border-radius: 5px;
 }
@@ -43,7 +33,10 @@
 }
 
 .svg {
-  margin-left: 45px;
+  width: 200px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .lineStyleRound{
@@ -113,5 +106,5 @@ mat-radio-button {
 .mat-slider-horizontal {
   margin-left: 7px;
   height: 45px;
-  width: 263px;
+  width: calc(100% - 13px);
 }

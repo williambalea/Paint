@@ -4,7 +4,6 @@ import { InputService } from 'src/app/services/input.service';
 import { KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
-import { ShapesService } from '../../services/shapes/shapes.service';
 
 @Component({
   selector: 'app-drawing-space',
@@ -25,10 +24,10 @@ export class DrawingSpaceComponent implements OnInit {
   width: number;
   pointerEvent: string;
 
-  constructor( private shapeService: ShapesService,
-               private fileParameters: FileParametersServiceService,
+  constructor( private fileParameters: FileParametersServiceService,
                private colorService: ColorService,
-               private inputService: InputService, private renderer: Renderer2) {
+               private inputService: InputService,
+               private renderer: Renderer2) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -76,42 +75,44 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
-  onLeftClick(event: MouseEvent, shape: any): void {
+  changeFillColor(event: MouseEvent, shape: any): void {
     if (this.selectedTool === TOOL.colorApplicator) {
       event.preventDefault();
       this.renderer.setStyle(shape, 'fill', this.colorService.getFillColor());
     }
   }
 
-  onRightClick(event: MouseEvent, shape: any): void {
+  changeStrokeColor(event: MouseEvent, shape: any, color: string): void {
     event.preventDefault();
     if (this.selectedTool === TOOL.colorApplicator) {
-      this.renderer.setStyle(shape, 'stroke', this.colorService.getStrokeColor());
+      this.renderer.setStyle(shape, 'stroke', color);
     }
-  }
-
-  defineShapeColor(): void {
-    this.shapeService.fillColor = this.colorService.getFillColor();
-    this.shapeService.strokeColor = this.colorService.getStrokeColor();
-    this.shapeService.preview.active = true;
   }
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(): void {
-
     const shape: any = this.selectedShape.onMouseDown();
-    this.renderer.listen(shape, 'click', (event: MouseEvent) => {
-      this.onLeftClick(event, shape);
-    });
-    this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
-      this.onRightClick(event, shape);
-    });
+    if (this.selectedTool === TOOL.rectangle) {
+      this.renderer.listen(shape, 'click', (event: MouseEvent) => {
+        this.changeFillColor(event, shape);
+      });
+      this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
+        this.changeStrokeColor(event, shape, this.colorService.getStrokeColor());
+      });
+    }
+    if (this.selectedTool === TOOL.brush || this.selectedTool === TOOL.pen) {
+      this.renderer.listen(shape, 'click', (event: MouseEvent) => {
+        this.changeStrokeColor(event, shape, this.colorService.getFillColor());
+      });
+      this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
+        event.preventDefault();
+      });
+    }
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.renderer.appendChild(this.canvas.nativeElement, shape);
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);
       this.pointerEvent = POINTER_EVENT.none;
-      console.log('allo');
     }
   }
 

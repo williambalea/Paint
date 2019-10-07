@@ -1,16 +1,16 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
+import { ColorService } from 'src/app/services/color/color.service';
+import { FileParametersServiceService } from 'src/app/services/file-parameters-service.service';
+import { InputService } from 'src/app/services/input.service';
 import { NB } from 'src/constants';
 import { DrawingSpaceComponent } from '../drawing-space/drawing-space.component';
-import { FileParametersServiceService } from 'src/app/services/file-parameters-service.service';
-import { ColorService } from 'src/app/services/color/color.service';
-import { InputService } from 'src/app/services/input.service';
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit {
+export class GridComponent {
 
   gridRectangleDimension: number;
   gridAlpha: number;
@@ -34,19 +34,16 @@ export class GridComponent implements OnInit {
     this.buildGrid();
    }
 
-  ngOnInit() {
-  }
-
   printVerticalLine(beginingWidth: number) {
     // Appel function native or whatever
-    xLineSpacing = beginingWidth * this.gridRectangleDimension; // Might have to ajust index for *1 or *0
+    let xLineSpacing = beginingWidth * this.gridRectangleDimension; // Might have to ajust index for *1 or *0
     // fake function, will have to figure out what to use
     // printLine( [xLineSpacing, 0] to [xLineSpacing, this.drawingSpace.canvasHeight]);
   }
 
   printHorizontalLine(beginingHeight: number) {
     // Appel function native or whatever
-    yLineSpacing = beginingHeight * this.gridRectangleDimension;
+    let yLineSpacing = beginingHeight * this.gridRectangleDimension;
     // fake function, will have to figure out what to use
     // printLine( [0, yLineSpacing] to [this.drawingSpace.canvasWidth, yLineSpacing]);
   }

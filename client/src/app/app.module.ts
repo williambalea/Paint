@@ -17,6 +17,7 @@ import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { GridComponent } from './components/grid/grid.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     DrawingSpaceComponent,
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
+    GridComponent,
 
   ],
   imports: [

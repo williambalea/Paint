@@ -33,8 +33,14 @@ export class AttributeBarComponent {
 
 
   radioChangeHandler(event: { target: {value: string}; }): void {
-    this.rectangleService.rectangleType = event.target.value;
-    this.rectangleService.assignRectangleType();
+    if (this.selectedTool == TOOL.rectangle){
+      this.rectangleService.rectangleType = event.target.value;
+      this.rectangleService.assignRectangleType();
+    }
+    else if (this.selectedTool == TOOL.polygon){
+      this.polygonService.polygonType = event.target.value;
+      this.polygonService.assignPolygonType();
+    }
   }
 
   getColorService(): ColorService {

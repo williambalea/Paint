@@ -14,7 +14,9 @@ import { PolygonService } from 'src/app/services/shapes/polygon.service';
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService, PenService,
+  providers: [RectangleService, 
+    BrushService, 
+    PenService,
     PolygonService
   ],
 })

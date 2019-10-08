@@ -13,8 +13,8 @@ import { ShapesService } from '../../services/shapes/shapes.service';
 })
 export class DrawingSpaceComponent implements OnInit {
 
-  @ViewChild('canvas', {static: false})
-  canvas: ElementRef;
+  @ViewChild('canvas', {static: false}) canvas: ElementRef;
+
 
   tool: typeof TOOL;
   @Input()selectedTool: TOOL;
@@ -34,6 +34,8 @@ export class DrawingSpaceComponent implements OnInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
+   
+  
   }
 
   test(): void {
@@ -51,7 +53,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   ngOnInit(): void {
     this.setCanvasParameters();
-
+   
  
   }
 
@@ -100,7 +102,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(): void {
-
+  
    const shape: any = this.selectedShape.onMouseDown();
     this.renderer.listen(shape, 'click', (event: MouseEvent) => {
       this.onLeftClick(event, shape);
@@ -115,6 +117,7 @@ export class DrawingSpaceComponent implements OnInit {
       this.pointerEvent = POINTER_EVENT.none;
       console.log('allo');
     }
+   
   }
 
   @HostListener('mousemove', ['$event'])

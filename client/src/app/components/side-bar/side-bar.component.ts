@@ -79,9 +79,8 @@ export class SideBarComponent implements OnInit {
         this.selectedTool = TOOL.colorApplicator;
         break;
     case TOOL.polygon:
-        console.log('allo1');
         this.selectedShape = this.polygonService;
-        this.selectedTool = TOOL.pen;
+        this.selectedTool = TOOL.polygon;
         break;
     default:
    }

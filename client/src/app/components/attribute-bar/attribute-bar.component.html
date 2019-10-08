@@ -45,6 +45,9 @@
                 </label>
             </div>
 
+
+            
+
             <div class="singleAttribute">
 
                 <div class="sectionHeader">
@@ -74,6 +77,16 @@
                 </div><br>
 
             </div>
+
+        </div>
+
+        <div *ngSwitchCase="tool.polygon">
+            <div class="header">Polygon</div>
+            <div>
+                    <input class="inputFormStyle" type="range" #slider min="3" max="12"
+                        value={{this.polygonService.sideNumber}} [(ngModel)]="this.polygonService.sideNumber">
+                        <span>{{this.polygonService.sideNumber}}</span>
+                </div>
 
         </div>
 

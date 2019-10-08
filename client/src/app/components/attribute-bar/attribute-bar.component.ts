@@ -3,7 +3,9 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
-import { BRUSH, TOOL } from '../../../constants';
+import { TOOL, BRUSH } from '../../../constants';
+import { PolygonService } from 'src/app/services/shapes/polygon.service';
+//import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -15,14 +17,20 @@ export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
   @Input()selectedTool: TOOL;
+  //form: FormGroup;
+  sides: number;
 
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
               private penService: PenService,
-              private brushService: BrushService) {
+              private brushService: BrushService,
+             // private formBuilder: FormBuilder,
+              private polygonService : PolygonService) {
     this.tool = TOOL;
     this.brush = BRUSH;
+    console.log(this.polygonService.sideNumber);
   }
+
 
   radioChangeHandler(event: { target: {value: string}; }): void {
     this.rectangleService.rectangleType = event.target.value;

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
@@ -9,6 +9,7 @@ import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
+import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -20,7 +21,8 @@ import { PolygonService } from 'src/app/services/shapes/polygon.service';
     PolygonService
   ],
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent implements OnInit, OnDestroy {
+ 
   // tool: typeof TOOL;
   selectedTool: string;
 
@@ -35,6 +37,7 @@ export class SideBarComponent implements OnInit {
               private brushService: BrushService,
               private penService: PenService,
               private polygonService: PolygonService,
+              private unsubscribeService : UnsubscribeService
             ) {
     // this.tool = TOOL;
     this.enableKeyPress = false;
@@ -46,12 +49,16 @@ export class SideBarComponent implements OnInit {
     !localStorage.getItem(HIDE_DIALOG) ? this.openEntryPoint() : this.enableKeyPress = true;
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribeService.onDestroy();
+  }
+
   openEntryPoint(): void {
     const dialogRef: MatDialogRef<EntryPointComponent, any> =
       this.dialog.open(EntryPointComponent, { disableClose: true });
 
-    dialogRef.afterClosed()
-    .subscribe((hideDialog: boolean) => { this.setLocalStorageTrace(hideDialog); });
+      this.unsubscribeService.subscriptons.push(dialogRef.afterClosed()
+    .subscribe((hideDialog: boolean) => { this.setLocalStorageTrace(hideDialog); }));
   }
 
   setLocalStorageTrace(hideDialog: boolean): void {
@@ -97,8 +104,8 @@ export class SideBarComponent implements OnInit {
 
     const dialogRef: MatDialogRef<NewFileModalwindowComponent, any> =
       this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
-    dialogRef.afterClosed()
-      .subscribe((hideDialog: boolean) => { this.enableKeyPress = true; });
+      this.unsubscribeService.subscriptons.push(dialogRef.afterClosed()
+      .subscribe((hideDialog: boolean) => { this.enableKeyPress = true; }));
 
     this.setColorNewFile();
 

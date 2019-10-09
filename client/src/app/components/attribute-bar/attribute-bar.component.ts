@@ -4,6 +4,7 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 import { BRUSH, TOOL } from '../../../constants';
 
 @Component({

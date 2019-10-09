@@ -16,6 +16,7 @@ export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
   @Input()selectedTool: TOOL;
+  test = 25;
 
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,

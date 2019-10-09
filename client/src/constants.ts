@@ -69,6 +69,7 @@ export enum KEY {
   w = 'w',
   one = '1',
   r = 'r',
+  g = 'g',
 }
 
 export enum TOOL {
@@ -76,6 +77,7 @@ export enum TOOL {
   brush = 'brush',
   pen = 'pen',
   colorApplicator = 'colorApplicator',
+  grid = 'grid',
 }
 
 export enum BRUSH {

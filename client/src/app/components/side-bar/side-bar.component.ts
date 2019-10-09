@@ -71,6 +71,9 @@ export class SideBarComponent implements OnInit {
     case TOOL.colorApplicator :
         this.selectedTool = TOOL.colorApplicator;
         break;
+      case TOOL.grid :
+        this.selectedTool = TOOL.grid;
+        break;
     default:
    }
   }
@@ -112,6 +115,9 @@ export class SideBarComponent implements OnInit {
         case KEY.r:
             this.selectedTool = TOOL.colorApplicator;
             break;
+        case KEY.g:
+          this.selectedTool = TOOL.colorApplicator;
+          break;
         default:
       }
     }

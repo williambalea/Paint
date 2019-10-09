@@ -59,8 +59,6 @@
         <div *ngSwitchCase="tool.brush">
 
             <div class="header">Brush</div>
-
-
             <div class="svg">
                 <svg class="lineStyleRound" width="200" height="100" baseProfile="full" version="1.1">
                     <filter id="chalk" x="-15px" y="-15px" height="40px" width="50px">
@@ -192,8 +190,54 @@
                 </div>
 
         </div>
+        <div *ngSwitchCase="tool.grid">
+
+            <div class="header">Grid</div>
+
+            <div>
+
+                <div class="svg">
+                    <svg class="lineStyleSquare" width="200" height="100">
+                        <line x1="45" y1="45" x2="160" y2="45" [style.stroke]="this.colorService.getFillColor()"
+                            [style.stroke-width]="5" />
+                        <line x1="45" y1="85" x2="160" y2="85" [style.stroke]="this.colorService.getFillColor()"
+                            [style.stroke-width]="5" />
+                        <line x1="75" y1="30" x2="75" y2="100" [style.stroke]="this.colorService.getFillColor()"
+                            [style.stroke-width]="5" />
+                        <line x1="130" y1="30" x2="130" y2="100" [style.stroke]="this.colorService.getFillColor()"
+                            [style.stroke-width]="5" />
+                    </svg>
+                    
+                </div>
+
+                <div class="attribute">
+                    <div class="attributeHeader">
+                        <br>
+                        Grid size<br>
+                        {{this.penService.strokeWidth}} px
+                    </div>
+
+                    <div>
+                        <mat-slider min="1" max="40" value={{this.penService.strokeWidth}}
+                            [(ngModel)]="this.penService.strokeWidth"
+                            (input)="this.penService.strokeWidth = $event.value">
+                        </mat-slider>
+                    </div>
+                </div>
+                <div class="attribute">
+                        <div class="attributeHeader">
+                                Enable grid<br>
+                        </div>
+                        <button (click)="this.gridService.enableGrid()">Yes</button>
+                        <button (click)="this.gridService.disableGrid()">No</button>
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
+
     <div *ngIf="this.colorService.getShowInAttributeBar()">
         <app-color-picker></app-color-picker>
     </div>

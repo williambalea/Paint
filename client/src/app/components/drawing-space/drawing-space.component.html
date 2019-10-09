@@ -1,5 +1,6 @@
 <!-- <div class="drawingBoard" (window:resize)="onResize($event)">   -->
-<div class="drawingBoard" >  
+<div class="drawingBoard" >
+    <app-grid></app-grid>
     <svg id="canvas" version="1.1"
         baseProfile="full"
         [attr.width]= "this.canvasWidth"
@@ -7,7 +8,6 @@
         [style.background-color]= "colorService.getBackgroundColor()"
         xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" #canvas>
   
-
     <defs>
 
         <filter id="chalk" x="-15px" y="-15px" height="40px" width="50px">
@@ -41,9 +41,10 @@
         </filter>
 
     </defs>
-
+    
     </svg>
 </div>
+
 
  
 

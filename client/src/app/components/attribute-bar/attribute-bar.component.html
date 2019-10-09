@@ -1,5 +1,4 @@
 <div class="attributeBar">
-
     <div [ngSwitch]="selectedTool">
 
         <div *ngSwitchCase="tool.rectangle">
@@ -12,7 +11,7 @@
                         <rect *ngIf="this.rectangleService.strokeEnable && this.rectangleService.fillEnable" x="50"
                             y="25" width="100" height="50" [style.fill]="this.colorService.getFillColor()"
                             [style.stroke]="this.colorService.getStrokeColor()"
-                            [style.stroke-width]="this.rectangleService.strokeWidth" />
+                            [style.stroke-width]="this.rectangleService.strokeWidth" />                   
 
                         <rect *ngIf="!this.rectangleService.strokeEnable && this.rectangleService.fillEnable"
                             id="rectangleNoStroke" x="50" y="25" width="100" height="50"
@@ -27,10 +26,9 @@
                 </div>
 
                 <div class="attribute">
-
                     <div class="attributeHeader">Type</div>
-
                     <div>
+                        
                         <mat-radio-group>
                             <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
                             </mat-radio-button><br>
@@ -231,7 +229,6 @@
                         <button (click)="this.gridService.enableGrid()">Yes</button>
                         <button (click)="this.gridService.disableGrid()">No</button>
                 </div>
-
             </div>
 
         </div>
@@ -240,6 +237,7 @@
 
     <div *ngIf="this.colorService.getShowInAttributeBar()">
         <app-color-picker></app-color-picker>
-    </div>
 
+    </div>
+    
 </div>

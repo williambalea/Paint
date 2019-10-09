@@ -1,3 +1,4 @@
+import { EllipseService } from './../../services/shapes/ellipse.service';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
@@ -8,12 +9,13 @@ import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
+import { keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService, PenService],
+  providers: [RectangleService, BrushService, PenService, EllipseService],
 })
 export class SideBarComponent implements OnInit {
   // tool: typeof TOOL;
@@ -27,7 +29,8 @@ export class SideBarComponent implements OnInit {
               private colorService: ColorService,
               private rectangleService: RectangleService,
               private brushService: BrushService,
-              private penService: PenService) {
+              private penService: PenService,
+              private ellipseService: EllipseService) {
     // this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
@@ -71,6 +74,10 @@ export class SideBarComponent implements OnInit {
     case TOOL.colorApplicator :
         this.selectedTool = TOOL.colorApplicator;
         break;
+    case TOOL.ellipse:
+        this.selectedShape = this.ellipseService;
+        this.selectedTool = TOOL.ellipse;
+        break;
     default:
    }
   }
@@ -111,6 +118,9 @@ export class SideBarComponent implements OnInit {
             break;
         case KEY.r:
             this.selectedTool = TOOL.colorApplicator;
+            break;
+        case KEY.two:
+            this.selectedShape = this.ellipseService;
             break;
         default:
       }

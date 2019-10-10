@@ -93,8 +93,28 @@ export class EllipseService implements Shape {
   }
 
   setCircleOffset(): void {
-    return;
-  }
+
+    // const deplacement: Point = {
+    //   x: this.mouse.x - this.origin.x,
+    //   y: this.mouse.y - this.origin.y,
+    // // };
+
+    // const ray = Math.max(Math.abs(deplacement.x))
+
+    this.xray = Math.abs(this.mouse.x - this.origin.x) / 2; 
+    this.yray = Math.abs(this.mouse.y - this.origin.y) / 2;
+    const ray = Math.max(this.xray, this.yray);
+    this.xray = ray;
+    this.yray = ray;
+
+    const deplacementX = this.mouse.x - this.origin.x;
+    const deplacementY = this.mouse.y - this.origin.y;
+
+    const deplacementCenter = (Math.max(Math.abs(deplacementX), Math.abs(deplacementY)))/2;
+
+    this.x = this.origin.x + (Math.sign(deplacementX) * deplacementCenter);
+    this.y = this.origin.y + (Math.sign(deplacementY) * deplacementCenter);
+    }
 
   setEllipseOffset(): void {
     this.xray = Math.abs(this.mouse.x - this.origin.x) / 2;

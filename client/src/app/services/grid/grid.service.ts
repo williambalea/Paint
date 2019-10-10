@@ -21,13 +21,13 @@ export class GridService {
   numberYLines: number;
 
   constructor() {
-    // // first two lines are for testing purpose right now
+    // // first two lines are real window parameter. Ask Ines
     // this.canvasWidth = fileParametersService.canvaswidth$;
     // this.canvasHeight = fileParametersService.canvasheight$;
-    this.gridRectangleDimension = NB.FortyTwo;
+    this.gridRectangleDimension = NB.OneHundred;
     this.mockHeight = 1000;
     this.mockWidth = 1000;
-    this.lineArray = [{x1: 1, x2: 2, y1: 3, y2: 4}];
+    this.lineArray = [{x1: 0, x2: 0, y1: 0, y2: 0}];
    }
 
   calculateNumberLine() {
@@ -57,5 +57,17 @@ export class GridService {
     const xLineSpacing = beginingWidth * this.gridRectangleDimension;
     const thisLine = {x1: xLineSpacing, x2: xLineSpacing, y1: 0, y2: this.mockHeight };
     this.lineArray.push(thisLine);
+  }
+
+  clearLineArray() {
+    const size = this.lineArray.length;
+    for (let k = 0; k < size; k++) {
+      this.lineArray[k] = {x1: 0, x2: 0, y1: 0, y2: 0};
+    }
+  }
+
+  gridSizeModification() {
+    this.clearLineArray();
+    this.buildGrid();
   }
 }

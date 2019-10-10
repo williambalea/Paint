@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LINEARRAY } from 'src/constants';
 import { GridService } from '../../services/grid/grid.service';
 
@@ -7,7 +7,7 @@ import { GridService } from '../../services/grid/grid.service';
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
 })
-export class GridComponent implements OnInit{
+export class GridComponent {
 
   myArray: LINEARRAY[];
 
@@ -16,7 +16,8 @@ export class GridComponent implements OnInit{
     this.myArray = this.gridService.lineArray;
   }
 
-  ngOnInit() {
-    console.log(this.myArray[1].x1);
+  gridSizeModificationConfirmation() {
+    this.gridService.gridSizeModification();
+    this.myArray = this.gridService.lineArray;
   }
 }

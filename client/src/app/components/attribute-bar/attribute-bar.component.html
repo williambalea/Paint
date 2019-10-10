@@ -212,14 +212,17 @@
                     <div class="attributeHeader">
                         <br>
                         Grid size<br>
-                        {{this.penService.strokeWidth}} px
+                        <div class = "dynamicValue">
+                                {{this.gridService.gridRectangleDimension}} px
+                        </div>
                     </div>
 
                     <div>
-                        <mat-slider min="1" max="40" value={{this.penService.strokeWidth}}
-                            [(ngModel)]="this.penService.strokeWidth"
-                            (input)="this.penService.strokeWidth = $event.value">
+                        <mat-slider min="5" max="50" value={{this.gridService.gridRectangleDimension}}
+                            [(ngModel)]="this.gridService.gridRectangleDimension"
+                            (input)="this.gridService.gridRectangleDimension = $event.value">
                         </mat-slider>
+                        <button (click)="this.gridService.gridSizeModification()">Confirm modification</button>
                     </div>
                 </div>
                 <div class="attribute">

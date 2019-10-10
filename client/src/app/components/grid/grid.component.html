@@ -1,5 +1,5 @@
 <div viewBox = " 200 200 1000 1000">
     <svg id = "lines" height='1000' width ="1000">
-        <line *ngFor = "let line of myArray" class = "line" [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" />
+        <line *ngFor = "let line of myArray" id ="printedLines" class = "line" [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" />
     </svg>
 </div>

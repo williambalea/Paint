@@ -41,22 +41,20 @@
         <mat-slider min="0" max="255" value=transparency [(ngModel)]="transparency" (change)="onEnterSlider()" (input)="transparency = $event.value"></mat-slider>
     </div>
 </div>
-
-<div class="primSec-wrapper">
-  <div class="color" [class.color-selected]="colorService.getUsingPrimary()">
-    <div class="attributeHeader">Primary</div>
-    <div (click)="setPrimary()" class="primary" [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
+<div *ngIf="colorService.getShowBackgroundButton()">
+  <div class="primSec-wrapper">
+    <div class="color" [class.color-selected]="colorService.getUsingPrimary()">
+      <div class="attributeHeader">Primary</div>
+      <div (click)="setPrimary()" class="primary" [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
+    </div>
+    <div class="color" [class.color-selected]="!colorService.getUsingPrimary()">
+      <div class="attributeHeader">Secondary</div>
+      <div (click)="setSecondary()" class="secondary" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>
+    </div>
   </div>
-  <div class="color" [class.color-selected]="!colorService.getUsingPrimary()">
-    <div class="attributeHeader">Secondary</div>
-    <div (click)="setSecondary()" class="secondary" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>
+  <div class="button">
+    <button mat-flat-button color="primary" (click)="swapColors()">Swap Colors</button>
+    <button mat-stroked-button class="changeButton" (click)="changeBackgroundColor()">Change background color</button>
+  </div>
   </div>
 </div>
-<div class="button">
-  <button mat-flat-button color="primary" (click)="swapColors()">Swap Colors</button>
-  <button mat-stroked-button *ngIf="colorService.getShowBackgroundButton()" class="changeButton" (click)="changeBackgroundColor()">Change background color</button>
-</div>
-</div>
-  
-  
-  

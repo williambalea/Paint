@@ -218,7 +218,7 @@
                     </div>
 
                     <div>
-                        <mat-slider min="5" max="50" value={{this.gridService.gridRectangleDimension}}
+                        <mat-slider min="40" max="200" value={{this.gridService.gridRectangleDimension}}
                             [(ngModel)]="this.gridService.gridRectangleDimension"
                             (input)="this.gridService.gridRectangleDimension = $event.value">
                         </mat-slider>
@@ -227,10 +227,30 @@
                 </div>
                 <div class="attribute">
                         <div class="attributeHeader">
-                                Enable grid<br>
+                                Toggle grid<br>
                         </div>
-                        <button (click)="this.gridService.enableGrid()">Yes</button>
-                        <button (click)="this.gridService.disableGrid()">No</button>
+                        <div *ngIf="this.gridService.gridEnabled">
+                                <button (click)="this.gridService.disableGrid()">Turn off grid</button>
+                        </div>
+                        <div *ngIf="!this.gridService.gridEnabled">
+                                <button (click)="this.gridService.enableGrid()">Turn on grid</button>
+                        </div>
+
+                </div>
+                <div class="attribute">
+                        <div class="attributeHeader">
+                                Opacity<br>
+                                <div class = "dynamicValue">
+                                        {{this.gridService.opacity}} %
+                                </div>
+                        </div>
+                        <div>
+                            <mat-slider min="50" max="100" value={{this.gridService.opacity}}
+                                        [(ngModel)]="this.gridService.opacity"
+                                        (input)="this.gridService.opacity = $event.value">
+                            </mat-slider>
+                            <button (click)="this.gridService.gridOpacityModification()">Modify opacity</button>
+                        </div>
                 </div>
             </div>
 

@@ -15,9 +15,4 @@ export class GridComponent {
     this.gridService.buildGrid();
     this.myArray = this.gridService.lineArray;
   }
-
-  gridSizeModificationConfirmation() {
-    this.gridService.gridSizeModification();
-    this.myArray = this.gridService.lineArray;
-  }
 }

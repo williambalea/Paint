@@ -11,6 +11,7 @@
     <mat-form-field>
       <input name="test" type = "canvasWidth"  formControlName="canvaswidth" value ={{this.canvasWidth}} matInput [(ngModel)]="canvasWidth" >
       <mat-error>Enter numbers greater than zero</mat-error>
+      <span matSuffix>px</span>
     </mat-form-field>
    </div>
   </div> 
@@ -20,6 +21,7 @@
  <mat-form-field>
       <input type = "canvasHeight"  formControlName="canvasheight" value ={{this.canvasHeight}} matInput [(ngModel)]="canvasHeight">
        <mat-error>Enter numbers greater than zero</mat-error>
+       <span matSuffix>px</span>
    </mat-form-field>
   </div>
   <app-color-picker></app-color-picker>

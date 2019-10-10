@@ -156,6 +156,10 @@ export class PolygonService implements Shape{
     }
   }
 
+  getPoints() : string {
+    return this.pointString;
+  }
+
   draw() {
     this.renderer.setAttribute(this.polygon, 'points',this.pointString);
     this.renderer.setStyle(this.polygon, 'fill', this.fill);

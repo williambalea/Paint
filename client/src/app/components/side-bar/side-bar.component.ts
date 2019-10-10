@@ -1,4 +1,3 @@
-import { EllipseService } from './../../services/shapes/ellipse.service';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
@@ -9,7 +8,7 @@ import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
-import { keyframes } from '@angular/animations';
+import { EllipseService } from './../../services/shapes/ellipse.service';
 
 @Component({
   selector: 'app-side-bar',

@@ -68,6 +68,7 @@ export enum KEY {
   c = 'c',
   w = 'w',
   one = '1',
+  two = '2',
   r = 'r',
 }
 
@@ -76,6 +77,7 @@ export enum TOOL {
   brush = 'brush',
   pen = 'pen',
   colorApplicator = 'colorApplicator',
+  ellipse = 'ellipse',
 }
 
 export enum BRUSH {

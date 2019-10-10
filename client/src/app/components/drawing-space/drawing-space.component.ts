@@ -92,7 +92,7 @@ export class DrawingSpaceComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(): void {
     const shape: any = this.selectedShape.onMouseDown();
-    if (this.selectedTool === TOOL.rectangle) {
+    if (this.selectedTool === TOOL.rectangle || this.selectedTool === TOOL.ellipse) {
       this.renderer.listen(shape, 'click', (event: MouseEvent) => {
         this.changeFillColor(event, shape);
       });

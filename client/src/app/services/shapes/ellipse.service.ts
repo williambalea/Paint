@@ -93,42 +93,26 @@ export class EllipseService implements Shape {
   }
 
   setCircleOffset(): void {
-    const deplacement: Point = {
-      x: this.mouse.x - this.origin.x,
-      y: this.mouse.y - this.origin.y,
-    };
-
-    const width = Math.min(Math.abs(deplacement.x), Math.abs(deplacement.y));
-
-    const newOffset: Point = {
-      x: this.origin.x + (Math.sign(deplacement.x) * width),
-      y: this.origin.y + (Math.sign(deplacement.y) * width),
-    };
-
-    this.xray = width;
-    this.yray = width;
-    this.x = Math.min(this.origin.x, newOffset.x);
-    this.y = Math.min(this.origin.y, newOffset.y);
-    }
+    return;
+  }
 
   setEllipseOffset(): void {
-    this.xray = Math.abs(this.mouse.x - this.origin.x);
-    this.yray = Math.abs(this.mouse.y - this.origin.y);
-    this.x = Math.min(this.origin.x, this.mouse.x);
-    this.y = Math.min(this.origin.y, this.mouse.y);
+    this.xray = Math.abs(this.mouse.x - this.origin.x) / 2;
+    this.yray = Math.abs(this.mouse.y - this.origin.y) / 2;
+    this.x = Math.min(this.origin.x, this.mouse.x) + this.xray;
+    this.y = Math.min(this.origin.y, this.mouse.y) + this.yray;
   }
 
   draw(): void {
     this.renderer.setAttribute(this.ellipse, 'cx', this.x.toString());
-    this.renderer.setAttribute(this.ellipse, 'cy', this.x.toString());
-    this.renderer.setAttribute(this.ellipse, 'rx', this.x.toString());
-    this.renderer.setAttribute(this.ellipse, 'ry', this.x.toString());
+    this.renderer.setAttribute(this.ellipse, 'cy', this.y.toString());
+    this.renderer.setAttribute(this.ellipse, 'rx', this.xray.toString());
+    this.renderer.setAttribute(this.ellipse, 'ry', this.yray.toString());
     this.renderer.setStyle(this.ellipse, 'fill', this.fill);
     this.renderer.setStyle(this.ellipse, 'stroke', this.stroke);
     this.renderer.setStyle(this.ellipse, 'stroke-width', this.strokeWidth.toString());
   }
 
-  
   assignBorderedRectangle(): void {
     this.strokeEnable = true;
     this.fillEnable = false;

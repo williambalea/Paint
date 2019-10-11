@@ -1,9 +1,9 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { EMPTY_STRING, NB } from 'src/constants';
+import { Point } from '../../../../../common/interface/point';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
-import { Point } from '../../../../../common/interface/point';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,7 @@ export class LineService implements Shape {
   active: boolean;
   positions: Point[];
   start: boolean;
+  savedPath: string;
 
   path: HTMLElement;
 
@@ -26,6 +27,7 @@ export class LineService implements Shape {
     this.reset();
     this.positions = [];
     this.start = true;
+    this.savedPath = EMPTY_STRING;
   }
 
   reset(): void {
@@ -45,16 +47,17 @@ export class LineService implements Shape {
     this.draw();
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     this.start = false;
+    this.savedPath = this.linepath;
     return this.path;
   }
 
   onMouseMove(): void {
-    if (this.active) {
-      // this.draw();
+    if(this.active){
+      this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
+      this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
   }
   onMouseUp(): void {
-    this.reset();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
 
   }

@@ -128,7 +128,13 @@ export class PolygonService implements Shape{
 
   onMouseMove(): void {
     if (this.active) {
-      this.generateVertices(Math.abs(this.inputService.getMouse().x-this.origin.x),Math.abs(this.inputService.getMouse().y-this.origin.y ), this.sideNumber,Math.abs(this.inputService.getMouse().x-this.origin.x)/2,Math.abs(this.inputService.getMouse().y-this.origin.y )/2 );
+      this.generateVertices(
+                            Math.abs(this.inputService.getMouse().x-this.origin.x),
+                            Math.abs(this.inputService.getMouse().y-this.origin.y ), 
+                            this.sideNumber,
+                            Math.abs(this.inputService.getMouse().x-this.origin.x)/2, 
+                            Math.abs(this.inputService.getMouse().y-this.origin.y)/2 
+                            );
       this.draw();
     }
   }
@@ -142,13 +148,13 @@ export class PolygonService implements Shape{
   generateVertices(i : number, j : number, n : number, x:number , y :number ) : void {
     let angle : number = NB.ThreeHundredSixty/n;
    
-    this.initialPoint.x =   this.initialPoint.x + (this.origin.x)+x;
-    this.initialPoint.y =  this.initialPoint.y*j/NB.Two + (this.origin.y)+y; 
+    this.initialPoint.x =   this.initialPoint.x + Math.min(this.origin.x,this.inputService.getMouse().x)+x;
+    this.initialPoint.y =  this.initialPoint.y*j/NB.Two +  Math.min(this.origin.y,this.inputService.getMouse().y)+y; 
     this.pointString = (`${this.initialPoint.x}` +' ' + `${this.initialPoint.y}`);
 
     for (let k : number = 0 ; k<n-1 ; k++){
-      let newPointX : number = (-Math.sin(angle * Math.PI /NB.OneHundredEighty)*i/NB.Two + this.origin.x)+x;
-      let newPointY : number = ( -Math.cos(angle * Math.PI /NB.OneHundredEighty)*j/NB.Two + this.origin.y)+y; 
+      let newPointX : number = (-Math.sin(angle * Math.PI /NB.OneHundredEighty)*i/NB.Two + Math.min(this.origin.x,this.inputService.getMouse().x))+ x;
+      let newPointY : number = ( -Math.cos(angle * Math.PI /NB.OneHundredEighty)*j/NB.Two + Math.min(this.origin.y,this.inputService.getMouse().y))+ y; 
  
       this.pointString += (' ' + `${newPointX}`);
       this.pointString += (' ' + `${newPointY}`);

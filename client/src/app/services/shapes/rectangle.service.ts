@@ -1,5 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { EMPTY_STRING, NB, RECTANGLE_TYPE } from 'src/constants';
+import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
@@ -33,7 +33,7 @@ export class RectangleService implements Shape {
     this.strokeWidth = NB.Seven;
     this.fill = EMPTY_STRING;
     this.stroke = EMPTY_STRING;
-    this.rectangleType = RECTANGLE_TYPE.borderedAndFilled;
+    this.rectangleType = OUTLINE_TYPE.borderedAndFilled;
 
     this.fillEnable = true;
     this.strokeEnable = true;
@@ -146,13 +146,13 @@ export class RectangleService implements Shape {
 
   assignRectangleType(): void {
     switch (this.rectangleType) {
-      case RECTANGLE_TYPE.bordered:
+      case OUTLINE_TYPE.bordered:
         this.assignBorderedRectangle();
         break;
-      case RECTANGLE_TYPE.filled:
+      case OUTLINE_TYPE.filled:
         this.assignFilledRectangle();
         break;
-      case RECTANGLE_TYPE.borderedAndFilled:
+      case OUTLINE_TYPE.borderedAndFilled:
         this.assignBorderedAndFilledRectangle();
         break;
       default:

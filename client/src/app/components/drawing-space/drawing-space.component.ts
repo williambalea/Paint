@@ -1,7 +1,7 @@
 import { Component,  ElementRef , HostListener, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
-import { KEY, NB, POINTER_EVENT, TOOL, EMPTY_STRING } from '../../../constants';
+import { EMPTY_STRING, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 
@@ -78,6 +78,10 @@ export class DrawingSpaceComponent implements OnInit {
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;
       this.selectedShape.onMouseMove();
+    }
+    if (event.key === KEY.escape) {
+      this.selectedShape.onMouseUp();
+      this.inputService.escapePressed = false;
     }
   }
 

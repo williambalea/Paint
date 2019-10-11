@@ -28,19 +28,21 @@ export class LineService implements Shape {
     }
 
   reset(): void {
+    this.start = true;
     this.stroke = EMPTY_STRING;
     this.active = false;
     this.linepath = EMPTY_STRING;
     this.savedPath = EMPTY_STRING;
     this.positions = [];
-    this.start = true;
   }
 
   onMouseDown(): any {
     this.positions.push(this.inputService.getMouse());
     this.active = true;
     this.stroke = this.colorService.getFillColor();
+    if (this.start) {
     this.path = this.renderer.createElement('path', 'svg');
+    }
     this.setStyle();
     this.draw();
     this.renderer.setAttribute(this.path, 'd', this.linepath);

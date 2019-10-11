@@ -1,5 +1,5 @@
 
-    <svg id = "lines" height='this.gridService.canvasHeight' width ="this.gridService.canvasWidth">
-        <line *ngFor = "let line of myArray" class = "line" [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" />
+    <svg id = "lines" height='this.gridService.canvasHeight' width ='this.gridService.canvasWidth'>
+        <line *ngFor = "let line of myArray" [style.stroke-opacity] = 'this.gridService.opacity/100' class = "line" [attr.x1]="line.x1" [attr.y1]="line.y1" [attr.x2]="line.x2" [attr.y2]="line.y2" />
     </svg>
 

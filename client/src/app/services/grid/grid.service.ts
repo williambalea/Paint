@@ -19,7 +19,7 @@ export class GridService {
 
   constructor(private fileParametersService: FileParametersServiceService) {
     this.gridEnabled = false;
-    this.opacity = NB.One * NB.OneHundred;
+    this.opacity = 0;
     this.gridRectangleDimension = NB.OneHundred;
     this.lineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];
     this.tempLineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];

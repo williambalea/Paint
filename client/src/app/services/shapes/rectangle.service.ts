@@ -99,7 +99,7 @@ export class RectangleService implements Shape {
       y: this.mouse.y - this.origin.y,
     };
 
-    const width = Math.min(Math.abs(deplacement.x), Math.abs(deplacement.y));
+    const width = Math.max(Math.abs(deplacement.x), Math.abs(deplacement.y));
 
     const newOffset: Point = {
       x: this.origin.x + (Math.sign(deplacement.x) * width),

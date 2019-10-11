@@ -1,3 +1,4 @@
+import { EllipseService } from './../../services/shapes/ellipse.service';
 import { Component, Input} from '@angular/core';
 import { MatRadioChange } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
@@ -20,14 +21,21 @@ export class AttributeBarComponent {
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
               private penService: PenService,
-              private brushService: BrushService) {
+              private brushService: BrushService,
+              private ellipseService: EllipseService) {
     this.tool = TOOL;
     this.brush = BRUSH;
   }
 
   radioChangeHandler(event: MatRadioChange): void {
-    this.rectangleService.rectangleType = event.value;
-    this.rectangleService.assignRectangleType();
+    if (this.selectedTool === TOOL.rectangle) {
+      this.rectangleService.rectangleType = event.value;
+      this.rectangleService.assignRectangleType();
+    } else if (this.selectedTool === TOOL.ellipse) {
+      this.ellipseService.ellipseType = event.value;
+      this.ellipseService.assignRectangleType();
+    }
+
   }
 
   brushRadioChangeHandler(event: MatRadioChange): void {

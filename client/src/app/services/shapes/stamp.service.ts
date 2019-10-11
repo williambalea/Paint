@@ -1,6 +1,6 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { svgFileLocation } from 'src/assets/stamps/svgFileLocaltion';
-import { EMPTY_STRING } from 'src/constants';
+import { EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
@@ -18,7 +18,7 @@ export class StampService implements Shape {
   constructor(private renderer: Renderer2, private inputService: InputService) {
     this.stamps = svgFileLocation;
     this.selectedStamp = EMPTY_STRING;
-    this.size = 30;
+    this.size = NB.Thirty;
     this.position = {x: 0, y: 0};
   }
 
@@ -39,7 +39,6 @@ export class StampService implements Shape {
 
   selectStamp(image: string): void {
     this.selectedStamp = image;
-    console.log(image);
   }
 
   draw(): void {
@@ -48,5 +47,8 @@ export class StampService implements Shape {
     this.renderer.setAttribute(this.stamp, 'y', this.position.y.toString());
     this.renderer.setAttribute(this.stamp, 'width', this.size.toString());
     this.renderer.setAttribute(this.stamp, 'height', this.size.toString());
+    this.renderer.setAttribute(this.stamp, 'transform',
+      `rotate(${this.inputService.stampAngle.toString()} ${this.inputService.getMouse().x} ${this.inputService.getMouse().y})`);
   }
+
 }

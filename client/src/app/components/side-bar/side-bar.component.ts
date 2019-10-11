@@ -102,14 +102,13 @@ export class SideBarComponent implements OnInit {
           this.createNewFile();
           break;
         case KEY.one:
-          this.selectedShape = this.rectangleService;
-          // this.selectedTool = TOOL.rectangle;
+          this.selectTool(TOOL.rectangle);
           break;
         case KEY.w:
-            this.selectedShape = this.brushService;
+            this.selectTool(TOOL.brush);
             break;
         case KEY.c:
-            this.selectedShape = this.penService;
+            this.selectTool(TOOL.pen);
             break;
         case KEY.r:
             this.selectedTool = TOOL.colorApplicator;
@@ -118,4 +117,5 @@ export class SideBarComponent implements OnInit {
       }
     }
   }
+
 }

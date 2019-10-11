@@ -61,18 +61,30 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
+    event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = true;
       this.selectedShape.onMouseMove();
     }
+
+    if (event.key === KEY.alt) {
+      this.inputService.altPressed = true;
+    }
+    console.log('hello');
   }
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
+    event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;
       this.selectedShape.onMouseMove();
     }
+
+    if (event.key === KEY.alt) {
+      this.inputService.altPressed = false;
+    }
+    console.log('hellna');
   }
 
   changeFillColor(event: MouseEvent, shape: any): void {
@@ -134,4 +146,12 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
+  @HostListener('wheel', ['$event'])
+  onwheel(event: WheelEvent): void {
+    if (this.selectedTool === TOOL.stamp) {
+      event.preventDefault();
+      this.inputService.changeStampAngle(Math.sign(event.deltaY));
+      console.log(this.inputService.stampAngle);
+    }
+  }
 }

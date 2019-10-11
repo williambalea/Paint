@@ -34,6 +34,7 @@ export enum NB {
   Twenty = 20,
   TwentyFour = 24,
   TwentyFive = 25,
+  Thirty = 30,
   Forty = 40,
   FortyTwo = 42,
   Fifty = 50,
@@ -64,6 +65,7 @@ export enum NB {
 
 export enum KEY {
   shift = 'Shift',
+  alt = 'Alt',
   o = 'o',
   c = 'c',
   w = 'w',

@@ -201,11 +201,12 @@
                            [attr.x]="100 - stampService.size / 2"
                            [attr.y]="50 - stampService.size / 2"
                            [attr.height]="stampService.size"
-                           [attr.width]="stampService.size" />
+                           [attr.width]="stampService.size"
+                           [attr.transform]="'rotate(' + inputService.stampAngle + ' 100 50)'" />
                 </svg>
             </div>
             <div class="attribute">
-                <div class="attributeHeader">Emotes</div>
+                <div class="attributeHeader">Emojis</div>
                 <div class="stampbox">
                     <span *ngFor="let stamp of stampService.stamps">
                         <img [attr.src]="stamp" (click)="stampService.selectStamp(stamp)">
@@ -213,18 +214,31 @@
                 </div>
             </div>
             <div class="attribute">
-                    <div class="attributeHeader">
-                        Size<br>
-                        {{stampService.size}} px
-                    </div>
-
-                    <div>
-                        <mat-slider min="1" max="100" value={{stampService.size}}
-                            [(ngModel)]="stampService.size"
-                            (input)="stampService.size = $event.value">
-                        </mat-slider>
-                    </div>
+                <div class="attributeHeader">
+                    Size<br>
+                    {{stampService.size}} px
                 </div>
+
+                <div>
+                    <mat-slider min="1" max="100" value={{stampService.size}}
+                        [(ngModel)]="stampService.size"
+                        (input)="stampService.size = $event.value">
+                    </mat-slider>
+                </div>
+            </div>
+            <div class="attribute">
+                <div class="attributeHeader">
+                    Angle<br>
+                    {{inputService.stampAngle}}°
+                </div>
+
+                <div>
+                    <mat-slider min="0" max="360" value={{inputService.stampAngle}}
+                        [(ngModel)]="inputService.stampAngle"
+                        (input)="inputService.stampAngle = $event.value">
+                    </mat-slider>
+                </div>
+            </div>
         </div>
 
     </div>

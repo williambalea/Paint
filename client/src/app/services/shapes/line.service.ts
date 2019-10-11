@@ -35,16 +35,13 @@ export class LineService implements Shape {
     this.positions = [];
     this.start = true;
   }
+
   onMouseDown(): any {
     this.positions.push(this.inputService.getMouse());
     this.active = true;
     this.stroke = this.colorService.getFillColor();
     this.path = this.renderer.createElement('path', 'svg');
-    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
-    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
-    this.renderer.setStyle(this.path, 'fill', 'none');
-    this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
+    this.setStyle();
     this.draw();
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     this.start = false;
@@ -53,17 +50,25 @@ export class LineService implements Shape {
     return this.path;
   }
 
+  setStyle() {
+    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
+    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
+    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
+    this.renderer.setStyle(this.path, 'fill', 'none');
+    this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
+  }
+
   onMouseMove(): void {
     if (this.active) {
       this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
   }
+
   onMouseUp(): void {
     if (this.inputService.escapePressed) {
       this.reset();
     }
-
   }
 
   draw() {

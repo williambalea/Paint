@@ -28,8 +28,7 @@ export class AttributeBarComponent {
               private rectangleService: RectangleService,
               private penService: PenService,
               private brushService: BrushService,
-              private gridService: GridService) {
-              private brushService: BrushService,
+              private gridService: GridService ,
               private ellipseService: EllipseService,
               private polygonService : PolygonService) {
     this.tool = TOOL;

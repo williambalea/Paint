@@ -44,12 +44,14 @@ export enum NB {
   SeventyFive = 75,
   Eighty = 80,
   OneHundred = 100,
+  OneHundredEighty=180,
   OneHundredEightTwo = 182,
   TwoHundred = 200,
   TwoHundredThree = 203,
   TwoHundredFifty = 250,
   TwoHundredFiftyFive = 255,
   ThreeHundred = 300,
+  ThreeHundredSixty = 360,
   FourHundred = 400,
   FourHundredOne = 401,
   FourHundredNinety = 490,
@@ -77,6 +79,7 @@ export enum TOOL {
   brush = 'brush',
   pen = 'pen',
   colorApplicator = 'colorApplicator',
+  polygon = 'polygon',
   ellipse = 'ellipse',
 }
 
@@ -102,6 +105,7 @@ export enum OUTLINE_TYPE {
   filled = 'Filled',
   borderedAndFilled = 'Bordered & Filled',
 }
+
 
 export enum STRINGS {
   white = 'white',

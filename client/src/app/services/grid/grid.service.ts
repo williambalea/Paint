@@ -9,8 +9,8 @@ export class GridService {
 
   lineArray: LINEARRAY[];
   tempLineArray: LINEARRAY[];
-  gridRectangleDimension: number;
   gridEnabled: boolean;
+  gridRectangleDimension: number;
   numberXLines: number;
   numberYLines: number;
   opacity: number;
@@ -19,7 +19,7 @@ export class GridService {
 
   constructor(private fileParametersService: FileParametersServiceService) {
     this.gridEnabled = false;
-    this.opacity = 0;
+    this.opacity = NB.Fifty;
     this.gridRectangleDimension = NB.OneHundred;
     this.lineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];
     this.tempLineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];
@@ -74,7 +74,6 @@ export class GridService {
 
   disableGrid() {
     this.gridEnabled = false;
-    this.tempLineArray = this.lineArray;
     this.clearLineArray();
   }
 

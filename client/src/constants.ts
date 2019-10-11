@@ -45,12 +45,14 @@ export enum NB {
   SeventyFive = 75,
   Eighty = 80,
   OneHundred = 100,
+  OneHundredEighty=180,
   OneHundredEightTwo = 182,
   TwoHundred = 200,
   TwoHundredThree = 203,
   TwoHundredFifty = 250,
   TwoHundredFiftyFive = 255,
   ThreeHundred = 300,
+  ThreeHundredSixty = 360,
   FourHundred = 400,
   FourHundredOne = 401,
   FourHundredNinety = 490,
@@ -70,7 +72,9 @@ export enum KEY {
   c = 'c',
   w = 'w',
   one = '1',
+  two = '2',
   r = 'r',
+  g = 'g',
 }
 
 export enum TOOL {
@@ -79,6 +83,9 @@ export enum TOOL {
   pen = 'pen',
   colorApplicator = 'colorApplicator',
   stamp = 'stamp',
+  grid = 'grid',
+  polygon = 'polygon',
+  ellipse = 'ellipse',
 }
 
 export enum BRUSH {
@@ -98,7 +105,7 @@ export enum POINTER_EVENT {
   visiblePainted = 'visiblePainted',
 }
 
-export enum RECTANGLE_TYPE {
+export enum OUTLINE_TYPE {
   bordered = 'Bordered',
   filled = 'Filled',
   borderedAndFilled = 'Bordered & Filled',
@@ -124,6 +131,12 @@ export enum COLORS {
   blueRGBA = 'rgba(0, 0, 255, 1)',
   magentaRBGA = 'rgba(255, 0, 255, 1)',
   centerGrey = '848484',
+}
+export interface LINEARRAY {
+  x1: number;
+  x2: number;
+  y1: number;
+  y2: number;
 }
 
 export const EMPTY_STRING = '';

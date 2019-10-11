@@ -47,6 +47,13 @@
   stroke-linejoin: round;
 }
 
+.lineStyleSquare{
+  stroke:rgb(0,0,0);
+  stroke-linecap: square;
+  fill: none;
+  stroke-linejoin: square;
+}
+
 .inputFormStyle{
   width: 83%;
 }
@@ -131,3 +138,7 @@ img:hover {
   height: 35px;
   padding: 0px 5px 5px 0px;
 }
+.button {
+  text-align: center;
+}
+

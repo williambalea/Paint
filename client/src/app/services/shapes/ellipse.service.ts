@@ -1,30 +1,31 @@
 import { Injectable, Renderer2 } from '@angular/core';
+import { ColorService } from 'src/app/services/color/color.service';
 import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
-import { Point } from '../../../../../common/interface/point';
-import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
+import { Point } from './../../../../../common/interface/point';
 import { Shape } from './shape';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RectangleService implements Shape {
+export class EllipseService implements Shape {
+
   x: number;
   y: number;
-  width: number;
-  height: number;
+  xray: number;
+  yray: number;
+  active: boolean;
   fill: string;
   stroke: string;
   strokeWidth: number;
-  active: boolean;
-  rectangleType: string;
+  ellipseType: string;
 
   fillEnable: boolean;
   strokeEnable: boolean;
 
   mouse: Point;
   origin: Point;
-  rectangle: HTMLElement;
+  ellipse: HTMLElement;
 
   constructor(private colorService: ColorService,
               private renderer: Renderer2,
@@ -33,7 +34,7 @@ export class RectangleService implements Shape {
     this.strokeWidth = NB.Seven;
     this.fill = EMPTY_STRING;
     this.stroke = EMPTY_STRING;
-    this.rectangleType = OUTLINE_TYPE.borderedAndFilled;
+    this.ellipseType = OUTLINE_TYPE.borderedAndFilled;
 
     this.fillEnable = true;
     this.strokeEnable = true;
@@ -41,9 +42,9 @@ export class RectangleService implements Shape {
 
   reset(): void {
     this.x = NB.Zero;
-    this.y =  NB.Zero;
-    this.width = NB.Zero;
-    this.height = NB.Zero;
+    this.y = NB.Zero;
+    this.xray = NB.Zero;
+    this.yray = NB.Zero;
 
     this.active = false;
   }
@@ -53,24 +54,22 @@ export class RectangleService implements Shape {
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin(this.inputService.getMouse());
-    this.setRectangleType();
-    this.rectangle = this.renderer.createElement('rect', 'svg');
-    return this.rectangle;
+    this.setEllipseType();
+    this.ellipse = this.renderer.createElement('ellipse', 'svg');
+    return this.ellipse;
   }
 
   onMouseMove(): void {
     this.mouse = this.inputService.getMouse();
     if (this.active) {
-      this.inputService.shiftPressed ? this.setSquareOffset() : this.setRectangleOffset();
+      this.inputService.shiftPressed ? this.setCircleOffset() : this.setEllipseOffset();
       this.draw();
-
     }
   }
 
   onMouseUp(): void {
     this.reset();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
-
   }
 
   setOrigin(mouse: Point): void {
@@ -79,7 +78,7 @@ export class RectangleService implements Shape {
     this.y = mouse.y;
   }
 
-  setRectangleType(): void {
+  setEllipseType(): void {
     if (!this.fillEnable) {
       this.fill = this.removeColor(this.fill);
     }
@@ -93,40 +92,37 @@ export class RectangleService implements Shape {
     return `rgba(${individualParams[NB.Zero]},${individualParams[NB.One]},${individualParams[NB.Two]},0)`;
   }
 
-  setSquareOffset(): void {
-    const deplacement: Point = {
-      x: this.mouse.x - this.origin.x,
-      y: this.mouse.y - this.origin.y,
-    };
+  setCircleOffset(): void {
+      const deplacement: Point = {
+        x: this.mouse.x - this.origin.x,
+        y: this.mouse.y - this.origin.y,
+      };
 
-    const width = Math.max(Math.abs(deplacement.x), Math.abs(deplacement.y));
+      this.xray = Math.abs(deplacement.x) / 2;
+      this.yray = Math.abs(deplacement.y) / 2;
+      const ray = Math.max(this.xray, this.yray);
 
-    const newOffset: Point = {
-      x: this.origin.x + (Math.sign(deplacement.x) * width),
-      y: this.origin.y + (Math.sign(deplacement.y) * width),
-    };
+      this.xray = ray;
+      this.yray = ray;
+      this.x = this.origin.x + (Math.sign(deplacement.x) * ray);
+      this.y = this.origin.y + (Math.sign(deplacement.y) * ray);
+      }
 
-    this.width = width;
-    this.height = width;
-    this.x = Math.min(this.origin.x, newOffset.x);
-    this.y = Math.min(this.origin.y, newOffset.y);
+  setEllipseOffset(): void {
+    this.xray = Math.abs(this.mouse.x - this.origin.x) / 2;
+    this.yray = Math.abs(this.mouse.y - this.origin.y) / 2;
+    this.x = Math.min(this.origin.x, this.mouse.x) + this.xray;
+    this.y = Math.min(this.origin.y, this.mouse.y) + this.yray;
   }
 
-  setRectangleOffset(): void {
-    this.width = Math.abs(this.mouse.x - this.origin.x);
-    this.height = Math.abs(this.mouse.y - this.origin.y);
-    this.x = Math.min(this.origin.x, this.mouse.x);
-    this.y = Math.min(this.origin.y, this.mouse.y);
-  }
-
-  draw() {
-    this.renderer.setAttribute(this.rectangle, 'x', this.x.toString());
-    this.renderer.setAttribute(this.rectangle, 'y', this.y.toString());
-    this.renderer.setAttribute(this.rectangle, 'width', this.width.toString());
-    this.renderer.setAttribute(this.rectangle, 'height', this.height.toString());
-    this.renderer.setStyle(this.rectangle, 'fill', this.fill);
-    this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
-    this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
+  draw(): void {
+    this.renderer.setAttribute(this.ellipse, 'cx', this.x.toString());
+    this.renderer.setAttribute(this.ellipse, 'cy', this.y.toString());
+    this.renderer.setAttribute(this.ellipse, 'rx', this.xray.toString());
+    this.renderer.setAttribute(this.ellipse, 'ry', this.yray.toString());
+    this.renderer.setStyle(this.ellipse, 'fill', this.fill);
+    this.renderer.setStyle(this.ellipse, 'stroke', this.stroke);
+    this.renderer.setStyle(this.ellipse, 'stroke-width', this.strokeWidth.toString());
   }
 
   assignBorderedRectangle(): void {
@@ -145,7 +141,7 @@ export class RectangleService implements Shape {
   }
 
   assignRectangleType(): void {
-    switch (this.rectangleType) {
+    switch (this.ellipseType) {
       case OUTLINE_TYPE.bordered:
         this.assignBorderedRectangle();
         break;
@@ -166,4 +162,5 @@ export class RectangleService implements Shape {
   changeSecondaryColor(color: string): void {
       this.stroke = color;
   }
+
 }

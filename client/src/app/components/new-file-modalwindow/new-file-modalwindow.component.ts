@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 
 import { InputService } from 'src/app/services/input.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
@@ -21,6 +22,7 @@ export class NewFileModalwindowComponent implements OnInit {
   constructor( private fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
                private formBuilder: FormBuilder,
+               private gridService: GridService,
                private colorService: ColorService,
                private inputService: InputService,
                private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
@@ -30,6 +32,11 @@ export class NewFileModalwindowComponent implements OnInit {
       canvaswidth: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
       canvasheight: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
     });
+  }
+
+  ajustCanvas() {
+    console.log('hi');
+    this.gridService.buildGrid();
   }
 
   assignCanvas(): void {
@@ -69,6 +76,7 @@ export class NewFileModalwindowComponent implements OnInit {
   createNewDrawing(canvaswidth: number, canvasheight: number): void {
     this.fileParameters.changeParameters(canvaswidth, canvasheight);
     this.modifyCanvasDisplay();
+    this.gridService.gridSizeModification();
   }
 
   validForm(): boolean {

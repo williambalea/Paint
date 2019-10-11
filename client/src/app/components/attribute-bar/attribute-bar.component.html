@@ -194,62 +194,56 @@
 
             <div>
 
-                <div class="svg">
-                    <svg class="lineStyleSquare" width="200" height="100">
-                        <line x1="45" y1="45" x2="160" y2="45" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="5" />
-                        <line x1="45" y1="85" x2="160" y2="85" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="5" />
-                        <line x1="75" y1="30" x2="75" y2="100" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="5" />
-                        <line x1="130" y1="30" x2="130" y2="100" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="5" />
-                    </svg>
-                    
+                <div class="gridPreview">
+                    <svg width="210" height="210">
+                        <rect [attr.x] = 5 [attr.y] = 5 [attr.width]="this.gridService.gridRectangleDimension" [attr.height]="this.gridService.gridRectangleDimension" style="fill:white;stroke-width:3;stroke:red" />
+                    </svg>                    
                 </div>
 
                 <div class="attribute">
                     <div class="attributeHeader">
-                        <br>
                         Grid size<br>
-                        <div class = "dynamicValue">
+                        <div>
                                 {{this.gridService.gridRectangleDimension}} px
                         </div>
                     </div>
 
-                    <div>
+                    <div class = "button">
                         <mat-slider min="40" max="200" value={{this.gridService.gridRectangleDimension}}
                             [(ngModel)]="this.gridService.gridRectangleDimension"
                             (input)="this.gridService.gridRectangleDimension = $event.value">
                         </mat-slider>
-                        <button (click)="this.gridService.gridSizeModification()">Confirm modification</button>
+                        <button mat-stroked-button color ="primary" (click)="this.gridService.gridSizeModification()">Confirm modification</button>
                     </div>
                 </div>
                 <div class="attribute">
                         <div class="attributeHeader">
                                 Toggle grid<br>
                         </div>
-                        <div *ngIf="this.gridService.gridEnabled">
-                                <button (click)="this.gridService.disableGrid()">Turn off grid</button>
+                        <br>
+                        <div class = "button">
+                                <div *ngIf="this.gridService.gridEnabled">
+                                        <mat-checkbox indeterminate = true (click)="this.gridService.disableGrid()">Turn off grid</mat-checkbox>
+                                </div>
+                                <div *ngIf="!this.gridService.gridEnabled">
+                                        <mat-checkbox  (click)="this.gridService.enableGrid()">Turn on grid</mat-checkbox>
+                                </div>        
                         </div>
-                        <div *ngIf="!this.gridService.gridEnabled">
-                                <button (click)="this.gridService.enableGrid()">Turn on grid</button>
-                        </div>
-
+                        
                 </div>
                 <div class="attribute">
                         <div class="attributeHeader">
                                 Opacity<br>
-                                <div class = "dynamicValue">
+                                <div>
                                         {{this.gridService.opacity}} %
                                 </div>
                         </div>
-                        <div>
+                        <div class = "button">
                             <mat-slider min="50" max="100" value={{this.gridService.opacity}}
                                         [(ngModel)]="this.gridService.opacity"
                                         (input)="this.gridService.opacity = $event.value">
                             </mat-slider>
-                            <button (click)="this.gridService.gridOpacityModification()">Modify opacity</button>
+                            <button mat-stroked-button color ="primary" (click)="this.gridService.gridOpacityModification()">Confirm modification</button>
                         </div>
                 </div>
             </div>

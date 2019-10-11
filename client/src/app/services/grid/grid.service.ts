@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { LINEARRAY, NB} from 'src/constants';
 import { FileParametersServiceService } from '../file-parameters-service.service';
 
@@ -8,6 +8,7 @@ import { FileParametersServiceService } from '../file-parameters-service.service
 export class GridService {
 
   lineArray: LINEARRAY[];
+  tempLineArray: LINEARRAY[];
   gridRectangleDimension: number;
   gridEnabled: boolean;
   numberXLines: number;
@@ -16,26 +17,23 @@ export class GridService {
   canvasWidth: number;
   canvasHeight: number;
 
-  constructor(fileParametersService: FileParametersServiceService) {
+  constructor(private fileParametersService: FileParametersServiceService) {
     this.gridEnabled = false;
     this.opacity = NB.One * NB.OneHundred;
     this.gridRectangleDimension = NB.OneHundred;
     this.lineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];
-    this.canvasHeight = fileParametersService.canvasHeight.getValue();
-    this.canvasWidth = fileParametersService.canvasWidth.getValue();
-    console.log(this.canvasHeight);
-    console.log(this.canvasWidth);
+    this.tempLineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];
    }
 
   calculateNumberLine() {
-    console.log(this.canvasHeight);
-    console.log(this.canvasWidth);
     this.numberXLines = (this.canvasWidth / this.gridRectangleDimension) * (this.canvasHeight / this.canvasWidth);
     this.numberYLines = (this.canvasHeight / this.gridRectangleDimension) * (this.canvasWidth / this.canvasHeight);
   }
 
   buildGrid(): void {
+    this.clearLineArray();
     if (this.gridEnabled) {
+      this.canvasSizeModification();
       this.calculateNumberLine();
       for (let i = NB.Zero; i < this.numberXLines; i++) {
         this.addHorizontalLine(i);
@@ -64,20 +62,25 @@ export class GridService {
     }
   }
 
+  canvasSizeModification() {
+    this.fileParametersService.canvaswidth$.subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
+    this.fileParametersService.canvasheight$.subscribe((canvasHeight) => this.canvasHeight = canvasHeight);
+  }
+
   gridSizeModification() {
-    // this.canvasSizeModification();
     this.clearLineArray();
     this.buildGrid();
   }
 
   disableGrid() {
     this.gridEnabled = false;
+    this.tempLineArray = this.lineArray;
     this.clearLineArray();
   }
 
   enableGrid() {
     this.gridEnabled = true;
-    this.gridSizeModification();
+    this.buildGrid();
   }
 
   gridOpacityModification() {

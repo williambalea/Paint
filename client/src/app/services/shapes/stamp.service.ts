@@ -12,7 +12,6 @@ export class StampService implements Shape {
   stamps: string[];
   selectedStamp: string;
   size: number;
-  active: boolean;
   position: Point;
   stamp: HTMLElement;
 
@@ -20,22 +19,22 @@ export class StampService implements Shape {
     this.stamps = svgFileLocation;
     this.selectedStamp = EMPTY_STRING;
     this.size = 30;
-    this.active = false;
+    this.position = {x: 0, y: 0};
   }
 
   onMouseDown(): any {
-    this.active = true;
     this.stamp = this.renderer.createElement('image', 'svg');
     this.draw();
     return this.stamp;
   }
 
   onMouseMove(): void {
-    this.position = this.inputService.getMouse();
+    this.position.x = this.inputService.getMouse().x - this.size / 2;
+    this.position.y = this.inputService.getMouse().y - this.size / 2;
   }
 
   onMouseUp(): void {
-    this.active = false;
+    return;
   }
 
   selectStamp(image: string): void {
@@ -44,7 +43,7 @@ export class StampService implements Shape {
   }
 
   draw(): void {
-    this.renderer.setAttribute(this.stamp, 'xlink:href', this.selectedStamp.toString());
+    this.renderer.setAttribute(this.stamp, 'href', this.selectedStamp.toString());
     this.renderer.setAttribute(this.stamp, 'x', this.position.x.toString());
     this.renderer.setAttribute(this.stamp, 'y', this.position.y.toString());
     this.renderer.setAttribute(this.stamp, 'width', this.size.toString());

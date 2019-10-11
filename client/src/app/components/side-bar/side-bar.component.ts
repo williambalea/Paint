@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
+import { LineService } from 'src/app/services/shapes/line.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
@@ -13,7 +14,7 @@ import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-mo
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService, PenService],
+  providers: [RectangleService, BrushService, PenService, LineService],
 })
 export class SideBarComponent implements OnInit {
   // tool: typeof TOOL;
@@ -27,7 +28,8 @@ export class SideBarComponent implements OnInit {
               private colorService: ColorService,
               private rectangleService: RectangleService,
               private brushService: BrushService,
-              private penService: PenService) {
+              private penService: PenService,
+              private lineService: LineService) {
     // this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
@@ -70,6 +72,10 @@ export class SideBarComponent implements OnInit {
         break;
     case TOOL.colorApplicator :
         this.selectedTool = TOOL.colorApplicator;
+        break;
+    case TOOL.line:
+        this.selectedShape = this.lineService;
+        this.selectedTool = TOOL.line;
         break;
     default:
    }

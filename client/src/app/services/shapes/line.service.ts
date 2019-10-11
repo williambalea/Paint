@@ -25,14 +25,15 @@ export class LineService implements Shape {
               private colorService: ColorService) {
     this.strokeWidth = NB.Seven;
     this.reset();
-    this.positions = [];
-    this.start = true;
-    this.savedPath = EMPTY_STRING;
-  }
+    }
 
   reset(): void {
     this.stroke = EMPTY_STRING;
     this.active = false;
+    this.linepath = EMPTY_STRING;
+    this.savedPath = EMPTY_STRING;
+    this.positions = [];
+    this.start = true;
   }
   onMouseDown(): any {
     this.positions.push(this.inputService.getMouse());
@@ -48,17 +49,20 @@ export class LineService implements Shape {
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     this.start = false;
     this.savedPath = this.linepath;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
     return this.path;
   }
 
   onMouseMove(): void {
-    if(this.active){
+    if (this.active) {
       this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
   }
   onMouseUp(): void {
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
+    if (this.inputService.escapePressed) {
+      this.reset();
+    }
 
   }
 

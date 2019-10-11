@@ -1,6 +1,6 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
-import { EMPTY_STRING, NB, RECTANGLE_TYPE } from 'src/constants';
+import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { InputService } from '../input.service';
 import { Point } from './../../../../../common/interface/point';
 import { Shape } from './shape';
@@ -34,7 +34,7 @@ export class EllipseService implements Shape {
     this.strokeWidth = NB.Seven;
     this.fill = EMPTY_STRING;
     this.stroke = EMPTY_STRING;
-    this.ellipseType = RECTANGLE_TYPE.borderedAndFilled;
+    this.ellipseType = OUTLINE_TYPE.borderedAndFilled;
 
     this.fillEnable = true;
     this.strokeEnable = true;
@@ -142,13 +142,13 @@ export class EllipseService implements Shape {
 
   assignRectangleType(): void {
     switch (this.ellipseType) {
-      case RECTANGLE_TYPE.bordered:
+      case OUTLINE_TYPE.bordered:
         this.assignBorderedRectangle();
         break;
-      case RECTANGLE_TYPE.filled:
+      case OUTLINE_TYPE.filled:
         this.assignFilledRectangle();
         break;
-      case RECTANGLE_TYPE.borderedAndFilled:
+      case OUTLINE_TYPE.borderedAndFilled:
         this.assignBorderedAndFilledRectangle();
         break;
       default:

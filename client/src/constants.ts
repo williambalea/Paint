@@ -97,7 +97,7 @@ export enum POINTER_EVENT {
   visiblePainted = 'visiblePainted',
 }
 
-export enum RECTANGLE_TYPE {
+export enum OUTLINE_TYPE {
   bordered = 'Bordered',
   filled = 'Filled',
   borderedAndFilled = 'Bordered & Filled',

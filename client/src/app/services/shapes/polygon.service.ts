@@ -142,13 +142,13 @@ export class PolygonService implements Shape{
   generateVertices(i : number, j : number, n : number, x:number , y :number ) : void {
     let angle : number = NB.ThreeHundredSixty/n;
    
-    this.initialPoint.x =   this.initialPoint.x +(this.origin.x)+x;
-    this.initialPoint.y =  this.initialPoint.y*j+(this.origin.y)+y; 
+    this.initialPoint.x =   this.initialPoint.x + (this.origin.x)+x;
+    this.initialPoint.y =  this.initialPoint.y*j/NB.Two + (this.origin.y)+y; 
     this.pointString = (`${this.initialPoint.x}` +' ' + `${this.initialPoint.y}`);
 
     for (let k : number = 0 ; k<n-1 ; k++){
-      let newPointX : number = (-Math.sin(angle * Math.PI /NB.OneHundredEighty) *i+ this.origin.x)+x;
-      let newPointY : number = ( -Math.cos(angle * Math.PI /NB.OneHundredEighty)*j+ this.origin.y)+y; 
+      let newPointX : number = (-Math.sin(angle * Math.PI /NB.OneHundredEighty)*i/NB.Two + this.origin.x)+x;
+      let newPointY : number = ( -Math.cos(angle * Math.PI /NB.OneHundredEighty)*j/NB.Two + this.origin.y)+y; 
  
       this.pointString += (' ' + `${newPointX}`);
       this.pointString += (' ' + `${newPointY}`);

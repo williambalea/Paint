@@ -69,6 +69,7 @@ export enum KEY {
   w = 'w',
   one = '1',
   r = 'r',
+  escape = 'Escape',
 }
 
 export enum TOOL {

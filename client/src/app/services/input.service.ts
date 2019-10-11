@@ -8,11 +8,13 @@ import { Point } from '../../../../common/interface/point';
 export class InputService {
   private mouse: Point;
   shiftPressed: boolean;
+  escapePressed: boolean;
   isBlank: boolean;
   constructor() {
     this.shiftPressed = false;
     this.mouse = {x: NB.Zero, y: NB.Zero};
     this.isBlank = true;
+    this.escapePressed = false;
   }
 
   setMouseOffset(event: MouseEvent) {

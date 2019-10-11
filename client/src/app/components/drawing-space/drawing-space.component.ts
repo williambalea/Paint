@@ -1,7 +1,7 @@
 import { Component,  ElementRef , HostListener, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
-import { KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
+import { KEY, NB, POINTER_EVENT, TOOL, EMPTY_STRING } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 
@@ -23,6 +23,7 @@ export class DrawingSpaceComponent implements OnInit {
   canvasHeight: number;
   width: number;
   pointerEvent: string;
+  shape: string;
 
   constructor( private fileParameters: FileParametersServiceService,
                private colorService: ColorService,
@@ -32,6 +33,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
+    this.shape = EMPTY_STRING;
   }
 
   test(): void {
@@ -65,6 +67,10 @@ export class DrawingSpaceComponent implements OnInit {
       this.inputService.shiftPressed = true;
       this.selectedShape.onMouseMove();
     }
+    if (event.key === KEY.escape) {
+      this.inputService.escapePressed = true;
+      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+    }
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -91,25 +97,25 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(): void {
-    const shape: any = this.selectedShape.onMouseDown();
+    this.shape = this.selectedShape.onMouseDown();
     if (this.selectedTool === TOOL.rectangle) {
-      this.renderer.listen(shape, 'click', (event: MouseEvent) => {
-        this.changeFillColor(event, shape);
+      this.renderer.listen(this.shape, 'click', (event: MouseEvent) => {
+        this.changeFillColor(event, this.shape);
       });
-      this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
-        this.changeStrokeColor(event, shape, this.colorService.getStrokeColor());
+      this.renderer.listen(this.shape, 'contextmenu', (event: MouseEvent) => {
+        this.changeStrokeColor(event, this.shape, this.colorService.getStrokeColor());
       });
     }
     if (this.selectedTool === TOOL.brush || this.selectedTool === TOOL.pen) {
-      this.renderer.listen(shape, 'click', (event: MouseEvent) => {
-        this.changeStrokeColor(event, shape, this.colorService.getFillColor());
+      this.renderer.listen(this.shape, 'click', (event: MouseEvent) => {
+        this.changeStrokeColor(event, this.shape, this.colorService.getFillColor());
       });
-      this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
+      this.renderer.listen(this.shape, 'contextmenu', (event: MouseEvent) => {
         event.preventDefault();
       });
     }
     if (this.selectedTool !== TOOL.colorApplicator) {
-      this.renderer.appendChild(this.canvas.nativeElement, shape);
+      this.renderer.appendChild(this.canvas.nativeElement, this.shape);
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);
       this.pointerEvent = POINTER_EVENT.none;

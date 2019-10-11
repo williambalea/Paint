@@ -2,6 +2,7 @@ import { Component, Input} from '@angular/core';
 import { MatRadioChange } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
+import { LineService} from 'src/app/services/shapes/line.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { BRUSH, TOOL } from '../../../constants';
@@ -20,7 +21,8 @@ export class AttributeBarComponent {
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
               private penService: PenService,
-              private brushService: BrushService) {
+              private brushService: BrushService,
+              private lineService: LineService) {
     this.tool = TOOL;
     this.brush = BRUSH;
   }
@@ -44,6 +46,10 @@ export class AttributeBarComponent {
 
   getBrushService(): BrushService {
     return this.brushService;
+  }
+
+  getLineService(): LineService {
+    return this.lineService;
   }
 
 }

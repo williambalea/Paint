@@ -76,6 +76,7 @@ export enum TOOL {
   brush = 'brush',
   pen = 'pen',
   colorApplicator = 'colorApplicator',
+  stamp = 'stamp',
 }
 
 export enum BRUSH {

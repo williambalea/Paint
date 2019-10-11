@@ -4,6 +4,7 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
+import { StampService } from 'src/app/services/shapes/stamp.service';
 import { BRUSH, TOOL } from '../../../constants';
 
 @Component({
@@ -20,7 +21,8 @@ export class AttributeBarComponent {
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
               private penService: PenService,
-              private brushService: BrushService) {
+              private brushService: BrushService,
+              private stampService: StampService) {
     this.tool = TOOL;
     this.brush = BRUSH;
   }
@@ -44,6 +46,10 @@ export class AttributeBarComponent {
 
   getBrushService(): BrushService {
     return this.brushService;
+  }
+
+  getStampService(): StampService {
+    return this.stampService;
   }
 
 }

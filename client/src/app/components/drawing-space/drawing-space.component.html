@@ -5,7 +5,7 @@
         [attr.width]= "this.canvasWidth"
         [attr.height]= "this.canvasHeight"
         [style.background-color]= "colorService.getBackgroundColor()"
-        xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" #canvas>
+        xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" #canvas (contextmenu)="$event.preventDefault()">
   
 
     <defs>

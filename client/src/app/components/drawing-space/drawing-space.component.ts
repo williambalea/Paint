@@ -34,10 +34,6 @@ export class DrawingSpaceComponent implements OnInit {
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 
-  test(): void {
-    console.log('click');
-  }
-
   setCanvasParameters(): void {
     this.fileParameters.canvaswidth$
        .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
@@ -50,14 +46,6 @@ export class DrawingSpaceComponent implements OnInit {
   ngOnInit(): void {
     this.setCanvasParameters();
   }
-
-  // TODO: Ines, elle sert à quoi cette fonction?
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: { target: { innerWidth: number; }; }): void {
-  //   if (!this.resizeFlag) {
-  //   this.width = event.target.innerWidth;
-  //   this.canvasWidth = event.target.innerWidth;
-  // }}
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
@@ -77,21 +65,53 @@ export class DrawingSpaceComponent implements OnInit {
 
   changeFillColor(event: MouseEvent, shape: any): void {
     if (this.selectedTool === TOOL.colorApplicator) {
-      event.preventDefault();
       this.renderer.setStyle(shape, 'fill', this.colorService.getFillColor());
     }
   }
 
   changeStrokeColor(event: MouseEvent, shape: any, color: string): void {
-    event.preventDefault();
     if (this.selectedTool === TOOL.colorApplicator) {
       this.renderer.setStyle(shape, 'stroke', color);
     }
   }
 
+  setElementColor(event: MouseEvent, primaryColor: string, secondaryColor?: string): void {
+    if (event.button === 0) {
+      this.colorService.setFillColor(primaryColor);
+    }
+    if (event.button === 2 && secondaryColor) {
+      this.colorService.setStrokeColor(secondaryColor);
+    }
+  }
+
   @HostListener('mousedown', ['$event'])
-  onMouseDown(): void {
+  onMouseDown(event: MouseEvent): void {
+    if (this.selectedTool === TOOL.pipette) {
+      const element: HTMLElement = event.target as HTMLElement;
+      const style: string[] = (element.getAttribute('style') as string).split(';');
+      switch (element.tagName) {
+        case 'path':
+          this.setElementColor(event, style[0].substring(8));
+          break;
+
+        case 'svg':
+          this.setElementColor(event, style[0].substring(18));
+          break;
+
+        case 'rect':
+          this.setElementColor(event, style[0].substring(6), style[1].substring(9));
+          break;
+
+        default:
+          return;
+      }
+    }
     const shape: any = this.selectedShape.onMouseDown();
+    this.setEventListeners(shape);
+    this.draw(shape);
+  }
+
+    setEventListeners(shape: any): void {
     if (this.selectedTool === TOOL.rectangle) {
       this.renderer.listen(shape, 'click', (event: MouseEvent) => {
         this.changeFillColor(event, shape);
@@ -104,11 +124,11 @@ export class DrawingSpaceComponent implements OnInit {
       this.renderer.listen(shape, 'click', (event: MouseEvent) => {
         this.changeStrokeColor(event, shape, this.colorService.getFillColor());
       });
-      this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
-        event.preventDefault();
-      });
     }
-    if (this.selectedTool !== TOOL.colorApplicator) {
+  }
+
+  draw(shape: any): void {
+    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
       this.renderer.appendChild(this.canvas.nativeElement, shape);
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);

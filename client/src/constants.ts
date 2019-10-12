@@ -45,7 +45,7 @@ export enum NB {
   SeventyFive = 75,
   Eighty = 80,
   OneHundred = 100,
-  OneHundredEighty=180,
+  OneHundredEighty= 180,
   OneHundredEightTwo = 182,
   TwoHundred = 200,
   TwoHundredThree = 203,

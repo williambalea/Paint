@@ -7,7 +7,7 @@
     </div>    
     <div class="form-field">
         <mat-form-field>
-          <input matInput placeholder="HEX" type="text" minlength="6" maxlength="6" (keyup.enter)="onEnterHex(box.value)" value={{colorHex}} [(ngModel)]="colorHex">
+          <input matInput placeholder="HEX" type="text" minlength="6" maxlength="6" (keyup)="onEnterHex(box.value)" value={{colorHex}} [(ngModel)]="colorHex">
           <span matPrefix>#</span>
         </mat-form-field>
     </div>

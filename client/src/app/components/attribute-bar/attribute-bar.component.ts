@@ -21,7 +21,6 @@ export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
   @Input()selectedTool: TOOL;
-  //form: FormGroup;
   sides: number;
   test = 25;
 
@@ -33,10 +32,9 @@ export class AttributeBarComponent {
               private inputService: InputService,
               private gridService: GridService ,
               private ellipseService: EllipseService,
-              private polygonService : PolygonService) {
+              private polygonService: PolygonService) {
     this.tool = TOOL;
     this.brush = BRUSH;
-    console.log(this.polygonService.sideNumber);
   }
 
   radioChangeHandler(event: MatRadioChange): void {
@@ -46,7 +44,7 @@ export class AttributeBarComponent {
     } else if (this.selectedTool === TOOL.ellipse) {
       this.ellipseService.ellipseType = event.value;
       this.ellipseService.assignRectangleType();
-    } else if (this.selectedTool === TOOL.polygon){
+    } else if (this.selectedTool === TOOL.polygon) {
       this.polygonService.polygonType = event.value;
       this.polygonService.assignPolygonType();
     }

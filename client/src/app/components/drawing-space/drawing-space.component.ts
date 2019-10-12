@@ -1,10 +1,10 @@
-import { Component,  ElementRef , HostListener, Input, OnInit, Renderer2, ViewChild, OnDestroy} from '@angular/core';
+import { Component,  ElementRef , HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
+import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
-import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 
 @Component({
   selector: 'app-drawing-space',
@@ -12,11 +12,7 @@ import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy {
-  
-
   @ViewChild('canvas', {static: false}) canvas: ElementRef;
-
-
   tool: typeof TOOL;
   @Input()selectedTool: TOOL;
   @Input()selectedShape: Shape;
@@ -31,13 +27,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
                private colorService: ColorService,
                private inputService: InputService,
                private renderer: Renderer2,
-               private unsubscribeService : UnsubscribeService) {
+               private unsubscribeService: UnsubscribeService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.firstClick = true;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
-  
   }
 
   setCanvasParameters(): void {
@@ -71,7 +66,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
       this.inputService.altPressed = true;
       event.preventDefault();
     }
-    console.log('hello');
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -85,7 +79,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     if (event.key === KEY.alt) {
       this.inputService.altPressed = false;
     }
-    console.log('hellna');
   }
 
   changeFillColor(event: MouseEvent, shape: any): void {
@@ -191,7 +184,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     if (this.selectedTool === TOOL.stamp) {
       event.preventDefault();
       this.inputService.changeStampAngle(Math.sign(event.deltaY));
-      console.log(this.inputService.stampAngle);
     }
   }
 }

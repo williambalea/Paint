@@ -44,7 +44,6 @@ export class FileParametersServiceService {
   changeParameters(widht: number, height: number): void {
     this.resizeFlag.next(this.tempresize);
     this.canvasWidth.next(widht);
-    console.log ('fileparameters canvas width', this.canvasWidth.getValue());
     this.canvasHeight.next(height);
   }
 

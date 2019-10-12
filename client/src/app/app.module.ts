@@ -1,3 +1,4 @@
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +19,6 @@ import { EntryPointComponent } from './components/entry-point/entry-point.compon
 import { GridComponent } from './components/grid/grid.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
-import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
-    DragDropModule
+    DragDropModule,
   ],
   entryComponents: [
     EntryPointComponent,

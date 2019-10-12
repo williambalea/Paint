@@ -81,9 +81,4 @@ export class GridService {
     this.gridEnabled = true;
     this.buildGrid();
   }
-
-  gridOpacityModification() {
-    this.clearLineArray();
-    this.buildGrid();
-  }
 }

@@ -1,7 +1,7 @@
 import { Component,  ElementRef , HostListener, Input, OnInit, Renderer2, ViewChild, OnDestroy} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
-import { KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
+import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
@@ -24,6 +24,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
+  firstClick: boolean;
   pointerEvent: string;
 
   constructor( private fileParameters: FileParametersServiceService,
@@ -34,12 +35,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
+    this.firstClick = true;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   
-  }
-
-  test(): void {
-    console.log('click');
   }
 
   setCanvasParameters(): void {
@@ -60,14 +58,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribeService.onDestroy();
   }
-
-  // TODO: Ines, elle sert à quoi cette fonction?
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: { target: { innerWidth: number; }; }): void {
-  //   if (!this.resizeFlag) {
-  //   this.width = event.target.innerWidth;
-  //   this.canvasWidth = event.target.innerWidth;
-  // }}
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
@@ -100,22 +90,60 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
 
   changeFillColor(event: MouseEvent, shape: any): void {
     if (this.selectedTool === TOOL.colorApplicator) {
-      event.preventDefault();
       this.renderer.setStyle(shape, 'fill', this.colorService.getFillColor());
     }
   }
 
   changeStrokeColor(event: MouseEvent, shape: any, color: string): void {
-    event.preventDefault();
     if (this.selectedTool === TOOL.colorApplicator) {
       this.renderer.setStyle(shape, 'stroke', color);
     }
   }
 
+  setElementColor(event: MouseEvent, primaryColor: string, secondaryColor?: string): void {
+    if (event.button === 0) {
+      this.colorService.setFillColor(primaryColor);
+    }
+    if (event.button === 2 && secondaryColor) {
+      this.colorService.setStrokeColor(secondaryColor);
+    }
+  }
+
+  usePipette(event: MouseEvent): void {
+    const canvas: HTMLCanvasElement = document.querySelector('canvas') as HTMLCanvasElement;
+    canvas.height = this.canvasHeight;
+    canvas.width = this.canvasWidth;
+    const image: HTMLImageElement = document.querySelectorAll('img')[1] as HTMLImageElement;
+    const svg: SVGSVGElement = document.querySelector('svg') as SVGSVGElement;
+    const xml: string = new XMLSerializer().serializeToString(svg as Node);
+    const svg64: string = btoa(xml);
+    const b64start = 'data:image/svg+xml;base64,';
+    const image64: string = b64start + svg64;
+    image.src = image64;
+    (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
+    const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
+    getImageData(event.offsetX, event.offsetY, 1, 1).data;
+    if (event.button === 0 && !this.firstClick) {
+      this.colorService.setFillColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
+    }
+    if (event.button === 2 && !this.firstClick) {
+      this.colorService.setStrokeColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
+    }
+    this.firstClick = false;
+  }
+
   @HostListener('mousedown', ['$event'])
-  onMouseDown(): void {
+  onMouseDown(event: MouseEvent): void {
+    if (this.selectedTool === TOOL.pipette) {
+      this.usePipette(event);
+    }
     const shape: any = this.selectedShape.onMouseDown();
-    if (this.selectedTool === TOOL.rectangle || this.selectedTool === TOOL.ellipse) {
+    this.setEventListeners(shape);
+    this.draw(shape);
+  }
+
+  setEventListeners(shape: any): void {
+    if (this.selectedTool === TOOL.rectangle) {
       this.renderer.listen(shape, 'click', (event: MouseEvent) => {
         this.changeFillColor(event, shape);
       });
@@ -127,11 +155,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
       this.renderer.listen(shape, 'click', (event: MouseEvent) => {
         this.changeStrokeColor(event, shape, this.colorService.getFillColor());
       });
-      this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
-        event.preventDefault();
-      });
     }
-    if (this.selectedTool !== TOOL.colorApplicator) {
+  }
+
+  draw(shape: any): void {
+    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
       this.renderer.appendChild(this.canvas.nativeElement, shape);
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);

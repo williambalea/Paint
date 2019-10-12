@@ -1,11 +1,13 @@
 <!-- <div class="drawingBoard" (window:resize)="onResize($event)">   -->
-<div class="drawingBoard" >
+<div class="drawingBoard" >  
+    <canvas hidden></canvas>
+    <img hidden/>
     <svg id="canvas" version="1.1"
         baseProfile="full"
         [attr.width]= "this.canvasWidth"
         [attr.height]= "this.canvasHeight"
         [style.background-color]= "colorService.getBackgroundColor()"
-        xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" #canvas>
+        xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" #canvas (contextmenu)="$event.preventDefault()">
   
     <defs>
 

@@ -1,7 +1,7 @@
 import { Component,  ElementRef , HostListener, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
-import { KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
+import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 
@@ -22,6 +22,7 @@ export class DrawingSpaceComponent implements OnInit {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
+  firstClick: boolean;
   pointerEvent: string;
 
   constructor( private fileParameters: FileParametersServiceService,
@@ -31,6 +32,7 @@ export class DrawingSpaceComponent implements OnInit {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
+    this.firstClick = true;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 
@@ -84,34 +86,40 @@ export class DrawingSpaceComponent implements OnInit {
     }
   }
 
+  usePipette(event: MouseEvent): void {
+    const canvas: HTMLCanvasElement = document.querySelector('canvas') as HTMLCanvasElement;
+    canvas.height = this.canvasHeight;
+    canvas.width = this.canvasWidth;
+    const image: HTMLImageElement = document.querySelectorAll('img')[1] as HTMLImageElement;
+    const svg: SVGSVGElement = document.querySelector('svg') as SVGSVGElement;
+    const xml: string = new XMLSerializer().serializeToString(svg as Node);
+    const svg64: string = btoa(xml);
+    const b64start = 'data:image/svg+xml;base64,';
+    const image64: string = b64start + svg64;
+    image.src = image64;
+    (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
+    const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
+    getImageData(event.offsetX, event.offsetY, 1, 1).data;
+    if (event.button === 0 && !this.firstClick) {
+      this.colorService.setFillColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
+    }
+    if (event.button === 2 && !this.firstClick) {
+      this.colorService.setStrokeColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
+    }
+    this.firstClick = false;
+  }
+
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
     if (this.selectedTool === TOOL.pipette) {
-      const element: HTMLElement = event.target as HTMLElement;
-      const style: string[] = (element.getAttribute('style') as string).split(';');
-      switch (element.tagName) {
-        case 'path':
-          this.setElementColor(event, style[0].substring(8));
-          break;
-
-        case 'svg':
-          this.setElementColor(event, style[0].substring(18));
-          break;
-
-        case 'rect':
-          this.setElementColor(event, style[0].substring(6), style[1].substring(9));
-          break;
-
-        default:
-          return;
-      }
+      this.usePipette(event);
     }
     const shape: any = this.selectedShape.onMouseDown();
     this.setEventListeners(shape);
     this.draw(shape);
   }
 
-    setEventListeners(shape: any): void {
+  setEventListeners(shape: any): void {
     if (this.selectedTool === TOOL.rectangle) {
       this.renderer.listen(shape, 'click', (event: MouseEvent) => {
         this.changeFillColor(event, shape);

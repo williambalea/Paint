@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NB } from 'src/constants';
+import { NB, EMPTY_STRING } from 'src/constants';
 import { Point } from '../../../../common/interface/point';
 
 @Injectable({
@@ -11,6 +11,7 @@ export class InputService {
   altPressed: boolean;
   isBlank: boolean;
   stampAngle: number;
+  json: string;
 
   constructor() {
     this.shiftPressed = false;
@@ -18,6 +19,7 @@ export class InputService {
     this.mouse = {x: NB.Zero, y: NB.Zero};
     this.isBlank = true;
     this.stampAngle = NB.Zero;
+    this.json = EMPTY_STRING;
   }
 
   setMouseOffset(event: MouseEvent) {
@@ -36,5 +38,9 @@ export class InputService {
     } else if (this.stampAngle <= 0 ) {
       this.stampAngle = 360;
     }
+  }
+
+  saveJSON(json: string) {
+    this.json = json;
   }
 }

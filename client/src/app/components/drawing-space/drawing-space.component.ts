@@ -102,16 +102,20 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     }
   }
 
+  screenshotBase64(): string {
+    const svg: SVGSVGElement = document.querySelector('svg') as SVGSVGElement;
+    const xml: string = new XMLSerializer().serializeToString(svg as Node);
+    const svg64: string = btoa(xml);
+    const b64start = 'data:image/svg+xml;base64,';
+    return b64start + svg64;
+  }
+
   usePipette(event: MouseEvent): void {
     const canvas: HTMLCanvasElement = document.querySelector('canvas') as HTMLCanvasElement;
     canvas.height = this.canvasHeight;
     canvas.width = this.canvasWidth;
     const image: HTMLImageElement = document.querySelectorAll('img')[1] as HTMLImageElement;
-    const svg: SVGSVGElement = document.querySelector('svg') as SVGSVGElement;
-    const xml: string = new XMLSerializer().serializeToString(svg as Node);
-    const svg64: string = btoa(xml);
-    const b64start = 'data:image/svg+xml;base64,';
-    const image64: string = b64start + svg64;
+    const image64: string = this.screenshotBase64();
     console.log(image64);
     image.src = image64;
     (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);

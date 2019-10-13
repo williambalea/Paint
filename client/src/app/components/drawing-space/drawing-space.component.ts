@@ -1,5 +1,6 @@
 import { Component,  ElementRef , HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
@@ -10,6 +11,7 @@ import { Shape } from '../../services/shapes/shape';
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
   styleUrls: ['./drawing-space.component.scss'],
+  providers: [GridService],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy {
   @ViewChild('canvas', {static: false}) canvas: ElementRef;
@@ -27,6 +29,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
                private colorService: ColorService,
                private inputService: InputService,
                private renderer: Renderer2,
+               private gridService: GridService,
                private unsubscribeService: UnsubscribeService) {
     this.tool = TOOL;
     this.width = NB.Zero;
@@ -48,10 +51,19 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setCanvasParameters();
+    this.gridService.setGridParameters();
   }
 
   ngOnDestroy(): void {
     this.unsubscribeService.onDestroy();
+  }
+
+  onButtonClick(): void {
+    console.log('drawingspace button');
+    this.gridService.buildGrid();
+    this.gridService.draw().forEach((element: HTMLElement) => {
+        this.renderer.appendChild(this.canvas.nativeElement, element);
+    });
   }
 
   @HostListener('window:keydown', ['$event'])

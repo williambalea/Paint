@@ -81,13 +81,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeFillColor(event: MouseEvent, shape: any): void {
+  changeFillColor(shape: any): void {
     if (this.selectedTool === TOOL.colorApplicator) {
       this.renderer.setStyle(shape, 'fill', this.colorService.getFillColor());
     }
   }
 
-  changeStrokeColor(event: MouseEvent, shape: any, color: string): void {
+  changeStrokeColor(shape: any, color: string): void {
     if (this.selectedTool === TOOL.colorApplicator) {
       this.renderer.setStyle(shape, 'stroke', color);
     }
@@ -112,6 +112,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     const svg64: string = btoa(xml);
     const b64start = 'data:image/svg+xml;base64,';
     const image64: string = b64start + svg64;
+    console.log(image64);
     image.src = image64;
     (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
     const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
@@ -128,6 +129,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
     if (this.selectedTool === TOOL.pipette) {
+      event.preventDefault();
       this.usePipette(event);
     }
     const shape: any = this.selectedShape.onMouseDown();
@@ -136,17 +138,18 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
   }
 
   setEventListeners(shape: any): void {
-    if (this.selectedTool === TOOL.rectangle) {
-      this.renderer.listen(shape, 'click', (event: MouseEvent) => {
-        this.changeFillColor(event, shape);
+    if (this.selectedTool === TOOL.rectangle || this.selectedTool === TOOL.ellipse || this.selectedTool === TOOL.polygon) {
+      this.renderer.listen(shape, 'click', () => {
+        this.changeFillColor(shape);
       });
-      this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
-        this.changeStrokeColor(event, shape, this.colorService.getStrokeColor());
+      this.renderer.listen(shape, 'contextmenu', () => {
+        this.changeStrokeColor(shape, this.colorService.getStrokeColor());
       });
     }
+
     if (this.selectedTool === TOOL.brush || this.selectedTool === TOOL.pen) {
-      this.renderer.listen(shape, 'click', (event: MouseEvent) => {
-        this.changeStrokeColor(event, shape, this.colorService.getFillColor());
+      this.renderer.listen(shape, 'click', () => {
+        this.changeStrokeColor(shape, this.colorService.getFillColor());
       });
     }
   }

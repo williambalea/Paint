@@ -69,11 +69,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.selectedShape = this.rectangleService;
       this.selectedTool = TOOL.rectangle;
       break;
-
     case TOOL.pipette:
       this.selectedTool = TOOL.pipette;
       break;
-
     case TOOL.brush:
         this.selectedShape = this.brushService;
         this.selectedTool = TOOL.brush;

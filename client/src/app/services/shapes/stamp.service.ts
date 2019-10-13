@@ -42,7 +42,7 @@ export class StampService implements Shape {
   }
 
   draw(): void {
-    this.renderer.setAttribute(this.stamp, 'href', this.selectedStamp.toString());
+    this.renderer.setAttribute(this.stamp, 'href', this.selectedStamp);
     this.renderer.setAttribute(this.stamp, 'x', this.position.x.toString());
     this.renderer.setAttribute(this.stamp, 'y', this.position.y.toString());
     this.renderer.setAttribute(this.stamp, 'width', this.size.toString());

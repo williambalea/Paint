@@ -15,7 +15,8 @@ export class GridService {
   opacity: number;
   canvasWidth: number;
   canvasHeight: number;
-  grid: HTMLElement[];
+  grid: HTMLElement[]; 
+  bool :boolean =false;
 
   constructor(private fileParametersService: FileParametersServiceService,
               private renderer: Renderer2) {
@@ -107,10 +108,12 @@ export class GridService {
   }
 
   printOnCanvas(): void {
+    this.bool = true;
     console.log('drawingspace button');
-    this.buildGrid();
-    this.draw().forEach((element: HTMLElement) => {
-        this.renderer.appendChild(this.canvas.nativeElement, element);
-    });
+    console.log(this.bool, 'test');
+    // this.buildGrid();
+    // this.draw().forEach((element: HTMLElement) => {
+    //     this.renderer.appendChild(this.canvas.nativeElement, element);
+    // });
   }
 }

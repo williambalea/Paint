@@ -10,6 +10,7 @@ import { StampService } from 'src/app/services/shapes/stamp.service';
 import { BRUSH, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -32,7 +33,8 @@ export class AttributeBarComponent {
               private stampService: StampService,
               private inputService: InputService,
               private ellipseService: EllipseService,
-              private polygonService: PolygonService) {
+              private polygonService: PolygonService,
+              private eventEmitterService : EventEmitterService) {
     this.tool = TOOL;
     this.brush = BRUSH;
   }
@@ -53,6 +55,9 @@ export class AttributeBarComponent {
   brushRadioChangeHandler(event: MatRadioChange): void {
     this.brushService.changeFilter(event.value);
   }
+  appearGrid(){    
+    this.eventEmitterService.onAttributeBarComponentButtonClick();    
+  }    
 
   getColorService(): ColorService {
     return this.colorService;

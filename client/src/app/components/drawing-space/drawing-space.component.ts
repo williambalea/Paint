@@ -1,11 +1,12 @@
-import { Component,  ElementRef , HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import { Component,  ElementRef , HostListener, Input, OnDestroy, OnInit,AfterViewInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
-import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
+import { KEY, NB, POINTER_EVENT, STRINGS, TOOL, EMPTY_STRING } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 @Component({
   selector: 'app-drawing-space',
@@ -13,8 +14,9 @@ import { Shape } from '../../services/shapes/shape';
   styleUrls: ['./drawing-space.component.scss'],
   providers: [GridService],
 })
-export class DrawingSpaceComponent implements OnInit, OnDestroy {
+export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
   @ViewChild('canvas', {static: false}) canvas: ElementRef;
+  @Input() myValProp: string;
   tool: typeof TOOL;
   @Input()selectedTool: TOOL;
   @Input()selectedShape: Shape;
@@ -24,18 +26,22 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
   width: number;
   firstClick: boolean;
   pointerEvent: string;
+  propChanges: any;
+  test : string = 'canvas';
 
   constructor( private fileParameters: FileParametersServiceService,
                private colorService: ColorService,
                private inputService: InputService,
                private renderer: Renderer2,
                private gridService: GridService,
-               private unsubscribeService: UnsubscribeService) {
+               private unsubscribeService: UnsubscribeService,
+               private eventEmitterService : EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.firstClick = true;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
+    this.propChanges = EMPTY_STRING;
   }
 
   setCanvasParameters(): void {
@@ -52,18 +58,31 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setCanvasParameters();
     this.gridService.setGridParameters();
+    
   }
+  ngAfterViewInit() {
+    if (this.eventEmitterService.subsVar==undefined) {    
+      this.eventEmitterService.subsVar = this.eventEmitterService.    
+      invokeGridFunction.subscribe((name:string) => {    
+        this.onButtonClick();    
+      });    
+    }    
+}
 
   ngOnDestroy(): void {
     this.unsubscribeService.onDestroy();
   }
 
+ 
+
   onButtonClick(): void {
-    console.log('drawingspace button');
-    this.gridService.buildGrid();
-    this.gridService.draw().forEach((element: HTMLElement) => {
-        this.renderer.appendChild(this.canvas.nativeElement, element);
-    });
+      console.log('drawingspace button');
+      this.gridService.buildGrid();
+      this.gridService.draw().forEach((element: HTMLElement) => {
+          this.renderer.appendChild(this.canvas.nativeElement, element);
+      });
+    
+   
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -196,6 +215,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     this.selectedShape.onMouseUp();
     this.pointerEvent = POINTER_EVENT.visiblePainted;
     }
+    
   }
 
   @HostListener('wheel', ['$event'])

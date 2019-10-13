@@ -35,7 +35,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private polygonService: PolygonService,
               private unsubscribeService: UnsubscribeService,
               private stampService: StampService,
-              private gridService: GridService,
+    
               private penService: PenService) {
     this.enableKeyPress = false;
     this.selectedShape = this.penService;

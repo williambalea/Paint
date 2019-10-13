@@ -18,6 +18,7 @@ import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { EventEmitterService } from './services/event-emitter.service';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
   ],
-  providers: [],
+  providers: [EventEmitterService],
   bootstrap: [
     AppComponent,
   ],

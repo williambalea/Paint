@@ -19,6 +19,7 @@ import { GridComponent } from './components/grid/grid.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import{ SafeHtmlPipe} from '../app/safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
     GridComponent,
+    SafeHtmlPipe,
+   
 
   ],
   imports: [

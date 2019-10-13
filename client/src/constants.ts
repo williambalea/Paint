@@ -80,6 +80,7 @@ export enum KEY {
 export enum TOOL {
   rectangle = 'rectangle',
   brush = 'brush',
+  pipette = 'pipette',
   pen = 'pen',
   colorApplicator = 'colorApplicator',
   stamp = 'stamp',

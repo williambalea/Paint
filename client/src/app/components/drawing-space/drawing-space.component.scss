@@ -12,6 +12,10 @@ div,html, body {
     background: url("../../../assets/checkers.png");
 }
 
+.image {
+    visibility: hidden;
+}
+
 #canvas {
     border:1px solid black;
 }

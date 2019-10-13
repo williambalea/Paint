@@ -75,19 +75,19 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = true;
       this.selectedShape.onMouseMove();
-      // event.preventDefault();
+      event.preventDefault();
     }
 
     if (event.key === KEY.alt) {
       this.inputService.altPressed = true;
-      // event.preventDefault();
+      event.preventDefault();
     }
     console.log('hello');
   }
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
-    // event.preventDefault();
+    event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;
       this.selectedShape.onMouseMove();
@@ -101,13 +101,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
 
   changeFillColor(event: MouseEvent, shape: any): void {
     if (this.selectedTool === TOOL.colorApplicator) {
-      // event.preventDefault();
+      event.preventDefault();
       this.renderer.setStyle(shape, 'fill', this.colorService.getFillColor());
     }
   }
 
   changeStrokeColor(event: MouseEvent, shape: any, color: string): void {
-    // event.preventDefault();
+    event.preventDefault();
     if (this.selectedTool === TOOL.colorApplicator) {
       this.renderer.setStyle(shape, 'stroke', color);
     }
@@ -129,7 +129,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
         this.changeStrokeColor(event, shape, this.colorService.getFillColor());
       });
       this.renderer.listen(shape, 'contextmenu', (event: MouseEvent) => {
-        // // event.preventDefault();
+        event.preventDefault();
       });
     }
     if (this.selectedTool !== TOOL.colorApplicator) {
@@ -162,7 +162,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
   @HostListener('wheel', ['$event'])
   onwheel(event: WheelEvent): void {
     if (this.selectedTool === TOOL.stamp) {
-      // event.preventDefault();
+      event.preventDefault();
       this.inputService.changeStampAngle(Math.sign(event.deltaY));
       console.log(this.inputService.stampAngle);
     }
@@ -178,10 +178,4 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     console.log(json);
   }
 
-  convertJSONtoSVG(): void {
-    const div = this.renderer.createElement('div');
-    this.renderer.setProperty(div, 'innerHTML', JSON.parse(this.inputService.json).html);
-    this.renderer.appendChild(this.canvas.nativeElement, div);
-    console.log('json -> svg');
-  }
 }

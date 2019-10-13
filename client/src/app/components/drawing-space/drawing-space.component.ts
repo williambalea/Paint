@@ -66,6 +66,7 @@ export class DrawingSpaceComponent implements OnInit {
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = true;
       this.selectedShape.onMouseMove();
+      this.selectedShape.onMouseUp();
     }
     if (event.key === KEY.escape) {
       this.inputService.escapePressed = true;
@@ -78,6 +79,7 @@ export class DrawingSpaceComponent implements OnInit {
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;
       this.selectedShape.onMouseMove();
+      this.selectedShape.onMouseUp();
     }
     if (event.key === KEY.escape) {
       this.selectedShape.onMouseUp();

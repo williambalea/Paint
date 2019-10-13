@@ -65,6 +65,10 @@ export class LineService implements Shape {
       this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
+    if (this.inputService.shiftPressed) {
+      this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
+      this.reset();
+    }
   }
 
   onMouseUp(): void {

@@ -405,8 +405,8 @@
             <div class="attribute">
                 <div class="attributeHeader">Emojis</div>
                 <div class="stampbox">
-                    <span *ngFor="let stamp of stampService.stamps">
-                        <img [attr.src]="stamp" (click)="stampService.selectStamp(stamp)">
+                    <span *ngFor="let stamp of stampService.stamps; index as i">
+                        <img [attr.src]="stamp" (click)="stampService.selectStamp(stamp, i)">
                     </span>
                 </div>
             </div>

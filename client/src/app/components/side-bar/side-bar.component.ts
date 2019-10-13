@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
+import { GridService} from 'src/app/services/grid/grid.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
@@ -17,7 +18,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService, PenService, EllipseService, PolygonService, StampService],
+  providers: [RectangleService, BrushService, PenService, EllipseService, PolygonService, StampService, GridService],
 
 })
 export class SideBarComponent implements OnInit, OnDestroy {
@@ -34,6 +35,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private polygonService: PolygonService,
               private unsubscribeService: UnsubscribeService,
               private stampService: StampService,
+              private gridService: GridService,
               private penService: PenService) {
     this.enableKeyPress = false;
     this.selectedShape = this.penService;

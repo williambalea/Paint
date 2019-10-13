@@ -1,4 +1,4 @@
-import { Injectable, Renderer2} from '@angular/core';
+import { ElementRef, Injectable, Renderer2, ViewChild} from '@angular/core';
 import { LINEARRAY, NB} from 'src/constants';
 import { FileParametersServiceService } from '../file-parameters-service.service';
 
@@ -6,7 +6,7 @@ import { FileParametersServiceService } from '../file-parameters-service.service
   providedIn: 'root',
 })
 export class GridService {
-
+  @ViewChild('canvas', {static: false}) canvas: ElementRef;
   lineArray: LINEARRAY[];
   gridEnabled: boolean;
   gridRectangleDimension: number;
@@ -50,6 +50,7 @@ export class GridService {
     this.clearLineArray();
     if (this.gridEnabled) {
       this.canvasSizeModification();
+
       this.calculateNumberLine();
       for (let i = NB.Zero; i < this.numberXLines; i++) {
         this.addHorizontalLine(i);
@@ -86,7 +87,7 @@ export class GridService {
 
   gridSizeModification() {
     this.clearLineArray();
-    this.buildGrid();
+    //this.buildGrid();
   }
 
   disableGrid() {
@@ -103,5 +104,13 @@ export class GridService {
     this.canvasWidth = this.fileParametersService.canvasWidth.getValue();
     this.canvasHeight = this.fileParametersService.canvasHeight.getValue();
     this.gridSizeModification();
+  }
+
+  printOnCanvas(): void {
+    console.log('drawingspace button');
+    this.buildGrid();
+    this.draw().forEach((element: HTMLElement) => {
+        this.renderer.appendChild(this.canvas.nativeElement, element);
+    });
   }
 }

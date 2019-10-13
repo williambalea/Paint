@@ -345,10 +345,10 @@
                     <div class="attributeHeader">
                         Grid size<br>
                         <div>
-                                {{this.gridService.gridRectangleDimension}} px
+
                         </div>
                     </div>
-
+                    <button (click)="this.gridService.printOnCanvas()">print on canvas</button>
                     <div class = "button">
                         <mat-slider min="40" max="200" value={{this.gridService.gridRectangleDimension}}
                             [(ngModel)]="this.gridService.gridRectangleDimension"

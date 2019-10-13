@@ -8,6 +8,7 @@ import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
 import { BRUSH, TOOL } from '../../../constants';
+import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class AttributeBarComponent {
               private rectangleService: RectangleService,
               private penService: PenService,
               private brushService: BrushService,
+              private gridService: GridService,
               private stampService: StampService,
               private inputService: InputService,
               private ellipseService: EllipseService,
@@ -72,4 +74,7 @@ export class AttributeBarComponent {
     return this.inputService;
   }
 
+  getGridService(): GridService {
+    return this.gridService;
+  }
 }

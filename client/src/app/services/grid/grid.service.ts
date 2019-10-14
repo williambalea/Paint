@@ -15,8 +15,7 @@ export class GridService {
   opacity: number;
   canvasWidth: number;
   canvasHeight: number;
-  grid: HTMLElement[]; 
-  bool :boolean =false;
+  grid: HTMLElement[];
 
   constructor(private fileParametersService: FileParametersServiceService,
               private renderer: Renderer2) {
@@ -88,7 +87,6 @@ export class GridService {
 
   gridSizeModification() {
     this.clearLineArray();
-    //this.buildGrid();
   }
 
   disableGrid() {
@@ -105,15 +103,5 @@ export class GridService {
     this.canvasWidth = this.fileParametersService.canvasWidth.getValue();
     this.canvasHeight = this.fileParametersService.canvasHeight.getValue();
     this.gridSizeModification();
-  }
-
-  printOnCanvas(): void {
-    this.bool = true;
-    console.log('drawingspace button');
-    console.log(this.bool, 'test');
-    // this.buildGrid();
-    // this.draw().forEach((element: HTMLElement) => {
-    //     this.renderer.appendChild(this.canvas.nativeElement, element);
-    // });
   }
 }

@@ -1,12 +1,12 @@
-import { Component,  ElementRef , HostListener, Input, OnDestroy, OnInit,AfterViewInit, Renderer2, ViewChild} from '@angular/core';
+import { AfterViewInit, Component,  ElementRef , HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
-import { KEY, NB, POINTER_EVENT, STRINGS, TOOL, EMPTY_STRING } from '../../../constants';
+import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
-import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 @Component({
   selector: 'app-drawing-space',
@@ -14,9 +14,8 @@ import { EventEmitterService } from 'src/app/services/event-emitter.service';
   styleUrls: ['./drawing-space.component.scss'],
   providers: [GridService],
 })
-export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
+export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('canvas', {static: false}) canvas: ElementRef;
-  @Input() myValProp: string;
   tool: typeof TOOL;
   @Input()selectedTool: TOOL;
   @Input()selectedShape: Shape;
@@ -26,8 +25,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
   width: number;
   firstClick: boolean;
   pointerEvent: string;
-  propChanges: any;
-  test : string = 'canvas';
 
   constructor( private fileParameters: FileParametersServiceService,
                private colorService: ColorService,
@@ -35,13 +32,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
                private renderer: Renderer2,
                private gridService: GridService,
                private unsubscribeService: UnsubscribeService,
-               private eventEmitterService : EventEmitterService) {
+               private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.firstClick = true;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
-    this.propChanges = EMPTY_STRING;
   }
 
   setCanvasParameters(): void {
@@ -58,33 +54,28 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
   ngOnInit(): void {
     this.setCanvasParameters();
     this.gridService.setGridParameters();
-    
+
   }
   ngAfterViewInit() {
-    
-      this.eventEmitterService.invokeGridFunction1.subscribe(() => {    
-        this.onButtonClick();  
-        
-      });
-    
-      this.eventEmitterService.invokeGridFunction2.subscribe(() => {    
-        this.onSecondButtonClick();  
-        
+      this.eventEmitterService.invokeGridFunction1.subscribe(() => {
+        this.onButtonClick();
       });
 
-       
-}
+      this.eventEmitterService.invokeGridFunction2.subscribe(() => {
+        this.onSecondButtonClick();
+      });
+  }
 
   ngOnDestroy(): void {
     this.unsubscribeService.onDestroy();
   }
 
-    onSecondButtonClick(){
+  onSecondButtonClick() {
       this.gridService.buildGrid();
       this.gridService.draw().forEach((element: HTMLElement) => {
           this.renderer.removeChild(this.canvas.nativeElement, element);
       });
-    }
+  }
 
   onButtonClick(): void {
       console.log('drawingspace button');
@@ -92,8 +83,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
       this.gridService.draw().forEach((element: HTMLElement) => {
           this.renderer.appendChild(this.canvas.nativeElement, element);
       });
-    
-   
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -226,7 +215,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
     this.selectedShape.onMouseUp();
     this.pointerEvent = POINTER_EVENT.visiblePainted;
     }
-    
+
   }
 
   @HostListener('wheel', ['$event'])

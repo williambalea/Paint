@@ -1,6 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { MatRadioChange } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
@@ -10,7 +11,6 @@ import { StampService } from 'src/app/services/shapes/stamp.service';
 import { BRUSH, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
-import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -22,8 +22,6 @@ export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
   @Input()selectedTool: TOOL;
-  sides: number;
-  test = 25;
 
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
@@ -34,7 +32,7 @@ export class AttributeBarComponent {
               private inputService: InputService,
               private ellipseService: EllipseService,
               private polygonService: PolygonService,
-              private eventEmitterService : EventEmitterService) {
+              private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.brush = BRUSH;
   }
@@ -55,11 +53,11 @@ export class AttributeBarComponent {
   brushRadioChangeHandler(event: MatRadioChange): void {
     this.brushService.changeFilter(event.value);
   }
-  appearGrid(){    
-    this.eventEmitterService.onAttributeBarComponentButtonClick1();    
-  }    
-  disapearGrid(){
-    this.eventEmitterService.onAttributeBarComponentButtonClick2(); 
+  appearGrid() {
+    this.eventEmitterService.onAttributeBarComponentButtonClick1();
+  }
+  disapearGrid() {
+    this.eventEmitterService.onAttributeBarComponentButtonClick2();
   }
 
   getColorService(): ColorService {

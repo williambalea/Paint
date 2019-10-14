@@ -61,12 +61,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
     
   }
   ngAfterViewInit() {
-    if (this.eventEmitterService.subsVar==undefined) {    
-      this.eventEmitterService.subsVar = this.eventEmitterService.    
-      invokeGridFunction.subscribe((name:string) => {    
+      this.eventEmitterService.invokeGridFunction.subscribe(() => {    
         this.onButtonClick();    
       });    
-    }    
+       
 }
 
   ngOnDestroy(): void {

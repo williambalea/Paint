@@ -57,12 +57,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   ngAfterViewInit() {
-      this.eventEmitterService.invokeGridFunction1.subscribe(() => {
-        this.onButtonClick();
+      this.eventEmitterService.showGridEmitter.subscribe(() => {
+        this.showGrid();
       });
 
-      this.eventEmitterService.invokeGridFunction2.subscribe(() => {
-        this.onSecondButtonClick();
+      this.eventEmitterService.hideGridEmitter.subscribe(() => {
+        this.hideGrid();
       });
   }
 
@@ -70,15 +70,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unsubscribeService.onDestroy();
   }
 
-  onSecondButtonClick() {
+  hideGrid() {
       this.gridService.buildGrid();
       this.gridService.draw().forEach((element: HTMLElement) => {
           this.renderer.removeChild(this.canvas.nativeElement, element);
       });
   }
 
-  onButtonClick(): void {
-      console.log('drawingspace button');
+  showGrid(): void {
       this.gridService.buildGrid();
       this.gridService.draw().forEach((element: HTMLElement) => {
           this.renderer.appendChild(this.canvas.nativeElement, element);
@@ -147,7 +146,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     canvas.width = this.canvasWidth;
     const image: HTMLImageElement = document.querySelectorAll('img')[1] as HTMLImageElement;
     const image64: string = this.screenshotBase64();
-    console.log(image64);
     image.src = image64;
     (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
     const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
@@ -172,8 +170,16 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.draw(shape);
   }
 
+  usingComplexShape(): boolean {
+    return this.selectedTool === TOOL.rectangle || this.selectedTool === TOOL.ellipse || this.selectedTool === TOOL.polygon;
+  }
+
+  usingSimpleShape(): boolean {
+    return this.selectedTool === TOOL.brush || this.selectedTool === TOOL.pen;
+  }
+
   setEventListeners(shape: any): void {
-    if (this.selectedTool === TOOL.rectangle || this.selectedTool === TOOL.ellipse || this.selectedTool === TOOL.polygon) {
+    if (this.usingComplexShape()) {
       this.renderer.listen(shape, 'click', () => {
         this.changeFillColor(shape);
       });
@@ -182,7 +188,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
 
-    if (this.selectedTool === TOOL.brush || this.selectedTool === TOOL.pen) {
+    if (this.usingSimpleShape()) {
       this.renderer.listen(shape, 'click', () => {
         this.changeStrokeColor(shape, this.colorService.getFillColor());
       });

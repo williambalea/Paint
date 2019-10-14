@@ -5,7 +5,6 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
-
 import { InputService } from 'src/app/services/input.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 

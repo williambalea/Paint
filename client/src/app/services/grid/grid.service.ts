@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, Renderer2, ViewChild} from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 import { LINEARRAY, NB} from 'src/constants';
 import { FileParametersServiceService } from '../file-parameters-service.service';
 
@@ -6,12 +6,11 @@ import { FileParametersServiceService } from '../file-parameters-service.service
   providedIn: 'root',
 })
 export class GridService {
-  @ViewChild('canvas', {static: false}) canvas: ElementRef;
   lineArray: LINEARRAY[];
   gridEnabled: boolean;
   gridRectangleDimension: number;
-  numberXLines: number;
-  numberYLines: number;
+  horizontalLinesCount: number;
+  verticalLinesCount: number;
   opacity: number;
   canvasWidth: number;
   canvasHeight: number;
@@ -27,8 +26,8 @@ export class GridService {
    }
 
   calculateNumberLine() {
-    this.numberXLines = (this.canvasWidth / this.gridRectangleDimension) * (this.canvasHeight / this.canvasWidth);
-    this.numberYLines = (this.canvasHeight / this.gridRectangleDimension) * (this.canvasWidth / this.canvasHeight);
+    this.horizontalLinesCount = (this.canvasWidth / this.gridRectangleDimension) * (this.canvasHeight / this.canvasWidth);
+    this.verticalLinesCount = (this.canvasHeight / this.gridRectangleDimension) * (this.canvasWidth / this.canvasHeight);
   }
 
   draw(): HTMLElement[] {
@@ -42,7 +41,6 @@ export class GridService {
       this.renderer.setStyle(this.grid[i], 'stroke-opacity', this.opacity);
       this.renderer.setStyle(this.grid[i], 'stroke', 'red');
     }
-    console.log(this.grid);
     return this.grid;
   }
 
@@ -50,12 +48,11 @@ export class GridService {
     this.clearLineArray();
     if (this.gridEnabled) {
       this.canvasSizeModification();
-
       this.calculateNumberLine();
-      for (let i = NB.Zero; i < this.numberXLines; i++) {
+      for (let i = NB.Zero; i < this.horizontalLinesCount; i++) {
         this.addHorizontalLine(i);
         }
-      for (let j = NB.Zero; j < this.numberYLines; j++) {
+      for (let j = NB.Zero; j < this.verticalLinesCount; j++) {
         this.addVerticalLine(j);
       }
     }
@@ -74,8 +71,7 @@ export class GridService {
   }
 
   clearLineArray() {
-    const size = this.lineArray.length;
-    for (let k = NB.Zero; k < size; k++) {
+    for (let k = NB.Zero; k < this.lineArray.length; k++) {
       this.lineArray[k] = {x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero};
     }
   }
@@ -86,15 +82,15 @@ export class GridService {
   }
 
   gridSizeModification() {
-    this.clearLineArray();
+    this.buildGrid();
   }
 
-  disableGrid() {
+  hideGrid() {
     this.gridEnabled = false;
     this.clearLineArray();
   }
 
-  enableGrid() {
+  showGrid() {
     this.gridEnabled = true;
     this.buildGrid();
   }

@@ -53,11 +53,15 @@ export class AttributeBarComponent {
   brushRadioChangeHandler(event: MatRadioChange): void {
     this.brushService.changeFilter(event.value);
   }
-  appearGrid() {
-    this.eventEmitterService.onAttributeBarComponentButtonClick1();
+
+  showGrid(): void {
+    this.eventEmitterService.showGrid();
+    this.gridService.showGrid();
   }
-  disapearGrid() {
-    this.eventEmitterService.onAttributeBarComponentButtonClick2();
+
+  hideGrid(): void {
+    this.eventEmitterService.hideGrid();
+    this.gridService.hideGrid();
   }
 
   getColorService(): ColorService {

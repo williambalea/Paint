@@ -348,14 +348,14 @@
 
                         </div>
                     </div>
-                    <button mat-button (click)="this.appearGrid()">print on canvas</button>
-                    <button mat-button (click)="this.disapearGrid()">dont on canvas</button>
+                    <button mat-button (click)="this.showGrid()">Show Grid</button>
+                    <button mat-button (click)="this.hideGrid()">Hide Grid</button>
                     <div class = "button">
                         <mat-slider min="40" max="200" value={{this.gridService.gridRectangleDimension}}
                             [(ngModel)]="this.gridService.gridRectangleDimension"
                             (input)="this.gridService.gridRectangleDimension = $event.value">
                         </mat-slider>
-                        <button mat-stroked-button color ="primary" (click)="this.gridService.gridSizeModification()">Confirm modification</button>
+                        <button mat-stroked-button color ="primary" (click)="this.updateGrid()">Confirm modification</button>
                     </div>
                 </div>
                 <div class="attribute">
@@ -365,10 +365,10 @@
                         <br>
                         <div class = "button">
                                 <div *ngIf="this.gridService.gridEnabled">
-                                        <mat-checkbox indeterminate = true (click)="this.gridService.disableGrid()">Turn off grid</mat-checkbox>
+                                        <mat-checkbox indeterminate = true (click)="this.showGrid()">Turn off grid</mat-checkbox>
                                 </div>
                                 <div *ngIf="!this.gridService.gridEnabled">
-                                        <mat-checkbox  (click)="this.gridService.enableGrid()">Turn on grid</mat-checkbox>
+                                        <mat-checkbox  (click)="this.hideGrid()">Turn on grid</mat-checkbox>
                                 </div>        
                         </div>
                         

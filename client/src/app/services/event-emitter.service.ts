@@ -5,14 +5,14 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class EventEmitterService {
 
-  invokeGridFunction1 = new EventEmitter();
-  invokeGridFunction2 = new EventEmitter();
+  showGridEmitter = new EventEmitter();
+  hideGridEmitter = new EventEmitter();
 
-  onAttributeBarComponentButtonClick1() {
-    this.invokeGridFunction1.emit();
+  showGrid() {
+    this.showGridEmitter.emit();
   }
 
-  onAttributeBarComponentButtonClick2() {
-    this.invokeGridFunction2.emit();
+  hideGrid() {
+    this.hideGridEmitter.emit();
   }
 }

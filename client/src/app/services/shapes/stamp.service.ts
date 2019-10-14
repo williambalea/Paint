@@ -1,5 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { svgFileLocation } from 'src/assets/stamps/svgFileLocaltion';
+import { svgFileDataBase64, svgFileLocation } from 'src/assets/stamps/svgFileLocaltion';
 import { EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { InputService } from '../input.service';
@@ -14,6 +14,7 @@ export class StampService implements Shape {
   size: number;
   position: Point;
   stamp: HTMLElement;
+  selectStampIndex: number;
 
   constructor(private renderer: Renderer2, private inputService: InputService) {
     this.stamps = svgFileLocation;
@@ -37,12 +38,13 @@ export class StampService implements Shape {
     return;
   }
 
-  selectStamp(image: string): void {
+  selectStamp(image: string, i: number): void {
     this.selectedStamp = image;
+    this.selectStampIndex = i;
   }
 
   draw(): void {
-    this.renderer.setAttribute(this.stamp, 'href', this.selectedStamp);
+    this.renderer.setAttribute(this.stamp, 'href', 'data:image/svg+xml;base64,' + svgFileDataBase64[this.selectStampIndex]);
     this.renderer.setAttribute(this.stamp, 'x', this.position.x.toString());
     this.renderer.setAttribute(this.stamp, 'y', this.position.y.toString());
     this.renderer.setAttribute(this.stamp, 'width', this.size.toString());

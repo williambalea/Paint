@@ -1,11 +1,7 @@
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCheckboxModule, MatDialogModule, MatIconModule, MatInputModule,
-         MatListModule, MatMenuModule, MatRadioModule, MatSelectModule, MatSidenavModule,
-         MatSliderModule, MatToolbarModule} from '@angular/material';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -18,6 +14,7 @@ import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { MaterialModule } from './material/material.module';
 import { EventEmitterService } from './services/event-emitter.service';
 
 @NgModule({
@@ -34,27 +31,15 @@ import { EventEmitterService } from './services/event-emitter.service';
   imports: [
     BrowserModule,
     HttpClientModule,
-    MatDialogModule,
     BrowserAnimationsModule,
-    MatCheckboxModule,
-    MatSliderModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatRadioModule,
     ColorPickerModule,
-    MatButtonModule,
-    MatIconModule,
     AngularSvgIconModule,
-    MatMenuModule,
     ColorPickerModule,
     FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
     ReactiveFormsModule,
     FormsModule,
     DragDropModule,
+    MaterialModule,
   ],
   entryComponents: [
     EntryPointComponent,

@@ -64,12 +64,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
     
       this.eventEmitterService.invokeGridFunction1.subscribe(() => {    
         this.onButtonClick();  
-        this.eventEmitterService.bool=false;   
+        
       });
     
       this.eventEmitterService.invokeGridFunction2.subscribe(() => {    
         this.onSecondButtonClick();  
-        this.eventEmitterService.bool=false;   
+        
       });
 
        

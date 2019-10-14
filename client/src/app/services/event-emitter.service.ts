@@ -8,11 +8,9 @@ export class EventEmitterService {
     
   invokeGridFunction1 = new EventEmitter(); 
   invokeGridFunction2 = new EventEmitter(); 
-  bool :boolean;    
     
-  constructor() { 
-    this.bool = true;
-  }    
+    
+  constructor() {}    
     
   onAttributeBarComponentButtonClick1() {    
     this.invokeGridFunction1.emit();  

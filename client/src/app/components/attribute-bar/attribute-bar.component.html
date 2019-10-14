@@ -349,6 +349,7 @@
                         </div>
                     </div>
                     <button mat-button (click)="this.appearGrid()">print on canvas</button>
+                    <button mat-button (click)="this.disapearGrid()">dont on canvas</button>
                     <div class = "button">
                         <mat-slider min="40" max="200" value={{this.gridService.gridRectangleDimension}}
                             [(ngModel)]="this.gridService.gridRectangleDimension"

@@ -61,9 +61,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
     
   }
   ngAfterViewInit() {
-      this.eventEmitterService.invokeGridFunction.subscribe(() => {    
-        this.onButtonClick();    
-      });    
+    
+      this.eventEmitterService.invokeGridFunction1.subscribe(() => {    
+        this.onButtonClick();  
+        this.eventEmitterService.bool=false;   
+      });
+    
+      this.eventEmitterService.invokeGridFunction2.subscribe(() => {    
+        this.onSecondButtonClick();  
+        this.eventEmitterService.bool=false;   
+      });
+
        
 }
 
@@ -71,7 +79,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy,AfterViewInit {
     this.unsubscribeService.onDestroy();
   }
 
- 
+    onSecondButtonClick(){
+      this.gridService.buildGrid();
+      this.gridService.draw().forEach((element: HTMLElement) => {
+          this.renderer.removeChild(this.canvas.nativeElement, element);
+      });
+    }
 
   onButtonClick(): void {
       console.log('drawingspace button');

@@ -56,8 +56,11 @@ export class AttributeBarComponent {
     this.brushService.changeFilter(event.value);
   }
   appearGrid(){    
-    this.eventEmitterService.onAttributeBarComponentButtonClick();    
+    this.eventEmitterService.onAttributeBarComponentButtonClick1();    
   }    
+  disapearGrid(){
+    this.eventEmitterService.onAttributeBarComponentButtonClick2(); 
+  }
 
   getColorService(): ColorService {
     return this.colorService;

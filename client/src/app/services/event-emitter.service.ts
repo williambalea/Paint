@@ -6,11 +6,19 @@ import { Injectable, EventEmitter } from '@angular/core';
 })    
 export class EventEmitterService {    
     
-  invokeGridFunction = new EventEmitter();     
+  invokeGridFunction1 = new EventEmitter(); 
+  invokeGridFunction2 = new EventEmitter(); 
+  bool :boolean;    
     
-  constructor() { }    
-    
-  onAttributeBarComponentButtonClick() {    
-    this.invokeGridFunction.emit();    
+  constructor() { 
+    this.bool = true;
   }    
+    
+  onAttributeBarComponentButtonClick1() {    
+    this.invokeGridFunction1.emit();  
+  }    
+
+  onAttributeBarComponentButtonClick2() {    
+    this.invokeGridFunction2.emit();  
+  }   
 }  

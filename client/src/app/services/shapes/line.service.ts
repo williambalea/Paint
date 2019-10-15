@@ -60,7 +60,7 @@ export class LineService implements Shape {
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
   }
 
-  onMouseMove(): void {
+  onMouseMove(): any {
     if (this.active) {
       this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
@@ -68,8 +68,11 @@ export class LineService implements Shape {
     if (this.inputService.shiftPressed) {
       this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
       this.reset();
-    }
-  }
+
+      //implementation du double click
+      // this.renderer.setAttribute(this.path, 'd', this.linepath);
+      // this.reset();
+  }}
 
   onMouseUp(): void {
     if (this.inputService.escapePressed) {

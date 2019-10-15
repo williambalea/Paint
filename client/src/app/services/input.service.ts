@@ -10,11 +10,14 @@ export class InputService {
   shiftPressed: boolean;
   escapePressed: boolean;
   isBlank: boolean;
+  isDoubleClick: boolean;
+
   constructor() {
     this.shiftPressed = false;
     this.mouse = {x: NB.Zero, y: NB.Zero};
     this.isBlank = true;
     this.escapePressed = false;
+    this.isDoubleClick = false;
   }
 
   setMouseOffset(event: MouseEvent) {

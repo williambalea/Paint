@@ -14,6 +14,7 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
 export class GetFileModalwindowComponent implements OnInit {
 
   dataTable: SVGJSON[];
+  tags: string[];
 
   constructor( private fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
@@ -21,6 +22,7 @@ export class GetFileModalwindowComponent implements OnInit {
                private communicationService: CommunicationsService,
     ) {
       this.dataTable = [];
+      this.tags = [];
     }
 
   ngOnInit() {
@@ -39,7 +41,6 @@ export class GetFileModalwindowComponent implements OnInit {
 
   deleteConfirmation(drawingName: string): void {
   this.dialog.open(DeleteConfirmationComponent);
-  this.fileParameters.setParametersSaveDrawing(drawingName); // add these parameters to fileparameterservice
+  this.fileParameters.setParametersSaveDrawing(drawingName);
   }
-
 }

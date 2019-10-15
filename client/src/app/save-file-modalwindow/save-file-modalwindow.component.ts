@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DeleteConfirmationComponent } from '../components/delete-confirmation/delete-confirmation.component';
 import { FileParametersServiceService } from '../services/file-parameters-service.service';
+import { DrawingInfo } from '../../constants'; 
 
 @Component({
   selector: 'app-save-file-modalwindow',
@@ -12,40 +13,61 @@ import { FileParametersServiceService } from '../services/file-parameters-servic
 
   export class SaveFileModalwindowComponent implements OnInit {
     form: FormGroup;
-    drawingName: number ;
+
+    drawingName: string;
+    tags: string[];
+    currentTag: string;
 
   constructor( private fileParameters: FileParametersServiceService,
-               private dialog: MatDialog,
-               private formBuilder: FormBuilder,
-               private dialogRef: MatDialogRef<SaveFileModalwindowComponent>) { }
-
-  assignForm(): void {
-    this.form = this.formBuilder.group({
-      drawingName: ['', [Validators.required, Validators.name]],
-    });
-  }
+    //private dialog: MatDialog,
+    //private formBuilder: FormBuilder,
+    private dialogRef: MatDialogRef<SaveFileModalwindowComponent>)
+    {
+      this.tags = [];
+      this.tags.push('tagName');
+      this.drawingName = 'drawingName';
+      this.currentTag = 'currentTag';
+    }
 
   ngOnInit(): void {
-    this.assignForm();
+
   }
 
   closeModalWindow(): void {
     this.dialogRef.close();
   }
 
-  deleteConfirmation(drawingName: string): void {
-    this.dialog.open(DeleteConfirmationComponent);
-    this.fileParameters.setParametersSaveDrawing(drawingName); // add these parameters to fileparameterservice
-  }
+  // deleteConfirmation(drawingName: string): void {
+  //   this.dialog.open(DeleteConfirmationComponent);
+  //   this.fileParameters.setParametersSaveDrawing(drawingName); // add these parameters to fileparameterservice
+  // }
 
-  validForm(): boolean {
-     return (this.form.valid);
-  }
+  // validForm(): boolean {
+  //    return (this.form.valid);
+  // }
 
   submitParameters(drawingName: string): void {
-    if (this.validForm()) {
-    this.deleteConfirmation(drawingName);
+
+    //this.deleteConfirmation(drawingName);
     this.dialogRef.close();
   }
-}
+
+  addTag() {
+    this.tags.push(this.currentTag);
+  }
+
+  showTags() {
+    for (const tag of this.tags) {
+      console.log(tag);
+    }
+  }
+  // showTitle() {
+  //   console.log(this.drawingName);
+  // }
+
+  submitDrawing() {
+    const finalDrawing: DrawingInfo = {drawingName: this.drawingName, tags: this.tags};
+    console.log('Drawing info sent');
+    return finalDrawing;
+  }
 }

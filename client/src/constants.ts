@@ -140,6 +140,11 @@ export interface LINEARRAY {
   y2: number;
 }
 
+export interface DrawingInfo {
+  drawingName: string;
+  tags: string[];
+}
+
 export const EMPTY_STRING = '';
 export const HIDE_DIALOG = 'hideDialog';
 export const INIT_MOVE_PEN = 'l0.01 0.01 ';

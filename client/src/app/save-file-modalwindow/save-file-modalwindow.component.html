@@ -1,0 +1,37 @@
+<div class = "modalWindow">
+  <form (ngSubmit)="submitParameters(drawingName)" [formGroup]="form">   
+    <h1 mat-dialog-title>Choose drawing attributes: </h1>
+      <div mat-dialog-content>
+        <p>Enter drawing name</p>
+          <div class="field"> 
+            <div class="control">
+              <mat-form-field>
+                <input name="test" type = "drawingName"  formControlName="canvaswidth" value ={{this.drawingName}} matInput [(ngModel)]="drawingName" >
+              </mat-form-field>
+            </div>
+            </div> 
+            <p>Enter drawing tags</p>
+
+          <div class="field">
+           <div class="control">
+         <mat-form-field>
+              <input type = "canvasHeight"  formControlName="canvasheight" value ={{this.canvasHeight}} matInput [(ngModel)]="canvasHeight">
+               <mat-error>Enter numbers greater than zero</mat-error>
+           </mat-form-field>
+          </div> 
+           </div>
+        </div>
+        <div>
+          <svg>
+
+          </svg>
+        </div>
+      
+        <div class ="submit"  mat-dialog-actions>
+            <button type="submit" mat-button cdkFocusInitial >submit</button> 
+        </div> 
+    </form>
+      <div class="cancel">
+        <button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>
+      </div>
+  </div>

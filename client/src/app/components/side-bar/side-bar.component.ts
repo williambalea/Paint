@@ -1,5 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { SaveFileModalwindowComponent } from 'src/app/save-file-modalwindow/save-file-modalwindow.component';
 import { ColorService } from 'src/app/services/color/color.service';
 import { GridService} from 'src/app/services/grid/grid.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
@@ -117,6 +118,15 @@ export class SideBarComponent implements OnInit, OnDestroy {
       .subscribe(() => { this.enableKeyPress = true; }));
 
     this.setColorNewFile();
+  }
+
+  saveOnServer(): void {
+    this.enableKeyPress = false;
+
+    const dialogRefSave: MatDialogRef<SaveFileModalwindowComponent, any> =
+      this.dialog.open(SaveFileModalwindowComponent, {disableClose: true});
+    this.unsubscribeService.subscriptons.push(dialogRefSave.afterClosed()
+      .subscribe(() => { this.enableKeyPress = true; }));
 
   }
 

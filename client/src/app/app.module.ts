@@ -15,6 +15,7 @@ import { EntryPointComponent } from './components/entry-point/entry-point.compon
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MaterialModule } from './material/material.module';
+import { SaveFileModalwindowComponent } from './save-file-modalwindow/save-file-modalwindow.component';
 import { EventEmitterService } from './services/event-emitter.service';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     DrawingSpaceComponent,
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
+    SaveFileModalwindowComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     EntryPointComponent,
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
+    SaveFileModalwindowComponent,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

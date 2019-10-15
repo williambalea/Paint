@@ -11,8 +11,10 @@
         <button mat-button (click)="selectTool('pipette')" [class.selected]="this.selectedTool === 'pipette'"><mat-icon>colorize</mat-icon></button>
 </div>
 <div class="toolFixed">
-    <button mat-button (click)="createNewFile()" class ="bottom"><mat-icon>add</mat-icon></button>
-    <button mat-button class="bottom"><mat-icon><a href="assets/userGuide.pdf" target="_blank">help_outline</a></mat-icon></button>
+        <button mat-button (click)="accessServer()" class ="save_icon"><mat-icon>save_alt</mat-icon></button>
+        <button mat-button (click)="saveOnServer()" class ="new_file_icon"><mat-icon>save</mat-icon></button>
+        <button mat-button (click)="createNewFile()" class ="bottom"><mat-icon>add</mat-icon></button>
+        <button mat-button class="bottom"><mat-icon><a href="assets/userGuide.pdf" target="_blank">help_outline</a></mat-icon></button>
 </div>
        
 

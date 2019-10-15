@@ -12,6 +12,7 @@ import { ColorPickerModule } from './components/color-picker/color-picker.module
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.component';
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
+import { GetFileModalwindowComponent } from './components/get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MaterialModule } from './material/material.module';
@@ -29,6 +30,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
     SaveFileModalwindowComponent,
+    GetFileModalwindowComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
     SaveFileModalwindowComponent,
+    GetFileModalwindowComponent,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

@@ -12,6 +12,7 @@ import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
+import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
@@ -127,7 +128,15 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.dialog.open(SaveFileModalwindowComponent, {disableClose: true});
     this.unsubscribeService.subscriptons.push(dialogRefSave.afterClosed()
       .subscribe(() => { this.enableKeyPress = true; }));
+  }
 
+  accessServer(): void {
+    this.enableKeyPress = false;
+
+    const dialogRefGet: MatDialogRef<GetFileModalwindowComponent, any> =
+      this.dialog.open(GetFileModalwindowComponent, {disableClose: true});
+    this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
+      .subscribe(() => { this.enableKeyPress = true; }));
   }
 
   @HostListener('window:keydown', ['$event'])

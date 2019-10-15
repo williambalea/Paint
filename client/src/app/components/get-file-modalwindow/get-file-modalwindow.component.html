@@ -10,6 +10,11 @@
     {{this.tags[4]}}
   </p>
 <br>
+<div *ngFor = " let data of dataTable">
+  {{data.name}}
+  {{data.tag}}
+  {{data.image}}
+</div>
 <div class="cancel">
     <button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>
 </div>

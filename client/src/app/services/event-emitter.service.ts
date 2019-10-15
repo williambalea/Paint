@@ -7,6 +7,7 @@ export class EventEmitterService {
 
   showGridEmitter = new EventEmitter();
   hideGridEmitter = new EventEmitter();
+  sendSVGToServerEmitter = new EventEmitter();
 
   showGrid() {
     this.showGridEmitter.emit();
@@ -14,5 +15,9 @@ export class EventEmitterService {
 
   hideGrid() {
     this.hideGridEmitter.emit();
+  }
+
+  sendSVGToServer() {
+    this.sendSVGToServerEmitter.emit();
   }
 }

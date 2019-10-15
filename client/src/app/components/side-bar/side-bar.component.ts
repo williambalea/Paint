@@ -18,6 +18,7 @@ import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-mo
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
+
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
@@ -141,11 +142,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   accessServer(): void {
     this.enableKeyPress = false;
-
     const dialogRefGet: MatDialogRef<GetFileModalwindowComponent, any> =
-      this.dialog.open(GetFileModalwindowComponent, {disableClose: true});
+    this.dialog.open(GetFileModalwindowComponent, {disableClose: true});
     this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
-      .subscribe(() => { this.enableKeyPress = true; }));
+      .subscribe(() => { 
+        this.enableKeyPress = true; }));
   }
 
   @HostListener('window:keydown', ['$event'])

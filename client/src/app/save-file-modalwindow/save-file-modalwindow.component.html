@@ -1,41 +1,4 @@
-<!-- <div class = "modalWindow">
-  <form (ngSubmit)="submitParameters(drawingName)" [formGroup]="form">   
-    <h1 mat-dialog-title>Choose drawing attributes: </h1>
-      <div mat-dialog-content>
-        <p>Enter drawing name</p>
-          <div class="field"> 
-            <div class="control">
-              <mat-form-field>
-                <input name="test" type = "drawingName"  formControlName="canvaswidth" value ={{this.drawingName}} matInput [(ngModel)]="drawingName" >
-              </mat-form-field>
-            </div>
-            </div> 
-            <p>Enter drawing tags</p>
 
-          <div class="field">
-           <div class="control">
-         <mat-form-field>
-              <input type = "tags"  formControlName="tagsArray" value ={{this.currentTag}} matInput [(ngModel)]="currentTage">
-               <mat-error>Enter numbers greater than zero</mat-error>
-           </mat-form-field>
-           <button (click) = "addTag()">Add current tag</button>
-          </div> 
-           </div>
-        </div>
-        <div>
-          <svg>
-
-          </svg>
-        </div>
-      
-        <div class ="submit"  mat-dialog-actions>
-            <button type="submit" mat-button cdkFocusInitial >submit</button> 
-        </div> 
-    </form>
-      <div class="cancel">
-        <button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>
-      </div>
-  </div> -->
 <div class = "modalWindow">
   <h1>Choose drawing attributes: </h1>
   <p>Enter drawing name</p>
@@ -52,6 +15,7 @@
   </p>
   <button (click) = "showTags()">Show all curent tags in console</button>
   <br>
+  <button (click) = 'closeModalWindow()'>cancel</button>
   <button (click) = 'submitDrawing()'>Submit drawing to server</button>
 
 

@@ -67,6 +67,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eventEmitterService.hideGridEmitter.subscribe(() => {
         this.hideGrid();
       });
+
+      this.eventEmitterService.sendSVGToServerEmitter.subscribe(()=>{
+        this.convertSVGtoJSON();
+      }
+      )
   }
 
   ngOnDestroy(): void {

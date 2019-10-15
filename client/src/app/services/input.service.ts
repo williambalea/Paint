@@ -9,6 +9,7 @@ export class InputService {
   private mouse: Point;
   shiftPressed: boolean;
   escapePressed: boolean;
+  backSpacePressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
 
@@ -18,6 +19,7 @@ export class InputService {
     this.isBlank = true;
     this.escapePressed = false;
     this.isDoubleClick = false;
+    this.backSpacePressed = false;
   }
 
   setMouseOffset(event: MouseEvent) {

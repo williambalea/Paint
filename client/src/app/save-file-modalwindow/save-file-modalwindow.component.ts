@@ -46,12 +46,6 @@ import { DrawingInfo } from '../../constants';
   //    return (this.form.valid);
   // }
 
-  submitParameters(drawingName: string): void {
-
-    //this.deleteConfirmation(drawingName);
-    this.dialogRef.close();
-  }
-
   addTag() {
     this.tags.push(this.currentTag);
   }
@@ -68,6 +62,7 @@ import { DrawingInfo } from '../../constants';
   submitDrawing() {
     const finalDrawing: DrawingInfo = {drawingName: this.drawingName, tags: this.tags};
     console.log('Drawing info sent');
+    this.dialogRef.close();
     return finalDrawing;
   }
 }

@@ -43,6 +43,13 @@
   <p>Enter drawing tags</p>
   <input type = "tags" value ={{this.currentTag}} matInput [(ngModel)]="currentTag">
   <button (click) = "addTag()">Add current tag</button>
+  <p> Current tags:<br>
+    {{this.tags[0]}} <Button>X Remove</Button><br>
+    {{this.tags[1]}}<br>
+    {{this.tags[2]}}<br>
+    {{this.tags[3]}}<br>
+    {{this.tags[4]}}
+  </p>
   <button (click) = "showTags()">Show all curent tags in console</button>
   <br>
   <button (click) = 'submitDrawing()'>Submit drawing to server</button>

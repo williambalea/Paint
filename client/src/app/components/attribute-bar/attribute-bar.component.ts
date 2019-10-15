@@ -56,12 +56,10 @@ export class AttributeBarComponent {
 
   showGrid(): void {
     this.eventEmitterService.showGrid();
-    this.gridService.showGrid();
   }
 
   hideGrid(): void {
     this.eventEmitterService.hideGrid();
-    this.gridService.hideGrid();
   }
 
   getColorService(): ColorService {

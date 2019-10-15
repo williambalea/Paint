@@ -65,9 +65,10 @@ export class LineService implements Shape {
       this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
-    if (this.inputService.shiftPressed) {
-
+    if (this.inputService.backSpacePressed) {
+      if (this.positions.length > 1) {
       this.positions.pop();
+      }
       this.stroke = this.colorService.getFillColor();
       if (this.start) {
       this.path = this.renderer.createElement('path', 'svg');

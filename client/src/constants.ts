@@ -71,6 +71,7 @@ export enum KEY {
   r = 'r',
   escape = 'Escape',
   u = 'u',
+  backspace = 'Backspace',
 }
 
 export enum TOOL {

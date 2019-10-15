@@ -72,9 +72,9 @@ export class DrawingSpaceComponent implements OnInit {
       this.inputService.escapePressed = true;
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
     }
-    if (event.key === KEY.u) {
+    if (event.key === KEY.backspace) {
       this.inputService.backSpacePressed = true;
-      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+      this.selectedShape.onMouseMove();
     }
   }
 
@@ -88,6 +88,10 @@ export class DrawingSpaceComponent implements OnInit {
     if (event.key === KEY.escape) {
       this.selectedShape.onMouseUp();
       this.inputService.escapePressed = false;
+    }
+    if (event.key === KEY.backspace) {
+      this.inputService.backSpacePressed = false;
+      this.selectedShape.onMouseMove();
     }
   }
 

@@ -20,7 +20,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
-  firstClick: boolean;
   pointerEvent: string;
 
   constructor( private fileParameters: FileParametersServiceService,
@@ -31,7 +30,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
-    this.firstClick = true;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 
@@ -121,13 +119,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
     const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
     getImageData(event.offsetX, event.offsetY, 1, 1).data;
-    if (event.button === 0 && !this.firstClick) {
+    if (event.button === 0) {
       this.colorService.setFillColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
     }
-    if (event.button === 2 && !this.firstClick) {
+    if (event.button === 2) {
       this.colorService.setStrokeColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
     }
-    this.firstClick = false;
   }
 
   @HostListener('mousedown', ['$event'])

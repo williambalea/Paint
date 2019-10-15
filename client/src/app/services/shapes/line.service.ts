@@ -66,8 +66,22 @@ export class LineService implements Shape {
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
     if (this.inputService.shiftPressed) {
-      this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
-      this.reset();
+
+      this.positions.pop();
+      this.stroke = this.colorService.getFillColor();
+      if (this.start) {
+      this.path = this.renderer.createElement('path', 'svg');
+      }
+      this.setStyle();
+      this.redraw();
+      this.renderer.setAttribute(this.path, 'd', this.linepath);
+      this.start = false;
+      this.savedPath = this.linepath;
+      this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
+      return this.path;
+
+      // this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
+      // this.reset();
 
       //implementation du double click
       // this.renderer.setAttribute(this.path, 'd', this.linepath);
@@ -80,6 +94,10 @@ export class LineService implements Shape {
     }
   }
 
+  changeLinePatter(newFilter: string): void {
+    // this.filter = `url(#${newFilter})`;
+  }
+
   draw() {
     if (this.start) {
     this.linepath = `M${this.positions[0].x} ${this.positions[0].y}`;
@@ -87,4 +105,14 @@ export class LineService implements Shape {
       this.linepath += `L${this.positions[this.positions.length - 1].x} ${this.positions[this.positions.length - 1].y}`;
     }
   }
+
+  redraw() {
+    for (let  i = 0; i < this.positions.length; i++) {
+    if  (i === 0) {
+      this.linepath = `M${this.positions[0].x} ${this.positions[0].y}`;
+    } else {
+      this.linepath += `L${this.positions[i].x} ${this.positions[i].y}`;
+    }
+  }
+}
 }

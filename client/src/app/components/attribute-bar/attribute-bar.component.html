@@ -165,7 +165,7 @@
 
         <div *ngSwitchCase="tool.line">
 
-            <div class="header">Pen</div>
+            <div class="header">Line</div>
 
             <div>
 
@@ -189,6 +189,46 @@
                         </mat-slider>
                     </div>
                 </div>
+
+                <div class="attribute">
+
+                  <div class="attributeHeader">Line pattern</div>
+                  <div>
+                      <mat-radio-group>
+                          <mat-radio-button [value]="this.brush.chalk" (change)="brushRadioChangeHandler($event)">
+                              {{this.brush.chalk}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.brush.smear" (change)="brushRadioChangeHandler($event)">
+                              {{this.brush.smear}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.brush.rough" (change)="brushRadioChangeHandler($event)">
+                              {{this.brush.rough}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.brush.smooth" (change)="brushRadioChangeHandler($event)"
+                              checked>{{this.brush.smooth}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.brush.bubbly" (change)="brushRadioChangeHandler($event)">
+                              {{this.brush.bubbly}}</mat-radio-button><br>
+                      </mat-radio-group>
+                  </div>
+
+              </div>
+
+              <div class="attribute">
+
+                <div class="attributeHeader">Type</div>
+                <div>
+                    <mat-radio-group>
+                        <mat-radio-button [value]="this.brush.chalk" (change)="brushRadioChangeHandler($event)">
+                            {{this.brush.chalk}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.brush.smear" (change)="brushRadioChangeHandler($event)">
+                            {{this.brush.smear}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.brush.rough" (change)="brushRadioChangeHandler($event)">
+                            {{this.brush.rough}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.brush.smooth" (change)="brushRadioChangeHandler($event)"
+                            checked>{{this.brush.smooth}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.brush.bubbly" (change)="brushRadioChangeHandler($event)">
+                            {{this.brush.bubbly}}</mat-radio-button><br>
+                    </mat-radio-group>
+                </div>
+
+            </div>
 
             </div>
 

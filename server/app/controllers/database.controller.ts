@@ -2,6 +2,7 @@ import {NextFunction, Request, Response, Router} from 'express';
 import {inject, injectable} from 'inversify';
 import { DatabaseService } from '../services/database.service';
 import Types from '../types';
+import { SVGJSON } from '../../../common/communication/SVGJSON';
 
 @injectable()
 export class DatabaseController {
@@ -29,10 +30,10 @@ export class DatabaseController {
         this.router.post('/postToTable',
             (req : Request, res : Response) => {
 
-                const json : string = req.body;
+                const json : SVGJSON = req.body;
                 console.log('ines');
                 console.log(json);
-               // this.databaseService.addToTable(json);
+                this.databaseService.addToTable(json);
                 res.json(json);
                 
             }

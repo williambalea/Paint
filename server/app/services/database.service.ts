@@ -1,13 +1,14 @@
 import { injectable } from 'inversify';
-
+import { SVGJSON } from "../../../common/communication/SVGJSON";
+import { svgTable } from "./data";
 @injectable()
 export class DatabaseService {
-    svgTable: string[];
+   svgTable: SVGJSON[];
 
     constructor() {
         this.svgTable = [];
 
-        this.svgTable.push('allo');
+       
         console.log('databaseService');
     }
 
@@ -15,12 +16,12 @@ export class DatabaseService {
         return 'Hello World';
     }
 
-    getTable(): string[] {
+    getTable(): SVGJSON[] {
         console.log('databaseService');
         return this.svgTable;
     }
 
-    addToTable(value: string) {
+    addToTable(value: SVGJSON) {
         console.log('databaseService', value);
         this.svgTable.push(value);
         

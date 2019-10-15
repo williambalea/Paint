@@ -9,12 +9,14 @@ export class InputService {
   private mouse: Point;
   shiftPressed: boolean;
   escapePressed: boolean;
+  backSpacePressed: boolean;
   isBlank: boolean;
   constructor() {
     this.shiftPressed = false;
     this.mouse = {x: NB.Zero, y: NB.Zero};
     this.isBlank = true;
     this.escapePressed = false;
+    this.backSpacePressed = false;
   }
 
   setMouseOffset(event: MouseEvent) {

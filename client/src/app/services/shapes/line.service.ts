@@ -71,6 +71,17 @@ export class LineService implements Shape {
     if (this.inputService.escapePressed) {
       this.reset();
     }
+    if (this.inputService.backSpacePressed) {
+      this.removeLastSegment();
+    }
+  }
+
+  removeLastSegment() {
+      console.log('hi');
+      this.active = false;
+      //this.positions.pop();
+     // this.savedPath = EMPTY_STRING;
+      this.start = true;
   }
 
   draw() {

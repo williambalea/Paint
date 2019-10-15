@@ -70,6 +70,7 @@ export enum KEY {
   one = '1',
   r = 'r',
   escape = 'Escape',
+  u = 'u',
 }
 
 export enum TOOL {

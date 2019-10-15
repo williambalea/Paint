@@ -71,6 +71,10 @@ export class DrawingSpaceComponent implements OnInit {
       this.inputService.escapePressed = true;
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
     }
+    if (event.key === KEY.u) {
+      this.inputService.backSpacePressed = true;
+      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+    }
   }
 
   @HostListener('window:keyup', ['$event'])

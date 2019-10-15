@@ -153,6 +153,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     if (this.enableKeyPress) {
       switch (event.key) {
         case KEY.o:
+          event.preventDefault();
           this.createNewFile();
           break;
         case KEY.one:

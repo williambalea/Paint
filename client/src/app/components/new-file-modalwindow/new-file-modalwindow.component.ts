@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ColorService } from '../../services/color/color.service';
@@ -83,4 +83,5 @@ export class NewFileModalwindowComponent implements OnInit {
       this.assignForm();
     }
   }
+
 }

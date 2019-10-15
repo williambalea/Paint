@@ -9,6 +9,7 @@ export class DatabaseController {
 
     constructor(@inject(Types.DatabaseService) private databaseService: DatabaseService) {
         this.configureRouter();
+        
     }
 
     private configureRouter(): void {
@@ -21,8 +22,22 @@ export class DatabaseController {
 
         this.router.get('/svgTable',
             async (req: Request, res: Response, next: NextFunction) => {
-                res.json(this.databaseService.getMongoDB());
+                console.log('controller');
+                res.json(this.databaseService.getTable());
             });
+
+        this.router.post('/postToTable',
+            (req : Request, res : Response) => {
+
+                const json : string = req.body;
+                console.log('ines');
+                console.log(json);
+               // this.databaseService.addToTable(json);
+                res.json(json);
+                
+            }
+            
+        )
     }
 
 }

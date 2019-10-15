@@ -8,17 +8,21 @@ export class DatabaseService {
         this.svgTable = [];
 
         this.svgTable.push('allo');
+        console.log('databaseService');
     }
 
      HelloWorld(): string {
         return 'Hello World';
     }
 
-    getMongoDB(): string[] {
+    getTable(): string[] {
+        console.log('databaseService');
         return this.svgTable;
     }
 
-    addMongoDB(value: string): void {
+    addToTable(value: string) {
+        console.log('databaseService', value);
         this.svgTable.push(value);
+        
     }
 }

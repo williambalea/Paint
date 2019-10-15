@@ -5,6 +5,9 @@ import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import { CommunicationsService } from 'src/app/services/communications.service';
+import { SVGJSON} from '../../../../../common/communication/SVGJSON';
+
 
 @Component({
   selector: 'app-drawing-space',
@@ -32,7 +35,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
                private colorService: ColorService,
                private inputService: InputService,
                private renderer: Renderer2,
-               private unsubscribeService: UnsubscribeService) {
+               private unsubscribeService: UnsubscribeService,
+               private communicationService : CommunicationsService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -196,14 +200,33 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy {
     }
   }
 
+
   convertSVGtoJSON(): void {
+        // TODO : get name and tag from input
+        console.log('svg->json'); 
+    const nom : string = 'image';
+    const tag : string = 'mock';
+    const picture : string ='test';
+
+   
     const element = document.getElementById('canvas') as HTMLElement;
     const html = element.outerHTML;
-    const data = {html};
+    const data : SVGJSON = {
+      name : nom,
+      tag : tag,
+      thumbnail : picture,
+      html : html,
+    };
+
     const json = JSON.stringify(data);
-    this.inputService.saveJSON(json);
-    console.log('svg->json');
-    console.log(json);
+   
+    this.communicationService.HTML = json;
+    this.communicationService.postToServer(data).subscribe((response : any ) => {
+      console.log('test',response);
+    });
+   // this.inputService.saveJSON(json);
+  
   }
+ 
 
 }

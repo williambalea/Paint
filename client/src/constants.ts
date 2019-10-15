@@ -45,7 +45,7 @@ export enum NB {
   SeventyFive = 75,
   Eighty = 80,
   OneHundred = 100,
-  OneHundredEighty=180,
+  OneHundredEighty= 180,
   OneHundredEightTwo = 182,
   TwoHundred = 200,
   TwoHundredThree = 203,
@@ -138,6 +138,11 @@ export interface LINEARRAY {
   x2: number;
   y1: number;
   y2: number;
+}
+
+export interface DrawingInfo {
+  drawingName: string;
+  tags: string[];
 }
 
 export const EMPTY_STRING = '';

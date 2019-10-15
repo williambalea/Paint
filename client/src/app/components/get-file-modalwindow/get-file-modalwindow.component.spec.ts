@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GridComponent } from './grid.component';
+import { GetFileModalwindowComponent } from './get-file-modalwindow.component';
 
-describe('GridComponent', () => {
-  let component: GridComponent;
-  let fixture: ComponentFixture<GridComponent>;
+describe('GetFileModalwindowComponent', () => {
+  let component: GetFileModalwindowComponent;
+  let fixture: ComponentFixture<GetFileModalwindowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GridComponent ],
+      declarations: [ GetFileModalwindowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GridComponent);
+    fixture = TestBed.createComponent(GetFileModalwindowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

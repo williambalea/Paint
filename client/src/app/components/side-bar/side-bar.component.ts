@@ -1,7 +1,9 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { SaveFileModalwindowComponent } from 'src/app/save-file-modalwindow/save-file-modalwindow.component';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
+import { GridService} from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
@@ -12,6 +14,7 @@ import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
+import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
@@ -19,7 +22,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService, PenService, EllipseService, PolygonService, StampService],
+  providers: [RectangleService, BrushService, PenService, EllipseService, PolygonService, StampService, GridService],
 
 })
 export class SideBarComponent implements OnInit, OnDestroy {
@@ -78,11 +81,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.selectedShape = this.rectangleService;
       this.selectedTool = TOOL.rectangle;
       break;
-
     case TOOL.pipette:
       this.selectedTool = TOOL.pipette;
       break;
-
     case TOOL.brush:
         this.selectedShape = this.brushService;
         this.selectedTool = TOOL.brush;
@@ -127,7 +128,24 @@ export class SideBarComponent implements OnInit, OnDestroy {
       .subscribe(() => { this.enableKeyPress = true; }));
 
     this.setColorNewFile();
+  }
 
+  saveOnServer(): void {
+    this.enableKeyPress = false;
+
+    const dialogRefSave: MatDialogRef<SaveFileModalwindowComponent, any> =
+      this.dialog.open(SaveFileModalwindowComponent, {disableClose: true});
+    this.unsubscribeService.subscriptons.push(dialogRefSave.afterClosed()
+      .subscribe(() => { this.enableKeyPress = true; }));
+  }
+
+  accessServer(): void {
+    this.enableKeyPress = false;
+
+    const dialogRefGet: MatDialogRef<GetFileModalwindowComponent, any> =
+      this.dialog.open(GetFileModalwindowComponent, {disableClose: true});
+    this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
+      .subscribe(() => { this.enableKeyPress = true; }));
   }
 
   @HostListener('window:keydown', ['$event'])

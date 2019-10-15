@@ -2,11 +2,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { ColorService } from 'src/app/services/color/color.service';
+import { ColorService } from '../../services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
-import { GridService } from 'src/app/services/grid/grid.service';
-
-import { InputService } from 'src/app/services/input.service';
+import { ShapesService } from '../../services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
@@ -21,10 +19,9 @@ export class NewFileModalwindowComponent implements OnInit {
 
   constructor( private fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
+               private shapeService: ShapesService,
                private formBuilder: FormBuilder,
-               private gridService: GridService,
                private colorService: ColorService,
-               private inputService: InputService,
                private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
   assignForm(): void {
@@ -34,14 +31,9 @@ export class NewFileModalwindowComponent implements OnInit {
     });
   }
 
-  ajustCanvas() {
-    console.log('hi');
-    this.gridService.buildGrid();
-  }
-
   assignCanvas(): void {
-    this.canvasWidth = window.innerWidth + 1;
-    this.canvasHeight = window.innerHeight + 1;
+    this.canvasWidth = window.innerWidth;
+    this.canvasHeight = window.innerHeight;
   }
 
   ngOnInit(): void {
@@ -76,7 +68,6 @@ export class NewFileModalwindowComponent implements OnInit {
   createNewDrawing(canvaswidth: number, canvasheight: number): void {
     this.fileParameters.changeParameters(canvaswidth, canvasheight);
     this.modifyCanvasDisplay();
-    this.gridService.gridSizeModification();
   }
 
   validForm(): boolean {
@@ -86,7 +77,7 @@ export class NewFileModalwindowComponent implements OnInit {
   submitParameters(canvaswidth: number, canvasheight: number): void {
     if (this.validForm()) {
     this.fileParameters.tempresize = true;
-    !this.inputService.isBlank ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
+    this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
     this.dialogRef.close();
     } else {
       this.assignForm();

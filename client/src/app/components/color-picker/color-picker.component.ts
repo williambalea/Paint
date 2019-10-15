@@ -97,6 +97,7 @@ export class ColorPickerComponent implements OnInit {
   }
 
   onEnterHex(value: string): void {
+    console.log(value);
     if (this.colorInputControl.colorAccepted(value)) {
       this.colorHex = value;
       this.syncValue();

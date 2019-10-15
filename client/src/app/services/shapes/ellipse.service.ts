@@ -49,7 +49,7 @@ export class EllipseService implements Shape {
     this.active = false;
   }
 
-  onMouseDown(): any {
+  onMouseDown(): HTMLElement {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();

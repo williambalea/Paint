@@ -11,7 +11,6 @@
     <mat-form-field>
       <input name="test" type = "canvasWidth"  formControlName="canvaswidth" value ={{this.canvasWidth}} matInput [(ngModel)]="canvasWidth" >
       <mat-error>Enter numbers greater than zero</mat-error>
-      <span matSuffix>px</span>
     </mat-form-field>
    </div>
   </div> 
@@ -21,7 +20,6 @@
  <mat-form-field>
       <input type = "canvasHeight"  formControlName="canvasheight" value ={{this.canvasHeight}} matInput [(ngModel)]="canvasHeight">
        <mat-error>Enter numbers greater than zero</mat-error>
-       <span matSuffix>px</span>
    </mat-form-field>
   </div>
   <app-color-picker></app-color-picker>
@@ -30,11 +28,10 @@
 
 
 <div class ="submit"  mat-dialog-actions>
-    <button mat-flat-button type="submit" cdkFocusInitial color="primary" >submit</button> 
-    <button type="submit" (click) = "ajustCanvas()" mat-button cdkFocusInitial >submit</button> 
+    <button type="submit" mat-button cdkFocusInitial >submit</button> 
 </div> 
 </form>
 <div class="cancel">
-<button type="cancel" mat-stroked-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>
+<button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>
 </div>
 </div>

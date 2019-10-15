@@ -1,4 +1,4 @@
-import { Injectable} from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 import { LINEARRAY, NB} from 'src/constants';
 import { FileParametersServiceService } from '../file-parameters-service.service';
 
@@ -6,39 +6,55 @@ import { FileParametersServiceService } from '../file-parameters-service.service
   providedIn: 'root',
 })
 export class GridService {
-
   lineArray: LINEARRAY[];
-  tempLineArray: LINEARRAY[];
   gridEnabled: boolean;
   gridRectangleDimension: number;
-  numberXLines: number;
-  numberYLines: number;
+  horizontalLinesCount: number;
+  verticalLinesCount: number;
   opacity: number;
   canvasWidth: number;
   canvasHeight: number;
+  grid: HTMLElement[];
 
-  constructor(private fileParametersService: FileParametersServiceService) {
-    this.gridEnabled = false;
+  constructor(private fileParametersService: FileParametersServiceService,
+              private renderer: Renderer2) {
+    this.gridEnabled = true;
     this.opacity = NB.Fifty;
-    this.gridRectangleDimension = NB.OneHundred;
+    this.gridRectangleDimension = NB.Forty;
     this.lineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];
-    this.tempLineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];
+    this.grid = [];
    }
 
   calculateNumberLine() {
-    this.numberXLines = (this.canvasWidth / this.gridRectangleDimension) * (this.canvasHeight / this.canvasWidth);
-    this.numberYLines = (this.canvasHeight / this.gridRectangleDimension) * (this.canvasWidth / this.canvasHeight);
+    this.horizontalLinesCount = (this.canvasWidth / this.gridRectangleDimension) * (this.canvasHeight / this.canvasWidth);
+    this.verticalLinesCount = (this.canvasHeight / this.gridRectangleDimension) * (this.canvasWidth / this.canvasHeight);
+  }
+
+  draw(): HTMLElement[] {
+    // tslint:disable-next-line: prefer-for-of
+    console.log(this.opacity);
+    for (let i = 0; i < this.lineArray.length; i++) {
+      this.grid.push(this.renderer.createElement('line', 'svg'));
+      this.renderer.setAttribute(this.grid[i], 'x1', this.lineArray[i].x1.toString());
+      this.renderer.setAttribute(this.grid[i], 'x2', this.lineArray[i].x2.toString());
+      this.renderer.setAttribute(this.grid[i], 'y1', this.lineArray[i].y1.toString());
+      this.renderer.setAttribute(this.grid[i], 'y2', this.lineArray[i].y2.toString());
+      this.renderer.setStyle(this.grid[i], 'stroke-opacity', this.opacity/100);
+      this.renderer.setStyle(this.grid[i], 'stroke', 'red');
+    }
+    return this.grid;
   }
 
   buildGrid(): void {
     this.clearLineArray();
+    console.log(this.lineArray.length);
     if (this.gridEnabled) {
       this.canvasSizeModification();
       this.calculateNumberLine();
-      for (let i = NB.Zero; i < this.numberXLines; i++) {
+      for (let i = NB.Zero; i < this.horizontalLinesCount; i++) {
         this.addHorizontalLine(i);
         }
-      for (let j = NB.Zero; j < this.numberYLines; j++) {
+      for (let j = NB.Zero; j < this.verticalLinesCount; j++) {
         this.addVerticalLine(j);
       }
     }
@@ -49,6 +65,7 @@ export class GridService {
     const thisLine = {x1: NB.Zero, x2: this.canvasWidth, y1: yLineSpacing, y2: yLineSpacing };
     this.lineArray.push(thisLine);
   }
+
   addVerticalLine(beginingWidth: number) {
     const xLineSpacing = beginingWidth * this.gridRectangleDimension;
     const thisLine = {x1: xLineSpacing, x2: xLineSpacing, y1: NB.Zero, y2: this.canvasHeight };
@@ -56,10 +73,7 @@ export class GridService {
   }
 
   clearLineArray() {
-    const size = this.lineArray.length;
-    for (let k = NB.Zero; k < size; k++) {
-      this.lineArray[k] = {x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero};
-    }
+    this.lineArray = [];
   }
 
   canvasSizeModification() {
@@ -68,17 +82,22 @@ export class GridService {
   }
 
   gridSizeModification() {
-    this.clearLineArray();
     this.buildGrid();
   }
 
-  disableGrid() {
+  hideGrid() {
     this.gridEnabled = false;
     this.clearLineArray();
   }
 
-  enableGrid() {
+  showGrid() {
     this.gridEnabled = true;
     this.buildGrid();
+  }
+
+  setGridParameters(): void {
+    this.canvasWidth = this.fileParametersService.canvasWidth.getValue();
+    this.canvasHeight = this.fileParametersService.canvasHeight.getValue();
+    this.gridSizeModification();
   }
 }

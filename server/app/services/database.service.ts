@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { SVGJSON } from "../../../common/communication/SVGJSON";
-import { svgTable } from "./data";
+// import { svgTable } from "./data";
 @injectable()
 export class DatabaseService {
    svgTable: SVGJSON[];

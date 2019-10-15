@@ -20,7 +20,7 @@ export class GridService {
               private renderer: Renderer2) {
     this.gridEnabled = true;
     this.opacity = NB.Fifty;
-    this.gridRectangleDimension = NB.OneHundred;
+    this.gridRectangleDimension = NB.Forty;
     this.lineArray = [{x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero}];
     this.grid = [];
    }
@@ -32,13 +32,14 @@ export class GridService {
 
   draw(): HTMLElement[] {
     // tslint:disable-next-line: prefer-for-of
+    console.log(this.opacity);
     for (let i = 0; i < this.lineArray.length; i++) {
       this.grid.push(this.renderer.createElement('line', 'svg'));
       this.renderer.setAttribute(this.grid[i], 'x1', this.lineArray[i].x1.toString());
       this.renderer.setAttribute(this.grid[i], 'x2', this.lineArray[i].x2.toString());
       this.renderer.setAttribute(this.grid[i], 'y1', this.lineArray[i].y1.toString());
       this.renderer.setAttribute(this.grid[i], 'y2', this.lineArray[i].y2.toString());
-      this.renderer.setStyle(this.grid[i], 'stroke-opacity', this.opacity);
+      this.renderer.setStyle(this.grid[i], 'stroke-opacity', this.opacity/100);
       this.renderer.setStyle(this.grid[i], 'stroke', 'red');
     }
     return this.grid;
@@ -46,6 +47,7 @@ export class GridService {
 
   buildGrid(): void {
     this.clearLineArray();
+    console.log(this.lineArray.length);
     if (this.gridEnabled) {
       this.canvasSizeModification();
       this.calculateNumberLine();
@@ -71,9 +73,7 @@ export class GridService {
   }
 
   clearLineArray() {
-    for (let k = NB.Zero; k < this.lineArray.length; k++) {
-      this.lineArray[k] = {x1: NB.Zero, x2: NB.Zero, y1: NB.Zero, y2: NB.Zero};
-    }
+    this.lineArray = [];
   }
 
   canvasSizeModification() {

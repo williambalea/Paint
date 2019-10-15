@@ -2,18 +2,18 @@
   <p>Enter tag name:</p>
   <input name="test" value ={{this.drawingName}} matInput [(ngModel)]="drawingName" >
   <button (click) = "addTagToFilter()">Add current tag</button>
-  <p> Current tags:<br>
+  <!-- <p> Current tags:<br>
     {{this.tags[0]}} <Button>X Remove</Button><br>
     {{this.tags[1]}}<br>
     {{this.tags[2]}}<br>
     {{this.tags[3]}}<br>
     {{this.tags[4]}}
-  </p>
+  </p> -->
 <br>
 <div *ngFor = " let data of dataTable">
   {{data.name}}
   {{data.tag}}
-  {{data.image}}
+  <img [attr.src]="data.thumbnail | safeUrl" width="50" height="50">
 </div>
 <div class="cancel">
     <button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>

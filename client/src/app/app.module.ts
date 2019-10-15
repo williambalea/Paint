@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SafeHtmlPipe} from '../app/safe-html.pipe';
+import { SafeUrlPipe} from '../app/safe-url.pipe';
 import { AppComponent } from './app.component';
 import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.component';
 import { BackgroundComponent } from './components/background/background.component';
@@ -31,6 +32,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,
     SafeHtmlPipe,
+    SafeUrlPipe,
     SaveFileModalwindowComponent,
     GetFileModalwindowComponent,
   ],

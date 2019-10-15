@@ -27,10 +27,6 @@ export class CommunicationsService {
     return this.listeners.asObservable();
   }
 
-  test(): void {
-    console.log('testSave');
-  }
-
   testReturnIndex(): Observable<any> {
     return this.http.get(this.BASE_URL + this.DATABASE_URL + '/svgTable');
   }

@@ -4,7 +4,6 @@ import { SaveFileModalwindowComponent } from 'src/app/save-file-modalwindow/save
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { GridService} from 'src/app/services/grid/grid.service';
-import { InputService } from 'src/app/services/input.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
@@ -43,7 +42,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private stampService: StampService,
               private penService: PenService,
               private communicationsService: CommunicationsService,
-              private inputService: InputService) {
+              ) {
     // this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
@@ -179,14 +178,5 @@ export class SideBarComponent implements OnInit, OnDestroy {
     }
   }
 
-  testSave(): void {
-    this.communicationsService.test();
-    this.communicationsService.testReturnIndex().subscribe((response: any) => {
-      console.log(response);
-    });
-  }
 
-  testSend(): void {
-    console.log(this.inputService.json);
-  }
 }

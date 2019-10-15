@@ -141,7 +141,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   screenshotBase64(): string {
-    const svg: SVGSVGElement = document.querySelector('svg') as SVGSVGElement;
+    const svgElementsCount: number = document.querySelectorAll('svg').length;
+    const svg: SVGSVGElement = document.querySelectorAll('svg')[svgElementsCount] as SVGSVGElement;
     const xml: string = new XMLSerializer().serializeToString(svg as Node);
     const svg64: string = btoa(xml);
     const b64start = 'data:image/svg+xml;base64,';
@@ -245,21 +246,21 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('svg->json');
         const nom = 'image';
         const tag = 'mock';
-        const picture = 'test';
+        const picture = this.screenshotBase64();
+        console.log(picture);
         const element = document.getElementById('canvas') as HTMLElement;
         const html = element.outerHTML;
         const data: SVGJSON = {
-      name : nom,
-      tag,
-      thumbnail : picture,
-      html,
-    };
+          name : nom,
+          tag,
+          thumbnail : picture,
+          html,
+        };
 
         const json = JSON.stringify(data);
 
         this.communicationService.HTML = json;
         this.communicationService.postToServer(data).subscribe((response: any ) => {
-      console.log('test', response);
     });
    // this.inputService.saveJSON(json);
 

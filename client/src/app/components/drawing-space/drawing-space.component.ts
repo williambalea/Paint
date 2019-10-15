@@ -142,7 +142,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   screenshotBase64(): string {
     const svgElementsCount: number = document.querySelectorAll('svg').length;
-    const svg: SVGSVGElement = document.querySelectorAll('svg')[svgElementsCount] as SVGSVGElement;
+    const svg: SVGSVGElement = document.querySelectorAll('svg')[svgElementsCount -1] as SVGSVGElement;
     const xml: string = new XMLSerializer().serializeToString(svg as Node);
     const svg64: string = btoa(xml);
     const b64start = 'data:image/svg+xml;base64,';

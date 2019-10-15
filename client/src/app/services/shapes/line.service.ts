@@ -80,14 +80,18 @@ export class LineService implements Shape {
       this.savedPath = this.linepath;
       this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
       return this.path;
+    }
+    if (this.inputService.shiftPressed) {
+      this.renderer.setAttribute(this.path, 'd', this.linepath);
+      this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
+      this.reset();
+    }
 
-      // this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
-      // this.reset();
-
-      //implementation du double click
-      // this.renderer.setAttribute(this.path, 'd', this.linepath);
-      // this.reset();
-  }}
+    if (this.inputService.isDoubleClick) {
+       console.log('lineservice double');
+       this.renderer.setAttribute(this.path, 'd', this.linepath);
+       this.reset(); }
+    }
 
   onMouseUp(): void {
     if (this.inputService.escapePressed) {
@@ -96,6 +100,12 @@ export class LineService implements Shape {
     if (this.inputService.backSpacePressed) {
       this.removeLastSegment();
     }
+  }
+
+  dblclick(): void{
+    console.log('lineservice double');
+    this.renderer.setAttribute(this.path, 'd', this.linepath);
+    this.reset();
   }
 
   removeLastSegment() {

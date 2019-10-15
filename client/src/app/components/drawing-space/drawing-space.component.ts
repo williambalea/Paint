@@ -154,12 +154,10 @@ export class DrawingSpaceComponent implements OnInit {
   }
 
   @HostListener('dblclick')
-  dblclick(): void {
-    if (this.selectedTool !== TOOL.line) {
+  onDblclick(): void {
     this.inputService.isDoubleClick = true;
-    // this.selectedShape.onMouseUp();
-    console.log('double'); // Problematique, car seulement detecte au premier click
-    }
+    console.log('double click in hostlistener');
+    this.selectedShape.onMouseUp();
   }
 
 }

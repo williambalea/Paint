@@ -1,17 +1,19 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
+import { CommunicationsService } from 'src/app/services/communications.service';
+import { InputService } from 'src/app/services/input.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
+import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
+import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
-import { PolygonService } from 'src/app/services/shapes/polygon.service';
-import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -21,12 +23,11 @@ import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 
 })
 export class SideBarComponent implements OnInit, OnDestroy {
- 
+
   // tool: typeof TOOL;
   selectedTool: string;
   selectedShape: Shape;
   enableKeyPress: boolean;
-  
 
   constructor(private dialog: MatDialog,
               private colorService: ColorService,
@@ -36,7 +37,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private polygonService: PolygonService,
               private unsubscribeService: UnsubscribeService,
               private stampService: StampService,
-              private penService: PenService){
+              private penService: PenService,
+              private communicationsService: CommunicationsService,
+              private inputService: InputService) {
     // this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
@@ -45,6 +48,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     !localStorage.getItem(HIDE_DIALOG) ? this.openEntryPoint() : this.enableKeyPress = true;
+    this.communicationsService.listen().subscribe((m: any) => {
+      console.log('side-bar listens to communicationService: m = ' + m);
+    });
   }
 
   ngOnDestroy(): void {
@@ -154,4 +160,14 @@ export class SideBarComponent implements OnInit, OnDestroy {
     }
   }
 
+  testSave(): void {
+    this.communicationsService.test();
+    this.communicationsService.testReturnIndex().subscribe((response: any) => {
+      console.log(response);
+    });
+  }
+
+  testSend(): void {
+    console.log(this.inputService.json);
+  }
 }

@@ -1,6 +1,6 @@
 export interface SVGJSON {
     name: string;
-    tag: string;
+    tags: string[];
     thumbnail: string;
     html: string;
 }

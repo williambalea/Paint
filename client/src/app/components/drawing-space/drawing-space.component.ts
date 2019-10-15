@@ -7,6 +7,7 @@ import { InputService } from 'src/app/services/input.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON} from '../../../../../common/communication/SVGJSON';
 import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
+
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 
@@ -18,6 +19,7 @@ import { Shape } from '../../services/shapes/shape';
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('canvas', {static: false}) canvas: ElementRef;
+  @ViewChild('drawingBoard', {static: false}) drawingBoard: ElementRef;
   tool: typeof TOOL;
   @Input()selectedTool: TOOL;
   @Input()selectedShape: Shape;
@@ -68,10 +70,20 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.hideGrid();
       });
 
-      this.eventEmitterService.sendSVGToServerEmitter.subscribe(()=>{
+      this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
         this.convertSVGtoJSON();
-      }
-      )
+      });
+
+      this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
+        console.log(this.canvas.nativeElement);
+        this.renderer.removeChild(this.drawingBoard.nativeElement, this.canvas.nativeElement);
+        this.renderer.setProperty(this.canvas.nativeElement, 'innerHTML', this.inputService.drawingHtml);
+         this.renderer.createElement('svg', 'svg');
+        
+         this.renderer.appendChild(this.drawingBoard.nativeElement,this.canvas.nativeElement);
+
+       
+      });
   }
 
   ngOnDestroy(): void {
@@ -88,7 +100,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   showGrid(): void {
       this.gridService.buildGrid();
       this.gridService.draw().forEach((element: HTMLElement) => {
-          this.renderer.appendChild(this.canvas.nativeElement, element);
+          this.renderer.appendChild(this.drawingBoard.nativeElement, element);
       });
   }
 
@@ -244,15 +256,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   convertSVGtoJSON(): void {
         // TODO : get name and tag from input
         console.log('svg->json');
-        const nom = 'image';
-        const tag = 'mock';
+        const nom = this.inputService.drawingName;
+        const tag = this.inputService.drawingTags;
         const picture = this.screenshotBase64();
         console.log(picture);
         const element = document.getElementById('canvas') as HTMLElement;
         const html = element.outerHTML;
         const data: SVGJSON = {
           name : nom,
-          tag,
+          tags: tag,
           thumbnail : picture,
           html,
         };
@@ -265,5 +277,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
    // this.inputService.saveJSON(json);
 
   }
+
+
 
 }

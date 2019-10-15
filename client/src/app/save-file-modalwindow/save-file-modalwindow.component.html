@@ -2,21 +2,14 @@
 <div class = "modalWindow">
   <h1>Choose drawing attributes: </h1>
   <p>Enter drawing name</p>
-  <input name="test" value ={{this.drawingName}} matInput [(ngModel)]="drawingName" >
+
+  <input name="test" value ={{this.inputService.drawingName}} matInput [(ngModel)]="this.inputService.drawingName" >
+
   <p>Enter drawing tags</p>
   <input type = "tags" value ={{this.currentTag}} matInput [(ngModel)]="currentTag">
-  <button (click) = "addTag()">Add current tag</button>
-  <p> Current tags:<br>
-    {{this.tags[0]}} <Button>X Remove</Button><br>
-    {{this.tags[1]}}<br>
-    {{this.tags[2]}}<br>
-    {{this.tags[3]}}<br>
-    {{this.tags[4]}}
-  </p>
-  <button (click) = "showTags()">Show all curent tags in console</button>
-  <br>
-  <button (click) = 'closeModalWindow()'>cancel</button>
-  <button (click) = 'submitDrawing()'>Submit drawing to server</button>
+  <button (click) = "addTag()">Add current tag</button><br>
+  <button (click) = 'closeModalWindow()'>cancel</button><br>
+  <button (click) = 'submitDrawing()'>Submit drawing to server</button><br>
 
 
 </div>

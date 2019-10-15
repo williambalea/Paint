@@ -12,6 +12,9 @@ export class InputService {
   isBlank: boolean;
   stampAngle: number;
   json: string;
+  drawingName: string;
+  drawingTags: string[];
+  drawingHtml: string;
 
   constructor() {
     this.shiftPressed = false;
@@ -20,6 +23,9 @@ export class InputService {
     this.isBlank = true;
     this.stampAngle = NB.Zero;
     this.json = EMPTY_STRING;
+    this.drawingName = EMPTY_STRING;
+    this.drawingTags = [];
+    this.drawingHtml = EMPTY_STRING;
   }
 
   setMouseOffset(event: MouseEvent) {

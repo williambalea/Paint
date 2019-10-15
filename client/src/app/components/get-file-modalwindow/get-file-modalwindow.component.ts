@@ -2,25 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { SaveFileModalwindowComponent } from 'src/app/save-file-modalwindow/save-file-modalwindow.component';
 import { FileParametersServiceService } from 'src/app/services/file-parameters-service.service';
-import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
+import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 //import { CommunicationsService } from 'src/app/services/communications.service';
 
 @Component({
   selector: 'app-get-file-modalwindow',
   templateUrl: './get-file-modalwindow.component.html',
-  styleUrls: ['./get-file-modalwindow.component.scss']
+  styleUrls: ['./get-file-modalwindow.component.scss'],
 })
 export class GetFileModalwindowComponent implements OnInit {
 
-  dataTable : SVGJSON[];
+  dataTable: SVGJSON[];
+  tags: string[];
 
   constructor( private fileParameters: FileParametersServiceService,
-    private dialog: MatDialog,
-    private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
-    //private communicationService : CommunicationsService,
-    ) { 
+               private dialog: MatDialog,
+               private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
+             //private communicationService : CommunicationsService,
+    ) {
       this.dataTable = [];
+      this.tags = [];
     }
 
   ngOnInit() {
@@ -29,10 +31,7 @@ export class GetFileModalwindowComponent implements OnInit {
     //   this.dataTable = table;
     //   console.log(this.dataTable);
     // });
-
    }
-
-   
 
   closeModalWindow(): void {
   this.dialogRef.close();
@@ -40,8 +39,6 @@ export class GetFileModalwindowComponent implements OnInit {
 
   deleteConfirmation(drawingName: string): void {
   this.dialog.open(DeleteConfirmationComponent);
-  this.fileParameters.setParametersSaveDrawing(drawingName); // add these parameters to fileparameterservice
+  this.fileParameters.setParametersSaveDrawing(drawingName);
   }
-
-
 }

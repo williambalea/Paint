@@ -112,8 +112,8 @@ export enum LINE_PATTERN {
 }
 
 export enum STROKE_DASHARRAY_STYLE {
-  dottedPoint = '10',
-  dottedLine = '30,10',
+  dottedPoint = '1,20',
+  dottedLine = '20,20',
   fullLine = '',
 }
 

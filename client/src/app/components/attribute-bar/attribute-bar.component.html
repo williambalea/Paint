@@ -172,7 +172,7 @@
                 <div class="svg">
                     <svg class="lineStyleRound" width="200" height="100">
                         <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="this.lineService.strokeWidth" />
+                            [style.stroke-width]="this.lineService.strokeWidth" [style.stroke-dasharray]="this.lineService.dashArrayType" />
                     </svg>
                 </div>
 
@@ -195,16 +195,12 @@
                   <div class="attributeHeader">Line pattern</div>
                   <div>
                       <mat-radio-group>
-                          <mat-radio-button [value]="this.brush.chalk" (change)="brushRadioChangeHandler($event)">
-                              {{this.brush.chalk}}</mat-radio-button><br>
-                          <mat-radio-button [value]="this.brush.smear" (change)="brushRadioChangeHandler($event)">
-                              {{this.brush.smear}}</mat-radio-button><br>
-                          <mat-radio-button [value]="this.brush.rough" (change)="brushRadioChangeHandler($event)">
-                              {{this.brush.rough}}</mat-radio-button><br>
-                          <mat-radio-button [value]="this.brush.smooth" (change)="brushRadioChangeHandler($event)"
-                              checked>{{this.brush.smooth}}</mat-radio-button><br>
-                          <mat-radio-button [value]="this.brush.bubbly" (change)="brushRadioChangeHandler($event)">
-                              {{this.brush.bubbly}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.dashStyle.fullLine" (change)="lineStypeRadioChangeHandler($event)">
+                              {{this.lineStyle.full}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.dashStyle.dottedPoint" (change)="lineStypeRadioChangeHandler($event)">
+                              {{this.lineStyle.dottedPoint}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.dashStyle.dottedLine" (change)="lineStypeRadioChangeHandler($event)">
+                              {{this.lineStyle.dottedLine}}</mat-radio-button><br>
                       </mat-radio-group>
                   </div>
 

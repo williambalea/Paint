@@ -331,16 +331,15 @@
                     <div class="attributeHeader">
                         Grid size<br>
                         <div>
-
+                            {{this.gridService.gridSize}}
                         </div>
                     </div>
-                    <button mat-button (click)="this.showGrid()">Show Grid</button>
-                    <button mat-button (click)="this.hideGrid()">Hide Grid</button>
                     <div class = "button">
-                        <mat-slider min="40" max="200" value={{this.gridService.gridRectangleDimension}}
-                            [(ngModel)]="this.gridService.gridRectangleDimension"
-                            (input)="sendGridSize($event.value)">
-                        </mat-slider>
+                        <button mat-button (click)="this.hideGrid()">Hide Grid</button>
+                        <mat-slider min="40" max="200" [value]=this.gridService.gridSize
+                        [(ngModel)]="this.gridService.gridSize">
+                    </mat-slider>
+                    <button mat-button (click)="this.showGrid()">Apply Grid</button>
                     </div>
                 </div>
                 <div class="attribute">

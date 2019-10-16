@@ -39,10 +39,6 @@ export class AttributeBarComponent {
     this.gridService.setGridSize(this.gridSize);
   }
 
-  sendGridSize(value: number): void {
-    this.gridService.setGridSize(value);
-  }
-
   radioChangeHandler(event: MatRadioChange): void {
     if (this.selectedTool === TOOL.rectangle) {
       this.rectangleService.rectangleType = event.value;

@@ -14,7 +14,6 @@ import { Shape } from '../../services/shapes/shape';
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
   styleUrls: ['./drawing-space.component.scss'],
-  providers: [GridService],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('g', { static: false }) canvas: ElementRef;
@@ -87,7 +86,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showGrid(): void {
-    this.gridService.draw();
+    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
+    this.gridService.draw(this.gridService.gridSize);
     this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 

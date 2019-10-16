@@ -1,6 +1,4 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
 import { NB } from 'src/constants';
 
 @Injectable({
@@ -11,14 +9,11 @@ export class GridService {
   elementG: HTMLElement;
   height: number;
   gridSize: number;
-  gridDimension$: Observable<number>;
-  private gridDimensionSubject = new Subject<any>();
 
   constructor(private renderer: Renderer2) {
     this.width = window.innerWidth - 353;
     this.height = window.innerHeight;
-    this.gridSize = 7;
-    this.gridDimension$ = this.gridDimensionSubject.asObservable();
+    this.gridSize = 100;
     this.elementG = this.renderer.createElement('g', 'svg');
   }
 
@@ -26,7 +21,9 @@ export class GridService {
     this.gridSize = data;
   }
 
-  draw(): void {
+  draw(value: number): void {
+    this.elementG = this.renderer.createElement('g', 'svg');
+    this.gridSize = value;
     console.log(this.gridSize);
     for (let i = 0; i < this.width; i++) {
       const line: any = this.renderer.createElement('line', 'svg');

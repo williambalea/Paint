@@ -83,8 +83,11 @@ export class GetFileModalwindowComponent implements OnInit {
   }
 
   selectDrawing(value: number) {
-
     this.inputService.drawingHtml = this.displayedData[value].html;
-    this.eventEmitter.appendToDrawingSpace();
+    if (this.inputService.isNotEmpty) {
+      this.dialog.open(DisplayConfirmationComponent);
+    } else {
+      this.eventEmitter.appendToDrawingSpace();
+    }
   }
 }

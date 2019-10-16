@@ -17,6 +17,7 @@ export class InputService {
   drawingTags: string[];
   drawingHtml: string;
   isNotEmpty: boolean;
+  
 
   constructor() {
     this.shiftPressed = false;

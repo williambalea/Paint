@@ -17,6 +17,7 @@ export class LineService implements Shape {
   positions: Point[];
   start: boolean;
   savedPath: string;
+  doubleClick: boolean;
 
   path: HTMLElement;
 
@@ -24,6 +25,7 @@ export class LineService implements Shape {
               private inputService: InputService,
               private colorService: ColorService) {
     this.strokeWidth = NB.Seven;
+    this. doubleClick = false;
     this.reset();
     }
 
@@ -89,8 +91,8 @@ export class LineService implements Shape {
 
     if (this.inputService.isDoubleClick) {
        console.log('lineservice double');
-       this.renderer.setAttribute(this.path, 'd', this.linepath);
-       this.reset(); }
+      }
+    this.doubleClick = false;
     }
 
   onMouseUp(): void {
@@ -100,6 +102,11 @@ export class LineService implements Shape {
     if (this.inputService.backSpacePressed) {
       this.removeLastSegment();
     }
+    if (this.doubleClick === true) {
+      this.renderer.setAttribute(this.path, 'd', this.linepath);
+      this.reset();
+    }
+    this.doubleClick = true;
   }
 
   dblclick(): void{

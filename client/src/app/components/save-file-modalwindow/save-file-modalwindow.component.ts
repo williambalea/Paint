@@ -4,7 +4,7 @@ import { /*MatDialog,*/ MatDialogRef } from '@angular/material';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 import { EMPTY_STRING } from 'src/constants';
-import { InputService } from '../services/input.service';
+import { InputService } from '../../services/input.service';
 
 @Component({
   selector: 'app-save-file-modalwindow',
@@ -15,9 +15,7 @@ import { InputService } from '../services/input.service';
   export class SaveFileModalwindowComponent implements OnInit {
 
     form: FormGroup;
-
     currentTag: string;
-    tags: string[];
 
   constructor( /*private fileParameters: FileParametersServiceService,*/
             // private dialog: MatDialog,
@@ -36,6 +34,10 @@ import { InputService } from '../services/input.service';
 
   closeModalWindow(): void {
     this.dialogRef.close();
+  }
+
+  deleteTag(tag: string): void {
+    this.inputService.drawingTags.splice(this.inputService.drawingTags.indexOf(tag), 1);
   }
 
   addTag() {

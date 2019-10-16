@@ -24,7 +24,7 @@ export class GetFileModalwindowComponent implements OnInit {
   filteredThroughTagData: SVGJSON[];
   filterActivated: boolean;
   constructor(
-               private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
+               private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
                private inputService: InputService,
                private eventEmitter: EventEmitterService,
                private communicationService: CommunicationsService,
@@ -85,7 +85,9 @@ export class GetFileModalwindowComponent implements OnInit {
   selectDrawing(value: number) {
     this.inputService.drawingHtml = this.displayedData[value].html;
     if (this.inputService.isNotEmpty) {
-      this.dialog.open(DisplayConfirmationComponent);
+      this.dialog.open(DisplayConfirmationComponent).afterClosed().subscribe(() => {
+        this.dialogRef.close();
+      });
     } else {
       this.eventEmitter.appendToDrawingSpace();
     }

@@ -45,8 +45,12 @@ export class AttributeBarComponent {
       this.ellipseService.ellipseType = event.value;
       this.ellipseService.assignRectangleType();
     } else if (this.selectedTool === TOOL.polygon) {
+      console.log(event.value);
       this.polygonService.polygonType = event.value;
       this.polygonService.assignPolygonType();
+      console.log( this.polygonService.polygonType);
+      console.log( this.polygonService.strokeEnable);
+      console.log( this.polygonService.fillEnable);
     }
   }
 

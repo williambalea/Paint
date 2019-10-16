@@ -83,4 +83,5 @@ export class NewFileModalwindowComponent implements OnInit {
       this.assignForm();
     }
   }
+
 }

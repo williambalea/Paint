@@ -1,14 +1,13 @@
-import { AfterViewInit, Component,  ElementRef , HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
-import { SVGJSON} from '../../../../../common/communication/SVGJSON';
+import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
-
-import {FileParametersServiceService} from '../../services/file-parameters-service.service';
+import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 
 @Component({
@@ -18,11 +17,11 @@ import { Shape } from '../../services/shapes/shape';
   providers: [GridService],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('canvas', {static: false}) canvas: ElementRef;
-  @ViewChild('drawingBoard', {static: false}) drawingBoard: ElementRef;
+  @ViewChild('canvas', { static: false }) canvas: ElementRef;
+  @ViewChild('drawingBoard', { static: false }) drawingBoard: ElementRef;
   tool: typeof TOOL;
-  @Input()selectedTool: TOOL;
-  @Input()selectedShape: Shape;
+  @Input() selectedTool: TOOL;
+  @Input() selectedShape: Shape;
   resizeFlag: boolean;
   canvasWidth: number;
   canvasHeight: number;
@@ -30,14 +29,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   firstClick: boolean;
   pointerEvent: string;
 
-  constructor( private fileParameters: FileParametersServiceService,
-               private colorService: ColorService,
-               private inputService: InputService,
-               private renderer: Renderer2,
-               private communicationService: CommunicationsService,
-               private gridService: GridService,
-               private unsubscribeService: UnsubscribeService,
-               private eventEmitterService: EventEmitterService) {
+  constructor(private fileParameters: FileParametersServiceService,
+              private colorService: ColorService,
+              private inputService: InputService,
+              private renderer: Renderer2,
+              private communicationService: CommunicationsService,
+              private gridService: GridService,
+              private unsubscribeService: UnsubscribeService,
+              private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -47,13 +46,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setCanvasParameters(): void {
     this.unsubscribeService.subscriptons.push(this.fileParameters.canvaswidth$
-       .subscribe((canvasWidth) => this.canvasWidth = canvasWidth));
+      .subscribe((canvasWidth) => this.canvasWidth = canvasWidth));
 
     this.unsubscribeService.subscriptons.push(this.fileParameters.canvasheight$
-       .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
+      .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
 
     this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
-       .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
+      .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
   }
 
   ngOnInit(): void {
@@ -62,28 +61,21 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   ngAfterViewInit() {
-      this.eventEmitterService.showGridEmitter.subscribe(() => {
-        this.showGrid();
-      });
+    this.eventEmitterService.showGridEmitter.subscribe(() => {
+      this.showGrid();
+    });
 
-      this.eventEmitterService.hideGridEmitter.subscribe(() => {
-        this.hideGrid();
-      });
+    this.eventEmitterService.hideGridEmitter.subscribe(() => {
+      this.hideGrid();
+    });
 
-      this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
-        this.convertSVGtoJSON();
-      });
+    this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
+      this.convertSVGtoJSON();
+    });
 
-      this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
-        console.log(this.canvas.nativeElement);
-        this.renderer.removeChild(this.drawingBoard.nativeElement, this.canvas.nativeElement);
-        this.renderer.setProperty(this.canvas.nativeElement, 'innerHTML', this.inputService.drawingHtml);
-         this.renderer.createElement('svg', 'svg');
-        
-         this.renderer.appendChild(this.drawingBoard.nativeElement,this.canvas.nativeElement);
-
-       
-      });
+    this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
+      this.renderer.setProperty(this.canvas.nativeElement, 'innerHTML', this.inputService.drawingHtml);
+    });
   }
 
   ngOnDestroy(): void {
@@ -91,17 +83,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   hideGrid() {
-      this.gridService.buildGrid();
-      this.gridService.draw().forEach((element: HTMLElement) => {
-          this.renderer.removeChild(this.canvas.nativeElement, element);
-      });
+    this.gridService.buildGrid();
+    this.gridService.draw().forEach((element: HTMLElement) => {
+      this.renderer.removeChild(this.canvas.nativeElement, element);
+    });
   }
 
   showGrid(): void {
-      this.gridService.buildGrid();
-      this.gridService.draw().forEach((element: HTMLElement) => {
-          this.renderer.appendChild(this.drawingBoard.nativeElement, element);
-      });
+    this.gridService.buildGrid();
+    this.gridService.draw().forEach((element: HTMLElement) => {
+      this.renderer.appendChild(this.drawingBoard.nativeElement, element);
+    });
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -154,10 +146,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   screenshotBase64(): string {
     const svgElementsCount: number = document.querySelectorAll('svg').length;
-    const svg: SVGSVGElement = document.querySelectorAll('svg')[svgElementsCount -1] as SVGSVGElement;
+    const b64start = 'data:image/svg+xml;base64,';
+    const svg: SVGSVGElement = document.querySelectorAll('svg')[svgElementsCount - 1] as SVGSVGElement;
     const xml: string = new XMLSerializer().serializeToString(svg as Node);
     const svg64: string = btoa(xml);
-    const b64start = 'data:image/svg+xml;base64,';
     return b64start + svg64;
   }
 
@@ -166,11 +158,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     canvas.height = this.canvasHeight;
     canvas.width = this.canvasWidth;
     const image: HTMLImageElement = document.querySelectorAll('img')[1] as HTMLImageElement;
-    const image64: string = this.screenshotBase64();
-    image.src = image64;
+    const images64: string = this.screenshotBase64();
+    image.src = images64;
     (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
     const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
-    getImageData(event.offsetX, event.offsetY, 1, 1).data;
+      getImageData(event.offsetX, event.offsetY, 1, 1).data;
     if (event.button === 0 && !this.firstClick) {
       this.colorService.setFillColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
     }
@@ -218,7 +210,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   draw(shape: any): void {
     if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
-      this.renderer.appendChild(this.canvas.nativeElement, shape);
+      if (shape) {
+        this.renderer.appendChild(this.canvas.nativeElement, shape);
+      }
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);
       this.pointerEvent = POINTER_EVENT.none;
@@ -230,8 +224,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onMouseMove(event: MouseEvent): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
 
-    this.inputService.setMouseOffset(event);
-    this.selectedShape.onMouseMove();
+      this.inputService.setMouseOffset(event);
+      this.selectedShape.onMouseMove();
     }
   }
 
@@ -239,8 +233,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onMouseUp(): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
 
-    this.selectedShape.onMouseUp();
-    this.pointerEvent = POINTER_EVENT.visiblePainted;
+      this.selectedShape.onMouseUp();
+      this.pointerEvent = POINTER_EVENT.visiblePainted;
     }
 
   }
@@ -254,8 +248,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   convertSVGtoJSON(): void {
-        // TODO : get name and tag from input
-        console.log('svg->json');
         const nom = this.inputService.drawingName;
         const tag = this.inputService.drawingTags;
         const picture = this.screenshotBase64();
@@ -272,12 +264,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         const json = JSON.stringify(data);
 
         this.communicationService.HTML = json;
-        this.communicationService.postToServer(data).subscribe((response: any ) => {
-    });
-   // this.inputService.saveJSON(json);
-
+        this.communicationService.postToServer(data).subscribe((response: any ) => { });
   }
-
-
 
 }

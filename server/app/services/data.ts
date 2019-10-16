@@ -1,3 +1,3 @@
-import { SVGJSON } from "../../../common/communication/SVGJSON";
+import { SVGJSON } from '../../../common/communication/SVGJSON';
 
-export let svgTable : SVGJSON[];
+export let svgTable: SVGJSON[];

@@ -1,9 +1,8 @@
 import {NextFunction, Request, Response, Router} from 'express';
 import {inject, injectable} from 'inversify';
+import { SVGJSON } from '../../../common/communication/SVGJSON';
 import { DatabaseService } from '../services/database.service';
 import Types from '../types';
-import { SVGJSON } from '../../../common/communication/SVGJSON';
-
 
 @injectable()
 export class DatabaseController {
@@ -11,7 +10,7 @@ export class DatabaseController {
 
     constructor(@inject(Types.DatabaseService) private databaseService: DatabaseService) {
         this.configureRouter();
-        
+
     }
 
     private configureRouter(): void {
@@ -25,18 +24,18 @@ export class DatabaseController {
         this.router.get('/svgTable',
             async (req: Request, res: Response, next: NextFunction) => {
                 res.json(this.databaseService.getTable());
-                
+
             });
 
         this.router.post('/postToTable',
-            (req : Request, res : Response) => {
-                const json : SVGJSON = req.body;
+            (req: Request, res: Response) => {
+                const json: SVGJSON = req.body;
                 this.databaseService.addToTable(json);
                 res.json(json);
-                
-            }
-            
-        )
+
+            },
+
+        );
     }
 
 }

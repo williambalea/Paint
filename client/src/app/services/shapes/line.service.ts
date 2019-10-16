@@ -19,7 +19,6 @@ export class LineService implements Shape {
   savedPath: string;
   doubleClick: boolean;
   dashArrayType: string;
-  marker: string;
   junction: string;
 
   path: HTMLElement;
@@ -30,7 +29,6 @@ export class LineService implements Shape {
     this.strokeWidth = NB.Seven;
     this. doubleClick = false;
     this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
-    this.marker = EMPTY_STRING;
     this.junction = `url(#dot)`;
     this.reset();
     }
@@ -106,32 +104,11 @@ export class LineService implements Shape {
     if (this.inputService.escapePressed) {
       this.reset();
     }
-    if (this.inputService.backSpacePressed) {
-      this.removeLastSegment();
-    }
     if (this.doubleClick === true) {
       this.renderer.setAttribute(this.path, 'd', this.linepath);
       this.reset();
     }
     this.doubleClick = true;
-  }
-
-  dblclick(): void{
-    console.log('testing doubleclick');
-    // this.renderer.setAttribute(this.path, 'd', this.linepath);
-    // this.reset();
-  }
-
-  removeLastSegment() {
-      console.log('hi');
-      this.active = false;
-      //this.positions.pop();
-     // this.savedPath = EMPTY_STRING;
-      this.start = true;
-  }
-
-  changeLinePatter(newFilter: string): void {
-    // this.filter = `url(#${newFilter})`;
   }
 
   draw() {
@@ -151,14 +128,6 @@ export class LineService implements Shape {
     }
   }
 }
-
-// assignMarkerRounded(): void { };
-
-// assignMarkerAngled(): void { };
-
-// assignMarkerWithPoint() {
-
-//  };
 
 assignStrokeStyleDottedPoint(): void {
   this.dashArrayType = STROKE_DASHARRAY_STYLE.dottedPoint;

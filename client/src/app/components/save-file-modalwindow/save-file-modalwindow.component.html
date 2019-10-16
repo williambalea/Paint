@@ -1,21 +1,36 @@
 
 <div class = "modalWindow">
    
-  <h1>Choose drawing attributes: </h1>
-  <p>Enter drawing name</p>
-
-
-  <div [formGroup] = "myGroup"
-  <input id="name" class="form-control" formControlName="name" matInput [(ngModel)]="this.inputService.drawingName" required >
-
+  <h1>Save master piece to server </h1>
+  
   <p>Enter drawing tags</p>
-  <input type = "tags" value ={{this.currentTag}} matInput [(ngModel)]="currentTag">
-  <button (click) = "addTag()">Add current tag</button><br>
-  <button (click) = 'closeModalWindow()'>cancel</button><br>
-  <button (click) = 'submitDrawing()'>Submit drawing to server</button><br>
+  <mat-form-field>
+    <input matInput type = "tags" value ={{this.currentTag}} [(ngModel)]="currentTag">
+  </mat-form-field>
+  <button mat-stroked-button (click) = "addTag()">Add current tag</button><br>
+  
+  
   <div *ngFor = " let tag of inputService.drawingTags; let i = index">
     {{ tag }} <button (click) = 'deleteTag(tag)'>Delete Tag</button>
   </div>
 
-
+  <form (ngSubmit)="submitDrawing()" [formGroup]="form">
+      <div mat-dialog-content>
+          <p>Enter name </p>
+          <div class="field"> 
+          <div class="control">
+          <mat-form-field>
+            <input name="test" type = "name"  formControlName="name" value ={{this.inputService.drawingName}} matInput [(ngModel)]="this.inputService.drawingName" >
+            <mat-error>Enter string longer than 0</mat-error>
+          </mat-form-field>
+         </div>
+        </div> 
+       
+      </div>
+      
+      <div class ="submit"  mat-dialog-actions>
+          <button type="submit" mat-stroked-button cdkFocusInitial >submit</button> 
+      </div> 
+      </form>
+      <button mat-stroked-button (click) = 'closeModalWindow()'>cancel</button><br>
 </div>

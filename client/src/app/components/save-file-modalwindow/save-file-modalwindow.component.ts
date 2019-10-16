@@ -5,7 +5,7 @@ import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 import { EMPTY_STRING, KEY } from 'src/constants';
 import { InputService } from '../../services/input.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-save-file-modalwindow',
@@ -24,13 +24,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
                private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
                private eventEmitterService: EventEmitterService,
                private inputService: InputService) {
-      this.currentTag = 'currentTag';
+      this.currentTag = EMPTY_STRING;
+     
 
     }
 
     ngOnInit(): void {
       this.inputService.drawingName = EMPTY_STRING;
       this.inputService.drawingTags = [];
+      this.form = new FormGroup({
+        name: new FormControl()
+      })
       this.form = this.formBuilder.group({
         name: ['', [Validators.required,Validators.minLength(1)]]
       })

@@ -67,7 +67,6 @@ export class GetFileModalwindowComponent implements OnInit {
         break;
       }
     }
-    console.log(this.displayedData);
   }
 
   displayWithFilter(): void {

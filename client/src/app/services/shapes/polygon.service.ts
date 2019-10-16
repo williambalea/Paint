@@ -61,7 +61,7 @@ export class PolygonService implements Shape {
       this.stroke = color;
   }
 
-  setRectangleType(): void {
+  setPolygonType(): void {
     if (!this.fillEnable) {
       this.fill = this.removeColor(this.fill);
     }
@@ -106,9 +106,9 @@ export class PolygonService implements Shape {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
-    this.polygon = this.renderer.createElement('polygon', 'svg');
     this.setOrigin() ;
-    this.setRectangleType();
+    this.setPolygonType();
+    this.polygon = this.renderer.createElement('polygon', 'svg');
     return this.polygon;
   }
 

@@ -9,11 +9,13 @@ export class GridService {
   elementG: HTMLElement;
   height: number;
   gridSize: number;
+  opacity: number;
 
   constructor(private renderer: Renderer2) {
     this.width = window.innerWidth - 353;
     this.height = window.innerHeight;
-    this.gridSize = 100;
+    this.gridSize = NB.OneHundred;
+    this.opacity = NB.Fifty;
     this.elementG = this.renderer.createElement('g', 'svg');
   }
 
@@ -24,7 +26,6 @@ export class GridService {
   draw(value: number): void {
     this.elementG = this.renderer.createElement('g', 'svg');
     this.gridSize = value;
-    console.log(this.gridSize);
     for (let i = 0; i < this.width; i++) {
       const line: any = this.renderer.createElement('line', 'svg');
       this.renderer.setAttribute(line, 'x1', (i * this.gridSize).toString());
@@ -32,6 +33,7 @@ export class GridService {
       this.renderer.setAttribute(line, 'y1', NB.Zero.toString());
       this.renderer.setAttribute(line, 'y2', this.height.toString());
       this.renderer.setStyle(line, 'stroke', 'red');
+      this.renderer.setStyle(line, 'stroke-opacity', this.opacity / NB.OneHundred);
       this.renderer.appendChild(this.elementG, line);
     }
     for (let i = 0; i < this.height; i++) {
@@ -41,8 +43,8 @@ export class GridService {
       this.renderer.setAttribute(line, 'y1', (i * this.gridSize).toString());
       this.renderer.setAttribute(line, 'y2', (i * this.gridSize).toString());
       this.renderer.setStyle(line, 'stroke', 'red');
+      this.renderer.setStyle(line, 'stroke-opacity', this.opacity / NB.OneHundred);
       this.renderer.appendChild(this.elementG, line);
     }
-    console.log(this.elementG);
   }
 }

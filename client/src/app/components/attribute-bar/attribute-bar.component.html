@@ -336,9 +336,14 @@
                     </div>
                     <div class = "button">
                         <button mat-button (click)="this.hideGrid()">Hide Grid</button>
-                        <mat-slider min="40" max="200" [value]=this.gridService.gridSize
-                        [(ngModel)]="this.gridService.gridSize">
-                    </mat-slider>
+                    
+                       
+            <div>
+                  
+                        <input class="inputFormStyle" type="range" #slider min="40" max="200"
+                            value="40" [(ngModel)]="this.gridService.gridSize">
+                            <span>{{this.gridService.gridSize}}</span>
+                    </div>
                     <button mat-button (click)="this.showGrid()">Apply Grid</button>
                     </div>
                 </div>

@@ -36,7 +36,8 @@ export class AttributeBarComponent {
               private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.brush = BRUSH;
-    this.gridService.setGridSize(this.gridSize);
+    this.gridService.gridSize = 40;
+   // this.gridService.setGridSize(this.gridSize);
   }
 
   radioChangeHandler(event: MatRadioChange): void {

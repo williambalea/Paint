@@ -33,8 +33,7 @@ export class CommunicationsService {
 
 
   postToServer(data : SVGJSON) : Observable<any> {
-  
-   return  this.http.post<string>(this.BASE_URL + this.DATABASE_URL +'/postToTable',data);
+   return  this.http.post<string>(this.BASE_URL + this.DATABASE_URL +'/postToTable', data);
    
   }
 

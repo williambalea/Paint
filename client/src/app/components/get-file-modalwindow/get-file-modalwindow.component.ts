@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialogRef,MatDialog } from '@angular/material';
 import { SaveFileModalwindowComponent } from 'src/app/save-file-modalwindow/save-file-modalwindow.component';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
-import { FileParametersServiceService } from 'src/app/services/file-parameters-service.service';
 import { InputService } from 'src/app/services/input.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { NB } from 'src/constants';
+import { DisplayConfirmationComponent } from '../display-confirmation/display-confirmation.component';
 
 @Component({
   selector: 'app-get-file-modalwindow',
@@ -14,44 +14,103 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
   styleUrls: ['./get-file-modalwindow.component.scss'],
 })
 export class GetFileModalwindowComponent implements OnInit {
+ 
+ 
 
   dataTable: SVGJSON[];
+  tag : string;
   tags: string[];
-
-  constructor( private fileParameters: FileParametersServiceService,
-               private dialog: MatDialog,
+  displayedData : SVGJSON[];
+  filteredThroughTagData : SVGJSON[];
+  filterActivated : boolean;
+  constructor(
                private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
                private inputService: InputService,
                private eventEmitter: EventEmitterService,
                private communicationService: CommunicationsService,
+               private dialog: MatDialog,
     ) {
       this.dataTable = [];
       this.tags = [];
+      this.displayedData = [];
+      this.filteredThroughTagData = [];
+      this.filterActivated = false
+   
     }
 
   ngOnInit() {
+    
     this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
       this.dataTable = table;
-      console.log(this.dataTable);
-    });
+      console.log('data',this.dataTable);
+   
+   if(this.filterActivated) {
+      this.displayWithFilter(); 
+      this.fillDisplayTable(this.filteredThroughTagData);
+    }
+    else {
+      this.fillDisplayTable(this.dataTable);
+    }
+     });
 
+    this.filterActivated = false;
+
+    
+ 
+
+  }
+
+  displayWithFilter() : void {
+      for ( let i : number = this.dataTable.length; i++;) {
+        for (let j : number = this.tags.length; i++;) {
+            if (this.dataTable[i].tags.includes(this.tags[j])){
+              this.filteredThroughTagData.push(this.dataTable[i]);
+            }
+        }
+     }
    }
 
+  
+
+   fillDisplayTable(datatable : SVGJSON[]) : void  {
+     let counter : number = NB.Zero;
+     for(let i: number = datatable.length  ; i> 0 ; i--){
+      counter++
+      this.displayedData.push(datatable[i]);
+      if (counter === 8){
+        break;
+      }
+     }
+   }
+
+ 
+   addTagToFilter() : void {
+     this.filterActivated = true;
+     this.tags.push(this.tag);
+     console.log('tags',this.tags);
+   }
 
 
   closeModalWindow(): void {
   this.dialogRef.close();
   }
 
-  deleteConfirmation(drawingName: string): void {
-  this.dialog.open(DeleteConfirmationComponent);
-  this.fileParameters.setParametersSaveDrawing(drawingName);
-  }
+ 
 
   selectDrawing(value: number) {
-    this.inputService.drawingHtml = this.dataTable[value].html;
-    console.log(this.inputService.drawingHtml);
-    this.eventEmitter.appendToDrawingSpace();
-    this.closeModalWindow();
+    if(this.inputService.isNotEmpty) {
+        this.dialog.open(DisplayConfirmationComponent); 
+        this.inputService.drawingHtml = this.displayedData[value].html;
+
+      }
+
+    
+    else {
+      this.inputService.drawingHtml = this.displayedData[value].html;
+      this.eventEmitter.appendToDrawingSpace();
+      this.closeModalWindow();
+      this.inputService.isNotEmpty = true;
+      
+    }
   }
 }

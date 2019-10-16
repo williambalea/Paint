@@ -1,17 +1,11 @@
 <h1>Choose tags to filter drawings: </h1>
   <p>Enter tag name:</p>
-  <input name="test" value ={{this.drawingName}} matInput [(ngModel)]="drawingName" >
+  <input name="test" value ={{this.tag}} matInput [(ngModel)]="tag" >
   <button (click) = "addTagToFilter()">Add current tag</button>
-  <!-- <p> Current tags:<br>
-    {{this.tags[0]}} <Button>X Remove</Button><br>
-    {{this.tags[1]}}<br>
-    {{this.tags[2]}}<br>
-    {{this.tags[3]}}<br>
-    {{this.tags[4]}}
-  </p> -->
+
 <br>
 <div *ngFor = " let data of dataTable; let i = index">
-  <div id="drawing" (click)="this.selectDrawing(i)">
+  <div  matTooltip="Click me to confirm" id="drawing" (click)="this.selectDrawing(i)">
     {{data.name}}
     {{data.tags}}
     <img [attr.src]="data.thumbnail | safeUrl" width="50" height="50">

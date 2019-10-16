@@ -16,12 +16,7 @@ export class InputService {
   drawingName: string;
   drawingTags: string[];
   drawingHtml: string;
-  isNotEmpty : boolean;
-
-  isConfirmed: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  isconfirmed$: Observable<boolean>;
-
-
+  isNotEmpty: boolean;
 
   constructor() {
     this.shiftPressed = false;
@@ -31,16 +26,10 @@ export class InputService {
     this.stampAngle = NB.Zero;
     this.json = EMPTY_STRING;
     this.drawingName = EMPTY_STRING;
-    this.drawingTags;
+    this.drawingTags = [];
     this.drawingHtml = EMPTY_STRING;
     this.isNotEmpty = false ;
-    this.isconfirmed$ = this.isConfirmed.asObservable();
-    
-  }
-  setToTrue(): void {
-    console.log('input service setting to true');
-    this.isConfirmed.next(true);
-    console.log('input service setting to true',this.isConfirmed.value);
+
   }
 
   setMouseOffset(event: MouseEvent) {

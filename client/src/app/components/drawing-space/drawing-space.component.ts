@@ -77,10 +77,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
-      // avant
-      // this.renderer.setProperty(this.canvas.nativeElement, 'innerHTML', this.inputService.drawingHtml);
-      // --avant
-
       this.canvas.nativeElement.innerHTML = EMPTY_STRING;
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
     });

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { InputService } from 'src/app/services/input.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
-
+import { InputService } from 'src/app/services/input.service';
 
 @Component({
   selector: 'app-display-confirmation',
@@ -10,13 +9,13 @@ import { EventEmitterService } from 'src/app/services/event-emitter.service';
 })
 export class DisplayConfirmationComponent implements OnInit {
 
-  constructor(private inputService : InputService, private eventEmitterService :EventEmitterService) { }
+  constructor(private inputService: InputService, private eventEmitterService: EventEmitterService) { }
 
   ngOnInit() {
     console.log(this.inputService.isNotEmpty);
   }
-  confirm() : void {
+  confirm(): void {
     this.eventEmitterService.appendToDrawingSpace();
   }
- 
+
 }

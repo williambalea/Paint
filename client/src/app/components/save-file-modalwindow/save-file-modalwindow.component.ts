@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { /*FormBuilder,*/ FormGroup, /*Validators*/ } from '@angular/forms';
 import { /*MatDialog,*/ MatDialogRef } from '@angular/material';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
-import { EMPTY_STRING } from 'src/constants';
+import { EMPTY_STRING, KEY } from 'src/constants';
 import { InputService } from '../../services/input.service';
 
 @Component({
@@ -49,6 +49,13 @@ import { InputService } from '../../services/input.service';
   submitDrawing() {
     this.eventEmitterService.sendSVGToServer();
     this.dialogRef.close();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+      if (event.key === KEY.o) {
+          event.preventDefault();
+      }
   }
 
 }

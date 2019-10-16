@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
-import { NB } from 'src/constants';
+import { KEY, NB } from 'src/constants';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 
 @Component({
@@ -79,5 +79,12 @@ export class GetFileModalwindowComponent implements OnInit {
 
     this.inputService.drawingHtml = this.displayedData[value].html;
     this.eventEmitter.appendToDrawingSpace();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+      if (event.key === KEY.o) {
+          event.preventDefault();
+      }
   }
 }

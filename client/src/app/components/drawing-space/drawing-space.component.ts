@@ -154,7 +154,19 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       const xml: string = new XMLSerializer().serializeToString(svg as Node);
       const svg64: string = btoa(xml);
       images.push(b64start + svg64);
-      console.log(i, images);
+    }
+    return images[1];
+  }
+
+  getSvgLayersImage(): string {
+    const svgElementsCount: number = document.querySelectorAll('svg').length;
+    const b64start = 'data:image/svg+xml;base64,';
+    const images: string[] = [];
+    for (let i = 0; i < svgElementsCount; i++) {
+      const svg: SVGSVGElement = document.querySelectorAll('svg')[i] as SVGSVGElement;
+      const xml: string = new XMLSerializer().serializeToString(svg as Node);
+      const svg64: string = btoa(xml);
+      images.push(b64start + svg64);
     }
     return images[0];
   }
@@ -164,7 +176,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     canvas.height = this.canvasHeight;
     canvas.width = this.canvasWidth;
     const image: HTMLImageElement = document.querySelectorAll('img')[1] as HTMLImageElement;
-    const images64: string = this.screenshotBase64();
+    const images64: string = this.getSvgLayersImage();
     image.src = images64;
     (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
     const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).

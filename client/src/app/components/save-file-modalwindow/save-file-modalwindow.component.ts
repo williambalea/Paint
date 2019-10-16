@@ -56,7 +56,6 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
   submitDrawing() {
     this.eventEmitterService.sendSVGToServer();
-    //this.dialogRef.close();
   }
 
   @HostListener('window:keydown', ['$event'])

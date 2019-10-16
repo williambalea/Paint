@@ -19,6 +19,7 @@ import { Shape } from '../../services/shapes/shape';
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('g', { static: false }) canvas: ElementRef;
   @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
+  @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
   @Input() selectedShape: Shape;
@@ -133,30 +134,31 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   screenshotBase64(): string {
-    const svgElementsCount: number = document.querySelectorAll('svg').length;
     const b64start = 'data:image/svg+xml;base64,';
-    const svg: SVGSVGElement = document.querySelectorAll('svg')[svgElementsCount - 1] as SVGSVGElement;
+    const svg: SVGSVGElement = this.drawingBoard.nativeElement;
     const xml: string = new XMLSerializer().serializeToString(svg as Node);
     const svg64: string = btoa(xml);
     return b64start + svg64;
   }
 
   usePipette(event: MouseEvent): void {
-    const canvas: HTMLCanvasElement = document.querySelector('canvas') as HTMLCanvasElement;
+    const canvas: HTMLCanvasElement = this.htmlCanvas.nativeElement;
     canvas.height = this.canvasHeight;
     canvas.width = this.canvasWidth;
-    const image: HTMLImageElement = document.querySelectorAll('img')[1] as HTMLImageElement;
     const images64: string = this.screenshotBase64();
+    const image = new Image();
     image.src = images64;
-    (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
-    const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
-    getImageData(event.offsetX, event.offsetY, 1, 1).data;
-    if (event.button === 0) {
-      this.colorService.setFillColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
-    }
-    if (event.button === 2) {
-      this.colorService.setStrokeColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
-    }
+    image.onload = () => {
+      (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0, this.canvasWidth, this.canvasHeight);
+      const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
+      getImageData(event.offsetX, event.offsetY, 1, 1).data;
+      if (event.button === 0) {
+        this.colorService.setFillColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
+      }
+      if (event.button === 2) {
+        this.colorService.setStrokeColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
+      }
+    };
   }
 
   @HostListener('mousedown', ['$event'])

@@ -31,13 +31,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   pointerEvent: string;
 
   constructor(private fileParameters: FileParametersServiceService,
-    private colorService: ColorService,
-    private inputService: InputService,
-    private renderer: Renderer2,
-    private communicationService: CommunicationsService,
-    private gridService: GridService,
-    private unsubscribeService: UnsubscribeService,
-    private eventEmitterService: EventEmitterService) {
+              private colorService: ColorService,
+              private inputService: InputService,
+              private renderer: Renderer2,
+              private communicationService: CommunicationsService,
+              private gridService: GridService,
+              private unsubscribeService: UnsubscribeService,
+              private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -147,12 +147,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   screenshotBase64(): string {
     const svgElementsCount: number = document.querySelectorAll('svg').length;
-<<<<<<< HEAD
-    const svg: SVGSVGElement = document.querySelectorAll('svg')[svgElementsCount - 1] as SVGSVGElement;
-    const xml: string = new XMLSerializer().serializeToString(svg as Node);
-    const svg64: string = btoa(xml);
-=======
->>>>>>> 09df17c2274f0f8d56163a0570ebc05a801c8d20
     const b64start = 'data:image/svg+xml;base64,';
     const images: string[] = [];
     for (let i = 0; i < svgElementsCount; i++) {
@@ -160,6 +154,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       const xml: string = new XMLSerializer().serializeToString(svg as Node);
       const svg64: string = btoa(xml);
       images.push(b64start + svg64);
+      console.log(i, images);
     }
     return images[0];
   }
@@ -257,30 +252,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   convertSVGtoJSON(): void {
-<<<<<<< HEAD
-    // TODO : get name and tag from input
-    console.log('svg->json');
-    const nom = this.inputService.drawingName;
-    const tag = this.inputService.drawingTags;
-    const picture = this.screenshotBase64();
-    console.log(picture);
-    const element = document.getElementById('canvas') as HTMLElement;
-    const html = element.outerHTML;
-    const data: SVGJSON = {
-      name: nom,
-      tags: tag,
-      thumbnail: picture,
-      html,
-    };
-
-    const json = JSON.stringify(data);
-
-    this.communicationService.HTML = json;
-    this.communicationService.postToServer(data).subscribe((response: any) => {
-    });
-    // this.inputService.saveJSON(json);
-
-=======
         const nom = this.inputService.drawingName;
         const tag = this.inputService.drawingTags;
         const picture = this.screenshotBase64();
@@ -298,7 +269,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.communicationService.HTML = json;
         this.communicationService.postToServer(data).subscribe((response: any ) => { });
->>>>>>> 09df17c2274f0f8d56163a0570ebc05a801c8d20
   }
 
 }

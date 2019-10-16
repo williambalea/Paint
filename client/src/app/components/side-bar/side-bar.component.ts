@@ -110,6 +110,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedShape = this.polygonService;
         this.selectedTool = TOOL.polygon;
         break;
+    case TOOL.selector:
+        this.selectedTool = TOOL.selector;
+        break;
     default:
    }
   }

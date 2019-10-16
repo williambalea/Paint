@@ -6,7 +6,7 @@ import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
+import { KEY, NB, POINTER_EVENT, STRINGS, TOOL, EMPTY_STRING } from '../../../constants';
 
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
@@ -75,7 +75,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
-      this.renderer.setProperty(this.canvas.nativeElement, 'innerHTML', this.inputService.drawingHtml);
+      // avant
+      // this.renderer.setProperty(this.canvas.nativeElement, 'innerHTML', this.inputService.drawingHtml);
+      // --avant
+
+      this.canvas.nativeElement.innerHTML = EMPTY_STRING;
+      this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
     });
   }
 
@@ -213,6 +218,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.usingComplexShape()) {
       this.renderer.listen(shape, 'click', () => {
         this.changeFillColor(shape);
+        console.log(shape);
       });
       this.renderer.listen(shape, 'contextmenu', () => {
         this.changeStrokeColor(shape, this.colorService.getStrokeColor());
@@ -227,7 +233,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   draw(shape: any): void {
-    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
+    if (this.selectedTool !== TOOL.colorApplicator &&
+        this.selectedTool !== TOOL.pipette &&
+        this.selectedTool !== TOOL.selector) {
       if (shape) {
         this.renderer.appendChild(this.canvas.nativeElement, shape);
       }
@@ -240,7 +248,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
-    if (this.selectedTool !== TOOL.colorApplicator) {
+    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.selector) {
 
       this.inputService.setMouseOffset(event);
       this.selectedShape.onMouseMove();
@@ -249,7 +257,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mouseup')
   onMouseUp(): void {
-    if (this.selectedTool !== TOOL.colorApplicator) {
+    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.selector) {
 
       this.selectedShape.onMouseUp();
       this.pointerEvent = POINTER_EVENT.visiblePainted;
@@ -270,8 +278,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         const tag = this.inputService.drawingTags;
         const picture = this.screenshotBase64();
         console.log(picture);
-        const element = document.getElementById('canvas') as HTMLElement;
-        const html = element.outerHTML;
+        const element = this.canvas.nativeElement;
+        const html = element.innerHTML;
         const data: SVGJSON = {
           name : nom,
           tags: tag,

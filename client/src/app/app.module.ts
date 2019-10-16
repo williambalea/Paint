@@ -20,7 +20,7 @@ import { GetFileModalwindowComponent } from './components/get-file-modalwindow/g
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MaterialModule } from './material/material.module';
-import { SaveFileModalwindowComponent } from './save-file-modalwindow/save-file-modalwindow.component';
+import { SaveFileModalwindowComponent } from './components/save-file-modalwindow/save-file-modalwindow.component';
 import { EventEmitterService } from './services/event-emitter.service';
 
 @NgModule({

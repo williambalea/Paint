@@ -41,7 +41,9 @@ import { InputService } from '../../services/input.service';
   }
 
   addTag() {
-    this.inputService.drawingTags.push(this.currentTag);
+    if (this.inputService.drawingTags.indexOf(this.currentTag) === -1) {
+      this.inputService.drawingTags.push(this.currentTag);
+    }
   }
 
   submitDrawing() {

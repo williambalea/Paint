@@ -6,7 +6,7 @@ import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { KEY, NB, POINTER_EVENT, STRINGS, TOOL, EMPTY_STRING } from '../../../constants';
+import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
@@ -27,7 +27,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
-  firstClick: boolean;
   pointerEvent: string;
 
   constructor(private fileParameters: FileParametersServiceService,
@@ -41,7 +40,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
-    this.firstClick = true;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
 
@@ -173,14 +171,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     image.src = images64;
     (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
     const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
-      getImageData(event.offsetX, event.offsetY, 1, 1).data;
-    if (event.button === 0 && !this.firstClick) {
-      this.colorService.setFillColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
+    getImageData(event.offsetX, event.offsetY, 1, 1).data;
+    if (event.button === 0) {
+      this.colorService.setFillColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
     }
-    if (event.button === 2 && !this.firstClick) {
-      this.colorService.setStrokeColor('rgba(' + data[0].toString() + ',' + data[1].toString() + ',' + data[2] + ',' + data[3] + ')');
+    if (event.button === 2) {
+      this.colorService.setStrokeColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
     }
-    this.firstClick = false;
   }
 
   @HostListener('mousedown', ['$event'])

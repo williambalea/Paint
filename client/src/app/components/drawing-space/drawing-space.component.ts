@@ -57,7 +57,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.setCanvasParameters();
-    this.gridService.setGridParameters();
 
   }
   ngAfterViewInit() {
@@ -84,17 +83,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   hideGrid() {
-    this.gridService.buildGrid();
-    this.gridService.draw().forEach((element: HTMLElement) => {
-      this.renderer.removeChild(this.canvas.nativeElement, element);
-    });
+    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
   showGrid(): void {
-    this.gridService.buildGrid();
-    this.gridService.draw().forEach((element: HTMLElement) => {
-      this.renderer.appendChild(this.drawingBoard.nativeElement, element);
-    });
+    this.gridService.draw();
+    this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
   @HostListener('window:keydown', ['$event'])

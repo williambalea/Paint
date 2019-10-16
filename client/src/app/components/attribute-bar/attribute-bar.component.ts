@@ -22,6 +22,7 @@ export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
   @Input()selectedTool: TOOL;
+  gridSize: number;
 
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
@@ -35,6 +36,11 @@ export class AttributeBarComponent {
               private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.brush = BRUSH;
+    this.gridService.setGridSize(this.gridSize);
+  }
+
+  sendGridSize(value: number): void {
+    this.gridService.setGridSize(value);
   }
 
   radioChangeHandler(event: MatRadioChange): void {

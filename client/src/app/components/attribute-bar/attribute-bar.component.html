@@ -339,25 +339,9 @@
                     <div class = "button">
                         <mat-slider min="40" max="200" value={{this.gridService.gridRectangleDimension}}
                             [(ngModel)]="this.gridService.gridRectangleDimension"
-                            (input)="this.gridService.gridRectangleDimension = $event.value">
+                            (input)="sendGridSize($event.value)">
                         </mat-slider>
-                        <button mat-stroked-button color ="primary" (click)="this.updateGrid()">Confirm modification</button>
                     </div>
-                </div>
-                <div class="attribute">
-                        <div class="attributeHeader">
-                                Toggle grid<br>
-                        </div>
-                        <br>
-                        <div class = "button">
-                                <div *ngIf="this.gridService.gridEnabled">
-                                        <mat-checkbox indeterminate = true (click)="this.showGrid()">Turn off grid</mat-checkbox>
-                                </div>
-                                <div *ngIf="!this.gridService.gridEnabled">
-                                        <mat-checkbox  (click)="this.hideGrid()">Turn on grid</mat-checkbox>
-                                </div>        
-                        </div>
-                        
                 </div>
                 <div class="attribute">
                         <div class="attributeHeader">

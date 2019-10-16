@@ -4,6 +4,7 @@ import { DatabaseService } from '../services/database.service';
 import Types from '../types';
 import { SVGJSON } from '../../../common/communication/SVGJSON';
 
+
 @injectable()
 export class DatabaseController {
     router: Router;
@@ -23,16 +24,13 @@ export class DatabaseController {
 
         this.router.get('/svgTable',
             async (req: Request, res: Response, next: NextFunction) => {
-                console.log('controller');
                 res.json(this.databaseService.getTable());
+                
             });
 
         this.router.post('/postToTable',
             (req : Request, res : Response) => {
-
                 const json : SVGJSON = req.body;
-                console.log('ines');
-                console.log(json);
                 this.databaseService.addToTable(json);
                 res.json(json);
                 

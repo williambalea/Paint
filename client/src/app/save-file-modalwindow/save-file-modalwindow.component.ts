@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { /*FormBuilder,*/ FormGroup, /*Validators*/ } from '@angular/forms';
 import { /*MatDialog,*/ MatDialogRef } from '@angular/material';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 import { InputService } from '../services/input.service';
+import { EMPTY_STRING } from 'src/constants';
 // import { DeleteConfirmationComponent } from '../components/delete-confirmation/delete-confirmation.component';
 // import { FileParametersServiceService } from '../services/file-parameters-service.service';
 
@@ -13,11 +14,13 @@ import { InputService } from '../services/input.service';
   styleUrls: ['./save-file-modalwindow.component.scss'],
 })
 
-  export class SaveFileModalwindowComponent {
+  export class SaveFileModalwindowComponent implements OnInit {
+ 
     form: FormGroup;
 
     currentTag: string;
     tags: string[];
+   
 
   constructor( /*private fileParameters: FileParametersServiceService,*/
             // private dialog: MatDialog,
@@ -26,7 +29,13 @@ import { InputService } from '../services/input.service';
                private eventEmitterService: EventEmitterService,
                private inputService: InputService) {
       this.currentTag = 'currentTag';
+     
 
+    }
+
+    ngOnInit(): void {
+      this.inputService.drawingName = EMPTY_STRING;
+      this.inputService.drawingTags = [];
     }
 
   closeModalWindow(): void {

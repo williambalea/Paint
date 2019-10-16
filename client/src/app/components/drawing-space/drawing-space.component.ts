@@ -28,6 +28,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   canvasHeight: number;
   width: number;
   pointerEvent: string;
+  isConfirmed : boolean;
+ 
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -57,7 +59,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.setCanvasParameters();
     this.gridService.setGridParameters();
-
+    
+  
+  
   }
   ngAfterViewInit() {
     this.eventEmitterService.showGridEmitter.subscribe(() => {
@@ -139,27 +143,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   screenshotBase64(): string {
     const svgElementsCount: number = document.querySelectorAll('svg').length;
     const b64start = 'data:image/svg+xml;base64,';
-    const images: string[] = [];
-    for (let i = 0; i < svgElementsCount; i++) {
-      const svg: SVGSVGElement = document.querySelectorAll('svg')[i] as SVGSVGElement;
-      const xml: string = new XMLSerializer().serializeToString(svg as Node);
-      const svg64: string = btoa(xml);
-      images.push(b64start + svg64);
-    }
-    return images[1];
-  }
-
-  getSvgLayersImage(): string {
-    const svgElementsCount: number = document.querySelectorAll('svg').length;
-    const b64start = 'data:image/svg+xml;base64,';
-    const images: string[] = [];
-    for (let i = 0; i < svgElementsCount; i++) {
-      const svg: SVGSVGElement = document.querySelectorAll('svg')[i] as SVGSVGElement;
-      const xml: string = new XMLSerializer().serializeToString(svg as Node);
-      const svg64: string = btoa(xml);
-      images.push(b64start + svg64);
-    }
-    return images[0];
+    const svg: SVGSVGElement = document.querySelectorAll('svg')[svgElementsCount - 1] as SVGSVGElement;
+    const xml: string = new XMLSerializer().serializeToString(svg as Node);
+    const svg64: string = btoa(xml);
+    return b64start + svg64;
   }
 
   usePipette(event: MouseEvent): void {
@@ -167,7 +154,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     canvas.height = this.canvasHeight;
     canvas.width = this.canvasWidth;
     const image: HTMLImageElement = document.querySelectorAll('img')[1] as HTMLImageElement;
-    const images64: string = this.getSvgLayersImage();
+    const images64: string = this.screenshotBase64();
     image.src = images64;
     (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0);
     const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).

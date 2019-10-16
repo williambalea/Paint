@@ -1,10 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { /*FormBuilder,*/ FormGroup, /*Validators*/ } from '@angular/forms';
+
 import { /*MatDialog,*/ MatDialogRef } from '@angular/material';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 import { EMPTY_STRING, KEY } from 'src/constants';
 import { InputService } from '../../services/input.service';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-save-file-modalwindow',
@@ -19,17 +20,24 @@ import { InputService } from '../../services/input.service';
 
   constructor( /*private fileParameters: FileParametersServiceService,*/
             // private dialog: MatDialog,
-            // private formBuilder: FormBuilder,
+               private formBuilder: FormBuilder,
                private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
                private eventEmitterService: EventEmitterService,
                private inputService: InputService) {
-      this.currentTag = 'currentTag';
+      this.currentTag = EMPTY_STRING;
+     
 
     }
 
     ngOnInit(): void {
       this.inputService.drawingName = EMPTY_STRING;
       this.inputService.drawingTags = [];
+      this.form = new FormGroup({
+        name: new FormControl()
+      })
+      this.form = this.formBuilder.group({
+        name: ['', [Validators.required,Validators.minLength(1)]]
+      })
     }
 
   closeModalWindow(): void {
@@ -48,13 +56,14 @@ import { InputService } from '../../services/input.service';
 
   submitDrawing() {
     this.eventEmitterService.sendSVGToServer();
-    this.dialogRef.close();
   }
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
       if (event.key === KEY.o) {
+        if (event.ctrlKey) {
           event.preventDefault();
+        }
       }
   }
 

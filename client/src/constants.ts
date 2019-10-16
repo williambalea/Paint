@@ -65,6 +65,8 @@ export enum NB {
   TenThousand = 10000,
   }
 
+export const SVGinnerWidth : number = 353;
+
 export enum KEY {
   shift = 'Shift',
   alt = 'Alt',

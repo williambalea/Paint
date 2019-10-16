@@ -169,6 +169,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     const shape: any = this.selectedShape.onMouseDown();
     this.draw(shape);
+    this.inputService.isNotEmpty = true;
   }
 
   draw(shape: any): void {

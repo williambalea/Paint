@@ -41,18 +41,27 @@ export class GetFileModalwindowComponent implements OnInit {
 
     this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
       this.dataTable = table;
-      this.selectMostRecent();
-    });
-    console.log('get-file is openened!');
-    this.filterActivated = false;
+    
+      console.log('no filer', this.dataTable);
+        this.selectMostRecent(this.dataTable);
+    
+     
+      });
+      this.filterActivated = false;
 
   }
 
-  selectMostRecent(): void {
+  removeTags(value : number) : void {
+    this.tags.splice(value,1);
+    this.updateDisplayTable();
+
+  }
+
+  selectMostRecent(table : SVGJSON[]): void {
     let counter: number = NB.Zero;
-    console.log(this.dataTable);
-    for (let i: number = this.dataTable.length - 1; i >= 0; i--) {
-      this.displayedData.push(this.dataTable[i]);
+    this.displayedData = [];
+    for (let i: number = table.length - 1; i >= 0; i--) {
+    this.displayedData.push(table[i]);
       counter++;
       if (counter === NB.Seven) {
         break;
@@ -75,7 +84,30 @@ export class GetFileModalwindowComponent implements OnInit {
      this.filterActivated = true;
      this.tags.push(this.tag);
      console.log('tags', this.tags);
+     this.updateDisplayTable();
+     console.log(this.displayedData);
    }
+
+
+  updateDisplayTable() : SVGJSON[] {
+    let temp : SVGJSON[]  = [];
+    if(this.tags.length !==0 ) {
+    for (let i : number = 0; i < this.dataTable.length; i++){
+      for (let j : number = 0 ; j < this.tags.length; j ++){
+        if ( this.dataTable[i].tags.includes(this.tags[j])){
+          temp.push(this.dataTable[i]);
+          break;
+        }
+      }
+    }
+  
+    this.displayedData = temp.reverse();
+  }
+  else {
+    this.displayedData =this.dataTable.reverse();
+  }
+    return temp;
+  }
 
   closeModalWindow(): void {
   this.dialogRef.close();

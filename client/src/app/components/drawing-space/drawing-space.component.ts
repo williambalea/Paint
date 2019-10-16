@@ -28,6 +28,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number;
   firstClick: boolean;
   pointerEvent: string;
+  isConfirmed : boolean;
+ 
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -40,6 +42,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
+    this.isConfirmed = false;
     this.firstClick = true;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
@@ -58,7 +61,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.setCanvasParameters();
     this.gridService.setGridParameters();
-
+    
+  
+  
   }
   ngAfterViewInit() {
     this.eventEmitterService.showGridEmitter.subscribe(() => {
@@ -209,6 +214,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   draw(shape: any): void {
+    this.inputService.isNotEmpty = true;
     if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
       if (shape) {
         this.renderer.appendChild(this.canvas.nativeElement, shape);
@@ -251,7 +257,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         const nom = this.inputService.drawingName;
         const tag = this.inputService.drawingTags;
         const picture = this.screenshotBase64();
-        console.log(picture);
         const element = document.getElementById('canvas') as HTMLElement;
         const html = element.outerHTML;
         const data: SVGJSON = {

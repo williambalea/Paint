@@ -20,6 +20,8 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MaterialModule } from './material/material.module';
 import { SaveFileModalwindowComponent } from './save-file-modalwindow/save-file-modalwindow.component';
 import { EventEmitterService } from './services/event-emitter.service';
+import { DisplayConfirmationComponent } from './components/display-confirmation/display-confirmation.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     SafeUrlPipe,
     SaveFileModalwindowComponent,
     GetFileModalwindowComponent,
+    DisplayConfirmationComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +51,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     FormsModule,
     DragDropModule,
     MaterialModule,
+    MatTooltipModule
   ],
   entryComponents: [
     EntryPointComponent,
@@ -55,6 +59,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     NewFileModalwindowComponent,
     SaveFileModalwindowComponent,
     GetFileModalwindowComponent,
+    DisplayConfirmationComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

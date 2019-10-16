@@ -87,6 +87,7 @@ export enum TOOL {
   grid = 'grid',
   polygon = 'polygon',
   ellipse = 'ellipse',
+  selector = 'selector',
 }
 
 export enum BRUSH {

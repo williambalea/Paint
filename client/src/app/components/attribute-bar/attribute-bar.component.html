@@ -171,6 +171,14 @@
 
                 <div class="svg">
                     <svg class="lineStyleRound" width="200" height="100">
+
+                      <defs>
+                        <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
+                          <circle cx="5" cy="5" r="5" fill="red" />
+                        </marker>
+
+                      </defs>
+
                         <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
                             [style.stroke-width]="this.lineService.strokeWidth" [style.stroke-dasharray]="this.lineService.dashArrayType" />
                     </svg>
@@ -211,16 +219,8 @@
                 <div class="attributeHeader">Type</div>
                 <div>
                     <mat-radio-group>
-                        <mat-radio-button [value]="this.brush.chalk" (change)="brushRadioChangeHandler($event)">
-                            {{this.brush.chalk}}</mat-radio-button><br>
-                        <mat-radio-button [value]="this.brush.smear" (change)="brushRadioChangeHandler($event)">
-                            {{this.brush.smear}}</mat-radio-button><br>
-                        <mat-radio-button [value]="this.brush.rough" (change)="brushRadioChangeHandler($event)">
-                            {{this.brush.rough}}</mat-radio-button><br>
-                        <mat-radio-button [value]="this.brush.smooth" (change)="brushRadioChangeHandler($event)"
-                            checked>{{this.brush.smooth}}</mat-radio-button><br>
-                        <mat-radio-button [value]="this.brush.bubbly" (change)="brushRadioChangeHandler($event)">
-                            {{this.brush.bubbly}}</mat-radio-button><br>
+                        <mat-radio-button [value]="this.linecorner.dot" (change)="lineJunctionChangeHandler($event)">
+                            {{this.linecorner.dot}}</mat-radio-button><br>
                     </mat-radio-group>
                 </div>
 

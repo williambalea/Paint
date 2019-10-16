@@ -19,6 +19,8 @@ export class LineService implements Shape {
   savedPath: string;
   doubleClick: boolean;
   dashArrayType: string;
+  marker: string;
+  junction: string;
 
   path: HTMLElement;
 
@@ -28,6 +30,8 @@ export class LineService implements Shape {
     this.strokeWidth = NB.Seven;
     this. doubleClick = false;
     this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
+    this.marker = EMPTY_STRING;
+    this.junction = `url(#dot)`;
     this.reset();
     }
 
@@ -63,6 +67,9 @@ export class LineService implements Shape {
     this.renderer.setStyle(this.path, 'fill', 'none');
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
     this.renderer.setStyle(this.path, 'stroke-dasharray', this.dashArrayType);
+    this.renderer.setAttribute(this.path, 'marker-start', this.junction);
+    this.renderer.setAttribute(this.path, 'marker-mid', this.junction);
+    this.renderer.setAttribute(this.path, 'marker-end', this.junction);
   }
 
   onMouseMove(): any {
@@ -145,6 +152,14 @@ export class LineService implements Shape {
   }
 }
 
+// assignMarkerRounded(): void { };
+
+// assignMarkerAngled(): void { };
+
+// assignMarkerWithPoint() {
+
+//  };
+
 assignStrokeStyleDottedPoint(): void {
   this.dashArrayType = STROKE_DASHARRAY_STYLE.dottedPoint;
 }
@@ -170,5 +185,9 @@ assignStrokeStyle(): void {
       break;
     default:
   }
+}
+
+changeJunction(newJunction: string): void {
+  this.junction = `url(#${newJunction})`;
 }
 }

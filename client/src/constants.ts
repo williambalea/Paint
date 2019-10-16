@@ -90,6 +90,10 @@ export enum BRUSH {
   bubbly = 'bubbly',
 }
 
+export enum LINECORNER {
+  dot = 'dot',
+}
+
 export enum STRING_NB {
   One = '1',
 }

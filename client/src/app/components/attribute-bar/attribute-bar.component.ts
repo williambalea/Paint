@@ -5,7 +5,7 @@ import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService} from 'src/app/services/shapes/line.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
-import { BRUSH, LINE_PATTERN, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
+import { BRUSH, LINE_PATTERN, LINECORNER, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -16,6 +16,7 @@ import { BRUSH, LINE_PATTERN, STROKE_DASHARRAY_STYLE, TOOL } from '../../../cons
 export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
+  linecorner: typeof LINECORNER;
   lineStyle: typeof LINE_PATTERN;
   dashStyle: typeof STROKE_DASHARRAY_STYLE;
   @Input()selectedTool: TOOL;
@@ -27,6 +28,7 @@ export class AttributeBarComponent {
               private lineService: LineService) {
     this.tool = TOOL;
     this.brush = BRUSH;
+    this.linecorner = LINECORNER;
     this.lineStyle = LINE_PATTERN;
     this.dashStyle = STROKE_DASHARRAY_STYLE;
   }
@@ -38,6 +40,9 @@ export class AttributeBarComponent {
 
   brushRadioChangeHandler(event: MatRadioChange): void {
     this.brushService.changeFilter(event.value);
+  }
+  lineJunctionChangeHandler(event: MatRadioChange): void {
+    this.lineService.changeJunction(event.value);
   }
 
   lineStypeRadioChangeHandler(event: MatRadioChange): void {

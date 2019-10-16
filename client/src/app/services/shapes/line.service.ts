@@ -72,11 +72,11 @@ export class LineService implements Shape {
     }
     if (this.inputService.backSpacePressed) {
       if (this.positions.length > 1) {
-      this.positions.pop();
+        this.positions.pop();
       }
       this.stroke = this.colorService.getFillColor();
       if (this.start) {
-      this.path = this.renderer.createElement('path', 'svg');
+        this.path = this.renderer.createElement('path', 'svg');
       }
       this.setStyle();
       this.redraw();
@@ -92,9 +92,6 @@ export class LineService implements Shape {
       this.reset();
     }
 
-    if (this.inputService.isDoubleClick) {
-       console.log('lineservice double');
-      }
     this.doubleClick = false;
     }
 
@@ -113,9 +110,9 @@ export class LineService implements Shape {
   }
 
   dblclick(): void{
-    console.log('lineservice double');
-    this.renderer.setAttribute(this.path, 'd', this.linepath);
-    this.reset();
+    console.log('testing doubleclick');
+    // this.renderer.setAttribute(this.path, 'd', this.linepath);
+    // this.reset();
   }
 
   removeLastSegment() {

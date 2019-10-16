@@ -157,7 +157,7 @@ export class DrawingSpaceComponent implements OnInit {
   onDblclick(): void {
     this.inputService.isDoubleClick = true;
     console.log('double click in hostlistener');
-    this.selectedShape.onMouseUp();
+    //this.selectedShape.onMouseUp();
   }
 
 }

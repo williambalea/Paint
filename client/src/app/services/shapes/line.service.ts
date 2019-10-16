@@ -1,11 +1,11 @@
-import { Injectable, Renderer2 } from '@angular/core';
-import { EMPTY_STRING, NB } from 'src/constants';
-import { Point } from '../../../../../common/interface/point';
-import { ColorService } from '../color/color.service';
-import { InputService } from '../input.service';
-import { Shape } from './shape';
+  import { Injectable, Renderer2 } from '@angular/core';
+  import { EMPTY_STRING, NB, STROKE_DASHARRAY_STYLE } from 'src/constants';
+  import { Point } from '../../../../../common/interface/point';
+  import { ColorService } from '../color/color.service';
+  import { InputService } from '../input.service';
+  import { Shape } from './shape';
 
-@Injectable({
+  @Injectable({
   providedIn: 'root',
 })
 export class LineService implements Shape {
@@ -18,6 +18,7 @@ export class LineService implements Shape {
   start: boolean;
   savedPath: string;
   doubleClick: boolean;
+  dashArrayType: string;
 
   path: HTMLElement;
 
@@ -26,6 +27,7 @@ export class LineService implements Shape {
               private colorService: ColorService) {
     this.strokeWidth = NB.Seven;
     this. doubleClick = false;
+    this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
     this.reset();
     }
 
@@ -60,6 +62,7 @@ export class LineService implements Shape {
     this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
     this.renderer.setStyle(this.path, 'fill', 'none');
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
+    this.renderer.setStyle(this.path, 'stroke-dasharray', this.dashArrayType);
   }
 
   onMouseMove(): any {
@@ -142,6 +145,33 @@ export class LineService implements Shape {
     } else {
       this.linepath += `L${this.positions[i].x} ${this.positions[i].y}`;
     }
+  }
+}
+
+assignStrokeStyleDottedPoint(): void {
+  this.dashArrayType = STROKE_DASHARRAY_STYLE.dottedPoint;
+}
+
+assignStrokeStyleDottedLine(): void {
+  this.dashArrayType = STROKE_DASHARRAY_STYLE.dottedLine;
+}
+
+assignStrokeStyleFullLine(): void {
+  this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
+}
+
+assignStrokeStyle(): void {
+  switch (this.dashArrayType) {
+    case STROKE_DASHARRAY_STYLE.dottedPoint:
+      this.assignStrokeStyleDottedPoint();
+      break;
+    case STROKE_DASHARRAY_STYLE.dottedLine:
+      this.assignStrokeStyleDottedLine();
+      break;
+    case STROKE_DASHARRAY_STYLE.fullLine:
+      this.assignStrokeStyleFullLine();
+      break;
+    default:
   }
 }
 }

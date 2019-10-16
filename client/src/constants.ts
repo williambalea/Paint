@@ -105,6 +105,18 @@ export enum RECTANGLE_TYPE {
   borderedAndFilled = 'Bordered & Filled',
 }
 
+export enum LINE_PATTERN {
+  full = 'Full',
+  dottedPoint = 'Dotted (point)',
+  dottedLine = 'Dotted (line)',
+}
+
+export enum STROKE_DASHARRAY_STYLE {
+  dottedPoint = '10',
+  dottedLine = '30,10',
+  fullLine = '',
+}
+
 export enum STRINGS {
   white = 'white',
   canvas = 'canvas',

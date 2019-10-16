@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { SaveFileModalwindowComponent } from 'src/app/save-file-modalwindow/save-file-modalwindow.component';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
-import { NB } from 'src/constants';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { DisplayConfirmationComponent } from '../display-confirmation/display-confirmation.component';
 
 @Component({
   selector: 'app-get-file-modalwindow',
@@ -26,7 +24,6 @@ export class GetFileModalwindowComponent implements OnInit {
                private inputService: InputService,
                private eventEmitter: EventEmitterService,
                private communicationService: CommunicationsService,
-               private dialog: MatDialog,
     ) {
       this.dataTable = [];
       this.tags = [];
@@ -40,12 +37,15 @@ export class GetFileModalwindowComponent implements OnInit {
 
     this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
       this.dataTable = table;
-      if (this.filterActivated) {
-      this.displayWithFilter();
-      this.fillDisplayTable(this.filteredThroughTagData);
-    } else {
-      this.fillDisplayTable(this.dataTable);
-    }
+      // console.log('data', this.dataTable);
+
+  //  if(this.filterActivated) {
+  //     this.displayWithFilter();
+  //     this.fillDisplayTable(this.filteredThroughTagData);
+  //   }
+  //   else {
+      // this.fillDisplayTable(this.dataTable);
+    // }
      });
 
     this.filterActivated = false;
@@ -62,37 +62,45 @@ export class GetFileModalwindowComponent implements OnInit {
      }
    }
 
-   fillDisplayTable(datatable: SVGJSON[]): void  {
-     let counter: number = NB.Zero;
-     for (let i: number = datatable.length  ; i > 0 ; i--) {
-      counter++;
-      this.displayedData.push(datatable[i]);
-      if (counter === 8) {
-        break;
-      }
-     }
-   }
+  //  fillDisplayTable(datatable: SVGJSON[]): void  {
+  //    let counter: number = NB.Zero;
+  //    for (let i: number = datatable.length -1 ; i > 0 ; i--) {
+  //     counter++;
+  //     this.displayedData.push(datatable[i]);
+  //     if (counter === 8) {
+  //       break;
+  //     }
+  //    }
+  //  }
 
-   addTagToFilter(): void {
-     this.filterActivated = true;
-     this.tags.push(this.tag);
-   }
+  addTagToFilter(): void {
+    this.filterActivated = true;
+    this.tags.push(this.tag);
+  }
 
   closeModalWindow(): void {
   this.dialogRef.close();
   }
 
   selectDrawing(value: number) {
-    if (this.inputService.isNotEmpty) {
-        this.dialog.open(DisplayConfirmationComponent);
-        this.inputService.drawingHtml = this.displayedData[value].html;
+    // if(this.inputService.isNotEmpty) {
+    //     this.dialog.open(DisplayConfirmationComponent);
+    //     this.inputService.drawingHtml = this.displayedData[value].html;
 
-      } else {
-      this.inputService.drawingHtml = this.displayedData[value].html;
-      this.eventEmitter.appendToDrawingSpace();
-      this.closeModalWindow();
-      this.inputService.isNotEmpty = true;
+    //   }
 
-    }
+    // // else {
+    //   this.inputService.drawingHtml = this.displayedData[value].html;
+    //   console.log(this.displayedData[value].html);
+    //   console.log(this.inputService.drawingHtml);
+    //   this.eventEmitter.appendToDrawingSpace();
+    //   this.closeModalWindow();
+    //   this.inputService.isNotEmpty = true;
+
+    // }
+
+    this.inputService.drawingHtml = this.dataTable[value].html;
+    this.eventEmitter.appendToDrawingSpace();
+
   }
 }

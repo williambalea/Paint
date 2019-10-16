@@ -237,18 +237,18 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   rightClickOnElement(event: Event): void {
     if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
-      const el: string = (event.target as HTMLElement).tagName;
-      if (el === 'rect' || el === 'polygon' || el === 'ellipse') {
+      const targetTag: string = (event.target as HTMLElement).tagName;
+      if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
         this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());
       }
     }
   }
 
   changeFillColor(target: HTMLElement): void {
-    const el: string = target.tagName;
-    if (el === 'rect' || el === 'polygon' || el === 'ellipse') {
+    const targetTag: string = target.tagName;
+    if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
         this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
-      } else if (el === 'path') {
+      } else if (targetTag === 'path') {
         this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
       }
   }

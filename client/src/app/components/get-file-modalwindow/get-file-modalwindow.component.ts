@@ -46,7 +46,6 @@ export class GetFileModalwindowComponent implements OnInit {
 
   selectMostRecent(): void {
     let counter: number = NB.Zero;
-    console.log(this.dataTable);
     for (let i: number = this.dataTable.length - 1; i >= 0; i--) {
       this.displayedData.push(this.dataTable[i]);
       counter++;
@@ -54,7 +53,6 @@ export class GetFileModalwindowComponent implements OnInit {
         break;
       }
     }
-    console.log(this.displayedData);
   }
 
   displayWithFilter(): void {

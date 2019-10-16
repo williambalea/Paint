@@ -228,7 +228,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   draw(shape: any): void {
     if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
-      this.renderer.appendChild(this.canvas.nativeElement, shape);
+      if (shape) {
+        this.renderer.appendChild(this.canvas.nativeElement, shape);
+      }
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);
       this.pointerEvent = POINTER_EVENT.none;

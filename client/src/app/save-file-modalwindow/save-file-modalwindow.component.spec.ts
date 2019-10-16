@@ -8,7 +8,7 @@ describe('SaveFileModalwindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaveFileModalwindowComponent ]
+      declarations: [ SaveFileModalwindowComponent ],
     })
     .compileComponents();
   }));

@@ -1,5 +1,5 @@
-import { DomSanitizer } from '@angular/platform-browser'
-import { PipeTransform, Pipe } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({ name: 'safeUrl'})
 export class SafeUrlPipe implements PipeTransform  {

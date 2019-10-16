@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NB, EMPTY_STRING } from 'src/constants';
-import { Point } from '../../../../common/interface/point';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { EMPTY_STRING, NB } from 'src/constants';
+import { Point } from '../../../../common/interface/point';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +16,10 @@ export class InputService {
   drawingName: string;
   drawingTags: string[];
   drawingHtml: string;
-  isNotEmpty : boolean;
+  isNotEmpty: boolean;
 
   isConfirmed: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isconfirmed$: Observable<boolean>;
-
-
 
   constructor() {
     this.shiftPressed = false;
@@ -31,16 +29,14 @@ export class InputService {
     this.stampAngle = NB.Zero;
     this.json = EMPTY_STRING;
     this.drawingName = EMPTY_STRING;
-    this.drawingTags;
+    this.drawingTags = [];
     this.drawingHtml = EMPTY_STRING;
     this.isNotEmpty = false ;
     this.isconfirmed$ = this.isConfirmed.asObservable();
-    
+
   }
   setToTrue(): void {
-    console.log('input service setting to true');
     this.isConfirmed.next(true);
-    console.log('input service setting to true',this.isConfirmed.value);
   }
 
   setMouseOffset(event: MouseEvent) {
@@ -64,6 +60,5 @@ export class InputService {
   saveJSON(json: string) {
     this.json = json;
   }
-
 
 }

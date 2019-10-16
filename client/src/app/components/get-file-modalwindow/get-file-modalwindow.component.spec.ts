@@ -8,7 +8,7 @@ describe('GetFileModalwindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GetFileModalwindowComponent ]
+      declarations: [ GetFileModalwindowComponent ],
     })
     .compileComponents();
   }));

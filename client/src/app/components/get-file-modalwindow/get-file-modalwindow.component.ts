@@ -126,7 +126,10 @@ export class GetFileModalwindowComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
       if (event.key === KEY.o) {
+        if (event.ctrlKey) {
           event.preventDefault();
+        }
+          
       }
   }
 }

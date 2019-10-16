@@ -92,6 +92,14 @@ export enum BRUSH {
 
 export enum LINECORNER {
   dot = 'dot',
+  angled = 'angled',
+  rounded = 'rounded',
+}
+
+export enum JUNCTIONSTYLE {
+  angled = 'miter',
+  rounded = 'round',
+
 }
 
 export enum STRING_NB {

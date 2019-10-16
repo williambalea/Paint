@@ -42,7 +42,12 @@ export class AttributeBarComponent {
     this.brushService.changeFilter(event.value);
   }
   lineJunctionChangeHandler(event: MatRadioChange): void {
+    if (this.lineService.junctionStyle === LINECORNER.dot) {
     this.lineService.changeJunction(event.value);
+    }
+    else {
+      this.lineService.assignJunctionStyle();
+    }
   }
 
   lineStypeRadioChangeHandler(event: MatRadioChange): void {

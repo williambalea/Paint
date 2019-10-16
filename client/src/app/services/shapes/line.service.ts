@@ -1,5 +1,5 @@
   import { Injectable, Renderer2 } from '@angular/core';
-  import { EMPTY_STRING, NB, STROKE_DASHARRAY_STYLE } from 'src/constants';
+  import { EMPTY_STRING, NB, STROKE_DASHARRAY_STYLE, LINECORNER, JUNCTIONSTYLE } from 'src/constants';
   import { Point } from '../../../../../common/interface/point';
   import { ColorService } from '../color/color.service';
   import { InputService } from '../input.service';
@@ -20,6 +20,8 @@ export class LineService implements Shape {
   doubleClick: boolean;
   dashArrayType: string;
   junction: string;
+  junctionStyle: string;
+  junctionValue: string;
 
   path: HTMLElement;
 
@@ -28,6 +30,8 @@ export class LineService implements Shape {
               private colorService: ColorService) {
     this.strokeWidth = NB.Seven;
     this. doubleClick = false;
+    this.junctionStyle = LINECORNER.angled;
+    this.junctionValue = JUNCTIONSTYLE.angled;
     this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
     this.junction = `url(#dot)`;
     this.reset();
@@ -61,13 +65,17 @@ export class LineService implements Shape {
   setStyle() {
     this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
     this.renderer.setStyle(this.path, 'fill', 'none');
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
     this.renderer.setStyle(this.path, 'stroke-dasharray', this.dashArrayType);
-    this.renderer.setAttribute(this.path, 'marker-start', this.junction);
-    this.renderer.setAttribute(this.path, 'marker-mid', this.junction);
-    this.renderer.setAttribute(this.path, 'marker-end', this.junction);
+    if (this.junctionStyle === LINECORNER.dot){
+      this.renderer.setStyle(this.path, 'marker-start', this.junction);
+      this.renderer.setStyle(this.path, 'marker-mid', this.junction);
+      this.renderer.setStyle(this.path, 'marker-end', this.junction);
+    }
+    if (this.junctionStyle === LINECORNER.angled || this.junctionStyle === LINECORNER.rounded) {
+      this.renderer.setStyle(this.path, 'stroke.linejoin', this.junctionValue);
+    }
   }
 
   onMouseMove(): any {
@@ -159,4 +167,25 @@ assignStrokeStyle(): void {
 changeJunction(newJunction: string): void {
   this.junction = `url(#${newJunction})`;
 }
+
+assignJunctionStyle():void {
+  switch ( this.junctionStyle) {
+    case LINECORNER.angled:
+      this.assignJunctionStyleAngled();
+      break;
+    case LINECORNER.rounded:
+      this.assignJunctionStyleRounded();
+      break;
+    default:
+  }
+}
+
+assignJunctionStyleAngled(): void {
+  this.junctionValue = JUNCTIONSTYLE.angled;
+}
+
+assignJunctionStyleRounded(): void {
+  this.junctionValue = JUNCTIONSTYLE.rounded;
+}
+
 }

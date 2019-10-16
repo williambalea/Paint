@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { SaveFileModalwindowComponent } from 'src/app/save-file-modalwindow/save-file-modalwindow.component';
+import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { GridService} from 'src/app/services/grid/grid.service';
@@ -17,7 +17,6 @@ import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-mo
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
-
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
@@ -27,7 +26,6 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
 })
 export class SideBarComponent implements OnInit, OnDestroy {
 
-  // tool: typeof TOOL;
   selectedTool: string;
   selectedShape: Shape;
   enableKeyPress: boolean;
@@ -43,17 +41,13 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private penService: PenService,
               private communicationsService: CommunicationsService,
               ) {
-    // this.tool = TOOL;
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
-
   }
 
   ngOnInit(): void {
     !localStorage.getItem(HIDE_DIALOG) ? this.openEntryPoint() : this.enableKeyPress = true;
-    this.communicationsService.listen().subscribe((m: any) => {
-      console.log('side-bar listens to communicationService: m = ' + m);
-    });
+    this.communicationsService.listen().subscribe();
   }
 
   ngOnDestroy(): void {
@@ -147,7 +141,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     const dialogRefGet: MatDialogRef<GetFileModalwindowComponent, any> =
     this.dialog.open(GetFileModalwindowComponent, {disableClose: true});
     this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
-      .subscribe(() => { 
+      .subscribe(() => {
         this.enableKeyPress = true; }));
   }
 
@@ -181,6 +175,4 @@ export class SideBarComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-
 }

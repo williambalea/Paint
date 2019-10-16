@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { /*FormBuilder,*/ FormGroup, /*Validators*/ } from '@angular/forms';
+import { Component, HostListener, OnInit } from '@angular/core';
+
 import { /*MatDialog,*/ MatDialogRef } from '@angular/material';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
-import { InputService } from '../services/input.service';
-import { EMPTY_STRING } from 'src/constants';
-// import { DeleteConfirmationComponent } from '../components/delete-confirmation/delete-confirmation.component';
-// import { FileParametersServiceService } from '../services/file-parameters-service.service';
+import { EMPTY_STRING, KEY } from 'src/constants';
+import { InputService } from '../../services/input.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-save-file-modalwindow',
@@ -15,42 +14,52 @@ import { EMPTY_STRING } from 'src/constants';
 })
 
   export class SaveFileModalwindowComponent implements OnInit {
- 
-    form: FormGroup;
 
+    form: FormGroup;
     currentTag: string;
-    tags: string[];
-   
 
   constructor( /*private fileParameters: FileParametersServiceService,*/
             // private dialog: MatDialog,
-            // private formBuilder: FormBuilder,
+               private formBuilder: FormBuilder,
                private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
                private eventEmitterService: EventEmitterService,
                private inputService: InputService) {
       this.currentTag = 'currentTag';
-     
 
     }
 
     ngOnInit(): void {
       this.inputService.drawingName = EMPTY_STRING;
       this.inputService.drawingTags = [];
+      this.form = this.formBuilder.group({
+        name: ['', [Validators.required,Validators.minLength(1)]]
+      })
     }
 
   closeModalWindow(): void {
     this.dialogRef.close();
   }
 
+  deleteTag(tag: string): void {
+    this.inputService.drawingTags.splice(this.inputService.drawingTags.indexOf(tag), 1);
+  }
+
   addTag() {
-    this.inputService.drawingTags.push(this.currentTag);
-    console.log(this.inputService.drawingName);
+    if (this.inputService.drawingTags.indexOf(this.currentTag) === -1) {
+      this.inputService.drawingTags.push(this.currentTag);
+    }
   }
 
   submitDrawing() {
-    console.log('Drawing info sent');
     this.eventEmitterService.sendSVGToServer();
-    this.dialogRef.close();
+    //this.dialogRef.close();
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+      if (event.key === KEY.o) {
+          event.preventDefault();
+      }
   }
 
 }

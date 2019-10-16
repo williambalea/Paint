@@ -1,7 +1,8 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { KEY } from 'src/constants';
 import { ColorService } from '../../services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
@@ -83,6 +84,13 @@ export class NewFileModalwindowComponent implements OnInit {
     } else {
       this.assignForm();
     }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+      if (event.key === KEY.o) {
+          event.preventDefault();
+      }
   }
 
 }

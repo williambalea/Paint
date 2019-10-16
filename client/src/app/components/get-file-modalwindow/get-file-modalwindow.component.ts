@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatDialog,MatDialogRef } from '@angular/material';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
-import { NB } from 'src/constants';
+import { KEY, NB } from 'src/constants';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { DisplayConfirmationComponent } from '../display-confirmation/display-confirmation.component';
+
 
 @Component({
   selector: 'app-get-file-modalwindow',
@@ -14,20 +15,18 @@ import { DisplayConfirmationComponent } from '../display-confirmation/display-co
 })
 export class GetFileModalwindowComponent implements OnInit {
 
-
-
   dataTable: SVGJSON[];
   tag: string;
   tags: string[];
   displayedData: SVGJSON[];
   filteredThroughTagData: SVGJSON[];
   filterActivated: boolean;
-  constructor(
+  constructor( 
+               private dialog : MatDialog,
                private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
                private inputService: InputService,
                private eventEmitter: EventEmitterService,
                private communicationService: CommunicationsService,
-               private dialog: MatDialog,
     ) {
       this.dataTable = [];
       this.tags = [];
@@ -38,6 +37,7 @@ export class GetFileModalwindowComponent implements OnInit {
     }
 
   ngOnInit() {
+  
 
     this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
       this.dataTable = table;
@@ -48,7 +48,7 @@ export class GetFileModalwindowComponent implements OnInit {
      
       });
       this.filterActivated = false;
-
+    
   }
 
   removeTags(value : number) : void {
@@ -122,5 +122,12 @@ export class GetFileModalwindowComponent implements OnInit {
     } else {
       this.eventEmitter.appendToDrawingSpace();
     }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+      if (event.key === KEY.o) {
+          event.preventDefault();
+      }
   }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { NB, EMPTY_STRING } from 'src/constants';
+import { EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../common/interface/point';
-
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +29,6 @@ export class InputService {
     this.drawingTags = [];
     this.drawingHtml = EMPTY_STRING;
     this.isNotEmpty = false ;
-
   }
 
   setMouseOffset(event: MouseEvent) {
@@ -54,6 +52,5 @@ export class InputService {
   saveJSON(json: string) {
     this.json = json;
   }
-
 
 }

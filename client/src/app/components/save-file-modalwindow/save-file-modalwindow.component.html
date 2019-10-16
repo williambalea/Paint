@@ -1,15 +1,21 @@
 
 <div class = "modalWindow">
+   
   <h1>Choose drawing attributes: </h1>
   <p>Enter drawing name</p>
 
-  <input name="test" value ={{this.inputService.drawingName}} matInput [(ngModel)]="this.inputService.drawingName" >
+
+  <div [formGroup] = "myGroup"
+  <input id="name" class="form-control" formControlName="name" matInput [(ngModel)]="this.inputService.drawingName" required >
 
   <p>Enter drawing tags</p>
   <input type = "tags" value ={{this.currentTag}} matInput [(ngModel)]="currentTag">
   <button (click) = "addTag()">Add current tag</button><br>
   <button (click) = 'closeModalWindow()'>cancel</button><br>
   <button (click) = 'submitDrawing()'>Submit drawing to server</button><br>
+  <div *ngFor = " let tag of inputService.drawingTags; let i = index">
+    {{ tag }} <button (click) = 'deleteTag(tag)'>Delete Tag</button>
+  </div>
 
 
 </div>

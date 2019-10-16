@@ -27,7 +27,7 @@ export class EventEmitterService {
     this.appendToDrawingSpaceEmitter.emit();
   }
 
-  select() : void {
+  select(): void {
     this.selectEmitter.emit();
   }
 }

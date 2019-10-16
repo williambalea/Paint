@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NB, SVGinnerWidth } from 'src/constants';
 import { NewFileModalwindowComponent } from '../components/new-file-modalwindow/new-file-modalwindow.component';
-import { SaveFileModalwindowComponent } from '../save-file-modalwindow/save-file-modalwindow.component';
+import { SaveFileModalwindowComponent } from '../components/save-file-modalwindow/save-file-modalwindow.component';
 
 @Injectable({
   providedIn: 'root',

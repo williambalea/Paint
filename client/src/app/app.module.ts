@@ -2,6 +2,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -12,16 +13,15 @@ import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.
 import { BackgroundComponent } from './components/background/background.component';
 import { ColorPickerModule } from './components/color-picker/color-picker.module';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
+import { DisplayConfirmationComponent } from './components/display-confirmation/display-confirmation.component';
 import { DrawingSpaceComponent } from './components/drawing-space/drawing-space.component';
 import { EntryPointComponent } from './components/entry-point/entry-point.component';
 import { GetFileModalwindowComponent } from './components/get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MaterialModule } from './material/material.module';
-import { SaveFileModalwindowComponent } from './save-file-modalwindow/save-file-modalwindow.component';
+import { SaveFileModalwindowComponent } from './components/save-file-modalwindow/save-file-modalwindow.component';
 import { EventEmitterService } from './services/event-emitter.service';
-import { DisplayConfirmationComponent } from './components/display-confirmation/display-confirmation.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -51,7 +51,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     FormsModule,
     DragDropModule,
     MaterialModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   entryComponents: [
     EntryPointComponent,
@@ -59,7 +59,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     NewFileModalwindowComponent,
     SaveFileModalwindowComponent,
     GetFileModalwindowComponent,
-    DisplayConfirmationComponent
+    DisplayConfirmationComponent,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

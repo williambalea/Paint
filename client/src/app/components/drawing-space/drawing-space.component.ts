@@ -18,8 +18,8 @@ import { Shape } from '../../services/shapes/shape';
   providers: [GridService],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('canvas', { static: false }) canvas: ElementRef;
-  @ViewChild('drawingBoard', { static: false }) drawingBoard: ElementRef;
+  @ViewChild('g', { static: false }) canvas: ElementRef;
+  @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
   @Input() selectedShape: Shape;
@@ -129,18 +129,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  changeFillColor(shape: any): void {
-    if (this.selectedTool === TOOL.colorApplicator) {
-      this.renderer.setStyle(shape, 'fill', this.colorService.getFillColor());
-    }
-  }
-
-  changeStrokeColor(shape: any, color: string): void {
-    if (this.selectedTool === TOOL.colorApplicator) {
-      this.renderer.setStyle(shape, 'stroke', color);
-    }
-  }
-
   setElementColor(event: MouseEvent, primaryColor: string, secondaryColor?: string): void {
     if (event.button === 0) {
       this.colorService.setFillColor(primaryColor);
@@ -202,34 +190,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.usePipette(event);
     }
     const shape: any = this.selectedShape.onMouseDown();
-    this.setEventListeners(shape);
     this.draw(shape);
-  }
-
-  usingComplexShape(): boolean {
-    return this.selectedTool === TOOL.rectangle || this.selectedTool === TOOL.ellipse || this.selectedTool === TOOL.polygon;
-  }
-
-  usingSimpleShape(): boolean {
-    return this.selectedTool === TOOL.brush || this.selectedTool === TOOL.pen;
-  }
-
-  setEventListeners(shape: any): void {
-    if (this.usingComplexShape()) {
-      this.renderer.listen(shape, 'click', () => {
-        this.changeFillColor(shape);
-        console.log(shape);
-      });
-      this.renderer.listen(shape, 'contextmenu', () => {
-        this.changeStrokeColor(shape, this.colorService.getStrokeColor());
-      });
-    }
-
-    if (this.usingSimpleShape()) {
-      this.renderer.listen(shape, 'click', () => {
-        this.changeStrokeColor(shape, this.colorService.getFillColor());
-      });
-    }
   }
 
   draw(shape: any): void {
@@ -291,6 +252,30 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.communicationService.HTML = json;
         this.communicationService.postToServer(data).subscribe((response: any ) => { });
+  }
+
+  leftClickOnElement(event: Event): void {
+    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
+      this.changeFillColor(event.target as HTMLElement);
+    }
+  }
+
+  rightClickOnElement(event: Event): void {
+    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
+      const el: string = (event.target as HTMLElement).tagName;
+      if (el === 'rect' || el === 'polygon' || el === 'ellipse') {
+        this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());
+      }
+    }
+  }
+
+  changeFillColor(target: HTMLElement): void {
+    const el: string = target.tagName;
+    if (el === 'rect' || el === 'polygon' || el === 'ellipse') {
+        this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
+      } else if (el === 'path') {
+        this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
+      }
   }
 
 }

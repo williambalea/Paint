@@ -1,14 +1,14 @@
-<div class="drawingBoard">  
+<div class="drawingBoard" (click)="this.leftClickOnElement($event)" (contextmenu)="this.rightClickOnElement($event)">  
     <canvas hidden></canvas>
     <img hidden/>
-    <svg #drawingBoard id="canvas" version="1.1"
+    <svg #svg id="canvas" version="1.1"
         baseProfile="full"
         [attr.width]= "this.canvasWidth"
         [attr.height]= "this.canvasHeight"
         [style.background-color]= "colorService.getBackgroundColor()"
         xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" (contextmenu)="$event.preventDefault()">
         
-        <g #canvas></g>
+        <g #g></g>
   
     <defs>
 
@@ -45,8 +45,6 @@
     </defs>
     
     </svg>
-
-    <!-- <button (click)="convertSVGtoJSON()">svg to json</button> -->
         
 </div>
 

@@ -41,11 +41,7 @@ export class GetFileModalwindowComponent implements OnInit {
 
     this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
       this.dataTable = table;
-    
-      console.log('no filer', this.dataTable);
-        this.selectMostRecent(this.dataTable);
-    
-     
+      this.selectMostRecent(this.dataTable);
       });
       this.filterActivated = false;
     
@@ -82,9 +78,7 @@ export class GetFileModalwindowComponent implements OnInit {
    addTagToFilter(): void {
      this.filterActivated = true;
      this.tags.push(this.tag);
-     console.log('tags', this.tags);
      this.updateDisplayTable();
-     console.log(this.displayedData);
    }
 
 
@@ -114,6 +108,7 @@ export class GetFileModalwindowComponent implements OnInit {
 
   selectDrawing(value: number) {
     this.inputService.drawingHtml = this.displayedData[value].html;
+    this.inputService.drawingColor = this.displayedData[value].color;
     if (this.inputService.isNotEmpty) {
       this.dialog.open(DisplayConfirmationComponent).afterClosed().subscribe(() => {
         this.dialogRef.close();

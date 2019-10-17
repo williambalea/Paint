@@ -3,17 +3,19 @@
    
   <h1>Save master piece to server </h1>
   
-  <p>Enter drawing tags</p>
+ <!-- <p>Enter drawing tags</p>
   <mat-form-field>
     <input matInput type = "tags" value ={{this.currentTag}} [(ngModel)]="currentTag">
   </mat-form-field>
   <button mat-stroked-button (click) = "addTag()">Add current tag</button><br>
   
-  
+  -->
+
+  <!-- 
   <div *ngFor = " let tag of inputService.drawingTags; let i = index">
     {{ tag }} <button (click) = 'deleteTag(tag)'>Delete Tag</button>
   </div>
-
+ -->
   <form (ngSubmit)="submitDrawing()" [formGroup]="form">
       <div mat-dialog-content>
           <p>Enter name </p>
@@ -26,6 +28,23 @@
          </div>
         </div> 
        
+      
+        <p>Enter drawing tags</p>
+        <div class="field"> 
+          <div class="control">
+        <mat-form-field>
+          <input matInput type = "tags"  formControlName="tag" value ={{this.currentTag}} [(ngModel)]="currentTag">
+          <mat-error>Enter string longer than 0</mat-error>
+        </mat-form-field>
+        <button mat-stroked-button (click) = "addTag()">Add current tag</button><br>
+
+       
+        <div *ngFor = " let tag of inputService.drawingTags; let i = index">
+          {{ tag }} <button (click) = 'deleteTag(tag)'>Delete Tag</button>
+        </div>
+      </div>
+    </div>
+
       </div>
       
       <div class ="submit"  mat-dialog-actions>

@@ -136,12 +136,6 @@ export enum COLORS {
   magentaRBGA = 'rgba(255, 0, 255, 1)',
   centerGrey = '848484',
 }
-export interface LINEARRAY {
-  x1: number;
-  x2: number;
-  y1: number;
-  y2: number;
-}
 
 export interface DrawingInfo {
   drawingName: string;

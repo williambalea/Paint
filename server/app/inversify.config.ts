@@ -1,12 +1,12 @@
 import {Container} from 'inversify';
 import {Application} from './app';
+import {DatabaseController} from './controllers/database.controller';
 import {DateController} from './controllers/date.controller';
 import {IndexController} from './controllers/index.controller';
-import {DatabaseController} from './controllers/database.controller';
 import {Server} from './server';
+import {DatabaseService} from './services/database.service';
 import {DateService} from './services/date.service';
 import {IndexService} from './services/index.service';
-import {DatabaseService} from './services/database.service';
 import Types from './types';
 
 const container: Container = new Container();

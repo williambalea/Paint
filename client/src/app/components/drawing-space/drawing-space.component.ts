@@ -11,11 +11,11 @@ import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../co
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 
+
 @Component({
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
   styleUrls: ['./drawing-space.component.scss'],
-  providers: [GridService],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('g', { static: false }) canvas: ElementRef<SVGSVGElement>;
@@ -124,8 +124,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.setCanvasParameters();
-    this.gridService.setGridParameters();
-
   }
   ngAfterViewInit() {
     this.eventEmitterService.showGridEmitter.subscribe(() => {
@@ -142,6 +140,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
       this.canvas.nativeElement.innerHTML = EMPTY_STRING;
+      this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.inputService.drawingColor);
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
     });
   }
@@ -151,17 +150,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   hideGrid() {
-    this.gridService.buildGrid();
-    this.gridService.draw().forEach((element: HTMLElement) => {
-      this.renderer.removeChild(this.canvas.nativeElement, element);
-    });
+    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
   showGrid(): void {
-    this.gridService.buildGrid();
-    this.gridService.draw().forEach((element: HTMLElement) => {
-      this.renderer.appendChild(this.drawingBoard.nativeElement, element);
-    });
+    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
+    this.gridService.draw(this.gridService.gridSize);
+    this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -290,22 +285,22 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   convertSVGtoJSON(): void {
-    const nom = this.inputService.drawingName;
-    const tag = this.inputService.drawingTags;
-    const picture = this.screenshotBase64();
-    const element = this.canvas.nativeElement;
-    const html = element.innerHTML;
-    const data: SVGJSON = {
-      name: nom,
-      tags: tag,
-      thumbnail: picture,
-      html,
-    };
+        const nom = this.inputService.drawingName;
+        const tag = this.inputService.drawingTags;
+        const picture = this.screenshotBase64();
+        const element = this.canvas.nativeElement;
+        const html = element.innerHTML;
+        const data: SVGJSON = {
+          name : nom,
+          tags: tag,
+          thumbnail : picture,
+          html,
+          color: this.colorService.getBackgroundColor()
+        };
+        const json = JSON.stringify(data);
 
-    const json = JSON.stringify(data);
-
-    this.communicationService.HTML = json;
-    this.communicationService.postToServer(data).subscribe();
+        this.communicationService.HTML = json;
+        this.communicationService.postToServer(data).subscribe();
   }
 
   leftClickOnElement(event: Event): void {

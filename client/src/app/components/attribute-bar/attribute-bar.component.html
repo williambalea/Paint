@@ -180,7 +180,8 @@
                       </defs>
 
                         <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="this.lineService.strokeWidth" [style.stroke-dasharray]="this.lineService.dashArrayType" />
+                            [style.stroke-width]="this.lineService.strokeWidth" [style.stroke-dasharray]="this.lineService.dashArrayType" 
+                            [style.marker-start]="this.lineService.junction" [style.marker-end]="this.lineService.junction"/>
                     </svg>
                 </div>
 
@@ -214,21 +215,23 @@
 
               </div>
 
-              <div class="attribute">
+                <div class="attribute">
 
-                <div class="attributeHeader">Type</div>
-                <div>
-                    <mat-radio-group>
-                        <mat-radio-button [value]="this.linecorner.dot" (change)="lineJunctionChangeHandler($event)">
-                            {{this.junctionStyle.dot}}</mat-radio-button><br>
-                        <mat-radio-button [value]="this.linecorner.angled" (change)="lineJunctionChangeHandler($event)">
-                            {{this.junctionStyle.angled}}</mat-radio-button><br>
-                        <mat-radio-button [value]="this.linecorner.rounded" (change)="lineJunctionChangeHandler($event)">
-                            {{this.junctionStyle.rounded}}</mat-radio-button><br>
-                    </mat-radio-group>
+                    <div class="attributeHeader">Junction Type</div>
+                        <div>
+                            <mat-radio-group>
+                                <mat-radio-button [value]="this.linecorner.dot" (change)="lineJunctionChangeHandler($event)">
+                                    {{this.junctionStyle.dot}}</mat-radio-button><br>
+                                <mat-radio-button [value]="this.linecorner.angled" (change)="lineJunctionChangeHandler($event)">
+                                    {{this.junctionStyle.angled}}</mat-radio-button><br>
+                                <mat-radio-button [value]="this.linecorner.rounded" (change)="lineJunctionChangeHandler($event)">
+                                    {{this.junctionStyle.rounded}}</mat-radio-button><br>
+                            </mat-radio-group>
+                        </div>
+
                 </div>
 
-            </div>
+                
 
             </div>
 

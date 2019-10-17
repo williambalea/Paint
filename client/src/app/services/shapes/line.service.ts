@@ -22,6 +22,7 @@ export class LineService implements Shape {
   junction: string;
   junctionStyle: string;
   junctionValue: string;
+  dotSize: number;
 
   path: HTMLElement;
 
@@ -34,6 +35,7 @@ export class LineService implements Shape {
     this.junctionValue = JUNCTIONSTYLE.angled;
     this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
     this.junction = EMPTY_STRING;
+    this.dotSize = 3;
     this.reset();
     }
 
@@ -204,10 +206,12 @@ changeJunction(): void {
 
 assignJunctionStyleAngled(): void {
   this.junctionValue = LINECORNER.angled;
+  this.junction = EMPTY_STRING;
 }
 
 assignJunctionStyleRounded(): void {
   this.junctionValue = LINECORNER.rounded;
+  this.junction = EMPTY_STRING;
 }
 
 }

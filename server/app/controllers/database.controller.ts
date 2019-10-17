@@ -30,8 +30,8 @@ export class DatabaseController {
         this.router.post('/postToTable',
             (req: Request, res: Response) => {
                 const json: SVGJSON = req.body;
-                this.databaseService.addToTable(json);
-                res.json(json);
+                res.json(this.databaseService.addToTable(json));
+                
 
             },
 

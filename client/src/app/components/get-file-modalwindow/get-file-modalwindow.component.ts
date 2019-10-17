@@ -39,7 +39,7 @@ export class GetFileModalwindowComponent implements OnInit {
   ngOnInit() {
   
 
-    this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
+      this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
       this.dataTable = table;
       this.selectMostRecent(this.dataTable);
       });
@@ -107,6 +107,7 @@ export class GetFileModalwindowComponent implements OnInit {
   }
 
   selectDrawing(value: number) {
+   if(this.communicationService.canGet){
     this.inputService.drawingHtml = this.displayedData[value].html;
     this.inputService.drawingColor = this.displayedData[value].color;
     if (this.inputService.isNotEmpty) {
@@ -115,6 +116,10 @@ export class GetFileModalwindowComponent implements OnInit {
       });
     } else {
       this.eventEmitter.appendToDrawingSpace();
+    }
+  }
+  else {
+    window.alert("couldn't get this picture,please choose another one");
     }
   }
 

@@ -1,5 +1,6 @@
 import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 import * as svgIntersections from 'svg-intersections';
+import { InputService } from '../input.service';
 import { RectangleService } from '../shapes/rectangle.service';
 import { Shape } from '../shapes/shape';
 
@@ -12,7 +13,8 @@ export class SelectorService implements Shape {
   selectedShapes: any[];
 
   constructor(private rectangleService: RectangleService,
-              private renderer: Renderer2) {
+              private renderer: Renderer2,
+              private inputService: InputService) {
                 this.active = false;
                 this.selectedShapes = [];
               }
@@ -86,7 +88,10 @@ export class SelectorService implements Shape {
           currentShape,
       );
       if (intersections.points.length !== 0) {
-        if (!this.selectedShapes.includes(canvas.nativeElement.children[i])) {
+        if (this.inputService.mouseButton === 2) {
+          this.selectedShapes.splice(canvas.nativeElement.children[i]);
+        }
+        if (!this.selectedShapes.includes(canvas.nativeElement.children[i]) && this.inputService.mouseButton === 0) {
           this.selectedShapes.push(canvas.nativeElement.children[i]);
           console.log(this.selectedShapes);
         }

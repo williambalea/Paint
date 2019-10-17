@@ -17,7 +17,7 @@ export class InputService {
   drawingHtml: string;
   drawingColor: string;
   isNotEmpty: boolean;
-  
+  mouseButton: number;
 
   constructor() {
     this.shiftPressed = false;

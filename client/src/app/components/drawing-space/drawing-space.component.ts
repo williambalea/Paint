@@ -30,7 +30,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   pointerEvent: string;
   isConfirmed: boolean;
   shape: SVGSVGElement;
-  testActive = false;
+  selectorAreaActive = false;
   selectedShapes: any[];
 
   constructor(private fileParameters: FileParametersServiceService,
@@ -171,7 +171,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.shape = this.selectedShape.onMouseDown();
     this.draw(this.shape);
     this.inputService.isNotEmpty = true;
-    this.testActive = true;
+    this.inputService.mouseButton = event.button;
+    this.selectorAreaActive = true;
   }
 
   draw(shape: any): void {
@@ -194,7 +195,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedShape.onMouseMove();
     }
     if (this.selectedTool === TOOL.selector) {
-      if (this.testActive) {
+      if (this.selectorAreaActive) {
         this.selectorService.intersection(this.shape, this.canvas);
       }
     }
@@ -208,10 +209,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.pointerEvent = POINTER_EVENT.visiblePainted;
     }
     if (this.selectedTool === TOOL.selector) {
+      console.log('ici');
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
     }
 
-    this.testActive = false;
+    this.selectorAreaActive = false;
   }
 
   @HostListener('wheel', ['$event'])

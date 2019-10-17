@@ -73,7 +73,7 @@ export class LineService implements Shape {
     this.renderer.setStyle(this.path, 'marker-mid', this.junction);
     this.renderer.setStyle(this.path, 'marker-end', this.junction);
     } else {
-    this.renderer.setStyle(this.path, 'stroke.linejoin', this.junctionValue);
+    this.renderer.setStyle(this.path, 'stroke-linejoin', this.junctionValue);
     }
   }
 

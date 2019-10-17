@@ -5,6 +5,7 @@ import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import * as svgIntersections from 'svg-intersections';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
@@ -30,6 +31,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   pointerEvent: string;
   isConfirmed: boolean;
   shape: SVGSVGElement;
+  testActive = false;
+  selectedShapes: any[];
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -41,6 +44,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
+    this.selectedShapes = [];
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
   }
@@ -54,6 +58,68 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
       .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
+  }
+
+  intersection(): void {
+    const intersect = svgIntersections.intersect;
+    const shape = svgIntersections.shape;
+    const elementsCount: number = this.canvas.nativeElement.children.length;
+    let currentShape: any;
+    for ( let i = 0; i < elementsCount; i++ ) {
+      if (this.shape === this.canvas.nativeElement.children[i]) {
+        break;
+      }
+      switch (this.canvas.nativeElement.children[i].tagName) {
+        case 'rect':
+          currentShape = shape('rect', {
+            x: this.canvas.nativeElement.children[i].getAttribute('x'),
+            y: this.canvas.nativeElement.children[i].getAttribute('y'),
+            width: this.canvas.nativeElement.children[i].getAttribute('width'),
+            height: this.canvas.nativeElement.children[i].getAttribute('height'),
+          });
+          break;
+        case 'ellipse':
+          currentShape = shape('ellipse', {
+            cx: this.canvas.nativeElement.children[i].getAttribute('cx'),
+            cy: this.canvas.nativeElement.children[i].getAttribute('cy'),
+            rx: this.canvas.nativeElement.children[i].getAttribute('rx'),
+            ry: this.canvas.nativeElement.children[i].getAttribute('ry'),
+          });
+          break;
+        case 'path':
+          currentShape = shape('path', {
+            d: this.canvas.nativeElement.children[i].getAttribute('d'),
+          });
+          break;
+        case 'polygon':
+          currentShape = shape('polygon', {
+            points: this.canvas.nativeElement.children[i].getAttribute('points'),
+          });
+          break;
+        case 'image':
+          currentShape = shape('rect', {
+            x: this.canvas.nativeElement.children[i].getAttribute('x'),
+            y: this.canvas.nativeElement.children[i].getAttribute('y'),
+            width: this.canvas.nativeElement.children[i].getAttribute('width'),
+            height: this.canvas.nativeElement.children[i].getAttribute('height'),
+          });
+          break;
+      }
+      const intersections = intersect (
+        shape('rect', {
+          x: this.shape.x.animVal.value,
+          y: this.shape.y.animVal.value,
+          width: this.shape.width.animVal.value,
+          height: this.shape.height.animVal.value }),
+          currentShape,
+      );
+      if (intersections.points.length !== 0) {
+        if (!this.selectedShapes.includes(this.canvas.nativeElement.children[i])) {
+          this.selectedShapes.push(this.canvas.nativeElement.children[i]);
+          console.log(this.selectedShapes);
+        }
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -152,7 +218,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     image.onload = () => {
       (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0, this.canvasWidth, this.canvasHeight);
       const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
-      getImageData(event.offsetX, event.offsetY, 1, 1).data;
+        getImageData(event.offsetX, event.offsetY, 1, 1).data;
       if (event.button === 0) {
         this.colorService.setFillColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
       }
@@ -164,6 +230,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
+    this.selectedShapes = [];
     if (this.selectedTool === TOOL.pipette) {
       event.preventDefault();
       this.usePipette(event);
@@ -171,11 +238,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.shape = this.selectedShape.onMouseDown();
     this.draw(this.shape);
     this.inputService.isNotEmpty = true;
+    this.testActive = true;
   }
 
   draw(shape: any): void {
     if (this.selectedTool !== TOOL.colorApplicator &&
-        this.selectedTool !== TOOL.pipette) {
+      this.selectedTool !== TOOL.pipette) {
       if (shape) {
         this.renderer.appendChild(this.canvas.nativeElement, shape);
       }
@@ -189,9 +257,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
-
       this.inputService.setMouseOffset(event);
       this.selectedShape.onMouseMove();
+    }
+    if (this.selectedTool === TOOL.selector) {
+      if (this.testActive) {
+        this.intersection();
+      }
     }
   }
 
@@ -206,6 +278,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
     }
 
+    this.testActive = false;
   }
 
   @HostListener('wheel', ['$event'])
@@ -217,22 +290,22 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   convertSVGtoJSON(): void {
-        const nom = this.inputService.drawingName;
-        const tag = this.inputService.drawingTags;
-        const picture = this.screenshotBase64();
-        const element = this.canvas.nativeElement;
-        const html = element.innerHTML;
-        const data: SVGJSON = {
-          name : nom,
-          tags: tag,
-          thumbnail : picture,
-          html,
-        };
+    const nom = this.inputService.drawingName;
+    const tag = this.inputService.drawingTags;
+    const picture = this.screenshotBase64();
+    const element = this.canvas.nativeElement;
+    const html = element.innerHTML;
+    const data: SVGJSON = {
+      name: nom,
+      tags: tag,
+      thumbnail: picture,
+      html,
+    };
 
-        const json = JSON.stringify(data);
+    const json = JSON.stringify(data);
 
-        this.communicationService.HTML = json;
-        this.communicationService.postToServer(data).subscribe();
+    this.communicationService.HTML = json;
+    this.communicationService.postToServer(data).subscribe();
   }
 
   leftClickOnElement(event: Event): void {
@@ -253,11 +326,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   changeFillColor(target: HTMLElement): void {
     const targetTag: string = target.tagName;
     if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
-        this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
-      } else if (targetTag === 'path') {
-        this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
-      }
+      this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
+    } else if (targetTag === 'path') {
+      this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
+    }
   }
-
 
 }

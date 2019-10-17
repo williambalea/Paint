@@ -7,9 +7,12 @@ import { Shape } from '../shapes/shape';
 })
 export class SelectorService implements Shape {
   rectangle: HTMLElement;
+  active: Boolean;
 
   constructor(private rectangleService: RectangleService,
-              private renderer: Renderer2) {}
+              private renderer: Renderer2) {
+                this.active = false;
+              }
 
   onMouseDown(): any {
     this.rectangle = this.rectangleService.onMouseDown();
@@ -17,16 +20,13 @@ export class SelectorService implements Shape {
     this.renderer.setStyle(this.rectangle, 'stroke-dasharray', '3');
     this.renderer.setStyle(this.rectangle, 'stroke', 'navy');
     this.renderer.setStyle(this.rectangle, 'stroke-width', '2');
-    console.log('down');
     return this.rectangle;
   }
   onMouseMove(): void {
-    console.log('move');
     this.rectangleService.onMouseMove();
   }
   onMouseUp(): void {
     this.rectangle = this.renderer.createElement('rect', 'svg');
-    console.log('up');
   }
 
 }

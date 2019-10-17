@@ -173,8 +173,8 @@
                     <svg class="lineStyleRound" width="200" height="100">
 
                       <defs>
-                        <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
-                          <circle cx="5" cy="5" r="5" fill="red" />
+                        <marker id="dot" viewBox="0 0 30 30" refX="15" refY="15" markerWidth="5" markerHeight="5" stroke-width="0">
+                          <circle cx="15" cy="15" [style.r]="this.lineService.dotSize" fill="black" />
                         </marker>
 
                       </defs>
@@ -231,7 +231,19 @@
 
                 </div>
 
-                
+                <div *ngIf="this.lineService.junctionStyle == this.linecorner.dot" class="attribute" >
+                    <div class="attributeHeader">
+                        Dot Size<br>
+                        {{this.lineService.dotSize}} px
+                    </div>
+    
+                    <div>
+                        <mat-slider min="1" max="15" value={{this.lineService.dotSize}}
+                            [(ngModel)]="this.lineService.dotSize"
+                            (input)="this.lineService.dotSize = $event.value">
+                        </mat-slider>
+                    </div>
+                </div>
 
             </div>
 

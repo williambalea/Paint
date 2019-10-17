@@ -76,6 +76,7 @@ export class GetFileModalwindowComponent implements OnInit {
   selectDrawing(value: number) {
 
     this.inputService.drawingHtml = this.displayedData[value].html;
+    this.inputService.drawingColor = this.displayedData[value].color;
     this.eventEmitter.appendToDrawingSpace();
   }
 

@@ -73,7 +73,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
       this.canvas.nativeElement.innerHTML = EMPTY_STRING;
+      this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.inputService.drawingColor);
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
+      
+      
     });
   }
 
@@ -217,7 +220,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           tags: tag,
           thumbnail : picture,
           html,
+          color: this.colorService.getBackgroundColor()
         };
+
+        console.log('color', data.color);
 
         const json = JSON.stringify(data);
 

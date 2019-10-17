@@ -3,4 +3,5 @@ export interface SVGJSON {
     tags: string[];
     thumbnail: string;
     html: string;
+    color: string;
 }

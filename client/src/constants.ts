@@ -120,8 +120,8 @@ export enum RECTANGLE_TYPE {
 
 export enum LINE_PATTERN {
   full = 'Full',
-  dottedPoint = 'Dotted (point)',
-  dottedLine = 'Dotted (line)',
+  dottedPoint = 'Dotted point',
+  dottedLine = 'Dotted line',
 }
 
 export enum STROKE_DASHARRAY_STYLE {

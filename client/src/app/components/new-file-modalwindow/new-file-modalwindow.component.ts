@@ -7,6 +7,7 @@ import { ColorService } from '../../services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { ShapesService } from '../../services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { SVGinnerWidth } from 'src/constants';
 
 @Component({
   selector: 'app-new-file-modalwindow',
@@ -33,7 +34,7 @@ export class NewFileModalwindowComponent implements OnInit {
   }
 
   assignCanvas(): void {
-    this.canvasWidth = window.innerWidth;
+    this.canvasWidth = window.innerWidth - SVGinnerWidth;
     this.canvasHeight = window.innerHeight;
   }
 

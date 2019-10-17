@@ -16,8 +16,8 @@ import { Shape } from '../../services/shapes/shape';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('g', { static: false }) canvas: ElementRef;
-  @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
+  @ViewChild('g', { static: false }) canvas: ElementRef<SVGSVGElement>;
+  @ViewChild('svg', { static: false }) drawingBoard: ElementRef<SVGSVGElement>;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
@@ -28,6 +28,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number;
   pointerEvent: string;
   isConfirmed: boolean;
+  shape: SVGSVGElement;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -164,14 +165,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       event.preventDefault();
       this.usePipette(event);
     }
-    const shape: any = this.selectedShape.onMouseDown();
-    this.draw(shape);
+    this.shape = this.selectedShape.onMouseDown();
+    this.draw(this.shape);
+    this.inputService.isNotEmpty = true;
   }
 
   draw(shape: any): void {
     if (this.selectedTool !== TOOL.colorApplicator &&
-        this.selectedTool !== TOOL.pipette &&
-        this.selectedTool !== TOOL.selector) {
+        this.selectedTool !== TOOL.pipette) {
       if (shape) {
         this.renderer.appendChild(this.canvas.nativeElement, shape);
       }
@@ -184,7 +185,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
-    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.selector) {
+    if (this.selectedTool !== TOOL.colorApplicator) {
 
       this.inputService.setMouseOffset(event);
       this.selectedShape.onMouseMove();
@@ -193,10 +194,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mouseup')
   onMouseUp(): void {
-    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.selector) {
+    if (this.selectedTool !== TOOL.colorApplicator) {
 
       this.selectedShape.onMouseUp();
       this.pointerEvent = POINTER_EVENT.visiblePainted;
+    }
+    if (this.selectedTool === TOOL.selector) {
+      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
     }
 
   }
@@ -254,5 +258,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
       }
   }
+
 
 }

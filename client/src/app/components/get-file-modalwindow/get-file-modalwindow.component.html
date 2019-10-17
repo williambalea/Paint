@@ -2,7 +2,11 @@
   <p>Enter tag name:</p>
   <input name="test" value ={{this.tag}} matInput [(ngModel)]="tag" >
   <button (click) = "addTagToFilter()">Add current tag</button>
-
+  <div *ngFor ="let tag of tags; let i = index"> 
+    <div class = "tag">{{tag}}
+      <button mat-button (click) = "removeTags(i)"> <mat-icon>clear</mat-icon></button>
+    </div>
+  </div>
 <br>
 <div *ngFor = " let data of displayedData; let i = index">
   <div  >
@@ -11,6 +15,9 @@
     <img [attr.src]="data.thumbnail | safeUrl" width="50" height="50">
     <button matTooltip="Click me to confirm" id="drawing" (click)="this.selectDrawing(i)"> open </button>
   </div>
+</div>
+<div *ngIf =" displayedData.length === 0">
+  404 NOT FOUND
 </div>
 <div class="cancel">
     <button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>

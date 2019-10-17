@@ -1,11 +1,12 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
-import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { MatDialog,MatDialogRef } from '@angular/material';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
 import { KEY, NB } from 'src/constants';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
+import { DisplayConfirmationComponent } from '../display-confirmation/display-confirmation.component';
+
 
 @Component({
   selector: 'app-get-file-modalwindow',
@@ -20,8 +21,9 @@ export class GetFileModalwindowComponent implements OnInit {
   displayedData: SVGJSON[];
   filteredThroughTagData: SVGJSON[];
   filterActivated: boolean;
-  constructor(
-               private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
+  constructor( 
+               private dialog : MatDialog,
+               private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
                private inputService: InputService,
                private eventEmitter: EventEmitterService,
                private communicationService: CommunicationsService,
@@ -35,19 +37,31 @@ export class GetFileModalwindowComponent implements OnInit {
     }
 
   ngOnInit() {
+  
 
     this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
       this.dataTable = table;
-      this.selectMostRecent();
-    });
-    this.filterActivated = false;
+    
+      console.log('no filer', this.dataTable);
+        this.selectMostRecent(this.dataTable);
+    
+     
+      });
+      this.filterActivated = false;
+    
+  }
+
+  removeTags(value : number) : void {
+    this.tags.splice(value,1);
+    this.updateDisplayTable();
 
   }
 
-  selectMostRecent(): void {
+  selectMostRecent(table : SVGJSON[]): void {
     let counter: number = NB.Zero;
-    for (let i: number = this.dataTable.length - 1; i >= 0; i--) {
-      this.displayedData.push(this.dataTable[i]);
+    this.displayedData = [];
+    for (let i: number = table.length - 1; i >= 0; i--) {
+    this.displayedData.push(table[i]);
       counter++;
       if (counter === NB.Seven) {
         break;
@@ -68,16 +82,46 @@ export class GetFileModalwindowComponent implements OnInit {
    addTagToFilter(): void {
      this.filterActivated = true;
      this.tags.push(this.tag);
+     console.log('tags', this.tags);
+     this.updateDisplayTable();
+     console.log(this.displayedData);
    }
+
+
+  updateDisplayTable() : SVGJSON[] {
+    let temp : SVGJSON[]  = [];
+    if(this.tags.length !==0 ) {
+    for (let i : number = 0; i < this.dataTable.length; i++){
+      for (let j : number = 0 ; j < this.tags.length; j ++){
+        if ( this.dataTable[i].tags.includes(this.tags[j])){
+          temp.push(this.dataTable[i]);
+          break;
+        }
+      }
+    }
+  
+    this.displayedData = temp.reverse();
+  }
+  else {
+    this.displayedData =this.dataTable.reverse();
+  }
+    return temp;
+  }
+
   closeModalWindow(): void {
   this.dialogRef.close();
   }
 
   selectDrawing(value: number) {
-
     this.inputService.drawingHtml = this.displayedData[value].html;
     this.inputService.drawingColor = this.displayedData[value].color;
-    this.eventEmitter.appendToDrawingSpace();
+    if (this.inputService.isNotEmpty) {
+      this.dialog.open(DisplayConfirmationComponent).afterClosed().subscribe(() => {
+        this.dialogRef.close();
+      });
+    } else {
+      this.eventEmitter.appendToDrawingSpace();
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -86,6 +130,7 @@ export class GetFileModalwindowComponent implements OnInit {
         if (event.ctrlKey) {
           event.preventDefault();
         }
+          
       }
   }
 }

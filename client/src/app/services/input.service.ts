@@ -17,6 +17,7 @@ export class InputService {
   drawingHtml: string;
   drawingColor: string;
   isNotEmpty: boolean;
+  
 
   constructor() {
     this.shiftPressed = false;

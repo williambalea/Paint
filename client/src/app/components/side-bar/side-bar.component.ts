@@ -4,6 +4,7 @@ import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modal
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { GridService} from 'src/app/services/grid/grid.service';
+import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
@@ -21,7 +22,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService, PenService, EllipseService, PolygonService, StampService, GridService],
+  providers: [RectangleService, BrushService, PenService, EllipseService, PolygonService, StampService, GridService, SelectorService],
 
 })
 export class SideBarComponent implements OnInit, OnDestroy {
@@ -40,6 +41,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private stampService: StampService,
               private penService: PenService,
               private communicationsService: CommunicationsService,
+              private selectorService: SelectorService,
               ) {
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
@@ -106,6 +108,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         break;
     case TOOL.selector:
         this.selectedTool = TOOL.selector;
+        this.selectedShape = this.selectorService;
         break;
     default:
    }

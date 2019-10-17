@@ -8,8 +8,8 @@
   @Injectable({
   providedIn: 'root',
 })
-export class LineService implements Shape {
 
+export class LineService implements Shape {
   linepath: string;
   stroke: string;
   strokeWidth: number;
@@ -83,10 +83,24 @@ export class LineService implements Shape {
 
   onMouseMove(): any {
     if (this.active) {
+      this.isActive();
+    }
+    if (this.inputService.backSpacePressed) {
+      this.isBackSpacePressed();
+    }
+    if (this.inputService.shiftPressed) {
+      this.isShiftPressed();
+    }
+
+    this.doubleClick = false;
+    }
+
+    isActive(): void {
       this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
-    if (this.inputService.backSpacePressed) {
+
+    isBackSpacePressed() {
       if (this.positions.length > 1) {
         this.positions.pop();
       }
@@ -98,13 +112,11 @@ export class LineService implements Shape {
       this.redraw();
       return this.path;
     }
-    if (this.inputService.shiftPressed) {
+
+    isShiftPressed(): void {
       this.renderer.setAttribute(this.path, 'd', this.linepath);
       this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
       this.reset();
-    }
-
-    this.doubleClick = false;
     }
 
   onMouseUp(): void {
@@ -124,10 +136,7 @@ export class LineService implements Shape {
     } else {
       this.linepath += `L${this.positions[this.positions.length - 1].x} ${this.positions[this.positions.length - 1].y}`;
     }
-    this.renderer.setAttribute(this.path, 'd', this.linepath);
-    this.start = false;
-    this.savedPath = this.linepath;
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
+    this.finishDraw();
   }
 
   redraw() {
@@ -138,10 +147,14 @@ export class LineService implements Shape {
       this.linepath += `L${this.positions[i].x} ${this.positions[i].y}`;
     }
   }
-    this.renderer.setAttribute(this.path, 'd', this.linepath);
-    this.start = false;
-    this.savedPath = this.linepath;
-    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
+    this.finishDraw();
+}
+
+finishDraw(){
+  this.renderer.setAttribute(this.path, 'd', this.linepath);
+  this.start = false;
+  this.savedPath = this.linepath;
+  this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
 }
 
 assignStrokeStyleDottedPoint(): void {

@@ -92,13 +92,14 @@ export enum BRUSH {
 
 export enum LINECORNER {
   dot = 'dot',
-  angled = 'angled',
-  rounded = 'rounded',
+  angled = 'miter',
+  rounded = 'round',
 }
 
 export enum JUNCTIONSTYLE {
-  angled = 'miter',
-  rounded = 'round',
+  dot = 'Dot',
+  angled = 'Angled',
+  rounded = 'Round',
 
 }
 

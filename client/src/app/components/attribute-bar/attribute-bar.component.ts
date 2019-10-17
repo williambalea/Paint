@@ -5,7 +5,7 @@ import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService} from 'src/app/services/shapes/line.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
-import { BRUSH, LINE_PATTERN, LINECORNER, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
+import { BRUSH, LINE_PATTERN, LINECORNER, STROKE_DASHARRAY_STYLE, TOOL, JUNCTIONSTYLE } from '../../../constants';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -17,6 +17,7 @@ export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
   linecorner: typeof LINECORNER;
+  junctionStyle: typeof JUNCTIONSTYLE;
   lineStyle: typeof LINE_PATTERN;
   dashStyle: typeof STROKE_DASHARRAY_STYLE;
   @Input()selectedTool: TOOL;
@@ -30,6 +31,7 @@ export class AttributeBarComponent {
     this.brush = BRUSH;
     this.linecorner = LINECORNER;
     this.lineStyle = LINE_PATTERN;
+    this.junctionStyle = JUNCTIONSTYLE;
     this.dashStyle = STROKE_DASHARRAY_STYLE;
   }
 
@@ -41,13 +43,10 @@ export class AttributeBarComponent {
   brushRadioChangeHandler(event: MatRadioChange): void {
     this.brushService.changeFilter(event.value);
   }
+
   lineJunctionChangeHandler(event: MatRadioChange): void {
-    if (this.lineService.junctionStyle === LINECORNER.dot) {
-    this.lineService.changeJunction(event.value);
-    }
-    else {
-      this.lineService.assignJunctionStyle();
-    }
+    this.lineService.junctionStyle = event.value;
+    this.lineService.changeJunction();
   }
 
   lineStypeRadioChangeHandler(event: MatRadioChange): void {

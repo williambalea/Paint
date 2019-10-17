@@ -14,7 +14,6 @@ import { Shape } from '../../services/shapes/shape';
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
   styleUrls: ['./drawing-space.component.scss'],
-  providers: [GridService],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('g', { static: false }) canvas: ElementRef<SVGSVGElement>;
@@ -58,7 +57,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.setCanvasParameters();
-    this.gridService.setGridParameters();
 
   }
   ngAfterViewInit() {
@@ -76,7 +74,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
       this.canvas.nativeElement.innerHTML = EMPTY_STRING;
+      this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.inputService.drawingColor);
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
+      
+      
     });
   }
 
@@ -85,17 +86,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   hideGrid() {
-    this.gridService.buildGrid();
-    this.gridService.draw().forEach((element: HTMLElement) => {
-      this.renderer.removeChild(this.canvas.nativeElement, element);
-    });
+    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
   showGrid(): void {
-    this.gridService.buildGrid();
-    this.gridService.draw().forEach((element: HTMLElement) => {
-      this.renderer.appendChild(this.drawingBoard.nativeElement, element);
-    });
+    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
+    this.gridService.draw(this.gridService.gridSize);
+    this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -227,7 +224,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           tags: tag,
           thumbnail : picture,
           html,
+          color: this.colorService.getBackgroundColor()
         };
+
+        console.log('color', data.color);
 
         const json = JSON.stringify(data);
 

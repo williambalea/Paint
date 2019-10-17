@@ -331,33 +331,21 @@
                     <div class="attributeHeader">
                         Grid size<br>
                         <div>
-
+                            {{this.gridService.gridSize}}
                         </div>
                     </div>
-                    <button mat-button (click)="this.showGrid()">Show Grid</button>
-                    <button mat-button (click)="this.hideGrid()">Hide Grid</button>
                     <div class = "button">
-                        <mat-slider min="40" max="200" value={{this.gridService.gridRectangleDimension}}
-                            [(ngModel)]="this.gridService.gridRectangleDimension"
-                            (input)="this.gridService.gridRectangleDimension = $event.value">
-                        </mat-slider>
-                        <button mat-stroked-button color ="primary" (click)="this.updateGrid()">Confirm modification</button>
+                        <button mat-button (click)="this.hideGrid()">Hide Grid</button>
+                    
+                       
+            <div>
+                  
+                        <input class="inputFormStyle" type="range" #slider min="40" max="200"
+                            value="40" [(ngModel)]="this.gridService.gridSize">
+                            <span>{{this.gridService.gridSize}}</span>
                     </div>
-                </div>
-                <div class="attribute">
-                        <div class="attributeHeader">
-                                Toggle grid<br>
-                        </div>
-                        <br>
-                        <div class = "button">
-                                <div *ngIf="this.gridService.gridEnabled">
-                                        <mat-checkbox indeterminate = true (click)="this.showGrid()">Turn off grid</mat-checkbox>
-                                </div>
-                                <div *ngIf="!this.gridService.gridEnabled">
-                                        <mat-checkbox  (click)="this.hideGrid()">Turn on grid</mat-checkbox>
-                                </div>        
-                        </div>
-                        
+                    <button mat-button (click)="this.showGrid()">Apply Grid</button>
+                    </div>
                 </div>
                 <div class="attribute">
                         <div class="attributeHeader">

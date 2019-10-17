@@ -15,6 +15,7 @@ export class InputService {
   drawingName: string;
   drawingTags: string[];
   drawingHtml: string;
+  drawingColor: string;
   isNotEmpty: boolean;
   
 

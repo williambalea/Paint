@@ -5,10 +5,11 @@
 
 <br>
 <div *ngFor = " let data of displayedData; let i = index">
-  <div  matTooltip="Click me to confirm" id="drawing" (click)="this.selectDrawing(i)">
+  <div  >
     {{data.name}}
     {{data.tags}}
     <img [attr.src]="data.thumbnail | safeUrl" width="50" height="50">
+    <button matTooltip="Click me to confirm" id="drawing" (click)="this.selectDrawing(i)"> open </button>
   </div>
 </div>
 <div class="cancel">

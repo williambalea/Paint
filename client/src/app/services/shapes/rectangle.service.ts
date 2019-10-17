@@ -55,6 +55,9 @@ export class RectangleService implements Shape {
     this.setOrigin(this.inputService.getMouse());
     this.setRectangleType();
     this.rectangle = this.renderer.createElement('rect', 'svg');
+    this.renderer.setStyle(this.rectangle, 'fill', this.fill);
+    this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
+    this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
     return this.rectangle;
   }
 
@@ -124,9 +127,6 @@ export class RectangleService implements Shape {
     this.renderer.setAttribute(this.rectangle, 'y', this.y.toString());
     this.renderer.setAttribute(this.rectangle, 'width', this.width.toString());
     this.renderer.setAttribute(this.rectangle, 'height', this.height.toString());
-    this.renderer.setStyle(this.rectangle, 'fill', this.fill);
-    this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
-    this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
   }
 
   assignBorderedRectangle(): void {

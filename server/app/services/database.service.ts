@@ -16,7 +16,20 @@ export class DatabaseService {
         return this.svgTable;
     }
 
-    addToTable(value: SVGJSON) {
-        this.svgTable.push(value);
+    addToTable(value: SVGJSON) : boolean[] {
+        let response : boolean[] = [true,false]; 
+        if(value.name === "" ) {
+            response[0] = false;
+        }
+        value.tags.forEach((tag ) => {
+            if(tag === "" || value.name === "") {
+                response[0] = false;
+            }
+       })
+       if (response[0]){ // for disabling button if en cours de sending
+            this.svgTable.push(value);
+            response[1] = true;
+       }
+        return (response);
     }
 }

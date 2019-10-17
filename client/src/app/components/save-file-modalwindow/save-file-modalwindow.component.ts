@@ -6,6 +6,8 @@ import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { EMPTY_STRING, KEY } from 'src/constants';
 import { InputService } from '../../services/input.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { CommunicationsService } from 'src/app/services/communications.service';
+
 
 @Component({
   selector: 'app-save-file-modalwindow',
@@ -17,14 +19,14 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
     form: FormGroup;
     currentTag: string;
+    
    
 
-  constructor( /*private fileParameters: FileParametersServiceService,*/
-            // private dialog: MatDialog,
-               private formBuilder: FormBuilder,
+  constructor( private formBuilder: FormBuilder,
                private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
                private eventEmitterService: EventEmitterService,
-               private inputService: InputService) {
+               private inputService: InputService,
+               private communicationService: CommunicationsService) {
       this.currentTag = EMPTY_STRING;
       
      
@@ -60,7 +62,15 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
   }
 
   submitDrawing() {
+   // if (this.communicationService.canSend){
+    this.communicationService.enableSubmit = false;
     this.eventEmitterService.sendSVGToServer();
+    //}
+    // else {
+    //   console.log
+    //   window.alert("couldn't send, please try again later");
+    //   this.communicationService.enableSubmit = true;
+    // }
   }
 
   @HostListener('window:keydown', ['$event'])

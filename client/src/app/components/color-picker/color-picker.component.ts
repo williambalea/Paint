@@ -86,14 +86,13 @@ export class ColorPickerComponent implements OnInit {
   }
 
   updateHexValue(): void {
-    let temp: string = this.color;
-    temp = temp.substring(NB.Five, temp.length);
-    temp = temp.substring(NB.Zero, temp.length - NB.One);
-    const rgbValues: string[] = temp.split(',');
-    const tempHex: string = Number(rgbValues[NB.Zero]).toString(NB.Sixteen).toUpperCase() +
-                            Number(rgbValues[NB.One]).toString(NB.Sixteen).toUpperCase() +
-                            Number(rgbValues[NB.Two]).toString(NB.Sixteen).toUpperCase();
-    this.colorHex = tempHex;
+    let currentColor: string = this.color;
+    currentColor = currentColor.substring(NB.Five, currentColor.length);
+    currentColor = currentColor.substring(NB.Zero, currentColor.length - NB.One);
+    const currentRgbValues: string[] = currentColor.split(',');
+    this.colorHex = Number(currentRgbValues[NB.Zero]).toString(NB.Sixteen).toUpperCase() +
+                    Number(currentRgbValues[NB.One]).toString(NB.Sixteen).toUpperCase() +
+                    Number(currentRgbValues[NB.Two]).toString(NB.Sixteen).toUpperCase();
   }
 
   onEnterHex(value: string): void {
@@ -129,10 +128,10 @@ export class ColorPickerComponent implements OnInit {
   }
 
   syncValue(): void  {
-    const temp = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.colorHex) as RegExpExecArray;
-    const r: number = parseInt(temp[NB.One], NB.Sixteen);
-    const g: number = parseInt(temp[NB.Two], NB.Sixteen);
-    const b: number = parseInt(temp[NB.Three], NB.Sixteen);
+    const colorArray = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.colorHex) as RegExpExecArray;
+    const r: number = parseInt(colorArray[NB.One], NB.Sixteen);
+    const g: number = parseInt(colorArray[NB.Two], NB.Sixteen);
+    const b: number = parseInt(colorArray[NB.Three], NB.Sixteen);
     this.color = 'rgba(' + r.toString() +
                       ',' + g.toString() +
                       ',' + b.toString() +

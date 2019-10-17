@@ -1,8 +1,13 @@
-import { Component,  ElementRef , HostListener, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
+import { CommunicationsService } from 'src/app/services/communications.service';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
-import { EMPTY_STRING, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
-import {FileParametersServiceService} from '../../services/file-parameters-service.service';
+import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import { SVGJSON } from '../../../../../common/communication/SVGJSON';
+import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
+import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 
 @Component({
@@ -10,56 +15,83 @@ import { Shape } from '../../services/shapes/shape';
   templateUrl: './drawing-space.component.html',
   styleUrls: ['./drawing-space.component.scss'],
 })
-export class DrawingSpaceComponent implements OnInit {
-
-  @ViewChild('canvas', {static: false})
-  canvas: ElementRef;
-
+export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('g', { static: false }) canvas: ElementRef<SVGSVGElement>;
+  @ViewChild('svg', { static: false }) drawingBoard: ElementRef<SVGSVGElement>;
+  @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   tool: typeof TOOL;
-  @Input()selectedTool: TOOL;
-  @Input()selectedShape: Shape;
+  @Input() selectedTool: TOOL;
+  @Input() selectedShape: Shape;
   resizeFlag: boolean;
   canvasWidth: number;
   canvasHeight: number;
   width: number;
   pointerEvent: string;
-  shape: string;
+  isConfirmed: boolean;
+  shape: HTMLElement;
 
-  constructor( private fileParameters: FileParametersServiceService,
-               private colorService: ColorService,
-               private inputService: InputService,
-               private renderer: Renderer2) {
+  constructor(private fileParameters: FileParametersServiceService,
+              private colorService: ColorService,
+              private inputService: InputService,
+              private renderer: Renderer2,
+              private communicationService: CommunicationsService,
+              private gridService: GridService,
+              private unsubscribeService: UnsubscribeService,
+              private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
-    this.shape = EMPTY_STRING;
-  }
-
-  test(): void {
-    console.log('click');
   }
 
   setCanvasParameters(): void {
-    this.fileParameters.canvaswidth$
-       .subscribe((canvasWidth) => this.canvasWidth = canvasWidth);
-    this.fileParameters.canvasheight$
-       .subscribe((canvasHeight) => this.canvasHeight = canvasHeight);
-    this.fileParameters.resizeflag$
-       .subscribe((resizeFlag) => this.resizeFlag = resizeFlag);
+    this.unsubscribeService.subscriptons.push(this.fileParameters.canvaswidth$
+      .subscribe((canvasWidth) => this.canvasWidth = canvasWidth));
+
+    this.unsubscribeService.subscriptons.push(this.fileParameters.canvasheight$
+      .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
+
+    this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
+      .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
   }
 
   ngOnInit(): void {
     this.setCanvasParameters();
+
+  }
+  ngAfterViewInit() {
+    this.eventEmitterService.showGridEmitter.subscribe(() => {
+      this.showGrid();
+    });
+
+    this.eventEmitterService.hideGridEmitter.subscribe(() => {
+      this.hideGrid();
+    });
+
+    this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
+      this.convertSVGtoJSON();
+    });
+
+    this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
+      this.canvas.nativeElement.innerHTML = EMPTY_STRING;
+      this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.inputService.drawingColor);
+      this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
+    });
   }
 
-  // TODO: Ines, elle sert à quoi cette fonction?
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: { target: { innerWidth: number; }; }): void {
-  //   if (!this.resizeFlag) {
-  //   this.width = event.target.innerWidth;
-  //   this.canvasWidth = event.target.innerWidth;
-  // }}
+  ngOnDestroy(): void {
+    this.unsubscribeService.onDestroy();
+  }
+
+  hideGrid() {
+    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
+  }
+
+  showGrid(): void {
+    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
+    this.gridService.draw(this.gridService.gridSize);
+    this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
+  }
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
@@ -67,6 +99,12 @@ export class DrawingSpaceComponent implements OnInit {
       this.inputService.shiftPressed = true;
       this.selectedShape.onMouseMove();
       this.selectedShape.onMouseUp();
+      event.preventDefault();
+    }
+
+    if (event.key === KEY.alt) {
+      this.inputService.altPressed = true;
+      event.preventDefault();
     }
     if (event.key === KEY.escape) {
       this.inputService.escapePressed = true;
@@ -80,6 +118,7 @@ export class DrawingSpaceComponent implements OnInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
+    event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;
       this.selectedShape.onMouseMove();
@@ -93,63 +132,148 @@ export class DrawingSpaceComponent implements OnInit {
       this.inputService.backSpacePressed = false;
       this.selectedShape.onMouseMove();
     }
-  }
 
-  changeFillColor(event: MouseEvent, shape: any): void {
-    if (this.selectedTool === TOOL.colorApplicator) {
-      event.preventDefault();
-      this.renderer.setStyle(shape, 'fill', this.colorService.getFillColor());
+    if (event.key === KEY.alt) {
+      this.inputService.altPressed = false;
     }
   }
 
-  changeStrokeColor(event: MouseEvent, shape: any, color: string): void {
-    event.preventDefault();
-    if (this.selectedTool === TOOL.colorApplicator) {
-      this.renderer.setStyle(shape, 'stroke', color);
+  setElementColor(event: MouseEvent, primaryColor: string, secondaryColor?: string): void {
+    if (event.button === 0) {
+      this.colorService.setFillColor(primaryColor);
     }
+    if (event.button === 2 && secondaryColor) {
+      this.colorService.setStrokeColor(secondaryColor);
+    }
+  }
+
+  screenshotBase64(): string {
+    const b64start = 'data:image/svg+xml;base64,';
+    const svg: SVGSVGElement = this.drawingBoard.nativeElement;
+    const xml: string = new XMLSerializer().serializeToString(svg as Node);
+    const svg64: string = btoa(xml);
+    return b64start + svg64;
+  }
+
+  usePipette(event: MouseEvent): void {
+    const canvas: HTMLCanvasElement = this.htmlCanvas.nativeElement;
+    canvas.height = this.canvasHeight;
+    canvas.width = this.canvasWidth;
+    const images64: string = this.screenshotBase64();
+    const image = new Image();
+    image.src = images64;
+    image.onload = () => {
+      (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0, this.canvasWidth, this.canvasHeight);
+      const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
+      getImageData(event.offsetX, event.offsetY, 1, 1).data;
+      if (event.button === 0) {
+        this.colorService.setFillColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
+      }
+      if (event.button === 2) {
+        this.colorService.setStrokeColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
+      }
+    };
   }
 
   @HostListener('mousedown', ['$event'])
-  onMouseDown(): void {
+  onMouseDown(event: MouseEvent): void {
+    if (this.selectedTool === TOOL.pipette) {
+      event.preventDefault();
+      this.usePipette(event);
+    }
     this.shape = this.selectedShape.onMouseDown();
-    if (this.selectedTool === TOOL.rectangle) {
-      this.renderer.listen(this.shape, 'click', (event: MouseEvent) => {
-        this.changeFillColor(event, this.shape);
-      });
-      this.renderer.listen(this.shape, 'contextmenu', (event: MouseEvent) => {
-        this.changeStrokeColor(event, this.shape, this.colorService.getStrokeColor());
-      });
-    }
-    if (this.selectedTool === TOOL.brush || this.selectedTool === TOOL.pen) {
-      this.renderer.listen(this.shape, 'click', (event: MouseEvent) => {
-        this.changeStrokeColor(event, this.shape, this.colorService.getFillColor());
-      });
-      this.renderer.listen(this.shape, 'contextmenu', (event: MouseEvent) => {
-        event.preventDefault();
-      });
-    }
-    if (this.selectedTool !== TOOL.colorApplicator) {
-      this.renderer.appendChild(this.canvas.nativeElement, this.shape);
+    this.draw(this.shape);
+    this.inputService.isNotEmpty = true;
+  }
+
+  draw(shape: any): void {
+    if (this.selectedTool !== TOOL.colorApplicator &&
+        this.selectedTool !== TOOL.pipette) {
+      if (shape) {
+        this.renderer.appendChild(this.canvas.nativeElement, shape);
+      }
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);
       this.pointerEvent = POINTER_EVENT.none;
     }
+
   }
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
 
-    this.inputService.setMouseOffset(event);
-    this.selectedShape.onMouseMove();
+      this.inputService.setMouseOffset(event);
+      this.selectedShape.onMouseMove();
     }
   }
 
   @HostListener('mouseup')
   onMouseUp(): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
-    this.selectedShape.onMouseUp();
-    this.pointerEvent = POINTER_EVENT.visiblePainted;
+
+      this.selectedShape.onMouseUp();
+      this.pointerEvent = POINTER_EVENT.visiblePainted;
+    }
+    if (this.selectedTool === TOOL.selector) {
+      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+    }
+
+  }
+
+  @HostListener('wheel', ['$event'])
+  onwheel(event: WheelEvent): void {
+    if (this.selectedTool === TOOL.stamp) {
+      event.preventDefault();
+      this.inputService.changeStampAngle(Math.sign(event.deltaY));
     }
   }
+
+  convertSVGtoJSON(): void {
+        const nom = this.inputService.drawingName;
+        const tag = this.inputService.drawingTags;
+        const picture = this.screenshotBase64();
+        const element = this.canvas.nativeElement;
+        const html = element.innerHTML;
+        const data: SVGJSON = {
+          name : nom,
+          tags: tag,
+          thumbnail : picture,
+          html,
+          color: this.colorService.getBackgroundColor()
+        };
+
+        console.log('color', data.color);
+
+        const json = JSON.stringify(data);
+
+        this.communicationService.HTML = json;
+        this.communicationService.postToServer(data).subscribe();
+  }
+
+  leftClickOnElement(event: Event): void {
+    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
+      this.changeFillColor(event.target as HTMLElement);
+    }
+  }
+
+  rightClickOnElement(event: Event): void {
+    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
+      const targetTag: string = (event.target as HTMLElement).tagName;
+      if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
+        this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());
+      }
+    }
+  }
+
+  changeFillColor(target: HTMLElement): void {
+    const targetTag: string = target.tagName;
+    if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
+        this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
+      } else if (targetTag === 'path') {
+        this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
+      }
+  }
+
+
 }

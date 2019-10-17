@@ -1,14 +1,15 @@
-<!-- <div class="drawingBoard" (window:resize)="onResize($event)">   -->
-<div class="drawingBoard" >
-    <svg id="canvas" version="1.1"
+<div class="drawingBoard" (click)="this.leftClickOnElement($event)" (contextmenu)="this.rightClickOnElement($event)">  
+    <canvas #htmlCanvas hidden></canvas>
+    <svg #svg id="canvas" version="1.1"
         baseProfile="full"
         [attr.width]= "this.canvasWidth"
         [attr.height]= "this.canvasHeight"
         [style.background-color]= "colorService.getBackgroundColor()"
-        xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" #canvas>
-
-
-    <defs>
+        xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" (contextmenu)="$event.preventDefault()">
+        
+        <g #g></g>
+  
+    <defs #test>
 
         <filter id="chalk" x="-15px" y="-15px" height="40px" width="50px">
             <feTurbulence type="turbulence" baseFrequency="0.08" numOctaves="2" result="turbulence"/>
@@ -47,8 +48,9 @@
 
 
     </defs>
-
+    
     </svg>
+        
 </div>
 
 

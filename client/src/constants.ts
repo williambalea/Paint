@@ -34,6 +34,7 @@ export enum NB {
   Twenty = 20,
   TwentyFour = 24,
   TwentyFive = 25,
+  Thirty = 30,
   Forty = 40,
   FortyTwo = 42,
   Fifty = 50,
@@ -44,12 +45,14 @@ export enum NB {
   SeventyFive = 75,
   Eighty = 80,
   OneHundred = 100,
+  OneHundredEighty= 180,
   OneHundredEightTwo = 182,
   TwoHundred = 200,
   TwoHundredThree = 203,
   TwoHundredFifty = 250,
   TwoHundredFiftyFive = 255,
   ThreeHundred = 300,
+  ThreeHundredSixty = 360,
   FourHundred = 400,
   FourHundredOne = 401,
   FourHundredNinety = 490,
@@ -62,23 +65,34 @@ export enum NB {
   TenThousand = 10000,
   }
 
+export const SVGinnerWidth : number = 353;
+
 export enum KEY {
   shift = 'Shift',
+  alt = 'Alt',
   o = 'o',
   c = 'c',
   w = 'w',
   one = '1',
+  two = '2',
   r = 'r',
   escape = 'Escape',
   u = 'u',
   backspace = 'Backspace',
+  g = 'g',
 }
 
 export enum TOOL {
   rectangle = 'rectangle',
   brush = 'brush',
+  pipette = 'pipette',
   pen = 'pen',
   colorApplicator = 'colorApplicator',
+  stamp = 'stamp',
+  grid = 'grid',
+  polygon = 'polygon',
+  ellipse = 'ellipse',
+  selector = 'selector',
   line = 'line',
 }
 
@@ -112,7 +126,7 @@ export enum POINTER_EVENT {
   visiblePainted = 'visiblePainted',
 }
 
-export enum RECTANGLE_TYPE {
+export enum OUTLINE_TYPE {
   bordered = 'Bordered',
   filled = 'Filled',
   borderedAndFilled = 'Bordered & Filled',
@@ -150,6 +164,11 @@ export enum COLORS {
   blueRGBA = 'rgba(0, 0, 255, 1)',
   magentaRBGA = 'rgba(255, 0, 255, 1)',
   centerGrey = '848484',
+}
+
+export interface DrawingInfo {
+  drawingName: string;
+  tags: string[];
 }
 
 export const EMPTY_STRING = '';

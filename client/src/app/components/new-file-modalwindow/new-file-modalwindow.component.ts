@@ -1,12 +1,13 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { ColorService } from 'src/app/services/color/color.service';
+import { KEY } from 'src/constants';
+import { ColorService } from '../../services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
-
-import { InputService } from 'src/app/services/input.service';
+import { ShapesService } from '../../services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { SVGinnerWidth } from 'src/constants';
 
 @Component({
   selector: 'app-new-file-modalwindow',
@@ -20,9 +21,9 @@ export class NewFileModalwindowComponent implements OnInit {
 
   constructor( private fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
+               private shapeService: ShapesService,
                private formBuilder: FormBuilder,
                private colorService: ColorService,
-               private inputService: InputService,
                private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
   assignForm(): void {
@@ -33,7 +34,7 @@ export class NewFileModalwindowComponent implements OnInit {
   }
 
   assignCanvas(): void {
-    this.canvasWidth = window.innerWidth;
+    this.canvasWidth = window.innerWidth - SVGinnerWidth;
     this.canvasHeight = window.innerHeight;
   }
 
@@ -78,10 +79,20 @@ export class NewFileModalwindowComponent implements OnInit {
   submitParameters(canvaswidth: number, canvasheight: number): void {
     if (this.validForm()) {
     this.fileParameters.tempresize = true;
-    !this.inputService.isBlank ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
+    this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
     this.dialogRef.close();
     } else {
       this.assignForm();
     }
   }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+      if (event.key === KEY.o) {
+        if (event.ctrlKey) {
+          event.preventDefault();
+        }
+      }
+  }
+
 }

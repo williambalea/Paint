@@ -20,7 +20,8 @@
 }
 
 .attribute {
-  border: 2px solid rgb(250, 250, 250);
+  padding-top: 2px;
+  padding-bottom: 6px;
   background-color: rgb(250, 250, 250);
   margin: 5px;
   border-radius: 5px;
@@ -44,6 +45,13 @@
   stroke-linecap: round;
   fill: none;
   stroke-linejoin: round;
+}
+
+.lineStyleSquare{
+  stroke:rgb(0,0,0);
+  stroke-linecap: square;
+  fill: none;
+  stroke-linejoin: square;
 }
 
 .inputFormStyle{
@@ -110,3 +118,27 @@ mat-radio-button {
   height: 45px;
   width: calc(100% - 13px);
 }
+
+.stampbox {
+  background-color: rgb(220, 220, 220);
+  height: 200px;
+  overflow-y: scroll;
+  text-align: center;
+  padding-top: 2px;
+}
+
+img {
+  padding: 5px 5px 5px 5px;
+  width: 30px;
+  height: 30px;
+}
+
+img:hover {
+  width: 35px;
+  height: 35px;
+  padding: 0px 5px 5px 0px;
+}
+.button {
+  text-align: center;
+}
+

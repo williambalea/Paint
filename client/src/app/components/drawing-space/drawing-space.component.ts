@@ -10,6 +10,7 @@ import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../co
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 
+
 @Component({
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
@@ -42,6 +43,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
+    
   }
 
   setCanvasParameters(): void {
@@ -57,7 +59,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.setCanvasParameters();
-
   }
   ngAfterViewInit() {
     this.eventEmitterService.showGridEmitter.subscribe(() => {

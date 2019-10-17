@@ -17,6 +17,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
     form: FormGroup;
     currentTag: string;
+   
 
   constructor( /*private fileParameters: FileParametersServiceService,*/
             // private dialog: MatDialog,
@@ -25,6 +26,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
                private eventEmitterService: EventEmitterService,
                private inputService: InputService) {
       this.currentTag = EMPTY_STRING;
+      
      
 
     }
@@ -36,7 +38,8 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
         name: new FormControl()
       })
       this.form = this.formBuilder.group({
-        name: ['', [Validators.required,Validators.minLength(1)]]
+        name: ['', [Validators.required,Validators.minLength(1)]],
+        tag: ['', [Validators.required,Validators.minLength(1)]],
       })
     }
 
@@ -49,9 +52,11 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
   }
 
   addTag() {
+    if (this.currentTag) {
     if (this.inputService.drawingTags.indexOf(this.currentTag) === -1) {
       this.inputService.drawingTags.push(this.currentTag);
     }
+  }
   }
 
   submitDrawing() {

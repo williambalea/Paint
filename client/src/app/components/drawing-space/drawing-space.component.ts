@@ -4,13 +4,12 @@ import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
+import { SelectorService } from 'src/app/services/selector/selector.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
-import * as svgIntersections from 'svg-intersections';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
-
 
 @Component({
   selector: 'app-drawing-space',
@@ -38,6 +37,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private colorService: ColorService,
               private inputService: InputService,
               private renderer: Renderer2,
+              private selectorService: SelectorService,
               private communicationService: CommunicationsService,
               private gridService: GridService,
               private unsubscribeService: UnsubscribeService,
@@ -58,68 +58,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
       .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
-  }
-
-  intersection(): void {
-    const intersect = svgIntersections.intersect;
-    const shape = svgIntersections.shape;
-    const elementsCount: number = this.canvas.nativeElement.children.length;
-    let currentShape: any;
-    for ( let i = 0; i < elementsCount; i++ ) {
-      if (this.shape === this.canvas.nativeElement.children[i]) {
-        break;
-      }
-      switch (this.canvas.nativeElement.children[i].tagName) {
-        case 'rect':
-          currentShape = shape('rect', {
-            x: this.canvas.nativeElement.children[i].getAttribute('x'),
-            y: this.canvas.nativeElement.children[i].getAttribute('y'),
-            width: this.canvas.nativeElement.children[i].getAttribute('width'),
-            height: this.canvas.nativeElement.children[i].getAttribute('height'),
-          });
-          break;
-        case 'ellipse':
-          currentShape = shape('ellipse', {
-            cx: this.canvas.nativeElement.children[i].getAttribute('cx'),
-            cy: this.canvas.nativeElement.children[i].getAttribute('cy'),
-            rx: this.canvas.nativeElement.children[i].getAttribute('rx'),
-            ry: this.canvas.nativeElement.children[i].getAttribute('ry'),
-          });
-          break;
-        case 'path':
-          currentShape = shape('path', {
-            d: this.canvas.nativeElement.children[i].getAttribute('d'),
-          });
-          break;
-        case 'polygon':
-          currentShape = shape('polygon', {
-            points: this.canvas.nativeElement.children[i].getAttribute('points'),
-          });
-          break;
-        case 'image':
-          currentShape = shape('rect', {
-            x: this.canvas.nativeElement.children[i].getAttribute('x'),
-            y: this.canvas.nativeElement.children[i].getAttribute('y'),
-            width: this.canvas.nativeElement.children[i].getAttribute('width'),
-            height: this.canvas.nativeElement.children[i].getAttribute('height'),
-          });
-          break;
-      }
-      const intersections = intersect (
-        shape('rect', {
-          x: this.shape.x.animVal.value,
-          y: this.shape.y.animVal.value,
-          width: this.shape.width.animVal.value,
-          height: this.shape.height.animVal.value }),
-          currentShape,
-      );
-      if (intersections.points.length !== 0) {
-        if (!this.selectedShapes.includes(this.canvas.nativeElement.children[i])) {
-          this.selectedShapes.push(this.canvas.nativeElement.children[i]);
-          console.log(this.selectedShapes);
-        }
-      }
-    }
   }
 
   ngOnInit(): void {
@@ -257,7 +195,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.selector) {
       if (this.testActive) {
-        this.intersection();
+        this.selectorService.intersection(this.shape, this.canvas);
       }
     }
   }
@@ -295,7 +233,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           tags: tag,
           thumbnail : picture,
           html,
-          color: this.colorService.getBackgroundColor()
+          color: this.colorService.getBackgroundColor(),
         };
         const json = JSON.stringify(data);
 

@@ -21,7 +21,9 @@ export class GetFileModalwindowComponent implements OnInit {
   displayedData: SVGJSON[];
   filteredThroughTagData: SVGJSON[];
   filterActivated: boolean;
-  caughtGetError : boolean
+  caughtGetError : boolean;
+  isLoading : boolean;
+
   constructor( 
                private dialog : MatDialog,
                private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
@@ -35,6 +37,7 @@ export class GetFileModalwindowComponent implements OnInit {
       this.filteredThroughTagData = [];
       this.filterActivated = false;
       this.caughtGetError = false;
+      this.isLoading = false;
 
     }
 
@@ -43,6 +46,7 @@ export class GetFileModalwindowComponent implements OnInit {
         (table: SVGJSON[]) => { this.dataTable = table;
                                 this.selectMostRecent(this.dataTable);
                                 this.caughtGetError = false;
+                                this.isLoading = false;
                               },
         (error) => {
           window.alert("Server not available");
@@ -115,6 +119,7 @@ export class GetFileModalwindowComponent implements OnInit {
   }
 
   selectDrawing(value: number) {
+    this.isLoading = true;
     if (this.caughtGetError) {
       window.alert("unable to get picture, please choose another one");
       //TODO : CHECK LOGIC 

@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { BrushService } from './brush.service';
-import { Renderer2 } from '@angular/core';
 
 describe('BrushService', () => {
   let service: BrushService;

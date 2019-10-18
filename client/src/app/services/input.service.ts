@@ -22,6 +22,7 @@ export class InputService {
   drawingColor: string;
   isNotEmpty: boolean;
   mouseButton: number;
+  isDrawed: boolean;
 
   constructor() {
     this.shiftPressed = false;
@@ -37,6 +38,7 @@ export class InputService {
     this.drawingTags = [];
     this.drawingHtml = EMPTY_STRING;
     this.isNotEmpty = false ;
+    this.isDrawed = false;
   }
 
   setMouseOffset(event: MouseEvent) {

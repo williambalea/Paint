@@ -10,6 +10,7 @@ export class EventEmitterService {
   sendSVGToServerEmitter = new EventEmitter();
   appendToDrawingSpaceEmitter = new EventEmitter();
   selectEmitter = new EventEmitter();
+  clearCanvasEmitter = new EventEmitter();
 
   showGrid(): void {
     this.showGridEmitter.emit();
@@ -31,4 +32,7 @@ export class EventEmitterService {
     this.selectEmitter.emit();
   }
 
+  clearCanvas() : void {
+    this.clearCanvasEmitter.emit();
+  }
 }

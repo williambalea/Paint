@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
-import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { STRINGS } from 'src/constants';
 import {FileParametersServiceService} from '../../services/file-parameters-service.service';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -13,7 +13,7 @@ import {FileParametersServiceService} from '../../services/file-parameters-servi
 export class DeleteConfirmationComponent {
 
   message: string;
-  constructor( private shapeService: ShapesService,
+  constructor( private eventEmitterService: EventEmitterService,
                private dialogRef: MatDialogRef<DeleteConfirmationComponent>,
                private colorService: ColorService,
                private fileParameters: FileParametersServiceService) {
@@ -28,7 +28,7 @@ export class DeleteConfirmationComponent {
   }
 
   clear(): void {
-    this.shapeService.clearShapes();
+    this.eventEmitterService.clearCanvas();
     this.fileParameters.changeParameters(this.fileParameters.tempx, this.fileParameters.tempy);
     this.clearColor();
     this.dialogRef.close(true);

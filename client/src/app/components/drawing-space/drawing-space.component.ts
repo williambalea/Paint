@@ -77,12 +77,24 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
       this.convertSVGtoJSON();
     });
-
+  
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
       this.canvas.nativeElement.innerHTML = EMPTY_STRING;
       this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.inputService.drawingColor);
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
     });
+
+
+
+    this.eventEmitterService.clearCanvasEmitter.subscribe(() =>{
+      for (let i : number = 0 ; i< this.canvas.nativeElement.children.length ; i++){
+        this.renderer.removeChild(this.canvas,this.canvas.nativeElement.children[i]);
+      }
+      this.inputService.isDrawed = false;
+    });
+
+
+    
   }
 
   ngOnDestroy(): void {
@@ -249,7 +261,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log('ici');
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
     }
-
+    this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
   }
 

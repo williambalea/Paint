@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { KEY } from 'src/constants';
 import { ColorService } from '../../services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
-import { ShapesService } from '../../services/shapes/shapes.service';
+import { InputService } from 'src/app/services/input.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { SVGinnerWidth } from 'src/constants';
 
@@ -21,7 +21,7 @@ export class NewFileModalwindowComponent implements OnInit {
 
   constructor( private fileParameters: FileParametersServiceService,
                private dialog: MatDialog,
-               private shapeService: ShapesService,
+               private inputService: InputService,
                private formBuilder: FormBuilder,
                private colorService: ColorService,
                private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
@@ -79,7 +79,7 @@ export class NewFileModalwindowComponent implements OnInit {
   submitParameters(canvaswidth: number, canvasheight: number): void {
     if (this.validForm()) {
     this.fileParameters.tempresize = true;
-    this.shapeService.shapes.length ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
+    this.inputService.isDrawed ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
     this.dialogRef.close();
     } else {
       this.assignForm();

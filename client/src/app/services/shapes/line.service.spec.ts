@@ -9,10 +9,15 @@ class RendererMock {
   setStyle(): void {return; }
 }
 
+// tslint:disable-next-line: max-classes-per-file
+class InputServiceMock {
+  backSpacePressed = false;
+}
+
 fdescribe('LineService', () => {
   let service: LineService;
   let colorService: ColorService;
-  //let inputService: InputService;
+  let inputService: InputService;
   let renderer: Renderer2;
 
   beforeEach(() => {
@@ -22,11 +27,12 @@ fdescribe('LineService', () => {
         ColorService,
         InputService,
         { provide: Renderer2, useClass: RendererMock },
+        { provide: InputService, useClass: InputServiceMock },
       ],
     }).compileComponents();
     service = TestBed.get(LineService);
     colorService = TestBed.get(ColorService);
-    //inputService = TestBed.get(InputService);
+    inputService = TestBed.get(InputService);
     renderer = TestBed.get(Renderer2);
   });
 
@@ -108,6 +114,13 @@ fdescribe('LineService', () => {
     const spyOnIsActive = spyOn(service, 'isActive');
     service.onMouseMove();
     expect(spyOnIsActive).toHaveBeenCalled();
+  });
+
+  it ('should call isBackSpacePressed() on mouse move', () => {
+    inputService.backSpacePressed = true;
+    const spyOnIsBackSpacePressed = spyOn(service, 'isBackSpacePressed');
+    service.onMouseMove();
+    expect(spyOnIsBackSpacePressed).toHaveBeenCalled();
   });
 
 });

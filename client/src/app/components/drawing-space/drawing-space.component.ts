@@ -17,9 +17,10 @@ import { Shape } from '../../services/shapes/shape';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('g', { static: false }) canvas: ElementRef<SVGSVGElement>;
-  @ViewChild('svg', { static: false }) drawingBoard: ElementRef<SVGSVGElement>;
+  @ViewChild('g', { static: false }) canvas: ElementRef;
+  @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
+  @ViewChild('includingBox', { static: false }) includingBox: ElementRef;
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
   @Input() selectedShape: Shape;
@@ -242,10 +243,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.communicationService.HTML = json;
         this.communicationService.postToServer(data).subscribe((response : boolean[])=> {
           if (!response[0]) {
-            window.alert("error could not save files, check parameters");
+            window.alert('error could not save files, check parameters');
             this.communicationService.enableSubmit = true;
           }
-          if (response[1]){ 
+          if (response[1]){
             this.communicationService.enableSubmit = true;
           }
         });

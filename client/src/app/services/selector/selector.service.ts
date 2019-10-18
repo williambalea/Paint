@@ -10,7 +10,7 @@ import { Shape } from '../shapes/shape';
 export class SelectorService implements Shape {
   rectangle: HTMLElement;
   active: boolean;
-  selectedShapes: any[];
+  selectedShapes: SVGGraphicsElement[];
   selectorIsSingle: boolean;
 
   constructor(private rectangleService: RectangleService,
@@ -30,7 +30,7 @@ export class SelectorService implements Shape {
     this.renderer.setStyle(this.rectangle, 'fill', 'none');
     this.renderer.setStyle(this.rectangle, 'stroke-dasharray', '3');
     this.renderer.setStyle(this.rectangle, 'stroke', 'navy');
-    this.renderer.setStyle(this.rectangle, 'stroke-width', '2');
+    this.renderer.setStyle(this.rectangle, 'stroke-width', '1');
     return this.rectangle;
   }
   onMouseMove(): void {

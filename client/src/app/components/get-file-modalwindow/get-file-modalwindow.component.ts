@@ -21,6 +21,8 @@ export class GetFileModalwindowComponent implements OnInit {
   displayedData: SVGJSON[];
   filteredThroughTagData: SVGJSON[];
   filterActivated: boolean;
+  caughtGetError : boolean;
+
   constructor( 
                private dialog : MatDialog,
                private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
@@ -33,20 +35,25 @@ export class GetFileModalwindowComponent implements OnInit {
       this.displayedData = [];
       this.filteredThroughTagData = [];
       this.filterActivated = false;
+      this.caughtGetError = false;
+      
 
     }
 
   ngOnInit() {
-  
-
-    this.communicationService.testReturnIndex().subscribe((table: SVGJSON[]) => {
-      this.dataTable = table;
-    
-      console.log('no filer', this.dataTable);
-        this.selectMostRecent(this.dataTable);
-    
-     
-      });
+      this.communicationService.testReturnIndex().subscribe(
+        (table: SVGJSON[]) => { this.dataTable = table;
+                                this.selectMostRecent(this.dataTable);
+                                this.caughtGetError = false;
+                                this.communicationService.isLoading = false;
+                              },
+        (error) => {
+          window.alert("Server not available");
+          this.caughtGetError = true;
+          //console.log('test',this.caughtGetError);
+        }
+          );
+      
       this.filterActivated = false;
     
   }
@@ -82,9 +89,7 @@ export class GetFileModalwindowComponent implements OnInit {
    addTagToFilter(): void {
      this.filterActivated = true;
      this.tags.push(this.tag);
-     console.log('tags', this.tags);
      this.updateDisplayTable();
-     console.log(this.displayedData);
    }
 
 
@@ -113,8 +118,18 @@ export class GetFileModalwindowComponent implements OnInit {
   }
 
   selectDrawing(value: number) {
+    
+    if (this.caughtGetError) {
+      window.alert("unable to get picture, please choose another one");
+      //TODO : CHECK LOGIC 
+      this.caughtGetError = false;
+    }
+
+    else {
+    this.communicationService.isLoading = true;
     this.inputService.drawingHtml = this.displayedData[value].html;
     this.inputService.drawingColor = this.displayedData[value].color;
+    
     if (this.inputService.isNotEmpty) {
       this.dialog.open(DisplayConfirmationComponent).afterClosed().subscribe(() => {
         this.dialogRef.close();
@@ -122,6 +137,8 @@ export class GetFileModalwindowComponent implements OnInit {
     } else {
       this.eventEmitter.appendToDrawingSpace();
     }
+  }
+
   }
 
   @HostListener('window:keydown', ['$event'])

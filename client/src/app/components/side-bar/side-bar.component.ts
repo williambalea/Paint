@@ -4,6 +4,7 @@ import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modal
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { GridService} from 'src/app/services/grid/grid.service';
+import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService } from 'src/app/services/shapes/line.service';
@@ -23,8 +24,18 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
-  providers: [RectangleService, BrushService, PenService, EllipseService, PolygonService, 
-    StampService, GridService, SelectorService, LineService],
+  providers: [
+    RectangleService,
+    BrushService,
+    PenService,
+    EllipseService,
+    PolygonService,
+    StampService,
+    GridService,
+    SelectorService,
+    IncludingBoxService,
+    LineService,
+  ],
 
 })
 export class SideBarComponent implements OnInit, OnDestroy {

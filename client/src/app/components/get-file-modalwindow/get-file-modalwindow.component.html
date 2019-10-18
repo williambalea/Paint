@@ -15,6 +15,9 @@
     <img [attr.src]="data.thumbnail | safeUrl" width="50" height="50">
     <button matTooltip="Click me to confirm" id="drawing" (click)="this.selectDrawing(i)"> open </button>
   </div>
+
+  <div *ngIf="this.communicationService.isLoading"> Loading ... </div>
+  
 </div>
 <div *ngIf =" displayedData.length === 0">
   404 NOT FOUND

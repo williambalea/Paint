@@ -53,11 +53,11 @@ export class RectangleService implements Shape {
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin(this.inputService.getMouse());
-    this.setRectangleType();
     this.rectangle = this.renderer.createElement('rect', 'svg');
     this.renderer.setStyle(this.rectangle, 'fill', this.fill);
     this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
     this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
+    this.setRectangleType();
     return this.rectangle;
   }
 
@@ -84,16 +84,11 @@ export class RectangleService implements Shape {
 
   setRectangleType(): void {
     if (!this.fillEnable) {
-      this.fill = this.removeColor(this.fill);
+      this.renderer.setStyle(this.rectangle, 'fill', 'none');
     }
     if (!this.strokeEnable) {
-      this.stroke = this.removeColor(this.stroke);
+      this.renderer.setStyle(this.rectangle, 'stroke-opacity', '0');
     }
-  }
-
-  removeColor(fill: string): string {
-    const individualParams: string[] = fill.substr(NB.Five, fill.length - NB.One).split(',', NB.Four);
-    return `rgba(${individualParams[NB.Zero]},${individualParams[NB.One]},${individualParams[NB.Two]},0)`;
   }
 
   setSquareOffset(): void {

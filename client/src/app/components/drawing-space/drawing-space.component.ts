@@ -252,6 +252,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         },
          (error) => {
            window.alert ('can\'t save to server');
+           this.communicationService.enableSubmit = true;
          });
 
   }

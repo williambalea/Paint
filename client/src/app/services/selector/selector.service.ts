@@ -44,6 +44,10 @@ export class SelectorService implements Shape {
     this.selectorIsSingle = true;
   }
 
+  isCloseTo(x: number, y: number): boolean {
+    return (x + 0.5 > y) && (y + 0.5 > x);
+  }
+
   intersection(selectorArea: any, canvas: ElementRef): void {
     const intersect = svgIntersections.intersect;
     const shape = svgIntersections.shape;
@@ -97,17 +101,17 @@ export class SelectorService implements Shape {
           height: selectorArea.height.animVal.value }),
           currentShape,
       );
-      if (intersections.points.length !== 0) {
+      if ((intersections.points.length !== 0) &&
+       (!this.isCloseTo(intersections.points[0].x, intersections.points[1].x)) &&
+       (!this.isCloseTo(intersections.points[0].y, intersections.points[1].y))) {
         if (this.inputService.mouseButton === 2) {
           const index = this.selectedShapes.indexOf(canvas.nativeElement.children[i]);
           if (index !== -1) {
             this.selectedShapes.splice(index, 1);
-            console.log(this.selectedShapes);
           }
         }
         if (!this.selectedShapes.includes(canvas.nativeElement.children[i]) && this.inputService.mouseButton === 0) {
           this.selectedShapes.push(canvas.nativeElement.children[i]);
-          console.log(this.selectedShapes);
         }
       }
     }

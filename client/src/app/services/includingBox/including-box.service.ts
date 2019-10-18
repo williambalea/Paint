@@ -82,7 +82,7 @@ export class IncludingBoxService {
 
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const shapeBoundary: SVGRect = value.getBBox();
-      console.log(shapeBoundary);
+      // console.log(shapeBoundary);
       if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
         const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, 10);
         shapeBoundary.x -= strokeWidthOverflow / 2;

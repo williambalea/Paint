@@ -12,6 +12,7 @@ class RendererMock {
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   backSpacePressed = false;
+  getMouse(): void {return; }
 }
 
 fdescribe('LineService', () => {

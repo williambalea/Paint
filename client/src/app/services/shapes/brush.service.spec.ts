@@ -4,7 +4,7 @@ import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { BrushService } from './brush.service';
 
-fdescribe('BrushService', () => {
+describe('BrushService', () => {
   let service: BrushService;
   let colorService: ColorService;
   let inputService: InputService;

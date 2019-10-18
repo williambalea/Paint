@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ColorService } from 'src/app/services/color/color.service';
@@ -21,7 +21,8 @@ describe('AttributeBarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ AttributeBarComponent ],
       providers: [AttributeBarComponent,
-                 {provide: RectangleService, useClass: RectangleServiceMock}],
+                 {provide: RectangleService, useClass: RectangleServiceMock},
+                Renderer2],
       imports: [
         FormsModule,
       ],

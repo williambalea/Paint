@@ -12,8 +12,8 @@ class RendererMock {
 fdescribe('LineService', () => {
   let service: LineService;
   let colorService: ColorService;
-  // let inputService: InputService;
-  let renderer: Renderer2;
+  let inputService: InputService;
+  // let renderer2: Renderer2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,8 +26,8 @@ fdescribe('LineService', () => {
     }).compileComponents();
     service = TestBed.get(LineService);
     colorService = TestBed.get(ColorService);
-    //inputService = TestBed.get(InputService);
-    renderer = TestBed.get(Renderer2);
+    inputService = TestBed.get(InputService);
+    // renderer2 = TestBed.get(Renderer2);
   });
 
   it('should be created', () => {
@@ -79,6 +79,13 @@ fdescribe('LineService', () => {
     const spyOnIsActive = spyOn(service, 'isActive');
     service.onMouseMove();
     expect(spyOnIsActive).toHaveBeenCalled();
+  });
+
+  it('should call backSpacePressed', () => {
+    inputService.backSpacePressed = true;
+    const psyOnIsBackSpacePressed = spyOn(service, 'isBackSpacePressed');
+    service.onMouseDown();
+    expect(psyOnIsBackSpacePressed).toHaveBeenCalled();
   });
 
 });

@@ -114,8 +114,8 @@ describe('PolygonService', () => {
     // test pour valeur de service.polygon
 
   });
-  it('should call child functions upon moving mouse', () => {
-    const generateVerticesSpy = spyOn(service, 'generateVertices').and.callThrough();
-   
-  });
+  // it('should call child functions upon moving mouse', () => {
+  //   const generateVerticesSpy = spyOn(service, 'generateVertices').and.callThrough();
+
+  // });
 });

@@ -245,16 +245,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         const json = JSON.stringify(data);
 
         this.communicationService.HTML = json;
-      
-        this.communicationService.postToServer(data).subscribe(()=> {
+
+        this.communicationService.postToServer(data).subscribe(() => {
           this.communicationService.enableSubmit = true;
           console.log('test2', this.communicationService.enableSubmit);
         },
          (error) => {
-           window.alert ("can't save to server");
+           window.alert ('can\'t save to server');
          });
-        
-       
+
   }
 
   leftClickOnElement(event: Event): void {

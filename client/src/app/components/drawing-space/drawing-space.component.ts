@@ -180,7 +180,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
-        this.selectorService.intersection(event.target, this.canvas);
+        if (event.button === 0) {
+          this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
+        } else if (event.button === 2) {
+          const index = this.selectorService.selectedShapes.indexOf(event.target as SVGGraphicsElement);
+          if (index !== -1) {
+            this.selectorService.selectedShapes.splice(index, 1);
+          }
+        }
         this.includingBoxService.update();
       }
     }

@@ -24,6 +24,13 @@ export class IncludingBoxService {
     this.boxGElement = this.renderer.createElement('g', 'svg');
   }
 
+  foo(target: SVGGraphicsElement): void {
+    this.boxUpperLeft.x = target.getBBox().x;
+    this.boxUpperLeft.y = target.getBBox().y;
+    this.width = target.getBBox().width;
+    this.height = target.getBBox().height;
+  }
+
   update(): void {
     const initialPoint: Point = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
     const finalPoint: Point = {x: 0, y: 0};
@@ -83,15 +90,17 @@ export class IncludingBoxService {
   }
 
   appendRectangleBox(): void {
-    const rectangle = this.renderer.createElement('rect', 'svg');
-    this.renderer.setAttribute(rectangle, 'x', this.boxUpperLeft.x.toString());
-    this.renderer.setAttribute(rectangle, 'y', this.boxUpperLeft.y.toString());
-    this.renderer.setAttribute(rectangle, 'width', this.width.toString());
-    this.renderer.setAttribute(rectangle, 'height', this.height.toString());
-    this.renderer.setStyle(rectangle, 'stroke-width', '1');
-    this.renderer.setStyle(rectangle, 'stroke', 'navy');
-    this.renderer.setStyle(rectangle, 'fill', 'none');
-    this.renderer.appendChild(this.boxGElement, rectangle);
+    if (this.width > 0 && this.height > 0) {
+      const rectangle = this.renderer.createElement('rect', 'svg');
+      this.renderer.setAttribute(rectangle, 'x', this.boxUpperLeft.x.toString());
+      this.renderer.setAttribute(rectangle, 'y', this.boxUpperLeft.y.toString());
+      this.renderer.setAttribute(rectangle, 'width', this.width.toString());
+      this.renderer.setAttribute(rectangle, 'height', this.height.toString());
+      this.renderer.setStyle(rectangle, 'stroke-width', '1');
+      this.renderer.setStyle(rectangle, 'stroke', 'navy');
+      this.renderer.setStyle(rectangle, 'fill', 'none');
+      this.renderer.appendChild(this.boxGElement, rectangle);
+    }
   }
 
   appendControlPoints(): void {

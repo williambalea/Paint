@@ -80,8 +80,11 @@ export class SelectorService implements Shape {
           });
           break;
         case 'polygon':
-          currentShape = shape('polygon', {
-            points: canvas.nativeElement.children[i].getAttribute('points'),
+          currentShape = shape('rect', {
+            x: canvas.nativeElement.children[i].getBBox().x,
+            y: canvas.nativeElement.children[i].getBBox().y,
+            width: canvas.nativeElement.children[i].getBBox().width,
+            height: canvas.nativeElement.children[i].getBBox().height,
           });
           break;
         case 'image':
@@ -93,8 +96,6 @@ export class SelectorService implements Shape {
           });
           break;
       }
-      console.log('intersect current', currentShape.x, currentShape.y, currentShape.width, currentShape.height);
-      // console.log('intersect pointillé',  selectorArea.x.animVal.value, selectorArea.y.animVal.value, selectorArea.width.animVal.value, selectorArea.height.animVal.value);
       const intersections = intersect (
         shape('rect', {
           x: selectorArea.x.animVal.value,

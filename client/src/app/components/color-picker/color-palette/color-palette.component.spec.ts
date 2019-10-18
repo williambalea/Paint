@@ -67,8 +67,8 @@ describe('ColorPaletteComponent', () => {
   });
 
   it('Should executeMouseUp correctly', () => {
-    const event: MouseEvent = new MouseEvent('window:mousedowns');
-    component.onMouseUp(event);
+    // const event: MouseEvent = new MouseEvent('window:mousedowns');
+    component.onMouseUp();
     expect(component.getMouseDown()).toBeFalsy();
   });
 });

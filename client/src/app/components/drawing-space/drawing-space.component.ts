@@ -275,5 +275,4 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
   }
 
-
 }

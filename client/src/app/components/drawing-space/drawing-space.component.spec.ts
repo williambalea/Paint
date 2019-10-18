@@ -100,21 +100,6 @@ describe('DrawingSpaceComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should define width and canvasWidth attributes if resizeFlag is false when resizing window', () => {
-    component.width = NB.Zero;
-    component.canvasWidth = NB.Zero;
-    const windowInnerWidth = NB.One;
-
-    component.resizeFlag = true;
-    component.onResize( { target: { innerWidth: windowInnerWidth } } );
-    expect(component.width).toEqual(NB.Zero);
-    expect(component.canvasWidth).toEqual(NB.Zero);
-
-    component.resizeFlag = false;
-    component.onResize( { target: { innerWidth: windowInnerWidth } } );
-    expect(component.width).toEqual(windowInnerWidth);
-    expect(component.canvasWidth).toEqual(windowInnerWidth);
-  });
 
   it('should activate square mode when holding shift', () => {
     component.selectedShape = rectangleService;
@@ -199,26 +184,23 @@ describe('DrawingSpaceComponent', () => {
   // });
 
   it('should define shapes colors', () => {
-    spyOn(colorService, 'getFillColor').and.returnValue(COLORS.blackRGBA);
-    spyOn(colorService, 'getStrokeColor').and.returnValue(COLORS.blackRGBA);
-    component.defineShapeColor();
+    const fillColor = spyOn(colorService, 'getFillColor').and.returnValue(COLORS.blackRGBA);
+    const strokeColor = spyOn(colorService, 'getStrokeColor').and.returnValue(COLORS.blackRGBA);
+    component.setElementColor( new MouseEvent('mouse') , fillColor.toString(), strokeColor.toString() );
     expect(shapesService.fillColor).toEqual(COLORS.blackRGBA);
     expect(shapesService.strokeColor).toEqual(COLORS.blackRGBA);
     expect(shapesService.preview.active).toBeTruthy();
   });
 
   it('should call the appropriate mousedown handler for the selectedTool', () => {
-    const brushSpy = spyOn(component, 'mouseDownBrush');
-    const penSpy = spyOn(component, 'mouseDownPen');
+    const brushSpy = spyOn(component, 'onMouseDown');
+    const penSpy = spyOn(component, 'onMouseDown');
 
     component.selectedTool = TOOL.brush;
-    component.assignMouseDownEvent(new MouseEvent('mousedown'));
+    component.onMouseDown(new MouseEvent('mousedown'));
 
     component.selectedTool = TOOL.pen;
-    component.assignMouseDownEvent(new MouseEvent('mousedown'));
-
-    component.selectedTool = 10;
-    component.assignMouseDownEvent(new MouseEvent('mousedown'));
+    component.onMouseDown(new MouseEvent('mousedown'));
 
     expect(brushSpy).toHaveBeenCalledTimes(1);
     expect(penSpy).toHaveBeenCalledTimes(1);
@@ -226,8 +208,8 @@ describe('DrawingSpaceComponent', () => {
 
   it('should define the shape colors and manage the mouseDown by the selectedTool', () => {
     const mouseDown = new MouseEvent('mousedown');
-    const spyDefine = spyOn(component, 'defineShapeColor');
-    const spyMouse = spyOn(component, 'assignMouseDownEvent');
+    const spyDefine = spyOn(component, 'setElementColor');
+    const spyMouse = spyOn(component, 'onMouseDown');
     const spyColor = spyOn(colorService, 'setMakingColorChanges');
     component.selectedShape = rectangleService;
     component.onMouseDown(mouseDown);
@@ -249,18 +231,20 @@ describe('DrawingSpaceComponent', () => {
   });
 
   it('should initialize the svg path of pen', () => {
-    component.mouseDownPen(new MouseEvent('mouseDown'));
+    component.selectedTool = TOOL.pen;
+    component.onMouseDown(new MouseEvent('mouseDown'));
     expect(shapesService.preview.path.length).toBeGreaterThan(0);
   });
 
   it('should initialize the svg path of brush', () => {
-    component.mouseDownBrush(new MouseEvent('mouseDown'));
+    component.selectedTool = TOOL.brush;
+    component.onMouseDown(new MouseEvent('mouseDown'));
     expect(shapesService.preview.path.length).toBeGreaterThan(0);
     expect(shapesService.preview.filter.length).toBeGreaterThan(0);
   });
 
   it('should draw the correct shape by selectedTool', () => {
-    const movePenBrush = spyOn(component, 'mouseMovePenBrush');
+    const movePenBrush = spyOn(component, 'onMouseMove');
     component.selectedShape = rectangleService;
 
     component.selectedTool = TOOL.pen;
@@ -277,11 +261,11 @@ describe('DrawingSpaceComponent', () => {
 
   it('should draw path with mouse offset position', () => {
     shapesService.preview.active = false;
-    component.mouseMovePenBrush(new MouseEvent('mousemove'));
+    component.onMouseMove(new MouseEvent('mousemove'));
     expect(shapesService.preview.path.length).not.toBeGreaterThan(0);
 
     shapesService.preview.active = true;
-    component.mouseMovePenBrush(new MouseEvent('mousemove'));
+    component.onMouseMove(new MouseEvent('mousemove'));
     expect(shapesService.preview.path.length).toBeGreaterThan(0);
   });
 
@@ -290,20 +274,20 @@ describe('DrawingSpaceComponent', () => {
     const penSpy = spyOn(shapesService, 'drawPen');
 
     component.selectedTool = TOOL.brush;
-    component.assignMouseUpEvent();
+    component.onMouseUp();
 
     component.selectedTool = TOOL.pen;
-    component.assignMouseUpEvent();
+    component.onMouseUp();
 
     component.selectedTool = TOOL.colorApplicator;
-    component.assignMouseUpEvent();
+    component.onMouseUp();
 
     expect(brushSpy).toHaveBeenCalledTimes(1);
     expect(penSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should add last used color to palette and draw shape by selectedTool', () => {
-    const assignSpy = spyOn(component, 'assignMouseUpEvent');
+    const assignSpy = spyOn(component, 'onMouseUp');
     const resetSpy = spyOn(shapesService, 'resetPreview');
     component.selectedShape = rectangleService;
 

@@ -4,16 +4,16 @@ import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { LineService } from './line.service';
 
-
 class RendererMock {
   createElement(): void {return; }
+  setStyle(): void {return; }
 }
 
 fdescribe('LineService', () => {
   let service: LineService;
   let colorService: ColorService;
-  let inputService: InputService;
-  // let renderer2: Renderer2;
+  //let inputService: InputService;
+  let renderer: Renderer2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,8 +26,8 @@ fdescribe('LineService', () => {
     }).compileComponents();
     service = TestBed.get(LineService);
     colorService = TestBed.get(ColorService);
-    inputService = TestBed.get(InputService);
-    // renderer2 = TestBed.get(Renderer2);
+    //inputService = TestBed.get(InputService);
+    renderer = TestBed.get(Renderer2);
   });
 
   it('should be created', () => {
@@ -67,25 +67,47 @@ fdescribe('LineService', () => {
     expect(spyOnDraw).toHaveBeenCalled();
   });
 
-  it('Should validate and create path', () => {
+  it('Should validate and call fucntion to create path', () => {
     service.start = true;
     const spyOnCreateElement = spyOn(renderer, 'createElement');
     service.validationToCreatePath();
     expect(spyOnCreateElement).toHaveBeenCalled();
   });
 
-  it('should call isactive on mouse mouse', () => {
+  it('should set style', () => {
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnvalidateJunctionStyle = spyOn(service, 'validateJunctionStyle');
+    service.setStyle();
+    expect(spyOnSetStyle).toHaveBeenCalled();
+    expect(spyOnvalidateJunctionStyle).toHaveBeenCalled();
+  });
+
+  it ('should call setStyle if dot is a selected junction', () => {
+    service.junctionStyle = 'dot';
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    service.validateJunctionStyle();
+    expect(spyOnSetStyle).toHaveBeenCalled();
+  });
+
+  it ('should call setStyle if angeled is a selected junction', () => {
+    service.junctionStyle = 'miter';
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    service.validateJunctionStyle();
+    expect(spyOnSetStyle).toHaveBeenCalled();
+  });
+
+  it ('should call setStyle if round is a selected junction', () => {
+    service.junctionStyle = 'round';
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    service.validateJunctionStyle();
+    expect(spyOnSetStyle).toHaveBeenCalled();
+  });
+
+  it ('should call isActive on mouse move', () => {
     service.active = true;
     const spyOnIsActive = spyOn(service, 'isActive');
     service.onMouseMove();
     expect(spyOnIsActive).toHaveBeenCalled();
-  });
-
-  it('should call backSpacePressed', () => {
-    inputService.backSpacePressed = true;
-    const psyOnIsBackSpacePressed = spyOn(service, 'isBackSpacePressed');
-    service.onMouseDown();
-    expect(psyOnIsBackSpacePressed).toHaveBeenCalled();
   });
 
 });

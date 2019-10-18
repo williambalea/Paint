@@ -31,6 +31,7 @@ export class SelectorService implements Shape {
     this.renderer.setStyle(this.rectangle, 'stroke-dasharray', '3');
     this.renderer.setStyle(this.rectangle, 'stroke', 'navy');
     this.renderer.setStyle(this.rectangle, 'stroke-width', '1');
+    this.renderer.setStyle(this.rectangle, 'stroke-opacity', '1');
     return this.rectangle;
   }
   onMouseMove(): void {

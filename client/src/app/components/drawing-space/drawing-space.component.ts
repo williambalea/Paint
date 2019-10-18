@@ -3,6 +3,7 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
+import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { InputService } from 'src/app/services/input.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
@@ -10,7 +11,6 @@ import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
-
 @Component({
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
@@ -42,12 +42,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private communicationService: CommunicationsService,
               private gridService: GridService,
               private unsubscribeService: UnsubscribeService,
+              private includingBoxService: IncludingBoxService,
               private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.selectedShapes = [];
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
+
   }
 
   setCanvasParameters(): void {
@@ -65,6 +67,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.setCanvasParameters();
   }
   ngAfterViewInit() {
+
     this.eventEmitterService.showGridEmitter.subscribe(() => {
       this.showGrid();
     });
@@ -198,6 +201,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
         this.selectorService.intersection(this.shape, this.canvas);
+        this.includingBoxService.update();
       }
     }
   }

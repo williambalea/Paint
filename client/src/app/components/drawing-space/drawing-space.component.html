@@ -8,6 +8,8 @@
         xmlns="http://www.w3.org/2000/svg" [style.pointer-events]="this.pointerEvent" (contextmenu)="$event.preventDefault()">
         
         <g #g></g>
+
+        <g [innerHTML]="this.includingBoxService.boxGElement.innerHTML | safeHtml"></g>
   
     <defs #test>
 
@@ -43,8 +45,6 @@
 
     </defs>
     
-    </svg>
-    <svg #includingBox [attr.width]= "this.canvasWidth" [attr.height]= "this.canvasHeight" >
     </svg>
         
 </div>

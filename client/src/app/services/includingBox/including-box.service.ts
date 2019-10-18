@@ -7,32 +7,52 @@ import { SelectorService } from '../selector/selector.service';
   providedIn: 'root',
 })
 export class IncludingBoxService {
-  upperLeft: Point;
+  boxUpperLeft: Point;
   width: number;
   height: number;
   boxGElement: HTMLElement;
-  box: HTMLElement;
 
   constructor(private selectorService: SelectorService,
               private renderer: Renderer2) {
-    // this.box = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
-    // this.width = NB.Zero;
-    // this.height = NB.Zero;
-    this.upperLeft = {x: 100, y: 100};
-    this.width = 300;
-    this.height = 300;
+    this.boxUpperLeft = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
+    this.width = NB.Zero;
+    this.height = NB.Zero;
+    this.boxGElement = this.renderer.createElement('g', 'svg');
   }
 
   update(): void {
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const shapeBoundary: SVGRect = value.getBBox();
-      if (shapeBoundary.x < this.upperLeft.x) {
-        this.upperLeft.x = shapeBoundary.x;
+      console.log(value.style.strokeOpacity);
+      if (value.style.strokeOpacity !== NB.Zero.toString()) {
+        const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, 10);
+        shapeBoundary.x -= strokeWidthOverflow / 2;
+        shapeBoundary.y -= strokeWidthOverflow / 2;
+        shapeBoundary.width += strokeWidthOverflow;
+        shapeBoundary.height += strokeWidthOverflow;
       }
-      if (shapeBoundary.y < this.upperLeft.y) {
-        this.upperLeft.y = shapeBoundary.y;
+      const shapeLowerRight: Point = {
+        x: shapeBoundary.x + shapeBoundary.width,
+        y: shapeBoundary.y + shapeBoundary.height,
+      };
+      const boxLowerRight: Point = {
+        x: this.boxUpperLeft.x + this.width,
+        y: this.boxUpperLeft.y + this.height,
+      };
+      if (shapeBoundary.x < this.boxUpperLeft.x) {
+        this.boxUpperLeft.x = shapeBoundary.x;
       }
-      // TODO
+      if (shapeBoundary.y < this.boxUpperLeft.y) {
+        this.boxUpperLeft.y = shapeBoundary.y;
+      }
+      if (shapeLowerRight.x > boxLowerRight.x) {
+        const distanceBetween = shapeLowerRight.x - boxLowerRight.x;
+        this.width += distanceBetween;
+      }
+      if (shapeLowerRight.y > boxLowerRight.y) {
+        const distanceBetween = shapeLowerRight.y - boxLowerRight.y;
+        this.height += distanceBetween;
+      }
     });
     this.draw();
   }
@@ -44,27 +64,26 @@ export class IncludingBoxService {
   }
 
   appendRectangleBox(): void {
-    this.box = this.renderer.createElement('rect', 'svg');
-    this.renderer.setAttribute(this.box, 'x', this.upperLeft.x.toString());
-    this.renderer.setAttribute(this.box, 'y', this.upperLeft.y.toString());
-    this.renderer.setAttribute(this.box, 'width', this.width.toString());
-    this.renderer.setAttribute(this.box, 'height', this.height.toString());
-    this.renderer.setStyle(this.box, 'stroke-width', '1');
-    this.renderer.setStyle(this.box, 'stroke', 'navy');
-    this.renderer.setStyle(this.box, 'fill', 'none');
-    this.renderer.appendChild(this.boxGElement, this.box);
+    const rectangle = this.renderer.createElement('rect', 'svg');
+    this.renderer.setAttribute(rectangle, 'x', this.boxUpperLeft.x.toString());
+    this.renderer.setAttribute(rectangle, 'y', this.boxUpperLeft.y.toString());
+    this.renderer.setAttribute(rectangle, 'width', this.width.toString());
+    this.renderer.setAttribute(rectangle, 'height', this.height.toString());
+    this.renderer.setStyle(rectangle, 'stroke-width', '1');
+    this.renderer.setStyle(rectangle, 'stroke', 'navy');
+    this.renderer.setStyle(rectangle, 'fill', 'none');
+    this.renderer.appendChild(this.boxGElement, rectangle);
   }
 
   appendControlPoints(): void {
     const positions: Point[] = this.setControlPoints();
-    for (let i = 0; i < NB.Nine; i++) {
+    for (let i = 0; i < NB.Eight; i++) {
       const point = this.renderer.createElement('circle', 'svg');
       this.renderer.setAttribute(point, 'cx', positions[i].x.toString());
       this.renderer.setAttribute(point, 'cy', positions[i].y.toString());
-      this.renderer.setAttribute(point, 'rx', NB.Four.toString());
-      this.renderer.setAttribute(point, 'ry', NB.Four.toString());
+      this.renderer.setAttribute(point, 'r', NB.Four.toString());
       this.renderer.setAttribute(point, 'id', `control${i}`);
-      this.renderer.setStyle(point, 'fill', 'none');
+      this.renderer.setStyle(point, 'fill', 'white');
       this.renderer.setStyle(point, 'stroke', 'navy');
       this.renderer.setStyle(point, 'stroke-width', '1');
       this.renderer.appendChild(this.boxGElement, point);
@@ -73,14 +92,14 @@ export class IncludingBoxService {
 
   setControlPoints(): Point[] {
     const positions: Point[] = [
-      { x:  this.upperLeft.x,                     y:  this.upperLeft.y                       },
-      { x: (this.upperLeft.x + (this.width / 2)), y:  this.upperLeft.y                       },
-      { x: (this.upperLeft.x + this.width),       y:  this.upperLeft.y                       },
-      { x:  this.upperLeft.x,                     y: (this.upperLeft.y + (this.height / 2))  },
-      { x: (this.upperLeft.x + this.width),       y: (this.upperLeft.y + (this.height / 2))  },
-      { x:  this.upperLeft.x,                     y:  this.upperLeft.y + (this.height)       },
-      { x: (this.upperLeft.x + (this.width / 2)), y:  this.upperLeft.y + (this.height)       },
-      { x: (this.upperLeft.x + this.width),       y:  this.upperLeft.y + (this.height)       },
+      { x:  this.boxUpperLeft.x,                     y:  this.boxUpperLeft.y                       },
+      { x: (this.boxUpperLeft.x + (this.width / 2)), y:  this.boxUpperLeft.y                       },
+      { x: (this.boxUpperLeft.x + this.width),       y:  this.boxUpperLeft.y                       },
+      { x:  this.boxUpperLeft.x,                     y: (this.boxUpperLeft.y + (this.height / 2))  },
+      { x: (this.boxUpperLeft.x + this.width),       y: (this.boxUpperLeft.y + (this.height / 2))  },
+      { x:  this.boxUpperLeft.x,                     y:  this.boxUpperLeft.y + (this.height)       },
+      { x: (this.boxUpperLeft.x + (this.width / 2)), y:  this.boxUpperLeft.y + (this.height)       },
+      { x: (this.boxUpperLeft.x + this.width),       y:  this.boxUpperLeft.y + (this.height)       },
     ];
     return positions;
   }

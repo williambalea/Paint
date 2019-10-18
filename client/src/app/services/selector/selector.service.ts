@@ -93,6 +93,8 @@ export class SelectorService implements Shape {
           });
           break;
       }
+      console.log('intersect current', currentShape.x, currentShape.y, currentShape.width, currentShape.height);
+      // console.log('intersect pointillé',  selectorArea.x.animVal.value, selectorArea.y.animVal.value, selectorArea.width.animVal.value, selectorArea.height.animVal.value);
       const intersections = intersect (
         shape('rect', {
           x: selectorArea.x.animVal.value,
@@ -116,5 +118,4 @@ export class SelectorService implements Shape {
       }
     }
   }
-
 }

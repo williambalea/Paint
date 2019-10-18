@@ -25,39 +25,6 @@ export class IncludingBoxService {
   }
 
   update(): void {
-    // this.clear();
-    // this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
-    //   const shapeBoundary: SVGRect = value.getBBox();
-    //   if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
-    //     const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, 10);
-    //     shapeBoundary.x -= strokeWidthOverflow / 2;
-    //     shapeBoundary.y -= strokeWidthOverflow / 2;
-    //     shapeBoundary.width += strokeWidthOverflow;
-    //     shapeBoundary.height += strokeWidthOverflow;
-    //   }
-    //   const shapeLowerRight: Point = {
-    //     x: shapeBoundary.x + shapeBoundary.width,
-    //     y: shapeBoundary.y + shapeBoundary.height,
-    //   };
-    //   const boxLowerRight: Point = {
-    //     x: this.boxUpperLeft.x + this.width,
-    //     y: this.boxUpperLeft.y + this.height,
-    //   };
-    //   if (shapeBoundary.x < this.boxUpperLeft.x) {
-    //     this.boxUpperLeft.x = shapeBoundary.x;
-    //   }
-    //   if (shapeBoundary.y < this.boxUpperLeft.y) {
-    //     this.boxUpperLeft.y = shapeBoundary.y;
-    //   }
-    //   if (shapeLowerRight.x > boxLowerRight.x) {
-    //     const distanceBetween = shapeLowerRight.x - boxLowerRight.x;
-    //     this.width += distanceBetween;
-    //   }
-    //   if (shapeLowerRight.y > boxLowerRight.y) {
-    //     const distanceBetween = shapeLowerRight.y - boxLowerRight.y;
-    //     this.height += distanceBetween;
-    //   }
-    // });
     const initialPoint: Point = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
     const finalPoint: Point = {x: 0, y: 0};
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {

@@ -14,16 +14,10 @@ export class CommunicationsService {
   private readonly BASE_URL: string = 'http://localhost:3000';
   private readonly DATABASE_URL: string = '/database';
   private listeners: any = new Subject<any>();
-  enableSubmit : boolean;
   HTML: string;
-  canGet : boolean;
-  canSend : boolean;
+ 
   constructor(private http: HttpClient) {
     this.HTML = EMPTY_STRING;
-    this.enableSubmit = true;
-    this.canGet = true;
-    this.canSend = true;
-
   }
 
   listen(): Observable<any> {
@@ -36,7 +30,7 @@ export class CommunicationsService {
       catchError(this.handleGetError));
   }
 
-  postToServer(data: SVGJSON): Observable<boolean[]> {
+  postToServer(data: SVGJSON): Observable<any> {
      return this.http.post<boolean[]>(this.BASE_URL + this.DATABASE_URL + '/postToTable', data).pipe(
       catchError(this.handleSendError));
 

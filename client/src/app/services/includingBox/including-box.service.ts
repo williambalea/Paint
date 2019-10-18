@@ -24,6 +24,14 @@ export class IncludingBoxService {
     this.boxGElement = this.renderer.createElement('g', 'svg');
   }
 
+  addBoxAroundElement(target: any): void {
+    this.boxUpperLeft.x = target.getBBox().x;
+    this.boxUpperLeft.y = target.getBBox().y;
+    this.width = target.getBBox().width;
+    this.height = target.getBBox().height;
+    // TODO; dessiner le rectagle et les 8 points
+  }
+
   update(): void {
     const initialPoint: Point = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
     const finalPoint: Point = {x: 0, y: 0};

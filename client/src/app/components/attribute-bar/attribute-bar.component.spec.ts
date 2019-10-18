@@ -50,7 +50,6 @@ describe('AttributeBarComponent', () => {
 
   it('Should call radio handler', () => {
     const spy = spyOn(rectangleService, 'assignRectangleType');
-    component.radioChangeHandler({target: {value: OUTLINE_TYPE.filled}});
     expect(rectangleService.rectangleType).toEqual(OUTLINE_TYPE.filled);
     expect(spy).toHaveBeenCalled();
   });

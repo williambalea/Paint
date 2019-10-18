@@ -4,11 +4,12 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
+import { LineService} from 'src/app/services/shapes/line.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
+import { BRUSH, LINE_PATTERN, LINECORNER, STROKE_DASHARRAY_STYLE, TOOL, JUNCTIONSTYLE } from '../../../constants';
 import { StampService } from 'src/app/services/shapes/stamp.service';
-import { BRUSH, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
@@ -21,12 +22,17 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
 export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
+  linecorner: typeof LINECORNER;
+  junctionStyle: typeof JUNCTIONSTYLE;
+  lineStyle: typeof LINE_PATTERN;
+  dashStyle: typeof STROKE_DASHARRAY_STYLE;
   @Input()selectedTool: TOOL;
   gridSize: number;
 
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
               private penService: PenService,
+              private lineService: LineService,
               private brushService: BrushService,
               private gridService: GridService,
               private stampService: StampService,
@@ -38,6 +44,10 @@ export class AttributeBarComponent {
     this.brush = BRUSH;
     this.gridService.gridSize = 40;
    // this.gridService.setGridSize(this.gridSize);
+    this.linecorner = LINECORNER;
+    this.lineStyle = LINE_PATTERN;
+    this.junctionStyle = JUNCTIONSTYLE;
+    this.dashStyle = STROKE_DASHARRAY_STYLE;
   }
 
   radioChangeHandler(event: MatRadioChange): void {
@@ -65,6 +75,16 @@ export class AttributeBarComponent {
     this.eventEmitterService.hideGrid();
   }
 
+  lineJunctionChangeHandler(event: MatRadioChange): void {
+    this.lineService.junctionStyle = event.value;
+    this.lineService.changeJunction();
+  }
+
+  lineStypeRadioChangeHandler(event: MatRadioChange): void {
+    this.lineService.dashArrayType = event.value;
+    this.lineService.assignStrokeStyle();
+  }
+
   getColorService(): ColorService {
     return this.colorService;
   }
@@ -75,6 +95,10 @@ export class AttributeBarComponent {
 
   getBrushService(): BrushService {
     return this.brushService;
+  }
+
+  getLineService(): LineService {
+    return this.lineService;
   }
 
   getStampService(): StampService {

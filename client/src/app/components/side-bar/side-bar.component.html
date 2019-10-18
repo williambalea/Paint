@@ -1,5 +1,6 @@
 <div id="toolTitle"><p>Tools</p></div>
     <div class="toolScroll">
+        <button  matTooltip="Line" mat-button (click)="selectTool('line')" [class.selected]="this.selectedTool === 'line'"><mat-icon>line_style</mat-icon></button>
         <button matTooltip="Rectangle" mat-button (click)="selectTool('rectangle')" [class.selected]="this.selectedTool === 'rectangle'"><mat-icon>crop_square</mat-icon></button>
         <button matTooltip="Ellipse" mat-button (click)="selectTool('ellipse')" [class.selected]="this.selectedTool === ellipse"><mat-icon>panorama_fish_eye</mat-icon></button>
         <button matTooltip="Polygon" mat-button (click)="selectTool('polygon')"  class ="polygon_icon"><mat-icon>layers</mat-icon></button>

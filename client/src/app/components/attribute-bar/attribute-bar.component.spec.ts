@@ -1,9 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { ColorService } from 'src/app/services/color/color.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
-import { EMPTY_STRING, RECTANGLE_TYPE } from '../../../constants';
+import { EMPTY_STRING, OUTLINE_TYPE } from '../../../constants';
 import { AttributeBarComponent } from './attribute-bar.component';
 
 export class RectangleServiceMock {
@@ -21,7 +21,8 @@ describe('AttributeBarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ AttributeBarComponent ],
       providers: [AttributeBarComponent,
-                 {provide: RectangleService, useClass: RectangleServiceMock}],
+                 {provide: RectangleService, useClass: RectangleServiceMock},
+                Renderer2],
       imports: [
         FormsModule,
       ],
@@ -50,8 +51,7 @@ describe('AttributeBarComponent', () => {
 
   it('Should call radio handler', () => {
     const spy = spyOn(rectangleService, 'assignRectangleType');
-    component.radioChangeHandler({target: {value: RECTANGLE_TYPE.filled}});
-    expect(rectangleService.rectangleType).toEqual(RECTANGLE_TYPE.filled);
+    expect(rectangleService.rectangleType).toEqual(OUTLINE_TYPE.filled);
     expect(spy).toHaveBeenCalled();
   });
 

@@ -104,12 +104,21 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = true;
       this.selectedShape.onMouseMove();
+      this.selectedShape.onMouseUp();
       event.preventDefault();
     }
 
     if (event.key === KEY.alt) {
       this.inputService.altPressed = true;
       event.preventDefault();
+    }
+    if (event.key === KEY.escape) {
+      this.inputService.escapePressed = true;
+      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+    }
+    if (event.key === KEY.backspace) {
+      this.inputService.backSpacePressed = true;
+      this.selectedShape.onMouseMove();
     }
   }
 
@@ -118,6 +127,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;
+      this.selectedShape.onMouseMove();
+      this.selectedShape.onMouseUp();
+    }
+    if (event.key === KEY.escape) {
+      this.selectedShape.onMouseUp();
+      this.inputService.escapePressed = false;
+    }
+    if (event.key === KEY.backspace) {
+      this.inputService.backSpacePressed = false;
       this.selectedShape.onMouseMove();
     }
 

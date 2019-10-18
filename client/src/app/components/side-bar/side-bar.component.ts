@@ -7,6 +7,7 @@ import { GridService} from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
+import { LineService } from 'src/app/services/shapes/line.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
@@ -33,6 +34,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     GridService,
     SelectorService,
     IncludingBoxService,
+    LineService,
   ],
 
 })
@@ -53,7 +55,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private penService: PenService,
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
-              ) {
+              private lineService: LineService) {
     this.enableKeyPress = false;
     this.selectedShape = this.penService;
   }
@@ -120,6 +122,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
     case TOOL.selector:
         this.selectedTool = TOOL.selector;
         this.selectedShape = this.selectorService;
+        break;
+    case TOOL.line:
+        this.selectedShape = this.lineService;
+        this.selectedTool = TOOL.line;
         break;
     default:
    }

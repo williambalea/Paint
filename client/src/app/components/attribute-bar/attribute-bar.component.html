@@ -195,19 +195,19 @@
                         <feTurbulence numOctaves="5" baseFrequency="0.03" type="fractalNoise" seed="7"/>
                         <feDisplacementMap in="result3" xChannelSelector="R" yChannelSelector="G" scale="27" result="result4" in2="result91"/>
                     </filter>
-            
+
                     <filter id="rough" x="-15px" y="-15px" height="40px" width="50px">
                         <feTurbulence type="turbulence" baseFrequency="0.1" numOctaves="2" result="turbulence"/>
                         <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="8" xChannelSelector="R" yChannelSelector="G"/>
                         <feGaussianBlur stdDeviation="0.8" />
                     </filter>
-            
+
                     <filter id="smooth" x="-15px" y="-15px" height="40px" width="50px">
                         <feGaussianBlur result="result6" stdDeviation="3.5 7.1" in="SourceGraphic"/>
                         <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result7" in="SourceGraphic" id="feColorMatrix226"/>
                         <feComposite operator="in" in="result6" in2="result7"/>
                     </filter>
-            
+
                     <filter id="bubbly" x="-15px" y="-25px" height="40px" width="50px">
                         <feTurbulence baseFrequency="0.058 0.932" type="fractalNoise" seed="667" numOctaves="1" result="result1" stdDeviation="0.01 5.15"/>
                         <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic" in2="result1" result="fbSourceGraphic"/>
@@ -286,6 +286,92 @@
 
         </div>
 
+        <div *ngSwitchCase="tool.line">
+
+            <div class="header">Line</div>
+
+            <div>
+
+                <div class="svg">
+                    <svg class="lineStyleRound" width="200" height="100">
+
+                      <defs>
+                        <marker id="dot" viewBox="0 0 30 30" refX="15" refY="15" markerWidth="5" markerHeight="5" stroke-width="0">
+                          <circle cx="15" cy="15" [style.r]="this.lineService.dotSize" fill="black" />
+                        </marker>
+
+                      </defs>
+
+                        <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
+                            [style.stroke-width]="this.lineService.strokeWidth" [style.stroke-dasharray]="this.lineService.dashArrayType" 
+                            [style.marker-start]="this.lineService.junction" [style.marker-end]="this.lineService.junction"/>
+                    </svg>
+                </div>
+
+                <div class="attribute">
+                    <div class="attributeHeader">
+                        Size<br>
+                        {{this.lineService.strokeWidth}} px
+                    </div>
+
+                    <div>
+                        <mat-slider min="1" max="40" value={{this.lineService.strokeWidth}}
+                            [(ngModel)]="this.lineService.strokeWidth"
+                            (input)="this.lineService.strokeWidth = $event.value">
+                        </mat-slider>
+                    </div>
+                </div>
+
+                <div class="attribute">
+
+                  <div class="attributeHeader">Line pattern</div>
+                  <div>
+                      <mat-radio-group>
+                          <mat-radio-button [value]="this.dashStyle.fullLine" (change)="lineStypeRadioChangeHandler($event)">
+                              {{this.lineStyle.full}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.dashStyle.dottedPoint" (change)="lineStypeRadioChangeHandler($event)">
+                              {{this.lineStyle.dottedPoint}}</mat-radio-button><br>
+                          <mat-radio-button [value]="this.dashStyle.dottedLine" (change)="lineStypeRadioChangeHandler($event)">
+                              {{this.lineStyle.dottedLine}}</mat-radio-button><br>
+                      </mat-radio-group>
+                  </div>
+
+              </div>
+
+                <div class="attribute">
+
+                    <div class="attributeHeader">Junction Type</div>
+                        <div>
+                            <mat-radio-group>
+                                <mat-radio-button [value]="this.linecorner.dot" (change)="lineJunctionChangeHandler($event)">
+                                    {{this.junctionStyle.dot}}</mat-radio-button><br>
+                                <mat-radio-button [value]="this.linecorner.angled" (change)="lineJunctionChangeHandler($event)">
+                                    {{this.junctionStyle.angled}}</mat-radio-button><br>
+                                <mat-radio-button [value]="this.linecorner.rounded" (change)="lineJunctionChangeHandler($event)">
+                                    {{this.junctionStyle.rounded}}</mat-radio-button><br>
+                            </mat-radio-group>
+                        </div>
+
+                </div>
+
+                <div *ngIf="this.lineService.junctionStyle == this.linecorner.dot" class="attribute" >
+                    <div class="attributeHeader">
+                        Dot Size<br>
+                        {{this.lineService.dotSize}} px
+                    </div>
+    
+                    <div>
+                        <mat-slider min="1" max="15" value={{this.lineService.dotSize}}
+                            [(ngModel)]="this.lineService.dotSize"
+                            (input)="this.lineService.dotSize = $event.value">
+                        </mat-slider>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
         <div *ngSwitchCase="tool.colorApplicator">
 
             <div class="header">Color Applicator</div>
@@ -305,13 +391,13 @@
             <div class="attribute">
 
                     <div class="attributeHeader">New Border Color</div>
-    
+
                     <div class="svg">
                         <svg width="200" height="100">
                             <rect x="3" y="3" width="194" height="84" rx="5" ry="5" [style.fill]="this.colorService.getStrokeColor()"/>
                         </svg>
                     </div>
-    
+
                 </div>
 
         </div>

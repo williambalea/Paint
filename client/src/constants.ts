@@ -77,6 +77,9 @@ export enum KEY {
   one = '1',
   two = '2',
   r = 'r',
+  escape = 'Escape',
+  u = 'u',
+  backspace = 'Backspace',
   g = 'g',
 }
 
@@ -91,6 +94,7 @@ export enum TOOL {
   polygon = 'polygon',
   ellipse = 'ellipse',
   selector = 'selector',
+  line = 'line',
 }
 
 export enum BRUSH {
@@ -99,6 +103,19 @@ export enum BRUSH {
   rough = 'rough',
   smooth = 'smooth',
   bubbly = 'bubbly',
+}
+
+export enum LINECORNER {
+  dot = 'dot',
+  angled = 'miter',
+  rounded = 'round',
+}
+
+export enum JUNCTIONSTYLE {
+  dot = 'Dot',
+  angled = 'Angled',
+  rounded = 'Round',
+
 }
 
 export enum STRING_NB {
@@ -114,6 +131,18 @@ export enum OUTLINE_TYPE {
   bordered = 'Bordered',
   filled = 'Filled',
   borderedAndFilled = 'Bordered & Filled',
+}
+
+export enum LINE_PATTERN {
+  full = 'Full',
+  dottedPoint = 'Dotted point',
+  dottedLine = 'Dotted line',
+}
+
+export enum STROKE_DASHARRAY_STYLE {
+  dottedPoint = '1,20',
+  dottedLine = '20,20',
+  fullLine = '',
 }
 
 export enum STRINGS {

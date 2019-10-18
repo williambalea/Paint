@@ -8,8 +8,12 @@ import { Point } from '../../../../common/interface/point';
 export class InputService {
   private mouse: Point;
   shiftPressed: boolean;
+  escapePressed: boolean;
+  backSpacePressed: boolean;
   altPressed: boolean;
   isBlank: boolean;
+  isDoubleClick: boolean;
+
   stampAngle: number;
   json: string;
   drawingName: string;
@@ -24,6 +28,9 @@ export class InputService {
     this.altPressed = false;
     this.mouse = {x: NB.Zero, y: NB.Zero};
     this.isBlank = true;
+    this.escapePressed = false;
+    this.isDoubleClick = false;
+    this.backSpacePressed = false;
     this.stampAngle = NB.Zero;
     this.json = EMPTY_STRING;
     this.drawingName = EMPTY_STRING;

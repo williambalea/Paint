@@ -16,10 +16,12 @@ export class CommunicationsService {
   private listeners: any = new Subject<any>();
   HTML: string;
   enableSubmit : boolean;
+  isLoading : boolean;
 
   constructor(private http: HttpClient) {
     this.HTML = EMPTY_STRING;
     this.enableSubmit = true;
+    this.isLoading = false;
   }
 
   listen(): Observable<any> {

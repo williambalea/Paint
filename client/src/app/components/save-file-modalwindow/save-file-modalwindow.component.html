@@ -3,17 +3,6 @@
    
   <h1>Save master piece to server </h1>
   
-  <p>Enter drawing tags</p>
-  <mat-form-field>
-    <input matInput type = "tags" value ={{this.currentTag}} [(ngModel)]="currentTag">
-  </mat-form-field>
-  <button mat-stroked-button (click) = "addTag()">Add current tag</button><br>
-  
-  
-  <div *ngFor = " let tag of inputService.drawingTags; let i = index">
-    {{ tag }} <button (click) = 'deleteTag(tag)'>Delete Tag</button>
-  </div>
-
   <form (ngSubmit)="submitDrawing()" [formGroup]="form">
       <div mat-dialog-content>
           <p>Enter name </p>
@@ -26,11 +15,65 @@
          </div>
         </div> 
        
+      
+ 
       </div>
       
       <div class ="submit"  mat-dialog-actions>
-          <button type="submit" mat-stroked-button cdkFocusInitial >submit</button> 
+       
+     <div *ngIf ="this.communicationService.enableSubmit"> 
+          <button type="submit" mat-stroked-button>submit</button> 
+     </div> 
+
+       <div *ngIf ="!this.communicationService.enableSubmit">
+            <button type="submit" mat-stroked-button disabled >submit</button> 
+        </div>
+     
+
       </div> 
       </form>
+
+
+
+      <form (ngSubmit)="addTag()" [formGroup]="form">
+          <div mat-dialog-content>
+       
+           
+          
+            <p>Enter drawing tags</p>
+            <div class="field"> 
+              <div class="control">
+            <mat-form-field>
+              <input matInput type = "tags"  formControlName="tag" value ={{this.currentTag}} [(ngModel)]="currentTag">
+              <mat-error>Enter string longer than 0</mat-error>
+            </mat-form-field>
+             
+         
+    
+           
+            <div *ngFor = " let tag of inputService.drawingTags; let i = index">
+              {{ tag }} <button (click) = 'deleteTag(tag)'>Delete Tag</button>
+            </div>
+          </div>
+        </div>
+     
+          </div>
+          
+          <div class ="submit"  mat-dialog-actions>
+           
+       
+              <button type="submit" mat-stroked-button>Add current tag</button> 
+         
+          </div> 
+          </form>
+
+
+
+
+
+
+
+
+
       <button mat-stroked-button (click) = 'closeModalWindow()'>close</button><br>
 </div>

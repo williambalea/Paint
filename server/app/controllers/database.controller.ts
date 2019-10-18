@@ -32,7 +32,6 @@ export class DatabaseController {
                 const json: SVGJSON = req.body;
                 res.json(this.databaseService.addToTable(json));
                 
-
             },
 
         );

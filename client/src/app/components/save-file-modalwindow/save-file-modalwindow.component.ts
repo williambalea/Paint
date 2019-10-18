@@ -26,7 +26,8 @@ import { CommunicationsService } from 'src/app/services/communications.service';
                private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
                private eventEmitterService: EventEmitterService,
                private inputService: InputService,
-               private communicationService: CommunicationsService) {
+               private communicationService: CommunicationsService
+               ) {
       this.currentTag = EMPTY_STRING;
       
      
@@ -62,15 +63,9 @@ import { CommunicationsService } from 'src/app/services/communications.service';
   }
 
   submitDrawing() {
-   // if (this.communicationService.canSend){
     this.communicationService.enableSubmit = false;
     this.eventEmitterService.sendSVGToServer();
-    //}
-    // else {
-    //   console.log
-    //   window.alert("couldn't send, please try again later");
-    //   this.communicationService.enableSubmit = true;
-    // }
+ 
   }
 
   @HostListener('window:keydown', ['$event'])

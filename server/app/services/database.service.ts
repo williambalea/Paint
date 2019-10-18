@@ -2,10 +2,16 @@ import { injectable } from 'inversify';
 import { SVGJSON } from '../../../common/communication/SVGJSON';
 @injectable()
 export class DatabaseService {
-   svgTable: SVGJSON[];
+    svgTable: SVGJSON[];
+    nameCheck : boolean;
+    tagCheck : boolean;
+   
 
     constructor() {
         this.svgTable = [];
+        this.nameCheck = true;
+        this.tagCheck = true;
+     
     }
 
      HelloWorld(): string {
@@ -16,20 +22,20 @@ export class DatabaseService {
         return this.svgTable;
     }
 
-    addToTable(value: SVGJSON) : boolean[] {
-        let response : boolean[] = [true,false]; 
+    addToTable(value: SVGJSON) : void {
+       
         if(value.name === "" ) {
-            response[0] = false;
+            this.nameCheck = false;
         }
+
         value.tags.forEach((tag ) => {
-            if(tag === "" || value.name === "") {
-                response[0] = false;
+            if(tag === "" ) {
+                this.tagCheck = false;
             }
        })
-       if (response[0]){ // for disabling button if en cours de sending
+       if (this.nameCheck && this.tagCheck){ 
             this.svgTable.push(value);
-            response[1] = true;
        }
-        return (response);
+
     }
 }

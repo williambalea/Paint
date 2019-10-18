@@ -14,16 +14,14 @@ export class CommunicationsService {
   private readonly BASE_URL: string = 'http://localhost:3000';
   private readonly DATABASE_URL: string = '/database';
   private listeners: any = new Subject<any>();
-  enableSubmit : boolean;
   HTML: string;
-  canGet : boolean;
-  canSend : boolean;
+  enableSubmit : boolean;
+  isLoading : boolean;
+
   constructor(private http: HttpClient) {
     this.HTML = EMPTY_STRING;
     this.enableSubmit = true;
-    this.canGet = true;
-    this.canSend = true;
-
+    this.isLoading = false;
   }
 
   listen(): Observable<any> {
@@ -36,12 +34,13 @@ export class CommunicationsService {
       catchError(this.handleGetError));
   }
 
-  postToServer(data: SVGJSON): Observable<boolean[]> {
-     return this.http.post<boolean[]>(this.BASE_URL + this.DATABASE_URL + '/postToTable', data).pipe(
+  postToServer(data: SVGJSON): Observable<any> {
+     return this.http.post<any>(this.BASE_URL + this.DATABASE_URL + '/postToTable', data).pipe(
       catchError(this.handleSendError));
-
+  
   }
 
+ 
   handleGetError(error: HttpErrorResponse){
     console.log("couldn't get file");
     return throwError(error);

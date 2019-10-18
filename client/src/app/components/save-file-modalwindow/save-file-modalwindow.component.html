@@ -21,14 +21,14 @@
       
       <div class ="submit"  mat-dialog-actions>
        
-        <div *ngIf ="this.communicationService.enableSubmit">
+     <div *ngIf ="this.communicationService.enableSubmit"> 
           <button type="submit" mat-stroked-button>submit</button> 
-        </div>
+     </div> 
 
        <div *ngIf ="!this.communicationService.enableSubmit">
             <button type="submit" mat-stroked-button disabled >submit</button> 
         </div>
-      
+     
 
       </div> 
       </form>

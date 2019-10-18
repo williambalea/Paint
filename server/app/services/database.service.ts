@@ -5,13 +5,13 @@ export class DatabaseService {
     svgTable: SVGJSON[];
     nameCheck : boolean;
     tagCheck : boolean;
-    enableSubmitButton : boolean;
+   
 
     constructor() {
         this.svgTable = [];
         this.nameCheck = true;
         this.tagCheck = true;
-        this.enableSubmitButton = false;
+     
     }
 
      HelloWorld(): string {
@@ -23,6 +23,7 @@ export class DatabaseService {
     }
 
     addToTable(value: SVGJSON) : void {
+       
         if(value.name === "" ) {
             this.nameCheck = false;
         }
@@ -34,7 +35,7 @@ export class DatabaseService {
        })
        if (this.nameCheck && this.tagCheck){ 
             this.svgTable.push(value);
-            this.enableSubmitButton = true;
        }
+
     }
 }

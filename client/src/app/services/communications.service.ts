@@ -15,9 +15,11 @@ export class CommunicationsService {
   private readonly DATABASE_URL: string = '/database';
   private listeners: any = new Subject<any>();
   HTML: string;
- 
+  enableSubmit : boolean;
+
   constructor(private http: HttpClient) {
     this.HTML = EMPTY_STRING;
+    this.enableSubmit = true;
   }
 
   listen(): Observable<any> {
@@ -31,11 +33,12 @@ export class CommunicationsService {
   }
 
   postToServer(data: SVGJSON): Observable<any> {
-     return this.http.post<boolean[]>(this.BASE_URL + this.DATABASE_URL + '/postToTable', data).pipe(
+     return this.http.post<any>(this.BASE_URL + this.DATABASE_URL + '/postToTable', data).pipe(
       catchError(this.handleSendError));
-
+  
   }
 
+ 
   handleGetError(error: HttpErrorResponse){
     console.log("couldn't get file");
     return throwError(error);

@@ -6,7 +6,7 @@ import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { EMPTY_STRING, KEY } from 'src/constants';
 import { InputService } from '../../services/input.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-//import { CommunicationsService } from 'src/app/services/communications.service';
+import { CommunicationsService } from 'src/app/services/communications.service';
 
 
 @Component({
@@ -26,7 +26,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
                private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
                private eventEmitterService: EventEmitterService,
                private inputService: InputService,
-               //private communicationService: CommunicationsService
+               private communicationService: CommunicationsService
                ) {
       this.currentTag = EMPTY_STRING;
       
@@ -63,7 +63,9 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
   }
 
   submitDrawing() {
+    this.communicationService.enableSubmit = false;
     this.eventEmitterService.sendSVGToServer();
+ 
   }
 
   @HostListener('window:keydown', ['$event'])

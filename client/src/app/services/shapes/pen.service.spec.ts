@@ -4,7 +4,7 @@ import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { PenService } from './pen.service';
 
-fdescribe('PenService', () => {
+describe('PenService', () => {
   let service: PenService;
   let colorService: ColorService;
   let inputService: InputService;
@@ -27,6 +27,11 @@ fdescribe('PenService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+  it('Should put to default attributes upon reset()', () => {
+    service.reset();
+    expect(service.stroke).toEqual('');
+    expect(service.active).toEqual(false);
   });
   it('should call onMouseDown() upon mouse click', () => {
     const getFillColorSpy = spyOn(colorService, 'getFillColor').and.callThrough();

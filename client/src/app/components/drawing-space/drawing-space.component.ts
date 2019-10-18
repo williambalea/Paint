@@ -167,6 +167,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
+    this.inputService.mouseButton = event.button;
     this.selectedShapes = [];
     if (this.selectedTool === TOOL.pipette) {
       event.preventDefault();
@@ -175,7 +176,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.shape = this.selectedShape.onMouseDown();
     this.draw(this.shape);
     this.inputService.isNotEmpty = true;
-    this.inputService.mouseButton = event.button;
     this.selectorAreaActive = true;
   }
 

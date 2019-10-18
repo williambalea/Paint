@@ -30,6 +30,9 @@ export class SelectorService implements Shape {
     this.renderer.setStyle(this.rectangle, 'fill', 'none');
     this.renderer.setStyle(this.rectangle, 'stroke-dasharray', '3');
     this.renderer.setStyle(this.rectangle, 'stroke', 'navy');
+    if (this.inputService.mouseButton === 2) {
+      this.renderer.setStyle(this.rectangle, 'stroke', 'red');
+    }
     this.renderer.setStyle(this.rectangle, 'stroke-width', '1');
     this.renderer.setStyle(this.rectangle, 'stroke-opacity', '1');
     return this.rectangle;
@@ -96,12 +99,15 @@ export class SelectorService implements Shape {
       );
       if (intersections.points.length !== 0) {
         if (this.inputService.mouseButton === 2) {
-          this.selectedShapes.splice(canvas.nativeElement.children[i]);
+          const index = this.selectedShapes.indexOf(canvas.nativeElement.children[i]);
+          if (index !== -1) {
+            this.selectedShapes.splice(index, 1);
+            console.log(this.selectedShapes);
+          }
         }
         if (!this.selectedShapes.includes(canvas.nativeElement.children[i]) && this.inputService.mouseButton === 0) {
           this.selectedShapes.push(canvas.nativeElement.children[i]);
           console.log(this.selectedShapes);
-          console.log(canvas.nativeElement.children[i].getBBox());
         }
       }
     }

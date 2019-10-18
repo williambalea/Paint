@@ -11,16 +11,22 @@ export class SelectorService implements Shape {
   rectangle: HTMLElement;
   active: boolean;
   selectedShapes: any[];
+  selectorIsSingle: boolean;
 
   constructor(private rectangleService: RectangleService,
               private renderer: Renderer2,
               private inputService: InputService) {
-                this.active = false;
-                this.selectedShapes = [];
-              }
+
+    this.active = false;
+    this.selectedShapes = [];
+    this.selectorIsSingle = true;
+  }
 
   onMouseDown(): any {
-    this.rectangle = this.rectangleService.onMouseDown();
+    if (this.selectorIsSingle) {
+      this.rectangle = this.rectangleService.onMouseDown();
+      this.selectorIsSingle = false;
+    }
     this.renderer.setStyle(this.rectangle, 'fill', 'none');
     this.renderer.setStyle(this.rectangle, 'stroke-dasharray', '3');
     this.renderer.setStyle(this.rectangle, 'stroke', 'navy');
@@ -31,7 +37,7 @@ export class SelectorService implements Shape {
     this.rectangleService.onMouseMove();
   }
   onMouseUp(): void {
-    this.rectangle = this.renderer.createElement('rect', 'svg');
+    this.selectorIsSingle = true;
   }
 
   intersection(selectorArea: any, canvas: ElementRef): void {
@@ -94,6 +100,7 @@ export class SelectorService implements Shape {
         if (!this.selectedShapes.includes(canvas.nativeElement.children[i]) && this.inputService.mouseButton === 0) {
           this.selectedShapes.push(canvas.nativeElement.children[i]);
           console.log(this.selectedShapes);
+          console.log(canvas.nativeElement.children[i].getBBox());
         }
       }
     }

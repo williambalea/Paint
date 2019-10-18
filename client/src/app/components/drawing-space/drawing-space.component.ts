@@ -32,7 +32,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   isConfirmed: boolean;
   shape: SVGSVGElement;
   selectorAreaActive = false;
-  selectedShapes: any[];
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -46,7 +45,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
-    this.selectedShapes = [];
     this.resizeFlag = false;
     this.pointerEvent = POINTER_EVENT.visiblePainted;
 
@@ -168,7 +166,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
     this.inputService.mouseButton = event.button;
-    this.selectedShapes = [];
     if (this.selectedTool === TOOL.pipette) {
       event.preventDefault();
       this.usePipette(event);

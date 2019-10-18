@@ -4,11 +4,16 @@ import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { LineService } from './line.service';
 
+
+class RendererMock {
+  createElement(): void {return; }
+}
+
 fdescribe('LineService', () => {
   let service: LineService;
   let colorService: ColorService;
   // let inputService: InputService;
-  // let renderer2: Renderer2;
+  let renderer: Renderer2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,13 +21,13 @@ fdescribe('LineService', () => {
         LineService,
         ColorService,
         InputService,
-        Renderer2,
+        { provide: Renderer2, useClass: RendererMock },
       ],
     }).compileComponents();
     service = TestBed.get(LineService);
     colorService = TestBed.get(ColorService);
     //inputService = TestBed.get(InputService);
-    // renderer2 = TestBed.get(Renderer2);
+    renderer = TestBed.get(Renderer2);
   });
 
   it('should be created', () => {
@@ -60,6 +65,13 @@ fdescribe('LineService', () => {
     expect(spyOnvalidationToCreatePath).toHaveBeenCalled();
     expect(spyOnSetStyle).toHaveBeenCalled();
     expect(spyOnDraw).toHaveBeenCalled();
+  });
+
+  it('Should validate and create path', () => {
+    service.start = true;
+    const spyOnCreateElement = spyOn(renderer, 'createElement');
+    service.validationToCreatePath();
+    expect(spyOnCreateElement).toHaveBeenCalled();
   });
 
   it('should call isactive on mouse mouse', () => {

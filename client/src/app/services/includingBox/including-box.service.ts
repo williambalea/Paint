@@ -24,13 +24,6 @@ export class IncludingBoxService {
     this.boxGElement = this.renderer.createElement('g', 'svg');
   }
 
-  foo(target: SVGGraphicsElement): void {
-    this.boxUpperLeft.x = target.getBBox().x;
-    this.boxUpperLeft.y = target.getBBox().y;
-    this.width = target.getBBox().width;
-    this.height = target.getBBox().height;
-  }
-
   update(): void {
     const initialPoint: Point = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
     const finalPoint: Point = {x: 0, y: 0};
@@ -56,7 +49,6 @@ export class IncludingBoxService {
 
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const shapeBoundary: SVGRect = value.getBBox();
-      // console.log(shapeBoundary);
       if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
         const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, 10);
         shapeBoundary.x -= strokeWidthOverflow / 2;

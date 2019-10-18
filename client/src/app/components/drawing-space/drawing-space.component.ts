@@ -166,7 +166,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
     this.inputService.mouseButton = event.button;
-    this.selectorService.selectedShapes = [];
+    if (event.button === 0) {
+      this.selectorService.selectedShapes = [];
+    }
     if (this.selectedTool === TOOL.pipette) {
       event.preventDefault();
       this.usePipette(event);
@@ -178,12 +180,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
-        const clickRectangle = this.renderer.createElement('rect', 'svg');
-        this.renderer.setAttribute(clickRectangle, 'x', event.offsetX.toString());
-        this.renderer.setAttribute(clickRectangle, 'y', event.offsetX.toString());
-        this.renderer.setAttribute(clickRectangle, 'width', '1');
-        this.renderer.setAttribute(clickRectangle, 'height', '1');
-        this.selectorService.intersection(clickRectangle, this.canvas);
+        this.selectorService.intersection(event.target, this.canvas);
         this.includingBoxService.update();
       }
     }

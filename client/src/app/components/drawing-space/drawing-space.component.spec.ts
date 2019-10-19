@@ -3,7 +3,7 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
-import { COLORS, EMPTY_STRING, KEY, NB, POINTER_EVENT, TOOL } from 'src/constants';
+import { EMPTY_STRING, KEY, NB, POINTER_EVENT, TOOL } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Shape } from '../../services/shapes/shape';
@@ -182,14 +182,6 @@ describe('DrawingSpaceComponent', () => {
   //   expect(fillColorSpy).toHaveBeenCalledTimes(1);
   // });
 
-  it('should define shapes colors', () => {
-    const fillColor = spyOn(colorService, 'getFillColor').and.returnValue(COLORS.blackRGBA);
-    const strokeColor = spyOn(colorService, 'getStrokeColor').and.returnValue(COLORS.blackRGBA);
-    component.setElementColor( new MouseEvent('mouse') , fillColor.toString(), strokeColor.toString() );
-    expect(shapesService.fillColor).toEqual(COLORS.blackRGBA);
-    expect(shapesService.strokeColor).toEqual(COLORS.blackRGBA);
-    expect(shapesService.preview.active).toBeTruthy();
-  });
 
   it('should call the appropriate mousedown handler for the selectedTool', () => {
     const brushSpy = spyOn(component, 'onMouseDown');
@@ -207,12 +199,10 @@ describe('DrawingSpaceComponent', () => {
 
   it('should define the shape colors and manage the mouseDown by the selectedTool', () => {
     const mouseDown = new MouseEvent('mousedown');
-    const spyDefine = spyOn(component, 'setElementColor');
     const spyMouse = spyOn(component, 'onMouseDown');
     const spyColor = spyOn(colorService, 'setMakingColorChanges');
     component.selectedShape = rectangleService;
     component.onMouseDown(mouseDown);
-    expect(spyDefine).toHaveBeenCalled();
     expect(spyColor).toHaveBeenCalled();
     expect(spyMouse).toHaveBeenCalled();
   });

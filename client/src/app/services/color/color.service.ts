@@ -43,7 +43,7 @@ export class ColorService {
     this.showBackgroundButton = val;
   }
 
-  addColorsToLastUsed(primaryColor: string, secondaryColor ?: string): void {
+  addColorsToLastUsed(primaryColor: string, secondaryColor?: string): void {
     this.lastTenColors.push(primaryColor);
     if (secondaryColor) {
       this.lastTenColors.push(secondaryColor);

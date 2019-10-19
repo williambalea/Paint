@@ -91,8 +91,8 @@ export class ColorPickerComponent implements OnInit {
     currentColor = currentColor.substring(NB.Zero, currentColor.length - NB.One);
     const currentRgbValues: string[] = currentColor.split(',');
     this.colorHex = Number(currentRgbValues[NB.Zero]).toString(NB.Sixteen).toUpperCase() +
-                    Number(currentRgbValues[NB.One]).toString(NB.Sixteen).toUpperCase() +
-                    Number(currentRgbValues[NB.Two]).toString(NB.Sixteen).toUpperCase();
+      Number(currentRgbValues[NB.One]).toString(NB.Sixteen).toUpperCase() +
+      Number(currentRgbValues[NB.Two]).toString(NB.Sixteen).toUpperCase();
   }
 
   onEnterHex(value: string): void {
@@ -121,21 +121,21 @@ export class ColorPickerComponent implements OnInit {
 
   onEnterSlider(): void {
     this.transparencyString = (this.transparency / NB.TwoHundredFiftyFive).toFixed(NB.Two).toString();
-    this.color = this.color.substr(NB.Five , this.color.length);
-    this.color = this.color.substr(NB.Zero , this.color.length - NB.One);
+    this.color = this.color.substr(NB.Five, this.color.length);
+    this.color = this.color.substr(NB.Zero, this.color.length - NB.One);
     const rgb: string[] = this.color.split(',');
     this.color = 'rgba(' + rgb[NB.Zero] + ',' + rgb[NB.One] + ',' + rgb[NB.Two] + ',' + this.transparencyString + ')';
   }
 
-  syncValue(): void  {
+  syncValue(): void {
     const colorArray = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.colorHex) as RegExpExecArray;
     const r: number = parseInt(colorArray[NB.One], NB.Sixteen);
     const g: number = parseInt(colorArray[NB.Two], NB.Sixteen);
     const b: number = parseInt(colorArray[NB.Three], NB.Sixteen);
     this.color = 'rgba(' + r.toString() +
-                      ',' + g.toString() +
-                      ',' + b.toString() +
-                      ',' + this.transparencyString + ')';
+      ',' + g.toString() +
+      ',' + b.toString() +
+      ',' + this.transparencyString + ')';
   }
 
   swapColors(): void {

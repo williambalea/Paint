@@ -14,7 +14,7 @@ export class FileParametersServiceService {
   tempresize: boolean;
   drawingName: string;
   canvasWidth: BehaviorSubject<number> = new BehaviorSubject<number>(window.innerWidth - SVGinnerWidth);
-  canvasHeight: BehaviorSubject<number>  = new BehaviorSubject<number>(window.innerHeight );
+  canvasHeight: BehaviorSubject<number> = new BehaviorSubject<number>(window.innerHeight);
   resizeFlag: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   canvasColor: BehaviorSubject<string> = new BehaviorSubject<string>('white');
   canvaswidth$: Observable<number>;

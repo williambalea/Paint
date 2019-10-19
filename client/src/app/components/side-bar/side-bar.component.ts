@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
-import { GridService} from 'src/app/services/grid/grid.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
@@ -74,7 +74,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
       this.dialog.open(EntryPointComponent, { disableClose: true });
 
     this.unsubscribeService.subscriptons.push(dialogRef.afterClosed()
-    .subscribe((hideDialog: boolean) => { this.setLocalStorageTrace(hideDialog); }));
+      .subscribe((hideDialog: boolean) => { this.setLocalStorageTrace(hideDialog); }));
   }
 
   setLocalStorageTrace(hideDialog: boolean): void {
@@ -85,50 +85,50 @@ export class SideBarComponent implements OnInit, OnDestroy {
   }
 
   selectTool(tool: string): void {
-   switch (tool) {
-    case TOOL.rectangle:
-      this.selectedShape = this.rectangleService;
-      this.selectedTool = TOOL.rectangle;
-      break;
-    case TOOL.pipette:
-      this.selectedTool = TOOL.pipette;
-      break;
-    case TOOL.brush:
+    switch (tool) {
+      case TOOL.rectangle:
+        this.selectedShape = this.rectangleService;
+        this.selectedTool = TOOL.rectangle;
+        break;
+      case TOOL.pipette:
+        this.selectedTool = TOOL.pipette;
+        break;
+      case TOOL.brush:
         this.selectedShape = this.brushService;
         this.selectedTool = TOOL.brush;
         break;
-    case TOOL.pen:
+      case TOOL.pen:
         this.selectedShape = this.penService;
         this.selectedTool = TOOL.pen;
         break;
-    case TOOL.colorApplicator:
+      case TOOL.colorApplicator:
         this.selectedTool = TOOL.colorApplicator;
         break;
-    case TOOL.stamp:
+      case TOOL.stamp:
         this.selectedTool = TOOL.stamp;
         this.selectedShape = this.stampService;
         break;
-    case TOOL.grid :
+      case TOOL.grid:
         this.selectedTool = TOOL.grid;
         break;
-    case TOOL.ellipse:
+      case TOOL.ellipse:
         this.selectedShape = this.ellipseService;
         this.selectedTool = TOOL.ellipse;
         break;
-    case TOOL.polygon:
+      case TOOL.polygon:
         this.selectedShape = this.polygonService;
         this.selectedTool = TOOL.polygon;
         break;
-    case TOOL.selector:
+      case TOOL.selector:
         this.selectedTool = TOOL.selector;
         this.selectedShape = this.selectorService;
         break;
-    case TOOL.line:
+      case TOOL.line:
         this.selectedShape = this.lineService;
         this.selectedTool = TOOL.line;
         break;
-    default:
-   }
+      default:
+    }
   }
 
   setColorNewFile(): void {
@@ -140,7 +140,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     this.enableKeyPress = false;
 
     const dialogRef: MatDialogRef<NewFileModalwindowComponent, any> =
-      this.dialog.open(NewFileModalwindowComponent, {disableClose: true});
+      this.dialog.open(NewFileModalwindowComponent, { disableClose: true });
     this.unsubscribeService.subscriptons.push(dialogRef.afterClosed()
       .subscribe(() => { this.enableKeyPress = true; }));
 
@@ -151,7 +151,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
     this.enableKeyPress = false;
 
     const dialogRefSave: MatDialogRef<SaveFileModalwindowComponent, any> =
-      this.dialog.open(SaveFileModalwindowComponent, {disableClose: true});
+      this.dialog.open(SaveFileModalwindowComponent, { disableClose: true });
     this.unsubscribeService.subscriptons.push(dialogRefSave.afterClosed()
       .subscribe(() => { this.enableKeyPress = true; }));
   }
@@ -159,10 +159,11 @@ export class SideBarComponent implements OnInit, OnDestroy {
   accessServer(): void {
     this.enableKeyPress = false;
     const dialogRefGet: MatDialogRef<GetFileModalwindowComponent, any> =
-    this.dialog.open(GetFileModalwindowComponent, {disableClose: true});
+      this.dialog.open(GetFileModalwindowComponent, { disableClose: true });
     this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
       .subscribe(() => {
-        this.enableKeyPress = true; }));
+        this.enableKeyPress = true;
+      }));
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -177,20 +178,20 @@ export class SideBarComponent implements OnInit, OnDestroy {
           this.selectTool(TOOL.rectangle);
           break;
         case KEY.w:
-            this.selectTool(TOOL.brush);
-            break;
+          this.selectTool(TOOL.brush);
+          break;
         case KEY.c:
-            this.selectTool(TOOL.pen);
-            break;
+          this.selectTool(TOOL.pen);
+          break;
         case KEY.r:
-            this.selectedTool = TOOL.colorApplicator;
-            break;
+          this.selectedTool = TOOL.colorApplicator;
+          break;
         case KEY.g:
           this.selectedTool = TOOL.colorApplicator;
           break;
         case KEY.two:
-            this.selectedShape = this.ellipseService;
-            break;
+          this.selectedShape = this.ellipseService;
+          break;
         default:
       }
     }

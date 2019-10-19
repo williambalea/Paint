@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-
 import { OUTLINE_TYPE } from 'src/constants';
 import { ColorService } from '../color/color.service';
-import { EllipseService } from './ellipse.service';
 import { InputService } from '../input.service';
+import { EllipseService } from './ellipse.service';
 
 describe('EllipseService', () => {
   let service: EllipseService;
   let colorService: ColorService;
+  // tslint:disable-next-line: prefer-const
   let inputService: InputService;
 
   beforeEach(() => {

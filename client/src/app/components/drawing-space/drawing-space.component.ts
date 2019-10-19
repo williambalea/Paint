@@ -77,24 +77,20 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
       this.convertSVGtoJSON();
     });
-  
+
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
       this.canvas.nativeElement.innerHTML = EMPTY_STRING;
       this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.inputService.drawingColor);
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
     });
 
-
-
-    this.eventEmitterService.clearCanvasEmitter.subscribe(() =>{
-      for (let i : number = 0 ; i< this.canvas.nativeElement.children.length ; i++){
-        this.renderer.removeChild(this.canvas,this.canvas.nativeElement.children[i]);
-      }
+    this.eventEmitterService.clearCanvasEmitter.subscribe(() => {
+      this.canvas.nativeElement.children.forEach((child: any) => {
+        this.renderer.removeChild(this.canvas, child);
+      });
       this.inputService.isDrawed = false;
     });
 
-
-    
   }
 
   ngOnDestroy(): void {
@@ -274,30 +270,30 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   convertSVGtoJSON(): void {
-        const nom = this.inputService.drawingName;
-        const tag = this.inputService.drawingTags;
-        const picture = this.screenshotBase64();
-        const element = this.canvas.nativeElement;
-        const html = element.innerHTML;
-        const data: SVGJSON = {
-          name : nom,
-          tags: tag,
-          thumbnail : picture,
-          html,
-          color: this.colorService.getBackgroundColor(),
-        };
-        const json = JSON.stringify(data);
+    const nom = this.inputService.drawingName;
+    const tag = this.inputService.drawingTags;
+    const picture = this.screenshotBase64();
+    const element = this.canvas.nativeElement;
+    const html = element.innerHTML;
+    const data: SVGJSON = {
+      name: nom,
+      tags: tag,
+      thumbnail: picture,
+      html,
+      color: this.colorService.getBackgroundColor(),
+    };
+    const json = JSON.stringify(data);
 
-        this.communicationService.HTML = json;
+    this.communicationService.HTML = json;
 
-        this.communicationService.postToServer(data).subscribe(() => {
-          this.communicationService.enableSubmit = true;
-          console.log('test2', this.communicationService.enableSubmit);
-        },
-         (error) => {
-           window.alert ('can\'t save to server');
-           this.communicationService.enableSubmit = true;
-         });
+    this.communicationService.postToServer(data).subscribe(() => {
+      this.communicationService.enableSubmit = true;
+      console.log('test2', this.communicationService.enableSubmit);
+    },
+      (error) => {
+        window.alert('can\'t save to server');
+        this.communicationService.enableSubmit = true;
+      });
 
   }
 

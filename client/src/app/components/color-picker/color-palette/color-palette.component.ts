@@ -1,5 +1,6 @@
 // Inspiré de https://github.com/LukasMarx/angular-color-picker
-import { AfterViewInit,
+import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -13,21 +14,21 @@ import { AfterViewInit,
 import { COLORS, NB, STRINGS } from '../../../../constants';
 
 @Component({
-selector: 'app-color-palette',
-templateUrl: './color-palette.component.html',
-styleUrls: ['./color-palette.component.scss'],
+  selector: 'app-color-palette',
+  templateUrl: './color-palette.component.html',
+  styleUrls: ['./color-palette.component.scss'],
 })
 export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   @Input() hue: string;
   @Output() color: EventEmitter<string>;
-  @ViewChild(STRINGS.canvas, {static: false}) canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild(STRINGS.canvas, { static: false }) canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean;
   selectedPosition: { x: number; y: number };
 
   constructor() {
-    this.selectedPosition = {x: NB.SeventyFive, y: NB.SeventyFive};
+    this.selectedPosition = { x: NB.SeventyFive, y: NB.SeventyFive };
     this.color = new EventEmitter(true);
   }
 
@@ -37,17 +38,18 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   initialDrawCondition(): void {
     if (!this.ctx) {
-    this.ctx = this.canvas.nativeElement.getContext(STRINGS.twoD) as CanvasRenderingContext2D;
-  }}
+      this.ctx = this.canvas.nativeElement.getContext(STRINGS.twoD) as CanvasRenderingContext2D;
+    }
+  }
 
   selectPosition(): void {
     if (this.selectedPosition) {
-    this.ctx.strokeStyle = STRINGS.white;
-    this.ctx.fillStyle = STRINGS.white;
-    this.ctx.beginPath();
-    this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
-    this.ctx.lineWidth = NB.Five;
-    this.ctx.stroke();
+      this.ctx.strokeStyle = STRINGS.white;
+      this.ctx.fillStyle = STRINGS.white;
+      this.ctx.beginPath();
+      this.ctx.arc(this.selectedPosition.x, this.selectedPosition.y, NB.Ten, NB.Zero, NB.Two * Math.PI);
+      this.ctx.lineWidth = NB.Five;
+      this.ctx.stroke();
     }
   }
 

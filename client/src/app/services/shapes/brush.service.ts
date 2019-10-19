@@ -19,7 +19,8 @@ export class BrushService implements Shape {
   constructor(private renderer: Renderer2, private colorService: ColorService, private inputService: InputService) {
     this.brushStrokeWidth = NB.Seven;
     this.filter = `url(#smooth)`;
-    this.reset(); }
+    this.reset();
+  }
 
   onMouseDown(): any {
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
@@ -39,18 +40,19 @@ export class BrushService implements Shape {
     this.reset();
   }
 
-  reset() {
+  reset(): void {
     this.linepath = EMPTY_STRING;
     this.stroke = EMPTY_STRING;
     this.fillColor = COLORS.blackRGBA;
     this.active = false;
   }
+
   changePrimaryColor(color: string): void {
     this.fillColor = color;
   }
 
   changeSecondaryColor(color: string): void {
-      this.stroke = color;
+    this.stroke = color;
   }
 
   changeFilter(newFilter: string): void {

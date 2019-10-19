@@ -32,7 +32,7 @@ export class EventEmitterService {
     this.selectEmitter.emit();
   }
 
-  clearCanvas() : void {
+  clearCanvas(): void {
     this.clearCanvasEmitter.emit();
   }
 }

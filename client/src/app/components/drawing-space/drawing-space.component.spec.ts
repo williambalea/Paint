@@ -3,7 +3,7 @@ import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
-import { EMPTY_STRING, KEY, NB, POINTER_EVENT, TOOL } from 'src/constants';
+import { EMPTY_STRING, KEY, NB, TOOL } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Shape } from '../../services/shapes/shape';
@@ -207,17 +207,6 @@ describe('DrawingSpaceComponent', () => {
     expect(spyMouse).toHaveBeenCalled();
   });
 
-  it('Should set pointerEvent to \'none\' if not using colorApplicator', () => {
-    const mouseDown = new MouseEvent('mousedown');
-    component.selectedTool = TOOL.colorApplicator;
-    component.selectedShape = rectangleService;
-    component.onMouseDown(mouseDown);
-    expect(component.pointerEvent).toEqual(POINTER_EVENT.visiblePainted);
-
-    component.selectedTool = TOOL.rectangle;
-    component.onMouseDown(mouseDown);
-    expect(component.pointerEvent).toEqual(POINTER_EVENT.none);
-  });
 
   it('should initialize the svg path of pen', () => {
     component.selectedTool = TOOL.pen;
@@ -242,8 +231,8 @@ describe('DrawingSpaceComponent', () => {
     component.selectedTool = TOOL.brush;
     component.onMouseMove(new MouseEvent('mousemove'));
 
-    component.selectedTool = TOOL.colorApplicator;
-    component.onMouseMove(new MouseEvent('mousemove'));
+      component.selectedTool = TOOL.colorApplicator;
+      component.onMouseMove(new MouseEvent('mousemove'));
 
     expect(movePenBrush).toHaveBeenCalledTimes(2);
   });

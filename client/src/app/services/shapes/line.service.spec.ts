@@ -1,3 +1,4 @@
+import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
@@ -18,7 +19,7 @@ class ColorServiceMock {
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   backSpacePressed = false;
-  getMouse(): void {return; }
+  getMouse(): Point {return {x: 1, y: 2}; }
 }
 
 describe('LineService', () => {
@@ -116,6 +117,35 @@ describe('LineService', () => {
     service.validateJunctionStyle();
     expect(spyOnSetStyle).toHaveBeenCalled();
   });
+
+  it ('should draw preview on mouse move', () => {
+    service.savedPath = 'abc';
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    service.isActive();
+    expect(service.linepath).toEqual('abcL1 2');
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+  });
+
+  it('should draw the starting point', () => {
+    service.positions = [{x: 1, y: 2}];
+    service.start = true;
+    const spyOnFinishDraw = spyOn(service, 'finishDraw');
+    service.draw();
+    expect(service.linepath).toEqual('M1 2');
+    expect(spyOnFinishDraw).toHaveBeenCalled();
+  });
+
+  it('should draw the starting the next line', () => {
+    service.positions = [{x: 1, y: 2}, {x: 3, y: 4}];
+    service.linepath = 'abc';
+    service.start = false;
+    const spyOnFinishDraw = spyOn(service, 'finishDraw');
+    service.draw();
+    expect(service.linepath).toEqual('abcL3 4');
+    expect(spyOnFinishDraw).toHaveBeenCalled();
+  });
+
+
 
   it ('should call isActive on mouse move', () => {
     service.active = true;

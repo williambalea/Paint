@@ -1,5 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { NB } from 'src/constants';
+import { NB, SVGinnerWidth } from 'src/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ export class GridService {
   opacity: number;
 
   constructor(private renderer: Renderer2) {
-    this.width = window.innerWidth - 353;
+    this.width = window.innerWidth - SVGinnerWidth;
     this.height = window.innerHeight;
     this.gridSize = NB.OneHundred;
     this.opacity = NB.Fifty;

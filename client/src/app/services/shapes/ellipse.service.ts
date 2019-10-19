@@ -98,8 +98,8 @@ export class EllipseService implements Shape {
       y: this.mouse.y - this.origin.y,
     };
 
-    this.xray = Math.abs(deplacement.x) / 2;
-    this.yray = Math.abs(deplacement.y) / 2;
+    this.xray = Math.abs(deplacement.x) / NB.Two;
+    this.yray = Math.abs(deplacement.y) / NB.Two;
     const ray = Math.max(this.xray, this.yray);
 
     this.xray = ray;
@@ -109,8 +109,8 @@ export class EllipseService implements Shape {
   }
 
   setEllipseOffset(): void {
-    this.xray = Math.abs(this.mouse.x - this.origin.x) / 2;
-    this.yray = Math.abs(this.mouse.y - this.origin.y) / 2;
+    this.xray = Math.abs(this.mouse.x - this.origin.x) / NB.Two;
+    this.yray = Math.abs(this.mouse.y - this.origin.y) / NB.Two;
     this.x = Math.min(this.origin.x, this.mouse.x) + this.xray;
     this.y = Math.min(this.origin.y, this.mouse.y) + this.yray;
   }

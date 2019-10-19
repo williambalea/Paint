@@ -1,6 +1,6 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { NB, OUTLINE_TYPE, EMPTY_STRING } from 'src/constants';
+import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { PolygonService } from './polygon.service';
@@ -173,7 +173,7 @@ describe('PolygonService', () => {
     const n = 2;
     const x = 4;
     const y = 4;
-    let angle = NB.ThreeHundredSixty / n;
+    const angle = NB.ThreeHundredSixty / n;
 
     service.generateVertices(i, j, n, x, y);
 
@@ -182,8 +182,6 @@ describe('PolygonService', () => {
     expect(service.initialPoint.y).toEqual(jasmine.any(Number));
     expect(service.pointString).toEqual(jasmine.any(String));
     expect(angle).toEqual(jasmine.any(Number));
-
-
 
   });
 });

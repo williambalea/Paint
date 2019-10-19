@@ -62,21 +62,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventEmitterService.showGridEmitter.subscribe(() => {
       this.showGrid();
     });
-
     this.eventEmitterService.hideGridEmitter.subscribe(() => {
       this.hideGrid();
     });
-
     this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
       this.convertSVGtoJSON();
     });
-
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
       this.canvas.nativeElement.innerHTML = EMPTY_STRING;
       this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.inputService.drawingColor);
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
     });
-
     this.eventEmitterService.clearCanvasEmitter.subscribe(() => {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.canvas.nativeElement.children.length; i++) {
@@ -84,7 +80,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.inputService.isDrawed = false;
     });
-
   }
 
   ngOnDestroy(): void {
@@ -111,8 +106,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   draw(shape: any): void {
-    if (this.selectedTool !== TOOL.colorApplicator &&
-      this.selectedTool !== TOOL.pipette) {
+    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
       if (shape) {
         this.renderer.appendChild(this.canvas.nativeElement, shape);
       }
@@ -139,15 +133,18 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.communicationService.HTML = json;
     this.communicationService.postToServer(data).subscribe(() => {
       this.communicationService.enableSubmit = true;
-    },
-      (error) => {
-        window.alert('can\'t save to server');
-        this.communicationService.enableSubmit = true;
-      });
+    }, (error) => {
+      window.alert('can\'t save to server');
+      this.communicationService.enableSubmit = true;
+    });
   }
 
   notCanvasAndColorApplicator(event: Event): boolean {
     return event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator;
+  }
+
+  isComplexShape(targetTag: string): boolean {
+    return (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse');
   }
 
   onLeftClick(event: Event): void {
@@ -159,7 +156,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onRightClick(event: Event): void {
     if (this.notCanvasAndColorApplicator(event)) {
       const targetTag: string = (event.target as HTMLElement).tagName;
-      if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
+      if (this.isComplexShape(targetTag)) {
         this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());
       }
     }
@@ -167,7 +164,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   changeFillColor(target: HTMLElement): void {
     const targetTag: string = target.tagName;
-    if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
+    if (this.isComplexShape(targetTag)) {
       this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
     } else if (targetTag === 'path') {
       this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());

@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
+import { PipetteService } from 'src/app/services/color/pipette.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
@@ -9,7 +10,7 @@ import { SelectorService } from 'src/app/services/selector/selector.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
+import { EMPTY_STRING, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 @Component({
@@ -35,16 +36,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   selectorAreaActive = false;
 
   constructor(private fileParameters: FileParametersServiceService,
-              private colorService: ColorService,
-              private inputService: InputService,
-              private renderer: Renderer2,
-              private selectorService: SelectorService,
-              private communicationService: CommunicationsService,
-              private gridService: GridService,
-              private screenshotService: ScreenshotService,
-              private unsubscribeService: UnsubscribeService,
-              private includingBoxService: IncludingBoxService,
-              private eventEmitterService: EventEmitterService) {
+    private colorService: ColorService,
+    private inputService: InputService,
+    private renderer: Renderer2,
+    private pipetteService: PipetteService,
+    private selectorService: SelectorService,
+    private communicationService: CommunicationsService,
+    private gridService: GridService,
+    private screenshotService: ScreenshotService,
+    private unsubscribeService: UnsubscribeService,
+    private includingBoxService: IncludingBoxService,
+    private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -88,7 +90,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.eventEmitterService.clearCanvasEmitter.subscribe(() => {
       // tslint:disable-next-line: prefer-for-of
-      for (let i = 0 ; i < this.canvas.nativeElement.children.length; i++) {
+      for (let i = 0; i < this.canvas.nativeElement.children.length; i++) {
         this.renderer.removeChild(this.canvas, this.canvas.nativeElement.children[i]);
       }
       this.inputService.isDrawed = false;
@@ -164,26 +166,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  usePipette(event: MouseEvent): void {
-    const canvas: HTMLCanvasElement = this.htmlCanvas.nativeElement;
-    canvas.height = this.canvasHeight;
-    canvas.width = this.canvasWidth;
-    const images64: string = this.screenshotService.screenshotBase64(this.drawingBoard.nativeElement);
-    const image = new Image();
-    image.src = images64;
-    image.onload = () => {
-      (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0, this.canvasWidth, this.canvasHeight);
-      const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
-        getImageData(event.offsetX, event.offsetY, 1, 1).data;
-      if (event.button === 0) {
-        this.colorService.setFillColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
-      }
-      if (event.button === 2) {
-        this.colorService.setStrokeColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
-      }
-    };
-  }
-
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
     this.inputService.mouseButton = event.button;
@@ -192,7 +174,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.pipette) {
       event.preventDefault();
-      this.usePipette(event);
+      this.pipetteService.getColors(event, this.htmlCanvas, this.drawingBoard, this.canvasHeight, this.canvasWidth);
     }
     this.shape = this.selectedShape.onMouseDown();
     this.draw(this.shape);

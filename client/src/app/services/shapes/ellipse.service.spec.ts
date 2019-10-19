@@ -11,7 +11,7 @@ class RendererMock {
 
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
-  getMouse(): void {return; }
+  getMouse(): void {return ; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -69,7 +69,13 @@ describe('EllipseService', () => {
     expect(service.strokeEnable).toEqual(true);
   });
   it('reset() should set attributes to 0', () => {
+    service.x = 1;
+    service.y = 1;
+    service.xray = 1;
+    service.yray = 1;
+    service.active = true;
     service.reset();
+
     expect(service.x).toEqual(0);
     expect(service.y).toEqual(0);
     expect(service.xray).toEqual(0);
@@ -81,7 +87,7 @@ describe('EllipseService', () => {
     const fillColorSpy = spyOn(colorService, 'getFillColor');
     const strokeColorSpy = spyOn(colorService, 'getStrokeColor');
     const setOriginSpy = spyOn(service, 'setOrigin');
-    const setEllipseSpy = spyOn(service, 'setEllipseType');
+    const setEllipseSpy = spyOn(service, 'setEllipseBorderType');
     const createElSpy = spyOn(renderer, 'createElement');
 
     service.onMouseDown();
@@ -140,5 +146,46 @@ describe('EllipseService', () => {
     expect(resetSpy).toHaveBeenCalled();
     expect(addColorsSpy).toHaveBeenCalled();
   });
+
+  it('Should set origin to mouse', () => {
+    const mouse = {x: 1, y: 2};
+    service.setOrigin(mouse);
+    expect(service.x).toEqual(1);
+    expect(service.y).toEqual(2);
+  });
+
+  it('Should not remove any filling color fillEnable and strokeEnable are true', () => {
+    const removeColorSpy = spyOn(service, 'removeColor');
+    service.fillEnable = true;
+    service.strokeEnable = true;
+
+    service.setEllipseBorderType();
+
+    expect(removeColorSpy).toHaveBeenCalledTimes(0);
+  });
+
+  it('Should remove filling color fillEnable is false', () => {
+    const removeColorSpy = spyOn(service, 'removeColor');
+    service.fillEnable = false;
+    service.strokeEnable = true;
+
+    service.setEllipseBorderType();
+
+    expect(removeColorSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should remove both color fillEnable and strokeEnable are both false', () => {
+    const removeColorSpy = spyOn(service, 'removeColor');
+    service.fillEnable = false;
+    service.strokeEnable = false;
+
+    service.setEllipseBorderType();
+
+    expect(removeColorSpy).toHaveBeenCalledTimes(2);
+  });
+
+  // it('Should remove color by setting A to 0', () => {
+
+  // });
 
 });

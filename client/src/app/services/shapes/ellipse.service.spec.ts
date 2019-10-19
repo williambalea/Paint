@@ -1,25 +1,50 @@
+import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OUTLINE_TYPE } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { EllipseService } from './ellipse.service';
 
+class RendererMock {
+  createElement(): void {return; }
+}
+
+// tslint:disable-next-line: max-classes-per-file
+class InputServiceMock {
+  getMouse(): void {return; }
+}
+
+// tslint:disable-next-line: max-classes-per-file
+class ColorServiceMock {
+  shiftPressed: boolean;
+
+  getFillColor(): void {return; }
+  getStrokeColor(): void {return; }
+  addColorsToLastUsed(): void {return;}
+}
+
+
 describe('EllipseService', () => {
   let service: EllipseService;
   let colorService: ColorService;
   // tslint:disable-next-line: prefer-const
   let inputService: InputService;
+  let renderer: Renderer2;
 
   beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
       EllipseService,
-      ColorService,
-      InputService,
+      { provide: InputService, useClass: InputServiceMock },
+      { provide: ColorService, useClass: ColorServiceMock },
+      {provide: Renderer2, useClass: RendererMock},
     ],
   }).compileComponents();
   service = TestBed.get(EllipseService);
   colorService = TestBed.get(ColorService);
+  inputService = TestBed.get(InputService);
+  renderer = TestBed.get(Renderer2);
+
 });
 
   it('should be created', () => {
@@ -52,63 +77,68 @@ describe('EllipseService', () => {
     expect(service.active).toEqual(false);
   });
   it('should call onMouseDown() upon mouse being clicked', () => {
-    const fillColorSpy = spyOn(colorService, 'getFillColor').and.callThrough();
-    const strokeColorSpy = spyOn(colorService, 'getStrokeColor').and.callThrough();
-    const setOriginSpy = spyOn(service, 'setOrigin').and.callThrough();
-    const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
-    const setEllipseSpy = spyOn(service, 'setEllipseType').and.callThrough();
+    service.active = false;
+    const fillColorSpy = spyOn(colorService, 'getFillColor');
+    const strokeColorSpy = spyOn(colorService, 'getStrokeColor');
+    const setOriginSpy = spyOn(service, 'setOrigin');
+    const setEllipseSpy = spyOn(service, 'setEllipseType');
+    const createElSpy = spyOn(renderer, 'createElement');
 
     service.onMouseDown();
 
     expect(fillColorSpy).toHaveBeenCalled();
     expect(strokeColorSpy).toHaveBeenCalled();
     expect(setOriginSpy).toHaveBeenCalled();
-    expect(getMouseSpy).toHaveBeenCalled();
     expect(setEllipseSpy).toHaveBeenCalled();
-
     expect(service.active).toEqual(true);
-    expect(service.fill).toEqual(jasmine.any(String));
-    expect(service.stroke).toEqual(jasmine.any(String));
-    expect(service.fill).toEqual(jasmine.any(String));
-
-    // verify render.createElement()
-
-    expect(service.ellipse).not.toBeNull();
+    expect(createElSpy).toHaveBeenCalled();
   });
-  it('should call onMouseMouse() upon mouse being moved', () => {
-    const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
-    const setCircleOffsetSpy = spyOn(service, 'setCircleOffset').and.callThrough();
-    const setEllipseSpy = spyOn(service, 'setEllipseOffset').and.callThrough();
-    const drawSpy = spyOn(service, 'draw').and.callThrough();
+
+  it('should call setCircleOffset when mouse moving and shift is pressed', () => {
+    const getMouseSpy = spyOn(inputService, 'getMouse');
+    const setCircleOffsetSpy = spyOn(service, 'setCircleOffset');
+    const drawSpy = spyOn(service, 'draw');
+    service.active = true;
+    inputService.shiftPressed = true;
 
     service.onMouseMove();
 
     expect(getMouseSpy).toHaveBeenCalled();
-
-    service.active = true;
-    inputService.shiftPressed = true;
-
-    if (service.active) {
-      expect(drawSpy).toHaveBeenCalled();
-      if (inputService.shiftPressed) {
-        expect(setCircleOffsetSpy).toHaveBeenCalled();
-      } else {
-        expect(setEllipseSpy).toHaveBeenCalled();
-      }
-    }
+    expect(setCircleOffsetSpy).toHaveBeenCalled();
+    expect(drawSpy).toHaveBeenCalled();
   });
-  it('Should call onMouseUp() upon releasing mouse button', () => {
-    const resetSpy = spyOn(service, 'reset').and.callThrough();
-    const addColorsSpy = spyOn(colorService, 'addColorsToLastUsed').and.callThrough();
-    const getFillColorSpy = spyOn(colorService, 'getFillColor').and.callThrough();
-    const getStrokeColorSpy = spyOn(colorService, 'getStrokeColor').and.callThrough();
 
+  it('should call setEllipseOffset when mouse moving and shift is not pressed', () => {
+    const getMouseSpy = spyOn(inputService, 'getMouse');
+    const setEllipseOffsetSpy = spyOn(service, 'setEllipseOffset');
+    const drawSpy = spyOn(service, 'draw');
+    service.active = true;
+    inputService.shiftPressed = false;
+
+    service.onMouseMove();
+
+    expect(getMouseSpy).toHaveBeenCalled();
+    expect(setEllipseOffsetSpy).toHaveBeenCalled();
+    expect(drawSpy).toHaveBeenCalled();
+  });
+
+  it('should not draw if mouse is not active onMouseMove', () => {
+    const getMouseSpy = spyOn(inputService, 'getMouse');
+    const drawSpy = spyOn(service, 'draw');
+    service.active = false;
+    service.onMouseMove();
+
+    expect(getMouseSpy).toHaveBeenCalled();
+    expect(drawSpy).not.toHaveBeenCalled();
+  });
+
+  it('Should call reset() and add last used colors to colorService when Mouse Up', () => {
+    const resetSpy = spyOn(service, 'reset');
+    const addColorsSpy = spyOn(colorService, 'addColorsToLastUsed');
     service.onMouseUp();
 
     expect(resetSpy).toHaveBeenCalled();
     expect(addColorsSpy).toHaveBeenCalled();
-    expect(getFillColorSpy).toHaveBeenCalled();
-    expect(getStrokeColorSpy).toHaveBeenCalled();
   });
 
 });

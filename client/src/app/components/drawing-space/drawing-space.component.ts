@@ -10,7 +10,7 @@ import { SelectorService } from 'src/app/services/selector/selector.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { EMPTY_STRING, KEY, NB, POINTER_EVENT, TOOL } from '../../../constants';
+import { EMPTY_STRING, KEY, NB, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 @Component({
@@ -30,7 +30,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
-  pointerEvent: string;
   isConfirmed: boolean;
   shape: SVGSVGElement;
   selectorAreaActive = false;
@@ -50,8 +49,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
-    this.pointerEvent = POINTER_EVENT.visiblePainted;
-
   }
 
   ngOnInit(): void {
@@ -112,7 +109,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);
-      this.pointerEvent = POINTER_EVENT.none;
     }
   }
 
@@ -189,7 +185,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onMouseUp(): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.selectedShape.onMouseUp();
-      this.pointerEvent = POINTER_EVENT.visiblePainted;
     }
     if (this.selectedTool === TOOL.selector) {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
@@ -251,6 +246,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
+    console.log(event.clientX - 350, event.clientY - 5);
     this.inputService.mouseButton = event.button;
     if (event.button === 0) {
       this.selectorService.selectedShapes = [];

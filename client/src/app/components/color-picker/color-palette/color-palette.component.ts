@@ -113,16 +113,16 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   onMouseDown(event: MouseEvent): void {
     this.mousedown = true;
-    this.selectedPosition = { x: event.offsetX, y: event.offsetY };
+    this.selectedPosition = { x: event.clientX - 350, y: event.clientY - 5 };
     this.draw();
-    this.color.emit(this.getColorAtPosition(event.offsetX, event.offsetY));
+    this.color.emit(this.getColorAtPosition(event.clientX - 350, event.clientY - 5));
   }
 
   onMouseMove(event: MouseEvent): void {
     if (this.mousedown) {
-      this.selectedPosition = { x: event.offsetX, y: event.offsetY };
+      this.selectedPosition = { x: event.clientX - 350, y: event.clientY - 5 };
       this.draw();
-      this.emitColor(event.offsetX, event.offsetY);
+      this.emitColor(event.clientX - 350, event.clientY - 5);
     }
   }
 

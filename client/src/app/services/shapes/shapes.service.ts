@@ -41,9 +41,9 @@ export class ShapesService {
   }
 
   setMouseOrigin(event: MouseEvent): void {
-    this.origin = {x: event.offsetX, y: event.offsetY};
-    this.preview.x = event.offsetX;
-    this.preview.y = event.offsetY;
+    this.origin = {x: event.clientX - 350, y: event.clientY - 5};
+    this.preview.x = event.clientX - 350;
+    this.preview.y = event.clientY - 5;
     this.preview.width = 0;
     this.preview.height = 0;
   }

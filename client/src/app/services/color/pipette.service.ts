@@ -21,7 +21,7 @@ export class PipetteService {
     image.onload = () => {
       (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, NB.Zero, NB.Zero, width, height);
       const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
-        getImageData(event.offsetX, event.offsetY, NB.One, NB.One).data;
+        getImageData(event.clientX - 350, event.clientY - 5, NB.One, NB.One).data;
       if (event.button === NB.Zero) {
         this.colorService.setFillColor('rgba(' + data[NB.Zero] + ',' + data[NB.One] + ',' + data[NB.Two] + ',' + data[NB.Three] + ')');
       }

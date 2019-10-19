@@ -42,7 +42,7 @@ export class InputService {
   }
 
   setMouseOffset(event: MouseEvent): void {
-    this.mouse = { x: event.offsetX, y: event.offsetY };
+    this.mouse = { x: event.clientX - 350, y: event.clientY - 5 };
   }
 
   getMouse(): Point {

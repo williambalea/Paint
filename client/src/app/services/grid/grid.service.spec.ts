@@ -9,7 +9,7 @@ class RendererMock {
   appendChild(): void {return; }
 }
 
-describe('GridService', () => {
+fdescribe('GridService', () => {
   let service: GridService;
   let rendererMock: Renderer2;
 

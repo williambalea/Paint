@@ -1,5 +1,7 @@
+import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { STROKE_DASHARRAY_STYLE } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { LineService } from './line.service';
@@ -18,7 +20,7 @@ class ColorServiceMock {
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   backSpacePressed = false;
-  getMouse(): void {return; }
+  getMouse(): Point {return {x: 1, y: 2}; }
 }
 
 describe('LineService', () => {
@@ -87,6 +89,12 @@ describe('LineService', () => {
     service.validationToCreatePath();
     expect(spyOnCreateElement).toHaveBeenCalled();
   });
+  it('Should not validate and call fucntion to create path', () => {
+    service.start = false;
+    const spyOnCreateElement = spyOn(renderer, 'createElement');
+    service.validationToCreatePath();
+    expect(spyOnCreateElement).not.toHaveBeenCalled();
+  });
 
   it('should set style', () => {
     const spyOnSetStyle = spyOn(renderer, 'setStyle');
@@ -115,6 +123,41 @@ describe('LineService', () => {
     const spyOnSetStyle = spyOn(renderer, 'setStyle');
     service.validateJunctionStyle();
     expect(spyOnSetStyle).toHaveBeenCalled();
+  });
+
+  it ('should draw preview on mouse move', () => {
+    service.savedPath = 'abc';
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    service.isActive();
+    expect(service.linepath).toEqual('abcL1 2');
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+  });
+
+  it('should draw the starting point', () => {
+    service.positions = [{x: 1, y: 2}];
+    service.start = true;
+    const spyOnFinishDraw = spyOn(service, 'finishDraw');
+    service.draw();
+    expect(service.linepath).toEqual('M1 2');
+    expect(spyOnFinishDraw).toHaveBeenCalled();
+  });
+
+  it('should draw the next line', () => {
+    service.positions = [{x: 1, y: 2}, {x: 3, y: 4}];
+    service.linepath = 'abc';
+    service.start = false;
+    const spyOnFinishDraw = spyOn(service, 'finishDraw');
+    service.draw();
+    expect(service.linepath).toEqual('abcL3 4');
+    expect(spyOnFinishDraw).toHaveBeenCalled();
+  });
+
+  it('should redraw the starting point', () => {
+    service.positions = [{x: 1, y: 2}, {x: 3, y: 4}];
+    const spyOnFinishDraw = spyOn(service, 'finishDraw');
+    service.redraw();
+    expect(service.linepath).toEqual('M1 2L3 4');
+    expect(spyOnFinishDraw).toHaveBeenCalled();
   });
 
   it ('should call isActive on mouse move', () => {
@@ -206,19 +249,67 @@ describe('LineService', () => {
   it ('should assign stroke style dotted point', () => {
     service.dashArrayType = '';
     service.assignStrokeStyleDottedPoint();
-    expect(service.dashArrayType = '1,20');
+    expect(service.dashArrayType).toEqual('1,20');
   });
 
   it ('should assign stroke style dotted line', () => {
     service.dashArrayType = '';
     service.assignStrokeStyleDottedLine();
-    expect(service.dashArrayType = '20,20');
+    expect(service.dashArrayType).toEqual('20,20');
   });
 
   it ('should assign stroke style full line', () => {
     service.dashArrayType = '';
     service.assignStrokeStyleFullLine();
-    expect(service.dashArrayType = '');
+    expect(service.dashArrayType).toEqual('');
+  });
+
+  it('Should assign strokeStyle to dottedPoint', () => {
+    const assignDottedPointSpy = spyOn(service, 'assignStrokeStyleDottedPoint');
+    const assignDottedLineSpy = spyOn(service, 'assignStrokeStyleDottedLine');
+    const assignFullLineSpy = spyOn(service, 'assignStrokeStyleFullLine');
+    service.dashArrayType = STROKE_DASHARRAY_STYLE.dottedPoint;
+    service.assignStrokeStyle();
+    expect(assignDottedPointSpy).toHaveBeenCalled();
+    expect(assignDottedLineSpy).not.toHaveBeenCalled();
+    expect(assignFullLineSpy).not.toHaveBeenCalled();
+  });
+  it('Should assign strokeStyle to dottedLine', () => {
+    const assignDottedPointSpy = spyOn(service, 'assignStrokeStyleDottedPoint');
+    const assignDottedLineSpy = spyOn(service, 'assignStrokeStyleDottedLine');
+    const assignFullLineSpy = spyOn(service, 'assignStrokeStyleFullLine');
+    service.dashArrayType = STROKE_DASHARRAY_STYLE.dottedLine;
+    service.assignStrokeStyle();
+    expect(assignDottedPointSpy).not.toHaveBeenCalled();
+    expect(assignDottedLineSpy).toHaveBeenCalled();
+    expect(assignFullLineSpy).not.toHaveBeenCalled();
+  });
+  it('Should assign strokeStyle to fullLine', () => {
+    const assignDottedPointSpy = spyOn(service, 'assignStrokeStyleDottedPoint');
+    const assignDottedLineSpy = spyOn(service, 'assignStrokeStyleDottedLine');
+    const assignFullLineSpy = spyOn(service, 'assignStrokeStyleFullLine');
+    service.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
+    service.assignStrokeStyle();
+    expect(assignDottedPointSpy).not.toHaveBeenCalled();
+    expect(assignDottedLineSpy).not.toHaveBeenCalled();
+    expect(assignFullLineSpy).toHaveBeenCalled();
+  });
+
+  it('Should assign nothing in default case', () => {
+    const assignDottedPointSpy = spyOn(service, 'assignStrokeStyleDottedPoint');
+    const assignDottedLineSpy = spyOn(service, 'assignStrokeStyleDottedLine');
+    const assignFullLineSpy = spyOn(service, 'assignStrokeStyleFullLine');
+    service.dashArrayType = 'a';
+    service.assignStrokeStyle();
+    expect(assignDottedPointSpy).not.toHaveBeenCalled();
+    expect(assignDottedLineSpy).not.toHaveBeenCalled();
+    expect(assignFullLineSpy).not.toHaveBeenCalled();
+  });
+
+  it ('should change junction value to newJunction', () => {
+    const newJunction = 'abc';
+    service.captDot(newJunction);
+    expect(service.junction).toEqual('url(#abc)');
   });
 
   it ('should assign angled junction style angled', () => {
@@ -237,4 +328,35 @@ describe('LineService', () => {
     expect(service.junction).toEqual('');
   });
 
+  it('Should change junction to dot', () => {
+    service.junctionStyle = 'dot';
+    const spyOnCaptDot = spyOn(service, 'captDot');
+    service.changeJunction();
+    expect(spyOnCaptDot).toHaveBeenCalled();
+  });
+
+  it('Should change junction to angled', () => {
+    service.junctionStyle = 'miter';
+    const spyOnAssignJunctionStyleAngled = spyOn(service, 'assignJunctionStyleAngled');
+    service.changeJunction();
+    expect(spyOnAssignJunctionStyleAngled).toHaveBeenCalled();
+  });
+
+  it('Should change junction to rounded', () => {
+    service.junctionStyle = 'round';
+    const spyOnSssignJunctionStyleRounded = spyOn(service, 'assignJunctionStyleRounded');
+    service.changeJunction();
+    expect(spyOnSssignJunctionStyleRounded).toHaveBeenCalled();
+  });
+
+  it('Should not assign junction on default', () => {
+    service.junctionStyle = 'allo';
+    const spyOnCaptDot = spyOn(service, 'captDot');
+    const spyOnAssignJunctionStyleAngled = spyOn(service, 'assignJunctionStyleAngled');
+    const spyOnSssignJunctionStyleRounded = spyOn(service, 'assignJunctionStyleRounded');
+    service.changeJunction();
+    expect(spyOnCaptDot).not.toHaveBeenCalled();
+    expect(spyOnSssignJunctionStyleRounded).not.toHaveBeenCalled();
+    expect(spyOnAssignJunctionStyleAngled).not.toHaveBeenCalled();
+  });
 });

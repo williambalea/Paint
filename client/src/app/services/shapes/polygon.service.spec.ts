@@ -1,6 +1,7 @@
+import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
+import { EMPTY_STRING, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { PolygonService } from './polygon.service';
@@ -15,7 +16,7 @@ class RendererMock {
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   backSpacePressed = false;
-  getMouse(): void {return; }
+  getMouse(): Point {return {x: 0, y: 0}; }
 }
 
 describe('PolygonService', () => {
@@ -44,22 +45,36 @@ describe('PolygonService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Should allow for multitude types of polygon drawing', () => {
-    const borderedSpy = spyOn(service, 'assignBorderedPolygon').and.callThrough();
-    const filledSpy = spyOn(service, 'assignFilledPolygon').and.callThrough();
-    const borderedFilledSpy = spyOn(service, 'assignBorderedAndFilledPolygon').and.callThrough();
-
-    service.polygonType = OUTLINE_TYPE.bordered;
+  it('Should change type to Bordered', () => {
+    service.polygonType = 'Bordered';
+    const spyOnAssignBorderedPolygon = spyOn(service, 'assignBorderedPolygon');
     service.assignPolygonType();
-    expect(borderedSpy).toHaveBeenCalled();
+    expect(spyOnAssignBorderedPolygon).toHaveBeenCalled();
+  });
 
-    service.polygonType = OUTLINE_TYPE.filled;
+  it('Should change type to Filled', () => {
+    service.polygonType = 'Filled';
+    const spyOnAssignFilledPolygon = spyOn(service, 'assignFilledPolygon');
     service.assignPolygonType();
-    expect(filledSpy).toHaveBeenCalled();
+    expect(spyOnAssignFilledPolygon).toHaveBeenCalled();
+  });
 
-    service.polygonType = OUTLINE_TYPE.borderedAndFilled;
+  it('Should change type to Bordered & Filled', () => {
+    service.polygonType = 'Bordered & Filled';
+    const spyOnAssignBorderedAndFilledPolygon = spyOn(service, 'assignBorderedAndFilledPolygon');
     service.assignPolygonType();
-    expect(borderedFilledSpy).toHaveBeenCalled();
+    expect(spyOnAssignBorderedAndFilledPolygon).toHaveBeenCalled();
+  });
+
+  it('Should not assign type on default', () => {
+    service.polygonType = 'random';
+    const spyOnAssignBorderedPolygon = spyOn(service, 'assignBorderedPolygon');
+    const spyOnAssignFilledPolygon = spyOn(service, 'assignFilledPolygon');
+    const spyOnAssignBorderedAndFilledPolygon = spyOn(service, 'assignBorderedAndFilledPolygon');
+    service.assignPolygonType();
+    expect(spyOnAssignBorderedPolygon).not.toHaveBeenCalled();
+    expect(spyOnAssignFilledPolygon).not.toHaveBeenCalled();
+    expect(spyOnAssignBorderedAndFilledPolygon).not.toHaveBeenCalled();
   });
 
   it('should change primary color', () => {
@@ -81,11 +96,12 @@ describe('PolygonService', () => {
     service.setPolygonType();
     expect(removeColorSpy).toHaveBeenCalled();
     expect(removeColorSpy).toHaveBeenCalled();
-    // test for vars assignments
   });
 
   it('should remove color', () => {
-    // add test
+    const fill = 'black';
+    const returnValue = service.removeColor(fill);
+    expect(returnValue).toEqual(jasmine.any(String));
   });
 
   it('should assign accordingly to bordered and filled polygon', () => {
@@ -140,16 +156,30 @@ describe('PolygonService', () => {
 
   });
 
-  it('should call child functions upon moving mouse', () => {
+  it('should generate vertices upon moving mouse if active', () => {
     const generateVerticesSpy = spyOn(service, 'generateVertices').and.callThrough();
     const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
     const drawSpy = spyOn(service, 'draw').and.callThrough();
 
     service.active = true;
     service.onMouseMove();
+    expect(service.active).toEqual(true);
     expect(generateVerticesSpy).toHaveBeenCalled();
     expect(getMouseSpy).toHaveBeenCalled();
     expect(drawSpy).toHaveBeenCalled();
+  });
+
+  it('should not generate vertices or draw if not active', () => {
+    const generateVerticesSpy = spyOn(service, 'generateVertices').and.callThrough();
+    const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
+    const drawSpy = spyOn(service, 'draw').and.callThrough();
+
+    service.active = false;
+    service.onMouseMove();
+    expect(service.active).toEqual(false);
+    expect(generateVerticesSpy).not.toHaveBeenCalled();
+    expect(getMouseSpy).not.toHaveBeenCalled();
+    expect(drawSpy).not.toHaveBeenCalled();
   });
 
   it('should call child functions upon mouse up', () => {

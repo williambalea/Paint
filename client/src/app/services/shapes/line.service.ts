@@ -97,7 +97,6 @@ export class LineService implements Shape {
     this.doubleClick = false;
     }
 
-    //Je sais pas cmt la tester
     isActive(): void {
       this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
@@ -154,7 +153,7 @@ export class LineService implements Shape {
     this.finishDraw();
 }
 
-finishDraw(){
+finishDraw() {
   this.renderer.setAttribute(this.path, 'd', this.linepath);
   this.start = false;
   this.savedPath = this.linepath;
@@ -203,6 +202,7 @@ changeJunction(): void {
     case LINECORNER.rounded:
       this.assignJunctionStyleRounded();
       break;
+    default:
   }
 }
 

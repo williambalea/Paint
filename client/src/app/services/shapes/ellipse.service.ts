@@ -54,7 +54,7 @@ export class EllipseService implements Shape {
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin(this.inputService.getMouse());
-    this.setEllipseType();
+    this.setEllipseBorderType();
     this.ellipse = this.renderer.createElement('ellipse', 'svg');
     return this.ellipse;
   }
@@ -78,7 +78,7 @@ export class EllipseService implements Shape {
     this.y = mouse.y;
   }
 
-  setEllipseType(): void {
+  setEllipseBorderType(): void {
     if (!this.fillEnable) {
       this.fill = this.removeColor(this.fill);
     }
@@ -125,31 +125,31 @@ export class EllipseService implements Shape {
     this.renderer.setStyle(this.ellipse, 'stroke-width', this.strokeWidth.toString());
   }
 
-  assignBorderedRectangle(): void {
+  assignBorderedEllipse(): void {
     this.strokeEnable = true;
     this.fillEnable = false;
   }
 
-  assignFilledRectangle(): void {
+  assignFilledEllipse(): void {
     this.strokeEnable = false;
     this.fillEnable = true;
   }
 
-  assignBorderedAndFilledRectangle(): void {
+  assignBorderedAndFilledEllipse(): void {
     this.strokeEnable = true;
     this.fillEnable = true;
   }
 
-  assignRectangleType(): void {
+  assignEllipseType(): void {
     switch (this.ellipseType) {
       case OUTLINE_TYPE.bordered:
-        this.assignBorderedRectangle();
+        this.assignBorderedEllipse();
         break;
       case OUTLINE_TYPE.filled:
-        this.assignFilledRectangle();
+        this.assignFilledEllipse();
         break;
       case OUTLINE_TYPE.borderedAndFilled:
-        this.assignBorderedAndFilledRectangle();
+        this.assignBorderedAndFilledEllipse();
         break;
       default:
     }

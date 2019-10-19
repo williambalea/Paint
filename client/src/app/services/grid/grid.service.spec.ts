@@ -28,7 +28,10 @@ describe('GridService', () => {
     expect(service).toBeTruthy();
   });
   it('Should set a numeral grid size', () => {
+    const size = 10;
+    service.setGridSize(size);
     expect(service.gridSize).toEqual(jasmine.any(Number));
+    expect(service.gridSize).toEqual(size);
   });
   it('Should set a numeral width', () => {
     expect(service.width).toEqual(jasmine.any(Number));

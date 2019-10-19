@@ -1,5 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {  MatDialogRef } from '@angular/material/dialog';
 import { DisplayConfirmationComponent } from './display-confirmation.component';
 
 describe('DisplayConfirmationComponent', () => {
@@ -9,6 +10,10 @@ describe('DisplayConfirmationComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DisplayConfirmationComponent ],
+      providers: [
+        MatDialogRef,
+      ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

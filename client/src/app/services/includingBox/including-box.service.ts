@@ -30,9 +30,9 @@ export class IncludingBoxService {
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const shapeBoundary: SVGRect = value.getBBox();
       if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
-        const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, 10);
-        shapeBoundary.x -= strokeWidthOverflow / 2;
-        shapeBoundary.y -= strokeWidthOverflow / 2;
+        const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, NB.Ten);
+        shapeBoundary.x -= strokeWidthOverflow / NB.Two;
+        shapeBoundary.y -= strokeWidthOverflow / NB.Two;
         shapeBoundary.width += strokeWidthOverflow;
         shapeBoundary.height += strokeWidthOverflow;
       }
@@ -50,9 +50,9 @@ export class IncludingBoxService {
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const shapeBoundary: SVGRect = value.getBBox();
       if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
-        const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, 10);
-        shapeBoundary.x -= strokeWidthOverflow / 2;
-        shapeBoundary.y -= strokeWidthOverflow / 2;
+        const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, NB.Ten);
+        shapeBoundary.x -= strokeWidthOverflow / NB.Two;
+        shapeBoundary.y -= strokeWidthOverflow / NB.Two;
         shapeBoundary.width += strokeWidthOverflow;
         shapeBoundary.height += strokeWidthOverflow;
       }
@@ -113,12 +113,12 @@ export class IncludingBoxService {
   setControlPoints(): Point[] {
     const positions: Point[] = [
       { x: this.boxUpperLeft.x, y: this.boxUpperLeft.y },
-      { x: (this.boxUpperLeft.x + (this.width / 2)), y: this.boxUpperLeft.y },
+      { x: (this.boxUpperLeft.x + (this.width / NB.Two)), y: this.boxUpperLeft.y },
       { x: (this.boxUpperLeft.x + this.width), y: this.boxUpperLeft.y },
-      { x: this.boxUpperLeft.x, y: (this.boxUpperLeft.y + (this.height / 2)) },
-      { x: (this.boxUpperLeft.x + this.width), y: (this.boxUpperLeft.y + (this.height / 2)) },
+      { x: this.boxUpperLeft.x, y: (this.boxUpperLeft.y + (this.height / NB.Two)) },
+      { x: (this.boxUpperLeft.x + this.width), y: (this.boxUpperLeft.y + (this.height / NB.Two)) },
       { x: this.boxUpperLeft.x, y: this.boxUpperLeft.y + (this.height) },
-      { x: (this.boxUpperLeft.x + (this.width / 2)), y: this.boxUpperLeft.y + (this.height) },
+      { x: (this.boxUpperLeft.x + (this.width / NB.Two)), y: this.boxUpperLeft.y + (this.height) },
       { x: (this.boxUpperLeft.x + this.width), y: this.boxUpperLeft.y + (this.height) },
     ];
     return positions;

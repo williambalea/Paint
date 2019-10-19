@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { STRINGS } from 'src/constants';
+import { NB, STRINGS } from 'src/constants';
 import { ScreenshotService } from '../shapes/screenshot.service';
 import { ColorService } from './color.service';
 
@@ -19,14 +19,14 @@ export class PipetteService {
     const image = new Image();
     image.src = images64;
     image.onload = () => {
-      (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, 0, 0, width, height);
+      (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, NB.Zero, NB.Zero, width, height);
       const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
-        getImageData(event.offsetX, event.offsetY, 1, 1).data;
-      if (event.button === 0) {
-        this.colorService.setFillColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
+        getImageData(event.offsetX, event.offsetY, NB.One, NB.One).data;
+      if (event.button === NB.Zero) {
+        this.colorService.setFillColor('rgba(' + data[NB.Zero] + ',' + data[NB.One] + ',' + data[NB.Two] + ',' + data[NB.Three] + ')');
       }
-      if (event.button === 2) {
-        this.colorService.setStrokeColor('rgba(' + data[0] + ',' + data[1] + ',' + data[2] + ',' + data[3] + ')');
+      if (event.button === NB.Two) {
+        this.colorService.setStrokeColor('rgba(' + data[NB.Zero] + ',' + data[NB.One] + ',' + data[NB.Two] + ',' + data[NB.Three] + ')');
       }
     };
   }

@@ -9,7 +9,7 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
-import { BRUSH, JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
+import { BRUSH, JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, NB, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
@@ -42,7 +42,7 @@ export class AttributeBarComponent {
               private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.brush = BRUSH;
-    this.gridService.gridSize = 40;
+    this.gridService.gridSize = NB.Fifty;
     this.linecorner = LINECORNER;
     this.lineStyle = LINE_PATTERN;
     this.junctionStyle = JUNCTIONSTYLE;

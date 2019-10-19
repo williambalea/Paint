@@ -32,8 +32,8 @@ export class StampService implements Shape {
   }
 
   onMouseMove(): void {
-    this.position.x = this.inputService.getMouse().x - this.size / 2;
-    this.position.y = this.inputService.getMouse().y - this.size / 2;
+    this.position.x = this.inputService.getMouse().x - this.size / NB.Two;
+    this.position.y = this.inputService.getMouse().y - this.size / NB.Two;
   }
 
   onMouseUp(): void {

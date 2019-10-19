@@ -52,10 +52,10 @@ export class InputService {
   changeStampAngle(value: number): void {
     const increment = this.altPressed ? value : value * NB.Fifteen;
     this.stampAngle += increment;
-    if (this.stampAngle >= 360) {
-      this.stampAngle = 0;
-    } else if (this.stampAngle <= 0) {
-      this.stampAngle = 360;
+    if (this.stampAngle >= NB.ThreeHundredSixty) {
+      this.stampAngle = NB.Zero;
+    } else if (this.stampAngle <= NB.Zero) {
+      this.stampAngle = NB.ThreeHundredSixty;
     }
   }
 

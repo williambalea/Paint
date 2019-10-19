@@ -118,8 +118,8 @@ export class PolygonService implements Shape {
         Math.abs(this.inputService.getMouse().x - this.origin.x),
         Math.abs(this.inputService.getMouse().y - this.origin.y),
         this.sideNumber,
-        Math.abs(this.inputService.getMouse().x - this.origin.x) / 2,
-        Math.abs(this.inputService.getMouse().y - this.origin.y) / 2,
+        Math.abs(this.inputService.getMouse().x - this.origin.x) / NB.Two,
+        Math.abs(this.inputService.getMouse().y - this.origin.y) / NB.Two,
       );
       this.draw();
     }

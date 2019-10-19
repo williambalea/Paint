@@ -1,4 +1,5 @@
 import { ElementRef, Injectable, Renderer2 } from '@angular/core';
+import { NB } from 'src/constants';
 import * as svgIntersections from 'svg-intersections';
 import { InputService } from '../input.service';
 import { RectangleService } from '../shapes/rectangle.service';
@@ -44,7 +45,7 @@ export class SelectorService implements Shape {
   }
 
   isCloseTo(x: number, y: number): boolean {
-    return (x + 0.5 > y) && (y + 0.5 > x);
+    return (x + NB.ZeroPointFive > y) && (y + NB.ZeroPointFive > x);
   }
 
   intersection(selectorArea: any, canvas: ElementRef): void {
@@ -104,16 +105,16 @@ export class SelectorService implements Shape {
         }),
         currentShape,
       );
-      if ((intersections.points.length !== 0) &&
-        (!this.isCloseTo(intersections.points[0].x, intersections.points[1].x)) &&
-        (!this.isCloseTo(intersections.points[0].y, intersections.points[1].y))) {
-        if (this.inputService.mouseButton === 2) {
+      if ((intersections.points.length !== NB.Zero) &&
+        (!this.isCloseTo(intersections.points[NB.Zero].x, intersections.points[NB.One].x)) &&
+        (!this.isCloseTo(intersections.points[NB.Zero].y, intersections.points[NB.One].y))) {
+        if (this.inputService.mouseButton === NB.Two) {
           const index = this.selectedShapes.indexOf(canvas.nativeElement.children[i]);
-          if (index !== -1) {
-            this.selectedShapes.splice(index, 1);
+          if (index !== -NB.One) {
+            this.selectedShapes.splice(index, NB.One);
           }
         }
-        if (!this.selectedShapes.includes(canvas.nativeElement.children[i]) && this.inputService.mouseButton === 0) {
+        if (!this.selectedShapes.includes(canvas.nativeElement.children[i]) && this.inputService.mouseButton === NB.Zero) {
           this.selectedShapes.push(canvas.nativeElement.children[i]);
         }
       }

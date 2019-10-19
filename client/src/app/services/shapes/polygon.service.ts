@@ -36,6 +36,7 @@ export class PolygonService implements Shape {
     this.polygonType = OUTLINE_TYPE.borderedAndFilled;
     this.fillEnable = true;
     this.strokeEnable = true;
+    this.origin = {x: 1, y: 1};
   }
 
   assignPolygonType(): void {

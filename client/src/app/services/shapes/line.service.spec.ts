@@ -145,8 +145,6 @@ describe('LineService', () => {
     expect(spyOnFinishDraw).toHaveBeenCalled();
   });
 
-
-
   it ('should call isActive on mouse move', () => {
     service.active = true;
     const spyOnIsActive = spyOn(service, 'isActive');

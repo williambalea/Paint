@@ -1,3 +1,4 @@
+import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
@@ -15,7 +16,7 @@ class RendererMock {
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   backSpacePressed = false;
-  getMouse(): void {return; }
+  getMouse(): Point {return {x: 0, y: 0}; }
 }
 
 describe('PolygonService', () => {

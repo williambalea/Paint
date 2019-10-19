@@ -221,4 +221,20 @@ fdescribe('LineService', () => {
     expect(service.dashArrayType = '');
   });
 
+  it ('assign angled junction style angled', () => {
+    service.junctionValue = '';
+    service.junction = 'dot';
+    service.assignJunctionStyleAngled();
+    expect(service.junctionValue).toEqual('miter');
+    expect(service.junction).toEqual('');
+  });
+
+  it ('assign angled junction style randed', () => {
+    service.junctionValue = '';
+    service.junction = 'dot';
+    service.assignJunctionStyleRounded();
+    expect(service.junctionValue).toEqual('round');
+    expect(service.junction).toEqual('');
+  });
+
 });

@@ -1,7 +1,7 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
+import { EMPTY_STRING, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { PolygonService } from './polygon.service';
@@ -45,22 +45,36 @@ describe('PolygonService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Should allow for multitude types of polygon drawing', () => {
-    const borderedSpy = spyOn(service, 'assignBorderedPolygon');
-    const filledSpy = spyOn(service, 'assignFilledPolygon');
-    const borderedFilledSpy = spyOn(service, 'assignBorderedAndFilledPolygon');
-
-    service.polygonType = OUTLINE_TYPE.bordered;
+  it('Should change type to Bordered', () => {
+    service.polygonType = 'Bordered';
+    const spyOnAssignBorderedPolygon = spyOn(service, 'assignBorderedPolygon');
     service.assignPolygonType();
-    expect(borderedSpy).toHaveBeenCalled();
+    expect(spyOnAssignBorderedPolygon).toHaveBeenCalled();
+  });
 
-    service.polygonType = OUTLINE_TYPE.filled;
+  it('Should change type to Filled', () => {
+    service.polygonType = 'Filled';
+    const spyOnAssignFilledPolygon = spyOn(service, 'assignFilledPolygon');
     service.assignPolygonType();
-    expect(filledSpy).toHaveBeenCalled();
+    expect(spyOnAssignFilledPolygon).toHaveBeenCalled();
+  });
 
-    service.polygonType = OUTLINE_TYPE.borderedAndFilled;
+  it('Should change type to Bordered & Filled', () => {
+    service.polygonType = 'Bordered & Filled';
+    const spyOnAssignBorderedAndFilledPolygon = spyOn(service, 'assignBorderedAndFilledPolygon');
     service.assignPolygonType();
-    expect(borderedFilledSpy).toHaveBeenCalled();
+    expect(spyOnAssignBorderedAndFilledPolygon).toHaveBeenCalled();
+  });
+
+  it('Should not assign type on default', () => {
+    service.polygonType = 'random';
+    const spyOnAssignBorderedPolygon = spyOn(service, 'assignBorderedPolygon');
+    const spyOnAssignFilledPolygon = spyOn(service, 'assignFilledPolygon');
+    const spyOnAssignBorderedAndFilledPolygon = spyOn(service, 'assignBorderedAndFilledPolygon');
+    service.assignPolygonType();
+    expect(spyOnAssignBorderedPolygon).not.toHaveBeenCalled();
+    expect(spyOnAssignFilledPolygon).not.toHaveBeenCalled();
+    expect(spyOnAssignBorderedAndFilledPolygon).not.toHaveBeenCalled();
   });
 
   it('should change primary color', () => {
@@ -82,7 +96,6 @@ describe('PolygonService', () => {
     service.setPolygonType();
     expect(removeColorSpy).toHaveBeenCalled();
     expect(removeColorSpy).toHaveBeenCalled();
-    // test for vars assignments
   });
 
   it('should remove color', () => {

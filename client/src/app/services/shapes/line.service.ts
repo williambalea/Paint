@@ -202,7 +202,7 @@ changeJunction(): void {
     case LINECORNER.rounded:
       this.assignJunctionStyleRounded();
       break;
-    default;
+    default:
   }
 }
 

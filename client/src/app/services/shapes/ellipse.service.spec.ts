@@ -1,12 +1,14 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OUTLINE_TYPE } from 'src/constants';
+import { COLORS, OUTLINE_TYPE } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { EllipseService } from './ellipse.service';
 
 class RendererMock {
   createElement(): void {return; }
+  setAttribute(): void {return; }
+  setStyle(): void {return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -184,8 +186,102 @@ describe('EllipseService', () => {
     expect(removeColorSpy).toHaveBeenCalledTimes(2);
   });
 
-  // it('Should remove color by setting A to 0', () => {
+  it('Should remove color by setting A to 0', () => {
+    let blueColor: string = COLORS.greenRBGA;
+    blueColor = service.removeColor(blueColor);
+    expect(blueColor).toEqual('rgba(0, 255, 0,0)');
+  });
 
+  it('Should draw', () => {
+    const setAttributeSpy = spyOn(renderer, 'setAttribute');
+    const setStyleSpy = spyOn(renderer, 'setStyle');
+    service.draw();
+    expect(setAttributeSpy).toHaveBeenCalledTimes(4);
+    expect(setStyleSpy).toHaveBeenCalledTimes(3);
+  });
+
+  // it('Should set Ellipse offset', () => {
+    
   // });
+
+
+
+  it('Should draw', () => {
+    const setAttributeSpy = spyOn(renderer, 'setAttribute');
+    const setStyleSpy = spyOn(renderer, 'setStyle');
+    service.draw();
+    expect(setAttributeSpy).toHaveBeenCalledTimes(4);
+    expect(setStyleSpy).toHaveBeenCalledTimes(3);
+  });
+
+  it('Should set up Bordered Rectangle', () => {
+    service.strokeEnable = false;
+    service.fillEnable = true;
+    service.assignBorderedRectangle();
+    expect(service.strokeEnable).toEqual(true);
+    expect(service.fillEnable).toEqual(false);
+  });
+
+  it('Should set up Filled Rectangle', () => {
+    service.strokeEnable = true;
+    service.fillEnable = false;
+    service.assignFilledRectangle();
+    expect(service.strokeEnable).toEqual(false);
+    expect(service.fillEnable).toEqual(true);
+  });
+
+  it('Should set up Bordered and Filled Rectangle', () => {
+    service.strokeEnable = false;
+    service.fillEnable = false;
+    service.assignBorderedAndFilledRectangle();
+    expect(service.strokeEnable).toEqual(true);
+    expect(service.fillEnable).toEqual(true);
+  });
+
+  it('Should assign rectangle type to bordered', () => {
+    const assignBorderedRectangleSpy = spyOn(service, 'assignBorderedRectangle');
+    const assignFilledRectangleSpy = spyOn(service, 'assignFilledRectangle');
+    const assignBandFRectangleSpy = spyOn(service, 'assignBorderedAndFilledRectangle');
+    service.ellipseType = OUTLINE_TYPE.bordered;
+    service.assignRectangleType();
+    expect(assignBorderedRectangleSpy).toHaveBeenCalled();
+    expect(assignFilledRectangleSpy).not.toHaveBeenCalled();
+    expect(assignBandFRectangleSpy).not.toHaveBeenCalled();
+  });
+  it('Should assign rectangle type to filled', () => {
+    const assignBorderedRectangleSpy = spyOn(service, 'assignBorderedRectangle');
+    const assignFilledRectangleSpy = spyOn(service, 'assignFilledRectangle');
+    const assignBandFRectangleSpy = spyOn(service, 'assignBorderedAndFilledRectangle');
+    service.ellipseType = OUTLINE_TYPE.filled;
+    service.assignRectangleType();
+    expect(assignBorderedRectangleSpy).not.toHaveBeenCalled();
+    expect(assignFilledRectangleSpy).toHaveBeenCalled();
+    expect(assignBandFRectangleSpy).not.toHaveBeenCalled();
+  });
+  it('Should assign rectangle type to bordered and filled', () => {
+    const assignBorderedRectangleSpy = spyOn(service, 'assignBorderedRectangle');
+    const assignFilledRectangleSpy = spyOn(service, 'assignFilledRectangle');
+    const assignBandFRectangleSpy = spyOn(service, 'assignBorderedAndFilledRectangle');
+    service.ellipseType = OUTLINE_TYPE.borderedAndFilled;
+    service.assignRectangleType();
+    expect(assignBorderedRectangleSpy).not.toHaveBeenCalled();
+    expect(assignFilledRectangleSpy).not.toHaveBeenCalled();
+    expect(assignBandFRectangleSpy).toHaveBeenCalled();
+  });
+
+  it('Should change Primary Color from black to blue', () => {
+    service.fill = COLORS.blackRGBA;
+    const newColor: string = COLORS.blueRGBA;
+    service.changePrimaryColor(newColor);
+    expect(service.fill).toEqual(COLORS.blueRGBA);
+  });
+
+  it('Should change Secondary Color from black to blue', () => {
+    service.stroke = COLORS.blackRGBA;
+    const newColor: string = COLORS.blueRGBA;
+    service.changeSecondaryColor(newColor);
+    expect(service.stroke).toEqual(COLORS.blueRGBA);
+  });
+
 
 });

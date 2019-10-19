@@ -6,6 +6,7 @@ import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { InputService } from 'src/app/services/input.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
+import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
@@ -40,6 +41,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private selectorService: SelectorService,
               private communicationService: CommunicationsService,
               private gridService: GridService,
+              private screenshotService: ScreenshotService,
               private unsubscribeService: UnsubscribeService,
               private includingBoxService: IncludingBoxService,
               private eventEmitterService: EventEmitterService) {
@@ -162,19 +164,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  screenshotBase64(): string {
-    const b64start = 'data:image/svg+xml;base64,';
-    const svg: SVGSVGElement = this.drawingBoard.nativeElement;
-    const xml: string = new XMLSerializer().serializeToString(svg as Node);
-    const svg64: string = btoa(xml);
-    return b64start + svg64;
-  }
-
   usePipette(event: MouseEvent): void {
     const canvas: HTMLCanvasElement = this.htmlCanvas.nativeElement;
     canvas.height = this.canvasHeight;
     canvas.width = this.canvasWidth;
-    const images64: string = this.screenshotBase64();
+    const images64: string = this.screenshotService.screenshotBase64(this.drawingBoard.nativeElement);
     const image = new Image();
     image.src = images64;
     image.onload = () => {
@@ -273,7 +267,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   convertSVGtoJSON(): void {
     const nom = this.inputService.drawingName;
     const tag = this.inputService.drawingTags;
-    const picture = this.screenshotBase64();
+    const picture = this.screenshotService.screenshotBase64(this.drawingBoard.nativeElement);
     const element = this.canvas.nativeElement;
     const html = element.innerHTML;
     const data: SVGJSON = {

@@ -300,6 +300,11 @@ describe('LineService', () => {
     expect(assignFullLineSpy).not.toHaveBeenCalled();
   });
 
+  it ('should change junction value to newJunction', () => {
+    const newJunction: string = 'abc';
+    service.captDot(newJunction);
+    expect(service.junction).toEqual('url(#abc)');
+  });
 
   it ('should assign angled junction style angled', () => {
     service.junctionValue = '';

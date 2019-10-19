@@ -125,31 +125,31 @@ export class EllipseService implements Shape {
     this.renderer.setStyle(this.ellipse, 'stroke-width', this.strokeWidth.toString());
   }
 
-  assignBorderedRectangle(): void {
+  assignBorderedEllipse(): void {
     this.strokeEnable = true;
     this.fillEnable = false;
   }
 
-  assignFilledRectangle(): void {
+  assignFilledEllipse(): void {
     this.strokeEnable = false;
     this.fillEnable = true;
   }
 
-  assignBorderedAndFilledRectangle(): void {
+  assignBorderedAndFilledEllipse(): void {
     this.strokeEnable = true;
     this.fillEnable = true;
   }
 
-  assignRectangleType(): void {
+  assignEllipseType(): void {
     switch (this.ellipseType) {
       case OUTLINE_TYPE.bordered:
-        this.assignBorderedRectangle();
+        this.assignBorderedEllipse();
         break;
       case OUTLINE_TYPE.filled:
-        this.assignFilledRectangle();
+        this.assignFilledEllipse();
         break;
       case OUTLINE_TYPE.borderedAndFilled:
-        this.assignBorderedAndFilledRectangle();
+        this.assignBorderedAndFilledEllipse();
         break;
       default:
     }

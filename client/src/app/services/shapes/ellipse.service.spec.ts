@@ -200,9 +200,26 @@ describe('EllipseService', () => {
     expect(setStyleSpy).toHaveBeenCalledTimes(3);
   });
 
-  // it('Should set Ellipse offset', () => {
-    
-  // });
+  
+  it('Should set Circle offset', () => {
+    service.mouse = {x: 10, y: 4};
+    service.origin = {x: 2, y: 20}
+    service.setCircleOffset();
+    expect(service.xray).toEqual(8);
+    expect(service.yray).toEqual(8);
+    expect(service.x).toEqual(10);
+    expect(service.y).toEqual(12);
+  });
+
+  it('Should set Ellipse offset', () => {
+    service.mouse = {x: 10, y: 4};
+    service.origin = {x: 2, y: 20};
+    service.setEllipseOffset();
+    expect(service.xray).toEqual(4);
+    expect(service.yray).toEqual(8);
+    expect(service.x).toEqual(6);
+    expect(service.y).toEqual(12);
+  });
 
 
 
@@ -214,59 +231,69 @@ describe('EllipseService', () => {
     expect(setStyleSpy).toHaveBeenCalledTimes(3);
   });
 
-  it('Should set up Bordered Rectangle', () => {
+  it('Should set up Bordered Ellipse', () => {
     service.strokeEnable = false;
     service.fillEnable = true;
-    service.assignBorderedRectangle();
+    service.assignBorderedEllipse();
     expect(service.strokeEnable).toEqual(true);
     expect(service.fillEnable).toEqual(false);
   });
 
-  it('Should set up Filled Rectangle', () => {
+  it('Should set up Filled Ellipse', () => {
     service.strokeEnable = true;
     service.fillEnable = false;
-    service.assignFilledRectangle();
+    service.assignFilledEllipse();
     expect(service.strokeEnable).toEqual(false);
     expect(service.fillEnable).toEqual(true);
   });
 
-  it('Should set up Bordered and Filled Rectangle', () => {
+  it('Should set up Bordered and Filled Ellipse', () => {
     service.strokeEnable = false;
     service.fillEnable = false;
-    service.assignBorderedAndFilledRectangle();
+    service.assignBorderedAndFilledEllipse();
     expect(service.strokeEnable).toEqual(true);
     expect(service.fillEnable).toEqual(true);
   });
 
-  it('Should assign rectangle type to bordered', () => {
-    const assignBorderedRectangleSpy = spyOn(service, 'assignBorderedRectangle');
-    const assignFilledRectangleSpy = spyOn(service, 'assignFilledRectangle');
-    const assignBandFRectangleSpy = spyOn(service, 'assignBorderedAndFilledRectangle');
+  it('Should assign Ellipse type to bordered', () => {
+    const assignBorderedEllipseSpy = spyOn(service, 'assignBorderedEllipse');
+    const assignFilledEllipseSpy = spyOn(service, 'assignFilledEllipse');
+    const assignBandFEllipseSpy = spyOn(service, 'assignBorderedAndFilledEllipse');
     service.ellipseType = OUTLINE_TYPE.bordered;
-    service.assignRectangleType();
-    expect(assignBorderedRectangleSpy).toHaveBeenCalled();
-    expect(assignFilledRectangleSpy).not.toHaveBeenCalled();
-    expect(assignBandFRectangleSpy).not.toHaveBeenCalled();
+    service.assignEllipseType();
+    expect(assignBorderedEllipseSpy).toHaveBeenCalled();
+    expect(assignFilledEllipseSpy).not.toHaveBeenCalled();
+    expect(assignBandFEllipseSpy).not.toHaveBeenCalled();
   });
-  it('Should assign rectangle type to filled', () => {
-    const assignBorderedRectangleSpy = spyOn(service, 'assignBorderedRectangle');
-    const assignFilledRectangleSpy = spyOn(service, 'assignFilledRectangle');
-    const assignBandFRectangleSpy = spyOn(service, 'assignBorderedAndFilledRectangle');
+  it('Should assign Ellipse type to filled', () => {
+    const assignBorderedEllipseSpy = spyOn(service, 'assignBorderedEllipse');
+    const assignFilledEllipseSpy = spyOn(service, 'assignFilledEllipse');
+    const assignBandFEllipseSpy = spyOn(service, 'assignBorderedAndFilledEllipse');
     service.ellipseType = OUTLINE_TYPE.filled;
-    service.assignRectangleType();
-    expect(assignBorderedRectangleSpy).not.toHaveBeenCalled();
-    expect(assignFilledRectangleSpy).toHaveBeenCalled();
-    expect(assignBandFRectangleSpy).not.toHaveBeenCalled();
+    service.assignEllipseType();
+    expect(assignBorderedEllipseSpy).not.toHaveBeenCalled();
+    expect(assignFilledEllipseSpy).toHaveBeenCalled();
+    expect(assignBandFEllipseSpy).not.toHaveBeenCalled();
   });
-  it('Should assign rectangle type to bordered and filled', () => {
-    const assignBorderedRectangleSpy = spyOn(service, 'assignBorderedRectangle');
-    const assignFilledRectangleSpy = spyOn(service, 'assignFilledRectangle');
-    const assignBandFRectangleSpy = spyOn(service, 'assignBorderedAndFilledRectangle');
+  it('Should assign Ellipse type to bordered and filled', () => {
+    const assignBorderedEllipseSpy = spyOn(service, 'assignBorderedEllipse');
+    const assignFilledEllipseSpy = spyOn(service, 'assignFilledEllipse');
+    const assignBandFEllipseSpy = spyOn(service, 'assignBorderedAndFilledEllipse');
     service.ellipseType = OUTLINE_TYPE.borderedAndFilled;
-    service.assignRectangleType();
-    expect(assignBorderedRectangleSpy).not.toHaveBeenCalled();
-    expect(assignFilledRectangleSpy).not.toHaveBeenCalled();
-    expect(assignBandFRectangleSpy).toHaveBeenCalled();
+    service.assignEllipseType();
+    expect(assignBorderedEllipseSpy).not.toHaveBeenCalled();
+    expect(assignFilledEllipseSpy).not.toHaveBeenCalled();
+    expect(assignBandFEllipseSpy).toHaveBeenCalled();
+  });
+  it('Should assign nothing to default', () => {
+    const assignBorderedEllipseSpy = spyOn(service, 'assignBorderedEllipse');
+    const assignFilledEllipseSpy = spyOn(service, 'assignFilledEllipse');
+    const assignBandFEllipseSpy = spyOn(service, 'assignBorderedAndFilledEllipse');
+    service.ellipseType = '';
+    service.assignEllipseType();
+    expect(assignBorderedEllipseSpy).not.toHaveBeenCalled();
+    expect(assignFilledEllipseSpy).not.toHaveBeenCalled();
+    expect(assignBandFEllipseSpy).not.toHaveBeenCalled();
   });
 
   it('Should change Primary Color from black to blue', () => {

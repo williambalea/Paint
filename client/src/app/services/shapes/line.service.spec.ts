@@ -135,13 +135,21 @@ describe('LineService', () => {
     expect(spyOnFinishDraw).toHaveBeenCalled();
   });
 
-  it('should draw the starting the next line', () => {
+  it('should draw the next line', () => {
     service.positions = [{x: 1, y: 2}, {x: 3, y: 4}];
     service.linepath = 'abc';
     service.start = false;
     const spyOnFinishDraw = spyOn(service, 'finishDraw');
     service.draw();
     expect(service.linepath).toEqual('abcL3 4');
+    expect(spyOnFinishDraw).toHaveBeenCalled();
+  });
+
+  it('should redraw the starting point', () => {
+    service.positions = [{x: 1, y: 2}, {x: 3, y: 4}];
+    const spyOnFinishDraw = spyOn(service, 'finishDraw');
+    service.redraw();
+    expect(service.linepath).toEqual('M1 2L3 4');
     expect(spyOnFinishDraw).toHaveBeenCalled();
   });
 

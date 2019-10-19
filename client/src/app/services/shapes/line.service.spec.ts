@@ -344,11 +344,8 @@ describe('LineService', () => {
     const spyOnAssignJunctionStyleAngled = spyOn(service, 'assignJunctionStyleAngled');
     const spyOnSssignJunctionStyleRounded = spyOn(service, 'assignJunctionStyleRounded');
     service.changeJunction();
-    expect(spyOnCaptDot).not.toHaveBeenCalled()
+    expect(spyOnCaptDot).not.toHaveBeenCalled();
     expect(spyOnSssignJunctionStyleRounded).not.toHaveBeenCalled();
     expect(spyOnAssignJunctionStyleAngled).not.toHaveBeenCalled();
   });
-
-
-
 });

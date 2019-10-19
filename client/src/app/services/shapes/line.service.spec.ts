@@ -8,6 +8,10 @@ class RendererMock {
   createElement(): void {return; }
   setStyle(): void {return; }
 }
+// tslint:disable-next-line: max-classes-per-file
+class ColorServiceMock {
+  getFillColor(): void {return; }
+}
 
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
@@ -29,6 +33,7 @@ fdescribe('LineService', () => {
         InputService,
         { provide: Renderer2, useClass: RendererMock },
         { provide: InputService, useClass: InputServiceMock },
+        { provide: ColorService, useClass: ColorServiceMock },
       ],
     }).compileComponents();
     service = TestBed.get(LineService);
@@ -122,6 +127,40 @@ fdescribe('LineService', () => {
     const spyOnIsBackSpacePressed = spyOn(service, 'isBackSpacePressed');
     service.onMouseMove();
     expect(spyOnIsBackSpacePressed).toHaveBeenCalled();
+  });
+
+  it ('should call isShiftPressed() on mouse move', () => {
+    inputService.shiftPressed = true;
+    const spyOnIsShiftPressed = spyOn(service, 'isShiftPressed');
+    service.onMouseMove();
+    expect(spyOnIsShiftPressed).toHaveBeenCalled();
+  });
+
+  it('should delete last segment with BackSpace', () => {
+    service.stroke = 'string';
+    const spyOnDeletePosition = spyOn(service, 'deletePosition');
+    const spyOnGetFillColor = spyOn(colorService, 'getFillColor');
+    const spyOnValidationToCreatePath = spyOn(service, 'validationToCreatePath');
+    const spyOnSetStyle = spyOn(service, 'setStyle');
+    const spyOnRedraw = spyOn(service, 'redraw');
+    service.isBackSpacePressed();
+    expect(spyOnDeletePosition).toHaveBeenCalled();
+    expect(spyOnGetFillColor).toHaveBeenCalled();
+    expect(spyOnValidationToCreatePath).toHaveBeenCalled();
+    expect(spyOnSetStyle).toHaveBeenCalled();
+    expect(spyOnRedraw).toHaveBeenCalled();
+  });
+
+  it ('should not clean table if there is only one positon', () => {
+    service.positions = [{x: 1, y: 2}];
+    service.deletePosition();
+    expect(service.positions.length === 1);
+  });
+
+  it ('should clean table when there is more than 1 position', () => {
+    service.positions = [{x: 1, y: 2}, {x: 3, y: 4}];
+    service.deletePosition();
+    expect(service.positions.length === 2);
   });
 
 });

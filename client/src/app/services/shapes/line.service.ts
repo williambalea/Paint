@@ -97,22 +97,25 @@ export class LineService implements Shape {
     this.doubleClick = false;
     }
 
+    //Je sais pas cmt la tester
     isActive(): void {
       this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
 
     isBackSpacePressed() {
-      if (this.positions.length > 1) {
-        this.positions.pop();
-      }
+      this.deletePosition();
       this.stroke = this.colorService.getFillColor();
-      if (this.start) {
-        this.path = this.renderer.createElement('path', 'svg');
-      }
+      this.validationToCreatePath();
       this.setStyle();
       this.redraw();
       return this.path;
+    }
+
+    deletePosition(): void {
+      if (this.positions.length > 1) {
+        this.positions.pop();
+      }
     }
 
     isShiftPressed(): void {

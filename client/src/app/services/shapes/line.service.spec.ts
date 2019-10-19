@@ -12,6 +12,7 @@ class RendererMock {
 // tslint:disable-next-line: max-classes-per-file
 class ColorServiceMock {
   getFillColor(): void {return; }
+  addColorsToLastUsed(): void {return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -188,6 +189,36 @@ fdescribe('LineService', () => {
     service.onMouseUp();
     expect(spyOnSetAttribute).toHaveBeenCalled();
     expect(spyOnReset).toHaveBeenCalled();
+  });
+
+  it ('should do the last steps of the draw', () => {
+    service.start = true;
+    service.savedPath = '';
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    const spyOnAddColorsToLastUsed = spyOn(colorService, 'addColorsToLastUsed');
+    service.finishDraw();
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+    expect(service.start).toEqual(false);
+    expect(service.savedPath).toEqual(service.linepath);
+    expect(spyOnAddColorsToLastUsed).toHaveBeenCalled();
+  });
+
+  it ('should assign stroke style dotted point', () => {
+    service.dashArrayType = '';
+    service.assignStrokeStyleDottedPoint();
+    expect(service.dashArrayType = '1,20');
+  });
+
+  it ('should assign stroke style dotted line', () => {
+    service.dashArrayType = '';
+    service.assignStrokeStyleDottedLine();
+    expect(service.dashArrayType = '20,20');
+  });
+
+  it ('assign stroke style full line', () => {
+    service.dashArrayType = '';
+    service.assignStrokeStyleFullLine();
+    expect(service.dashArrayType = '');
   });
 
 });

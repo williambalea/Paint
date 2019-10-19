@@ -7,6 +7,7 @@ import { LineService } from './line.service';
 class RendererMock {
   createElement(): void {return; }
   setStyle(): void {return; }
+  setAttribute(): void {return; }
 }
 // tslint:disable-next-line: max-classes-per-file
 class ColorServiceMock {
@@ -19,7 +20,7 @@ class InputServiceMock {
   getMouse(): void {return; }
 }
 
-describe('LineService', () => {
+fdescribe('LineService', () => {
   let service: LineService;
   let colorService: ColorService;
   let inputService: InputService;
@@ -161,6 +162,32 @@ describe('LineService', () => {
     service.positions = [{x: 1, y: 2}, {x: 3, y: 4}];
     service.deletePosition();
     expect(service.positions.length === 2);
+  });
+
+  it ('should close line with shift pressed', () => {
+    service.linepath = '';
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    const spyOnReset = spyOn(service, 'reset');
+    service.isShiftPressed();
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+    expect(spyOnReset).toHaveBeenCalled();
+    expect(service.linepath).toEqual('Z');
+  });
+
+  it ('should delete all line in escape pressed', () => {
+    inputService.escapePressed = true;
+    const spyOnReset = spyOn(service, 'reset');
+    service.onMouseUp();
+    expect(spyOnReset).toHaveBeenCalled();
+  });
+
+  it('should finish line after doubleClick', () => {
+    service.doubleClick = true;
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    const spyOnReset = spyOn(service, 'reset');
+    service.onMouseUp();
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+    expect(spyOnReset).toHaveBeenCalled();
   });
 
 });

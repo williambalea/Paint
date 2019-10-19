@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { LineService } from './line.service';
+import { STROKE_DASHARRAY_STYLE } from 'src/constants';
 
 class RendererMock {
   createElement(): void {return; }
@@ -256,6 +257,49 @@ describe('LineService', () => {
     service.assignStrokeStyleFullLine();
     expect(service.dashArrayType = '');
   });
+
+  it('Should assign strokeStyle to dottedPoint', () => {
+    const assignDottedPointSpy = spyOn(service, 'assignStrokeStyleDottedPoint');
+    const assignDottedLineSpy = spyOn(service, 'assignStrokeStyleDottedLine');
+    const assignFullLineSpy = spyOn(service, 'assignStrokeStyleFullLine');
+    service.dashArrayType = STROKE_DASHARRAY_STYLE.dottedPoint;
+    service.assignStrokeStyle();
+    expect(assignDottedPointSpy).toHaveBeenCalled();
+    expect(assignDottedLineSpy).not.toHaveBeenCalled();
+    expect(assignFullLineSpy).not.toHaveBeenCalled();
+  });
+  it('Should assign strokeStyle to dottedLine', () => {
+    const assignDottedPointSpy = spyOn(service, 'assignStrokeStyleDottedPoint');
+    const assignDottedLineSpy = spyOn(service, 'assignStrokeStyleDottedLine');
+    const assignFullLineSpy = spyOn(service, 'assignStrokeStyleFullLine');
+    service.dashArrayType = STROKE_DASHARRAY_STYLE.dottedLine;
+    service.assignStrokeStyle();
+    expect(assignDottedPointSpy).not.toHaveBeenCalled();
+    expect(assignDottedLineSpy).toHaveBeenCalled();
+    expect(assignFullLineSpy).not.toHaveBeenCalled();
+  });
+  it('Should assign strokeStyle to fullLine', () => {
+    const assignDottedPointSpy = spyOn(service, 'assignStrokeStyleDottedPoint');
+    const assignDottedLineSpy = spyOn(service, 'assignStrokeStyleDottedLine');
+    const assignFullLineSpy = spyOn(service, 'assignStrokeStyleFullLine');
+    service.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
+    service.assignStrokeStyle();
+    expect(assignDottedPointSpy).not.toHaveBeenCalled();
+    expect(assignDottedLineSpy).not.toHaveBeenCalled();
+    expect(assignFullLineSpy).toHaveBeenCalled();
+  });
+
+  it('Should assign nothing in default case', () => {
+    const assignDottedPointSpy = spyOn(service, 'assignStrokeStyleDottedPoint');
+    const assignDottedLineSpy = spyOn(service, 'assignStrokeStyleDottedLine');
+    const assignFullLineSpy = spyOn(service, 'assignStrokeStyleFullLine');
+    service.dashArrayType = 'a';
+    service.assignStrokeStyle();
+    expect(assignDottedPointSpy).not.toHaveBeenCalled();
+    expect(assignDottedLineSpy).not.toHaveBeenCalled();
+    expect(assignFullLineSpy).not.toHaveBeenCalled();
+  });
+
 
   it ('should assign angled junction style angled', () => {
     service.junctionValue = '';

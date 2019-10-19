@@ -36,17 +36,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   selectorAreaActive = false;
 
   constructor(private fileParameters: FileParametersServiceService,
-    private colorService: ColorService,
-    private inputService: InputService,
-    private renderer: Renderer2,
-    private pipetteService: PipetteService,
-    private selectorService: SelectorService,
-    private communicationService: CommunicationsService,
-    private gridService: GridService,
-    private screenshotService: ScreenshotService,
-    private unsubscribeService: UnsubscribeService,
-    private includingBoxService: IncludingBoxService,
-    private eventEmitterService: EventEmitterService) {
+              private colorService: ColorService,
+              private inputService: InputService,
+              private renderer: Renderer2,
+              private pipetteService: PipetteService,
+              private selectorService: SelectorService,
+              private communicationService: CommunicationsService,
+              private gridService: GridService,
+              private screenshotService: ScreenshotService,
+              private unsubscribeService: UnsubscribeService,
+              private includingBoxService: IncludingBoxService,
+              private eventEmitterService: EventEmitterService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -112,6 +112,115 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
+  setElementColor(event: MouseEvent, primaryColor: string, secondaryColor?: string): void {
+    if (event.button === 0) {
+      this.colorService.setFillColor(primaryColor);
+    }
+    if (event.button === 2 && secondaryColor) {
+      this.colorService.setStrokeColor(secondaryColor);
+    }
+  }
+
+  draw(shape: any): void {
+    if (this.selectedTool !== TOOL.colorApplicator &&
+      this.selectedTool !== TOOL.pipette) {
+      if (shape) {
+        this.renderer.appendChild(this.canvas.nativeElement, shape);
+      }
+      this.inputService.isBlank = false;
+      this.colorService.setMakingColorChanges(false);
+      this.pointerEvent = POINTER_EVENT.none;
+    }
+
+  }
+
+  convertSVGtoJSON(): void {
+    const nom = this.inputService.drawingName;
+    const tag = this.inputService.drawingTags;
+    const picture = this.screenshotService.screenshotBase64(this.drawingBoard.nativeElement);
+    const element = this.canvas.nativeElement;
+    const html = element.innerHTML;
+    const data: SVGJSON = {
+      name: nom,
+      tags: tag,
+      thumbnail: picture,
+      html,
+      color: this.colorService.getBackgroundColor(),
+    };
+    const json = JSON.stringify(data);
+
+    this.communicationService.HTML = json;
+
+    this.communicationService.postToServer(data).subscribe(() => {
+      this.communicationService.enableSubmit = true;
+    },
+      (error) => {
+        window.alert('can\'t save to server');
+        this.communicationService.enableSubmit = true;
+      });
+
+  }
+
+  leftClickOnElement(event: Event): void {
+    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
+      this.changeFillColor(event.target as HTMLElement);
+    }
+  }
+
+  rightClickOnElement(event: Event): void {
+    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
+      const targetTag: string = (event.target as HTMLElement).tagName;
+      if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
+        this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());
+      }
+    }
+  }
+
+  changeFillColor(target: HTMLElement): void {
+    const targetTag: string = target.tagName;
+    if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
+      this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
+    } else if (targetTag === 'path') {
+      this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
+    }
+  }
+
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    if (this.selectedTool !== TOOL.colorApplicator) {
+      this.inputService.setMouseOffset(event);
+      this.selectedShape.onMouseMove();
+    }
+    if (this.selectedTool === TOOL.selector) {
+      if (this.selectorAreaActive) {
+        this.selectorService.intersection(this.shape, this.canvas);
+        this.includingBoxService.update();
+      }
+    }
+  }
+
+  @HostListener('mouseup')
+  onMouseUp(): void {
+    if (this.selectedTool !== TOOL.colorApplicator) {
+
+      this.selectedShape.onMouseUp();
+      this.pointerEvent = POINTER_EVENT.visiblePainted;
+    }
+    if (this.selectedTool === TOOL.selector) {
+      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+    }
+    this.inputService.isDrawed = true;
+    this.selectorAreaActive = false;
+  }
+
+  @HostListener('wheel', ['$event'])
+  onwheel(event: WheelEvent): void {
+    if (this.selectedTool === TOOL.stamp) {
+      event.preventDefault();
+      this.inputService.changeStampAngle(Math.sign(event.deltaY));
+    }
+  }
+
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
     if (event.key === KEY.shift) {
@@ -157,15 +266,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  setElementColor(event: MouseEvent, primaryColor: string, secondaryColor?: string): void {
-    if (event.button === 0) {
-      this.colorService.setFillColor(primaryColor);
-    }
-    if (event.button === 2 && secondaryColor) {
-      this.colorService.setStrokeColor(secondaryColor);
-    }
-  }
-
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
     this.inputService.mouseButton = event.button;
@@ -193,108 +293,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.includingBoxService.update();
       }
-    }
-  }
-
-  draw(shape: any): void {
-    if (this.selectedTool !== TOOL.colorApplicator &&
-      this.selectedTool !== TOOL.pipette) {
-      if (shape) {
-        this.renderer.appendChild(this.canvas.nativeElement, shape);
-      }
-      this.inputService.isBlank = false;
-      this.colorService.setMakingColorChanges(false);
-      this.pointerEvent = POINTER_EVENT.none;
-    }
-
-  }
-
-  @HostListener('mousemove', ['$event'])
-  onMouseMove(event: MouseEvent): void {
-    if (this.selectedTool !== TOOL.colorApplicator) {
-      this.inputService.setMouseOffset(event);
-      this.selectedShape.onMouseMove();
-    }
-    if (this.selectedTool === TOOL.selector) {
-      if (this.selectorAreaActive) {
-        this.selectorService.intersection(this.shape, this.canvas);
-        this.includingBoxService.update();
-      }
-    }
-  }
-
-  @HostListener('mouseup')
-  onMouseUp(): void {
-    if (this.selectedTool !== TOOL.colorApplicator) {
-
-      this.selectedShape.onMouseUp();
-      this.pointerEvent = POINTER_EVENT.visiblePainted;
-    }
-    if (this.selectedTool === TOOL.selector) {
-      console.log('ici');
-      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
-    }
-    this.inputService.isDrawed = true;
-    this.selectorAreaActive = false;
-  }
-
-  @HostListener('wheel', ['$event'])
-  onwheel(event: WheelEvent): void {
-    if (this.selectedTool === TOOL.stamp) {
-      event.preventDefault();
-      this.inputService.changeStampAngle(Math.sign(event.deltaY));
-    }
-  }
-
-  convertSVGtoJSON(): void {
-    const nom = this.inputService.drawingName;
-    const tag = this.inputService.drawingTags;
-    const picture = this.screenshotService.screenshotBase64(this.drawingBoard.nativeElement);
-    const element = this.canvas.nativeElement;
-    const html = element.innerHTML;
-    const data: SVGJSON = {
-      name: nom,
-      tags: tag,
-      thumbnail: picture,
-      html,
-      color: this.colorService.getBackgroundColor(),
-    };
-    const json = JSON.stringify(data);
-
-    this.communicationService.HTML = json;
-
-    this.communicationService.postToServer(data).subscribe(() => {
-      this.communicationService.enableSubmit = true;
-      console.log('test2', this.communicationService.enableSubmit);
-    },
-      (error) => {
-        window.alert('can\'t save to server');
-        this.communicationService.enableSubmit = true;
-      });
-
-  }
-
-  leftClickOnElement(event: Event): void {
-    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
-      this.changeFillColor(event.target as HTMLElement);
-    }
-  }
-
-  rightClickOnElement(event: Event): void {
-    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
-      const targetTag: string = (event.target as HTMLElement).tagName;
-      if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
-        this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());
-      }
-    }
-  }
-
-  changeFillColor(target: HTMLElement): void {
-    const targetTag: string = target.tagName;
-    if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
-      this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
-    } else if (targetTag === 'path') {
-      this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
     }
   }
 

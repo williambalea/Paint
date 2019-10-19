@@ -46,9 +46,9 @@ describe('PolygonService', () => {
   });
 
   it('Should allow for multitude types of polygon drawing', () => {
-    const borderedSpy = spyOn(service, 'assignBorderedPolygon').and.callThrough();
-    const filledSpy = spyOn(service, 'assignFilledPolygon').and.callThrough();
-    const borderedFilledSpy = spyOn(service, 'assignBorderedAndFilledPolygon').and.callThrough();
+    const borderedSpy = spyOn(service, 'assignBorderedPolygon');
+    const filledSpy = spyOn(service, 'assignFilledPolygon');
+    const borderedFilledSpy = spyOn(service, 'assignBorderedAndFilledPolygon');
 
     service.polygonType = OUTLINE_TYPE.bordered;
     service.assignPolygonType();
@@ -86,7 +86,9 @@ describe('PolygonService', () => {
   });
 
   it('should remove color', () => {
-    // add test
+    const fill = 'black';
+    const returnValue = service.removeColor(fill);
+    expect(returnValue).toEqual(jasmine.any(String));
   });
 
   it('should assign accordingly to bordered and filled polygon', () => {
@@ -141,16 +143,30 @@ describe('PolygonService', () => {
 
   });
 
-  it('should call child functions upon moving mouse', () => {
+  it('should generate vertices upon moving mouse if active', () => {
     const generateVerticesSpy = spyOn(service, 'generateVertices').and.callThrough();
     const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
     const drawSpy = spyOn(service, 'draw').and.callThrough();
 
     service.active = true;
     service.onMouseMove();
+    expect(service.active).toEqual(true);
     expect(generateVerticesSpy).toHaveBeenCalled();
     expect(getMouseSpy).toHaveBeenCalled();
     expect(drawSpy).toHaveBeenCalled();
+  });
+
+  it('should not generate vertices or draw if not active', () => {
+    const generateVerticesSpy = spyOn(service, 'generateVertices').and.callThrough();
+    const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
+    const drawSpy = spyOn(service, 'draw').and.callThrough();
+
+    service.active = false;
+    service.onMouseMove();
+    expect(service.active).toEqual(false);
+    expect(generateVerticesSpy).not.toHaveBeenCalled();
+    expect(getMouseSpy).not.toHaveBeenCalled();
+    expect(drawSpy).not.toHaveBeenCalled();
   });
 
   it('should call child functions upon mouse up', () => {

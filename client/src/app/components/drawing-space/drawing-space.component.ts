@@ -54,17 +54,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  setCanvasParameters(): void {
-    this.unsubscribeService.subscriptons.push(this.fileParameters.canvaswidth$
-      .subscribe((canvasWidth) => this.canvasWidth = canvasWidth));
-
-    this.unsubscribeService.subscriptons.push(this.fileParameters.canvasheight$
-      .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
-
-    this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
-      .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
-  }
-
   ngOnInit(): void {
     this.setCanvasParameters();
   }
@@ -102,7 +91,18 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unsubscribeService.onDestroy();
   }
 
-  hideGrid() {
+  setCanvasParameters(): void {
+    this.unsubscribeService.subscriptons.push(this.fileParameters.canvaswidth$
+      .subscribe((canvasWidth) => this.canvasWidth = canvasWidth));
+
+    this.unsubscribeService.subscriptons.push(this.fileParameters.canvasheight$
+      .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
+
+    this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
+      .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
+  }
+
+  hideGrid(): void {
     this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
@@ -110,15 +110,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
     this.gridService.draw(this.gridService.gridSize);
     this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
-  }
-
-  setElementColor(event: MouseEvent, primaryColor: string, secondaryColor?: string): void {
-    if (event.button === 0) {
-      this.colorService.setFillColor(primaryColor);
-    }
-    if (event.button === 2 && secondaryColor) {
-      this.colorService.setStrokeColor(secondaryColor);
-    }
   }
 
   draw(shape: any): void {
@@ -131,7 +122,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.colorService.setMakingColorChanges(false);
       this.pointerEvent = POINTER_EVENT.none;
     }
-
   }
 
   convertSVGtoJSON(): void {
@@ -161,14 +151,18 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  leftClickOnElement(event: Event): void {
-    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
+  notCanvasAndColorApplicator(event: Event): boolean {
+    return event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator;
+  }
+
+  onLeftClick(event: Event): void {
+    if (this.notCanvasAndColorApplicator(event)) {
       this.changeFillColor(event.target as HTMLElement);
     }
   }
 
-  rightClickOnElement(event: Event): void {
-    if (event.target !== this.drawingBoard.nativeElement && this.selectedTool === TOOL.colorApplicator) {
+  onRightClick(event: Event): void {
+    if (this.notCanvasAndColorApplicator(event)) {
       const targetTag: string = (event.target as HTMLElement).tagName;
       if (targetTag === 'rect' || targetTag === 'polygon' || targetTag === 'ellipse') {
         this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());

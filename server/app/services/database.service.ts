@@ -13,10 +13,6 @@ export class DatabaseService {
 
     }
 
-    HelloWorld(): string {
-        return 'Hello World';
-    }
-
     getTable(): SVGJSON[] {
         return this.svgTable;
     }

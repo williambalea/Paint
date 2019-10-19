@@ -16,11 +16,6 @@ export class DatabaseController {
     private configureRouter(): void {
         this.router = Router();
 
-        this.router.get('/',
-            async (req: Request, res: Response, next: NextFunction) => {
-                res.json(this.databaseService.HelloWorld());
-            });
-
         this.router.get('/svgTable',
             async (req: Request, res: Response, next: NextFunction) => {
                 res.json(this.databaseService.getTable());

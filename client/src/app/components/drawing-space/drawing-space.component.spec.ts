@@ -100,7 +100,6 @@ describe('DrawingSpaceComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-
   it('should activate square mode when holding shift', () => {
     component.selectedShape = rectangleService;
     const spy = spyOn(component.selectedShape, 'onMouseMove');

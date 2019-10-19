@@ -19,7 +19,7 @@ class InputServiceMock {
   getMouse(): void {return; }
 }
 
-fdescribe('LineService', () => {
+describe('LineService', () => {
   let service: LineService;
   let colorService: ColorService;
   let inputService: InputService;

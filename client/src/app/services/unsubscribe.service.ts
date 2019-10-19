@@ -6,12 +6,12 @@ import { Subscription } from 'rxjs';
 })
 export class UnsubscribeService {
 
-  subscriptons: Subscription[] ;
+  subscriptons: Subscription[];
   constructor() {
     this.subscriptons = [];
   }
 
-  onDestroy() {
+  onDestroy(): void {
     this.subscriptons.forEach((subscription) => subscription.unsubscribe());
   }
 }

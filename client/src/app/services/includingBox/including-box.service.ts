@@ -18,15 +18,15 @@ export class IncludingBoxService {
   }
 
   clear(): void {
-    this.boxUpperLeft = {x: NB.Zero, y: NB.Zero};
+    this.boxUpperLeft = { x: NB.Zero, y: NB.Zero };
     this.width = NB.Zero;
     this.height = NB.Zero;
     this.boxGElement = this.renderer.createElement('g', 'svg');
   }
 
   update(): void {
-    const initialPoint: Point = {x: Number.MAX_VALUE, y: Number.MAX_VALUE};
-    const finalPoint: Point = {x: 0, y: 0};
+    const initialPoint: Point = { x: Number.MAX_VALUE, y: Number.MAX_VALUE };
+    const finalPoint: Point = { x: 0, y: 0 };
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const shapeBoundary: SVGRect = value.getBBox();
       if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
@@ -57,7 +57,7 @@ export class IncludingBoxService {
         shapeBoundary.height += strokeWidthOverflow;
       }
 
-      const bottomRight: Point = {x: 0, y: 0};
+      const bottomRight: Point = { x: 0, y: 0 };
       bottomRight.x = shapeBoundary.x + shapeBoundary.width;
       bottomRight.y = shapeBoundary.y + shapeBoundary.height;
 
@@ -112,14 +112,14 @@ export class IncludingBoxService {
 
   setControlPoints(): Point[] {
     const positions: Point[] = [
-      { x:  this.boxUpperLeft.x,                     y:  this.boxUpperLeft.y                       },
-      { x: (this.boxUpperLeft.x + (this.width / 2)), y:  this.boxUpperLeft.y                       },
-      { x: (this.boxUpperLeft.x + this.width),       y:  this.boxUpperLeft.y                       },
-      { x:  this.boxUpperLeft.x,                     y: (this.boxUpperLeft.y + (this.height / 2))  },
-      { x: (this.boxUpperLeft.x + this.width),       y: (this.boxUpperLeft.y + (this.height / 2))  },
-      { x:  this.boxUpperLeft.x,                     y:  this.boxUpperLeft.y + (this.height)       },
-      { x: (this.boxUpperLeft.x + (this.width / 2)), y:  this.boxUpperLeft.y + (this.height)       },
-      { x: (this.boxUpperLeft.x + this.width),       y:  this.boxUpperLeft.y + (this.height)       },
+      { x: this.boxUpperLeft.x, y: this.boxUpperLeft.y },
+      { x: (this.boxUpperLeft.x + (this.width / 2)), y: this.boxUpperLeft.y },
+      { x: (this.boxUpperLeft.x + this.width), y: this.boxUpperLeft.y },
+      { x: this.boxUpperLeft.x, y: (this.boxUpperLeft.y + (this.height / 2)) },
+      { x: (this.boxUpperLeft.x + this.width), y: (this.boxUpperLeft.y + (this.height / 2)) },
+      { x: this.boxUpperLeft.x, y: this.boxUpperLeft.y + (this.height) },
+      { x: (this.boxUpperLeft.x + (this.width / 2)), y: this.boxUpperLeft.y + (this.height) },
+      { x: (this.boxUpperLeft.x + this.width), y: this.boxUpperLeft.y + (this.height) },
     ];
     return positions;
   }

@@ -12,9 +12,9 @@ import { CommunicationsService } from 'src/app/services/communications.service';
 export class DisplayConfirmationComponent {
 
   constructor(
-              private dialogRef: MatDialogRef<DisplayConfirmationComponent>,
-              private eventEmitterService: EventEmitterService,
-              private communicationService: CommunicationsService) { }
+    private dialogRef: MatDialogRef<DisplayConfirmationComponent>,
+    private eventEmitterService: EventEmitterService,
+    private communicationService: CommunicationsService) { }
 
   confirm(): void {
     this.communicationService.isLoading = true;

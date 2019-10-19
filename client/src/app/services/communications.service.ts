@@ -1,11 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { EMPTY_STRING } from 'src/constants';
 import { SVGJSON } from '../../../../common/communication/SVGJSON';
-import { catchError } from 'rxjs/operators';
-
-
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +13,8 @@ export class CommunicationsService {
   private readonly DATABASE_URL: string = '/database';
   private listeners: any = new Subject<any>();
   HTML: string;
-  enableSubmit : boolean;
-  isLoading : boolean;
+  enableSubmit: boolean;
+  isLoading: boolean;
 
   constructor(private http: HttpClient) {
     this.HTML = EMPTY_STRING;
@@ -35,20 +33,19 @@ export class CommunicationsService {
   }
 
   postToServer(data: SVGJSON): Observable<any> {
-     return this.http.post<any>(this.BASE_URL + this.DATABASE_URL + '/postToTable', data).pipe(
+    return this.http.post<any>(this.BASE_URL + this.DATABASE_URL + '/postToTable', data).pipe(
       catchError(this.handleSendError));
-  
+
   }
 
- 
-  handleGetError(error: HttpErrorResponse){
-    console.log("couldn't get file");
+  handleGetError(error: HttpErrorResponse) {
+    console.log('couldn\'t get file');
     return throwError(error);
-    }
+  }
 
-  handleSendError(error: HttpErrorResponse){
-    console.log("couldn't send file");
+  handleSendError(error: HttpErrorResponse) {
+    console.log('couldn\'t send file');
     return throwError(error);
-    }
+  }
 
 }

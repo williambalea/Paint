@@ -93,20 +93,20 @@ export class EllipseService implements Shape {
   }
 
   setCircleOffset(): void {
-      const deplacement: Point = {
-        x: this.mouse.x - this.origin.x,
-        y: this.mouse.y - this.origin.y,
-      };
+    const deplacement: Point = {
+      x: this.mouse.x - this.origin.x,
+      y: this.mouse.y - this.origin.y,
+    };
 
-      this.xray = Math.abs(deplacement.x) / 2;
-      this.yray = Math.abs(deplacement.y) / 2;
-      const ray = Math.max(this.xray, this.yray);
+    this.xray = Math.abs(deplacement.x) / 2;
+    this.yray = Math.abs(deplacement.y) / 2;
+    const ray = Math.max(this.xray, this.yray);
 
-      this.xray = ray;
-      this.yray = ray;
-      this.x = this.origin.x + (Math.sign(deplacement.x) * ray);
-      this.y = this.origin.y + (Math.sign(deplacement.y) * ray);
-      }
+    this.xray = ray;
+    this.yray = ray;
+    this.x = this.origin.x + (Math.sign(deplacement.x) * ray);
+    this.y = this.origin.y + (Math.sign(deplacement.y) * ray);
+  }
 
   setEllipseOffset(): void {
     this.xray = Math.abs(this.mouse.x - this.origin.x) / 2;
@@ -160,7 +160,7 @@ export class EllipseService implements Shape {
   }
 
   changeSecondaryColor(color: string): void {
-      this.stroke = color;
+    this.stroke = color;
   }
 
 }

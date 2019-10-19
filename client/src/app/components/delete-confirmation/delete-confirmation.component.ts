@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ColorService } from 'src/app/services/color/color.service';
-import { STRINGS } from 'src/constants';
-import {FileParametersServiceService} from '../../services/file-parameters-service.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
+import { STRINGS } from 'src/constants';
+import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 
 @Component({
   selector: 'app-delete-confirmation',
@@ -13,12 +13,12 @@ import { EventEmitterService } from 'src/app/services/event-emitter.service';
 export class DeleteConfirmationComponent {
 
   message: string;
-  constructor( private eventEmitterService: EventEmitterService,
-               private dialogRef: MatDialogRef<DeleteConfirmationComponent>,
-               private colorService: ColorService,
-               private fileParameters: FileParametersServiceService) {
-               this.message = STRINGS.areYouSure;
-               }
+  constructor(private eventEmitterService: EventEmitterService,
+              private dialogRef: MatDialogRef<DeleteConfirmationComponent>,
+              private colorService: ColorService,
+              private fileParameters: FileParametersServiceService) {
+    this.message = STRINGS.areYouSure;
+  }
 
   clearColor(): void {
     this.colorService.changeBackgroundColor();

@@ -6,6 +6,7 @@ import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { InputService } from 'src/app/services/input.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
+import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { EMPTY_STRING, KEY, NB, POINTER_EVENT, STRINGS, TOOL } from '../../../constants';
@@ -40,6 +41,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private selectorService: SelectorService,
               private communicationService: CommunicationsService,
               private gridService: GridService,
+              private screenshotService: ScreenshotService,
               private unsubscribeService: UnsubscribeService,
               private includingBoxService: IncludingBoxService,
               private eventEmitterService: EventEmitterService) {
@@ -77,24 +79,21 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
       this.convertSVGtoJSON();
     });
-  
+
     this.eventEmitterService.appendToDrawingSpaceEmitter.subscribe(() => {
       this.canvas.nativeElement.innerHTML = EMPTY_STRING;
       this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.inputService.drawingColor);
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
     });
 
-
-
-    this.eventEmitterService.clearCanvasEmitter.subscribe(() =>{
-      for (let i : number = 0 ; i< this.canvas.nativeElement.children.length ; i++){
-        this.renderer.removeChild(this.canvas,this.canvas.nativeElement.children[i]);
+    this.eventEmitterService.clearCanvasEmitter.subscribe(() => {
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0 ; i < this.canvas.nativeElement.children.length; i++) {
+        this.renderer.removeChild(this.canvas, this.canvas.nativeElement.children[i]);
       }
       this.inputService.isDrawed = false;
     });
 
-
-    
   }
 
   ngOnDestroy(): void {
@@ -165,19 +164,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  screenshotBase64(): string {
-    const b64start = 'data:image/svg+xml;base64,';
-    const svg: SVGSVGElement = this.drawingBoard.nativeElement;
-    const xml: string = new XMLSerializer().serializeToString(svg as Node);
-    const svg64: string = btoa(xml);
-    return b64start + svg64;
-  }
-
   usePipette(event: MouseEvent): void {
     const canvas: HTMLCanvasElement = this.htmlCanvas.nativeElement;
     canvas.height = this.canvasHeight;
     canvas.width = this.canvasWidth;
-    const images64: string = this.screenshotBase64();
+    const images64: string = this.screenshotService.screenshotBase64(this.drawingBoard.nativeElement);
     const image = new Image();
     image.src = images64;
     image.onload = () => {
@@ -274,30 +265,30 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   convertSVGtoJSON(): void {
-        const nom = this.inputService.drawingName;
-        const tag = this.inputService.drawingTags;
-        const picture = this.screenshotBase64();
-        const element = this.canvas.nativeElement;
-        const html = element.innerHTML;
-        const data: SVGJSON = {
-          name : nom,
-          tags: tag,
-          thumbnail : picture,
-          html,
-          color: this.colorService.getBackgroundColor(),
-        };
-        const json = JSON.stringify(data);
+    const nom = this.inputService.drawingName;
+    const tag = this.inputService.drawingTags;
+    const picture = this.screenshotService.screenshotBase64(this.drawingBoard.nativeElement);
+    const element = this.canvas.nativeElement;
+    const html = element.innerHTML;
+    const data: SVGJSON = {
+      name: nom,
+      tags: tag,
+      thumbnail: picture,
+      html,
+      color: this.colorService.getBackgroundColor(),
+    };
+    const json = JSON.stringify(data);
 
-        this.communicationService.HTML = json;
+    this.communicationService.HTML = json;
 
-        this.communicationService.postToServer(data).subscribe(() => {
-          this.communicationService.enableSubmit = true;
-          console.log('test2', this.communicationService.enableSubmit);
-        },
-         (error) => {
-           window.alert ('can\'t save to server');
-           this.communicationService.enableSubmit = true;
-         });
+    this.communicationService.postToServer(data).subscribe(() => {
+      this.communicationService.enableSubmit = true;
+      console.log('test2', this.communicationService.enableSubmit);
+    },
+      (error) => {
+        window.alert('can\'t save to server');
+        this.communicationService.enableSubmit = true;
+      });
 
   }
 

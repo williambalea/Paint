@@ -16,7 +16,6 @@ export class SelectorService implements Shape {
   constructor(private rectangleService: RectangleService,
               private renderer: Renderer2,
               private inputService: InputService) {
-
     this.active = false;
     this.selectedShapes = [];
     this.selectorIsSingle = true;
@@ -53,7 +52,7 @@ export class SelectorService implements Shape {
     const shape = svgIntersections.shape;
     const elementsCount: number = canvas.nativeElement.children.length;
     let currentShape: any;
-    for ( let i = 0; i < elementsCount; i++ ) {
+    for (let i = 0; i < elementsCount; i++) {
       if (selectorArea === canvas.nativeElement.children[i]) {
         break;
       }
@@ -96,17 +95,18 @@ export class SelectorService implements Shape {
           });
           break;
       }
-      const intersections = intersect (
+      const intersections = intersect(
         shape('rect', {
           x: selectorArea.x.animVal.value,
           y: selectorArea.y.animVal.value,
           width: selectorArea.width.animVal.value,
-          height: selectorArea.height.animVal.value }),
-          currentShape,
+          height: selectorArea.height.animVal.value,
+        }),
+        currentShape,
       );
       if ((intersections.points.length !== 0) &&
-       (!this.isCloseTo(intersections.points[0].x, intersections.points[1].x)) &&
-       (!this.isCloseTo(intersections.points[0].y, intersections.points[1].y))) {
+        (!this.isCloseTo(intersections.points[0].x, intersections.points[1].x)) &&
+        (!this.isCloseTo(intersections.points[0].y, intersections.points[1].y))) {
         if (this.inputService.mouseButton === 2) {
           const index = this.selectedShapes.indexOf(canvas.nativeElement.children[i]);
           if (index !== -1) {

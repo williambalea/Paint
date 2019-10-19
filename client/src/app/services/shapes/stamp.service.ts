@@ -1,5 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { svgFileDataBase64, svgFileLocation } from 'src/assets/stamps/svgFileLocaltion';
+import { svgFileDataBase64, svgFileLocation } from 'src/assets/stamps/svgFileLocation';
 import { EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { InputService } from '../input.service';

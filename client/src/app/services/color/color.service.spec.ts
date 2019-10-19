@@ -28,6 +28,12 @@ describe('ColorService', () => {
     expect(result).toEqual(true);
   });
 
+  it('Should manage last ten used colors correctly', () => {
+    colorService.addColorsToLastUsed('rgba(240, 240, 240, 1)', 'rbga(80, 80, 80, 1)');
+    expect(colorService.verifyIfColorExistsInLastTen('rgba(240, 240, 240, 1)')).toBeTruthy();
+    expect(colorService.verifyIfColorExistsInLastTen('rbga(80, 80, 80, 1)')).toBeTruthy();
+  });
+
   it('should get Used primary', () => {
     const result = colorService.getUsingPrimary();
     expect(result).toBeDefined();
@@ -39,14 +45,19 @@ describe('ColorService', () => {
     expect(result).toEqual(true);
   });
 
-  it('Should manage last ten used colors correctly', () => {
-    colorService.addColorsToLastUsed('rgba(240, 240, 240, 1)', 'rbga(80, 80, 80, 1)');
-    expect(colorService.verifyIfColorExistsInLastTen('rgba(240, 240, 240, 1)')).toBeTruthy();
-    expect(colorService.verifyIfColorExistsInLastTen('rbga(80, 80, 80, 1)')).toBeTruthy();
+  it('should make the color changes', () => {
+    const result = colorService.getMakingColorChanges();
+    expect(result).toBeDefined();
   });
 
-  it('Should set and get ShowInAttribute bar correctlt', () => {
-    colorService.setShowInAttributeBar(false);
-    expect(colorService.getShowInAttributeBar()).toBeFalsy();
+  it('should set the color changes', () => {
+    colorService.setMakingColorChanges(true);
+    const result = colorService.getMakingColorChanges();
+    expect(result).toEqual(true);
   });
+
+  // it('Should set and get ShowInAttribute bar correctlt', () => {
+  //   colorService.setShowInAttributeBar(false);
+  //   expect(colorService.getShowInAttributeBar()).toBeFalsy();
+  // });
 });

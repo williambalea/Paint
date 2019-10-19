@@ -11,10 +11,10 @@ class RendererMock {
 
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
-  getMouse(): void {return; }
+  getMouse(): any {return {x: 0, y: 0}; }
 }
 
-fdescribe('StampService', () => {
+describe('StampService', () => {
   let inputService: InputService;
   let renderer: Renderer2;
   let service: StampService;
@@ -36,22 +36,33 @@ fdescribe('StampService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should execute functions upon mouse down', () => {
+  it('should draw and render upon mouse down', () => {
     const createElementSpy = spyOn(renderer, 'createElement').and.callThrough();
-    const drawSpy = spyOn(service, 'draw').and.callThrough();
+    const drawSpy = spyOn(service, 'draw');
 
     service.selectStampIndex = 1;
     service.onMouseDown();
-
+    expect(service.selectStampIndex).not.toBeUndefined();
     expect(createElementSpy).toHaveBeenCalled();
     expect(drawSpy).toHaveBeenCalled();
+
   });
 
-  it('should execute functions upon mouse movement', () => {
-    const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
+  it('should not draw or render upon mouse down', () => {
+    const createElementSpy = spyOn(renderer, 'createElement').and.callThrough();
+    const drawSpy = spyOn(service, 'draw');
 
     service.onMouseDown();
+    expect(service.selectStampIndex).toBeUndefined();
+    expect(createElementSpy).not.toHaveBeenCalled();
+    expect(drawSpy).not.toHaveBeenCalled();
+    expect(service.stamp).toBeUndefined();
+  });
 
+  it('should assign x,y positions upon mouse movement', () => {
+    const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
+
+    service.onMouseMove();
     expect(getMouseSpy).toHaveBeenCalled();
     expect(service.position.x).toEqual(jasmine.any(Number));
     expect(service.position.x).toEqual(jasmine.any(Number));
@@ -62,13 +73,20 @@ fdescribe('StampService', () => {
     const index = 1;
     service.selectStamp(image, index);
 
-    expect(service.selectStamp).toEqual(image);
+    expect(service.selectedStamp).toEqual(image);
     expect(service.selectStampIndex).toEqual(index);
   });
 
-  it('should call renderer properly upon calling draw()', () => {
+  it('should not do anything upon releasing mouse click', () => {
+    const returnValue = service.onMouseUp();
+    expect(returnValue).toBeUndefined();
+  });
+
+  it('should set attributes through renderer upon calling draw() ', () => {
     const setAttributeSpy = spyOn(renderer, 'setAttribute').and.callThrough();
     const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
+    const mockAngle = 1;
+    inputService.stampAngle = mockAngle;
     service.draw();
     expect(setAttributeSpy).toHaveBeenCalled();
     expect(getMouseSpy).toHaveBeenCalled();

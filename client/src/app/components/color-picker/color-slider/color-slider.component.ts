@@ -89,16 +89,16 @@ export class ColorSliderComponent implements AfterViewInit {
 
   onMouseDown(event: MouseEvent): void {
     this.mousedown = true;
-    this.selectedHeight = event.clientY - 5;
+    this.selectedHeight = event.offsetY;
     this.draw();
-    this.emitColor(event.clientX - 350, event.clientY - 5);
+    this.emitColor(event.offsetX, event.offsetY);
   }
 
   onMouseMove(event: MouseEvent): void {
     if (this.mousedown) {
-      this.selectedHeight = event.clientY - 5;
+      this.selectedHeight = event.offsetY;
       this.draw();
-      this.emitColor(event.clientX - 350, event.clientY - 5);
+      this.emitColor(event.offsetX, event.offsetY);
     }
   }
 

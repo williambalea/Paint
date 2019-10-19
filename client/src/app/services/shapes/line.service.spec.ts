@@ -21,7 +21,7 @@ class InputServiceMock {
   getMouse(): void {return; }
 }
 
-fdescribe('LineService', () => {
+describe('LineService', () => {
   let service: LineService;
   let colorService: ColorService;
   let inputService: InputService;
@@ -215,13 +215,13 @@ fdescribe('LineService', () => {
     expect(service.dashArrayType = '20,20');
   });
 
-  it ('assign stroke style full line', () => {
+  it ('should assign stroke style full line', () => {
     service.dashArrayType = '';
     service.assignStrokeStyleFullLine();
     expect(service.dashArrayType = '');
   });
 
-  it ('assign angled junction style angled', () => {
+  it ('should assign angled junction style angled', () => {
     service.junctionValue = '';
     service.junction = 'dot';
     service.assignJunctionStyleAngled();
@@ -229,7 +229,7 @@ fdescribe('LineService', () => {
     expect(service.junction).toEqual('');
   });
 
-  it ('assign angled junction style randed', () => {
+  it ('should assign angled junction style randed', () => {
     service.junctionValue = '';
     service.junction = 'dot';
     service.assignJunctionStyleRounded();

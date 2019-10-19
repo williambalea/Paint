@@ -10,7 +10,6 @@ import { SafeHtmlPipe} from '../app/safe-html.pipe';
 import { SafeUrlPipe} from '../app/safe-url.pipe';
 import { AppComponent } from './app.component';
 import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.component';
-import { BackgroundComponent } from './components/background/background.component';
 import { ColorPickerModule } from './components/color-picker/color-picker.module';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { DisplayConfirmationComponent } from './components/display-confirmation/display-confirmation.component';
@@ -29,7 +28,6 @@ import { EventEmitterService } from './services/event-emitter.service';
     EntryPointComponent,
     SideBarComponent,
     AttributeBarComponent,
-    BackgroundComponent,
     DrawingSpaceComponent,
     DeleteConfirmationComponent,
     NewFileModalwindowComponent,

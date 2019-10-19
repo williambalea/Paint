@@ -273,4 +273,38 @@ describe('LineService', () => {
     expect(service.junction).toEqual('');
   });
 
+  it('Should change junction to dot', () => {
+    service.junctionStyle = 'dot';
+    const spyOnCaptDot = spyOn(service, 'captDot');
+    service.changeJunction();
+    expect(spyOnCaptDot).toHaveBeenCalled();
+  });
+
+  it('Should change junction to angled', () => {
+    service.junctionStyle = 'miter';
+    const spyOnAssignJunctionStyleAngled = spyOn(service, 'assignJunctionStyleAngled');
+    service.changeJunction();
+    expect(spyOnAssignJunctionStyleAngled).toHaveBeenCalled();
+  });
+
+  it('Should change junction to rounded', () => {
+    service.junctionStyle = 'round';
+    const spyOnSssignJunctionStyleRounded = spyOn(service, 'assignJunctionStyleRounded');
+    service.changeJunction();
+    expect(spyOnSssignJunctionStyleRounded).toHaveBeenCalled();
+  });
+
+  it('Should not assign junction on default', () => {
+    service.junctionStyle = 'allo';
+    const spyOnCaptDot = spyOn(service, 'captDot');
+    const spyOnAssignJunctionStyleAngled = spyOn(service, 'assignJunctionStyleAngled');
+    const spyOnSssignJunctionStyleRounded = spyOn(service, 'assignJunctionStyleRounded');
+    service.changeJunction();
+    expect(spyOnCaptDot).not.toHaveBeenCalled()
+    expect(spyOnSssignJunctionStyleRounded).not.toHaveBeenCalled();
+    expect(spyOnAssignJunctionStyleAngled).not.toHaveBeenCalled();
+  });
+
+
+
 });

@@ -21,4 +21,4 @@ import { ColorSliderComponent } from './color-slider/color-slider.component';
   exports: [ColorPickerComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ColorPickerModule {}
+export class ColorPickerModule { }

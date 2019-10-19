@@ -1,11 +1,12 @@
 // Inspiré de https://github.com/LukasMarx/angular-color-picker
-import {  AfterViewInit,
-          Component,
-          ElementRef,
-          EventEmitter,
-          HostListener,
-          Output,
-          ViewChild
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Output,
+  ViewChild
 } from '@angular/core';
 import { COLORS, NB, STRINGS } from '../../../../constants';
 
@@ -16,7 +17,7 @@ import { COLORS, NB, STRINGS } from '../../../../constants';
 })
 export class ColorSliderComponent implements AfterViewInit {
 
-  @ViewChild(STRINGS.canvas, {static: false}) canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild(STRINGS.canvas, { static: false }) canvas: ElementRef<HTMLCanvasElement>;
   @Output() color: EventEmitter<string> = new EventEmitter();
 
   private ctx: CanvasRenderingContext2D;

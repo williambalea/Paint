@@ -52,7 +52,7 @@ export class PenService implements Shape {
 
   }
 
-  draw() {
+  draw(): void {
     this.linepath += `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     this.renderer.setStyle(this.path, 'fill', 'none');

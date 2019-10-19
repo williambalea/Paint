@@ -1,11 +1,11 @@
-  import { Injectable, Renderer2 } from '@angular/core';
-  import { EMPTY_STRING, JUNCTIONSTYLE, LINECORNER, NB, STROKE_DASHARRAY_STYLE } from 'src/constants';
-  import { Point } from '../../../../../common/interface/point';
-  import { ColorService } from '../color/color.service';
-  import { InputService } from '../input.service';
-  import { Shape } from './shape';
+import { Injectable, Renderer2 } from '@angular/core';
+import { EMPTY_STRING, JUNCTIONSTYLE, LINECORNER, NB, STROKE_DASHARRAY_STYLE } from 'src/constants';
+import { Point } from '../../../../../common/interface/point';
+import { ColorService } from '../color/color.service';
+import { InputService } from '../input.service';
+import { Shape } from './shape';
 
-  @Injectable({
+@Injectable({
   providedIn: 'root',
 })
 
@@ -37,7 +37,7 @@ export class LineService implements Shape {
     this.junction = EMPTY_STRING;
     this.dotSize = NB.Seven;
     this.reset();
-    }
+  }
 
   reset(): void {
     this.start = true;
@@ -61,7 +61,7 @@ export class LineService implements Shape {
   validationToCreatePath() {
     if (this.start) {
       this.path = this.renderer.createElement('path', 'svg');
-      }
+    }
   }
 
   setStyle() {
@@ -78,9 +78,9 @@ export class LineService implements Shape {
       this.renderer.setStyle(this.path, 'marker-start', this.junction);
       this.renderer.setStyle(this.path, 'marker-mid', this.junction);
       this.renderer.setStyle(this.path, 'marker-end', this.junction);
-      } else {
+    } else {
       this.renderer.setStyle(this.path, 'stroke-linejoin', this.junctionValue);
-      }
+    }
   }
 
   onMouseMove(): any {
@@ -95,31 +95,31 @@ export class LineService implements Shape {
     }
 
     this.doubleClick = false;
-    }
+  }
 
-    isActive(): void {
-      this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
-      this.renderer.setAttribute(this.path, 'd', this.linepath);
-    }
+  isActive(): void {
+    this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
+    this.renderer.setAttribute(this.path, 'd', this.linepath);
+  }
 
-    isBackSpacePressed() {
-      if (this.positions.length > 1) {
-        this.positions.pop();
-      }
-      this.stroke = this.colorService.getFillColor();
-      if (this.start) {
-        this.path = this.renderer.createElement('path', 'svg');
-      }
-      this.setStyle();
-      this.redraw();
-      return this.path;
+  isBackSpacePressed() {
+    if (this.positions.length > 1) {
+      this.positions.pop();
     }
+    this.stroke = this.colorService.getFillColor();
+    if (this.start) {
+      this.path = this.renderer.createElement('path', 'svg');
+    }
+    this.setStyle();
+    this.redraw();
+    return this.path;
+  }
 
-    isShiftPressed(): void {
-      this.renderer.setAttribute(this.path, 'd', this.linepath);
-      this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
-      this.reset();
-    }
+  isShiftPressed(): void {
+    this.renderer.setAttribute(this.path, 'd', this.linepath);
+    this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
+    this.reset();
+  }
 
   onMouseUp(): void {
     if (this.inputService.escapePressed) {
@@ -134,7 +134,7 @@ export class LineService implements Shape {
 
   draw() {
     if (this.start) {
-    this.linepath = `M${this.positions[0].x} ${this.positions[0].y}`;
+      this.linepath = `M${this.positions[0].x} ${this.positions[0].y}`;
     } else {
       this.linepath += `L${this.positions[this.positions.length - 1].x} ${this.positions[this.positions.length - 1].y}`;
     }
@@ -142,76 +142,76 @@ export class LineService implements Shape {
   }
 
   redraw() {
-    for (let  i = 0; i < this.positions.length; i++) {
-    if  (i === 0) {
-      this.linepath = `M${this.positions[0].x} ${this.positions[0].y}`;
-    } else {
-      this.linepath += `L${this.positions[i].x} ${this.positions[i].y}`;
+    for (let i = 0; i < this.positions.length; i++) {
+      if (i === 0) {
+        this.linepath = `M${this.positions[0].x} ${this.positions[0].y}`;
+      } else {
+        this.linepath += `L${this.positions[i].x} ${this.positions[i].y}`;
+      }
+    }
+    this.finishDraw();
+  }
+
+  finishDraw(): void {
+    this.renderer.setAttribute(this.path, 'd', this.linepath);
+    this.start = false;
+    this.savedPath = this.linepath;
+    this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
+  }
+
+  assignStrokeStyleDottedPoint(): void {
+    this.dashArrayType = STROKE_DASHARRAY_STYLE.dottedPoint;
+  }
+
+  assignStrokeStyleDottedLine(): void {
+    this.dashArrayType = STROKE_DASHARRAY_STYLE.dottedLine;
+  }
+
+  assignStrokeStyleFullLine(): void {
+    this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
+  }
+
+  assignStrokeStyle(): void {
+    switch (this.dashArrayType) {
+      case STROKE_DASHARRAY_STYLE.dottedPoint:
+        this.assignStrokeStyleDottedPoint();
+        break;
+      case STROKE_DASHARRAY_STYLE.dottedLine:
+        this.assignStrokeStyleDottedLine();
+        break;
+      case STROKE_DASHARRAY_STYLE.fullLine:
+        this.assignStrokeStyleFullLine();
+        break;
+      default:
     }
   }
-    this.finishDraw();
-}
 
-finishDraw(){
-  this.renderer.setAttribute(this.path, 'd', this.linepath);
-  this.start = false;
-  this.savedPath = this.linepath;
-  this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
-}
-
-assignStrokeStyleDottedPoint(): void {
-  this.dashArrayType = STROKE_DASHARRAY_STYLE.dottedPoint;
-}
-
-assignStrokeStyleDottedLine(): void {
-  this.dashArrayType = STROKE_DASHARRAY_STYLE.dottedLine;
-}
-
-assignStrokeStyleFullLine(): void {
-  this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
-}
-
-assignStrokeStyle(): void {
-  switch (this.dashArrayType) {
-    case STROKE_DASHARRAY_STYLE.dottedPoint:
-      this.assignStrokeStyleDottedPoint();
-      break;
-    case STROKE_DASHARRAY_STYLE.dottedLine:
-      this.assignStrokeStyleDottedLine();
-      break;
-    case STROKE_DASHARRAY_STYLE.fullLine:
-      this.assignStrokeStyleFullLine();
-      break;
-    default:
+  captDot(newJunction: string): void {
+    this.junction = `url(#${newJunction})`;
   }
-}
 
-captDot(newJunction: string): void {
-  this.junction = `url(#${newJunction})`;
-}
-
-changeJunction(): void {
-  switch (this.junctionStyle) {
-    case LINECORNER.dot:
+  changeJunction(): void {
+    switch (this.junctionStyle) {
+      case LINECORNER.dot:
         this.captDot('dot');
         break;
-    case LINECORNER.angled:
-      this.assignJunctionStyleAngled();
-      break;
-    case LINECORNER.rounded:
-      this.assignJunctionStyleRounded();
-      break;
+      case LINECORNER.angled:
+        this.assignJunctionStyleAngled();
+        break;
+      case LINECORNER.rounded:
+        this.assignJunctionStyleRounded();
+        break;
+    }
   }
-}
 
-assignJunctionStyleAngled(): void {
-  this.junctionValue = LINECORNER.angled;
-  this.junction = EMPTY_STRING;
-}
+  assignJunctionStyleAngled(): void {
+    this.junctionValue = LINECORNER.angled;
+    this.junction = EMPTY_STRING;
+  }
 
-assignJunctionStyleRounded(): void {
-  this.junctionValue = LINECORNER.rounded;
-  this.junction = EMPTY_STRING;
-}
+  assignJunctionStyleRounded(): void {
+    this.junctionValue = LINECORNER.rounded;
+    this.junction = EMPTY_STRING;
+  }
 
 }

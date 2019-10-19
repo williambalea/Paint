@@ -2,12 +2,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { KEY } from 'src/constants';
+import { InputService } from 'src/app/services/input.service';
+import { KEY, SVGinnerWidth } from 'src/constants';
 import { ColorService } from '../../services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
-import { InputService } from 'src/app/services/input.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
-import { SVGinnerWidth } from 'src/constants';
 
 @Component({
   selector: 'app-new-file-modalwindow',
@@ -16,15 +15,15 @@ import { SVGinnerWidth } from 'src/constants';
 })
 export class NewFileModalwindowComponent implements OnInit {
   form: FormGroup;
-  canvasWidth: number ;
-  canvasHeight: number ;
+  canvasWidth: number;
+  canvasHeight: number;
 
-  constructor( private fileParameters: FileParametersServiceService,
-               private dialog: MatDialog,
-               private inputService: InputService,
-               private formBuilder: FormBuilder,
-               private colorService: ColorService,
-               private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
+  constructor(private fileParameters: FileParametersServiceService,
+              private dialog: MatDialog,
+              private inputService: InputService,
+              private formBuilder: FormBuilder,
+              private colorService: ColorService,
+              private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
 
   assignForm(): void {
     this.form = this.formBuilder.group({
@@ -73,14 +72,14 @@ export class NewFileModalwindowComponent implements OnInit {
   }
 
   validForm(): boolean {
-     return (this.form.valid);
+    return (this.form.valid);
   }
 
   submitParameters(canvaswidth: number, canvasheight: number): void {
     if (this.validForm()) {
-    this.fileParameters.tempresize = true;
-    this.inputService.isDrawed ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
-    this.dialogRef.close();
+      this.fileParameters.tempresize = true;
+      this.inputService.isDrawed ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
+      this.dialogRef.close();
     } else {
       this.assignForm();
     }
@@ -88,11 +87,11 @@ export class NewFileModalwindowComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-      if (event.key === KEY.o) {
-        if (event.ctrlKey) {
-          event.preventDefault();
-        }
+    if (event.key === KEY.o) {
+      if (event.ctrlKey) {
+        event.preventDefault();
       }
+    }
   }
 
 }

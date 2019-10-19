@@ -41,7 +41,7 @@ export class RectangleService implements Shape {
 
   reset(): void {
     this.x = NB.Zero;
-    this.y =  NB.Zero;
+    this.y = NB.Zero;
     this.width = NB.Zero;
     this.height = NB.Zero;
 
@@ -117,7 +117,7 @@ export class RectangleService implements Shape {
     this.y = Math.min(this.origin.y, this.mouse.y);
   }
 
-  draw() {
+  draw(): void {
     this.renderer.setAttribute(this.rectangle, 'x', this.x.toString());
     this.renderer.setAttribute(this.rectangle, 'y', this.y.toString());
     this.renderer.setAttribute(this.rectangle, 'width', this.width.toString());
@@ -159,6 +159,6 @@ export class RectangleService implements Shape {
   }
 
   changeSecondaryColor(color: string): void {
-      this.stroke = color;
+    this.stroke = color;
   }
 }

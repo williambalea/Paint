@@ -3,6 +3,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 
 describe('SafeHtmlPipe', () => {
 
+  // tslint:disable-next-line: prefer-const
   let sanitized: DomSanitizer;
 
   it('create an instance', () => {

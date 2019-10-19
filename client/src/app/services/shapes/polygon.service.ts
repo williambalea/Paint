@@ -26,19 +26,19 @@ export class PolygonService implements Shape {
   constructor(private renderer: Renderer2,
               private inputService: InputService,
               private colorService: ColorService) {
-                this.strokeWidth = NB.Seven;
-                this.fill = EMPTY_STRING;
-                this.stroke = EMPTY_STRING;
-                this.pointString = EMPTY_STRING;
-                this.active = false;
-                this.initialPoint = {x: NB.Zero, y: -(NB.One)};
-                this.sideNumber = NB.Five;
-                this.polygonType = OUTLINE_TYPE.borderedAndFilled;
-                this.fillEnable = true;
-                this.strokeEnable = true;
-              }
+    this.strokeWidth = NB.Seven;
+    this.fill = EMPTY_STRING;
+    this.stroke = EMPTY_STRING;
+    this.pointString = EMPTY_STRING;
+    this.active = false;
+    this.initialPoint = { x: NB.Zero, y: -(NB.One) };
+    this.sideNumber = NB.Five;
+    this.polygonType = OUTLINE_TYPE.borderedAndFilled;
+    this.fillEnable = true;
+    this.strokeEnable = true;
+  }
 
-  assignPolygonType() {
+  assignPolygonType(): void {
     switch (this.polygonType) {
       case OUTLINE_TYPE.bordered:
         this.assignBorderedPolygon();
@@ -58,7 +58,7 @@ export class PolygonService implements Shape {
   }
 
   changeSecondaryColor(color: string): void {
-      this.stroke = color;
+    this.stroke = color;
   }
 
   setPolygonType(): void {
@@ -90,23 +90,23 @@ export class PolygonService implements Shape {
     this.fillEnable = false;
   }
 
-  setOrigin() {
-    this.origin = { x : this.inputService.getMouse().x, y: this.inputService.getMouse().y};
+  setOrigin(): void {
+    this.origin = { x: this.inputService.getMouse().x, y: this.inputService.getMouse().y };
   }
 
-  draw() {
+  draw(): void {
     this.renderer.setAttribute(this.polygon, 'points', this.pointString);
     this.renderer.setStyle(this.polygon, 'fill', this.fill);
     this.renderer.setStyle(this.polygon, 'stroke', this.stroke);
     this.renderer.setStyle(this.polygon, 'stroke-width', this.strokeWidth.toString());
-    this.initialPoint = {x: NB.Zero, y: -(NB.One)};
+    this.initialPoint = { x: NB.Zero, y: -(NB.One) };
   }
 
-  onMouseDown(): any  {
+  onMouseDown(): any {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
-    this.setOrigin() ;
+    this.setOrigin();
     this.setPolygonType();
     this.polygon = this.renderer.createElement('polygon', 'svg');
     return this.polygon;
@@ -115,12 +115,12 @@ export class PolygonService implements Shape {
   onMouseMove(): void {
     if (this.active) {
       this.generateVertices(
-                            Math.abs(this.inputService.getMouse().x - this.origin.x),
-                            Math.abs(this.inputService.getMouse().y - this.origin.y ),
-                            this.sideNumber,
-                            Math.abs(this.inputService.getMouse().x - this.origin.x) / 2,
-                            Math.abs(this.inputService.getMouse().y - this.origin.y) / 2,
-                            );
+        Math.abs(this.inputService.getMouse().x - this.origin.x),
+        Math.abs(this.inputService.getMouse().y - this.origin.y),
+        this.sideNumber,
+        Math.abs(this.inputService.getMouse().x - this.origin.x) / 2,
+        Math.abs(this.inputService.getMouse().y - this.origin.y) / 2,
+      );
       this.draw();
     }
   }
@@ -131,18 +131,18 @@ export class PolygonService implements Shape {
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 
-  generateVertices(i: number, j: number, n: number, x: number , y: number ): void {
+  generateVertices(i: number, j: number, n: number, x: number, y: number): void {
     let angle: number = NB.ThreeHundredSixty / n;
 
-    this.initialPoint.x =   this.initialPoint.x + Math.min(this.origin.x, this.inputService.getMouse().x) + x;
-    this.initialPoint.y =  this.initialPoint.y * j / NB.Two +  Math.min(this.origin.y, this.inputService.getMouse().y) + y;
+    this.initialPoint.x = this.initialPoint.x + Math.min(this.origin.x, this.inputService.getMouse().x) + x;
+    this.initialPoint.y = this.initialPoint.y * j / NB.Two + Math.min(this.origin.y, this.inputService.getMouse().y) + y;
     this.pointString = (`${this.initialPoint.x}` + ' ' + `${this.initialPoint.y}`);
 
-    for (let k = 0 ; k < n - 1 ; k++) {
+    for (let k = 0; k < n - 1; k++) {
       const newPointX: number = (-Math.sin(angle * Math.PI / NB.OneHundredEighty) * i /
-       NB.Two + Math.min(this.origin.x, this.inputService.getMouse().x)) + x;
-      const newPointY: number = ( -Math.cos(angle * Math.PI / NB.OneHundredEighty) * j /
-       NB.Two + Math.min(this.origin.y, this.inputService.getMouse().y)) + y;
+        NB.Two + Math.min(this.origin.x, this.inputService.getMouse().x)) + x;
+      const newPointY: number = (-Math.cos(angle * Math.PI / NB.OneHundredEighty) * j /
+        NB.Two + Math.min(this.origin.y, this.inputService.getMouse().y)) + y;
       this.pointString += (' ' + `${newPointX}`);
       this.pointString += (' ' + `${newPointY}`);
       angle += NB.ThreeHundredSixty / n;

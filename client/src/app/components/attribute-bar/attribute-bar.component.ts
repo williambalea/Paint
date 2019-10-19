@@ -1,15 +1,15 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatRadioChange } from '@angular/material';
 import { ColorService } from 'src/app/services/color/color.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
-import { LineService} from 'src/app/services/shapes/line.service';
+import { LineService } from 'src/app/services/shapes/line.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
-import { BRUSH, LINE_PATTERN, LINECORNER, STROKE_DASHARRAY_STYLE, TOOL, JUNCTIONSTYLE } from '../../../constants';
 import { StampService } from 'src/app/services/shapes/stamp.service';
+import { BRUSH, JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
@@ -26,7 +26,7 @@ export class AttributeBarComponent {
   junctionStyle: typeof JUNCTIONSTYLE;
   lineStyle: typeof LINE_PATTERN;
   dashStyle: typeof STROKE_DASHARRAY_STYLE;
-  @Input()selectedTool: TOOL;
+  @Input() selectedTool: TOOL;
   gridSize: number;
 
   constructor(private colorService: ColorService,
@@ -43,7 +43,6 @@ export class AttributeBarComponent {
     this.tool = TOOL;
     this.brush = BRUSH;
     this.gridService.gridSize = 40;
-   // this.gridService.setGridSize(this.gridSize);
     this.linecorner = LINECORNER;
     this.lineStyle = LINE_PATTERN;
     this.junctionStyle = JUNCTIONSTYLE;

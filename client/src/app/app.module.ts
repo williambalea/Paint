@@ -23,8 +23,6 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MaterialModule } from './material/material.module';
 import { EventEmitterService } from './services/event-emitter.service';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +52,6 @@ import { EventEmitterService } from './services/event-emitter.service';
     DragDropModule,
     MaterialModule,
     MatTooltipModule,
-    
   ],
   entryComponents: [
     EntryPointComponent,

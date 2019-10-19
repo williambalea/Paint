@@ -8,8 +8,7 @@ import {DateService} from './date.service';
 export class IndexService {
     constructor(
         @inject(Types.DateService) private dateService: DateService,
-    ) {
-    }
+    ) {}
 
     about(): Message {
         return {

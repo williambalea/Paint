@@ -27,7 +27,7 @@ export class InputService {
   constructor() {
     this.shiftPressed = false;
     this.altPressed = false;
-    this.mouse = {x: NB.Zero, y: NB.Zero};
+    this.mouse = { x: NB.Zero, y: NB.Zero };
     this.isBlank = true;
     this.escapePressed = false;
     this.isDoubleClick = false;
@@ -37,12 +37,12 @@ export class InputService {
     this.drawingName = EMPTY_STRING;
     this.drawingTags = [];
     this.drawingHtml = EMPTY_STRING;
-    this.isNotEmpty = false ;
+    this.isNotEmpty = false;
     this.isDrawed = false;
   }
 
-  setMouseOffset(event: MouseEvent) {
-    this.mouse = {x: event.offsetX, y: event.offsetY};
+  setMouseOffset(event: MouseEvent): void {
+    this.mouse = { x: event.offsetX, y: event.offsetY };
   }
 
   getMouse(): Point {
@@ -54,12 +54,12 @@ export class InputService {
     this.stampAngle += increment;
     if (this.stampAngle >= 360) {
       this.stampAngle = 0;
-    } else if (this.stampAngle <= 0 ) {
+    } else if (this.stampAngle <= 0) {
       this.stampAngle = 360;
     }
   }
 
-  saveJSON(json: string) {
+  saveJSON(json: string): void {
     this.json = json;
   }
 

@@ -1,8 +1,7 @@
-import { TestBed, async } from '@angular/core/testing';
-
-import { RectangleService } from './rectangle.service';
-import { Renderer2 } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
+import { Renderer2 } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
+import { RectangleService } from './rectangle.service';
 
 describe('RectangleService', () => {
 

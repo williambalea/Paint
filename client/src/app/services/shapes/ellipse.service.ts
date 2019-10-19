@@ -54,7 +54,7 @@ export class EllipseService implements Shape {
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin(this.inputService.getMouse());
-    this.setEllipseType();
+    this.setEllipseBorderType();
     this.ellipse = this.renderer.createElement('ellipse', 'svg');
     return this.ellipse;
   }
@@ -78,7 +78,7 @@ export class EllipseService implements Shape {
     this.y = mouse.y;
   }
 
-  setEllipseType(): void {
+  setEllipseBorderType(): void {
     if (!this.fillEnable) {
       this.fill = this.removeColor(this.fill);
     }

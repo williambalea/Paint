@@ -89,6 +89,12 @@ describe('LineService', () => {
     service.validationToCreatePath();
     expect(spyOnCreateElement).toHaveBeenCalled();
   });
+  it('Should not validate and call fucntion to create path', () => {
+    service.start = false;
+    const spyOnCreateElement = spyOn(renderer, 'createElement');
+    service.validationToCreatePath();
+    expect(spyOnCreateElement).not.toHaveBeenCalled();
+  });
 
   it('should set style', () => {
     const spyOnSetStyle = spyOn(renderer, 'setStyle');

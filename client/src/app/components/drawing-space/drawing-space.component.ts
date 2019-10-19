@@ -85,9 +85,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.eventEmitterService.clearCanvasEmitter.subscribe(() => {
-      this.canvas.nativeElement.children.forEach((child: any) => {
-        this.renderer.removeChild(this.canvas, child);
-      });
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0 ; i < this.canvas.nativeElement.children.length; i++) {
+        this.renderer.removeChild(this.canvas, this.canvas.nativeElement.children[i]);
+      }
       this.inputService.isDrawed = false;
     });
 

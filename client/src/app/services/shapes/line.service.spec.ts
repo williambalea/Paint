@@ -1,10 +1,10 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { STROKE_DASHARRAY_STYLE } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { LineService } from './line.service';
-import { STROKE_DASHARRAY_STYLE } from 'src/constants';
 
 class RendererMock {
   createElement(): void {return; }
@@ -249,19 +249,19 @@ describe('LineService', () => {
   it ('should assign stroke style dotted point', () => {
     service.dashArrayType = '';
     service.assignStrokeStyleDottedPoint();
-    expect(service.dashArrayType = '1,20');
+    expect(service.dashArrayType).toEqual('1,20');
   });
 
   it ('should assign stroke style dotted line', () => {
     service.dashArrayType = '';
     service.assignStrokeStyleDottedLine();
-    expect(service.dashArrayType = '20,20');
+    expect(service.dashArrayType).toEqual('20,20');
   });
 
   it ('should assign stroke style full line', () => {
     service.dashArrayType = '';
     service.assignStrokeStyleFullLine();
-    expect(service.dashArrayType = '');
+    expect(service.dashArrayType).toEqual('');
   });
 
   it('Should assign strokeStyle to dottedPoint', () => {
@@ -307,7 +307,7 @@ describe('LineService', () => {
   });
 
   it ('should change junction value to newJunction', () => {
-    const newJunction: string = 'abc';
+    const newJunction = 'abc';
     service.captDot(newJunction);
     expect(service.junction).toEqual('url(#abc)');
   });

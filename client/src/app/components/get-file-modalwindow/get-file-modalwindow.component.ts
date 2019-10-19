@@ -35,7 +35,6 @@ export class GetFileModalwindowComponent implements OnInit {
     this.filteredThroughTagData = [];
     this.filterActivated = false;
     this.caughtGetError = false;
-
   }
 
   ngOnInit() {
@@ -51,15 +50,12 @@ export class GetFileModalwindowComponent implements OnInit {
         this.caughtGetError = true;
       },
     );
-
     this.filterActivated = false;
-
   }
 
   removeTags(value: number): void {
     this.tags.splice(value, 1);
     this.updateDisplayTable();
-
   }
 
   selectMostRecent(table: SVGJSON[]): void {
@@ -91,24 +87,23 @@ export class GetFileModalwindowComponent implements OnInit {
   }
 
   updateDisplayTable(): SVGJSON[] {
-    const temp: SVGJSON[] = [];
+    const temporaryDisplayTable: SVGJSON[] = [];
     if (this.tags.length !== 0) {
       // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.dataTable.length; i++) {
         // tslint:disable-next-line: prefer-for-of
         for (let j = 0; j < this.tags.length; j++) {
           if (this.dataTable[i].tags.includes(this.tags[j])) {
-            temp.push(this.dataTable[i]);
+            temporaryDisplayTable.push(this.dataTable[i]);
             break;
           }
         }
       }
-
-      this.displayedData = temp.reverse();
+      this.displayedData = temporaryDisplayTable.reverse();
     } else {
       this.displayedData = this.dataTable.reverse();
     }
-    return temp;
+    return temporaryDisplayTable;
   }
 
   closeModalWindow(): void {
@@ -116,7 +111,6 @@ export class GetFileModalwindowComponent implements OnInit {
   }
 
   selectDrawing(value: number) {
-
     if (this.caughtGetError) {
       window.alert('unable to get picture, please choose another one');
       this.caughtGetError = false;
@@ -124,7 +118,6 @@ export class GetFileModalwindowComponent implements OnInit {
       this.communicationService.isLoading = true;
       this.inputService.drawingHtml = this.displayedData[value].html;
       this.inputService.drawingColor = this.displayedData[value].color;
-
       if (this.inputService.isNotEmpty) {
         this.dialog.open(DisplayConfirmationComponent).afterClosed().subscribe(() => {
           this.dialogRef.close();
@@ -142,7 +135,6 @@ export class GetFileModalwindowComponent implements OnInit {
       if (event.ctrlKey) {
         event.preventDefault();
       }
-
     }
   }
 }

@@ -57,8 +57,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.setCanvasParameters();
   }
-  ngAfterViewInit() {
 
+  ngAfterViewInit() {
     this.eventEmitterService.showGridEmitter.subscribe(() => {
       this.showGrid();
     });
@@ -94,10 +94,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   setCanvasParameters(): void {
     this.unsubscribeService.subscriptons.push(this.fileParameters.canvaswidth$
       .subscribe((canvasWidth) => this.canvasWidth = canvasWidth));
-
     this.unsubscribeService.subscriptons.push(this.fileParameters.canvasheight$
       .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
-
     this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
       .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
   }
@@ -138,9 +136,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       color: this.colorService.getBackgroundColor(),
     };
     const json = JSON.stringify(data);
-
     this.communicationService.HTML = json;
-
     this.communicationService.postToServer(data).subscribe(() => {
       this.communicationService.enableSubmit = true;
     },
@@ -148,7 +144,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         window.alert('can\'t save to server');
         this.communicationService.enableSubmit = true;
       });
-
   }
 
   notCanvasAndColorApplicator(event: Event): boolean {
@@ -196,7 +191,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('mouseup')
   onMouseUp(): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
-
       this.selectedShape.onMouseUp();
       this.pointerEvent = POINTER_EVENT.visiblePainted;
     }
@@ -223,7 +217,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedShape.onMouseUp();
       event.preventDefault();
     }
-
     if (event.key === KEY.alt) {
       this.inputService.altPressed = true;
       event.preventDefault();
@@ -254,7 +247,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.backSpacePressed = false;
       this.selectedShape.onMouseMove();
     }
-
     if (event.key === KEY.alt) {
       this.inputService.altPressed = false;
     }
@@ -274,7 +266,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.draw(this.shape);
     this.inputService.isNotEmpty = true;
     this.selectorAreaActive = true;
-
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
         if (event.button === 0) {

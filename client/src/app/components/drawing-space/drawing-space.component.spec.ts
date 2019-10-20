@@ -1,20 +1,21 @@
-import { GridService } from './../../services/grid/grid.service';
+import { SelectorService } from 'src/app/services/selector/selector.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { Renderer2, Type} from '@angular/core';
+import { Renderer2, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SafeHtmlPipe } from 'src/app/safe-html.pipe';
 import { ColorService } from 'src/app/services/color/color.service';
+import { PipetteService } from 'src/app/services/color/pipette.service';
 import { InputService } from 'src/app/services/input.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
-import { EMPTY_STRING, NB } from 'src/constants';
+import { EMPTY_STRING, KEY, NB, TOOL } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Shape } from '../../services/shapes/shape';
+import { GridService } from './../../services/grid/grid.service';
 import { IncludingBoxService } from './../../services/includingBox/including-box.service';
+// import { UnsubscribeService } from './../../services/unsubscribe.service';
 import { DrawingSpaceComponent } from './drawing-space.component';
-// import { SharedModule } from 'src/app/shared/shared.module';
-
 class ShapesServiceMock {
   shapes: Shape[];
   mouse: Point;
@@ -51,6 +52,8 @@ class ColorServiceMock {
 
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
+  isBlank: boolean;
+  isNotEmpty: boolean;
   shiftPressed = false;
   setMouseOffset(): void { return; }
 }
@@ -63,6 +66,11 @@ class RectangleServiceMock implements Shape {
 }
 
 // tslint:disable-next-line: max-classes-per-file
+class PipetteServiceMock {
+  getColors(): void {return; }
+}
+
+// tslint:disable-next-line: max-classes-per-file
 class Renderer2Mock {
   appendChild(): void {return; }
   removeChild(): void {return; }
@@ -72,6 +80,7 @@ class Renderer2Mock {
 // tslint:disable-next-line: max-classes-per-file
 class IncludingBoxServiceMock {
   boxGElement: HTMLElement = {innerHTML: 'abc'} as HTMLElement;
+  update(): void {return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -79,16 +88,31 @@ class GridServiceMock {
   draw(): void {return; }
 }
 
+// tslint:disable-next-line: max-classes-per-file
+class SelectorServiceMock {
+  selectedShapes: SVGGraphicsElement[];
+  intersection(): void {return; }
+}
+
+// tslint:disable-next-line: max-classes-per-file
+// class UnsubscribeServiceMock {
+//   OnDestroy(): void {return; }
+// }
+
 describe('DrawingSpaceComponent', () => {
   let component: DrawingSpaceComponent;
   let fixture: ComponentFixture<DrawingSpaceComponent>;
   let gridService: GridService;
   // let shapesService: ShapesService;
-  // let colorService: ColorService;
-  // let inputService: InputService;
-  // let rectangleService: RectangleService;
+  let colorService: ColorService;
+  let inputService: InputService;
+  let rectangleService: RectangleService;
+  let pipetteService: PipetteService;
   let renderer2: Renderer2;
-  // let includingBoxService: IncludingBoxService;
+  let selectorService: SelectorService;
+  
+  // let unsubscribeService: UnsubscribeService;
+  let includingBoxService: IncludingBoxService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -99,9 +123,12 @@ describe('DrawingSpaceComponent', () => {
         { provide: ColorService, useClass: ColorServiceMock },
         { provide: InputService, useClass: InputServiceMock },
         { provide: RectangleService, useClass: RectangleServiceMock },
+        { provide: PipetteService, useClass: PipetteServiceMock},
         { provide: Renderer2, useClass: Renderer2Mock },
         { provide: IncludingBoxService, useClass: IncludingBoxServiceMock},
         { provide: GridService, useClass: GridServiceMock},
+        { provide: SelectorService, useClass: SelectorServiceMock},
+        // { provide: UnsubscribeService, useClass: UnsubscribeServiceMock},
         HttpClient,
         HttpHandler,
       ],
@@ -112,12 +139,15 @@ describe('DrawingSpaceComponent', () => {
     .compileComponents();
     component = TestBed.get(DrawingSpaceComponent);
     gridService = TestBed.get(GridService);
+    // unsubscribeService = TestBed.get(UnsubscribeService);
     // shapesService = TestBed.get(ShapesService);
-    // colorService = TestBed.get(ColorService);
-    // inputService = TestBed.get(InputService);
-    // rectangleService = TestBed.get(RectangleService);
+    colorService = TestBed.get(ColorService);
+    inputService = TestBed.get(InputService);
+    rectangleService = TestBed.get(RectangleService);
+    pipetteService = TestBed.get(PipetteService);
     // renderer = TestBed.get(Renderer2);
-    // includingBoxService = TestBed.get(IncludingBoxService);
+    includingBoxService = TestBed.get(IncludingBoxService);
+    selectorService = TestBed.get(SelectorService);
 
   }));
 
@@ -138,6 +168,12 @@ describe('DrawingSpaceComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
+  // it('should call onDestroy() from unsubService when destroying', () => {
+  //   const spy = spyOn(unsubscribeService, 'onDestroy');
+  //   component.ngOnDestroy();
+  //   expect(spy).toHaveBeenCalled();
+  // });
+
   it('should call remove child from renderer when hiding grid', () => {
     const spy = spyOn(renderer2, 'removeChild');
     component.hideGrid();
@@ -154,32 +190,71 @@ describe('DrawingSpaceComponent', () => {
     expect(spyGrid).toHaveBeenCalled();
   });
 
-  // it('should activate square mode when holding shift', () => {
-  //   component.selectedShape = rectangleService;
-  //   const spy = spyOn(component.selectedShape, 'onMouseMove');
-  //   const pressingShift = new KeyboardEvent('keydown', {key: KEY.shift});
-  //   const pressingOther = new KeyboardEvent('keydown', {key: KEY.o});
+  it('should draw but not append child ', () => {
+    const shape = false;
+    inputService.isBlank = true;
+    component.selectedTool = TOOL.ellipse;
+    const renderSpy = spyOn(renderer2, 'appendChild');
+    const colorSpy = spyOn(colorService, 'setMakingColorChanges');
+    component.draw(shape);
 
-  //   component.onKeyDown(pressingOther);
-  //   expect(inputService.shiftPressed).toBeFalsy();
-  //   component.onKeyDown(pressingShift);
-  //   expect(inputService.shiftPressed).toBeTruthy();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+    expect(inputService.isBlank).toEqual(false);
+    expect(renderSpy).not.toHaveBeenCalled();
+    expect(colorSpy).toHaveBeenCalled();
+  });
 
-  // it('should return to rectangle mode when releasing shift', () => {
-  //   inputService.shiftPressed = true;
-  //   component.selectedShape = rectangleService;
-  //   const spy = spyOn(component.selectedShape, 'onMouseMove');
-  //   const pressingShift = new KeyboardEvent('keyup', {key: KEY.shift});
-  //   const pressingOther = new KeyboardEvent('keydown', {key: KEY.o});
+  it('should draw and append child ', () => {
+    const shape = true;
+    inputService.isBlank = true;
+    component.selectedTool = TOOL.ellipse;
+    const renderSpy = spyOn(renderer2, 'appendChild');
+    const colorSpy = spyOn(colorService, 'setMakingColorChanges');
+    component.draw(shape);
 
-  //   component.onKeyUp(pressingOther);
-  //   expect(inputService.shiftPressed).toBeTruthy();
-  //   component.onKeyUp(pressingShift);
-  //   expect(inputService.shiftPressed).toBeFalsy();
-  //   expect(spy).toHaveBeenCalledTimes(1);
-  // });
+    expect(inputService.isBlank).toEqual(false);
+    expect(renderSpy).toHaveBeenCalled();
+    expect(colorSpy).toHaveBeenCalled();
+  });
+
+  it('should not draw', () => {
+    const shape = true;
+    inputService.isBlank = true;
+    component.selectedTool = TOOL.colorApplicator;
+    const renderSpy = spyOn(renderer2, 'appendChild');
+    const colorSpy = spyOn(colorService, 'setMakingColorChanges');
+    component.draw(shape);
+
+    expect(inputService.isBlank).toEqual(true);
+    expect(renderSpy).not.toHaveBeenCalled();
+    expect(colorSpy).not.toHaveBeenCalled();
+  });
+
+  it('should activate square mode when holding shift', () => {
+    component.selectedShape = rectangleService;
+    const spy = spyOn(component.selectedShape, 'onMouseMove');
+    const pressingShift = new KeyboardEvent('keydown', {key: KEY.shift});
+    const pressingOther = new KeyboardEvent('keydown', {key: KEY.o});
+
+    component.onKeyDown(pressingOther);
+    expect(inputService.shiftPressed).toBeFalsy();
+    component.onKeyDown(pressingShift);
+    expect(inputService.shiftPressed).toBeTruthy();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should return to rectangle mode when releasing shift', () => {
+    inputService.shiftPressed = true;
+    component.selectedShape = rectangleService;
+    const spy = spyOn(component.selectedShape, 'onMouseMove');
+    const pressingShift = new KeyboardEvent('keyup', {key: KEY.shift});
+    const pressingOther = new KeyboardEvent('keydown', {key: KEY.o});
+
+    component.onKeyUp(pressingOther);
+    expect(inputService.shiftPressed).toBeTruthy();
+    component.onKeyUp(pressingShift);
+    expect(inputService.shiftPressed).toBeFalsy();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
 
   // it('should change the color of the clicked shape with filling color', () => {
   //   const rect = new Rectangle(
@@ -236,30 +311,74 @@ describe('DrawingSpaceComponent', () => {
   //   expect(fillColorSpy).toHaveBeenCalledTimes(1);
   // });
 
+  it('should call the appropriate mousedown handler for the selectedTool', () => {
+    const Spy = spyOn(component, 'onMouseDown');
 
-  // it('should call the appropriate mousedown handler for the selectedTool', () => {
-  //   const brushSpy = spyOn(component, 'onMouseDown');
-  //   const penSpy = spyOn(component, 'onMouseDown');
+    component.selectedTool = TOOL.brush;
+    component.onMouseDown(new MouseEvent('mousedown'));
 
-  //   component.selectedTool = TOOL.brush;
-  //   component.onMouseDown(new MouseEvent('mousedown'));
+    component.selectedTool = TOOL.pen;
+    component.onMouseDown(new MouseEvent('mousedown'));
 
-  //   component.selectedTool = TOOL.pen;
-  //   component.onMouseDown(new MouseEvent('mousedown'));
+    expect(Spy).toHaveBeenCalledTimes(2);
+  });
 
-  //   expect(brushSpy).toHaveBeenCalledTimes(1);
-  //   expect(penSpy).toHaveBeenCalledTimes(1);
-  // });
+  it('should call getColor from pipette when it is selected', () => {
+    const mouseDown = new MouseEvent('mousedown');
+    const spyMouse = spyOn(pipetteService, 'getColors');
+    component.selectedTool = TOOL.pipette;
+    component.selectedShape = rectangleService;
+    component.onMouseDown(mouseDown);
+    expect(spyMouse).toHaveBeenCalled();
+    expect(inputService.isNotEmpty).toEqual(true);
+    expect(component.selectorAreaActive).toEqual(true);
+  });
 
-  // it('should define the shape colors and manage the mouseDown by the selectedTool', () => {
-  //   const mouseDown = new MouseEvent('mousedown');
-  //   const spyMouse = spyOn(component, 'onMouseDown');
-  //   const spyColor = spyOn(colorService, 'setMakingColorChanges');
-  //   component.selectedShape = rectangleService;
-  //   component.onMouseDown(mouseDown);
-  //   expect(spyColor).toHaveBeenCalled();
-  //   expect(spyMouse).toHaveBeenCalled();
-  // });
+  it('should call update from includingBoxService when selector is selected', () => {
+    const mouseDown = new MouseEvent('mousedown');
+    const spyMouse = spyOn(includingBoxService, 'update');
+    component.selectedTool = TOOL.selector;
+    component.selectedShape = rectangleService;
+    component.selectorAreaActive = false;
+
+    component.onMouseDown(mouseDown);
+
+    expect(spyMouse).toHaveBeenCalled();
+
+    expect(inputService.isNotEmpty).toEqual(true);
+    expect(component.selectorAreaActive).toEqual(true);
+  });
+
+  it('should clear selectedShapes table when click button is 0', () => {
+    const mouseDown = new MouseEvent('mousedown', {button: 0});
+
+    component.selectedShape = rectangleService;
+    component.selectedTool = TOOL.polygon;
+    component.selectorAreaActive = true;
+
+    component.onMouseDown(mouseDown);
+
+    expect(inputService.mouseButton).toEqual(0);
+    expect(inputService.isNotEmpty).toEqual(true);
+    expect(component.selectorAreaActive).toEqual(true);
+    expect(selectorService.selectedShapes.length).toEqual(0);
+  });
+
+  it('should push in selectedShapes table when selector is used', () => {
+    const mouseDown = new MouseEvent('mousedown', {button: 0});
+
+    component.selectedShape = rectangleService;
+    component.selectedTool = TOOL.selector;
+    component.selectorAreaActive = true;
+
+    component.onMouseDown(mouseDown);
+
+    expect(inputService.mouseButton).toEqual(0);
+    expect(inputService.isNotEmpty).toEqual(true);
+    expect(component.selectorAreaActive).toEqual(true);
+    expect(selectorService.selectedShapes.length).toEqual(1);
+  });
+
 
 
   // it('should initialize the svg path of pen', () => {
@@ -275,21 +394,53 @@ describe('DrawingSpaceComponent', () => {
   //   expect(shapesService.preview.filter.length).toBeGreaterThan(0);
   // });
 
-  // it('should draw the correct shape by selectedTool', () => {
-  //   const movePenBrush = spyOn(component, 'onMouseMove');
-  //   component.selectedShape = rectangleService;
+  it('should call setMouseOffset when selected  tool is not colorApplicator', () => {
+    component.selectedTool = TOOL.brush;
+    const inputSpy = spyOn(inputService, 'setMouseOffset');
+    const selectorSpy = spyOn(selectorService, 'intersection');
+    const includeSpy = spyOn(includingBoxService, 'update');
 
-  //   component.selectedTool = TOOL.pen;
-  //   component.onMouseMove(new MouseEvent('mousemove'));
+    component.selectedTool = TOOL.pen;
+    component.selectedShape = rectangleService;
+    component.onMouseMove(new MouseEvent('mousemove'));
 
-  //   component.selectedTool = TOOL.brush;
-  //   component.onMouseMove(new MouseEvent('mousemove'));
+    expect(inputSpy).toHaveBeenCalled();
+    expect(selectorSpy).not.toHaveBeenCalled();
+    expect(includeSpy).not.toHaveBeenCalled();
+  });
 
-  //     component.selectedTool = TOOL.colorApplicator;
-  //     component.onMouseMove(new MouseEvent('mousemove'));
+  
+  it('should call intersection() and update is selector tool is selected and active', () => {
+    component.selectedTool = TOOL.selector;
+    const inputSpy = spyOn(inputService, 'setMouseOffset');
+    const selectorSpy = spyOn(selectorService, 'intersection');
+    const includeSpy = spyOn(includingBoxService, 'update');
 
-  //   expect(movePenBrush).toHaveBeenCalledTimes(2);
-  // });
+    component.selectorAreaActive = true;
+    component.selectedTool = TOOL.selector;
+    component.selectedShape = rectangleService;
+    component.onMouseMove(new MouseEvent('mousemove'));
+
+    expect(inputSpy).toHaveBeenCalled();
+    expect(selectorSpy).toHaveBeenCalled();
+    expect(includeSpy).toHaveBeenCalled();
+  });
+
+  it('should call intersection() and update is selector tool is selected and not active', () => {
+    component.selectedTool = TOOL.selector;
+    const inputSpy = spyOn(inputService, 'setMouseOffset');
+    const selectorSpy = spyOn(selectorService, 'intersection');
+    const includeSpy = spyOn(includingBoxService, 'update');
+
+    component.selectorAreaActive = false;
+    component.selectedTool = TOOL.pen;
+    component.selectedShape = rectangleService;
+    component.onMouseMove(new MouseEvent('mousemove'));
+
+    expect(inputSpy).toHaveBeenCalled();
+    expect(selectorSpy).not.toHaveBeenCalled();
+    expect(includeSpy).not.toHaveBeenCalled();
+  });
 
   // it('should draw path with mouse offset position', () => {
   //   shapesService.preview.active = false;

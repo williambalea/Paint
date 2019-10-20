@@ -23,20 +23,28 @@ export class SelectorService implements Shape {
   }
 
   onMouseDown(): any {
-    if (this.selectorIsSingle) {
-      this.rectangle = this.rectangleService.onMouseDown();
-      this.selectorIsSingle = false;
-    }
+    this.validateSelectorIsSingle();
     this.renderer.setStyle(this.rectangle, 'fill', 'none');
     this.renderer.setStyle(this.rectangle, 'stroke-dasharray', '3');
     this.renderer.setStyle(this.rectangle, 'stroke', 'navy');
-    if (this.inputService.mouseButton === 2) {
-      this.renderer.setStyle(this.rectangle, 'stroke', 'red');
-    }
+    this.validateMouseButton();
     this.renderer.setStyle(this.rectangle, 'stroke-width', '1');
     this.renderer.setStyle(this.rectangle, 'stroke-opacity', '1');
     return this.rectangle;
   }
+
+  validateSelectorIsSingle(): void {
+    if (this.selectorIsSingle) {
+      this.rectangle = this.rectangleService.onMouseDown();
+      this.selectorIsSingle = false;
+    }
+  }
+  validateMouseButton(): void {
+    if (this.inputService.mouseButton === 2) {
+      this.renderer.setStyle(this.rectangle, 'stroke', 'red');
+    }
+  }
+
   onMouseMove(): void {
     this.rectangleService.onMouseMove();
   }

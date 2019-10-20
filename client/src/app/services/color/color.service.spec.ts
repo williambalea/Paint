@@ -34,6 +34,11 @@ describe('ColorService', () => {
     expect(colorService.verifyIfColorExistsInLastTen('rbga(80, 80, 80, 1)')).toBeTruthy();
   });
 
+  it('should verify if color exists in last Ten', () => {
+    const result = colorService.verifyIfColorExistsInLastTen('red');
+    expect(result).toBeDefined();
+  });
+
   it('should get Used primary', () => {
     const result = colorService.getUsingPrimary();
     expect(result).toBeDefined();
@@ -83,8 +88,24 @@ describe('ColorService', () => {
     expect(result).toEqual('red');
   });
 
-  it('Should set and get ShowInAttribute bar correctlt', () => {
+  it('should set and get ShowInAttribute bar correctlt', () => {
     colorService.setShowInAttributeBar(false);
     expect(colorService.getShowInAttributeBar()).toBeFalsy();
   });
+
+  it('should show in attribute bar', () => {
+    const result = colorService.getShowInAttributeBar();
+    expect(result).toBeDefined();
+  });
+
+  it('should change Background Color', () => {
+    colorService.changeBackgroundColor();
+    const result = colorService.getBackgroundColor();
+    expect(result).toBeDefined();
+  });
+
+  // it('should swap colors', () => {
+  //   colorService.swapColors();
+  //   expect(colorService.getFillColor()).toEqual(colorService.getStrokeColor());
+  // });
 });

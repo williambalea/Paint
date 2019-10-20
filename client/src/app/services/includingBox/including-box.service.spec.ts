@@ -69,6 +69,14 @@ describe('IncludingBoxService', () => {
     expect(finalPoint.y).toEqual(6);
   });
 
+  it('should calculate final point if bottomRight.x > finalPoint.x', () => {
+    const bottomRight: Point = {x: 3, y: 2};
+    const finalPoint: Point = {x: 5, y: 6};
+    service.calculateFinalPoint(bottomRight, finalPoint);
+    expect(bottomRight.x).toEqual(3);
+    expect(finalPoint.y).toEqual(6);
+  });
+
   it('should calculate', () => {
     const bottomRight: Point = {x: 0, y: 0};
     const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
@@ -158,6 +166,18 @@ describe('IncludingBoxService', () => {
     expect(spyOnAppendChild).toHaveBeenCalledTimes(1);
   });
 
+  it('it should not append rectangle box', () => {
+    service.width = 0;
+    service.height = 0;
+    const spyOnSetSetAttributeRectangleBox = spyOn(service, 'setAttributeRectangleBox');
+    const spyOnSetStyleRectangleBox = spyOn(service, 'setStyleRectangleBox');
+    const spyOnAppendChild = spyOn(renderer, 'appendChild');
+    service.appendRectangleBox();
+    expect(spyOnSetSetAttributeRectangleBox).not.toHaveBeenCalled();
+    expect(spyOnSetStyleRectangleBox).not.toHaveBeenCalled();
+    expect(spyOnAppendChild).not.toHaveBeenCalled();
+  });
+
   it('should draw', () => {
     const spyOnCreateElement = spyOn(renderer, 'createElement');
     const spyOnAppendRectangleBox = spyOn(service, 'appendRectangleBox');
@@ -177,6 +197,15 @@ describe('IncludingBoxService', () => {
     expect(service.boxUpperLeft.y).toEqual(1);
   });
 
+  it('should not calculate initial point', () => {
+    service.boxUpperLeft.x = 1;
+    service.boxUpperLeft.y = 1;
+    const shapeBoundary = {x: 2, y: 2, width: 1, height: 1} as SVGRect;
+    service.calculateInitialPoint(shapeBoundary);
+    expect(service.boxUpperLeft.x).toEqual(1);
+    expect(service.boxUpperLeft.y).toEqual(1);
+  });
+
   it('should validate that there is no stroke', () => {
     const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
     const value = {style: {strokeOpacity: 1, strokeWidth: 1}, tagName: 'rect'} ;
@@ -185,7 +214,26 @@ describe('IncludingBoxService', () => {
     expect(shapeBoundary.y).toEqual(0.5);
     expect(shapeBoundary.width).toEqual(2);
     expect(shapeBoundary.height).toEqual(2);
-    // const rectangle: SVGGraphicsElement = renderer.createElement('rectangle', 'svg');
+  });
+
+  it('should validate that there is no stroke', () => {
+    const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
+    const value = {style: {strokeOpacity: 1, strokeWidth: 1}, tagName: 'image'} ;
+    service.validateNoStroke(value as unknown as SVGGraphicsElement, shapeBoundary);
+    expect(shapeBoundary.x).toEqual(1);
+    expect(shapeBoundary.y).toEqual(1);
+    expect(shapeBoundary.width).toEqual(1);
+    expect(shapeBoundary.height).toEqual(1);
+  });
+
+  it('should validate that there is no stroke', () => {
+    const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
+    const value = {style: {strokeOpacity: 0, strokeWidth: 1}, tagName: 'image'} ;
+    service.validateNoStroke(value as unknown as SVGGraphicsElement, shapeBoundary);
+    expect(shapeBoundary.x).toEqual(1);
+    expect(shapeBoundary.y).toEqual(1);
+    expect(shapeBoundary.width).toEqual(1);
+    expect(shapeBoundary.height).toEqual(1);
   });
 
   it('should set control Points ', () => {

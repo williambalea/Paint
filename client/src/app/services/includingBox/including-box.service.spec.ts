@@ -152,4 +152,23 @@ describe('IncludingBoxService', () => {
     expect(spyOnAppendChild).toHaveBeenCalledTimes(1);
   });
 
+  it('should draw', () => {
+    const spyOnCreateElement = spyOn(renderer, 'createElement');
+    const spyOnAppendRectangleBox = spyOn(service, 'appendRectangleBox');
+    const spyOnAppendControlPoint = spyOn(service, 'appendControlPoints');
+    service.draw();
+    expect(spyOnCreateElement).toHaveBeenCalled();
+    expect(spyOnAppendRectangleBox).toHaveBeenCalled();
+    expect(spyOnAppendControlPoint).toHaveBeenCalled();
+  });
+
+  it('should calculate initial point', () => {
+    service.boxUpperLeft.x = 2;
+    service.boxUpperLeft.y = 2;
+    const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
+    service.calculateInitialPoint(shapeBoundary);
+    expect(service.boxUpperLeft.x).toEqual(1);
+    expect(service.boxUpperLeft.y).toEqual(1);
+  });
+
 });

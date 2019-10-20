@@ -104,8 +104,11 @@ describe('ColorService', () => {
     expect(result).toBeDefined();
   });
 
-  // it('should swap colors', () => {
-  //   colorService.swapColors();
-  //   expect(colorService.getFillColor()).toEqual(colorService.getStrokeColor());
-  // });
+  it('should swap colors', () => {
+    const fill = colorService.getFillColor();
+    const stroke = colorService.getStrokeColor();
+    colorService.swapColors();
+    expect(fill).toEqual(colorService.getStrokeColor());
+    expect(stroke).toEqual(colorService.getFillColor());
+  });
 });

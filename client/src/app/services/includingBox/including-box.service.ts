@@ -25,54 +25,56 @@ export class IncludingBoxService {
   }
 
   update(): void {
-    const initialPoint: Point = { x: Number.MAX_VALUE, y: Number.MAX_VALUE };
+    this.boxUpperLeft = { x: Number.MAX_VALUE, y: Number.MAX_VALUE };
     const finalPoint: Point = { x: 0, y: 0 };
+    const bottomRight: Point = { x: 0, y: 0 };
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const shapeBoundary: SVGRect = value.getBBox();
-      if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
-        const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, NB.Ten);
-        shapeBoundary.x -= strokeWidthOverflow / NB.Two;
-        shapeBoundary.y -= strokeWidthOverflow / NB.Two;
-        shapeBoundary.width += strokeWidthOverflow;
-        shapeBoundary.height += strokeWidthOverflow;
-      }
-
-      if (shapeBoundary.x < initialPoint.x) {
-        initialPoint.x = shapeBoundary.x;
-      }
-      if (shapeBoundary.y < initialPoint.y) {
-        initialPoint.y = shapeBoundary.y;
-      }
+      this.validateNoStroke(value, shapeBoundary);
+      this.calculateInitialPoint(shapeBoundary);
+      this.calculateBottomRight(bottomRight, shapeBoundary);
+      this.calculateFinalPoint(bottomRight, finalPoint);
     });
-
-    this.boxUpperLeft = initialPoint;
-
-    this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
-      const shapeBoundary: SVGRect = value.getBBox();
-      if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
-        const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, NB.Ten);
-        shapeBoundary.x -= strokeWidthOverflow / NB.Two;
-        shapeBoundary.y -= strokeWidthOverflow / NB.Two;
-        shapeBoundary.width += strokeWidthOverflow;
-        shapeBoundary.height += strokeWidthOverflow;
-      }
-
-      const bottomRight: Point = { x: 0, y: 0 };
-      bottomRight.x = shapeBoundary.x + shapeBoundary.width;
-      bottomRight.y = shapeBoundary.y + shapeBoundary.height;
-
-      if (bottomRight.x > finalPoint.x) {
-        finalPoint.x = bottomRight.x;
-      }
-      if (bottomRight.y > finalPoint.y) {
-        finalPoint.y = bottomRight.y;
-      }
-    });
-
-    this.width = finalPoint.x - initialPoint.x;
-    this.height = finalPoint.y - initialPoint.y;
-
+    this.calculateSize(finalPoint);
     this.draw();
+  }
+
+  calculateSize( finalPoint: Point): void {
+    this.width = finalPoint.x - this.boxUpperLeft.x;
+    this.height = finalPoint.y - this.boxUpperLeft.y;
+  }
+
+  calculateFinalPoint(bottomRight: Point, finalPoint: Point): void {
+    if (bottomRight.x > finalPoint.x) {
+      finalPoint.x = bottomRight.x;
+    }
+    if (bottomRight.y > finalPoint.y) {
+      finalPoint.y = bottomRight.y;
+    }
+  }
+
+  calculateBottomRight(bottomRight: Point, shapeBoundary: SVGRect): void {
+    bottomRight.x = shapeBoundary.x + shapeBoundary.width;
+    bottomRight.y = shapeBoundary.y + shapeBoundary.height;
+  }
+
+  validateNoStroke(value: SVGGraphicsElement, shapeBoundary: SVGRect): void {
+    if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
+      const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, NB.Ten);
+      shapeBoundary.x -= strokeWidthOverflow / NB.Two;
+      shapeBoundary.y -= strokeWidthOverflow / NB.Two;
+      shapeBoundary.width += strokeWidthOverflow;
+      shapeBoundary.height += strokeWidthOverflow;
+    }
+  }
+
+  calculateInitialPoint(shapeBoundary: SVGRect ): void {
+    if (shapeBoundary.x < this.boxUpperLeft.x) {
+      this.boxUpperLeft.x = shapeBoundary.x;
+    }
+    if (shapeBoundary.y < this.boxUpperLeft.y) {
+      this.boxUpperLeft.y = shapeBoundary.y;
+    }
   }
 
   draw(): void {
@@ -107,15 +109,23 @@ export class IncludingBoxService {
     const positions: Point[] = this.setControlPoints();
     for (let i = 0; i < NB.Eight; i++) {
       const point = this.renderer.createElement('circle', 'svg');
-      this.renderer.setAttribute(point, 'cx', positions[i].x.toString());
-      this.renderer.setAttribute(point, 'cy', positions[i].y.toString());
-      this.renderer.setAttribute(point, 'r', NB.Four.toString());
+      this.setAttributeControlPoints(point, positions[i]);
       this.renderer.setAttribute(point, 'id', `control${i}`);
-      this.renderer.setStyle(point, 'fill', 'white');
-      this.renderer.setStyle(point, 'stroke', 'navy');
-      this.renderer.setStyle(point, 'stroke-width', '1');
+      this.setStylePoints(point, positions[i]);
       this.renderer.appendChild(this.boxGElement, point);
     }
+  }
+
+  setAttributeControlPoints(point: SVGGraphicsElement, positions: Point): void {
+    this.renderer.setAttribute(point, 'cx', positions.x.toString());
+    this.renderer.setAttribute(point, 'cy', positions.y.toString());
+    this.renderer.setAttribute(point, 'r', NB.Four.toString());
+  }
+
+  setStylePoints(point: SVGGraphicsElement, positions: Point): void {
+    this.renderer.setStyle(point, 'fill', 'white');
+    this.renderer.setStyle(point, 'stroke', 'navy');
+    this.renderer.setStyle(point, 'stroke-width', '1');
   }
 
   setControlPoints(): Point[] {

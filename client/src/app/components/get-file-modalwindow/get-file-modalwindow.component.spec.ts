@@ -10,18 +10,18 @@ import { GetFileModalwindowComponent } from './get-file-modalwindow.component';
 
 class InputServiceMock {
   backSpacePressed = false;
-  getMouse(): any {return {x: 1, y: 2}; }
   drawingTags: string[];
+  getMouse(): any {return {x: 1, y: 2}; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
 class EventEmitterServiceMock {
-  sendSvgToServer(): void { return;}
+  sendSvgToServer(): void { return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
 class MatDialogRefMock {
-  close(): void { return;}
+  close(): void { return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -85,7 +85,7 @@ describe('GetFileModalwindowComponent', () => {
     // Need to mock a JSON file to have in datatable to test the filter
     // We're testing on an array with 1 element getting filtered upon displayWithFilter()
     component.tags[0] = 'tag';
-    //component.dataTable[0] = mockJSON;
+    // component.dataTable[0] = mockJSON;
     component.displayWithFilter();
     expect(component.dataTable.length).toEqual(0);
   });
@@ -94,7 +94,7 @@ describe('GetFileModalwindowComponent', () => {
     // Need to mock a JSON file to have in datatable to test the filter
         // We're testing on an array with 1 element not getting filtered upon displayWithFilter()
     component.tags = [];
-    //component.dataTable[0] = mockJSON;
+    // component.dataTable[0] = mockJSON;
     component.displayWithFilter();
     expect(component.dataTable.length).toEqual(1);
   });
@@ -122,7 +122,7 @@ describe('GetFileModalwindowComponent', () => {
   });
 
   it('should select a drawing from the list', () => {
-    
+
   });
 
 });

@@ -10,7 +10,7 @@ import { SelectorService } from 'src/app/services/selector/selector.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { EMPTY_STRING, KEY, NB, TOOL } from '../../../constants';
+import { EMPTY_STRING, KEY, NB, SVGinnerWidth, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 @Component({
@@ -246,7 +246,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
-    console.log(event.clientX - 350, event.clientY - 5);
+    console.log(event.clientX - SVGinnerWidth, event.clientY - NB.Five);
     this.inputService.mouseButton = event.button;
     if (event.button === 0) {
       this.selectorService.selectedShapes = [];

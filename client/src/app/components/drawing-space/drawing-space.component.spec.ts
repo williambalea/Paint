@@ -1,6 +1,8 @@
+import { GridService } from './../../services/grid/grid.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { Renderer2} from '@angular/core';
+import { Renderer2, Type} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SafeHtmlPipe } from 'src/app/safe-html.pipe';
 import { ColorService } from 'src/app/services/color/color.service';
 import { InputService } from 'src/app/services/input.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
@@ -9,8 +11,9 @@ import { EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Shape } from '../../services/shapes/shape';
-import { SharedModule } from './../../shared/shared.module';
+import { IncludingBoxService } from './../../services/includingBox/including-box.service';
 import { DrawingSpaceComponent } from './drawing-space.component';
+// import { SharedModule } from 'src/app/shared/shared.module';
 
 class ShapesServiceMock {
   shapes: Shape[];
@@ -66,18 +69,30 @@ class Renderer2Mock {
   createElement(): void {return; }
 }
 
+// tslint:disable-next-line: max-classes-per-file
+class IncludingBoxServiceMock {
+  boxGElement: HTMLElement = {innerHTML: 'abc'} as HTMLElement;
+}
+
+// tslint:disable-next-line: max-classes-per-file
+class GridServiceMock {
+  draw(): void {return; }
+}
+
 describe('DrawingSpaceComponent', () => {
   let component: DrawingSpaceComponent;
   let fixture: ComponentFixture<DrawingSpaceComponent>;
+  let gridService: GridService;
   // let shapesService: ShapesService;
   // let colorService: ColorService;
   // let inputService: InputService;
   // let rectangleService: RectangleService;
-  let renderer: Renderer2;
+  let renderer2: Renderer2;
+  // let includingBoxService: IncludingBoxService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DrawingSpaceComponent ],
+      declarations: [ DrawingSpaceComponent, SafeHtmlPipe ],
       providers: [
         DrawingSpaceComponent,
         { provide: ShapesService, useClass: ShapesServiceMock },
@@ -85,26 +100,31 @@ describe('DrawingSpaceComponent', () => {
         { provide: InputService, useClass: InputServiceMock },
         { provide: RectangleService, useClass: RectangleServiceMock },
         { provide: Renderer2, useClass: Renderer2Mock },
+        { provide: IncludingBoxService, useClass: IncludingBoxServiceMock},
+        { provide: GridService, useClass: GridServiceMock},
         HttpClient,
         HttpHandler,
       ],
       imports: [
-        SharedModule,
+        // SharedModule,
       ],
     })
     .compileComponents();
     component = TestBed.get(DrawingSpaceComponent);
+    gridService = TestBed.get(GridService);
     // shapesService = TestBed.get(ShapesService);
     // colorService = TestBed.get(ColorService);
     // inputService = TestBed.get(InputService);
     // rectangleService = TestBed.get(RectangleService);
-    renderer = TestBed.get(Renderer2);
+    // renderer = TestBed.get(Renderer2);
+    // includingBoxService = TestBed.get(IncludingBoxService);
 
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DrawingSpaceComponent);
     component = fixture.componentInstance;
+    renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
     fixture.detectChanges();
   });
 
@@ -119,9 +139,19 @@ describe('DrawingSpaceComponent', () => {
   });
 
   it('should call remove child from renderer when hiding grid', () => {
-    const spy = spyOn(renderer, 'removeChild');
+    const spy = spyOn(renderer2, 'removeChild');
     component.hideGrid();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call remove child from renderer when showing grid', () => {
+    const spyRemove = spyOn(renderer2, 'removeChild');
+    const spyAppend = spyOn(renderer2, 'appendChild');
+    const spyGrid = spyOn(gridService, 'draw');
+    component.showGrid();
+    expect(spyRemove).toHaveBeenCalled();
+    expect(spyAppend).toHaveBeenCalled();
+    expect(spyGrid).toHaveBeenCalled();
   });
 
   // it('should activate square mode when holding shift', () => {

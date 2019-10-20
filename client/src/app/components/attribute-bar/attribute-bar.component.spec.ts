@@ -175,7 +175,6 @@ describe('AttributeBarComponent', () => {
     expect(lineService.junctionStyle).toEqual('abc');
     expect(spy).toHaveBeenCalled();
   });
-  
 
   it('Should change dashArray style of lineService', () => {
     const spy = spyOn(lineService, 'assignStrokeStyle');
@@ -184,37 +183,37 @@ describe('AttributeBarComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('Should return ColorService',() => {
+  it('Should return ColorService', () => {
     const result = component.getColorService();
     expect(result).toBeDefined();
   });
 
-  it('Should return PenService',() => {
+  it('Should return PenService', () => {
     const result = component.getPenService();
     expect(result).toBeDefined();
   });
 
-  it('Should return brushService',() => {
+  it('Should return brushService', () => {
     const result = component.getBrushService();
     expect(result).toBeDefined();
   });
-  
-  it('Should return LineService',() => {
+
+  it('Should return LineService', () => {
     const result = component.getLineService();
     expect(result).toBeDefined();
   });
-  
-  it('Should return stampService',() => {
+
+  it('Should return stampService', () => {
     const result = component.getStampService();
     expect(result).toBeDefined();
   });
-  
-  it('Should return InputService',() => {
+
+  it('Should return InputService', () => {
     const result = component.getInputService();
     expect(result).toBeDefined();
-  });  
-    
-  it('Should return gridService',() => {
+  });
+
+  it('Should return gridService', () => {
     const result = component.getGridService();
     expect(result).toBeDefined();
   });

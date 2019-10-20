@@ -8,18 +8,18 @@ import { SaveFileModalwindowComponent } from './save-file-modalwindow.component'
 
 class InputServiceMock {
   backSpacePressed = false;
-  //getMouse(): Point {return {x: 1, y: 2}; }
+  // getMouse(): Point {return {x: 1, y: 2}; }
   drawingTags: string[];
 }
 
 // tslint:disable-next-line: max-classes-per-file
 class EventEmitterServiceMock {
-  sendSvgToServer(): void { return;}
+  sendSvgToServer(): void { return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
 class MatDialogRefMock {
-  close(): void { return;}
+  close(): void { return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file

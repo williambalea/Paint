@@ -78,20 +78,26 @@ describe('IncludingBoxService', () => {
   });
 
   // it('should calculate box', () => {
-  //   selectorService.selectedShapes.push(renderer.createElement('rect', 'svg'));
+  //   const rectangle = renderer.createElement('rect', 'svg');
+  //   renderer.setAttribute(rectangle, 'x', '1');
+  //   renderer.setAttribute(rectangle, 'y', '1');
+  //   renderer.setAttribute(rectangle, 'width', '1');
+  //   renderer.setAttribute(rectangle, 'height', '1');
+  //   selectorService.selectedShapes.push(rectangle);
   //   const spyOnValidateNoStroke = spyOn(service, 'validateNoStroke');
   //   const spyOnCalculateInitialPoint = spyOn(service, 'calculateInitialPoint');
   //   const spyOnalculateBottomRight = spyOn(service, 'calculateBottomRight');
   //   const spyOnCalculateFinalPoint = spyOn(service, 'calculateFinalPoint');
   //   const spyOnCalculateSize = spyOn(service, 'calculateSize');
   //   const spyOnDraw = spyOn(service, 'draw');
-  //   const shapeBaoundary = spyOn(selectorService.selectedShapes[0], 'getBox').and.returnValue({x: 1, y: 1, width: 1, height: 1});
+  //   // const shapeBaoundary = spyOn(selectorService.selectedShapes[0], 'getBBox')
+  //   //   .and.returnValue({x: 1, y: 1, width: 1, height: 1} as SVGRect);
   //   service.update();
-  //   expect(shapeBaoundary).toHaveBeenCalled();
-  //   expect(spyOnValidateNoStroke).toHaveBeenCalledTimes(1);
-  //   expect(spyOnCalculateInitialPoint).toHaveBeenCalledTimes(1);
-  //   expect(spyOnalculateBottomRight).toHaveBeenCalledTimes(1);
-  //   expect(spyOnCalculateFinalPoint).toHaveBeenCalledTimes(1);
+  //   // expect(shapeBaoundary).toHaveBeenCalled();
+  //   expect(spyOnValidateNoStroke).toHaveBeenCalled();
+  //   expect(spyOnCalculateInitialPoint).toHaveBeenCalled();
+  //   expect(spyOnalculateBottomRight).toHaveBeenCalled();
+  //   expect(spyOnCalculateFinalPoint).toHaveBeenCalled();
   //   expect(spyOnCalculateSize).toHaveBeenCalled();
   //   expect(spyOnDraw).toHaveBeenCalled();
   // });
@@ -169,6 +175,22 @@ describe('IncludingBoxService', () => {
     service.calculateInitialPoint(shapeBoundary);
     expect(service.boxUpperLeft.x).toEqual(1);
     expect(service.boxUpperLeft.y).toEqual(1);
+  });
+
+  it('should validate that there is no stroke', () => {
+    const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
+    const value = {style: {strokeOpacity: 1, strokeWidth: 1}, tagName: 'rect'} ;
+    service.validateNoStroke(value as unknown as SVGGraphicsElement, shapeBoundary);
+    expect(shapeBoundary.x).toEqual(0.5);
+    expect(shapeBoundary.y).toEqual(0.5);
+    expect(shapeBoundary.width).toEqual(2);
+    expect(shapeBoundary.height).toEqual(2);
+    // const rectangle: SVGGraphicsElement = renderer.createElement('rectangle', 'svg');
+  });
+
+  it('should set control Points ', () => {
+    const result = service.setControlPoints();
+    expect(result).toBeDefined();
   });
 
 });

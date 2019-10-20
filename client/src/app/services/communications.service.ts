@@ -39,12 +39,10 @@ export class CommunicationsService {
   }
 
   handleGetError(error: HttpErrorResponse) {
-    console.log('couldn\'t get file');
     return throwError(error);
   }
 
   handleSendError(error: HttpErrorResponse) {
-    console.log('couldn\'t send file');
     return throwError(error);
   }
 

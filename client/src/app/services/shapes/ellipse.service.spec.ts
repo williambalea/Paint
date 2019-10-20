@@ -22,9 +22,8 @@ class ColorServiceMock {
 
   getFillColor(): void {return; }
   getStrokeColor(): void {return; }
-  addColorsToLastUsed(): void {return;}
+  addColorsToLastUsed(): void {return; }
 }
-
 
 describe('EllipseService', () => {
   let service: EllipseService;
@@ -200,10 +199,9 @@ describe('EllipseService', () => {
     expect(setStyleSpy).toHaveBeenCalledTimes(3);
   });
 
-  
   it('Should set Circle offset', () => {
     service.mouse = {x: 10, y: 4};
-    service.origin = {x: 2, y: 20}
+    service.origin = {x: 2, y: 20};
     service.setCircleOffset();
     expect(service.xray).toEqual(8);
     expect(service.yray).toEqual(8);
@@ -220,8 +218,6 @@ describe('EllipseService', () => {
     expect(service.x).toEqual(6);
     expect(service.y).toEqual(12);
   });
-
-
 
   it('Should draw', () => {
     const setAttributeSpy = spyOn(renderer, 'setAttribute');
@@ -309,6 +305,5 @@ describe('EllipseService', () => {
     service.changeSecondaryColor(newColor);
     expect(service.stroke).toEqual(COLORS.blueRGBA);
   });
-
 
 });

@@ -11,6 +11,15 @@ export class PipetteService {
   constructor(private colorService: ColorService,
               private screenshotService: ScreenshotService) { }
 
+  private setUserColors(event: MouseEvent, data: Uint8ClampedArray): void {
+    if (event.button === NB.Zero) {
+      this.colorService.setFillColor('rgba(' + data[NB.Zero] + ',' + data[NB.One] + ',' + data[NB.Two] + ',' + data[NB.Three] + ')');
+    }
+    if (event.button === NB.Two) {
+      this.colorService.setStrokeColor('rgba(' + data[NB.Zero] + ',' + data[NB.One] + ',' + data[NB.Two] + ',' + data[NB.Three] + ')');
+    }
+  }
+
   getColors(event: MouseEvent, htmlCanvas: ElementRef, drawingBoard: ElementRef, height: number, width: number): void {
     const canvas: HTMLCanvasElement = htmlCanvas.nativeElement;
     canvas.height = height;
@@ -22,12 +31,7 @@ export class PipetteService {
       (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, NB.Zero, NB.Zero, width, height);
       const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
         getImageData(event.clientX - 350, event.clientY - 5, NB.One, NB.One).data;
-      if (event.button === NB.Zero) {
-        this.colorService.setFillColor('rgba(' + data[NB.Zero] + ',' + data[NB.One] + ',' + data[NB.Two] + ',' + data[NB.Three] + ')');
-      }
-      if (event.button === NB.Two) {
-        this.colorService.setStrokeColor('rgba(' + data[NB.Zero] + ',' + data[NB.One] + ',' + data[NB.Two] + ',' + data[NB.Three] + ')');
-      }
+      this.setUserColors(event, data);
     };
   }
 }

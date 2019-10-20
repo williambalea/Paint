@@ -34,6 +34,23 @@ describe('ColorService', () => {
     expect(colorService.verifyIfColorExistsInLastTen('rbga(80, 80, 80, 1)')).toBeTruthy();
   });
 
+  it('Should manage primary color', () => {
+    colorService.addColorsToLastUsed('rgba(240, 240, 240, 1)');
+    expect(colorService.verifyIfColorExistsInLastTen('rgba(240, 240, 240, 1)')).toBeTruthy();
+  });
+
+  it('should get fill color as backround color', () => {
+    colorService.setUsingPrimary(true);
+    colorService.changeBackgroundColor();
+    expect(colorService.getBackgroundColor()).toEqual(colorService.getFillColor());
+  });
+
+  it('should get fill color as backround color', () => {
+    colorService.setUsingPrimary(false);
+    colorService.changeBackgroundColor();
+    expect(colorService.getBackgroundColor()).toEqual(colorService.getStrokeColor());
+  });
+
   it('should verify if color exists in last Ten', () => {
     const result = colorService.verifyIfColorExistsInLastTen('red');
     expect(result).toBeDefined();

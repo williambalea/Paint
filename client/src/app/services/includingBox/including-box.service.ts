@@ -84,15 +84,23 @@ export class IncludingBoxService {
   appendRectangleBox(): void {
     if (this.width > 0 && this.height > 0) {
       const rectangle = this.renderer.createElement('rect', 'svg');
-      this.renderer.setAttribute(rectangle, 'x', this.boxUpperLeft.x.toString());
-      this.renderer.setAttribute(rectangle, 'y', this.boxUpperLeft.y.toString());
-      this.renderer.setAttribute(rectangle, 'width', this.width.toString());
-      this.renderer.setAttribute(rectangle, 'height', this.height.toString());
-      this.renderer.setStyle(rectangle, 'stroke-width', '1');
-      this.renderer.setStyle(rectangle, 'stroke', 'navy');
-      this.renderer.setStyle(rectangle, 'fill', 'none');
+      this.setAttributeRectangleBox(rectangle);
+      this.setStyleRectangleBox(rectangle);
       this.renderer.appendChild(this.boxGElement, rectangle);
     }
+  }
+
+  setAttributeRectangleBox(rectangle: SVGGraphicsElement): void {
+    this.renderer.setAttribute(rectangle, 'x', this.boxUpperLeft.x.toString());
+    this.renderer.setAttribute(rectangle, 'y', this.boxUpperLeft.y.toString());
+    this.renderer.setAttribute(rectangle, 'width', this.width.toString());
+    this.renderer.setAttribute(rectangle, 'height', this.height.toString());
+  }
+
+  setStyleRectangleBox(rectangle: SVGGraphicsElement): void {
+    this.renderer.setStyle(rectangle, 'stroke-width', '1');
+    this.renderer.setStyle(rectangle, 'stroke', 'navy');
+    this.renderer.setStyle(rectangle, 'fill', 'none');
   }
 
   appendControlPoints(): void {

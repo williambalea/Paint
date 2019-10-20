@@ -8,6 +8,7 @@ import { IncludingBoxService } from 'src/app/services/includingBox/including-box
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService } from 'src/app/services/shapes/line.service';
+import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
@@ -35,6 +36,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     SelectorService,
     IncludingBoxService,
     LineService,
+    NoShapeService,
   ],
 
 })
@@ -55,9 +57,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private penService: PenService,
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
-              private lineService: LineService) {
+              private lineService: LineService,
+              private noShapeService: NoShapeService) {
     this.enableKeyPress = false;
-    this.selectedShape = this.penService;
+    this.selectedShape = this.noShapeService;
   }
 
   ngOnInit(): void {
@@ -91,6 +94,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedTool = TOOL.rectangle;
         break;
       case TOOL.pipette:
+        this.selectedShape = this.noShapeService;
         this.selectedTool = TOOL.pipette;
         break;
       case TOOL.brush:
@@ -102,13 +106,15 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedTool = TOOL.pen;
         break;
       case TOOL.colorApplicator:
+        this.selectedShape = this.noShapeService;
         this.selectedTool = TOOL.colorApplicator;
         break;
       case TOOL.stamp:
-        this.selectedTool = TOOL.stamp;
         this.selectedShape = this.stampService;
+        this.selectedTool = TOOL.stamp;
         break;
       case TOOL.grid:
+        this.selectedShape = this.noShapeService;
         this.selectedTool = TOOL.grid;
         break;
       case TOOL.ellipse:

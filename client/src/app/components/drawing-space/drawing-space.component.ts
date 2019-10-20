@@ -246,7 +246,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
-    console.log(event.clientX - SVGinnerWidth, event.clientY - NB.Five);
     this.inputService.mouseButton = event.button;
     if (event.button === 0) {
       this.selectorService.selectedShapes = [];

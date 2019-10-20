@@ -56,8 +56,35 @@ describe('ColorService', () => {
     expect(result).toEqual(true);
   });
 
-  // it('Should set and get ShowInAttribute bar correctlt', () => {
-  //   colorService.setShowInAttributeBar(false);
-  //   expect(colorService.getShowInAttributeBar()).toBeFalsy();
-  // });
+  it('should get the item from the last ten colors', () => {
+    const result = colorService.getItemFromLastTenColors(1);
+    expect(result).toBeDefined();
+  });
+
+  it('should get fill color', () => {
+    const result = colorService.getFillColor();
+    expect(result).toBeDefined();
+  });
+
+  it('should set fill color', () => {
+    colorService.setFillColor('red');
+    const result = colorService.getFillColor();
+    expect(result).toEqual('red');
+  });
+
+  it('should get stroke color', () => {
+    const result = colorService.getStrokeColor();
+    expect(result).toBeDefined();
+  });
+
+  it('should set stroke color', () => {
+    colorService.setStrokeColor('red');
+    const result = colorService.getStrokeColor();
+    expect(result).toEqual('red');
+  });
+
+  it('Should set and get ShowInAttribute bar correctlt', () => {
+    colorService.setShowInAttributeBar(false);
+    expect(colorService.getShowInAttributeBar()).toBeFalsy();
+  });
 });

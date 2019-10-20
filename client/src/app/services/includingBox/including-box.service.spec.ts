@@ -140,4 +140,16 @@ describe('IncludingBoxService', () => {
     expect(spyOnSetAttribute).toHaveBeenCalledTimes(4);
   });
 
+  it('it should append rectangle box', () => {
+    service.width = 2;
+    service.height = 2;
+    const spyOnSetSetAttributeRectangleBox = spyOn(service, 'setAttributeRectangleBox');
+    const spyOnSetStyleRectangleBox = spyOn(service, 'setStyleRectangleBox');
+    const spyOnAppendChild = spyOn(renderer, 'appendChild');
+    service.appendRectangleBox();
+    expect(spyOnSetSetAttributeRectangleBox).toHaveBeenCalledTimes(1);
+    expect(spyOnSetStyleRectangleBox).toHaveBeenCalledTimes(1);
+    expect(spyOnAppendChild).toHaveBeenCalledTimes(1);
+  });
+
 });

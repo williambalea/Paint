@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { CommunicationsService } from './communications.service';
 
 describe('CommunicationsService', () => {
-  beforeEach(() => TestBed.configureTestingModule({ 
+  beforeEach(() => TestBed.configureTestingModule({
     imports: [
       HttpClientModule,
     ],

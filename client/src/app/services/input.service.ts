@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY_STRING, NB } from 'src/constants';
+import { EMPTY_STRING, NB, SVGinnerWidth } from 'src/constants';
 import { Point } from '../../../../common/interface/point';
 
 @Injectable({
@@ -42,7 +42,7 @@ export class InputService {
   }
 
   setMouseOffset(event: MouseEvent): void {
-    this.mouse = { x: event.clientX - 350, y: event.clientY - 5 };
+    this.mouse = { x: event.clientX - SVGinnerWidth, y: event.clientY - NB.Five };
   }
 
   getMouse(): Point {

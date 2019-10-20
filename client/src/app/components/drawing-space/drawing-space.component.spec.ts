@@ -182,7 +182,6 @@ describe('DrawingSpaceComponent', () => {
   //   expect(fillColorSpy).toHaveBeenCalledTimes(1);
   // });
 
-
   it('should call the appropriate mousedown handler for the selectedTool', () => {
     const brushSpy = spyOn(component, 'onMouseDown');
     const penSpy = spyOn(component, 'onMouseDown');
@@ -207,7 +206,6 @@ describe('DrawingSpaceComponent', () => {
     expect(spyMouse).toHaveBeenCalled();
   });
 
-
   it('should initialize the svg path of pen', () => {
     component.selectedTool = TOOL.pen;
     component.onMouseDown(new MouseEvent('mouseDown'));
@@ -231,8 +229,8 @@ describe('DrawingSpaceComponent', () => {
     component.selectedTool = TOOL.brush;
     component.onMouseMove(new MouseEvent('mousemove'));
 
-      component.selectedTool = TOOL.colorApplicator;
-      component.onMouseMove(new MouseEvent('mousemove'));
+    component.selectedTool = TOOL.colorApplicator;
+    component.onMouseMove(new MouseEvent('mousemove'));
 
     expect(movePenBrush).toHaveBeenCalledTimes(2);
   });

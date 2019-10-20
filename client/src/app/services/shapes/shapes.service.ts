@@ -4,7 +4,7 @@ import { Preview } from '../../../../../common/interface/preview';
 import { Brush } from '../../../Classes/Shapes/brush';
 import { Pen } from '../../../Classes/Shapes/pen';
 import { Shape } from '../../../Classes/Shapes/shape';
-import { BRUSH, COLORS, EMPTY_STRING, NB, TOOL } from '../../../constants';
+import { BRUSH, COLORS, EMPTY_STRING, NB, SVGinnerWidth, TOOL } from '../../../constants';
 
 @Injectable({
   providedIn: 'root',
@@ -41,11 +41,11 @@ export class ShapesService {
   }
 
   setMouseOrigin(event: MouseEvent): void {
-    this.origin = {x: event.clientX - 350, y: event.clientY - 5};
-    this.preview.x = event.clientX - 350;
-    this.preview.y = event.clientY - 5;
-    this.preview.width = 0;
-    this.preview.height = 0;
+    this.origin = {x: event.clientX - SVGinnerWidth, y: event.clientY - NB.Five};
+    this.preview.x = event.clientX - SVGinnerWidth;
+    this.preview.y = event.clientY - NB.Five;
+    this.preview.width = NB.Zero;
+    this.preview.height = NB.Zero;
   }
 
   drawPen(): void {

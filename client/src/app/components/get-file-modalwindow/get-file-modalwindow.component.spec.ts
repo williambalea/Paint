@@ -10,8 +10,8 @@ import { GetFileModalwindowComponent } from './get-file-modalwindow.component';
 
 class InputServiceMock {
   backSpacePressed = false;
-  getMouse(): any {return {x: 1, y: 2}; }
   drawingTags: string[];
+  getMouse(): any {return {x: 1, y: 2}; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -30,7 +30,7 @@ class EventEmitterServiceMock {
 
 // tslint:disable-next-line: max-classes-per-file
 class MatDialogRefMock {
-  close(): void { return;}
+  close(): void { return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file

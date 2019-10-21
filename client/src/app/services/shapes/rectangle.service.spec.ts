@@ -25,7 +25,7 @@ class InputServiceMock {
   getMouse(): Point {return {x: 1, y: 2}; }
 }
 
-fdescribe('RectangleService', () => {
+describe('RectangleService', () => {
   let service: RectangleService;
   let colorService: ColorService;
   let inputService: InputService;

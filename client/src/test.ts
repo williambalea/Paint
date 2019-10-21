@@ -11,6 +11,7 @@ getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting(),
 );
+//const context = require.context('./', true, /drawing-space\.component\.spec\.ts$/);
 const context = require.context('./', true, /\.spec\.ts$/);
 
 context.keys().map(context);

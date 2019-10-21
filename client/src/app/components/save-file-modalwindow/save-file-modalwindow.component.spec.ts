@@ -34,7 +34,7 @@ describe('SaveFileModalwindowComponent', () => {
   let communicationsService: CommunicationsService;
   let eventEmitterService: EventEmitterService;
   let matDialogRef: MatDialogRef<SaveFileModalwindowComponent>;
-  let formBuilder: FormBuilder;
+  // let formBuilder: FormBuilder;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,7 +53,7 @@ describe('SaveFileModalwindowComponent', () => {
     communicationsService = TestBed.get(CommunicationsService);
     eventEmitterService = TestBed.get(EventEmitterService);
     matDialogRef = TestBed.get(MatDialogRef);
-    formBuilder = TestBed.get(FormBuilder);
+    // formBuilder = TestBed.get(FormBuilder);
 
   }));
 

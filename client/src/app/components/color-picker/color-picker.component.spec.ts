@@ -1,7 +1,7 @@
 import { ColorService } from 'src/app/services/color/color.service';
 import { ColorPickerComponent } from '../color-picker/color-picker.component';
 
-fdescribe('ColorPickerComponent', () => {
+describe('ColorPickerComponent', () => {
   const colorService: ColorService = new ColorService();
   const colorPickerComponent: ColorPickerComponent = new ColorPickerComponent(colorService);
 

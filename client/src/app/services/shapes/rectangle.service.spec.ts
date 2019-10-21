@@ -72,7 +72,7 @@ describe('RectangleService', () => {
     const spyOnGetStrokeColor = spyOn(colorService, 'getStrokeColor');
     const spyOnSetOrigin = spyOn(service, 'setOrigin');
     const spyOnCreateElement = spyOn(renderer, 'createElement');
-    const spyOnSetStyle = spyOn(service, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
     const spyOnSetRectangleType = spyOn(service, 'setRectangleType');
     service.onMouseDown();
     expect(spyOnGetFillCollor).toHaveBeenCalled();
@@ -83,9 +83,4 @@ describe('RectangleService', () => {
     expect(spyOnSetRectangleType).toHaveBeenCalled();
   });
 
-  it('should set style', () => {
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
-    service.setStyle();
-    expect(spyOnSetStyle).toHaveBeenCalledTimes(3);
-  });
 });

@@ -10,7 +10,7 @@ import { SelectorService } from 'src/app/services/selector/selector.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { EMPTY_STRING, KEY, NB, TOOL, STRINGS } from '../../../constants';
+import { EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 @Component({

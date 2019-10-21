@@ -6,8 +6,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
-import { SaveFileModalwindowComponent } from './save-file-modalwindow.component';
 import { KEY } from 'src/constants';
+import { SaveFileModalwindowComponent } from './save-file-modalwindow.component';
 
 class InputServiceMock {
   backSpacePressed = false;

@@ -16,14 +16,14 @@ export class IncludingBoxService {
               private renderer: Renderer2) {
     this.clear();
   }
-  // ok
+
   clear(): void {
     this.boxUpperLeft = { x: NB.Zero, y: NB.Zero };
     this.width = NB.Zero;
     this.height = NB.Zero;
     this.boxGElement = this.renderer.createElement('g', 'svg');
   }
-  //MARCHE
+
   update(): void {
     this.boxUpperLeft = { x: Number.MAX_VALUE, y: Number.MAX_VALUE };
     const finalPoint: Point = { x: 0, y: 0 };
@@ -38,12 +38,12 @@ export class IncludingBoxService {
     this.calculateSize(finalPoint);
     this.draw();
   }
-  //ok
+
   calculateSize( finalPoint: Point): void {
     this.width = finalPoint.x - this.boxUpperLeft.x;
     this.height = finalPoint.y - this.boxUpperLeft.y;
   }
-  //ok
+
   calculateFinalPoint(bottomRight: Point, finalPoint: Point): void {
     if (bottomRight.x > finalPoint.x) {
       finalPoint.x = bottomRight.x;
@@ -52,7 +52,7 @@ export class IncludingBoxService {
       finalPoint.y = bottomRight.y;
     }
   }
-  //ok
+
   calculateBottomRight(bottomRight: Point, shapeBoundary: SVGRect): void {
     bottomRight.x = shapeBoundary.x + shapeBoundary.width;
     bottomRight.y = shapeBoundary.y + shapeBoundary.height;
@@ -67,7 +67,7 @@ export class IncludingBoxService {
       shapeBoundary.height += strokeWidthOverflow;
     }
   }
-  //ok
+
   calculateInitialPoint(shapeBoundary: SVGRect ): void {
     if (shapeBoundary.x < this.boxUpperLeft.x) {
       this.boxUpperLeft.x = shapeBoundary.x;
@@ -76,7 +76,7 @@ export class IncludingBoxService {
       this.boxUpperLeft.y = shapeBoundary.y;
     }
   }
-  //ok
+
   draw(): void {
     this.boxGElement = this.renderer.createElement('g', 'svg');
     this.appendRectangleBox();
@@ -91,20 +91,20 @@ export class IncludingBoxService {
       this.renderer.appendChild(this.boxGElement, rectangle);
     }
   }
-  //ok
+
   setAttributeRectangleBox(rectangle: SVGGraphicsElement): void {
     this.renderer.setAttribute(rectangle, 'x', this.boxUpperLeft.x.toString());
     this.renderer.setAttribute(rectangle, 'y', this.boxUpperLeft.y.toString());
     this.renderer.setAttribute(rectangle, 'width', this.width.toString());
     this.renderer.setAttribute(rectangle, 'height', this.height.toString());
   }
-  //ok
+
   setStyleRectangleBox(rectangle: SVGGraphicsElement): void {
     this.renderer.setStyle(rectangle, 'stroke-width', '1');
     this.renderer.setStyle(rectangle, 'stroke', 'navy');
     this.renderer.setStyle(rectangle, 'fill', 'none');
   }
-  //ok
+
   appendControlPoints(): void {
     const positions: Point[] = this.setControlPoints();
     for (let i = 0; i < NB.Eight; i++) {
@@ -115,19 +115,19 @@ export class IncludingBoxService {
       this.renderer.appendChild(this.boxGElement, point);
     }
   }
-  //ok
+
   setAttributeControlPoints(point: SVGGraphicsElement, positions: Point): void {
     this.renderer.setAttribute(point, 'cx', positions.x.toString());
     this.renderer.setAttribute(point, 'cy', positions.y.toString());
     this.renderer.setAttribute(point, 'r', NB.Four.toString());
   }
-  //ok
+
   setStylePoints(point: SVGGraphicsElement, positions: Point): void {
     this.renderer.setStyle(point, 'fill', 'white');
     this.renderer.setStyle(point, 'stroke', 'navy');
     this.renderer.setStyle(point, 'stroke-width', '1');
   }
-  //comment on test cette fonction ?
+  // comment on test cette fonction ?
   setControlPoints(): Point[] {
     const positions: Point[] = [
       { x: this.boxUpperLeft.x, y: this.boxUpperLeft.y },

@@ -7,9 +7,9 @@ import {of} from 'rxjs';
 import {AppComponent} from './app.component';
 import {DrawingSpaceComponent} from './components/drawing-space/drawing-space.component';
 import {SideBarComponent} from './components/side-bar/side-bar.component';
-import {IndexService} from './services/index/index.service';
 import SpyObj = jasmine.SpyObj;
 import { SafeHtmlPipe } from './safe-html.pipe';
+import {IndexService} from './services/index/index.service';
 
 describe('AppComponent', () => {
   let indexServiceSpy: SpyObj<IndexService>;

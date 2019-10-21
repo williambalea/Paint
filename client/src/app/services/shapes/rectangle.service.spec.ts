@@ -99,7 +99,7 @@ describe('RectangleService', () => {
     service.active = true;
     service.onMouseMove();
     expect(spyOnGetMouse).toHaveBeenCalled();
-    if (inputService.shiftPressed){
+    if (inputService.shiftPressed) {
       expect(spyOnSetSquareOffset).toHaveBeenCalled();
     } else {
       expect(spyOnRetRectangleOffset).toHaveBeenCalled();
@@ -142,7 +142,7 @@ describe('RectangleService', () => {
   //   // expect(service.y).toEqual(1);
   // });
 
-  //Ca marche pas - je comprends pas pk
+  // Ca marche pas - je comprends pas pk
   // it('should set square offset', () => {
   //   service.mouse.x = 5;
   //   service.mouse.y = 5;

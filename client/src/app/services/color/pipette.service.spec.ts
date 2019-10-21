@@ -81,8 +81,8 @@ describe('PipetteService', () => {
     const width = 10;
     const height = 10;
     const event = new MouseEvent('mousemove');
-    const htmlel1 = new ElementRef({nativeElement:{height: 10, width: 10 }});
-    const htmlel2 = new ElementRef({nativeElement:{height: 20, width: 20 }});
+    const htmlel1 = new ElementRef({nativeElement: {height: 10, width: 10 }});
+    const htmlel2 = new ElementRef({nativeElement: {height: 20, width: 20 }});
 
     service.getColors(event,  htmlel1, htmlel2, height, width);
     expect(screenSpy).toHaveBeenCalled();

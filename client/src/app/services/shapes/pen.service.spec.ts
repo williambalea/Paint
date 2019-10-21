@@ -4,7 +4,6 @@ import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { PenService } from './pen.service';
 
-
 class Renderer2Mock {
   setAttribute(): void {return; }
   setStyle(): void {return; }

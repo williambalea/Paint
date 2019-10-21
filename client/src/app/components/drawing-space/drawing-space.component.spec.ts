@@ -1,4 +1,3 @@
-import { SelectorService } from 'src/app/services/selector/selector.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Renderer2, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -6,6 +5,7 @@ import { SafeHtmlPipe } from 'src/app/safe-html.pipe';
 import { ColorService } from 'src/app/services/color/color.service';
 import { PipetteService } from 'src/app/services/color/pipette.service';
 import { InputService } from 'src/app/services/input.service';
+import { SelectorService } from 'src/app/services/selector/selector.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { EMPTY_STRING, KEY, NB, TOOL } from 'src/constants';
@@ -110,7 +110,7 @@ describe('DrawingSpaceComponent', () => {
   let pipetteService: PipetteService;
   let renderer2: Renderer2;
   let selectorService: SelectorService;
-  
+
   // let unsubscribeService: UnsubscribeService;
   let includingBoxService: IncludingBoxService;
 
@@ -379,8 +379,6 @@ describe('DrawingSpaceComponent', () => {
     expect(selectorService.selectedShapes.length).toEqual(1);
   });
 
-
-
   // it('should initialize the svg path of pen', () => {
   //   component.selectedTool = TOOL.pen;
   //   component.onMouseDown(new MouseEvent('mouseDown'));
@@ -409,7 +407,6 @@ describe('DrawingSpaceComponent', () => {
     expect(includeSpy).not.toHaveBeenCalled();
   });
 
-  
   it('should call intersection() and update is selector tool is selected and active', () => {
     component.selectedTool = TOOL.selector;
     const inputSpy = spyOn(inputService, 'setMouseOffset');

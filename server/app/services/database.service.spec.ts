@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import 'mocha';
 import * as Chai from 'chai';
-let expect = Chai.expect;
 import { DatabaseService } from '../services/database.service';
 import { SVGJSON } from '../../../common/communication/SVGJSON';
 
@@ -9,6 +8,7 @@ describe('databaseService tests', () => {
     let service: DatabaseService;
     let dataTable : SVGJSON[];
     let mockData : SVGJSON;
+    let expect = Chai.expect;
 
     beforeEach(() => {
         service = new DatabaseService();

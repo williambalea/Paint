@@ -24,7 +24,7 @@ describe('test', function () {
         });
       });  
 
-      it('it should not POST a book without pages field', (done) => {
+      it('it should POST data in SVGJSON format', (done) => {
         let data : SVGJSON = {name : 'test', tags : ['test'], thumbnail : 'test', html : 'test', color : 'test'}
         chai.request('http://localhost:3000/database')
         .post('/postToTable')

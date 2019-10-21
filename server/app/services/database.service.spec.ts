@@ -5,7 +5,7 @@ let expect = Chai.expect;
 import { DatabaseService } from '../services/database.service';
 import { SVGJSON } from '../../../common/communication/SVGJSON';
 
-describe('SharedService', () => {
+describe('databaseService', () => {
     let service: DatabaseService;
     let dataTable : SVGJSON[];
     let mockData : SVGJSON;

@@ -5,11 +5,11 @@ let expect = Chai.expect;
 import { DatabaseService } from '../services/database.service';
 import { SVGJSON } from '../../../common/communication/SVGJSON';
 
-describe('databaseService', () => {
+describe('databaseService tests', () => {
     let service: DatabaseService;
     let dataTable : SVGJSON[];
     let mockData : SVGJSON;
-    
+
     beforeEach(() => {
         service = new DatabaseService();
     })

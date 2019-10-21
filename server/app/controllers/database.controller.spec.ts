@@ -4,7 +4,7 @@ import { SVGJSON } from '../../../common/communication/SVGJSON';
 import { expect } from 'chai';
    
 
-describe('test', function () {
+describe('databaseController tests', function () {
   let assert = require('assert'),
   http = require('http');
   chai.use(chaiHttp);

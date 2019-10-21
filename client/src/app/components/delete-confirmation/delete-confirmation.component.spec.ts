@@ -3,13 +3,11 @@ import { MatDialogModule, MatDialogRef } from '@angular/material';
 import { By } from '@angular/platform-browser';
 import { ColorService } from 'src/app/services/color/color.service';
 import { FileParametersServiceService } from 'src/app/services/file-parameters-service.service';
-import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { DeleteConfirmationComponent } from './delete-confirmation.component';
 
 describe('DeleteConfirmationComponent', () => {
 
     let component: DeleteConfirmationComponent;
-    let shapeService: ShapesService;
     let fileParameters: FileParametersServiceService;
     let colorService: ColorService;
     let dialogRef: MatDialogRef<DeleteConfirmationComponent>;
@@ -22,7 +20,6 @@ describe('DeleteConfirmationComponent', () => {
     };
 
     beforeEach(async(() => {
-        shapeService = new ShapesService();
         TestBed.configureTestingModule({
         declarations: [ DeleteConfirmationComponent ],
         imports: [
@@ -37,7 +34,6 @@ describe('DeleteConfirmationComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(DeleteConfirmationComponent);
-        shapeService = TestBed.get(ShapesService);
         fileParameters = TestBed.get(FileParametersServiceService);
         colorService = TestBed.get(ColorService);
         dialogRef = TestBed.get(MatDialogRef);
@@ -63,8 +59,8 @@ describe('DeleteConfirmationComponent', () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it('should call clearShapes function when invoking clear function', () => {
-        const spy = spyOn(shapeService, 'clearShapes').and.callThrough();
+    it('should call clearColor function when invoking clear function', () => {
+        const spy = spyOn(component, 'clearColor').and.callThrough();
         component.clear();
         expect(spy).toHaveBeenCalled();
     });
@@ -105,8 +101,4 @@ describe('DeleteConfirmationComponent', () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it(' clear function should clear canvas from any drawing', () => {
-        component.clear();
-        expect(shapeService.getShapes.length).toEqual(0);
-    });
 });

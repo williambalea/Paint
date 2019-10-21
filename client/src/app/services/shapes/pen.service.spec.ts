@@ -8,6 +8,7 @@ import { PenService } from './pen.service';
 class Renderer2Mock {
   setAttribute(): void {return; }
   setStyle(): void {return; }
+  createElement(): void {return; }
 }
 
 describe('PenService', () => {

@@ -7,6 +7,7 @@ import { BrushService } from './brush.service';
 class Renderer2Mock {
   setAttribute(): void {return; }
   setStyle(): void {return; }
+  createElement(): void {return; }
 }
 
 describe('BrushService', () => {

@@ -9,6 +9,7 @@ import {DrawingSpaceComponent} from './components/drawing-space/drawing-space.co
 import {SideBarComponent} from './components/side-bar/side-bar.component';
 import {IndexService} from './services/index/index.service';
 import SpyObj = jasmine.SpyObj;
+import { SafeHtmlPipe } from './safe-html.pipe';
 
 describe('AppComponent', () => {
   let indexServiceSpy: SpyObj<IndexService>;
@@ -28,6 +29,7 @@ describe('AppComponent', () => {
         AppComponent,
         SideBarComponent,
         DrawingSpaceComponent,
+        SafeHtmlPipe,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [

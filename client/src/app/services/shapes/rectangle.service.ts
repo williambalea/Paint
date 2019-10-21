@@ -54,11 +54,15 @@ export class RectangleService implements Shape {
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin(this.inputService.getMouse());
     this.rectangle = this.renderer.createElement('rect', 'svg');
+    this.setStyle();
+    this.setRectangleType();
+    return this.rectangle;
+  }
+
+  setStyle() {
     this.renderer.setStyle(this.rectangle, 'fill', this.fill);
     this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
     this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
-    this.setRectangleType();
-    return this.rectangle;
   }
 
   onMouseMove(): void {

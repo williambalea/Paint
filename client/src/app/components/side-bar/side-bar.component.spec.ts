@@ -1,5 +1,6 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Overlay } from '@angular/cdk/overlay';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material';
 import { EMPTY, of } from 'rxjs';
@@ -36,7 +37,10 @@ describe('SideBarComponent', () => {
         SideBarComponent,
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: ColorService, useClass: ColorServiceMock },
+        Renderer2,
         Overlay,
+        HttpClient,
+        HttpHandler,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })

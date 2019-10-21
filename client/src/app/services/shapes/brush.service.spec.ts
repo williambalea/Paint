@@ -4,6 +4,11 @@ import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { BrushService } from './brush.service';
 
+class Renderer2Mock {
+  setAttribute(): void {return; }
+  setStyle(): void {return; }
+}
+
 describe('BrushService', () => {
   let service: BrushService;
   let colorService: ColorService;
@@ -16,7 +21,7 @@ describe('BrushService', () => {
         BrushService,
         ColorService,
         InputService,
-        Renderer2,
+        { provide: Renderer2, useClass: Renderer2Mock },
       ],
     }).compileComponents();
     service = TestBed.get(BrushService);
@@ -35,6 +40,7 @@ describe('BrushService', () => {
     expect(service.fillColor).toEqual(jasmine.any(String));
     expect(service.active).toEqual(false);
   });
+
   it('Should call child functions upon mouseDown', () => {
     const addColorSpy = spyOn(colorService, 'addColorsToLastUsed').and.callThrough();
     const getFillColorSpy = spyOn(colorService, 'getFillColor').and.callThrough();

@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EntryPointComponent } from './entry-point.component';
@@ -12,6 +13,7 @@ describe('EntryPointComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ EntryPointComponent ],
       providers: [ { provide: MatDialogRef, useValue: spy } ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
     matDialogRefSpy = TestBed.get(MatDialogRef);

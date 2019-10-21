@@ -4,6 +4,12 @@ import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { PenService } from './pen.service';
 
+
+class Renderer2Mock {
+  setAttribute(): void {return; }
+  setStyle(): void {return; }
+}
+
 describe('PenService', () => {
   let service: PenService;
   let colorService: ColorService;
@@ -16,7 +22,7 @@ describe('PenService', () => {
         PenService,
         ColorService,
         InputService,
-        Renderer2,
+        { provide: Renderer2, useClass: Renderer2Mock },
       ],
     }).compileComponents();
     service = TestBed.get(PenService);

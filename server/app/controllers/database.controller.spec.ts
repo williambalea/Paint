@@ -1,16 +1,14 @@
-import 'reflect-metadata';
-
-    import * as chai from 'chai';
-    import chaiHttp = require('chai-http');
+import 'reflect-metadata';import * as chai from 'chai';
+import chaiHttp = require('chai-http');
 import { SVGJSON } from '../../../common/communication/SVGJSON';
 import { expect } from 'chai';
-    let assert = require('assert'),
-    http = require('http');
-   // let server = require('../server');
-    chai.use(chaiHttp);
-
+   
 
 describe('test', function () {
+  let assert = require('assert'),
+  http = require('http');
+  chai.use(chaiHttp);
+
     it('should be able te retrieve data', function (done) {
         http.get('http://localhost:3000/database/svgTable', function (res: { on: { (arg0: string, arg1: (chunk: any) => void): void; (arg0: string, arg1: () => void): void; }; }) {
           let data : any;

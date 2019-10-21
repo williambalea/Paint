@@ -9,6 +9,7 @@ describe('databaseService', () => {
     let service: DatabaseService;
     let dataTable : SVGJSON[];
     let mockData : SVGJSON;
+    
     beforeEach(() => {
         service = new DatabaseService();
     })

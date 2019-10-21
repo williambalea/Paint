@@ -16,21 +16,18 @@ describe('NoShapeService', () => {
   });
 
   it('should call onMouseDown()', () => {
-    const spy = spyOn(service, 'onMouseDown');
-    service.onMouseDown();
-    expect(spy).toHaveBeenCalled();
+    const vari = service.onMouseDown();
+    expect(vari).not.toBeDefined();
   });
 
   it('should call onMouseMove()', () => {
-    const spy = spyOn(service, 'onMouseMove');
-    service.onMouseMove();
-    expect(spy).toHaveBeenCalled();
+    const vari = service.onMouseMove();
+    expect(vari).not.toBeDefined();
   });
 
   it('should call onMouseUp()', () => {
-    const spy = spyOn(service, 'onMouseUp');
-    service.onMouseUp();
-    expect(spy).toHaveBeenCalled();
+    const vari = service.onMouseUp();
+    expect(vari).not.toBeDefined();
   });
 
 });

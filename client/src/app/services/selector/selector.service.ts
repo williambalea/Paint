@@ -48,12 +48,9 @@ export class SelectorService implements Shape {
   onMouseMove(): void {
     this.rectangleService.onMouseMove();
   }
+
   onMouseUp(): void {
     this.selectorIsSingle = true;
-  }
-
-  isCloseTo(x: number, y: number): boolean {
-    return (x + NB.ZeroPointFive > y) && (y + NB.ZeroPointFive > x);
   }
 
   returnRect(child: SVGGraphicsElement): any {
@@ -119,19 +116,13 @@ export class SelectorService implements Shape {
     }
   }
 
-  isCorrectIntersection(intersections: any): boolean {
-    return (intersections.points.length !== NB.Zero) &&
-        (!this.isCloseTo(intersections.points[NB.Zero].x, intersections.points[NB.One].x)) &&
-        (!this.isCloseTo(intersections.points[NB.Zero].y, intersections.points[NB.One].y))
-  }
-
   intersection(selectorArea: any, canvas: ElementRef): void {
     const intersect = svgIntersections.intersect;
     const elementsCount: number = canvas.nativeElement.children.length;
     let currentShape: any;
     for (let i = 0; i < elementsCount; i++) {
       if (selectorArea === canvas.nativeElement.children[i]) {
-        break;
+        return;
       }
       switch (canvas.nativeElement.children[i].tagName) {
         case 'rect':
@@ -154,7 +145,8 @@ export class SelectorService implements Shape {
         this.returnIntersectionShape(selectorArea),
         currentShape,
       );
-      if (this.isCorrectIntersection(intersections)) {
+      console.log(intersections);
+      if (intersections.points.length === NB.Two) {
         this.validateIntersection(canvas.nativeElement.children[i]);
       }
     }

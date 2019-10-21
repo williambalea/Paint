@@ -13,7 +13,7 @@ class RendererMock {
 // tslint:disable-next-line: max-classes-per-file
 class ColorServiceMock {
   // getFillColor(): void {return; }
-  // addColorsToLastUsed(): void {return; }
+  addColorsToLastUsed(): void {return; }
   getFillColor(): void {return; }
   getStrokeColor(): void {return; }
   createElement(): void {return; }
@@ -28,7 +28,7 @@ class InputServiceMock {
 describe('RectangleService', () => {
   let service: RectangleService;
   let colorService: ColorService;
-  // let inputService: InputService;
+  let inputService: InputService;
   let renderer: Renderer2;
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('RectangleService', () => {
     }).compileComponents();
     service = TestBed.get(RectangleService);
     colorService = TestBed.get(ColorService);
-    // inputService = TestBed.get(InputService);
+    inputService = TestBed.get(InputService);
     renderer = TestBed.get(Renderer2);
   });
 
@@ -83,4 +83,48 @@ describe('RectangleService', () => {
     expect(spyOnSetRectangleType).toHaveBeenCalled();
   });
 
+  it('should set style', () => {
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    service.setStyle();
+    expect(spyOnSetStyle).toHaveBeenCalledTimes(3);
+  });
+
+  it ('should react on mouse move', () => {
+    const spyOnGetMouse = spyOn(inputService, 'getMouse');
+    const spyOnSetSquareOffset = spyOn(service, 'setSquareOffset');
+    const spyOnRetRectangleOffset = spyOn(service, 'setRectangleOffset');
+    const SpyOnDraw = spyOn(service, 'draw');
+    service.active = true;
+    service.onMouseMove();
+    expect(spyOnGetMouse).toHaveBeenCalled();
+    if (inputService.shiftPressed){
+      expect(spyOnSetSquareOffset).toHaveBeenCalled();
+    } else {
+      expect(spyOnRetRectangleOffset).toHaveBeenCalled();
+    }
+    expect(SpyOnDraw).toHaveBeenCalled();
+  });
+
+  it ('should execute on mouse up', () => {
+    const spyOnReset = spyOn(service, 'reset');
+    const spyOnAddColorsToLastUsed = spyOn(colorService, 'addColorsToLastUsed');
+    service.onMouseUp();
+    expect(spyOnReset).toHaveBeenCalled();
+    expect(spyOnAddColorsToLastUsed).toHaveBeenCalled();
+  });
+
+  it ('should set origin', () => {
+    const mouse: Point  = {x: 1, y: 1};
+    service.setOrigin(mouse);
+    expect(service.x).toEqual(1);
+    expect(service.y).toEqual(1);
+  });
+
+  it('should set rectangle type', () => {
+    service.fillEnable = false;
+    service.strokeEnable = false;
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    service.setRectangleType();
+    expect(spyOnSetStyle).toHaveBeenCalledTimes(2);
+  });
 });

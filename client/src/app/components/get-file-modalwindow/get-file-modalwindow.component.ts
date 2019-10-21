@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
-import { KEY, NB } from 'src/constants';
+import { KEY, NB, STRINGS } from 'src/constants';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { DisplayConfirmationComponent } from '../display-confirmation/display-confirmation.component';
 
@@ -46,7 +46,7 @@ export class GetFileModalwindowComponent implements OnInit {
       this.communicationService.isLoading = false;
       },
       (error) => {
-        window.alert('Server not available');
+        window.alert(STRINGS.serverNotAvailable);
         this.caughtGetError = true;
       },
     );
@@ -112,7 +112,7 @@ export class GetFileModalwindowComponent implements OnInit {
 
   selectDrawing(value: number) {
     if (this.caughtGetError) {
-      window.alert('unable to get picture, please choose another one');
+      window.alert(STRINGS.unableToGetPicture);
       this.caughtGetError = false;
     } else {
       this.communicationService.isLoading = true;

@@ -1,4 +1,5 @@
-import 'reflect-metadata';import * as chai from 'chai';
+import 'reflect-metadata';
+import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import { SVGJSON } from '../../../common/communication/SVGJSON';
 import { expect } from 'chai';

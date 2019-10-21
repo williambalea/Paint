@@ -150,6 +150,9 @@ export enum STRINGS {
   canvas = 'canvas',
   twoD = '2d',
   areYouSure = 'Are you sure ?',
+  cantSaveToServer = 'could not save to server',
+  serverNotAvailable = 'Server not available',
+  unableToGetPicture = 'unable to get picture, please choose another one',
 }
 
 export enum COLORS {

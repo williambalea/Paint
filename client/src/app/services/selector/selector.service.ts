@@ -56,9 +56,77 @@ export class SelectorService implements Shape {
     return (x + NB.ZeroPointFive > y) && (y + NB.ZeroPointFive > x);
   }
 
+  returnRect(child: SVGGraphicsElement): any {
+    return svgIntersections.shape('rect', {
+      x: child.getAttribute('x'),
+      y: child.getAttribute('y'),
+      width: child.getAttribute('width'),
+      height: child.getAttribute('height'),
+    });
+  }
+
+  returnEllipse(child: SVGGraphicsElement): any {
+    return svgIntersections.shape('ellipse', {
+      cx: child.getAttribute('cx'),
+      cy: child.getAttribute('cy'),
+      rx: child.getAttribute('rx'),
+      ry: child.getAttribute('ry'),
+    });
+  }
+
+  returnPath(child: SVGGraphicsElement): any {
+    return svgIntersections.shape('path', {
+      d: child.getAttribute('d'),
+    });
+  }
+
+  returnPolygon(child: SVGGraphicsElement): any {
+    return svgIntersections.shape('rect', {
+      x: child.getBBox().x,
+      y: child.getBBox().y,
+      width: child.getBBox().width,
+      height: child.getBBox().height,
+    });
+  }
+
+  returnImage(child: SVGGraphicsElement): any {
+    return svgIntersections.shape('rect', {
+      x: child.getAttribute('x'),
+      y: child.getAttribute('y'),
+      width: child.getAttribute('width'),
+      height: child.getAttribute('height'),
+    });
+  }
+
+  returnIntersectionShape(selectorArea: any): any {
+    return svgIntersections.shape('rect', {
+      x: selectorArea.x.animVal.value,
+      y: selectorArea.y.animVal.value,
+      width: selectorArea.width.animVal.value,
+      height: selectorArea.height.animVal.value,
+    });
+  }
+
+  validateIntersection(child: SVGGraphicsElement): void {
+    if (this.inputService.mouseButton === NB.Two) {
+      const index = this.selectedShapes.indexOf(child);
+      if (index !== -NB.One) {
+        this.selectedShapes.splice(index, NB.One);
+      }
+    }
+    if (!this.selectedShapes.includes(child) && this.inputService.mouseButton === NB.Zero) {
+      this.selectedShapes.push(child);
+    }
+  }
+
+  isCorrectIntersection(intersections: any): boolean {
+    return (intersections.points.length !== NB.Zero) &&
+        (!this.isCloseTo(intersections.points[NB.Zero].x, intersections.points[NB.One].x)) &&
+        (!this.isCloseTo(intersections.points[NB.Zero].y, intersections.points[NB.One].y))
+  }
+
   intersection(selectorArea: any, canvas: ElementRef): void {
     const intersect = svgIntersections.intersect;
-    const shape = svgIntersections.shape;
     const elementsCount: number = canvas.nativeElement.children.length;
     let currentShape: any;
     for (let i = 0; i < elementsCount; i++) {
@@ -67,64 +135,27 @@ export class SelectorService implements Shape {
       }
       switch (canvas.nativeElement.children[i].tagName) {
         case 'rect':
-          currentShape = shape('rect', {
-            x: canvas.nativeElement.children[i].getAttribute('x'),
-            y: canvas.nativeElement.children[i].getAttribute('y'),
-            width: canvas.nativeElement.children[i].getAttribute('width'),
-            height: canvas.nativeElement.children[i].getAttribute('height'),
-          });
+          currentShape = this.returnRect(canvas.nativeElement.children[i]);
           break;
         case 'ellipse':
-          currentShape = shape('ellipse', {
-            cx: canvas.nativeElement.children[i].getAttribute('cx'),
-            cy: canvas.nativeElement.children[i].getAttribute('cy'),
-            rx: canvas.nativeElement.children[i].getAttribute('rx'),
-            ry: canvas.nativeElement.children[i].getAttribute('ry'),
-          });
+          currentShape = this.returnEllipse(canvas.nativeElement.children[i]);
           break;
         case 'path':
-          currentShape = shape('path', {
-            d: canvas.nativeElement.children[i].getAttribute('d'),
-          });
+          currentShape = this.returnPath(canvas.nativeElement.children[i]);
           break;
         case 'polygon':
-          currentShape = shape('rect', {
-            x: canvas.nativeElement.children[i].getBBox().x,
-            y: canvas.nativeElement.children[i].getBBox().y,
-            width: canvas.nativeElement.children[i].getBBox().width,
-            height: canvas.nativeElement.children[i].getBBox().height,
-          });
+          currentShape = this.returnPolygon(canvas.nativeElement.children[i]);
           break;
         case 'image':
-          currentShape = shape('rect', {
-            x: canvas.nativeElement.children[i].getAttribute('x'),
-            y: canvas.nativeElement.children[i].getAttribute('y'),
-            width: canvas.nativeElement.children[i].getAttribute('width'),
-            height: canvas.nativeElement.children[i].getAttribute('height'),
-          });
+          currentShape = this.returnPolygon(canvas.nativeElement.children[i]);
           break;
       }
       const intersections = intersect(
-        shape('rect', {
-          x: selectorArea.x.animVal.value,
-          y: selectorArea.y.animVal.value,
-          width: selectorArea.width.animVal.value,
-          height: selectorArea.height.animVal.value,
-        }),
+        this.returnIntersectionShape(selectorArea),
         currentShape,
       );
-      if ((intersections.points.length !== NB.Zero) &&
-        (!this.isCloseTo(intersections.points[NB.Zero].x, intersections.points[NB.One].x)) &&
-        (!this.isCloseTo(intersections.points[NB.Zero].y, intersections.points[NB.One].y))) {
-        if (this.inputService.mouseButton === NB.Two) {
-          const index = this.selectedShapes.indexOf(canvas.nativeElement.children[i]);
-          if (index !== -NB.One) {
-            this.selectedShapes.splice(index, NB.One);
-          }
-        }
-        if (!this.selectedShapes.includes(canvas.nativeElement.children[i]) && this.inputService.mouseButton === NB.Zero) {
-          this.selectedShapes.push(canvas.nativeElement.children[i]);
-        }
+      if (this.isCorrectIntersection(intersections)) {
+        this.validateIntersection(canvas.nativeElement.children[i]);
       }
     }
   }

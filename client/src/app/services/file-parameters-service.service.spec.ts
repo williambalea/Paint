@@ -30,4 +30,10 @@ describe('FileParametersServiceService', () => {
     expect(service.canvasWidth.value).toEqual(width);
     expect(service.canvasHeight.value).toEqual(height);
   });
+
+  it ('should set parameters save drawing', () => {
+    service.drawingName = 'allo';
+    service.setParametersSaveDrawing('nom');
+    expect(service.drawingName).toEqual('nom');
+  });
 });

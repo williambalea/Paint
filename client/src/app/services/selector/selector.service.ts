@@ -124,31 +124,29 @@ export class SelectorService implements Shape {
       if (selectorArea === canvas.nativeElement.children[i]) {
         return;
       }
-      switch (canvas.nativeElement.children[i].tagName) {
-        case 'rect':
-          currentShape = this.returnRect(canvas.nativeElement.children[i]);
-          break;
-        case 'ellipse':
-          currentShape = this.returnEllipse(canvas.nativeElement.children[i]);
-          break;
-        case 'path':
-          currentShape = this.returnPath(canvas.nativeElement.children[i]);
-          break;
-        case 'polygon':
-          currentShape = this.returnPolygon(canvas.nativeElement.children[i]);
-          break;
-        case 'image':
-          currentShape = this.returnPolygon(canvas.nativeElement.children[i]);
-          break;
-      }
+      currentShape = this.setCurrentShape(canvas.nativeElement.children[i]);
       const intersections = intersect(
         this.returnIntersectionShape(selectorArea),
         currentShape,
       );
-      console.log(intersections);
       if (intersections.points.length === NB.Two) {
         this.validateIntersection(canvas.nativeElement.children[i]);
       }
+    }
+  }
+
+  setCurrentShape(value: SVGGraphicsElement): any{
+    switch (value.tagName) {
+      case 'rect':
+        return this.returnRect(value);
+      case 'ellipse':
+        return this.returnEllipse(value);
+      case 'path':
+        return this.returnPath(value);
+      case 'polygon':
+        return this.returnPolygon(value);
+      case 'image':
+        return this.returnImage(value);
     }
   }
 }

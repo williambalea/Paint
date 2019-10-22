@@ -102,7 +102,7 @@ export class LineService implements Shape {
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
 
-    isBackSpacePressed(): HTMLElement{
+    isBackSpacePressed(): HTMLElement {
       this.deletePosition();
       this.stroke = this.colorService.getFillColor();
       this.validationToCreatePath();

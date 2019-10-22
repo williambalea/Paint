@@ -26,7 +26,6 @@ export class DatabaseController {
             (req: Request, res: Response) => {
                 const json: SVGJSON = req.body;
                 res.json(this.databaseService.addToTable(json));
-                
             },
 
         );

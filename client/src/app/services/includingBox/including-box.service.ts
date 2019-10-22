@@ -82,7 +82,7 @@ export class IncludingBoxService {
     this.appendRectangleBox();
     this.appendControlPoints();
   }
-  //ok
+
   appendRectangleBox(): void {
     if (this.width > 0 && this.height > 0) {
       const rectangle = this.renderer.createElement('rect', 'svg');

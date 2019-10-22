@@ -58,13 +58,13 @@ export class LineService implements Shape {
     return this.path;
   }
 
-  validationToCreatePath() {
+  validationToCreatePath(): void {
     if (this.start) {
       this.path = this.renderer.createElement('path', 'svg');
       }
   }
 
-  setStyle() {
+  setStyle(): void {
     this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
     this.renderer.setStyle(this.path, 'fill', 'none');
@@ -73,7 +73,7 @@ export class LineService implements Shape {
     this.validateJunctionStyle();
   }
 
-  validateJunctionStyle() {
+  validateJunctionStyle(): void {
     if (this.junctionStyle === LINECORNER.dot) {
       this.renderer.setStyle(this.path, 'marker-start', this.junction);
       this.renderer.setStyle(this.path, 'marker-mid', this.junction);
@@ -102,7 +102,7 @@ export class LineService implements Shape {
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
 
-    isBackSpacePressed() {
+    isBackSpacePressed(): HTMLElement{
       this.deletePosition();
       this.stroke = this.colorService.getFillColor();
       this.validationToCreatePath();
@@ -133,7 +133,7 @@ export class LineService implements Shape {
     this.doubleClick = true;
   }
 
-  draw() {
+  draw(): void {
     if (this.start) {
     this.linepath = `M${this.positions[0].x} ${this.positions[0].y}`;
     } else {
@@ -142,7 +142,7 @@ export class LineService implements Shape {
     this.finishDraw();
   }
 
-  redraw() {
+  redraw(): void {
     for (let  i = 0; i < this.positions.length; i++) {
     if  (i === 0) {
       this.linepath = `M${this.positions[0].x} ${this.positions[0].y}`;
@@ -153,7 +153,7 @@ export class LineService implements Shape {
     this.finishDraw();
 }
 
-finishDraw() {
+finishDraw(): void {
   this.renderer.setAttribute(this.path, 'd', this.linepath);
   this.start = false;
   this.savedPath = this.linepath;

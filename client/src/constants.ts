@@ -174,6 +174,11 @@ export enum COLORS {
   centerGrey = '848484',
 }
 
+export const BASE_URL = 'http://localhost:3000';
+export const DATABASE_URL = '/database';
+export const SVGTABLE_URL = '/svgTable';
+export const POST_TABLE_URL = '/postToTable';
+
 export interface DrawingInfo {
   drawingName: string;
   tags: string[];

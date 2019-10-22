@@ -127,7 +127,7 @@ export class IncludingBoxService {
     this.renderer.setStyle(point, 'stroke', 'navy');
     this.renderer.setStyle(point, 'stroke-width', '1');
   }
-  
+
   setControlPoints(): Point[] {
     const positions: Point[] = [
       { x: this.boxUpperLeft.x, y: this.boxUpperLeft.y },

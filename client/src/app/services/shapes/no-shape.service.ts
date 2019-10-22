@@ -6,7 +6,7 @@ import { Shape } from './shape';
 })
 export class NoShapeService implements Shape {
 
-  onMouseDown() {
+  onMouseDown(): any {
     return;
   }
 

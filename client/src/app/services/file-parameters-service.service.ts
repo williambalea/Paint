@@ -13,10 +13,10 @@ export class FileParametersServiceService {
   tempy: number;
   tempresize: boolean;
   drawingName: string;
-  canvasWidth: BehaviorSubject<number> = new BehaviorSubject<number>(window.innerWidth - SVGinnerWidth);
-  canvasHeight: BehaviorSubject<number> = new BehaviorSubject<number>(window.innerHeight);
-  resizeFlag: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  canvasColor: BehaviorSubject<string> = new BehaviorSubject<string>('white');
+  canvasWidth: BehaviorSubject<number>;
+  canvasHeight: BehaviorSubject<number>;
+  resizeFlag: BehaviorSubject<boolean>;
+  canvasColor: BehaviorSubject<string>;
   canvaswidth$: Observable<number>;
   canvasheight$: Observable<number>;
   resizeflag$: Observable<boolean>;
@@ -34,6 +34,10 @@ export class FileParametersServiceService {
     this.canvasheight$ = this.canvasHeight.asObservable();
     this.resizeflag$ = this.resizeFlag.asObservable();
     this.drawingName = '';
+    this.canvasWidth = new BehaviorSubject<number>(window.innerWidth - SVGinnerWidth);
+    this.canvasHeight = new BehaviorSubject<number>(window.innerHeight);
+    this.resizeFlag = new BehaviorSubject<boolean>(false);
+    this.canvasColor = new BehaviorSubject<string>('white');
   }
 
   getTempResize(): boolean {

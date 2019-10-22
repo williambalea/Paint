@@ -135,7 +135,7 @@ export class SelectorService implements Shape {
     }
   }
 
-  setCurrentShape(value: SVGGraphicsElement): any{
+  setCurrentShape(value: SVGGraphicsElement): any {
     switch (value.tagName) {
       case 'rect':
         return this.returnRect(value);

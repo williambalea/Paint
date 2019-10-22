@@ -11,7 +11,6 @@ class RendererMock {
   setAttribute(): void {return; }
 }
 
-
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   mouseButton: number;
@@ -135,7 +134,7 @@ describe('SelectorService', () => {
 
   it ('should validate intersection ', () => {
     inputService.mouseButton = 2;
-    const spliceSpy = spyOn(service.selectedShapes, 'indexOf')
+    const spliceSpy = spyOn(service.selectedShapes, 'indexOf');
     const selectedShapes: SVGGraphicsElement[] = [];
     const child = renderer.createElement('rect', 'svg');
     const index = selectedShapes.indexOf(child);

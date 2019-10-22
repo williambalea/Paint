@@ -69,6 +69,19 @@ describe('BrushService', () => {
       expect(drawSpy).toHaveBeenCalled();
     }
   });
+
+  it('Should not call draw on mouse move', () => {
+    const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
+    const drawSpy = spyOn(service, 'draw').and.callThrough();
+
+    service.active = false;
+    service.onMouseMove();
+    if (service.active) {
+      expect(getMouseSpy).not.toHaveBeenCalled();
+      expect(drawSpy).not.toHaveBeenCalled();
+    }
+  });
+
   it('Should call child functions upon mouseUp', () => {
     const resetSpy = spyOn(service, 'reset').and.callThrough();
 

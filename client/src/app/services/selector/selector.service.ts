@@ -55,10 +55,10 @@ export class SelectorService implements Shape {
 
   returnRect(child: SVGGraphicsElement): any {
     return svgIntersections.shape('rect', {
-      x: child.getAttribute('x'),
-      y: child.getAttribute('y'),
-      width: child.getAttribute('width'),
-      height: child.getAttribute('height'),
+      x: child.getBBox().x,
+      y: child.getBBox().y,
+      width: child.getBBox().width,
+      height: child.getBBox().height,
     });
   }
 
@@ -88,10 +88,10 @@ export class SelectorService implements Shape {
 
   returnImage(child: SVGGraphicsElement): any {
     return svgIntersections.shape('rect', {
-      x: child.getAttribute('x'),
-      y: child.getAttribute('y'),
-      width: child.getAttribute('width'),
-      height: child.getAttribute('height'),
+      x: child.getBBox().x,
+      y: child.getBBox().y,
+      width: child.getBBox().width,
+      height: child.getBBox().height,
     });
   }
 

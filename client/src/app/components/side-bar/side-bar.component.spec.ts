@@ -173,7 +173,7 @@ describe('SideBarComponent', () => {
 
   it('should do nothing when pressing other keys', () => {
     component.enableKeyPress = true;
-    const pressingOther = new KeyboardEvent('keydown', {key: 'i'});
+    const pressingOther = new KeyboardEvent('keydown', {key: 'p'});
     component.onKeyDown(pressingOther);
     expect(component.selectedTool).not.toBeDefined();
   });

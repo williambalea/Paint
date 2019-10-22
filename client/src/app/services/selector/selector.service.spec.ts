@@ -8,8 +8,10 @@ import { SelectorService } from './selector.service';
 class RendererMock {
   createElement(): void {return; }
   setStyle(): void {return; }
-  // setAttribute(): void {return; }
+  setAttribute(): void {return; }
 }
+
+
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   mouseButton: number;
@@ -101,11 +103,11 @@ describe('SelectorService', () => {
   });
 
   // it('should return a path', () => {
-  //   const child: SVGGraphicsElement = renderer.createElement('path', 'svg');
+  //   const child = {getAttribute(): void { return; }};
   //   // const spyOnGetAttribute = spyOn(child, 'getAttribute');
-  //   // service.returnPath(child as unknown as SVGGraphicsElement);
-  //   const result = service.returnPath(child as unknown as SVGGraphicsElement);
-  //   expect(result).toBeDefined();
+  //   const returnedValue: any = service.returnPath(child as unknown as SVGGraphicsElement);
+  //   expect(returnedValue).toBeDefined();
+  //   // expect(spyOnGetAttribute).toHaveBeenCalled();
   // });
 
   // it('should return image', () => {
@@ -114,5 +116,75 @@ describe('SelectorService', () => {
   //   service.returnImage(child as unknown as SVGGraphicsElement);
   //   expect(spyOnGetBBox).toHaveBeenCalledTimes(4);
   // });
+
+  it('should return an Image', () => {
+    const child = {getAttribute(): void { return; }};
+    const spyOnGetAttribute = spyOn(child, 'getAttribute');
+    service.returnImage(child as unknown as SVGGraphicsElement);
+    expect(spyOnGetAttribute).toHaveBeenCalledTimes(4);
+  });
+
+  it ('should validate intersection when right click', () => {
+    inputService.mouseButton = 2;
+    const selectedShapes: SVGGraphicsElement[] = [];
+    const child = renderer.createElement('rect', 'svg');
+    const index = selectedShapes.indexOf(child);
+    service.validateIntersection(child);
+    expect(index).toBeDefined();
+  });
+
+  it ('should validate intersection ', () => {
+    inputService.mouseButton = 2;
+    const spliceSpy = spyOn(service.selectedShapes, 'indexOf')
+    const selectedShapes: SVGGraphicsElement[] = [];
+    const child = renderer.createElement('rect', 'svg');
+    const index = selectedShapes.indexOf(child);
+    service.validateIntersection(child);
+    expect(index).toBeDefined();
+    expect(spliceSpy).toHaveBeenCalled();
+  });
+
+  it ('should validate intersection', () => {
+    inputService.mouseButton = 0;
+    const selectedShapes: SVGGraphicsElement[] = [];
+    const child = renderer.createElement('rect', 'svg');
+    service.validateIntersection(child);
+    expect(selectedShapes.push(child)).toBeDefined();
+  });
+
+  it ('should call case rect', () => {
+    const returnSpy = spyOn(service, 'returnRect');
+    const child = {tagName: 'rect'} as SVGGraphicsElement;
+    service.setCurrentShape(child);
+    expect(returnSpy).toHaveBeenCalled();
+  });
+
+  it ('should call case ellipse', () => {
+    const returnSpy = spyOn(service, 'returnEllipse');
+    const child = {tagName: 'ellipse'} as SVGGraphicsElement;
+    service.setCurrentShape(child);
+    expect(returnSpy).toHaveBeenCalled();
+  });
+
+  it ('should call case path', () => {
+    const returnSpy = spyOn(service, 'returnPath');
+    const child = {tagName: 'path'} as SVGGraphicsElement;
+    service.setCurrentShape(child);
+    expect(returnSpy).toHaveBeenCalled();
+  });
+
+  it ('should call case polygon', () => {
+    const returnSpy = spyOn(service, 'returnPolygon');
+    const child = {tagName: 'polygon'} as SVGGraphicsElement;
+    service.setCurrentShape(child);
+    expect(returnSpy).toHaveBeenCalled();
+  });
+
+  it ('should call case image', () => {
+    const returnSpy = spyOn(service, 'returnImage');
+    const child = {tagName: 'image'} as SVGGraphicsElement;
+    service.setCurrentShape(child);
+    expect(returnSpy).toHaveBeenCalled();
+  });
 
 });

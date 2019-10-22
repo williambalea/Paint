@@ -1,3 +1,4 @@
+// tslint:disable
 import 'reflect-metadata';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');

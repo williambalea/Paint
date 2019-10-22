@@ -20,6 +20,7 @@ describe('databaseService tests', () => {
 
     it('should return an array of type SVGJSON', () => {
         dataTable = service.getTable();
+        // tslint:disable-next-line: no-unused-expression
         expect(dataTable).exist;
     });
 

@@ -54,6 +54,7 @@ class ColorServiceMock {
 class InputServiceMock {
   isBlank: boolean;
   isNotEmpty: boolean;
+  isDrawed: boolean;
   shiftPressed = false;
   setMouseOffset(): void { return; }
 }
@@ -256,6 +257,7 @@ describe('DrawingSpaceComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
+
   // it('should change the color of the clicked shape with filling color', () => {
   //   const rect = new Rectangle(
   //     TOOL.rectangle,
@@ -439,40 +441,28 @@ describe('DrawingSpaceComponent', () => {
     expect(includeSpy).not.toHaveBeenCalled();
   });
 
-  // it('should draw path with mouse offset position', () => {
-  //   shapesService.preview.active = false;
-  //   component.onMouseMove(new MouseEvent('mousemove'));
-  //   expect(shapesService.preview.path.length).not.toBeGreaterThan(0);
+  it('should call onMouseUp on selected shape', () => {
+    component.selectedShape = rectangleService;
+    component.selectedTool = TOOL.rectangle;
+    const mouseUpSpy = spyOn(component.selectedShape, 'onMouseUp');
 
-  //   shapesService.preview.active = true;
-  //   component.onMouseMove(new MouseEvent('mousemove'));
-  //   expect(shapesService.preview.path.length).toBeGreaterThan(0);
-  // });
+    component.onMouseUp();
 
-  // it('should show the correct shape when mouseup', () => {
-  //   const brushSpy = spyOn(shapesService, 'drawBrush');
-  //   const penSpy = spyOn(shapesService, 'drawPen');
+    expect(inputService.isDrawed).toEqual(true);
+    expect(component.selectorAreaActive).toEqual(false);
+    expect(mouseUpSpy).toHaveBeenCalled();
+  });
+  
+  it('should call onMouseUp on selected shape', () => {
+    component.selectedShape = rectangleService;
+    component.selectedTool = TOOL.selector;
+    const rendererSpy = spyOn(renderer2, 'removeChild');
 
-  //   component.selectedTool = TOOL.brush;
-  //   component.onMouseUp();
+    component.onMouseUp();
 
-  //   component.selectedTool = TOOL.pen;
-  //   component.onMouseUp();
+    expect(inputService.isDrawed).toEqual(true);
+    expect(component.selectorAreaActive).toEqual(false);
+    expect(rendererSpy).toHaveBeenCalled();
+  });
 
-  //   component.selectedTool = TOOL.colorApplicator;
-  //   component.onMouseUp();
-
-  //   expect(brushSpy).toHaveBeenCalledTimes(1);
-  //   expect(penSpy).toHaveBeenCalledTimes(1);
-  // });
-
-  // it('should add last used color to palette and draw shape by selectedTool', () => {
-  //   const assignSpy = spyOn(component, 'onMouseUp');
-  //   const resetSpy = spyOn(shapesService, 'resetPreview');
-  //   component.selectedShape = rectangleService;
-
-  //   component.onMouseUp();
-  //   expect(assignSpy).toHaveBeenCalled();
-  //   expect(resetSpy).toHaveBeenCalled();
-  // });
 });

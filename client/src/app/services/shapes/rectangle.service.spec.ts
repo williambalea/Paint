@@ -22,6 +22,7 @@ class ColorServiceMock {
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   // backSpacePressed = false;
+  shiftPressed: boolean;
   getMouse(): Point {return {x: 1, y: 2}; }
 }
 
@@ -106,6 +107,51 @@ describe('RectangleService', () => {
     }
     expect(SpyOnDraw).toHaveBeenCalled();
   });
+  
+  it ('should call setSquareOffset on mouse move', () => {
+    const spyOnGetMouse = spyOn(inputService, 'getMouse');
+    const spyOnSetSquareOffset = spyOn(service, 'setSquareOffset');
+    const spyOnRetRectangleOffset = spyOn(service, 'setRectangleOffset');
+    const SpyOnDraw = spyOn(service, 'draw');
+    service.active = true;
+    inputService.shiftPressed = true;
+    service.onMouseMove();
+    expect(spyOnGetMouse).toHaveBeenCalled();
+
+    expect(spyOnSetSquareOffset).toHaveBeenCalled();
+    expect(spyOnRetRectangleOffset).not.toHaveBeenCalled();
+    expect(SpyOnDraw).toHaveBeenCalled();
+  });
+  
+  it ('should call setRectangleOffset on mouse move', () => {
+    const spyOnGetMouse = spyOn(inputService, 'getMouse');
+    const spyOnSetSquareOffset = spyOn(service, 'setSquareOffset');
+    const spyOnRetRectangleOffset = spyOn(service, 'setRectangleOffset');
+    const SpyOnDraw = spyOn(service, 'draw');
+    service.active = true;
+    inputService.shiftPressed = false;
+    service.onMouseMove();
+    expect(spyOnGetMouse).toHaveBeenCalled();
+
+    expect(spyOnSetSquareOffset).not.toHaveBeenCalled();
+    expect(spyOnRetRectangleOffset).toHaveBeenCalled();
+    expect(SpyOnDraw).toHaveBeenCalled();
+  });
+  
+  it ('should not react on mouse move', () => {
+    const spyOnGetMouse = spyOn(inputService, 'getMouse');
+    const spyOnSetSquareOffset = spyOn(service, 'setSquareOffset');
+    const spyOnRetRectangleOffset = spyOn(service, 'setRectangleOffset');
+    const SpyOnDraw = spyOn(service, 'draw');
+    service.active = false;
+    inputService.shiftPressed = false;
+    service.onMouseMove();
+    expect(spyOnGetMouse).toHaveBeenCalled();
+
+    expect(spyOnSetSquareOffset).not.toHaveBeenCalled();
+    expect(spyOnRetRectangleOffset).not.toHaveBeenCalled();
+    expect(SpyOnDraw).not.toHaveBeenCalled();
+  });
 
   it ('should execute on mouse up', () => {
     const spyOnReset = spyOn(service, 'reset');
@@ -130,30 +176,34 @@ describe('RectangleService', () => {
     expect(spyOnSetStyle).toHaveBeenCalledTimes(2);
   });
 
-  // it('should set square offset', () => {
-  //   service.mouse.x = 5;
-  //   service.mouse.y = 5;
-  //   service.origin.x = 1;
-  //   service.origin.y = 1;
-  //   service.setSquareOffset();
-  //   // expect(service.width).toEqual({x: 4, y: 4});
-  //   // expect(service.height).toEqual({x: 4, y: 4});
-  //   // expect(service.x).toEqual(1);
-  //   // expect(service.y).toEqual(1);
-  // });
+  it('should not set rectangle type', () => {
+    service.fillEnable = true;
+    service.strokeEnable = true;
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    service.setRectangleType();
+    expect(spyOnSetStyle).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set square offset', () => {
+    service.mouse = {x: 10, y: 4};
+    service.origin = {x: 2, y: 20};
+    service.setSquareOffset();
+    expect(service.width).toEqual(16);
+    expect(service.height).toEqual(16);
+    expect(service.x).toEqual(2);
+    expect(service.y).toEqual(4);
+  });
 
   // Ca marche pas - je comprends pas pk
-  // it('should set square offset', () => {
-  //   service.mouse.x = 5;
-  //   service.mouse.y = 5;
-  //   service.origin.x = 1;
-  //   service.origin.y = 1;
-  //   service.setRectangleOffset();
-  //   expect(service.width).toEqual(4);
-  //   expect(service.height).toEqual(4);
-  //   expect(service.x).toEqual(1);
-  //   expect(service.y).toEqual(1);
-  // });
+  it('should set rectangle offset', () => {
+    service.mouse = {x: 10, y: 4};
+    service.origin = {x: 2, y: 20};
+    service.setRectangleOffset();
+    expect(service.width).toEqual(8);
+    expect(service.height).toEqual(16);
+    expect(service.x).toEqual(2);
+    expect(service.y).toEqual(4);
+  });
 
   it('should draw', () => {
     const spyOnSetAttribute = spyOn(renderer, 'setAttribute');

@@ -257,7 +257,6 @@ describe('DrawingSpaceComponent', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-
   // it('should change the color of the clicked shape with filling color', () => {
   //   const rect = new Rectangle(
   //     TOOL.rectangle,
@@ -452,7 +451,7 @@ describe('DrawingSpaceComponent', () => {
     expect(component.selectorAreaActive).toEqual(false);
     expect(mouseUpSpy).toHaveBeenCalled();
   });
-  
+
   it('should call onMouseUp on selected shape', () => {
     component.selectedShape = rectangleService;
     component.selectedTool = TOOL.selector;

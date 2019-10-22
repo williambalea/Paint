@@ -107,7 +107,7 @@ describe('RectangleService', () => {
     }
     expect(SpyOnDraw).toHaveBeenCalled();
   });
-  
+
   it ('should call setSquareOffset on mouse move', () => {
     const spyOnGetMouse = spyOn(inputService, 'getMouse');
     const spyOnSetSquareOffset = spyOn(service, 'setSquareOffset');
@@ -122,7 +122,7 @@ describe('RectangleService', () => {
     expect(spyOnRetRectangleOffset).not.toHaveBeenCalled();
     expect(SpyOnDraw).toHaveBeenCalled();
   });
-  
+
   it ('should call setRectangleOffset on mouse move', () => {
     const spyOnGetMouse = spyOn(inputService, 'getMouse');
     const spyOnSetSquareOffset = spyOn(service, 'setSquareOffset');
@@ -137,7 +137,7 @@ describe('RectangleService', () => {
     expect(spyOnRetRectangleOffset).toHaveBeenCalled();
     expect(SpyOnDraw).toHaveBeenCalled();
   });
-  
+
   it ('should not react on mouse move', () => {
     const spyOnGetMouse = spyOn(inputService, 'getMouse');
     const spyOnSetSquareOffset = spyOn(service, 'setSquareOffset');

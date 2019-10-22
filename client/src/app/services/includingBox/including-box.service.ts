@@ -82,7 +82,7 @@ export class IncludingBoxService {
     this.appendRectangleBox();
     this.appendControlPoints();
   }
-  //ok
+
   appendRectangleBox(): void {
     if (this.width > 0 && this.height > 0) {
       const rectangle = this.renderer.createElement('rect', 'svg');
@@ -127,7 +127,7 @@ export class IncludingBoxService {
     this.renderer.setStyle(point, 'stroke', 'navy');
     this.renderer.setStyle(point, 'stroke-width', '1');
   }
-  // comment on test cette fonction ?
+
   setControlPoints(): Point[] {
     const positions: Point[] = [
       { x: this.boxUpperLeft.x, y: this.boxUpperLeft.y },

@@ -30,9 +30,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
-  isConfirmed: boolean;
   shape: SVGSVGElement;
-  selectorAreaActive = false;
+  selectorAreaActive: boolean;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -49,13 +48,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
+    this.selectorAreaActive = false;
   }
 
   ngOnInit(): void {
     this.setCanvasParameters();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.eventEmitterService.showGridEmitter.subscribe(() => {
       this.showGrid();
     });

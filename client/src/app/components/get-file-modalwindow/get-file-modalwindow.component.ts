@@ -37,7 +37,7 @@ export class GetFileModalwindowComponent implements OnInit {
     this.caughtGetError = false;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.communicationService.testReturnIndex().subscribe(
       (table: SVGJSON[]) => {
       this.dataTable = table;
@@ -110,7 +110,7 @@ export class GetFileModalwindowComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  selectDrawing(value: number) {
+  selectDrawing(value: number): void {
     if (this.caughtGetError) {
       window.alert(STRINGS.unableToGetPicture);
       this.caughtGetError = false;

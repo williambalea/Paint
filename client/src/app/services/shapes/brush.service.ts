@@ -59,7 +59,7 @@ export class BrushService implements Shape {
     this.filter = `url(#${newFilter})`;
   }
 
-  draw() {
+  draw(): void {
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
     this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');

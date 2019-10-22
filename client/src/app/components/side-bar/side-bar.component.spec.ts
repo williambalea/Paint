@@ -106,6 +106,26 @@ describe('SideBarComponent', () => {
     expect(component.selectedTool).toEqual(TOOL.rectangle);
   });
 
+  it('should set selectedTool to grid when chosing tool', () => {
+    component.selectTool(TOOL.grid);
+    expect(component.selectedTool).toEqual(TOOL.grid);
+  });
+
+  it('should set selectedTool to stamp when chosing tool', () => {
+    component.selectTool(TOOL.stamp);
+    expect(component.selectedTool).toEqual(TOOL.stamp);
+  });
+
+  it('should access default case when selectTool', () => {
+    component.selectTool('abc');
+    expect(component.selectedTool).toBeUndefined();
+  });
+
+  it('should set selectedTool to colorApplicator when chosing tool', () => {
+    component.selectTool(TOOL.colorApplicator);
+    expect(component.selectedTool).toEqual(TOOL.colorApplicator);
+  });
+
   it('should change canvas color and unlock the color palette', () => {
     const spyColorChange = spyOn(colorService, 'setMakingColorChanges');
     const spyShowPalette = spyOn(colorService, 'setShowInAttributeBar');
@@ -150,6 +170,18 @@ describe('SideBarComponent', () => {
     expect(component.selectedTool).toEqual(TOOL.rectangle);
   });
 
+  it('should not enable keypress when accessing server', () => {
+    component.enableKeyPress = true;
+    component.accessServer();
+    expect(component.enableKeyPress).toBeTruthy();
+  });
+
+  it('should not enable keypress when saving on server', () => {
+    component.enableKeyPress = true;
+    component.saveOnServer();
+    expect(component.enableKeyPress).toBeTruthy();
+  });
+
   it('should select brush tool when pressing \'w\' on keyboard', () => {
     component.enableKeyPress = true;
     const pressingW = new KeyboardEvent('keydown', {key: KEY.w});
@@ -169,6 +201,48 @@ describe('SideBarComponent', () => {
     const pressingR = new KeyboardEvent('keydown', {key: KEY.r});
     component.onKeyDown(pressingR);
     expect(component.selectedTool).toEqual(TOOL.colorApplicator);
+  });
+
+  it('should select polygon tool when pressing \'3\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const pressing = new KeyboardEvent('keydown', {key: KEY.three});
+    component.onKeyDown(pressing);
+    expect(component.selectedTool).toEqual(TOOL.polygon);
+  });
+
+  it('should select ellipse tool when pressing \'2\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const pressing = new KeyboardEvent('keydown', {key: KEY.two});
+    component.onKeyDown(pressing);
+    expect(component.selectedTool).toEqual(TOOL.ellipse);
+  });
+
+  it('should select grid tool when pressing \'g\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const pressing = new KeyboardEvent('keydown', {key: KEY.g});
+    component.onKeyDown(pressing);
+    expect(component.selectedTool).toEqual(TOOL.grid);
+  });
+
+  it('should select pipette tool when pressing \'i\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const pressing = new KeyboardEvent('keydown', {key: KEY.i});
+    component.onKeyDown(pressing);
+    expect(component.selectedTool).toEqual(TOOL.pipette);
+  });
+
+  it('should select line tool when pressing \'l\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const pressing = new KeyboardEvent('keydown', {key: KEY.l});
+    component.onKeyDown(pressing);
+    expect(component.selectedTool).toEqual(TOOL.line);
+  });
+
+  it('should select selector tool when pressing \'s\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const pressingS = new KeyboardEvent('keydown', {key: KEY.s});
+    component.onKeyDown(pressingS);
+    expect(component.selectedTool).toEqual(TOOL.selector);
   });
 
   it('should do nothing when pressing other keys', () => {

@@ -67,6 +67,16 @@ describe('PenService', () => {
       expect(drawSpy).toHaveBeenCalled();
     }
   });
+
+  it('Should not call draw on mouse move', () => {
+    const drawSpy = spyOn(service, 'draw').and.callThrough();
+
+    service.active = false;
+    service.onMouseMove();
+    if (service.active) {
+      expect(drawSpy).not.toHaveBeenCalled();
+    }
+  });
   it('Should call onMouseUp() upon mouse click released', () => {
     const resetSpy = spyOn(service, 'reset').and.callThrough();
     const addColorsSpy = spyOn(colorService, 'addColorsToLastUsed').and.callThrough();

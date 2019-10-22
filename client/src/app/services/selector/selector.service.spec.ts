@@ -88,10 +88,11 @@ describe('SelectorService', () => {
   });
 
   it('should return a rectangle', () => {
-    const child = {getAttribute(): void { return; }};
-    const spyOnGetAttribute = spyOn(child, 'getAttribute');
+    const domRectangle = {x: 10, y: 10, width: 15, height: 15} as DOMRect;
+    const child = {getBBox(): any { return; }};
+    const spy = spyOn(child, 'getBBox').and.returnValue(domRectangle);
     service.returnRect(child as unknown as SVGGraphicsElement);
-    expect(spyOnGetAttribute).toHaveBeenCalledTimes(4);
+    expect(spy).toHaveBeenCalledTimes(4);
   });
 
   it('should return an ellipse', () => {
@@ -101,26 +102,20 @@ describe('SelectorService', () => {
     expect(spyOnGetAttribute).toHaveBeenCalledTimes(4);
   });
 
-  // it('should return a path', () => {
-  //   const child = {getAttribute(): void { return; }};
-  //   // const spyOnGetAttribute = spyOn(child, 'getAttribute');
-  //   const returnedValue: any = service.returnPath(child as unknown as SVGGraphicsElement);
-  //   expect(returnedValue).toBeDefined();
-  //   // expect(spyOnGetAttribute).toHaveBeenCalled();
-  // });
-
-  // it('should return image', () => {
-  //   const child = {getBBox(): void { return; }};
-  //   const spyOnGetBBox = spyOn(child, 'getBBox');
-  //   service.returnImage(child as unknown as SVGGraphicsElement);
-  //   expect(spyOnGetBBox).toHaveBeenCalledTimes(4);
-  // });
+  it('should return a polygon', () => {
+    const domRectangle = {x: 10, y: 10, width: 15, height: 15} as DOMRect;
+    const child = {getBBox(): any { return; }};
+    const spy = spyOn(child, 'getBBox').and.returnValue(domRectangle);
+    service.returnPolygon(child as unknown as SVGGraphicsElement);
+    expect(spy).toHaveBeenCalledTimes(4);
+  });
 
   it('should return an Image', () => {
-    const child = {getAttribute(): void { return; }};
-    const spyOnGetAttribute = spyOn(child, 'getAttribute');
-    service.returnImage(child as unknown as SVGGraphicsElement);
-    expect(spyOnGetAttribute).toHaveBeenCalledTimes(4);
+      const domRectangle = {x: 10, y: 10, width: 15, height: 15} as DOMRect;
+      const child = {getBBox(): any { return; }};
+      const spy = spyOn(child, 'getBBox').and.returnValue(domRectangle);
+      service.returnImage(child as unknown as SVGGraphicsElement);
+      expect(spy).toHaveBeenCalledTimes(4);
   });
 
   it ('should validate intersection when right click', () => {

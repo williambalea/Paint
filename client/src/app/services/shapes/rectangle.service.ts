@@ -44,7 +44,6 @@ export class RectangleService implements Shape {
     this.y = NB.Zero;
     this.width = NB.Zero;
     this.height = NB.Zero;
-
     this.active = false;
   }
 

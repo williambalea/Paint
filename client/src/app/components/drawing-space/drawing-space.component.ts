@@ -13,6 +13,7 @@ import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
+import { EraserService } from 'src/app/services/eraser/eraser.service';
 @Component({
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
@@ -23,9 +24,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   @ViewChild('includingBox', { static: false }) includingBox: ElementRef;
-  tool: typeof TOOL;
   @Input() selectedTool: TOOL;
   @Input() selectedShape: Shape;
+  tool: typeof TOOL;
   resizeFlag: boolean;
   canvasWidth: number;
   canvasHeight: number;
@@ -44,7 +45,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private screenshotService: ScreenshotService,
               private unsubscribeService: UnsubscribeService,
               private includingBoxService: IncludingBoxService,
-              private eventEmitterService: EventEmitterService) {
+              private eventEmitterService: EventEmitterService,
+              private eraserService: EraserService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -167,6 +169,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  @HostListener('mouseover', ['$event'])
+  onMouseOver(event: MouseEvent): void {
+    this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
+  }
+
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
@@ -181,13 +188,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  @HostListener('mouseup')
-  onMouseUp(): void {
+  @HostListener('mouseup', ['$event'])
+  onMouseUp(event: MouseEvent): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.selectedShape.onMouseUp();
     }
     if (this.selectedTool === TOOL.selector) {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+    }
+    if (this.selectedTool === TOOL.eraser) {
+      this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
+      this.eraserService.eraseMouseDown = false;
     }
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
@@ -253,6 +264,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.pipette) {
       event.preventDefault();
       this.pipetteService.getColors(event, this.htmlCanvas, this.drawingBoard, this.canvasHeight, this.canvasWidth);
+    }
+    if (this.selectedTool === TOOL.eraser) {
+      this.eraserService.eraseMouseDown = true;
     }
     this.shape = this.selectedShape.onMouseDown();
     this.draw(this.shape);

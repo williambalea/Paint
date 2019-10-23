@@ -20,6 +20,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
+import { EraserService } from 'src/app/services/eraser/eraser.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -37,6 +38,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     IncludingBoxService,
     LineService,
     NoShapeService,
+    EraserService,
   ],
 
 })
@@ -133,6 +135,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedShape = this.lineService;
         this.selectedTool = TOOL.line;
         break;
+        case TOOL.eraser:
+          this.selectedTool = TOOL.eraser;
+          this.selectedShape = this.noShapeService;
+          break;
       default:
     }
   }

@@ -42,6 +42,7 @@ export class InputService {
     this.isNotEmpty = false;
     this.isDrawed = false;
     this.cPressed = false;
+    this.controlPressed = false;
   }
 
   setMouseOffset(event: MouseEvent): void {

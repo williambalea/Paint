@@ -202,6 +202,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
       this.eraserService.eraseMouseDown = false;
     }
+    if (this.selectedTool === TOOL.clipboard) {
+      this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
+    }
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
   }
@@ -234,6 +237,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.backSpacePressed = true;
       this.selectedShape.onMouseMove();
     }
+    if (event.key === KEY.control) {
+      this.inputService.controlPressed = true;
+    }
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -255,6 +261,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.alt) {
       this.inputService.altPressed = false;
     }
+    if (event.key === KEY.control) {
+      this.inputService.controlPressed = false;
+    }
   }
 
   @HostListener('mousedown', ['$event'])
@@ -271,7 +280,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eraserService.eraseMouseDown = true;
     }
     if (this.selectedTool === TOOL.clipboard) {
-      if (this.inputService.controlPressed && this.inputService.cPressed) {
+      if (this.inputService.controlPressed) {
         this.clipboardService.mock();
       }
     }

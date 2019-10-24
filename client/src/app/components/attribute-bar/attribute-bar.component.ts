@@ -119,4 +119,8 @@ export class AttributeBarComponent {
   getEraserService(): EraserService {
     return this.eraserService;
   }
+
+  getClipboardService(): ClipboardService {
+    return this.clipboardService;
+  }
 }

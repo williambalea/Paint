@@ -62,8 +62,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
-              private noShapeService: NoShapeService,
-              private clipboardService: ClipboardService) {
+              private noShapeService: NoShapeService) {
     this.enableKeyPress = false;
     this.selectedShape = this.noShapeService;
   }

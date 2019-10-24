@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,20 +8,21 @@ export class ClipboardService {
   selectedItems: HTMLElement[];
   getElementMouseDown: boolean;
 
-  constructor() {
+  constructor(private renderer: Renderer2) {
     this.selectedItems = [];
     this.getElementMouseDown = false;
   }
 
-  // getElement(target: EventTarget, element: HTMLElement) {
-  //   if (this.getElementMouseDown) {
-  //     if (target !== element) {
-  //       console.log('hi', target);
-  //       this.selectedItems.push(element);
-  //       this.renderer.removeChild(element, target);
-  //     }
-  //   }
-  
+  getElement(target: EventTarget, element: HTMLElement) {
+    {
+      if (target !== element) {
+        console.log('Put this element in clipboard!', target);
+        this.selectedItems.push(element);
+        this.renderer.removeChild(element, target);
+      }
+    }
+  }
+
   mock() {
     console.log('hi');
   }

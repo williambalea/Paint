@@ -298,7 +298,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (this.clipboardService.controlVMode) {
         console.log('Mouse down on canvas while in clipboard V mode');
-        //this.clipboardService.mock();
+        this.clipboardService.mock();
         this.clipboardService.addElement();
         for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
           this.renderer.appendChild(this.drawingBoard, this.clipboardService.selectedItems[i]);

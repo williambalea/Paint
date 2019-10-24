@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, HostListener } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,19 +8,22 @@ export class ClipboardService {
   selectedItems: HTMLElement[];
   getElementMouseDown: boolean;
 
-  constructor(private renderer: Renderer2) {
+  constructor() {
     this.selectedItems = [];
     this.getElementMouseDown = false;
   }
 
-  getElement(target: EventTarget, element: HTMLElement) {
-    if (this.getElementMouseDown) {
-      if (target !== element) {
-        console.log('hi', target);
-        this.selectedItems.push(element);
-        this.renderer.removeChild(element, target);
-      }
-    }
+  // getElement(target: EventTarget, element: HTMLElement) {
+  //   if (this.getElementMouseDown) {
+  //     if (target !== element) {
+  //       console.log('hi', target);
+  //       this.selectedItems.push(element);
+  //       this.renderer.removeChild(element, target);
+  //     }
+  //   }
+  
+  mock() {
+    console.log('hi');
   }
 
   // addElement() {

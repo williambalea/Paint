@@ -10,6 +10,7 @@ export class InputService {
   shiftPressed: boolean;
   escapePressed: boolean;
   backSpacePressed: boolean;
+  controlPressed: boolean;
   altPressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;

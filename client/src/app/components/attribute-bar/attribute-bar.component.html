@@ -381,13 +381,12 @@
 
                     <div class="svg">
                         <svg width="200" height="100">
-                            <circle radius="this.eraserService.eraserRadius" [style.fillColor]="black"/>
+                            <circle cx="97" cy="60" [style.r]="this.eraserService.eraserRadius" fill="black"/>
                         </svg>
                     </div>
                     <div>
                             {{this.eraserService.eraserRadius}} px
                     </div>
-
                 <div>
                     <mat-slider min="1" max="15" value={{this.eraserService.eraserRadius}}
                         [(ngModel)]="this.eraserService.eraserRadius"

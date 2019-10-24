@@ -203,7 +203,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eraserService.eraseMouseDown = false;
     }
     if (this.selectedTool === TOOL.clipboard) {
-      this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
+      if (this.clipboardService.getElementMode) {
+        this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
+      }
+      if (this.clipboardService.printMode) {
+        this.clipboardService.removeSelection(event.target as EventTarget);
+      }
     }
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
@@ -280,8 +285,21 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eraserService.eraseMouseDown = true;
     }
     if (this.selectedTool === TOOL.clipboard) {
-      if (this.inputService.controlPressed) {
+      // if (this.inputService.controlPressed) {
+      //   this.clipboardService.mock();
+      // }
+      if (this.clipboardService.controlCMode) {
+        console.log('Mouse down on canvas while in clipboard C mode');
+        this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
+      }
+      if (this.clipboardService.controlXMode) {
+        console.log('Mouse down on canvas while in clipboard X mode');
+        this.clipboardService.removeElement(event.target as EventTarget);
+      }
+      if (this.clipboardService.controlVMode) {
+        console.log('Mouse down on canvas while in clipboard V mode');
         this.clipboardService.mock();
+        this.clipboardService.addElement(this.drawingBoard.nativeElement);
       }
     }
     this.shape = this.selectedShape.onMouseDown();

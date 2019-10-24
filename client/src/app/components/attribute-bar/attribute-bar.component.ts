@@ -88,6 +88,27 @@ export class AttributeBarComponent {
     this.lineService.assignStrokeStyle();
   }
 
+  assignControlC() {
+    this.clipboardService.controlCMode = true;
+    this.clipboardService.controlVMode = false;
+    this.clipboardService.controlXMode = false;
+    console.log('Now in control C mode');
+  }
+
+  assignControlX() {
+    this.clipboardService.controlCMode = false;
+    this.clipboardService.controlVMode = false;
+    this.clipboardService.controlXMode = true;
+    console.log('Now in control V mode');
+  }
+
+  assignControlV() {
+    this.clipboardService.controlCMode = false;
+    this.clipboardService.controlVMode = true;
+    this.clipboardService.controlXMode = false;
+    console.log('Now in control V mode');
+  }
+
   getColorService(): ColorService {
     return this.colorService;
   }

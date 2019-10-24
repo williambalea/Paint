@@ -11,6 +11,7 @@ export class InputService {
   escapePressed: boolean;
   backSpacePressed: boolean;
   controlPressed: boolean;
+  cPressed: boolean;
   altPressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
@@ -40,6 +41,7 @@ export class InputService {
     this.drawingHtml = EMPTY_STRING;
     this.isNotEmpty = false;
     this.isDrawed = false;
+    this.cPressed = false;
   }
 
   setMouseOffset(event: MouseEvent): void {

@@ -1,6 +1,7 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
+import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
@@ -39,6 +40,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     LineService,
     NoShapeService,
     EraserService,
+    ClipboardService,
   ],
 
 })
@@ -60,7 +62,8 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
-              private noShapeService: NoShapeService) {
+              private noShapeService: NoShapeService,
+              private clipboardService: ClipboardService) {
     this.enableKeyPress = false;
     this.selectedShape = this.noShapeService;
   }
@@ -139,7 +142,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedTool = TOOL.eraser;
         this.selectedShape = this.noShapeService;
         break;
-      case TOOL.eraser:
+      case TOOL.clipboard:
         this.selectedTool = TOOL.clipboard;
         this.selectedShape = this.noShapeService;
         break;

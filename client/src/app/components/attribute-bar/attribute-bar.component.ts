@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { MatRadioChange } from '@angular/material';
-import { mdiEraserVariant } from '@mdi/js';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';

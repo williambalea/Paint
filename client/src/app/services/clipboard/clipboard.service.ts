@@ -24,7 +24,7 @@ export class ClipboardService {
   }
 
   mock() {
-    console.log('hi');
+    console.log('hi mock');
   }
 
   // addElement() {

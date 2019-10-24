@@ -12,6 +12,7 @@ import { StampService } from 'src/app/services/shapes/stamp.service';
 import { BRUSH, JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, NB, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
+import { EraserService } from './../../services/eraser/eraser.service';
 
 @Component({
   selector: 'app-attribute-bar',
@@ -39,7 +40,8 @@ export class AttributeBarComponent {
               private inputService: InputService,
               private ellipseService: EllipseService,
               private polygonService: PolygonService,
-              private eventEmitterService: EventEmitterService) {
+              private eventEmitterService: EventEmitterService,
+              private eraserService: EraserService) {
     this.tool = TOOL;
     this.brush = BRUSH;
     this.gridService.gridSize = NB.Fifty;
@@ -110,5 +112,9 @@ export class AttributeBarComponent {
 
   getGridService(): GridService {
     return this.gridService;
+  }
+
+  getEraserService(): EraserService {
+    return this.eraserService;
   }
 }

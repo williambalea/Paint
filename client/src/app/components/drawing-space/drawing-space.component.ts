@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { PipetteService } from 'src/app/services/color/pipette.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
+import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
@@ -13,7 +15,6 @@ import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
-import { EraserService } from 'src/app/services/eraser/eraser.service';
 @Component({
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
@@ -46,7 +47,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private unsubscribeService: UnsubscribeService,
               private includingBoxService: IncludingBoxService,
               private eventEmitterService: EventEmitterService,
-              private eraserService: EraserService) {
+              private eraserService: EraserService,
+              private clipboardService: ClipboardService) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
@@ -232,6 +234,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.backSpacePressed = true;
       this.selectedShape.onMouseMove();
     }
+    // if(event.key === KEY.control && event.key === KEY.c ) {
+    //   this.inputService.
+    // }
   }
 
   @HostListener('window:keyup', ['$event'])

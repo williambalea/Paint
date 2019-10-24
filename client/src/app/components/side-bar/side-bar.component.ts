@@ -135,10 +135,14 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedShape = this.lineService;
         this.selectedTool = TOOL.line;
         break;
-        case TOOL.eraser:
-          this.selectedTool = TOOL.eraser;
-          this.selectedShape = this.noShapeService;
-          break;
+      case TOOL.eraser:
+        this.selectedTool = TOOL.eraser;
+        this.selectedShape = this.noShapeService;
+        break;
+      case TOOL.eraser:
+        this.selectedTool = TOOL.clipboard;
+        this.selectedShape = this.noShapeService;
+        break;
       default:
     }
   }

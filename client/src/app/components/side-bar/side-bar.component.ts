@@ -1,8 +1,10 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
+import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
+import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
@@ -20,7 +22,6 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
-import { EraserService } from 'src/app/services/eraser/eraser.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -39,6 +40,7 @@ import { EraserService } from 'src/app/services/eraser/eraser.service';
     LineService,
     NoShapeService,
     EraserService,
+    ClipboardService,
   ],
 
 })
@@ -135,10 +137,14 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedShape = this.lineService;
         this.selectedTool = TOOL.line;
         break;
-        case TOOL.eraser:
-          this.selectedTool = TOOL.eraser;
-          this.selectedShape = this.noShapeService;
-          break;
+      case TOOL.eraser:
+        this.selectedTool = TOOL.eraser;
+        this.selectedShape = this.noShapeService;
+        break;
+      case TOOL.clipboard:
+        this.selectedTool = TOOL.clipboard;
+        this.selectedShape = this.noShapeService;
+        break;
       default:
     }
   }

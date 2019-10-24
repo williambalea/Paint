@@ -85,6 +85,7 @@ export enum KEY {
   u = 'u',
   backspace = 'Backspace',
   g = 'g',
+  control = 'ctrlKey',
 }
 
 export enum TOOL {
@@ -100,6 +101,7 @@ export enum TOOL {
   selector = 'selector',
   line = 'line',
   eraser = 'eraser',
+  clipboard = 'clipboard',
 }
 
 export enum BRUSH {

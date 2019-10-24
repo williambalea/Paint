@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
+    "@mdi/font": "^4.5.95",
     "angular-alert-module": "^2.0.3",
     "angular-resize-event": "^1.1.0",
     "angular-svg-icon": "^8.0.0",

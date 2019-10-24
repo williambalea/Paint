@@ -177,7 +177,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (this.selectedTool !== TOOL.colorApplicator) {
-      this.inputService.setMouseOffset(event);
+      this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement);
       this.selectedShape.onMouseMove();
     }
     if (this.selectedTool === TOOL.selector) {

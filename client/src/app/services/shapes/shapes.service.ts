@@ -5,6 +5,7 @@ import { Brush } from '../../../Classes/Shapes/brush';
 import { Pen } from '../../../Classes/Shapes/pen';
 import { Shape } from '../../../Classes/Shapes/shape';
 import { BRUSH, COLORS, EMPTY_STRING, NB, SVGinnerWidth, TOOL } from '../../../constants';
+import { InputService } from '../input.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class ShapesService {
   strokeEnable: boolean;
   fillEnable: boolean;
 
-  constructor() {
+  constructor(private inputService: InputService) {
     this.shapes = [];
     this.resetPreview();
     this.fillColor = COLORS.blackRGBA;
@@ -41,7 +42,7 @@ export class ShapesService {
   }
 
   setMouseOrigin(event: MouseEvent): void {
-    this.origin = {x: event.clientX - SVGinnerWidth, y: event.clientY - NB.Five};
+    this.origin = {x: this.inputService.getMouse().x, y: this.inputService.getMouse().y};
     this.preview.x = event.clientX - SVGinnerWidth;
     this.preview.y = event.clientY - NB.Five;
     this.preview.width = NB.Zero;

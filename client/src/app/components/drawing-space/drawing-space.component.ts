@@ -294,12 +294,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (this.clipboardService.controlXMode) {
         console.log('Mouse down on canvas while in clipboard X mode');
-        this.clipboardService.removeElement(event.target as EventTarget);
+        this.clipboardService.removeElement(event.target as EventTarget, this.drawingBoard.nativeElement);
       }
       if (this.clipboardService.controlVMode) {
         console.log('Mouse down on canvas while in clipboard V mode');
-        this.clipboardService.mock();
-        this.clipboardService.addElement(this.drawingBoard.nativeElement);
+        //this.clipboardService.mock();
+        this.clipboardService.addElement();
+        for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
+          this.renderer.appendChild(this.drawingBoard, this.clipboardService.selectedItems[i]);
+        }
       }
     }
     this.shape = this.selectedShape.onMouseDown();

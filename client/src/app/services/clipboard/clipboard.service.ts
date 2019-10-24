@@ -19,29 +19,34 @@ export class ClipboardService {
     this.controlVMode = false;
   }
 
-  getElement(target: EventTarget, element: HTMLElement) {
+  getElement(target: EventTarget, element: HTMLElement): void {
     {
-      if (target !== element) {
+      if (target !== element) { // s'assurer qu'il n'y ait pas de duplicate selection?
         console.log('Put this element in clipboard!', target);
         this.selectedItems.push(element);
       }
     }
   }
 
-  removeElement(target: EventTarget) {
+  removeElement(target: EventTarget, element: HTMLElement): void {
     for (let i = 0; i < this.selectedItems.length; i++) {
-      this.renderer.removeChild(this.selectedItems[i], target);
+      if (target !== element) {
+        this.renderer.removeChild(this.selectedItems[i], target);
+      }
     }
   }
 
-  mock() {
+  mock(): void {
     console.log(this.selectedItems[0]);
+    console.log(this.selectedItems[1]);
+    console.log(this.selectedItems[2]);
+    console.log(this.selectedItems[3]);
   }
 
-  addElement(element: HTMLElement) {
+  addElement(): HTMLElement[] {
     // for (let i = 0; i < this.selectedItems.length; i++) {
     //   this.renderer.appendChild(this.drawingBoard, this.selectedItems[i]);
     // }
-    this.renderer.appendChild(this.selectedItems[0], element);
+    return this.selectedItems;
   }
 }

@@ -85,7 +85,9 @@ export enum KEY {
   u = 'u',
   backspace = 'Backspace',
   g = 'g',
-  control = 'ctrlKey',
+  control = 'Control',
+  x = 'x',
+  v = 'v',
 }
 
 export enum TOOL {

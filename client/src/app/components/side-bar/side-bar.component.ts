@@ -199,7 +199,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
           this.selectTool(TOOL.brush);
           break;
         case KEY.c:
-          this.selectTool(TOOL.pen);
+          if (!event.ctrlKey) {
+            this.selectTool(TOOL.pen);
+          }
           break;
         case KEY.l:
           this.selectTool(TOOL.line);

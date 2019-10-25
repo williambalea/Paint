@@ -57,6 +57,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.setCanvasParameters();
+    this.inputService.canvasTarget = this.drawingBoard;
   }
 
   ngAfterViewInit(): void {
@@ -235,8 +236,26 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.backSpacePressed = true;
       this.selectedShape.onMouseMove();
     }
-    if (event.key === KEY.control && event.key === KEY.control) {
+    if (event.key === KEY.control) {
       this.inputService.controlPressed = true;
+    }
+    if (event.key === KEY.c) {
+      if (this.inputService.controlPressed === true) {
+        this.inputService.cPressed = true;
+        this.clipboardService.getElement();
+      }
+    }
+    if (event.key === KEY.x) {
+      if (this.inputService.controlPressed === true) {
+        this.inputService.xPressed = true;
+        this.clipboardService.removeElement(this.drawingBoard.nativeElement);
+      }
+    }
+    if (event.key === KEY.v) {
+      if (this.inputService.controlPressed === true) {
+        this.inputService.vPressed = true;
+        this.clipboardService.addElement(this.drawingBoard.nativeElement);
+      }
     }
     // if (event.key === KEY.c) {
     //   this.inputService.cPressed = true;
@@ -267,6 +286,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.c) {
       this.inputService.cPressed = false;
+    }
+    if (event.key === KEY.x) {
+      this.inputService.xPressed = false;
     }
   }
 

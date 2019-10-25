@@ -10,7 +10,7 @@ export class TextService implements Shape {
   text: HTMLElement;
 
   constructor(private renderer: Renderer2 ) {
-   }
+  }
 
   onMouseDown(): any {
     this.text = this.renderer.createElement('text', 'svg');
@@ -21,6 +21,10 @@ export class TextService implements Shape {
   }
 
   onMouseUp(): void {
+    return;
+  }
+
+  assignTextService(): void {
     return;
   }
 

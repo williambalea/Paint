@@ -9,6 +9,7 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
+import { TextService } from 'src/app/services/shapes/text.service';
 import { BRUSH, JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, NB, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
@@ -30,6 +31,7 @@ export class AttributeBarComponent {
   gridSize: number;
 
   constructor(private colorService: ColorService,
+              private textService: TextService,
               private rectangleService: RectangleService,
               private penService: PenService,
               private lineService: LineService,
@@ -59,6 +61,9 @@ export class AttributeBarComponent {
     } else if (this.selectedTool === TOOL.polygon) {
       this.polygonService.polygonType = event.value;
       this.polygonService.assignPolygonType();
+    } else if (this.selectedTool === TOOL.text) {
+      this.textService.text = event.value();
+      this.textService.assignTextService();
     }
   }
 
@@ -110,5 +115,9 @@ export class AttributeBarComponent {
 
   getGridService(): GridService {
     return this.gridService;
+  }
+
+  getTextService(): TextService {
+    return this.textService;
   }
 }

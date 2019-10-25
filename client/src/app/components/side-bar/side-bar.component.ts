@@ -13,6 +13,7 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
+import { TextService } from 'src/app/services/shapes/text.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
@@ -37,6 +38,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     IncludingBoxService,
     LineService,
     NoShapeService,
+    TextService,
   ],
 
 })
@@ -58,7 +60,8 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
-              private noShapeService: NoShapeService) {
+              private noShapeService: NoShapeService,
+              private textService: TextService) {
     this.enableKeyPress = false;
     this.selectedShape = this.noShapeService;
   }
@@ -132,6 +135,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
       case TOOL.line:
         this.selectedShape = this.lineService;
         this.selectedTool = TOOL.line;
+        break;
+      case TOOL.text:
+        this.selectedShape = this.textService;
+        this.selectedTool = TOOL.text;
         break;
       default:
     }

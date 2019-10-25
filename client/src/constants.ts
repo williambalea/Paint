@@ -99,6 +99,7 @@ export enum TOOL {
   ellipse = 'ellipse',
   selector = 'selector',
   line = 'line',
+  text = 'text',
 }
 
 export enum BRUSH {

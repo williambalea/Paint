@@ -10,7 +10,7 @@
                         <rect *ngIf="this.rectangleService.strokeEnable && this.rectangleService.fillEnable" x="50"
                             y="25" width="100" height="50" [style.fill]="this.colorService.getFillColor()"
                             [style.stroke]="this.colorService.getStrokeColor()"
-                            [style.stroke-width]="this.rectangleService.strokeWidth" />                   
+                            [style.stroke-width]="this.rectangleService.strokeWidth" />
 
                         <rect *ngIf="!this.rectangleService.strokeEnable && this.rectangleService.fillEnable"
                             id="rectangleNoStroke" x="50" y="25" width="100" height="50"
@@ -27,7 +27,7 @@
                 <div class="attribute">
                     <div class="attributeHeader">Type</div>
                     <div>
-                        
+
                         <mat-radio-group>
                             <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
                             </mat-radio-button><br>
@@ -57,7 +57,7 @@
         <div *ngSwitchCase="tool.ellipse">
 
             <div class="header">Ellipse</div>
-    
+
                 <div>
                     <div class="svg">
                         <svg width="200" height="100">
@@ -65,23 +65,23 @@
                                 cy="50" rx="75" ry="40" [style.fill]="this.colorService.getFillColor()"
                                 [style.stroke]="this.colorService.getStrokeColor()"
                                 [style.stroke-width]="this.ellipseService.strokeWidth" />
-    
+
                             <ellipse *ngIf="!this.ellipseService.strokeEnable && this.ellipseService.fillEnable"
                                 id="rectangleNoStroke" cx="100" cy="50" rx="75" ry="40"
                                 [style.fill]="this.colorService.getFillColor()"
                                 [style.stroke-width]="this.ellipseService.strokeWidth" />
-    
+
                             <ellipse *ngIf="this.ellipseService.strokeEnable && !this.ellipseService.fillEnable"
                                 id="rectangleNoFill" cx="100" cy="50" rx="75" ry="40"
                                 [style.stroke]="this.colorService.getStrokeColor()"
                                 [style.stroke-width]="this.ellipseService.strokeWidth" />
                         </svg>
                     </div>
-    
+
                     <div class="attribute">
-    
+
                         <div class="attributeHeader">Type</div>
-    
+
                         <div>
                             <mat-radio-group>
                                 <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
@@ -92,9 +92,9 @@
                                     Bordered & Filled</mat-radio-button><br>
                             </mat-radio-group>
                         </div>
-    
+
                     </div>
-    
+
                     <div class="attribute">
                         <div class="attributeHeader">
                             Border Width<br>
@@ -115,7 +115,7 @@
                     <div class="sectionHeader">
                         Stroke:
                     </div>
-    
+
                     <div>
                         <svg width="200" height="100">
                             <polygon *ngIf="this.polygonService.strokeEnable && this.polygonService.fillEnable"
@@ -123,13 +123,13 @@
                             [style.fill]="this.colorService.getFillColor()"
                             [style.stroke]="this.colorService.getStrokeColor()"
                             [style.stroke-width]="this.polygonService.strokeWidth"/>
-    
+
                             <polygon *ngIf="!this.polygonService.strokeEnable && this.polygonService.fillEnable"
                             id="rectangleNoStroke"
                             points="60,20 100,40 100,80 60,100 20,80 20,40"
                             [style.fill]="this.colorService.getFillColor()"
                             [style.stroke-width]="this.polygonService.strokeWidth"/>
-    
+
                             <polygon *ngIf="this.polygonService.strokeEnable && !this.polygonService.fillEnable"
                             id="rectangleNoFill"
                             points="60,20 100,40 100,80 60,100 20,80 20,40"
@@ -137,7 +137,7 @@
                             [style.stroke-width]="this.polygonService.strokeWidth"/>
                         </svg>
                     </div>
-    
+
                     Current Stroke Width: <b class="dynamicValue">{{this.polygonService.strokeWidth}}</b> px<br>
                     <label>
                         <br>
@@ -148,14 +148,14 @@
                         </div>
                     </label>
                 </div>
-    
-    
-                
-    
+
+
+
+
                 <div class="attribute">
-    
+
                         <div class="attributeHeader">Type</div>
-    
+
                         <div>
                             <mat-radio-group>
                                 <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
@@ -166,12 +166,12 @@
                                     Bordered & Filled</mat-radio-button><br>
                             </mat-radio-group>
                         </div>
-    
+
                     </div>
 
-            
+
             <div>
-                Number of Sides 
+                Number of Sides
                     <input class="inputFormStyle" type="range" #slider min="3" max="12"
                         value={{this.polygonService.sideNumber}} [(ngModel)]="this.polygonService.sideNumber">
                         <span>{{this.polygonService.sideNumber}}</span>
@@ -255,9 +255,9 @@
             </div>
         </div>
 
-        <div *ngSwitchCase="tool.pen">
+        <div *ngSwitchCase="tool.text">
 
-            <div class="header">Pen</div>
+            <div class="header">Text</div>
 
             <div>
 
@@ -286,6 +286,37 @@
 
         </div>
 
+        <div *ngSwitchCase="tool.pen">
+
+          <div class="header">Pen</div>
+
+          <div>
+
+              <div class="svg">
+                  <svg class="lineStyleRound" width="200" height="100">
+                      <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
+                          [style.stroke-width]="this.penService.strokeWidth" />
+                  </svg>
+              </div>
+
+              <div class="attribute">
+                  <div class="attributeHeader">
+                      Size<br>
+                      {{this.penService.strokeWidth}} px
+                  </div>
+
+                  <div>
+                      <mat-slider min="1" max="40" value={{this.penService.strokeWidth}}
+                          [(ngModel)]="this.penService.strokeWidth"
+                          (input)="this.penService.strokeWidth = $event.value">
+                      </mat-slider>
+                  </div>
+              </div>
+
+          </div>
+
+      </div>
+
         <div *ngSwitchCase="tool.line">
 
             <div class="header">Line</div>
@@ -303,7 +334,7 @@
                       </defs>
 
                         <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="this.lineService.strokeWidth" [style.stroke-dasharray]="this.lineService.dashArrayType" 
+                            [style.stroke-width]="this.lineService.strokeWidth" [style.stroke-dasharray]="this.lineService.dashArrayType"
                             [style.marker-start]="this.lineService.junction" [style.marker-end]="this.lineService.junction"/>
                     </svg>
                 </div>
@@ -359,7 +390,7 @@
                         Dot Size<br>
                         {{this.lineService.dotSize}} px
                     </div>
-    
+
                     <div>
                         <mat-slider min="1" max="15" value={{this.lineService.dotSize}}
                             [(ngModel)]="this.lineService.dotSize"
@@ -410,7 +441,7 @@
                 <div class="gridPreview">
                     <svg width="210" height="210">
                         <rect [attr.x] = 5 [attr.y] = 5 [attr.width]="this.gridService.gridRectangleDimension" [attr.height]="this.gridService.gridRectangleDimension" style="fill:white;stroke-width:3;stroke:red" />
-                    </svg>                    
+                    </svg>
                 </div>
 
                 <div class="attribute">
@@ -422,10 +453,10 @@
                     </div>
                     <div class = "button">
                         <button mat-button (click)="this.hideGrid()">Hide Grid</button>
-                    
-                       
+
+
             <div>
-                  
+
                         <input class="inputFormStyle" type="range" #slider min="40" max="200"
                             value="40" [(ngModel)]="this.gridService.gridSize">
                             <span>{{this.gridService.gridSize}}</span>
@@ -505,5 +536,5 @@
         <app-color-picker></app-color-picker>
 
     </div>
-    
+
 </div>

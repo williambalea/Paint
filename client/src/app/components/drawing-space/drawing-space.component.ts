@@ -10,9 +10,12 @@ import { SelectorService } from 'src/app/services/selector/selector.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
-import { EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constants';
+import { EMPTY_STRING, KEY, NB, STRINGS, TOOL, ACTIONS } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
+import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
+import { UndoRedoAction} from 'src/app/services/undoRedoAction';
+import { UndoRedoService } from 'src/app/services/undo-redo.service';
 @Component({
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
@@ -44,11 +47,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private screenshotService: ScreenshotService,
               private unsubscribeService: UnsubscribeService,
               private includingBoxService: IncludingBoxService,
-              private eventEmitterService: EventEmitterService) {
+              private eventEmitterService: EventEmitterService,
+              private undoRedoService : UndoRedoService,
+              private noShapeService : NoShapeService
+              ) {
     this.tool = TOOL;
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.selectorAreaActive = false;
+  
   }
 
   ngOnInit(): void {
@@ -71,7 +78,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.inputService.drawingHtml);
     });
     this.eventEmitterService.clearCanvasEmitter.subscribe(() => {
-      // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < this.canvas.nativeElement.children.length; i++) {
         this.renderer.removeChild(this.canvas, this.canvas.nativeElement.children[i]);
       }
@@ -102,7 +108,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
-  draw(shape: any): void {
+  draw(shape: SVGSVGElement): void {
     if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
       if (shape) {
         this.renderer.appendChild(this.canvas.nativeElement, shape);
@@ -110,6 +116,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);
     }
+    
   }
 
   convertSVGtoJSON(): void {
@@ -145,6 +152,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onLeftClick(event: Event): void {
     if (this.notCanvasAndColorApplicator(event)) {
+      let undoRedoAction: UndoRedoAction = {
+        action : ACTIONS.changeColor,
+        shape : (event.target as SVGGraphicsElement), 
+        color : (event.target as SVGGraphicsElement).getAttribute('fill') as string
+      }
+      console.log('couleur', undoRedoAction.color);
+      this.undoRedoService.addAction(undoRedoAction);
       this.changeFillColor(event.target as HTMLElement);
     }
   }
@@ -161,7 +175,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   changeFillColor(target: HTMLElement): void {
     const targetTag: string = target.tagName;
     if (this.isComplexShape(targetTag)) {
-      this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
+      this.renderer.setAttribute(target, 'fill', this.colorService.getFillColor());
     } else if (targetTag === 'path') {
       this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
     }
@@ -191,6 +205,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
+    if (this.selectedShape !== this.noShapeService && (this.shape as SVGGraphicsElement).getAttribute('width')!== null){
+      let undoRedoAction: UndoRedoAction = {
+        action : ACTIONS.append,
+        shape : this.shape,
+      }
+      console.log('append', undoRedoAction.shape);
+      this.undoRedoService.addAction(undoRedoAction);
+    }
   }
 
   @HostListener('wheel', ['$event'])
@@ -272,5 +294,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
+
 
 }

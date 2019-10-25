@@ -149,6 +149,12 @@ export enum STROKE_DASHARRAY_STYLE {
   fullLine = '',
 }
 
+export enum ACTIONS {
+  append = 'append',
+  changeColor = 'changeColor',
+}
+
+
 export enum STRINGS {
   white = 'white',
   canvas = 'canvas',

@@ -35,4 +35,6 @@ export class EventEmitterService {
   clearCanvas(): void {
     this.clearCanvasEmitter.emit();
   }
+
+ 
 }

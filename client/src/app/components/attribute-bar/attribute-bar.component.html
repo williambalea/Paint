@@ -1,7 +1,7 @@
 <div class="attributeBar">
 <div class="undoRedo">
-    <button mat-button (click)="selectTool('colorApplicator')" [class.selected]="this.selectedTool === 'colorApplicator'"><mat-icon>undo</mat-icon></button>
-    <button mat-button (click)="selectTool('colorApplicator')" [class.selected]="this.selectedTool === 'colorApplicator'"><mat-icon>redo</mat-icon></button>
+    <button mat-button (click)="this.undo()"><mat-icon>undo</mat-icon></button>
+    <button mat-button (click)="this.redo()"><mat-icon>redo</mat-icon></button>
 </div>
 
     <div [ngSwitch]="selectedTool">

@@ -103,8 +103,8 @@ export class AttributeBarComponent {
     this.usingGrid = true;
   }
 
-  @HostListener('window:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent): void {
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent): void {
       switch (event.key) {
         case KEY.g:
           this.toggleGrid();

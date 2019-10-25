@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { MatRadioChange } from '@angular/material';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
@@ -10,7 +10,7 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
-import { BRUSH, JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, NB, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
+import { BRUSH, JUNCTIONSTYLE, KEY, LINE_PATTERN, LINECORNER, NB, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EraserService } from './../../services/eraser/eraser.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
@@ -30,6 +30,7 @@ export class AttributeBarComponent {
   dashStyle: typeof STROKE_DASHARRAY_STYLE;
   @Input() selectedTool: TOOL;
   gridSize: number;
+  usingGrid: boolean;
 
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
@@ -51,6 +52,11 @@ export class AttributeBarComponent {
     this.lineStyle = LINE_PATTERN;
     this.junctionStyle = JUNCTIONSTYLE;
     this.dashStyle = STROKE_DASHARRAY_STYLE;
+    this.usingGrid = false;
+  }
+
+  onGridToggle(): void {
+    this.toggleGrid();
   }
 
   radioChangeHandler(event: MatRadioChange): void {
@@ -86,6 +92,35 @@ export class AttributeBarComponent {
   lineStypeRadioChangeHandler(event: MatRadioChange): void {
     this.lineService.dashArrayType = event.value;
     this.lineService.assignStrokeStyle();
+  }
+
+  toggleGrid(): void {
+    this.usingGrid = !this.usingGrid;
+    this.usingGrid ? this.showGrid() : this.hideGrid();
+  }
+
+  applyGrid(): void {
+    this.usingGrid = true;
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent): void {
+      switch (event.key) {
+        case KEY.g:
+          this.toggleGrid();
+          break;
+        case KEY.plus:
+            this.applyGrid();
+            this.gridService.setNextGridSize();
+            this.showGrid();
+            break;
+        case KEY.minus:
+            this.applyGrid();
+            this.gridService.setLastGridSize();
+            this.showGrid();
+            break;
+        default:
+      }
   }
 
   getColorService(): ColorService {

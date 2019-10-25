@@ -210,9 +210,6 @@ export class SideBarComponent implements OnInit, OnDestroy {
         case KEY.r:
           this.selectedTool = TOOL.colorApplicator;
           break;
-        case KEY.g:
-          this.selectedTool = TOOL.grid;
-          break;
         case KEY.two:
           this.selectTool(TOOL.ellipse);
           break;

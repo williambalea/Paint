@@ -202,14 +202,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
       this.eraserService.eraseMouseDown = false;
     }
-    if (this.selectedTool === TOOL.clipboard) {
-      if (this.clipboardService.getElementMode) {
-        this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
-      }
-      if (this.clipboardService.printMode) {
-        this.clipboardService.removeSelection(event.target as EventTarget);
-      }
-    }
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
   }
@@ -289,19 +281,20 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       //   this.clipboardService.mock();
       // }
       if (this.clipboardService.controlCMode) {
-        console.log('Mouse down on canvas while in clipboard C mode');
+        // console.log('Mouse down on canvas while in clipboard C mode');
         this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
       }
       if (this.clipboardService.controlXMode) {
-        console.log('Mouse down on canvas while in clipboard X mode');
+        // console.log('Mouse down on canvas while in clipboard X mode');
         this.clipboardService.removeElement(event.target as EventTarget, this.drawingBoard.nativeElement);
       }
       if (this.clipboardService.controlVMode) {
-        console.log('Mouse down on canvas while in clipboard V mode');
-        this.clipboardService.mock();
-        this.clipboardService.addElement();
+        // console.log('Mouse down on canvas while in clipboard V mode');
+        // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[0]);
+        // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[1]);
+        // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[2]);
         for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
-          this.renderer.appendChild(this.drawingBoard, this.clipboardService.selectedItems[i]);
+          this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[i]);
         }
       }
     }

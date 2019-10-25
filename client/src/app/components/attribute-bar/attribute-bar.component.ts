@@ -99,7 +99,7 @@ export class AttributeBarComponent {
     this.clipboardService.controlCMode = false;
     this.clipboardService.controlVMode = false;
     this.clipboardService.controlXMode = true;
-    console.log('Now in control V mode');
+    console.log('Now in control X mode');
   }
 
   assignControlV() {

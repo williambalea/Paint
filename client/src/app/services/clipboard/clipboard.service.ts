@@ -1,7 +1,7 @@
 import { Injectable, Renderer2 } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClipboardService {
 
@@ -23,7 +23,7 @@ export class ClipboardService {
     {
       if (target !== element) { // s'assurer qu'il n'y ait pas de duplicate selection?
         console.log('Put this element in clipboard!', target);
-        this.selectedItems.push(element);
+        this.selectedItems.push(target as HTMLElement);
       }
     }
   }
@@ -31,16 +31,9 @@ export class ClipboardService {
   removeElement(target: EventTarget, element: HTMLElement): void {
     for (let i = 0; i < this.selectedItems.length; i++) {
       if (target !== element) {
-        this.renderer.removeChild(this.selectedItems[i], target);
+          this.renderer.removeChild(target, this.selectedItems[i]);
       }
     }
-  }
-
-  mock(): void {
-    console.log(this.selectedItems[0]);
-    console.log(this.selectedItems[1]);
-    console.log(this.selectedItems[2]);
-    console.log(this.selectedItems[3]);
   }
 
   addElement(): HTMLElement[] {

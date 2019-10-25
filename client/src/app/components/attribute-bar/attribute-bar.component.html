@@ -1,4 +1,9 @@
 <div class="attributeBar">
+<div class="undoRedo">
+    <button mat-button (click)="selectTool('colorApplicator')" [class.selected]="this.selectedTool === 'colorApplicator'"><mat-icon>undo</mat-icon></button>
+    <button mat-button (click)="selectTool('colorApplicator')" [class.selected]="this.selectedTool === 'colorApplicator'"><mat-icon>redo</mat-icon></button>
+</div>
+
     <div [ngSwitch]="selectedTool">
 
         <div *ngSwitchCase="tool.rectangle">
@@ -500,7 +505,7 @@
         </div>
 
     </div>
-
+    
     <div *ngIf="this.colorService.getShowInAttributeBar()">
         <app-color-picker></app-color-picker>
 

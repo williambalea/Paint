@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Point } from '../../../../../common/interface/point';
 import { Preview } from '../../../../../common/interface/preview';
 import { Brush } from '../../../Classes/Shapes/brush';
-import { Pen } from '../../../Classes/Shapes/pen';
+import { Pencil } from '../../../Classes/Shapes/pencil';
 import { Shape } from '../../../Classes/Shapes/shape';
 import { BRUSH, COLORS, EMPTY_STRING, NB, SVGinnerWidth, TOOL } from '../../../constants';
 import { InputService } from '../input.service';
@@ -49,8 +49,8 @@ export class ShapesService {
     this.preview.height = NB.Zero;
   }
 
-  drawPen(): void {
-    const pencil = new Pen (
+  drawPencil(): void {
+    const pencil = new Pencil (
       TOOL.pencil,
       this.preview.path,
       this.fillColor,

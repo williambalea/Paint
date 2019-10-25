@@ -11,7 +11,7 @@ import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService } from 'src/app/services/shapes/line.service';
 import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
-import { PencilService } from 'src/app/services/shapes/pen.service';
+import { PencilService } from 'src/app/services/shapes/pencil.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';

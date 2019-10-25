@@ -17,7 +17,7 @@ export class ShapesService {
   preview: Preview;
   fillColor: string;
   strokeColor: string;
-  penStrokeWidth: number;
+  pencilStrokeWidth: number;
   brushStrokeWidth: number;
   brushStyle: BRUSH;
   strokeEnable: boolean;
@@ -28,7 +28,7 @@ export class ShapesService {
     this.resetPreview();
     this.fillColor = COLORS.blackRGBA;
     this.strokeColor = COLORS.whiteRGBA;
-    this.penStrokeWidth = NB.Seven;
+    this.pencilStrokeWidth = NB.Seven;
     this.brushStrokeWidth = NB.Seven;
     this.brushStyle = BRUSH.smooth;
     this.strokeEnable = true;
@@ -50,13 +50,13 @@ export class ShapesService {
   }
 
   drawPen(): void {
-    const pen = new Pen (
-      TOOL.pen,
+    const pencil = new Pen (
+      TOOL.pencil,
       this.preview.path,
       this.fillColor,
-      this.penStrokeWidth,
+      this.pencilStrokeWidth,
     );
-    this.shapes.push(pen);
+    this.shapes.push(pencil);
   }
 
   drawBrush(): void {

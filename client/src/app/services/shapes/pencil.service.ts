@@ -8,7 +8,7 @@ import { Shape } from './shape';
   providedIn: 'root',
 })
 
-export class PenService implements Shape {
+export class PencilService implements Shape {
   linepath: string;
   stroke: string;
   strokeWidth: number;

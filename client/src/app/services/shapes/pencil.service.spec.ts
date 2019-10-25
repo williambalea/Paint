@@ -2,7 +2,7 @@ import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
-import { PenService } from './pen.service';
+import { PencilService } from './pencil.service';
 
 class Renderer2Mock {
   setAttribute(): void {return; }
@@ -11,7 +11,7 @@ class Renderer2Mock {
 }
 
 describe('PenService', () => {
-  let service: PenService;
+  let service: PencilService;
   let colorService: ColorService;
   let inputService: InputService;
   let renderer: Renderer2;
@@ -19,13 +19,13 @@ describe('PenService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        PenService,
+        PencilService,
         ColorService,
         InputService,
         { provide: Renderer2, useClass: Renderer2Mock },
       ],
     }).compileComponents();
-    service = TestBed.get(PenService);
+    service = TestBed.get(PencilService);
     colorService = TestBed.get(ColorService);
     inputService = TestBed.get(InputService);
     renderer = TestBed.get(Renderer2);

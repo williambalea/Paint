@@ -19,6 +19,30 @@ export class GridService {
     this.elementG = this.renderer.createElement('g', 'svg');
   }
 
+  setNextGridSize(): void {
+    const restOfDivision: number = this.gridSize % 5;
+    if (restOfDivision !== 0) {
+      this.gridSize += 5 - restOfDivision;
+    } else {
+      this.gridSize += 5;
+    }
+    if (this.gridSize > 200 ) {
+      this.gridSize = 200;
+    }
+  }
+
+  setLastGridSize(): void {
+    const restOfDivision: number = this.gridSize % 5;
+    if (restOfDivision !== 0) {
+      this.gridSize -= restOfDivision;
+    } else {
+      this.gridSize -= 5;
+    }
+    if (this.gridSize < 40 ) {
+      this.gridSize = 40;
+    }
+  }
+
   setGridSize(data: number): void {
     this.gridSize = data;
   }

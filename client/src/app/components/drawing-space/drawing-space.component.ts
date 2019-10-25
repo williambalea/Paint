@@ -197,6 +197,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.selector) {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+      this.clipboardService.getElement();
     }
     if (this.selectedTool === TOOL.eraser) {
       this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
@@ -234,9 +235,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.backSpacePressed = true;
       this.selectedShape.onMouseMove();
     }
-    if (event.key === KEY.control) {
+    if (event.key === KEY.control && event.key === KEY.control) {
       this.inputService.controlPressed = true;
     }
+    // if (event.key === KEY.c) {
+    //   this.inputService.cPressed = true;
+    // }
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -261,6 +265,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.control) {
       this.inputService.controlPressed = false;
     }
+    if (event.key === KEY.c) {
+      this.inputService.cPressed = false;
+    }
   }
 
   @HostListener('mousedown', ['$event'])
@@ -276,26 +283,41 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.eraser) {
       this.eraserService.eraseMouseDown = true;
     }
-    if (this.selectedTool === TOOL.clipboard) {
+    // if (this.selectedTool === TOOL.clipboard) {
+    //   // if (this.inputService.controlPressed) {
+    //   //   this.clipboardService.mock();
+    //   // }
+    //   if (this.clipboardService.controlCMode) {
+    //     // console.log('Mouse down on canvas while in clipboard C mode');
+    //     this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
+    //   }
+    //   if (this.clipboardService.controlXMode) {
+    //     // console.log('Mouse down on canvas while in clipboard X mode');
+    //     this.clipboardService.removeElement(event.target as EventTarget, this.drawingBoard.nativeElement);
+    //   }
+    //   if (this.clipboardService.controlVMode) {
+    //     // console.log('Mouse down on canvas while in clipboard V mode');
+    //     // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[0]);
+    //     // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[1]);
+    //     // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[2]);
+    //     this.clipboardService.addElement(this.canvas.nativeElement);
+    //   }
+    // }
+
+    if (this.selectedTool === TOOL.selector) {
       // if (this.inputService.controlPressed) {
       //   this.clipboardService.mock();
       // }
-      if (this.clipboardService.controlCMode) {
-        // console.log('Mouse down on canvas while in clipboard C mode');
-        this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
-      }
-      if (this.clipboardService.controlXMode) {
-        // console.log('Mouse down on canvas while in clipboard X mode');
-        this.clipboardService.removeElement(event.target as EventTarget, this.drawingBoard.nativeElement);
-      }
+      // if (this.clipboardService.controlXMode) {
+      //   // console.log('Mouse down on canvas while in clipboard X mode');
+      //   this.clipboardService.removeElement(event.target as EventTarget, this.drawingBoard.nativeElement);
+      // }
       if (this.clipboardService.controlVMode) {
         // console.log('Mouse down on canvas while in clipboard V mode');
         // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[0]);
         // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[1]);
         // this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[2]);
-        for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
-          this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[i]);
-        }
+        // this.clipboardService.addElement(this.canvas.nativeElement);
       }
     }
     this.shape = this.selectedShape.onMouseDown();

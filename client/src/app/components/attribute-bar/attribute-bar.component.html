@@ -519,13 +519,6 @@
 
         <div *ngSwitchCase="tool.selector">
             <div class="header">Selector</div>
-
-            <div class="attribute">
-                <div class="attributeHeader">Selection mode</div>
-                <button (click)='this.clipboardService.removeElement()'>Control X</button><br>
-                <button (click)='this.clipboardService.addElement()'>Control V</button>
-            </div>
-
         </div>
         <div *ngSwitchCase='tool.eraser'>
 

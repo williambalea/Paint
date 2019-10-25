@@ -57,10 +57,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.setCanvasParameters();
-    this.inputService.canvasTarget = this.drawingBoard;
   }
 
   ngAfterViewInit(): void {
+    this.eventEmitterService.controlVEmitter.subscribe(() => {
+      this.controlV();
+    });
     this.eventEmitterService.showGridEmitter.subscribe(() => {
       this.showGrid();
     });
@@ -105,6 +107,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
     this.gridService.draw(this.gridService.gridSize);
     this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
+  }
+
+  controlV(): void {
+    for (const item of this.clipboardService.selectedItems) {
+      this.renderer.appendChild(this.drawingBoard.nativeElement, item);
+    }
   }
 
   draw(shape: any): void {
@@ -254,12 +262,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.v) {
       if (this.inputService.controlPressed === true) {
         this.inputService.vPressed = true;
-        this.clipboardService.addElement(this.drawingBoard.nativeElement);
+        //this.clipboardService.addElement(this.drawingBoard.nativeElement);
+        console.log('Pasted the clipboards content');
+        this.controlV();
       }
     }
-    // if (event.key === KEY.c) {
-    //   this.inputService.cPressed = true;
-    // }
   }
 
   @HostListener('window:keyup', ['$event'])

@@ -1,6 +1,5 @@
-import { Injectable, Renderer2, ElementRef } from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 import { SelectorService } from '../selector/selector.service';
-import { InputService } from '../input.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +11,13 @@ export class ClipboardService {
   controlCMode: boolean;
   controlXMode: boolean;
   controlVMode: boolean;
-  canvasTarget: ElementRef;
 
-  constructor(private renderer: Renderer2, private selectorService: SelectorService, private inputService: InputService) {
+  constructor(private renderer: Renderer2, private selectorService: SelectorService) {
     this.selectedItems = [];
     this.getElementMouseDown = false;
     this.controlCMode = false;
     this.controlVMode = false;
     this.controlVMode = false;
-    this.canvasTarget = this.canvasTarget;
   }
 
   // Utilisons le data du selectorService:
@@ -44,14 +41,14 @@ export class ClipboardService {
     }
   }
 
-  addElement(target: EventTarget): void {
-    console.log(this.selectedItems);
-    console.log(target);
-    for (let i = 0; i < this.selectedItems.length; i++) {
-      if(this.selectedItems[i].id !== 'canvas') {
-      this.renderer.appendChild(this.inputService.canvasTarget.nativeElement, this.selectedItems[i]);
-      }
-    }
+  // addElement(target: EventTarget): void {
+  //   console.log(this.selectedItems);
+  //   console.log(target);
+  //   for (let i = 0; i < this.selectedItems.length; i++) {
+  //     if(this.selectedItems[i].id !== 'canvas') {
+  //     this.renderer.appendChild(this.inputService.canvasTarget.nativeElement, this.selectedItems[i]);
+  //     }
+  //   }
   }
 
   /* Methodes a travers un select, sans utiliser le array du selector
@@ -79,5 +76,3 @@ export class ClipboardService {
 
   }
   */
-
-}

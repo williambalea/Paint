@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { EMPTY_STRING, NB, SVGinnerWidth } from 'src/constants';
 import { Point } from '../../../../common/interface/point';
 
@@ -17,7 +17,6 @@ export class InputService {
   altPressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
-  canvasTarget: any;
 
   stampAngle: number;
   json: string;

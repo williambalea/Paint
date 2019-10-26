@@ -35,7 +35,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number;
   shape: SVGSVGElement;
   selectorAreaActive: boolean;
-  elementV: HTMLElement;
   nbIncrements: number;
   nbIncrementsReset: number;
 
@@ -128,29 +127,54 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   addOffSet(): void {
-    this.elementV = this.renderer.createElement('v', 'svg');
     let copiedNode: Node;
     for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
       if (this.clipboardService.selectedItems[i].nodeName === 'ellipse') {
+          let newX: number;
+          let newY: number;
+          console.log(this.nbIncrementsReset);
+          console.log(this.nbIncrements);
+          newX = Number(this.clipboardService.selectedItems[i].getAttribute('cx')) + (NB.OneHundred * this.nbIncrements);
+          newY = Number(this.clipboardService.selectedItems[i].getAttribute('cy')) + (NB.OneHundred * this.nbIncrements);
+          copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
+
+          if (newX < this.canvasWidth && newY < this.canvasHeight) {
+            this.renderer.setAttribute(copiedNode, 'cx', (newX).toString());
+            this.renderer.setAttribute(copiedNode, 'cy', (newY).toString());
+            this.renderer.setStyle(copiedNode, 'fill', 'red');
+            this.renderer.setStyle(copiedNode, 'stroke', 'blue');
+            this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+          } else {
+            this.nbIncrements = 1;
+            this.nbIncrementsReset++;
+          }
+      }
+      if (this.clipboardService.selectedItems[i].nodeName === 'rect') {
+        let newX: number;
+        let newY: number;
+        console.log(this.nbIncrementsReset);
+        console.log(this.nbIncrements);
+        newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
+        newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
+        copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
+
+        if (newX < this.canvasWidth && newY < this.canvasHeight) {
+          this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
+          this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
+          this.renderer.setStyle(copiedNode, 'fill', 'red');
+          this.renderer.setStyle(copiedNode, 'stroke', 'blue');
+          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+        } else {
+          this.nbIncrements = 1;
+          this.nbIncrementsReset++;
+        }
+      if (this.clipboardService.selectedItems[i].nodeName === 'path') {
         // on ajoute un switch case comme ca, ofc on va decoupler quand le fonctionnement est present
       }
-      // testing avec un rectangle
-      let newX: number;
-      let newY: number;
-      console.log(this.nbIncrementsReset);
-      console.log(this.nbIncrements);
-      newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
-      newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
-      copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
-
-      if (newX < this.canvasWidth && newY < this.canvasHeight) {
-        this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-        this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
-        this.renderer.setStyle(copiedNode, 'fill', 'red');
-        this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-      } else {
-        this.nbIncrements = 1;
-        this.nbIncrementsReset++;
+      if (this.clipboardService.selectedItems[i].nodeName === 'ellipse') {
+        // on ajoute un switch case comme ca, ofc on va decoupler quand le fonctionnement est present
+      }
+      
       }
     }
   }

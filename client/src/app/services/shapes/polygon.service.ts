@@ -97,7 +97,7 @@ export class PolygonService implements Shape {
 
   draw(): void {
     this.renderer.setAttribute(this.polygon, 'points', this.pointString);
-    this.renderer.setStyle(this.polygon, 'fill', this.fill);
+    this.renderer.setAttribute(this.polygon, 'fill', this.fill);
     this.renderer.setStyle(this.polygon, 'stroke', this.stroke);
     this.renderer.setStyle(this.polygon, 'stroke-width', this.strokeWidth.toString());
     this.initialPoint = { x: NB.Zero, y: -(NB.One) };

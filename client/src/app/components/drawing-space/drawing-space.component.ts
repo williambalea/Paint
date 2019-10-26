@@ -37,6 +37,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   selectorAreaActive: boolean;
   elementV: HTMLElement;
   nbIncrements: number;
+  nbIncrementsReset: number;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -58,6 +59,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectorAreaActive = false;
     this.elementV = this.renderer.createElement('v', 'svg');
     this.nbIncrements = 1;
+    this.nbIncrementsReset = 0;
   }
 
   ngOnInit(): void {
@@ -133,23 +135,22 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         // on ajoute un switch case comme ca, ofc on va decoupler quand le fonctionnement est present
       }
       // testing avec un rectangle
-      const currentX = Number(this.clipboardService.selectedItems[i].getAttribute('x'));
-      const currentY = Number(this.clipboardService.selectedItems[i].getAttribute('y'));
-      const newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + NB.Fifty * this.nbIncrements;
-      const newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + NB.Fifty * this.nbIncrements;
-
-      console.log(newX);
-      console.log(newY);
-      console.log(this.canvasWidth);
-      console.log(this.canvasHeight);
-
+      let newX: number;
+      let newY: number;
+      console.log(this.nbIncrementsReset);
+      console.log(this.nbIncrements);
+      newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
+      newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
       copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
 
-      if ((newX < this.canvasWidth && newY < this.canvasHeight)) {
-      this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-      this.renderer.setAttribute(copiedNode, 'y', (newY + NB.Fifty * this.nbIncrements).toString());
-      this.renderer.setStyle(copiedNode, 'fill', 'red');
-      this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+      if (newX < this.canvasWidth && newY < this.canvasHeight) {
+        this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
+        this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
+        this.renderer.setStyle(copiedNode, 'fill', 'red');
+        this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+      } else {
+        this.nbIncrements = 1;
+        this.nbIncrementsReset++;
       }
     }
   }

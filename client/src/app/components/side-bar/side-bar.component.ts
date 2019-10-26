@@ -214,9 +214,13 @@ export class SideBarComponent implements OnInit, OnDestroy {
           this.selectTool(TOOL.selector);
           break;
         case KEY.z:
-          if (event.ctrlKey) {
-            // TODO: disable key when undo or redo is unavailable -WB
-            event.shiftKey ? this.undoRedoService.redo() : this.undoRedoService.undo();
+          if (event.ctrlKey && this.undoRedoService.actions.length > 0) {
+            this.undoRedoService.undo();
+          }
+          break;
+        case KEY.Z:
+          if (event.ctrlKey && this.undoRedoService.poppedActions.length > 0) {
+            this.undoRedoService.redo();
           }
           break;
         default:

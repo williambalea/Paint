@@ -83,6 +83,7 @@ export enum KEY {
   u = 'u',
   w = 'w',
   z = 'z',
+  Z = 'Z',
   one = '1',
   two = '2',
   three = '3',

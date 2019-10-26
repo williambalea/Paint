@@ -11,9 +11,11 @@ export class UndoRedoService {
   poppedActions: UndoRedoAction[];
   canvas : ElementRef;
   color : string;
+  undoIsStarted : boolean;
   constructor(private renderer: Renderer2) { 
     this.actions = [];
     this.poppedActions = [];
+    this.undoIsStarted = false;
     
   }
 

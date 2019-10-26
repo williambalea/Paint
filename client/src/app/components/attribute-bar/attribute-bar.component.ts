@@ -116,6 +116,7 @@ export class AttributeBarComponent {
 
   undo() : void {
     this.undoRedoService.savePoppedAction();
+    this.undoRedoService.undoIsStarted = true;
   }
 
   redo() : void {

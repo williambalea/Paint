@@ -161,12 +161,16 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         shape : (event.target as SVGGraphicsElement), 
         color : (event.target as SVGGraphicsElement).getAttribute('fill') as string
       }
+      if(this.undoRedoService.undoIsStarted){
+        this.undoRedoService.actions = [];
+        this.undoRedoService.poppedActions = [];
+      }
       console.log('initial color', undoRedoAction.color);
       this.undoRedoService.addAction(undoRedoAction);
       this.changeFillColor(event.target as HTMLElement);
       //this.undoRedoService.color= (event.target as SVGGraphicsElement).getAttribute('fill') as string;
       undoRedoAction.nextColor = (event.target as SVGGraphicsElement).getAttribute('fill') as string;
-
+      this.undoRedoService.undoIsStarted = false;
     }
   }
 
@@ -218,11 +222,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         action : ACTIONS.append,
         shape : this.shape,
       }
-    
+
+    if(this.undoRedoService.undoIsStarted){
+      this.undoRedoService.actions = [];
+      this.undoRedoService.poppedActions = [];
+    }
     const shapeIsNotNull : boolean = this.shape.getBBox().width !== 0;
     shapeIsNotNull ? this.undoRedoService.addAction(undoRedoAction) : this.renderer.removeChild(this.canvas,this.shape);
     }
-   
+   this.undoRedoService.undoIsStarted = false;
   
   }
 

@@ -14,6 +14,7 @@ export class InputService {
   cPressed: boolean;
   xPressed: boolean;
   vPressed: boolean;
+  aPressed: boolean;
   altPressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;

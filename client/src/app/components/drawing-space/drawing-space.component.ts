@@ -122,6 +122,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.includingBoxService.clear();
   }
 
+  controlA(): void {
+    this.clipboardService.selectedItems = this.canvas.nativeElement;
+    console.log(this.clipboardService.selectedItems);
+  }
+
   draw(shape: any): void {
     if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
       if (shape) {
@@ -256,22 +261,30 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.c) {
       if (this.inputService.controlPressed === true) {
         this.inputService.cPressed = true;
+        console.log('Control-C the clipboards content');
         this.clipboardService.getElement();
       }
     }
     if (event.key === KEY.x) {
       if (this.inputService.controlPressed === true) {
         this.inputService.xPressed = true;
+        console.log('Control-X the clipboards content');
         this.clipboardService.getElement();
         this.controlX();
-        // this.clipboardService.removeElement(this.drawingBoard.nativeElement);
       }
     }
     if (event.key === KEY.v) {
       if (this.inputService.controlPressed === true) {
         this.inputService.vPressed = true;
-        console.log('Pasted the clipboards content');
+        console.log('Control-V the clipboards content');
         this.controlV();
+      }
+    }
+    if (event.key === KEY.a) {
+      if (this.inputService.controlPressed === true) {
+        this.inputService.aPressed = true;
+        console.log('Control-A all the drawingBoard elements');
+        this.controlA();
       }
     }
   }

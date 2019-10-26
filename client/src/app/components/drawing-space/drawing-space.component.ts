@@ -36,6 +36,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   shape: SVGSVGElement;
   selectorAreaActive: boolean;
   elementV: HTMLElement;
+  nbIncrements: number;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -56,6 +57,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resizeFlag = false;
     this.selectorAreaActive = false;
     this.elementV = this.renderer.createElement('v', 'svg');
+    this.nbIncrements = 1;
   }
 
   ngOnInit(): void {
@@ -125,13 +127,30 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   addOffSet(): void {
     this.elementV = this.renderer.createElement('v', 'svg');
+    let copiedNode: Node;
     for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
-      this.renderer.setAttribute(this.clipboardService.selectedItems[i], 'x', '500');
-      this.renderer.setAttribute(this.clipboardService.selectedItems[i], 'y', '500');
-      this.renderer.setAttribute(this.clipboardService.selectedItems[i], 'height', '100');
-      this.renderer.setAttribute(this.clipboardService.selectedItems[i], 'width', '100');
-      this.renderer.setStyle(this.clipboardService.selectedItems[i], 'fill', 'red');
-      this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[i]);
+      if (this.clipboardService.selectedItems[i].nodeName === 'ellipse') {
+        // on ajoute un switch case comme ca, ofc on va decoupler quand le fonctionnement est present
+      }
+      // testing avec un rectangle
+      const currentX = Number(this.clipboardService.selectedItems[i].getAttribute('x'));
+      const currentY = Number(this.clipboardService.selectedItems[i].getAttribute('y'));
+      const newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + NB.Fifty * this.nbIncrements;
+      const newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + NB.Fifty * this.nbIncrements;
+
+      console.log(newX);
+      console.log(newY);
+      console.log(this.canvasWidth);
+      console.log(this.canvasHeight);
+
+      copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
+
+      if ((newX < this.canvasWidth && newY < this.canvasHeight)) {
+      this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
+      this.renderer.setAttribute(copiedNode, 'y', (newY + NB.Fifty * this.nbIncrements).toString());
+      this.renderer.setStyle(copiedNode, 'fill', 'red');
+      this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+      }
     }
   }
 
@@ -286,6 +305,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.inputService.cPressed = true;
         console.log('Control-C the clipboards content');
         this.clipboardService.getElement();
+        this.nbIncrements = 1;
       }
     }
     if (event.key === KEY.x) {
@@ -294,6 +314,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('Control-X the clipboards content');
         this.clipboardService.getElement();
         this.controlX();
+        this.nbIncrements = 1;
       }
     }
     if (event.key === KEY.v) {
@@ -301,6 +322,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.inputService.vPressed = true;
         console.log('Control-V the clipboards content');
         this.controlV();
+        this.nbIncrements++;
       }
     }
     if (event.key === KEY.a) {

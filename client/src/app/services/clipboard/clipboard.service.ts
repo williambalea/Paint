@@ -33,7 +33,4 @@ export class ClipboardService {
     }
     console.log(this.selectedItems);
   }
-
-
-
 }

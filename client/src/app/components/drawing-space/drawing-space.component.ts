@@ -16,6 +16,7 @@ import { Shape } from '../../services/shapes/shape';
 import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 import { UndoRedoAction} from 'src/app/services/undoRedoAction';
 import { UndoRedoService } from 'src/app/services/undo-redo.service';
+
 @Component({
   selector: 'app-drawing-space',
   templateUrl: './drawing-space.component.html',
@@ -160,9 +161,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         shape : (event.target as SVGGraphicsElement), 
         color : (event.target as SVGGraphicsElement).getAttribute('fill') as string
       }
-      
+      console.log('initial color', undoRedoAction.color);
       this.undoRedoService.addAction(undoRedoAction);
       this.changeFillColor(event.target as HTMLElement);
+      //this.undoRedoService.color= (event.target as SVGGraphicsElement).getAttribute('fill') as string;
+      undoRedoAction.nextColor = (event.target as SVGGraphicsElement).getAttribute('fill') as string;
+
     }
   }
 

@@ -119,6 +119,7 @@ export class AttributeBarComponent {
   }
 
   redo() : void {
+    this.undoRedoService.redo();
     
   }
 }

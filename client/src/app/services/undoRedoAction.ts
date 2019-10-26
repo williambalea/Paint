@@ -6,4 +6,5 @@ export interface UndoRedoAction {
     color?: string;
     position? :string;
     rotation? : string;
+    nextColor? : string;
 }

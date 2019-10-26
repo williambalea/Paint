@@ -1,7 +1,10 @@
 <div class="attributeBar">
 <div class="undoRedo">
-    <button mat-button (click)="this.undo()"><mat-icon>undo</mat-icon></button>
-    <button mat-button (click)="this.redo()"><mat-icon>redo</mat-icon></button>
+    <div *ngIf='this.undoRedoService.actions.length === 0'><button mat-button (click)="this.undo()" disabled><mat-icon>undo</mat-icon></button></div>
+    <div *ngIf='this.undoRedoService.actions.length !== 0'><button mat-button (click)="this.undo()"><mat-icon>undo</mat-icon></button></div>
+    <div *ngIf='this.undoRedoService.poppedActions.length === 0'><button mat-button (click)="this.redo()"disabled><mat-icon>redo</mat-icon></button></div>
+    <div *ngIf='this.undoRedoService.poppedActions.length !== 0'><button mat-button (click)="this.redo()"><mat-icon>redo</mat-icon></button></div>
+    
 </div>
 
     <div [ngSwitch]="selectedTool">

@@ -21,11 +21,19 @@
 
 .actions {
   background-color: rgb(250, 250, 250);
-  height: 50px;
+  height: 150px;
   padding-top: 5px;
   border: 1px solid lightgrey;
   border-top: none;
   text-align: center;
+  overflow-anchor: none;
+}
+
+.actionList {
+  height: 100px;
+  background-color: rgb(220, 220, 220);
+  overflow-y: scroll;
+  overflow-anchor: auto;
 }
 
 .mat-icon {

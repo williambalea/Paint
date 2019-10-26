@@ -160,7 +160,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         oldColor : (event.target as SVGGraphicsElement).getAttribute('fill') as string,
       };
       if (this.undoRedoService.undoIsStarted) {
-        this.undoRedoService.actions = [];
         this.undoRedoService.poppedActions = [];
       }
       this.changeFillColor(event.target as HTMLElement);
@@ -221,7 +220,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       };
 
       if (this.undoRedoService.undoIsStarted) {
-      this.undoRedoService.actions = [];
       this.undoRedoService.poppedActions = [];
     }
       const shapeIsNotNull: boolean = this.shape.getBBox().width !== 0;

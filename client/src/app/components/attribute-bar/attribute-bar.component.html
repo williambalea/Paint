@@ -1,9 +1,9 @@
 <div class="attributeBar">
-<div class="undoRedo">
-    <div *ngIf='this.undoRedoService.actions.length === 0'><button mat-button (click)="this.undo()" disabled><mat-icon>undo</mat-icon></button></div>
-    <div *ngIf='this.undoRedoService.actions.length !== 0'><button mat-button (click)="this.undo()"><mat-icon>undo</mat-icon></button></div>
-    <div *ngIf='this.undoRedoService.poppedActions.length === 0'><button mat-button (click)="this.redo()"disabled><mat-icon>redo</mat-icon></button></div>
-    <div *ngIf='this.undoRedoService.poppedActions.length !== 0'><button mat-button (click)="this.redo()"><mat-icon>redo</mat-icon></button></div>
+<div class="actions">
+    <button *ngIf='this.undoRedoService.actions.length === 0' mat-button (click)="this.undoRedoService.undo()" disabled><mat-icon>undo</mat-icon></button>
+    <button *ngIf='this.undoRedoService.actions.length !== 0' mat-button (click)="this.undoRedoService.undo()"><mat-icon>undo</mat-icon></button>
+    <button *ngIf='this.undoRedoService.poppedActions.length === 0' mat-button (click)="this.undoRedoService.redo()"disabled><mat-icon>redo</mat-icon></button>
+    <button *ngIf='this.undoRedoService.poppedActions.length !== 0' mat-button (click)="this.undoRedoService.redo()"><mat-icon>redo</mat-icon></button>
     
 </div>
 

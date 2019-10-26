@@ -69,22 +69,23 @@ export enum NB {
 export const SVGinnerWidth = 353;
 
 export enum KEY {
-  shift = 'Shift',
   alt = 'Alt',
-  o = 'o',
+  backspace = 'Backspace',
+  escape = 'Escape',
+  shift = 'Shift',
   c = 'c',
-  l = 'l',
-  w = 'w',
+  g = 'g',
   i = 'i',
+  l = 'l',
+  o = 'o',
+  r = 'r',
+  s = 's',
+  u = 'u',
+  w = 'w',
+  z = 'z',
   one = '1',
   two = '2',
   three = '3',
-  r = 'r',
-  s = 's',
-  escape = 'Escape',
-  u = 'u',
-  backspace = 'Backspace',
-  g = 'g',
 }
 
 export enum TOOL {

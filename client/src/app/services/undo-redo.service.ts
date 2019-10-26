@@ -44,7 +44,7 @@ export class UndoRedoService {
     // console.log('next color', lastAction.nextColor);
     // this.poppedActions[this.poppedActions.length - 1].oldColor = lastAction.nextColor;
    // this.poppedActions[this.poppedActions.length-1].color = this.color;
-
+    this.undoIsStarted = true;
   }
 
   redo() {

@@ -13,6 +13,7 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
+import { UndoRedoService } from 'src/app/services/undo-redo.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
@@ -20,7 +21,6 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
-import { UndoRedoService } from 'src/app/services/undo-redo.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -38,7 +38,7 @@ import { UndoRedoService } from 'src/app/services/undo-redo.service';
     IncludingBoxService,
     LineService,
     NoShapeService,
-    UndoRedoService
+    UndoRedoService,
   ],
 
 })
@@ -60,6 +60,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
+              private undoRedoService: UndoRedoService,
               private noShapeService: NoShapeService) {
     this.enableKeyPress = false;
     this.selectedShape = this.noShapeService;
@@ -211,6 +212,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
           break;
         case KEY.s:
           this.selectTool(TOOL.selector);
+          break;
+        case KEY.z:
+          if (event.ctrlKey) {
+            // TODO: disable key when undo or redo is unavailable -WB
+            event.shiftKey ? this.undoRedoService.redo() : this.undoRedoService.undo();
+          }
           break;
         default:
       }

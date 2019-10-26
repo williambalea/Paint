@@ -114,13 +114,7 @@ export class AttributeBarComponent {
     return this.gridService;
   }
 
-  // TODO: Are these function really necessary? -WB
-  undo(): void {
-    this.undoRedoService.undo();
-    this.undoRedoService.undoIsStarted = true;
-  }
-
-  redo(): void {
-    this.undoRedoService.redo();
+  getUndoRedoService(): UndoRedoService {
+    return this.undoRedoService;
   }
 }

@@ -17,7 +17,7 @@ import { UndoRedoService } from 'src/app/services/undo-redo.service';
 @Component({
   selector: 'app-attribute-bar',
   templateUrl: './attribute-bar.component.html',
-  styleUrls: ['./attribute-bar.component.scss'],
+  styleUrls: ['./attribute-bar.component.scss']
 })
 
 export class AttributeBarComponent {

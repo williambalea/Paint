@@ -20,6 +20,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
+import { UndoRedoService } from 'src/app/services/undo-redo.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -37,6 +38,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     IncludingBoxService,
     LineService,
     NoShapeService,
+    UndoRedoService
   ],
 
 })

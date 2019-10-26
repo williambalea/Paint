@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ElementRef, Renderer2 } from '@angular/core';
 import { UndoRedoAction } from './undoRedoAction';
 
 @Injectable({
@@ -8,19 +8,24 @@ export class UndoRedoService {
 
   actions: UndoRedoAction[];
   poppedActions: UndoRedoAction[];
-
-  constructor() { 
+  canvas : ElementRef;
+  constructor(private renderer: Renderer2) { 
     this.actions = [];
     this.poppedActions = [];
+    
   }
 
   addAction(action : UndoRedoAction) : void {
     this.actions.push(action);
-    console.log('actions', this.actions);
+    console.log('whenDrawing',this.actions);
+    
   }
 
   savePoppedAction() : void {
-    this.poppedActions.push(this.actions.pop() as UndoRedoAction);
-    console.log('popped', this.actions);
+    const lastAction : UndoRedoAction =  this.actions.pop() as UndoRedoAction;
+    this.renderer.removeChild(this.canvas,lastAction.shape);
+    console.log('actions',this.actions);
+    this.poppedActions.push(lastAction);
+  
   }
 }

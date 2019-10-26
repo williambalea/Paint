@@ -35,6 +35,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number;
   shape: SVGSVGElement;
   selectorAreaActive: boolean;
+  
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -83,6 +84,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.inputService.isDrawed = false;
     });
+    this.undoRedoService.canvas = this.canvas;
+    
   }
 
   ngOnDestroy(): void {
@@ -157,7 +160,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         shape : (event.target as SVGGraphicsElement), 
         color : (event.target as SVGGraphicsElement).getAttribute('fill') as string
       }
-      console.log('couleur', undoRedoAction.color);
+      
       this.undoRedoService.addAction(undoRedoAction);
       this.changeFillColor(event.target as HTMLElement);
     }
@@ -195,8 +198,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  @HostListener('mouseup')
-  onMouseUp(): void {
+  @HostListener('mouseup', ['$event'])
+  onMouseUp(event : MouseEvent): void {
+
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.selectedShape.onMouseUp();
     }
@@ -205,14 +209,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
-    if (this.selectedShape !== this.noShapeService && (this.shape as SVGGraphicsElement).getAttribute('width')!== null){
+    if (this.selectedShape !== this.noShapeService){
       let undoRedoAction: UndoRedoAction = {
         action : ACTIONS.append,
         shape : this.shape,
       }
-      console.log('append', undoRedoAction.shape);
-      this.undoRedoService.addAction(undoRedoAction);
+    
+    const shapeIsNotNull : boolean = this.shape.getBBox().width !== 0;
+    shapeIsNotNull ? this.undoRedoService.addAction(undoRedoAction) : this.renderer.removeChild(this.canvas,this.shape);
     }
+   
+  
   }
 
   @HostListener('wheel', ['$event'])
@@ -276,6 +283,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       event.preventDefault();
       this.pipetteService.getColors(event, this.htmlCanvas, this.drawingBoard, this.canvasHeight, this.canvasWidth);
     }
+    
     this.shape = this.selectedShape.onMouseDown();
     this.draw(this.shape);
     this.inputService.isNotEmpty = true;

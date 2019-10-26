@@ -1,64 +1,69 @@
-import { Injectable, ElementRef, Renderer2 } from '@angular/core';
-import { UndoRedoAction } from './undoRedoAction';
+import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 import { ACTIONS } from 'src/constants';
+import { UndoRedoAction } from './undoRedoAction';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UndoRedoService {
 
   actions: UndoRedoAction[];
   poppedActions: UndoRedoAction[];
-  canvas : ElementRef;
-  color : string;
-  undoIsStarted : boolean;
-  constructor(private renderer: Renderer2) { 
+  canvas: ElementRef;
+  color: string;
+  undoIsStarted: boolean;
+  constructor(private renderer: Renderer2) {
     this.actions = [];
     this.poppedActions = [];
     this.undoIsStarted = false;
-    
+
   }
 
-  addAction(action : UndoRedoAction) : void {
+  addAction(action: UndoRedoAction): void {
     this.actions.push(action);
-    console.log('undo',this.actions);
   }
 
-  savePoppedAction() : void {
-    const lastAction : UndoRedoAction =  this.actions.pop() as UndoRedoAction;
-    //let lastColor : string;
-    switch(lastAction.action) {
+  undo(): void {
+    const lastAction: UndoRedoAction =  this.actions.pop() as UndoRedoAction;
+    // let lastColor : string;
+    switch (lastAction.action) {
       case ACTIONS.append :
-        this.renderer.removeChild(this.canvas,lastAction.shape);
+        this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
+        this.poppedActions.push(lastAction);
         break;
       case ACTIONS.changeColor :
-        
-        this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.color as string);
-       // this.actions.push(lastAction);
-    } 
-    
-    this.poppedActions.push(lastAction);
-    console.log('next color', lastAction.nextColor);
-    this.poppedActions[this.poppedActions.length-1].color = lastAction.nextColor;
-   // this.poppedActions[this.poppedActions.length-1].color = this.color;
-    
-  
-  }
+        const changeFill: UndoRedoAction = {
+          action: ACTIONS.changeColor,
+          shape: lastAction.shape,
+          oldColor: lastAction.shape.getAttribute('fill') as string,
+        };
+        this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
+        this.poppedActions.push(changeFill);
+    }
 
+    // console.log('next color', lastAction.nextColor);
+    // this.poppedActions[this.poppedActions.length - 1].oldColor = lastAction.nextColor;
+   // this.poppedActions[this.poppedActions.length-1].color = this.color;
+
+  }
 
   redo() {
-    const lastAction : UndoRedoAction =  this.poppedActions.pop() as UndoRedoAction;
-    switch(lastAction.action) {
+    const lastAction: UndoRedoAction =  this.poppedActions.pop() as UndoRedoAction;
+    switch (lastAction.action) {
       case ACTIONS.append :
-        this.renderer.appendChild(this.canvas.nativeElement,lastAction.shape);
+        this.renderer.appendChild(this.canvas.nativeElement, lastAction.shape);
+        this.actions.push(lastAction);
         break;
       case ACTIONS.changeColor :
-        console.log('color',lastAction.color );
-        this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.color as string);
-        console.log('color',lastAction.color );
+        const changeFill: UndoRedoAction = {
+          action: ACTIONS.changeColor,
+          shape: lastAction.shape,
+          oldColor: lastAction.shape.getAttribute('fill') as string,
+        };
+        this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
+        this.actions.push(changeFill);
         break;
       default:
-    } 
-    this.actions.push(lastAction);
+    }
   }
 }

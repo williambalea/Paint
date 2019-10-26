@@ -9,15 +9,15 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
+import { UndoRedoService } from 'src/app/services/undo-redo.service';
 import { BRUSH, JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, NB, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
-import { UndoRedoService } from 'src/app/services/undo-redo.service';
 
 @Component({
   selector: 'app-attribute-bar',
   templateUrl: './attribute-bar.component.html',
-  styleUrls: ['./attribute-bar.component.scss']
+  styleUrls: ['./attribute-bar.component.scss'],
 })
 
 export class AttributeBarComponent {
@@ -41,7 +41,7 @@ export class AttributeBarComponent {
               private ellipseService: EllipseService,
               private polygonService: PolygonService,
               private eventEmitterService: EventEmitterService,
-              private undoRedoService : UndoRedoService) {
+              private undoRedoService: UndoRedoService) {
     this.tool = TOOL;
     this.brush = BRUSH;
     this.gridService.gridSize = NB.Fifty;
@@ -114,13 +114,13 @@ export class AttributeBarComponent {
     return this.gridService;
   }
 
-  undo() : void {
-    this.undoRedoService.savePoppedAction();
+  // TODO: Are these function really necessary? -WB
+  undo(): void {
+    this.undoRedoService.undo();
     this.undoRedoService.undoIsStarted = true;
   }
 
-  redo() : void {
+  redo(): void {
     this.undoRedoService.redo();
-    
   }
 }

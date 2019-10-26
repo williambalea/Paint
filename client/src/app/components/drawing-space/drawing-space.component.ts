@@ -37,6 +37,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   selectorAreaActive: boolean;
   nbIncrements: number;
   nbIncrementsReset: number;
+  polygonArray: number[];
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -56,9 +57,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.selectorAreaActive = false;
-    this.elementV = this.renderer.createElement('v', 'svg');
     this.nbIncrements = 1;
     this.nbIncrementsReset = 0;
+    this.polygonArray = [];
   }
 
   ngOnInit(): void {
@@ -112,17 +113,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
-  // controlV(): void {
-  //   for (const item of this.clipboardService.selectedItems) {
-  //     this.renderer.appendChild(this.canvas.nativeElement, item);
-  //   }
-  // }
-
-  // Test controlV() pour ajouter un decalage a la selection:
   controlV(): void {
-    // for (const item of this.clipboardService.selectedItems) {
-    //   this.renderer.appendChild(this.canvas.nativeElement, item);
-    // }
     this.addOffSet();
   }
 
@@ -168,16 +159,55 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.nbIncrements = 1;
           this.nbIncrementsReset++;
         }
+      }
       if (this.clipboardService.selectedItems[i].nodeName === 'path') {
-        // on ajoute un switch case comme ca, ofc on va decoupler quand le fonctionnement est present
+        let newX: number;
+        let newY: number;
+        console.log(this.nbIncrementsReset);
+        console.log(this.nbIncrements);
+        newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
+        newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
+        copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
+
+        if (newX < this.canvasWidth && newY < this.canvasHeight) {
+          this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
+          this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
+          this.renderer.setStyle(copiedNode, 'fill', 'red');
+          this.renderer.setStyle(copiedNode, 'stroke', 'blue');
+          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+        } else {
+          this.nbIncrements = 1;
+          this.nbIncrementsReset++;
+        }
       }
-      if (this.clipboardService.selectedItems[i].nodeName === 'ellipse') {
-        // on ajoute un switch case comme ca, ofc on va decoupler quand le fonctionnement est present
+      if (this.clipboardService.selectedItems[i].nodeName === 'polygon') {
+        let newX: string;
+        let newY: number;
+        let newPoints: string;
+        newX = this.clipboardService.selectedItems[i].getAttribute('points').substring(1, this.clipboardService.selectedItems[i].getAttribute('points').length-1).split(" ");
+        for (let j = 0; j < newX.length; j++) {
+          this.polygonArray[j] = Number(newX[j]) + (NB.OneHundred * this.nbIncrements);
+        }
+        console.log(newX);
+        console.log(this.polygonArray);
+        newPoints = this.polygonArray.join(' ');
+        //newPoints = JSON.stringify(this.polygonArray, null , 1);
+        console.log(newPoints);
+        copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
+
+        {
+          this.renderer.setAttribute(copiedNode, 'points', (newPoints).toString());
+          this.renderer.setStyle(copiedNode, 'fill', 'red');
+          this.renderer.setStyle(copiedNode, 'stroke', 'blue');
+          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+        }
+        // else {
+        //   this.nbIncrements = 1;
+        //   this.nbIncrementsReset++;
+        // }
       }
-      
       }
     }
-  }
 
   controlX(): void {
     this.clipboardService.getElement();

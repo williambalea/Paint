@@ -7,6 +7,7 @@ import { SelectorService } from '../selector/selector.service';
 export class ClipboardService {
 
   selectedItems: SVGGraphicsElement[];
+  selectedItemsOffset: SVGGraphicsElement[];
   getElementMouseDown: boolean;
   controlCMode: boolean;
   controlXMode: boolean;
@@ -14,6 +15,7 @@ export class ClipboardService {
 
   constructor(private selectorService: SelectorService) {
     this.selectedItems = [];
+    this.selectedItemsOffset = [];
     this.getElementMouseDown = false;
     this.controlCMode = false;
     this.controlVMode = false;
@@ -29,6 +31,9 @@ export class ClipboardService {
             }
         }
     }
+    console.log(this.selectedItems);
   }
+
+
 
 }

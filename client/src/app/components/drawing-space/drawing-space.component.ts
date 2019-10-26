@@ -22,6 +22,7 @@ import { Shape } from '../../services/shapes/shape';
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('g', { static: false }) canvas: ElementRef;
+  @ViewChild('v', { static: false }) canvasOffset: ElementRef;
   @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   @ViewChild('includingBox', { static: false }) includingBox: ElementRef;
@@ -34,6 +35,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number;
   shape: SVGSVGElement;
   selectorAreaActive: boolean;
+  elementV: HTMLElement;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -53,6 +55,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.selectorAreaActive = false;
+    this.elementV = this.renderer.createElement('v', 'svg');
   }
 
   ngOnInit(): void {
@@ -106,9 +109,29 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
+  // controlV(): void {
+  //   for (const item of this.clipboardService.selectedItems) {
+  //     this.renderer.appendChild(this.canvas.nativeElement, item);
+  //   }
+  // }
+
+  // Test controlV() pour ajouter un decalage a la selection:
   controlV(): void {
-    for (const item of this.clipboardService.selectedItems) {
-      this.renderer.appendChild(this.canvas.nativeElement, item);
+    // for (const item of this.clipboardService.selectedItems) {
+    //   this.renderer.appendChild(this.canvas.nativeElement, item);
+    // }
+    this.addOffSet();
+  }
+
+  addOffSet(): void {
+    this.elementV = this.renderer.createElement('v', 'svg');
+    for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
+      this.renderer.setAttribute(this.clipboardService.selectedItems[i], 'x', '500');
+      this.renderer.setAttribute(this.clipboardService.selectedItems[i], 'y', '500');
+      this.renderer.setAttribute(this.clipboardService.selectedItems[i], 'height', '100');
+      this.renderer.setAttribute(this.clipboardService.selectedItems[i], 'width', '100');
+      this.renderer.setStyle(this.clipboardService.selectedItems[i], 'fill', 'red');
+      this.renderer.appendChild(this.canvas.nativeElement, this.clipboardService.selectedItems[i]);
     }
   }
 

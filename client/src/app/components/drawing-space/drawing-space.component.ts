@@ -16,7 +16,8 @@ import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { ACTIONS, EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
-import html2canvas from 'html2canvas';
+import { ExportService } from 'src/app/services/export.service';
+
 
 
 @Component({
@@ -30,7 +31,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   @ViewChild('includingBox', { static: false }) includingBox: ElementRef;
   @ViewChild('downloadImage',{ static: false }) downloadImage: ElementRef;
-  @ViewChild('downloadLink', { static: false })downloadLink: ElementRef;
+  @ViewChild('downloadLink', { static: false }) downloadLink: ElementRef;
 
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
@@ -56,6 +57,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private eventEmitterService: EventEmitterService,
               private undoRedoService: UndoRedoService,
               private noShapeService: NoShapeService,
+              private exportService: ExportService
               ) {
     this.tool = TOOL;
     this.width = NB.Zero;
@@ -69,6 +71,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    this.exportService.drawingBoard = this.drawingBoard;
+    this.exportService.downloadImage = this.downloadImage;
+    this.exportService.downloadLink = this.downloadLink;
+
     this.eventEmitterService.showGridEmitter.subscribe(() => {
       this.showGrid();
     });
@@ -314,15 +321,5 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
-
-  download() {
-   
-    html2canvas(this.drawingBoard.nativeElement).then(downloadImage => {
-      this.downloadImage.nativeElement.src = downloadImage.toDataURL();
-      this.downloadLink.nativeElement.href = downloadImage.toDataURL('test/png');
-      this.downloadLink.nativeElement.download = 'test.png';
-      this.downloadLink.nativeElement.click();
-    });
-    }
 
 }

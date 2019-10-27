@@ -21,6 +21,7 @@ import { SaveFileModalwindowComponent } from './components/save-file-modalwindow
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MaterialModule } from './material/material.module';
 import { EventEmitterService } from './services/event-emitter.service';
+import { ExportModalComponent } from './export-modal/export-modal.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     SaveFileModalwindowComponent,
     GetFileModalwindowComponent,
     DisplayConfirmationComponent,
+    ExportModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +60,7 @@ import { EventEmitterService } from './services/event-emitter.service';
     SaveFileModalwindowComponent,
     GetFileModalwindowComponent,
     DisplayConfirmationComponent,
+    ExportModalComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

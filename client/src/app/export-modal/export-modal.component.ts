@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExportService } from '../services/export.service';
 
 @Component({
   selector: 'app-export-modal',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExportModalComponent implements OnInit {
 
-  constructor() { }
+  constructor(private exportService : ExportService) {}
 
   ngOnInit() {
+    console.log(this.exportService.downloadLink);
   }
 
 }

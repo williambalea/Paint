@@ -16,6 +16,8 @@ import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { ACTIONS, EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
+import html2canvas from 'html2canvas';
+
 
 @Component({
   selector: 'app-drawing-space',
@@ -27,6 +29,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   @ViewChild('includingBox', { static: false }) includingBox: ElementRef;
+  @ViewChild('downloadImage',{ static: false }) downloadImage: ElementRef;
+  @ViewChild('downloadLink', { static: false })downloadLink: ElementRef;
+
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
   @Input() selectedShape: Shape;
@@ -309,5 +314,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
   }
+
+  download() {
+   
+    html2canvas(this.drawingBoard.nativeElement).then(downloadImage => {
+      this.downloadImage.nativeElement.src = downloadImage.toDataURL();
+      this.downloadLink.nativeElement.href = downloadImage.toDataURL('test/png');
+      this.downloadLink.nativeElement.download = 'test.png';
+      this.downloadLink.nativeElement.click();
+    });
+    }
 
 }

@@ -268,6 +268,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  delete(): void {
+    for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
+      if (this.selectorService.selectedShapes[i].id !== 'canvas') {
+        this.renderer.removeChild(this.canvas.nativeElement, this.selectorService.selectedShapes[i]);
+      }
+    }
+  }
+
   draw(shape: any): void {
     if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
       if (shape) {
@@ -444,6 +452,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         // }
       }
     }
+    if (event.key === KEY.delete) {
+      this.inputService.deletePressed = true;
+      console.log('delete');
+      this.delete();
+    }
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -479,6 +492,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.a) {
       this.inputService.aPressed = false;
+    }
+    if (event.key === KEY.delete) {
+      this.inputService.deletePressed = false;
     }
   }
 

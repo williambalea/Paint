@@ -90,6 +90,7 @@ export enum KEY {
   v = 'v',
   a = 'a',
   q = 'q',
+  delete = 'Delete',
 }
 
 export enum TOOL {
@@ -105,7 +106,6 @@ export enum TOOL {
   selector = 'selector',
   line = 'line',
   eraser = 'eraser',
-  clipboard = 'clipboard',
 }
 
 export enum BRUSH {

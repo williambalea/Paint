@@ -17,6 +17,7 @@ export class InputService {
   aPressed: boolean;
   qPressed: boolean;
   altPressed: boolean;
+  deletePressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
 
@@ -49,6 +50,7 @@ export class InputService {
     this.xPressed = false;
     this.qPressed = false;
     this.controlPressed = false;
+    this.deletePressed = false;
   }
 
   setMouseOffset(event: MouseEvent): void {

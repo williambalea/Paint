@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { InputService } from '../input.service';
 import { SelectorService } from '../selector/selector.service';
 
 @Injectable({
@@ -7,15 +8,18 @@ import { SelectorService } from '../selector/selector.service';
 export class ClipboardService {
 
   selectedItems: SVGGraphicsElement[];
+  memoryShapes: SVGGraphicsElement[];
   selectedItemsOffset: SVGGraphicsElement[];
   getElementMouseDown: boolean;
   controlCMode: boolean;
   controlXMode: boolean;
   controlVMode: boolean;
 
-  constructor(private selectorService: SelectorService) {
+  constructor(private selectorService: SelectorService, private inputService: InputService) {
     this.selectedItems = [];
     this.selectedItemsOffset = [];
+    this.memoryShapes = [];
+
     this.getElementMouseDown = false;
     this.controlCMode = false;
     this.controlVMode = false;
@@ -23,7 +27,7 @@ export class ClipboardService {
   }
 
   getElement(): void {
-    this.selectedItems = [];
+    //this.selectedItems = [];
     for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
         if (this.selectorService.selectedShapes[i].id !== 'canvas') {
             {

@@ -15,6 +15,7 @@ export class InputService {
   xPressed: boolean;
   vPressed: boolean;
   aPressed: boolean;
+  qPressed: boolean;
   altPressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
@@ -46,6 +47,7 @@ export class InputService {
     this.isDrawed = false;
     this.cPressed = false;
     this.xPressed = false;
+    this.qPressed = false;
     this.controlPressed = false;
   }
 

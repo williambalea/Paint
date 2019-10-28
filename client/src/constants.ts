@@ -89,6 +89,7 @@ export enum KEY {
   x = 'x',
   v = 'v',
   a = 'a',
+  q = 'q',
 }
 
 export enum TOOL {

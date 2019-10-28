@@ -191,7 +191,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(newX);
         console.log(this.polygonArray);
         newPoints = this.polygonArray.join(' ');
-        //newPoints = JSON.stringify(this.polygonArray, null , 1);
+        newPoints = JSON.stringify(this.polygonArray, null , 1);
         console.log(newPoints);
         copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
 
@@ -220,8 +220,52 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   controlA(): void {
+    this.clipboardService.selectedItems = [];
+    // this.selectorService.selectedShapes = this.canvas.nativeElement;
     this.clipboardService.selectedItems = this.canvas.nativeElement;
     console.log(this.clipboardService.selectedItems);
+      // for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
+      //   if (this.selectorService.selectedShapes[i].id === 'canvas') {
+      //     this.selectorService.selectedShapes[i].remove();
+      //   }
+      // }
+    // console.log(this.selectorService.selectedShapes);
+    // console.log(this.selectorService.selectedShapes.length);
+    for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
+        //this.clipboardService.selectedItems.push( this.selectorService.selectedShapes[i]);
+        console.log(this.clipboardService.selectedItems[i]);
+    }
+    // console.log(this.selectorService.selectedShapes);
+    //console.log(this.clipboardService.selectedItems);
+  }
+
+  controlD(): void {
+    let copiedNode: Node;
+    {
+      this.clipboardService.memoryShapes = this.selectorService.selectedShapes;
+      for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
+        if (this.selectorService.selectedShapes[i].nodeName === 'rect') {
+          let newX: number;
+          let newY: number;
+          console.log(this.nbIncrementsReset);
+          console.log(this.nbIncrements);
+          newX = Number(this.selectorService.selectedShapes[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
+          newY = Number(this.selectorService.selectedShapes[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
+          copiedNode = this.selectorService.selectedShapes[i].cloneNode(true);
+
+          if (newX < this.canvasWidth && newY < this.canvasHeight) {
+            this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
+            this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
+            this.renderer.setStyle(copiedNode, 'fill', 'red');
+            this.renderer.setStyle(copiedNode, 'stroke', 'blue');
+            this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+          } else {
+            this.nbIncrements = 1;
+            this.nbIncrementsReset++;
+          }
+        }
+      }
+    }
   }
 
   draw(shape: any): void {
@@ -387,6 +431,19 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.controlA();
       }
     }
+    if (event.key === KEY.q) {
+      if (this.inputService.controlPressed === true) {
+        this.inputService.qPressed = true;
+        console.log(this.selectorService.selectedShapes.length);
+        console.log('Control-D, duplicated the selection!');
+        // if (this.selectorService.selectedShapes === this.clipboardService.memoryShapes) {
+          // if (this.selectorService.selectedShapes.length !== 0) {
+            this.controlD();
+            this.nbIncrements++;
+          // }
+        // }
+      }
+    }
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -416,6 +473,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.x) {
       this.inputService.xPressed = false;
+    }
+    if (event.key === KEY.q) {
+      this.inputService.qPressed = false;
+    }
+    if (event.key === KEY.a) {
+      this.inputService.aPressed = false;
     }
   }
 

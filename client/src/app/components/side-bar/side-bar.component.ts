@@ -11,6 +11,7 @@ import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService } from 'src/app/services/shapes/line.service';
 import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
+import { PenService } from 'src/app/services/shapes/pen.service';
 import { PencilService } from 'src/app/services/shapes/pencil.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
@@ -41,6 +42,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     NoShapeService,
     EraserService,
     ClipboardService,
+    PenService,
   ],
 
 })
@@ -58,6 +60,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private polygonService: PolygonService,
               private unsubscribeService: UnsubscribeService,
               private stampService: StampService,
+              private penService: PenService,
               private pencilService: PencilService,
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
@@ -116,6 +119,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
       case TOOL.stamp:
         this.selectedShape = this.stampService;
         this.selectedTool = TOOL.stamp;
+        break;
+      case TOOL.pen:
+        this.selectedShape = this.penService;
+        this.selectedTool = TOOL.pen;
         break;
       case TOOL.grid:
         this.selectedShape = this.noShapeService;

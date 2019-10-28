@@ -103,6 +103,7 @@ export enum TOOL {
   selector = 'selector',
   line = 'line',
   eraser = 'eraser',
+  pen = 'pen',
   clipboard = 'clipboard',
 }
 

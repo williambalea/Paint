@@ -34,6 +34,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number;
   shape: SVGSVGElement;
   selectorAreaActive: boolean;
+  lastMouseMoveTime: number;
+  lastSpeed: number;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -53,6 +55,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.selectorAreaActive = false;
+    this.lastMouseMoveTime = NB.Zero;
+    this.lastSpeed = NB.Zero;
   }
 
   ngOnInit(): void {
@@ -178,6 +182,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
+    const speed: number = (Math.sqrt(Math.pow(event.movementX, 2) + Math.pow(event.movementY, 2))
+    / (event.timeStamp - this.lastMouseMoveTime));
+    this.lastMouseMoveTime = event.timeStamp;
+    this.inputService.setMouseSpeed(speed);
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement);
       this.selectedShape.onMouseMove();

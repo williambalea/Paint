@@ -6,6 +6,7 @@ import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService } from 'src/app/services/shapes/line.service';
+import { PenService } from 'src/app/services/shapes/pen.service';
 import { PencilService } from 'src/app/services/shapes/pencil.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
@@ -35,6 +36,7 @@ export class AttributeBarComponent {
   constructor(private colorService: ColorService,
               private rectangleService: RectangleService,
               private pencilService: PencilService,
+              private penService: PenService,
               private lineService: LineService,
               private brushService: BrushService,
               private gridService: GridService,
@@ -157,5 +159,9 @@ export class AttributeBarComponent {
 
   getClipboardService(): ClipboardService {
     return this.clipboardService;
+  }
+
+  getPenService(): PenService {
+    return this.penService;
   }
 }

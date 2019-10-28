@@ -4,10 +4,13 @@ import html2canvas from 'html2canvas';
   providedIn: 'root'
 })
 export class ExportService {
+  canvas: ElementRef;
   drawingBoard: ElementRef;
   downloadImage: ElementRef;
   downloadLink: ElementRef;
+  
   constructor() {}
+
 
   download(format : string, filename: string) {
  

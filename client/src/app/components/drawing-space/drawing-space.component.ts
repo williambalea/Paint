@@ -71,7 +71,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
+    this.exportService.canvas = this.canvas;
     this.exportService.drawingBoard = this.drawingBoard;
     this.exportService.downloadImage = this.downloadImage;
     this.exportService.downloadLink = this.downloadLink;

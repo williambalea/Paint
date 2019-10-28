@@ -12,6 +12,13 @@ export class EventEmitterService {
   selectEmitter = new EventEmitter();
   clearCanvasEmitter = new EventEmitter();
 
+  controlCEmitter = new EventEmitter();
+  controlXEmitter = new EventEmitter();
+  controlVEmitter = new EventEmitter();
+  controlQEmitter = new EventEmitter();
+  controlAEmitter = new EventEmitter();
+  deleteEmitter = new EventEmitter();
+
   showGrid(): void {
     this.showGridEmitter.emit();
   }
@@ -34,6 +41,30 @@ export class EventEmitterService {
 
   clearCanvas(): void {
     this.clearCanvasEmitter.emit();
+  }
+
+  controlC(): void {
+    this.controlCEmitter.emit();
+  }
+
+  controlX(): void {
+    this.controlXEmitter.emit();
+  }
+
+  controlV(): void {
+    this.controlVEmitter.emit();
+  }
+
+  controlQ(): void {
+    this.controlQEmitter.emit();
+  }
+
+  controlA(): void {
+    this.controlAEmitter.emit();
+  }
+
+  delete(): void {
+    this.deleteEmitter.emit();
   }
 
 }

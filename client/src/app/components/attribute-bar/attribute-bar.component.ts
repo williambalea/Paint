@@ -78,6 +78,30 @@ export class AttributeBarComponent {
     this.eventEmitterService.hideGrid();
   }
 
+  controlC(): void {
+    this.eventEmitterService.controlC();
+  }
+
+  controlX(): void {
+    this.eventEmitterService.controlX();
+  }
+
+  controlV(): void {
+    this.eventEmitterService.controlV();
+  }
+
+  controlQ(): void {
+    this.eventEmitterService.controlQ();
+  }
+
+  controlA(): void {
+    this.eventEmitterService.controlA();
+  }
+
+  delete(): void {
+    this.eventEmitterService.delete();
+  }
+
   lineJunctionChangeHandler(event: MatRadioChange): void {
     this.lineService.junctionStyle = event.value;
     this.lineService.changeJunction();

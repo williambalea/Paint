@@ -508,8 +508,8 @@
                     </div>
 
                     <div>
-                        <mat-slider min="0" max="360" value={{inputService.stampAngle}}
-                            [(ngModel)]="inputService.stampAngle" (input)="inputService.stampAngle = $event.value">
+                        <mat-slider min="0" max="360" value={{this.inputService.stampAngle}}
+                            [(ngModel)]="this.inputService.stampAngle" (input)="this.inputService.stampAngle = $event.value">
                         </mat-slider>
                     </div>
                 </div>
@@ -519,6 +519,16 @@
 
         <div *ngSwitchCase="tool.selector">
             <div class="header">Selector</div>
+            <div class="attribute">
+                <div class="attributeHeader">Clipboard utilities<br><br>
+                    <button (click) = "this.controlC()">Copy</button>
+                    <button (click) = "this.controlX()">Cut</button>
+                    <button (click) = "this.controlV()">Paste</button>
+                    <button (click) = "this.controlQ()">Duplicate</button>
+                    <button (click) = "this.delete()">Delete</button><br>
+                    <button (click) = "this.controlA()">Select all items</button>
+                </div>
+            </div>
         </div>
         <div *ngSwitchCase='tool.eraser'>
 

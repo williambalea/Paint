@@ -1,2 +1,14 @@
-<p>export-modal works!</p>
+<form>
+        <h4>Export file</h4>
+        <mat-form-field>
+          <mat-label>Export format</mat-label>
+          <mat-select [(ngModel)]="selectedFormat" name="format">
+            <mat-option *ngFor="let format of formats" [value]="format">
+              {{format}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p> Selected format: {{selectedFormat}} </p>
+</form>
+
 <button (click)='this.exportService.download()'>download</button>

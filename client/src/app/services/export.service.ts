@@ -9,12 +9,12 @@ export class ExportService {
   downloadLink: ElementRef;
   constructor() { }
 
-  download() {
-   
+  download(format : string) {
+ 
     html2canvas(this.drawingBoard.nativeElement).then(downloadImage => {
       this.downloadImage.nativeElement.src = downloadImage.toDataURL();
-      this.downloadLink.nativeElement.href = downloadImage.toDataURL('test/png');
-      this.downloadLink.nativeElement.download = 'test.png';
+      this.downloadLink.nativeElement.href = downloadImage.toDataURL('test/'+format);
+      this.downloadLink.nativeElement.download = 'test.'+format;
       this.downloadLink.nativeElement.click();
     });
     }

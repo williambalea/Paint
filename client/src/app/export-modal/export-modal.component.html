@@ -11,4 +11,4 @@
         <p> Selected format: {{selectedFormat}} </p>
 </form>
 
-<button (click)='this.exportService.download()'>download</button>
+<button mat-button (click)='this.exportService.download(selectedFormat)'>download</button>

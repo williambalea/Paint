@@ -7,14 +7,13 @@ export class ExportService {
   drawingBoard: ElementRef;
   downloadImage: ElementRef;
   downloadLink: ElementRef;
-  constructor() { }
+  constructor() {}
 
-  download(format : string) {
+  download(format : string, filename: string) {
  
     html2canvas(this.drawingBoard.nativeElement).then(downloadImage => {
-      this.downloadImage.nativeElement.src = downloadImage.toDataURL();
-      this.downloadLink.nativeElement.href = downloadImage.toDataURL('test/'+format);
-      this.downloadLink.nativeElement.download = 'test.'+format;
+      this.downloadLink.nativeElement.href = downloadImage.toDataURL('image/'+format);
+      this.downloadLink.nativeElement.download = filename +'.'+format;
       this.downloadLink.nativeElement.click();
     });
     }

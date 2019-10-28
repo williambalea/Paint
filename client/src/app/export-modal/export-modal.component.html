@@ -8,7 +8,13 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <p> Selected format: {{selectedFormat}} </p>
 </form>
+ 
+<form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="File name" [(ngModel)]="fileName" name="name" value="Sushi">
+        </mat-form-field> 
+ </form>
 
-<button mat-button (click)='this.exportService.download(selectedFormat)'>download</button>
+<button mat-button (click)='click()'>download</button>
+<button mat-button [mat-dialog-close]="true">close</button>

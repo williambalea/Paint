@@ -37,4 +37,26 @@ export class ClipboardService {
     }
     console.log(this.selectedItems);
   }
+
+  findSelected(): boolean {
+    if (this.selectorService.selectedShapes.length !== 0 && this.dismissCanvas()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  dismissCanvas(): boolean {
+    let shapeCounter = false;
+    for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
+      if (this.selectorService.selectedShapes[i].id !== 'canvas') {
+        shapeCounter = true;
+      }
+    }
+    if (shapeCounter) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

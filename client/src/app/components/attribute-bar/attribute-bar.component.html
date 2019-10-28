@@ -521,11 +521,14 @@
             <div class="header">Selector</div>
             <div class="attribute">
                 <div class="attributeHeader">Clipboard utilities<br><br>
-                    <button (click) = "this.controlC()">Copy</button>
-                    <button (click) = "this.controlX()">Cut</button>
-                    <button (click) = "this.controlV()">Paste</button>
-                    <button (click) = "this.controlQ()">Duplicate</button>
-                    <button (click) = "this.delete()">Delete</button><br>
+                    <div *ngIf = "this.clipboardService.findSelected()">
+                        <button (click) = "this.controlC()">Copy</button>
+                        <button (click) = "this.controlX()">Cut</button>
+                        <button (click) = "this.controlV()">Paste</button>
+                        <button (click) = "this.controlQ()">Duplicate</button>
+                        <button (click) = "this.delete()">Delete</button><br>
+                    </div>
+
                     <button (click) = "this.controlA()">Select all items</button>
                 </div>
             </div>

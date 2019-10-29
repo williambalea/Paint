@@ -287,6 +287,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     }
+    this.nbIncrements++;
   }
 
   delete(): void {
@@ -470,7 +471,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(this.selectorService.selectedShapes.length);
         console.log('Control-D, duplicated the selection!');
         this.controlD();
-        this.nbIncrements++;
       }
     }
     if (event.key === KEY.delete) {

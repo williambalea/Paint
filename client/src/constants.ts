@@ -167,6 +167,8 @@ export enum STRINGS {
   cantSaveToServer = 'could not save to server',
   serverNotAvailable = 'Server not available',
   unableToGetPicture = 'unable to get picture, please choose another one',
+  bold = 'bold',
+  italic = 'italic',
 }
 
 export enum COLORS {

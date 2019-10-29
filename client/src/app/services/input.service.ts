@@ -13,6 +13,7 @@ export class InputService {
   altPressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
+  enterPressed: boolean;
 
   stampAngle: number;
   json: string;
@@ -32,6 +33,7 @@ export class InputService {
     this.escapePressed = false;
     this.isDoubleClick = false;
     this.backSpacePressed = false;
+    this.enterPressed = false;
     this.stampAngle = NB.Zero;
     this.json = EMPTY_STRING;
     this.drawingName = EMPTY_STRING;

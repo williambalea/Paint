@@ -44,7 +44,7 @@ export class PenService implements Shape {
 
   onMouseMove(): void {
     if (this.active) {
-      this.strokeWidth = (-(this.maxStrokeWidth - this.minStrokeWidth) / 5) * this.inputService.getMouseSpeed() + this.maxStrokeWidth;
+      this.strokeWidth = (-(this.maxStrokeWidth - this.minStrokeWidth) / 2) * this.inputService.getMouseSpeed() + this.maxStrokeWidth;
       if (this.strokeWidth < this.minStrokeWidth) {
         this.strokeWidth = this.minStrokeWidth;
       }

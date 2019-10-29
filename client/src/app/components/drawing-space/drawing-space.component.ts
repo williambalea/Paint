@@ -36,6 +36,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   selectorAreaActive: boolean;
   lastMouseMoveTime: number;
   lastSpeed: number;
+  penActive: boolean;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -57,6 +58,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectorAreaActive = false;
     this.lastMouseMoveTime = NB.Zero;
     this.lastSpeed = NB.Zero;
+    this.penActive = false;
   }
 
   ngOnInit(): void {
@@ -188,7 +190,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.inputService.setMouseSpeed(speed);
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement);
+      if(this.penActive){
       this.selectedShape.onMouseMove();
+      }
     }
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
@@ -215,6 +219,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
+    this.penActive = false;
   }
 
   @HostListener('wheel', ['$event'])
@@ -276,6 +281,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent): void {
+    this.penActive = true;
     this.inputService.mouseButton = event.button;
     if (event.button === 0) {
       this.selectorService.selectedShapes = [];
@@ -291,6 +297,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.inputService.controlPressed) {
         this.clipboardService.mock();
       }
+    }
+    if (this.selectedTool === TOOL.pen) {
+      setInterval( () => {
+        this.shape = this.selectedShape.onMouseDown();
+        this.draw(this.shape);
+      }, 10);
     }
     this.shape = this.selectedShape.onMouseDown();
     this.draw(this.shape);

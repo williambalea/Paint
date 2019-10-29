@@ -27,7 +27,7 @@ export class ClipboardService {
   }
 
   getElement(): void {
-    //this.selectedItems = [];
+    this.selectedItems = [];
     for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
         if (this.selectorService.selectedShapes[i].id !== 'canvas') {
             {

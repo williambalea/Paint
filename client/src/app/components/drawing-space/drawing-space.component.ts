@@ -88,6 +88,24 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.inputService.isDrawed = false;
     });
+    this.eventEmitterService.controlAEmitter.subscribe(() => {
+      this.controlA();
+    });
+    this.eventEmitterService.controlCEmitter.subscribe(() => {
+      this.clipboardService.getElement();
+    });
+    this.eventEmitterService.controlXEmitter.subscribe(() => {
+      this.controlX();
+    });
+    this.eventEmitterService.controlVEmitter.subscribe(() => {
+      this.controlV();
+    });
+    this.eventEmitterService.deleteEmitter.subscribe(() => {
+      this.delete();
+    });
+    this.eventEmitterService.controlDEmitter.subscribe(() => {
+      this.controlD();
+    });
   }
 
   ngOnDestroy(): void {
@@ -237,6 +255,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     // console.log(this.selectorService.selectedShapes);
     //console.log(this.clipboardService.selectedItems);
+    this.includingBoxService.update();
   }
 
   controlD(): void {
@@ -274,6 +293,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.renderer.removeChild(this.canvas.nativeElement, this.selectorService.selectedShapes[i]);
       }
     }
+    this.includingBoxService.clear();
   }
 
   draw(shape: any): void {
@@ -427,6 +447,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.v) {
       if (this.inputService.controlPressed === true) {
         this.inputService.vPressed = true;
+        this.eventEmitterService.assignSelectedTool();
         console.log('Control-V the clipboards content');
         this.controlV();
         this.nbIncrements++;
@@ -435,6 +456,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.a) {
       if (this.inputService.controlPressed === true) {
         this.inputService.aPressed = true;
+        this.eventEmitterService.assignSelectedTool();
         console.log('Control-A all the drawingBoard elements');
         this.controlA();
       }

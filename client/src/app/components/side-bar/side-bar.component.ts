@@ -1,10 +1,11 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
@@ -44,7 +45,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   ],
 
 })
-export class SideBarComponent implements OnInit, OnDestroy {
+export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   selectedTool: string;
   selectedShape: Shape;
@@ -62,7 +63,8 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
-              private noShapeService: NoShapeService) {
+              private noShapeService: NoShapeService,
+              private eventEmitterService: EventEmitterService) {
     this.enableKeyPress = false;
     this.selectedShape = this.noShapeService;
   }
@@ -70,6 +72,17 @@ export class SideBarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     !localStorage.getItem(HIDE_DIALOG) ? this.openEntryPoint() : this.enableKeyPress = true;
     this.communicationsService.listen().subscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.eventEmitterService.assignSelectorToolEmitter.subscribe(() => {
+      this.assignSelectedTool();
+    });
+  }
+
+  assignSelectedTool(): void {
+    console.log('hi');
+    this.selectTool('selector');
   }
 
   ngOnDestroy(): void {

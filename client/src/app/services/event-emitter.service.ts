@@ -15,9 +15,11 @@ export class EventEmitterService {
   controlCEmitter = new EventEmitter();
   controlXEmitter = new EventEmitter();
   controlVEmitter = new EventEmitter();
-  controlQEmitter = new EventEmitter();
+  controlDEmitter = new EventEmitter();
   controlAEmitter = new EventEmitter();
   deleteEmitter = new EventEmitter();
+
+  assignSelectorToolEmitter = new EventEmitter();
 
   showGrid(): void {
     this.showGridEmitter.emit();
@@ -55,8 +57,8 @@ export class EventEmitterService {
     this.controlVEmitter.emit();
   }
 
-  controlQ(): void {
-    this.controlQEmitter.emit();
+  controlD(): void {
+    this.controlDEmitter.emit();
   }
 
   controlA(): void {
@@ -65,6 +67,10 @@ export class EventEmitterService {
 
   delete(): void {
     this.deleteEmitter.emit();
+  }
+
+  assignSelectedTool(): void {
+    this.assignSelectorToolEmitter.emit();
   }
 
 }

@@ -177,6 +177,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
+        event.preventDefault();
         this.selectorService.intersection(this.shape, this.canvas);
         this.includingBoxService.update();
       }

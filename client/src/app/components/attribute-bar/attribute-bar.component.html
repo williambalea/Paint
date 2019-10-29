@@ -290,7 +290,7 @@
 
                     <div class="attribute">
                         <div class="attributeHeader">Font<div><br>
-                                <mat-select [(ngModel)]="this.textService.font">
+                                <mat-select [(ngModel)]="this.textService.font" (selectionChange)="this.textService.update()">
                                     <mat-option *ngFor="let font of fonts" [value]="font">
                                         {{ font }}
                                     </mat-option>
@@ -299,7 +299,7 @@
                                 <mat-hint>Choose font</mat-hint>
                                 <div></div><br>
 
-                                <mat-select [(ngModel)]="this.textService.fontSize">
+                                <mat-select [(ngModel)]="this.textService.fontSize" (selectionChange)="this.textService.update()">
                                     <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize">
                                         {{ fontSize }}
                                     </mat-option>
@@ -330,6 +330,7 @@
                     </div>
 
                 </div>
+            </div>
 
                 <div *ngSwitchCase="tool.pen">
 

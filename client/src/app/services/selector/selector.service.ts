@@ -86,15 +86,6 @@ export class SelectorService implements Shape {
     });
   }
 
-  returnImage(child: SVGGraphicsElement): any {
-    return svgIntersections.shape('rect', {
-      x: child.getBBox().x,
-      y: child.getBBox().y,
-      width: child.getBBox().width,
-      height: child.getBBox().height,
-    });
-  }
-
   returnIntersectionShape(selectorArea: any): any {
     return svgIntersections.shape('rect', {
       x: selectorArea.x.animVal.value,
@@ -114,6 +105,7 @@ export class SelectorService implements Shape {
     if (!this.selectedShapes.includes(child) && this.inputService.mouseButton === NB.Zero) {
       this.selectedShapes.push(child);
     }
+    console.log(this.selectedShapes);
   }
 
   intersection(selectorArea: any, canvas: ElementRef): void {
@@ -144,9 +136,11 @@ export class SelectorService implements Shape {
       case 'path':
         return this.returnPath(value);
       case 'polygon':
-        return this.returnPolygon(value);
+        return this.returnRect(value);
       case 'image':
-        return this.returnImage(value);
+        return this.returnRect(value);
+      case 'text':
+        return this.returnRect(value);
     }
   }
 }

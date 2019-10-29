@@ -30,22 +30,29 @@ export class TextService {
 
   setAlign(align: string): void {
     this.align = align;
+    this.update();
   }
 
   toggleBold(): void {
     this.isBold = !this.isBold;
+    this.update();
   }
 
   toggleItalic(): void {
     this.isItalic = !this.isItalic;
+    this.update();
   }
 
   onMouseDown(): any {
-    // const textBox = this.getTextBox();
     this.text = this.renderer.createElement('text', 'svg');
     this.textContent = EMPTY_STRING;
     this.renderer.setAttribute(this.text, 'x', this.inputService.getMouse().x.toString());
     this.renderer.setAttribute(this.text, 'y', (this.inputService.getMouse().y - this.fontSize / 2).toString());
+    this.update();
+    return this.text;
+  }
+
+  update(): void {
     this.renderer.setAttribute(this.text, 'font-family', this.font);
     this.renderer.setAttribute(this.text, 'font-size', this.fontSize.toString());
     this.renderer.setAttribute(this.text, 'text-anchor', this.align);
@@ -56,10 +63,6 @@ export class TextService {
     if (this.isItalic) {
       this.renderer.setAttribute(this.text, 'font-style', 'italic');
     }
-    return this.text;
-  }
-
-  update(): void {
     this.renderer.setProperty(this.text, 'innerHTML', this.textContent);
   }
 

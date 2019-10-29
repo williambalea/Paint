@@ -59,6 +59,8 @@ export class TextService {
     this.renderer.setAttribute(this.text, 'fill', this.colorService.getFillColor());
     if (this.isBold) {
       this.renderer.setAttribute(this.text, 'font-weight', 'bold');
+    } else {
+      this.renderer.setAttribute(this.text, 'font-weight', '');
     }
     if (this.isItalic) {
       this.renderer.setAttribute(this.text, 'font-style', 'italic');

@@ -469,12 +469,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.inputService.qPressed = true;
         console.log(this.selectorService.selectedShapes.length);
         console.log('Control-D, duplicated the selection!');
-        // if (this.selectorService.selectedShapes === this.clipboardService.memoryShapes) {
-          // if (this.selectorService.selectedShapes.length !== 0) {
-            this.controlD();
-            this.nbIncrements++;
-          // }
-        // }
+        this.controlD();
+        this.nbIncrements++;
       }
     }
     if (event.key === KEY.delete) {
@@ -505,6 +501,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.control) {
       this.inputService.controlPressed = false;
+      this.nbIncrements = 1;
     }
     if (event.key === KEY.c) {
       this.inputService.cPressed = false;

@@ -234,6 +234,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.renderer.removeChild(this.canvas.nativeElement, this.clipboardService.selectedItems[i]);
       }
     }
+    this.selectorService.selectedShapes = [];
     this.includingBoxService.clear();
   }
 
@@ -242,11 +243,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.selectorService.selectedShapes = this.canvas.nativeElement;
     this.clipboardService.selectedItems = this.canvas.nativeElement;
     console.log(this.clipboardService.selectedItems);
-      // for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
-      //   if (this.selectorService.selectedShapes[i].id === 'canvas') {
-      //     this.selectorService.selectedShapes[i].remove();
-      //   }
-      // }
+    // for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
+    //   if (this.selectorService.selectedShapes[i].id === 'canvas') {
+        
+    //   }
+    // }
+    console.log(this.clipboardService.selectedItems.length);
     // console.log(this.selectorService.selectedShapes);
     // console.log(this.selectorService.selectedShapes.length);
     for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
@@ -293,6 +295,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.renderer.removeChild(this.canvas.nativeElement, this.selectorService.selectedShapes[i]);
       }
     }
+    this.selectorService.selectedShapes = [];
     this.includingBoxService.clear();
   }
 

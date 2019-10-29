@@ -84,7 +84,16 @@ export enum KEY {
   escape = 'Escape',
   u = 'u',
   backspace = 'Backspace',
+  enter = 'Enter',
   g = 'g',
+}
+
+export const FONTS = ['Arial', 'Verdana'];
+export const FONTSIZES = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+export enum FONTALIGN {
+  left = 'Left',
+  center = 'Center',
+  right = 'Right',
 }
 
 export enum TOOL {

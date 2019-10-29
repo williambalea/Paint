@@ -10,7 +10,8 @@ import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
 import { TextService } from 'src/app/services/shapes/text.service';
-import { BRUSH, JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, NB, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
+import { BRUSH, FONTALIGN, FONTS, FONTSIZES, JUNCTIONSTYLE, LINE_PATTERN,
+LINECORNER, NB, STROKE_DASHARRAY_STYLE, TOOL } from '../../../constants';
 import { GridService } from '../../services/grid/grid.service';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 
@@ -23,12 +24,15 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
 export class AttributeBarComponent {
   tool: typeof TOOL;
   brush: typeof BRUSH;
+  fontAlign: typeof FONTALIGN;
   linecorner: typeof LINECORNER;
   junctionStyle: typeof JUNCTIONSTYLE;
   lineStyle: typeof LINE_PATTERN;
   dashStyle: typeof STROKE_DASHARRAY_STYLE;
   @Input() selectedTool: TOOL;
   gridSize: number;
+  fonts: string[];
+  fontSizes: number[];
 
   constructor(private colorService: ColorService,
               private textService: TextService,
@@ -49,6 +53,8 @@ export class AttributeBarComponent {
     this.lineStyle = LINE_PATTERN;
     this.junctionStyle = JUNCTIONSTYLE;
     this.dashStyle = STROKE_DASHARRAY_STYLE;
+    this.fonts = FONTS;
+    this.fontSizes = FONTSIZES;
   }
 
   radioChangeHandler(event: MatRadioChange): void {
@@ -61,9 +67,6 @@ export class AttributeBarComponent {
     } else if (this.selectedTool === TOOL.polygon) {
       this.polygonService.polygonType = event.value;
       this.polygonService.assignPolygonType();
-    } else if (this.selectedTool === TOOL.text) {
-      this.textService.text = event.value();
-      this.textService.assignTextService();
     }
   }
 

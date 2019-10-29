@@ -8,6 +8,7 @@ import { IncludingBoxService } from 'src/app/services/includingBox/including-box
 import { InputService } from 'src/app/services/input.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
+import { TextService } from 'src/app/services/shapes/text.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constants';
@@ -37,6 +38,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private colorService: ColorService,
               private inputService: InputService,
               private renderer: Renderer2,
+              private textService: TextService,
               private pipetteService: PipetteService,
               private selectorService: SelectorService,
               private communicationService: CommunicationsService,
@@ -203,6 +205,19 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
+    if (this.selectedTool === TOOL.text) {
+      event.preventDefault();
+      if (event.key.length === 1) {
+        this.textService.textContent += event.key;
+        this.textService.update();
+        return;
+      } else if (event.key === KEY.backspace) {
+        const lastCharPos = this.textService.textContent.length;
+        const cuttedContent = this.textService.textContent.substring(NB.Zero, lastCharPos - 1);
+        this.textService.textContent = cuttedContent;
+        this.textService.update();
+      }
+    }
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = true;
       this.selectedShape.onMouseMove();
@@ -270,6 +285,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.includingBoxService.update();
       }
+    }
+    if (this.selectedTool === TOOL.text) {
+      this.renderer.appendChild(this.canvas.nativeElement, this.textService.onMouseDown());
     }
   }
 

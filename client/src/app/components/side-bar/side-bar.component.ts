@@ -60,8 +60,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
-              private noShapeService: NoShapeService,
-              private textService: TextService) {
+              private noShapeService: NoShapeService) {
     this.enableKeyPress = false;
     this.selectedShape = this.noShapeService;
   }
@@ -137,7 +136,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedTool = TOOL.line;
         break;
       case TOOL.text:
-        this.selectedShape = this.textService;
+        this.selectedShape = this.noShapeService;
         this.selectedTool = TOOL.text;
         break;
       default:
@@ -181,7 +180,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.enableKeyPress) {
+    if (this.enableKeyPress && this.selectedTool !== TOOL.text) {
       switch (event.key) {
         case KEY.o:
           event.preventDefault();

@@ -64,6 +64,8 @@ export class TextService {
     }
     if (this.isItalic) {
       this.renderer.setAttribute(this.text, 'font-style', 'italic');
+    } else {
+      this.renderer.setAttribute(this.text, 'font-style', '');
     }
     this.renderer.setProperty(this.text, 'innerHTML', this.textContent);
   }

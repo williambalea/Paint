@@ -16,12 +16,14 @@ export class PenService implements Shape {
   minStrokeWidth: number;
   active: boolean;
   path: HTMLElement;
+  pathGroupIndex: number;
 
   constructor(private renderer: Renderer2,
               private inputService: InputService,
               private colorService: ColorService) {
     this.maxStrokeWidth = NB.Twenty;
     this.minStrokeWidth = NB.Ten;
+    this.pathGroupIndex = NB.Zero;
     this.reset();
   }
 
@@ -38,6 +40,7 @@ export class PenService implements Shape {
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
     this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
     this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
+    this.renderer.setProperty(this.path, 'id', 'pen' + this.pathGroupIndex.toString());
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     return this.path;
   }

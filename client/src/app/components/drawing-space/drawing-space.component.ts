@@ -9,6 +9,7 @@ import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { InputService } from 'src/app/services/input.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
+import { PenService } from 'src/app/services/shapes/pen.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
@@ -47,6 +48,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private selectorService: SelectorService,
               private communicationService: CommunicationsService,
               private gridService: GridService,
+              private penService: PenService,
               private screenshotService: ScreenshotService,
               private unsubscribeService: UnsubscribeService,
               private includingBoxService: IncludingBoxService,
@@ -115,7 +117,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   draw(shape: any): void {
     if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
-      if (shape) {
+      if (shape && this.selectedTool !== TOOL.pen) {
         this.renderer.appendChild(this.canvas.nativeElement, shape);
       }
       this.inputService.isBlank = false;
@@ -222,6 +224,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectorAreaActive = false;
     this.penActive = false;
     clearInterval(this.interval);
+    this.penService.pathGroupIndex++;
   }
 
   @HostListener('wheel', ['$event'])
@@ -301,9 +304,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (this.selectedTool === TOOL.pen) {
+      const penWrapper = this.renderer.createElement('g', 'svg');
+      this.renderer.appendChild(this.canvas.nativeElement, penWrapper);
       this.interval = setInterval( () => {
         this.shape = this.selectedShape.onMouseDown();
-        this.draw(this.shape);
+        this.renderer.appendChild(penWrapper, this.shape);
       }, 10);
     }
     this.shape = this.selectedShape.onMouseDown();
@@ -313,7 +318,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
         if (event.button === NB.Zero) {
-          this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
+          if ((event.target as HTMLElement).id.includes('pen')) {
+            this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
+          } else {
+            this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
+          }
         } else if (event.button === NB.Two) {
           const index = this.selectorService.selectedShapes.indexOf(event.target as SVGGraphicsElement);
           if (index !== -NB.One) {

@@ -217,7 +217,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         const cuttedContent = this.textService.textContent.substring(NB.Zero, lastCharPos - 1);
         this.textService.textContent = cuttedContent;
         this.textService.update();
+        if (this.textService.textContent.length === 0 && this.textService.text.childElementCount > 1) {
+          this.textService.text.removeChild(this.textService.text.lastChild as ChildNode);
+        }
       }
+      if (event.key === KEY.enter) {
+        this.textService.lineJump();
+        }
     }
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = true;
@@ -236,9 +242,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.backspace) {
       this.inputService.backSpacePressed = true;
       this.selectedShape.onMouseMove();
-    }
-    if (event.key === KEY.enter) {
-      this.inputService.enterPressed = true;
     }
   }
 

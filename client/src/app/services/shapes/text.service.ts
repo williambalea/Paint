@@ -68,6 +68,9 @@ export class TextService {
     this.renderer.setAttribute(this.text, 'font-size', this.fontSize.toString());
     this.renderer.setAttribute(this.text, 'text-anchor', this.align);
     this.renderer.setAttribute(this.text, 'fill', this.colorService.getFillColor());
+    this.text.childNodes.forEach((element) => {
+      this.renderer.setAttribute(element, 'dy', this.fontSize.toString());
+    });
     //Bold
     let boldString: string;
     this.isBold ? boldString = STRINGS.bold : boldString = EMPTY_STRING;
@@ -76,11 +79,6 @@ export class TextService {
     let italicString: string;
     this.isItalic ? italicString = STRINGS.italic : italicString = EMPTY_STRING;
     this.renderer.setAttribute(this.text, 'font-style', italicString);
-
-    if(this.inputService.enterPressed) {
-      this.lineJump();
-      this.inputService.enterPressed = false;
-    }
 
     this.renderer.setProperty(this.tspan, 'innerHTML', this.textContent);
   }
@@ -91,6 +89,7 @@ export class TextService {
     this.renderer.setAttribute(this.tspan, 'dy', this.fontSize.toString());
     this.renderer.appendChild(this.text, this.tspan);
     this.textContent = EMPTY_STRING;
+    this.inputService.enterPressed = false;
   }
 
 }

@@ -47,23 +47,34 @@ export class TextService {
   }
 
   onMouseDown(): any {
-    this.text = this.renderer.createElement('text', 'svg');
-    this.tspan = this.renderer.createElement('tspan', 'svg');
-    this.renderer.appendChild(this.text, this.tspan);
-
-    this.textContent = EMPTY_STRING;
-    this.xPos = this.inputService.getMouse().x.toString();
-    this.renderer.setAttribute(this.text, 'x', this.xPos);
-    this.renderer.setAttribute(this.text, 'y', (this.inputService.getMouse().y - this.fontSize / 2).toString());
-
-    this.renderer.setAttribute(this.tspan, 'x', this.xPos);
-    this.renderer.setAttribute(this.tspan, 'dy', NB.Zero.toString());
-
+    this.createTextElements();
+    this.setTextAttributes();
     this.update();
     return this.text;
   }
 
+  createTextElements(): void {
+    this.text = this.renderer.createElement('text', 'svg');
+    this.tspan = this.renderer.createElement('tspan', 'svg');
+    this.renderer.appendChild(this.text, this.tspan);
+  }
+
+  setTextAttributes(): void {
+    this.textContent = EMPTY_STRING;
+    this.xPos = this.inputService.getMouse().x.toString();
+    this.renderer.setAttribute(this.text, 'x', this.xPos);
+    this.renderer.setAttribute(this.text, 'y', (this.inputService.getMouse().y - this.fontSize / 2).toString());
+    this.renderer.setAttribute(this.tspan, 'x', this.xPos);
+    this.renderer.setAttribute(this.tspan, 'dy', NB.Zero.toString());
+  }
+
   update(): void {
+    this.updateTextAttributes();
+    this.setBoldString();
+    this.setItalicString();
+  }
+
+  updateTextAttributes(): void {
     this.renderer.setAttribute(this.text, 'font-family', this.font);
     this.renderer.setAttribute(this.text, 'font-size', this.fontSize.toString());
     this.renderer.setAttribute(this.text, 'text-anchor', this.align);
@@ -71,13 +82,18 @@ export class TextService {
     this.text.childNodes.forEach((element) => {
       this.renderer.setAttribute(element, 'dy', this.fontSize.toString());
     });
+  }
+
+  setBoldString(): void {
     let boldString: string;
     this.isBold ? boldString = STRINGS.bold : boldString = EMPTY_STRING;
     this.renderer.setAttribute(this.text, 'font-weight', boldString);
+  }
+
+  setItalicString(): void {
     let italicString: string;
     this.isItalic ? italicString = STRINGS.italic : italicString = EMPTY_STRING;
     this.renderer.setAttribute(this.text, 'font-style', italicString);
-
     this.renderer.setProperty(this.tspan, 'innerHTML', this.textContent);
   }
 

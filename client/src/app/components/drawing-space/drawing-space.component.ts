@@ -178,13 +178,29 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.nbIncrementsReset++;
         }
       }
+      // if (this.clipboardService.selectedItems[i].nodeName === 'path') {
+      //   let newX: number;
+      //   let newY: number;
+      //   console.log(this.nbIncrementsReset);
+      //   console.log(this.nbIncrements);
+      //   newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
+      //   newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
+      //   copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
+
+      //   if (newX < this.canvasWidth && newY < this.canvasHeight) {
+      //     this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
+      //     this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
+      //     this.renderer.setStyle(copiedNode, 'fill', 'red');
+      //     this.renderer.setStyle(copiedNode, 'stroke', 'blue');
+      //     this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+      //   } else {
+      //     this.nbIncrements = 1;
+      //     this.nbIncrementsReset++;
+      //   }
+      // }
       if (this.clipboardService.selectedItems[i].nodeName === 'path') {
-        let newX: number;
-        let newY: number;
         console.log(this.nbIncrementsReset);
         console.log(this.nbIncrements);
-        newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
-        newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
         copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
 
         if (newX < this.canvasWidth && newY < this.canvasHeight) {
@@ -198,6 +214,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.nbIncrementsReset++;
         }
       }
+      /*
       if (this.clipboardService.selectedItems[i].nodeName === 'polygon') {
         let newX: string;
         let newY: number;
@@ -224,6 +241,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         //   this.nbIncrementsReset++;
         // }
       }
+      */
       }
     }
 
@@ -241,7 +259,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   controlA(): void {
     this.clipboardService.selectedItems = [];
     // this.selectorService.selectedShapes = this.canvas.nativeElement;
-    this.clipboardService.selectedItems = this.canvas.nativeElement;
+    this.clipboardService.selectedItems = this.canvas.nativeElement.children;
+    this.selectorService.selectedShapes = this.canvas.nativeElement.children;
     console.log(this.clipboardService.selectedItems);
     // for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
     //   if (this.selectorService.selectedShapes[i].id === 'canvas') {
@@ -257,7 +276,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     // console.log(this.selectorService.selectedShapes);
     //console.log(this.clipboardService.selectedItems);
-    this.includingBoxService.update();
   }
 
   controlD(): void {
@@ -458,6 +476,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (event.key === KEY.a) {
+      event.preventDefault();
       if (this.inputService.controlPressed === true) {
         this.inputService.aPressed = true;
         this.eventEmitterService.assignSelectedTool();
@@ -465,7 +484,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.controlA();
       }
     }
-    if (event.key === KEY.q) {
+    if (event.key === KEY.d) {
+      event.preventDefault();
       if (this.inputService.controlPressed === true) {
         this.inputService.qPressed = true;
         console.log(this.selectorService.selectedShapes.length);

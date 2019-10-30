@@ -13,6 +13,8 @@ export class EraserService {
   size: number;
   divider: number;
   canvas: ElementRef;
+  preview : SVGGraphicsElement[];
+  g: SVGGraphicsElement;
 
   constructor(private renderer: Renderer2, private inputService: InputService ) {
     this.eraseMouseDown = false;
@@ -20,6 +22,7 @@ export class EraserService {
     this.size = 100;
     this.cursor = this.renderer.createElement('rect', 'svg');
     this.divider = 2;
+    this.preview = [];
   }
 
   createEraser(x: number, y: number): void {
@@ -46,18 +49,49 @@ export class EraserService {
   //     }
   //   }
   // }
+  addToPreview(shape : SVGGraphicsElement) : void {
+    if (!this.preview.includes(shape)){
+      
+      const redContour = this.renderer.createElement('rect','svg');
+      this.renderer.setAttribute(redContour,'x', (shape.getBBox().x).toString());
+      this.renderer.setAttribute(redContour,'y', (shape.getBBox().y).toString());
+      this.renderer.setAttribute(redContour,'width', (shape.getBBox().width).toString());
+      this.renderer.setAttribute(redContour,'height', (shape.getBBox().height).toString());
+      this.renderer.setAttribute(redContour,'fill', 'none');
+      this.renderer.setAttribute(redContour,'stroke', 'red');
+      this.renderer.setAttribute(redContour,'stroke-width', '1');
+      this.preview.push(redContour);
+      this.renderer.appendChild(this.g,redContour);
+    }
+  }
+
+  clear() : void { 
+    for ( const i of this.preview){
+      this.renderer.removeChild(this.g, i);
+    }
+  }
+ 
 
   intersect(): void {
     const cursorBox = this.cursor.getBoundingClientRect();
+    this.clear();
+    this.preview = [];
     for (const child of this.canvas.nativeElement.children) {
         const childBox = child.getBoundingClientRect();
         let isIntersection: boolean;
         isIntersection = (!(childBox.left > cursorBox.right || childBox.right < cursorBox.left
           || childBox.top > cursorBox.bottom || childBox.bottom < cursorBox.top));
-        if (isIntersection && this.eraseMouseDown) {
+        if (isIntersection){
+          this.addToPreview(child);
+          
+         if(this.eraseMouseDown) {
             this.renderer.removeChild(this.drawingBoard.nativeElement, child);
           }
+        }
 
-    }}
+    }
+    console.log('preview', this.preview);
+  }
+    
 
 }

@@ -33,6 +33,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number;
   shape: SVGSVGElement;
   selectorAreaActive: boolean;
+  g: SVGGraphicsElement;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -58,6 +59,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.g = this.renderer.createElement('g','svg');
+    this.renderer.appendChild(this.drawingBoard.nativeElement, this.g);
+    this.eraserService.g = this.g;
     this.eraserService.drawingBoard = this.drawingBoard;
     this.eraserService.canvas = this.canvas;
     this.eventEmitterService.showGridEmitter.subscribe(() => {

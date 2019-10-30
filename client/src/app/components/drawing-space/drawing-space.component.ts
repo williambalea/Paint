@@ -176,7 +176,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.isComplexShape(targetTag)) {
       this.renderer.setStyle(target, 'fill', this.colorService.getFillColor());
     } else if (targetTag === 'path') {
-      this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
+      if ((target as HTMLElement).id.includes('pen')) {
+        const penElements = ((target as HTMLElement).parentNode as HTMLElement).children;
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < penElements.length; i++) {
+          this.renderer.setStyle(penElements.item(i), 'stroke', this.colorService.getFillColor());
+        }
+      } else {
+        this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
+      }
     }
   }
 

@@ -37,6 +37,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   lastMouseMoveTime: number;
   lastSpeed: number;
   penActive: boolean;
+  interval;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -190,7 +191,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.inputService.setMouseSpeed(speed);
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement);
-      if(this.penActive){
+      if (this.penActive) {
       this.selectedShape.onMouseMove();
       }
     }
@@ -220,6 +221,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
     this.penActive = false;
+    clearInterval(this.interval);
   }
 
   @HostListener('wheel', ['$event'])
@@ -299,7 +301,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (this.selectedTool === TOOL.pen) {
-      setInterval( () => {
+      this.interval = setInterval( () => {
         this.shape = this.selectedShape.onMouseDown();
         this.draw(this.shape);
       }, 10);

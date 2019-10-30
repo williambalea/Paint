@@ -59,7 +59,7 @@ export class IncludingBoxService {
   }
 
   validateNoStroke(value: SVGGraphicsElement, shapeBoundary: SVGRect): void {
-    if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image') {
+    if (value.style.strokeOpacity !== NB.Zero.toString() && value.tagName !== 'image' && value.tagName !== 'text') {
       const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, NB.Ten);
       shapeBoundary.x -= strokeWidthOverflow / NB.Two;
       shapeBoundary.y -= strokeWidthOverflow / NB.Two;

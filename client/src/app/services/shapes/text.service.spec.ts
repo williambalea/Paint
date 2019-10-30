@@ -8,12 +8,13 @@ class RendererMock {
   createElement(): void {return; }
   // setStyle(): void {return; }
   setAttribute(): void {return; }
-  appendChild(): void {return;}
+  appendChild(): void {return; }
  }
 // tslint:disable-next-line: max-classes-per-file
 class ColorServiceMock {
   // getFillColor(): void {return; }
   // addColorsToLastUsed(): void {return; }
+  getFillColor(): void {return; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -22,10 +23,10 @@ class InputServiceMock {
   // getMouse(): Point {return {x: 1, y: 2}; }
 }
 
-fdescribe('TextService', () => {
+describe('TextService', () => {
   let service: TextService;
   // let colorService: ColorService;
-  // let inputService: InputService;
+  let inputService: InputService;
   let renderer: Renderer2;
 
   beforeEach(() => {
@@ -41,7 +42,7 @@ fdescribe('TextService', () => {
     }).compileComponents();
     service = TestBed.get(TextService);
     // colorService = TestBed.get(ColorService);
-    // inputService = TestBed.get(InputService);
+    inputService = TestBed.get(InputService);
     renderer = TestBed.get(Renderer2);
   });
 
@@ -95,6 +96,33 @@ fdescribe('TextService', () => {
     expect(spyOnUpdateTextAttributes).toHaveBeenCalled();
     expect(spyOnSetBoldString).toHaveBeenCalled();
     expect(spyOnSetItalicString).toHaveBeenCalled();
+  });
+
+  // it('should update text attributes', () => {
+  //   const spyOnSetTextAttributes = spyOn(service, 'setTextAttributes');
+  //   service.updateTextAttributes();
+  //   expect(spyOnSetTextAttributes).toHaveBeenCalledTimes(4);
+  // });
+
+  // it('should set bold string', () => {
+  //   // Est-ce-qu'on peut declarer la variable a l'exterieur de la fonction ??
+  //   service.isBold = true;
+  //   service.setBoldString();
+  //   expect(service.setBoldString)
+  // });
+
+  it('should jump line', () => {
+    service.textContent = 'abc';
+    inputService.enterPressed = true;
+    const spyOnCreateElement = spyOn(renderer, 'createElement');
+    const spyOnSetTextAttributes = spyOn(renderer, 'setAttribute');
+    const spyOnAppendChild = spyOn(renderer, 'appendChild');
+    service.lineJump();
+    expect(spyOnCreateElement).toHaveBeenCalled();
+    expect(spyOnSetTextAttributes).toHaveBeenCalled();
+    expect(spyOnAppendChild).toHaveBeenCalled();
+    expect(service.textContent).toEqual('');
+    expect(inputService.enterPressed).toBeFalsy();
   });
 
 });

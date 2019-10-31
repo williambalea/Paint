@@ -9,10 +9,10 @@ import { MatDialogRef } from '@angular/material';
   styleUrls: ['./upload-modal.component.scss']
 })
 export class UploadModalComponent implements OnInit {
-
+  error : boolean;
   constructor(public dialogRef: MatDialogRef<UploadModalComponent>,
               private uploadService : UploadService,
-             ) { }
+             ) { this.error = false;}
 
   ngOnInit() {
   }
@@ -26,10 +26,27 @@ export class UploadModalComponent implements OnInit {
     fileReader.onloadend = (() => {
       self.fileContent = fileReader.result as string;
       this.uploadService.fileContent = self.fileContent.slice(96,-6);
-      console.log('self', this.uploadService.fileContent);
+      console.log(this.uploadService.fileContent.slice(0,2));
+      console.log(this.uploadService.fileContent);
+   
     }) 
-    
+  //   if(this.uploadService.fileContent.slice(0,2) !== '<g'){
+  //     window.alert('error');
+  //     this.error = true;
+  //     console.log('error', this.error);
+     
+  //  }
+  //  else {
+  //    this.error = false;
+  //    console.log(' error',this.error);
+  //  }
+   
+  console.log('file',file.type);
+  if(file.type === 'image/svg+xml')
     fileReader.readAsText(file);
+  else 
+  window.alert('test');
+    
   }
   onNoClick(): void {
     this.dialogRef.close();

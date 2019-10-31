@@ -1,4 +1,5 @@
-<div class="drawingBoard" (click)="this.onLeftClick($event);" (contextmenu)="this.onRightClick($event)">  
+<div class="drawingBoard" (click)="this.onLeftClick($event);" (contextmenu)="this.onRightClick($event)"> 
+    <button (click)="click()">click</button> 
     <canvas #htmlCanvas hidden></canvas>
     <svg #svg id="canvas" version="1.1"
         baseProfile="full"

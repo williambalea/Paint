@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { UploadService } from '../services/upload.service';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-upload-modal',
@@ -9,7 +10,8 @@ import { UploadService } from '../services/upload.service';
 })
 export class UploadModalComponent implements OnInit {
 
-  constructor(
+  constructor(public dialogRef: MatDialogRef<UploadModalComponent>,
+    
     private uploadService : UploadService
     ) { }
 
@@ -28,7 +30,11 @@ export class UploadModalComponent implements OnInit {
       console.log('self', this.uploadService.fileContent);
     }) 
     
-    fileReader.readAsText(file.slice(96,-6));
+    fileReader.readAsText(file);
   }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 
 }

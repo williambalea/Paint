@@ -17,6 +17,7 @@ import { ACTIONS, EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constant
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
 import { ExportService } from 'src/app/services/export.service';
+import { UploadService } from 'src/app/services/upload.service';
 
 
 
@@ -57,7 +58,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private eventEmitterService: EventEmitterService,
               private undoRedoService: UndoRedoService,
               private noShapeService: NoShapeService,
-              private exportService: ExportService
+              private exportService: ExportService,
+              private uploadService : UploadService
               ) {
     this.tool = TOOL;
     this.width = NB.Zero;
@@ -99,7 +101,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.undoRedoService.canvas = this.canvas;
 
   }
-
+ click() :void {
+  for (const child of this.canvas.nativeElement.children) {
+    this.renderer.removeChild(this.canvas, child);
+  }
+  this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.uploadService.fileContent);
+  // this.renderer.appendChild(this.canvas.nativeElement,'<g _ngcontent-jxo-c5=""><rect _ngcontent-jxo-c0="" fill="rgba(0,0,0,1)" x="126" y="139" width="260" height="146" style="stroke: rgb(255, 255, 255); stroke-width: 7px;"></rect></g>');
+ }
   ngOnDestroy(): void {
     this.unsubscribeService.onDestroy();
   }

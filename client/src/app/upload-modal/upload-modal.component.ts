@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,6 +11,17 @@ export class UploadModalComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+  fileContent: string = '';
+
+  public onChange(fileList: FileList): void {
+    let file = fileList[0];
+    let fileReader: FileReader = new FileReader();
+    let self = this;
+    fileReader.onloadend = function(x) {
+      self.fileContent = fileReader.result as string;
+    }
+    fileReader.readAsText(file);
   }
 
 }

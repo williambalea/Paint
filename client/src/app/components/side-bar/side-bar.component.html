@@ -13,7 +13,8 @@
         <button matTooltip="Selector" mat-button (click)="selectTool('selector')" [class.selected]="this.selectedTool === 'selector'"><mat-icon>crop_free</mat-icon></button>
 </div>
 <div class="toolFixed">
-        <button matTooltip="Load Drawing" mat-button (click)="accessServer()" class ="save_icon"><mat-icon>cloud_download</mat-icon></button>
+        <button matTooltip="Load Drawing from local" mat-button (click)="upload()" class ="save_icon"><mat-icon>folder_open</mat-icon></button>
+        <button matTooltip="Load Drawing from server" mat-button (click)="accessServer()" class ="save_icon"><mat-icon>cloud_download</mat-icon></button>
         <button matTooltip="Save Drawing" mat-button (click)="saveOnServer()" class ="new_file_icon"><mat-icon>save</mat-icon></button>
         <button matTooltip="New File" mat-button (click)="createNewFile()" class ="bottom"><mat-icon>add</mat-icon></button>
         <button matTooltip="Export Drawing" mat-button (click)="export()" class ="export_icon"><mat-icon>filter</mat-icon></button>

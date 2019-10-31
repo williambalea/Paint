@@ -268,7 +268,7 @@
                 <div>
 
                     <div class="svg" style="text-align: center;">
-                        <svg class="lineStyleRound" width="250" height="150">
+                        <svg class="lineStyleRound" width="200" height="100">
                             <text *ngIf="this.textService.isBold && this.textService.isItalic"
                             x="50%" y="50%" [attr.font-family]="this.textService.font" [attr.font-size]="this.textService.fontSize" font-style="italic" font-weight="bold"
                             [attr.fill]="this.colorService.getFillColor()" [attr.text-anchor]="this.textService.align" stroke="none">Sample</text>
@@ -292,21 +292,23 @@
                                 <mat-select [(ngModel)]="this.textService.font" (selectionChange)="this.textService.update()">
                                     <mat-option *ngFor="let font of fonts" [value]="font"> {{ font }}</mat-option>
                                 </mat-select>
+                                <div></div> <br>
 
                                 <mat-select [(ngModel)]="this.textService.fontSize" (selectionChange)="this.textService.update()">
                                     <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize">{{ fontSize }}</mat-option>
                                 </mat-select>
+                                <div></div> <br>
 
                                 <div>
-                                    <button mat-button (click)="this.textService.toggleBold()"><mat-icon>format_bold</mat-icon></button>
-                                    <button mat-button (click)="this.textService.toggleItalic()"><mat-icon>format_italic</mat-icon></button>
-                                </div>
+                                    <button mat-button [class.selected]="this.textService.isBold" (click)="this.textService.toggleBold()"><mat-icon>format_bold</mat-icon></button>
+                                    <button mat-button [class.selected]="this.textService.isItalic" (click)="this.textService.toggleItalic()"><mat-icon>format_italic</mat-icon></button>
+                                </div> <br>
 
                                 <div>
-                                    <button mat-button  value="start" (click)="this.textService.setAlign('start')"><mat-icon>format_align_left</mat-icon></button>
-                                    <button mat-button  value="middle" (click)="this.textService.setAlign('middle')"><mat-icon>format_align_center</mat-icon></button>
-                                    <button mat-button  value="end" (click)="this.textService.setAlign('end')"><mat-icon>format_align_right</mat-icon></button>
-                                </div>
+                                    <button mat-button  value="end" [class.selected]="this.textService.align === 'end'" (click)="this.textService.setAlign('end')"><mat-icon>format_align_left</mat-icon></button>
+                                    <button mat-button  value="middle" [class.selected]="this.textService.align === 'middle'" (click)="this.textService.setAlign('middle')"><mat-icon>format_align_center</mat-icon></button>
+                                    <button mat-button  value="start" [class.selected]="this.textService.align === 'start'" (click)="this.textService.setAlign('start')"><mat-icon>format_align_right</mat-icon></button>
+                                </div> <br>
 
 
                             </div>

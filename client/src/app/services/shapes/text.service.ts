@@ -25,8 +25,8 @@ export class TextService {
               private colorService: ColorService) {
     this.textContent = EMPTY_STRING;
     this.font = 'Arial';
-    this.align = 'start';
-    this.fontSize = NB.Sixteen;
+    this.align = 'middle';
+    this.fontSize = NB.TwentyFour;
     this.isBold = false;
     this.isItalic = false;
   }

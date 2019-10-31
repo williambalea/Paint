@@ -200,20 +200,21 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         copiedNode = this.clipboardService.selectedItems[i].cloneNode(false);
 
         //if (newX < this.canvasWidth && newY < this.canvasHeight) {
-          this.renderer.setStyle(copiedNode, 'stroke', 'red');
-          this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
-          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+        this.renderer.setStyle(copiedNode, 'stroke', 'red');
+        this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
+        this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
 
-          this.nbIncrements = 1;
-          this.nbIncrementsReset++;
+        this.nbIncrements = 1;
+        this.nbIncrementsReset++;
       }
       if (this.clipboardService.selectedItems[i].nodeName === 'polygon') {
+        this.polygonArray = [];
         let polygonPoints: string;
         let newPolygonPoints: string;
         let newX: number;
         let newY: number;
         let copiedNode = this.clipboardService.selectedItems[i].cloneNode(false) as SVGGraphicsElement;
-        polygonPoints = this.clipboardService.selectedItems[i].getAttribute('points').substring(0, this.clipboardService.selectedItems[i].getAttribute('points').length-1).split(" ");
+        polygonPoints = this.clipboardService.selectedItems[i].getAttribute('points').substring(0, this.clipboardService.selectedItems[i].getAttribute('points').length).split(" ");
         for (let j = 0; j < polygonPoints.length; j++) {
           this.polygonArray[j] = Number(polygonPoints[j]) + (NB.OneHundred * this.nbIncrements);
         }
@@ -264,8 +265,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   controlD(): void {
     let copiedNode: Node;
-    {
-      for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
+    for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
         if (this.selectorService.selectedShapes[i].nodeName === 'rect') {
           let newX: number;
           let newY: number;
@@ -307,26 +307,48 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         if (this.selectorService.selectedShapes[i].nodeName === 'path') {
-          console.log(this.nbIncrementsReset);
-          console.log(this.nbIncrements);
-          copiedNode = this.selectorService.selectedShapes[i].cloneNode(true);
-          
+
+          copiedNode = this.selectorService.selectedShapes[i].cloneNode(false);
+
           //if (newX < this.canvasWidth && newY < this.canvasHeight) {
-
-            this.renderer.setStyle(copiedNode, 'stroke', 'red');
-            //this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
-            this.renderer.setAttribute(copiedNode, 'transform-origin', "256px 256px");
-            const copiedNode2 = copiedNode.
+          this.renderer.setStyle(copiedNode, 'stroke', 'red');
+          this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
+          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+          this.nbIncrements = 1;
+          this.nbIncrementsReset++;
+        }
+        if (this.selectorService.selectedShapes[i].nodeName === 'polygon') {
+          this.polygonArray = [];
+          let polygonPoints: string;
+          let newPolygonPoints: string;
+          let newX: number;
+          let newY: number;
+          let copiedNode = this.selectorService.selectedShapes[i].cloneNode(false) as SVGGraphicsElement;
+          polygonPoints = this.selectorService.selectedShapes[i].getAttribute('points').substring(0, this.selectorService.selectedShapes[i].getAttribute('points').length).split(" ");
+          for (let j = 0; j < polygonPoints.length; j++) {
+            this.polygonArray[j] = Number(polygonPoints[j]) + (NB.OneHundred * this.nbIncrements);
+          }
+          newPolygonPoints = this.polygonArray.join(' ');
+          copiedNode.setAttribute('points', newPolygonPoints);
+          
+          let xList: number[];
+          let yList: number[];
+          xList = [];
+          yList = [];
+  
+          // Bonne methode, pas bonnesvaleurs, on doit regarder x et y individuellement.
+          newX = Math.min.apply(Math, this.polygonArray);
+          newY = Math.min.apply(Math, this.polygonArray);
+          if (newX < this.canvasWidth && newY < this.canvasHeight) {
+            this.renderer.setStyle(copiedNode, 'fill', 'red');
+            this.renderer.setStyle(copiedNode, 'stroke', 'blue');
             this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-
-
-
-
+          } else {
             this.nbIncrements = 1;
             this.nbIncrementsReset++;
+          }
         }
       }
-    }
     this.nbIncrements++;
   }
 
@@ -552,12 +574,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.d) {
       this.inputService.qPressed = false;
+      this.polygonArray = [];
     }
     if (event.key === KEY.a) {
       this.inputService.aPressed = false;
     }
     if (event.key === KEY.delete) {
       this.inputService.deletePressed = false;
+    }
+    if (event.key === KEY.v) {
+      this.inputService.vPressed = false;
+      this.polygonArray = [];
     }
   }
 

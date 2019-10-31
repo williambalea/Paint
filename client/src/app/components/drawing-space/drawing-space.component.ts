@@ -81,6 +81,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventEmitterService.uploadEmitter.subscribe(() => {
       this.click();
       this.inputService.isDrawed = true;
+      this.uploadService.enableUploadButton = false;
+      this.uploadService.fileContent = EMPTY_STRING;
     });
 
     this.eventEmitterService.showGridEmitter.subscribe(() => {

@@ -30,22 +30,14 @@ export class UploadModalComponent implements OnInit {
       console.log(this.uploadService.fileContent);
    
     }) 
-  //   if(this.uploadService.fileContent.slice(0,2) !== '<g'){
-  //     window.alert('error');
-  //     this.error = true;
-  //     console.log('error', this.error);
-     
-  //  }
-  //  else {
-  //    this.error = false;
-  //    console.log(' error',this.error);
-  //  }
    
   console.log('file',file.type);
-  if(file.type === 'image/svg+xml')
+  if(file.type === 'image/svg+xml'){
+    this.uploadService.enableUploadButton = true;
     fileReader.readAsText(file);
+  }
   else 
-  window.alert('test');
+    window.alert('test');
     
   }
   onNoClick(): void {

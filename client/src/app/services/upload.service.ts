@@ -8,8 +8,11 @@ import { InputService } from './input.service';
 export class UploadService {
 
   fileContent : string;
+  enableUploadButton : boolean;
 
-  constructor(private eventEmitterService : EventEmitterService, private inputService : InputService) { }
+  constructor(private eventEmitterService : EventEmitterService, private inputService : InputService) { 
+    this.enableUploadButton = false;
+  }
 
   confirm() : void {
     if(this.inputService.isDrawed){

@@ -1,5 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
+import { UploadService } from '../services/upload.service';
 
 @Component({
   selector: 'app-upload-modal',
@@ -8,20 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadModalComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private uploadService : UploadService
+    ) { }
 
   ngOnInit() {
   }
   fileContent: string = '';
-
+ 
   public onChange(fileList: FileList): void {
+
     let file = fileList[0];
     let fileReader: FileReader = new FileReader();
     let self = this;
-    fileReader.onloadend = function(x) {
+    fileReader.onloadend = (() => {
       self.fileContent = fileReader.result as string;
-    }
-    fileReader.readAsText(file);
+      this.uploadService.fileContent = self.fileContent.slice(96,-6);
+      console.log('self', this.uploadService.fileContent);
+    }) 
+    
+    fileReader.readAsText(file.slice(96,-6));
   }
 
 }

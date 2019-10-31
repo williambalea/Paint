@@ -11,6 +11,7 @@ export class EventEmitterService {
   appendToDrawingSpaceEmitter = new EventEmitter();
   selectEmitter = new EventEmitter();
   clearCanvasEmitter = new EventEmitter();
+  uploadEmitter = new EventEmitter();
 
   showGrid(): void {
     this.showGridEmitter.emit();
@@ -36,5 +37,8 @@ export class EventEmitterService {
     this.clearCanvasEmitter.emit();
   }
 
+  upload() : void {
+    this.uploadEmitter.emit();
+  }
  
 }

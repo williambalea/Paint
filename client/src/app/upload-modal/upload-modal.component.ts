@@ -11,9 +11,8 @@ import { MatDialogRef } from '@angular/material';
 export class UploadModalComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<UploadModalComponent>,
-    
-    private uploadService : UploadService
-    ) { }
+              private uploadService : UploadService,
+             ) { }
 
   ngOnInit() {
   }

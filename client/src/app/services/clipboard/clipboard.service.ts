@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { InputService } from '../input.service';
 import { SelectorService } from '../selector/selector.service';
 
 @Injectable({
@@ -15,7 +14,7 @@ export class ClipboardService {
   controlXMode: boolean;
   controlVMode: boolean;
 
-  constructor(private selectorService: SelectorService, private inputService: InputService) {
+  constructor(private selectorService: SelectorService) {
     this.selectedItems = [];
     this.selectedItemsOffset = [];
     this.memoryShapes = [];

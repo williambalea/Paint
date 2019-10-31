@@ -161,8 +161,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.clipboardService.selectedItems[i].nodeName === 'rect') {
         let newX: number;
         let newY: number;
-        console.log(this.nbIncrementsReset);
-        console.log(this.nbIncrements);
         newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
         newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
         copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
@@ -211,7 +209,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           this.nbIncrements = 1;
           this.nbIncrementsReset++;
       }
-      /*
       if (this.clipboardService.selectedItems[i].nodeName === 'polygon') {
         let newX: string;
         let newY: number;
@@ -227,20 +224,18 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log(newPoints);
         copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
 
-        {
+        if (newX < this.canvasWidth && newY < this.canvasHeight) {
           this.renderer.setAttribute(copiedNode, 'points', (newPoints).toString());
           this.renderer.setStyle(copiedNode, 'fill', 'red');
           this.renderer.setStyle(copiedNode, 'stroke', 'blue');
           this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+        } else {
+          this.nbIncrements = 1;
+          this.nbIncrementsReset++;
         }
-        // else {
-        //   this.nbIncrements = 1;
-        //   this.nbIncrementsReset++;
-        // }
-      }
-      */
       }
     }
+  }
 
   controlX(): void {
     this.clipboardService.getElement();
@@ -255,24 +250,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   controlA(): void {
     this.clipboardService.selectedItems = [];
-    // this.selectorService.selectedShapes = this.canvas.nativeElement;
-    this.clipboardService.selectedItems = this.canvas.nativeElement.children;
-    this.selectorService.selectedShapes = this.canvas.nativeElement.children;
-    console.log(this.clipboardService.selectedItems);
-    // for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
-    //   if (this.selectorService.selectedShapes[i].id === 'canvas') {
-        
-    //   }
-    // }
-    console.log(this.clipboardService.selectedItems.length);
-    // console.log(this.selectorService.selectedShapes);
-    // console.log(this.selectorService.selectedShapes.length);
-    for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
-        //this.clipboardService.selectedItems.push( this.selectorService.selectedShapes[i]);
-        console.log(this.clipboardService.selectedItems[i]);
-    }
-    // console.log(this.selectorService.selectedShapes);
-    //console.log(this.clipboardService.selectedItems);
+    this.clipboardService.selectedItems = this.canvas.nativeElement.children as SVGGraphicsElement[];
+    const arr = Array.from(this.clipboardService.selectedItems);
+
+    this.clipboardService.selectedItems = arr;
+    this.selectorService.selectedShapes = this.clipboardService.selectedItems;
+    console.log(arr);
   }
 
   controlD(): void {
@@ -327,9 +310,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           //if (newX < this.canvasWidth && newY < this.canvasHeight) {
 
             this.renderer.setStyle(copiedNode, 'stroke', 'red');
-            this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
+            //this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
+            this.renderer.setAttribute(copiedNode, 'transform-origin', "256px 256px");
             const copiedNode2 = copiedNode.
             this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+
+
 
 
             this.nbIncrements = 1;
@@ -520,7 +506,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       event.preventDefault();
       if (this.inputService.controlPressed === true) {
         this.inputService.qPressed = true;
-        console.log(this.selectorService.selectedShapes.length);
         console.log('Control-D, duplicated the selection!');
         this.controlD();
       }
@@ -561,7 +546,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.x) {
       this.inputService.xPressed = false;
     }
-    if (event.key === KEY.q) {
+    if (event.key === KEY.d) {
       this.inputService.qPressed = false;
     }
     if (event.key === KEY.a) {

@@ -268,7 +268,7 @@
                 <div>
 
                     <div class="svg" style="text-align: center;">
-                        <svg class="lineStyleRound" width="200" height="100">
+                        <svg class="lineStyleRound" width="250" height="150">
                             <text *ngIf="this.textService.isBold && this.textService.isItalic"
                             x="50%" y="50%" [attr.font-family]="this.textService.font" [attr.font-size]="this.textService.fontSize" font-style="italic" font-weight="bold"
                             [attr.fill]="this.colorService.getFillColor()" [attr.text-anchor]="this.textService.align" stroke="none">Sample</text>
@@ -288,38 +288,24 @@
                     </div>
 
                     <div class="attribute">
-                        <div class="attributeHeader">Font<div><br>
+                        <div class="attributeHeader"><div><br>
                                 <mat-select [(ngModel)]="this.textService.font" (selectionChange)="this.textService.update()">
-                                    <mat-option *ngFor="let font of fonts" [value]="font">
-                                        {{ font }}
-                                    </mat-option>
+                                    <mat-option *ngFor="let font of fonts" [value]="font"> {{ font }}</mat-option>
                                 </mat-select>
-                                <div></div><br>
-                                <mat-hint>Choose font</mat-hint>
-                                <div></div><br>
 
                                 <mat-select [(ngModel)]="this.textService.fontSize" (selectionChange)="this.textService.update()">
-                                    <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize">
-                                        {{ fontSize }}
-                                    </mat-option>
+                                    <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize">{{ fontSize }}</mat-option>
                                 </mat-select>
-                                <div></div><br>
-                                <mat-hint>Choose font Size</mat-hint>
-                                <div></div><br>
-                                <div>
-                                    <mat-checkbox (click)="this.textService.toggleBold()">Bold</mat-checkbox>
-                                    <mat-checkbox (click)="this.textService.toggleItalic()">Italic</mat-checkbox>
-                                </div> <br>
 
                                 <div>
-                                    <mat-radio-group>
-                                            <mat-radio-button value="start" (change)="this.textService.setAlign('start')" checked>
-                                                Left </mat-radio-button><br>
-                                            <mat-radio-button value="middle" (change)="this.textService.setAlign('middle')">
-                                                Center </mat-radio-button><br>
-                                            <mat-radio-button value="end" (change)="this.textService.setAlign('end')">
-                                                Right </mat-radio-button><br>
-                                    </mat-radio-group>
+                                    <button mat-button (click)="this.textService.toggleBold()"><mat-icon>format_bold</mat-icon></button>
+                                    <button mat-button (click)="this.textService.toggleItalic()"><mat-icon>format_italic</mat-icon></button>
+                                </div>
+
+                                <div>
+                                    <button mat-button  value="start" (click)="this.textService.setAlign('start')"><mat-icon>format_align_left</mat-icon></button>
+                                    <button mat-button  value="middle" (click)="this.textService.setAlign('middle')"><mat-icon>format_align_center</mat-icon></button>
+                                    <button mat-button  value="end" (click)="this.textService.setAlign('end')"><mat-icon>format_align_right</mat-icon></button>
                                 </div>
 
 

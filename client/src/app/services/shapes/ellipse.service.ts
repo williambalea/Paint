@@ -2,9 +2,9 @@ import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { InputService } from '../input.service';
+import { ViewChildService } from '../view-child.service';
 import { Point } from './../../../../../common/interface/point';
 import { Shape } from './shape';
-import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',

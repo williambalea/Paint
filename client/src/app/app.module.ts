@@ -22,6 +22,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { MaterialModule } from './material/material.module';
 import { EventEmitterService } from './services/event-emitter.service';
 import { ExportModalComponent } from './export-modal/export-modal.component';
+import { DownloadModalComponent } from './download-modal/download-modal.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ExportModalComponent } from './export-modal/export-modal.component';
     GetFileModalwindowComponent,
     DisplayConfirmationComponent,
     ExportModalComponent,
+    DownloadModalComponent,
   ],
   imports: [
     BrowserModule,

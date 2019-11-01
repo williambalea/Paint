@@ -24,13 +24,17 @@ export class StampService implements Shape {
   }
 
   onMouseDown(): any {
-    this.position.x = this.inputService.getMouse().x - this.size / NB.Two;
-    this.position.y = this.inputService.getMouse().y - this.size / NB.Two;
+
     if (this.selectStampIndex !== undefined) {
       this.stamp = this.renderer.createElement('image', 'svg');
       this.draw();
       return this.stamp;
     }
+  }
+
+  onMouseMove(): void {
+    this.position.x = this.inputService.getMouse().x - this.size / NB.Two;
+    this.position.y = this.inputService.getMouse().y - this.size / NB.Two;
   }
 
   onMouseUp(): void {

@@ -22,6 +22,7 @@ import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-mo
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
 import { ExportModalComponent } from 'src/app/export-modal/export-modal.component';
+import { DownloadModalComponent } from 'src/app/download-modal/download-modal.component';
 
 @Component({
   selector: 'app-side-bar',
@@ -180,6 +181,16 @@ export class SideBarComponent implements OnInit, OnDestroy {
     this.enableKeyPress = false;
     const dialogRefGet: MatDialogRef<ExportModalComponent, any> =
       this.dialog.open(ExportModalComponent, { disableClose: true });
+    this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
+      .subscribe(() => {
+        this.enableKeyPress = true;
+      }));
+  }
+
+  localSave(): void {
+    this.enableKeyPress = false;
+    const dialogRefGet: MatDialogRef<DownloadModalComponent, any> =
+      this.dialog.open(DownloadModalComponent, { disableClose: true });
     this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
       .subscribe(() => {
         this.enableKeyPress = true;

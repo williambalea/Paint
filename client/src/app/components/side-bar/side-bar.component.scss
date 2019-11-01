@@ -30,7 +30,6 @@ p {
     overflow-x: hidden;
     flex-direction: column;
     align-items: center;
-    top: 30px;
     height: calc(100% - 230px);
     overflow-y: scroll;
     padding-left: 3px;
@@ -46,7 +45,7 @@ p {
     flex-direction: column;
     align-items: center;
     bottom: 0%;
-    height: 200px;
+    height: 250px;
     border-top: 1px solid lightgrey;
     padding-left: 3px;
 }

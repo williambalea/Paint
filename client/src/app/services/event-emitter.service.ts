@@ -11,6 +11,7 @@ export class EventEmitterService {
   appendToDrawingSpaceEmitter = new EventEmitter();
   selectEmitter = new EventEmitter();
   clearCanvasEmitter = new EventEmitter();
+  uploadEmitter = new EventEmitter();
 
   controlCEmitter = new EventEmitter();
   controlXEmitter = new EventEmitter();
@@ -71,6 +72,10 @@ export class EventEmitterService {
 
   assignSelectedTool(): void {
     this.assignSelectorToolEmitter.emit();
+  }
+
+  upload(): void {
+    this.uploadEmitter.emit();
   }
 
 }

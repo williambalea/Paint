@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
+import { DownloadModalComponent } from 'src/app/download-modal/download-modal.component';
+import { ExportModalComponent } from 'src/app/export-modal/export-modal.component';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
@@ -13,10 +15,14 @@ import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService } from 'src/app/services/shapes/line.service';
 import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
+import { PencilService } from 'src/app/services/shapes/pencil.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
+import { TextService } from 'src/app/services/shapes/text.service';
+import { UndoRedoService } from 'src/app/services/undo-redo.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
+import { UploadModalComponent } from 'src/app/upload-modal/upload-modal.component';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
 import { Shape } from '../../services/shapes/shape';
 import { EntryPointComponent } from '../entry-point/entry-point.component';
@@ -31,7 +37,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   providers: [
     RectangleService,
     BrushService,
-    PenService,
+    PencilService,
     EllipseService,
     PolygonService,
     StampService,
@@ -40,8 +46,11 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     IncludingBoxService,
     LineService,
     NoShapeService,
+    UndoRedoService,
+    TextService,
     EraserService,
     ClipboardService,
+    PenService,
   ],
 
 })
@@ -60,10 +69,12 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
               private unsubscribeService: UnsubscribeService,
               private stampService: StampService,
               private penService: PenService,
+              private pencilService: PencilService,
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
               private noShapeService: NoShapeService,
+              private undoRedoService: UndoRedoService,
               private eventEmitterService: EventEmitterService) {
     this.enableKeyPress = false;
     this.selectedShape = this.noShapeService;
@@ -118,9 +129,9 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedShape = this.brushService;
         this.selectedTool = TOOL.brush;
         break;
-      case TOOL.pen:
-        this.selectedShape = this.penService;
-        this.selectedTool = TOOL.pen;
+      case TOOL.pencil:
+        this.selectedShape = this.pencilService;
+        this.selectedTool = TOOL.pencil;
         break;
       case TOOL.colorApplicator:
         this.selectedShape = this.noShapeService;
@@ -129,6 +140,10 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
       case TOOL.stamp:
         this.selectedShape = this.stampService;
         this.selectedTool = TOOL.stamp;
+        break;
+      case TOOL.pen:
+        this.selectedShape = this.penService;
+        this.selectedTool = TOOL.pen;
         break;
       case TOOL.grid:
         this.selectedShape = this.noShapeService;
@@ -149,6 +164,10 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
       case TOOL.line:
         this.selectedShape = this.lineService;
         this.selectedTool = TOOL.line;
+        break;
+      case TOOL.text:
+        this.selectedShape = this.noShapeService;
+        this.selectedTool = TOOL.text;
         break;
       case TOOL.eraser:
         this.selectedTool = TOOL.eraser;
@@ -193,9 +212,36 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
       }));
   }
 
+  export(): void {
+    this.enableKeyPress = false;
+    const dialogRefGet: MatDialogRef<ExportModalComponent, any> =
+      this.dialog.open(ExportModalComponent, { disableClose: true });
+    this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
+      .subscribe(() => {
+        this.enableKeyPress = true;
+      }));
+  }
+
+  upload(): void {
+    this.enableKeyPress = false;
+    const dialogRefGet: MatDialogRef<UploadModalComponent, any> =
+      this.dialog.open(UploadModalComponent, { disableClose: true });
+    console.log(dialogRefGet);
+  }
+
+  localSave(): void {
+    this.enableKeyPress = false;
+    const dialogRefGet: MatDialogRef<DownloadModalComponent, any> =
+      this.dialog.open(DownloadModalComponent, { disableClose: true });
+    this.unsubscribeService.subscriptons.push(dialogRefGet.afterClosed()
+      .subscribe(() => {
+        this.enableKeyPress = true;
+      }));
+  }
+
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.enableKeyPress) {
+    if (this.enableKeyPress && this.selectedTool !== TOOL.text) {
       switch (event.key) {
         case KEY.o:
           event.preventDefault();
@@ -221,9 +267,6 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
         case KEY.r:
           this.selectedTool = TOOL.colorApplicator;
           break;
-        case KEY.g:
-          this.selectedTool = TOOL.grid;
-          break;
         case KEY.two:
           this.selectTool(TOOL.ellipse);
           break;
@@ -232,6 +275,16 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
           break;
         case KEY.s:
           this.selectTool(TOOL.selector);
+          break;
+        case KEY.z:
+          if (event.ctrlKey && this.undoRedoService.actions.length > 0) {
+            this.undoRedoService.undo();
+          }
+          break;
+        case KEY.Z:
+          if (event.ctrlKey && this.undoRedoService.poppedActions.length > 0) {
+            this.undoRedoService.redo();
+          }
           break;
         default:
       }

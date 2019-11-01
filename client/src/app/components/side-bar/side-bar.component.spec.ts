@@ -189,11 +189,11 @@ describe('SideBarComponent', () => {
     expect(component.selectedTool).toEqual(TOOL.brush);
   });
 
-  it('should select pen tool when pressing \'c\' on keyboard', () => {
+  it('should select pencil tool when pressing \'c\' on keyboard', () => {
     component.enableKeyPress = true;
     const pressingC = new KeyboardEvent('keydown', {key: KEY.c});
     component.onKeyDown(pressingC);
-    expect(component.selectedTool).toEqual(TOOL.pen);
+    expect(component.selectedTool).toEqual(TOOL.pencil);
   });
 
   it('should select colorApplicator tool when pressing \'r\' on keyboard', () => {

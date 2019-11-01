@@ -1,28 +1,32 @@
-<div id="toolTitle"><p>Tools</p></div>
+
     <div class="toolScroll">
             <button matTooltip="Rectangle" mat-button (click)="selectTool('rectangle')" [class.selected]="this.selectedTool === 'rectangle'"><mat-icon>crop_square</mat-icon></button>
             <button matTooltip="Ellipse" mat-button (click)="selectTool('ellipse')" [class.selected]="this.selectedTool === 'ellipse'"><mat-icon>panorama_fish_eye</mat-icon></button>
             <button matTooltip="Polygon" mat-button (click)="selectTool('polygon')"  class ="polygon_icon"><mat-icon>layers</mat-icon></button>
             <button matTooltip="Stamp" mat-button (click)="selectTool('stamp')" [class.selected]="this.selectedTool === 'stamp'"><mat-icon>mood</mat-icon></button>
             <button matTooltip="Brush" mat-button (click)="selectTool('brush')" [class.selected]="this.selectedTool === 'brush'"><mat-icon>brush</mat-icon></button>
+            <button matTooltip="Pencil" mat-button (click)="selectTool('pencil')" [class.selected]="this.selectedTool === 'pencil'"><img width='25' height='25' src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Black_pencil.svg"></button>
             <button matTooltip="Pen" mat-button (click)="selectTool('pen')" [class.selected]="this.selectedTool === 'pen'"><mat-icon>create</mat-icon></button>
-            <button  matTooltip="Line" mat-button (click)="selectTool('line')" [class.selected]="this.selectedTool === 'line'"><mat-icon>line_style</mat-icon></button>
+            <button matTooltip="Line" mat-button (click)="selectTool('line')" [class.selected]="this.selectedTool === 'line'"><mat-icon>line_style</mat-icon></button>
             <button matTooltip="Grid" mat-button (click)="selectTool('grid')" [class.selected]="this.selectedTool === 'grid'"><mat-icon>grid_on</mat-icon></button>
+            <button matTooltip="Text" mat-button (click)="selectTool('text')" [class.selected]="this.selectedTool === 'text'"><mat-icon>text_fields</mat-icon></button>
             <button matTooltip="Eraser" mat-button (click)="selectTool('eraser')" [class.selected]="this.selectedTool === 'eraser'"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="2em" height="2em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M16.24 3.56l4.95 4.94c.78.79.78 2.05 0 2.84L12 20.53a4.008 4.008 0 0 1-5.66 0L2.81 17c-.78-.79-.78-2.05 0-2.84l10.6-10.6c.79-.78 2.05-.78 2.83 0M4.22 15.58l3.54 3.53c.78.79 2.04.79 2.83 0l3.53-3.53l-4.95-4.95l-4.95 4.95z" fill="#626262"/></svg></button>
             <button matTooltip="Color Applicator" mat-button (click)="selectTool('colorApplicator')" [class.selected]="this.selectedTool === 'colorApplicator'"><img src="https://image.flaticon.com/icons/svg/1497/1497452.svg" width="30" height="30"></button>
             <button matTooltip="Color Pipette" mat-button (click)="selectTool('pipette')" [class.selected]="this.selectedTool === 'pipette'"><mat-icon>colorize</mat-icon></button>
             <button matTooltip="Selector" mat-button (click)="selectTool('selector')" [class.selected]="this.selectedTool === 'selector'"><mat-icon>crop_free</mat-icon></button>
 </div>
 <div class="toolFixed">
-        <button matTooltip="Load Drawing" mat-button (click)="accessServer()" class ="save_icon"><mat-icon>cloud_download</mat-icon></button>
+        <button matTooltip="Load Drawing from local" mat-button (click)="upload()" class ="save_icon"><mat-icon>folder_open</mat-icon></button>
+        <button matTooltip="Load Drawing from server" mat-button (click)="accessServer()" class ="save_icon"><mat-icon>cloud_download</mat-icon></button>
         <button matTooltip="Save Drawing" mat-button (click)="saveOnServer()" class ="new_file_icon"><mat-icon>save</mat-icon></button>
         <button matTooltip="New File" mat-button (click)="createNewFile()" class ="bottom"><mat-icon>add</mat-icon></button>
+        <button matTooltip="Export Drawing" mat-button (click)="export()" class ="export_icon"><mat-icon>filter</mat-icon></button>
+        <button matTooltip="Local Save Drawing" mat-button (click)="localSave()" class ="save_alt"><mat-icon>save_alt</mat-icon></button>
         <button matTooltip="Help" mat-button class="bottom"><mat-icon><a href="assets/userGuide.pdf" target="_blank">help_outline</a></mat-icon></button>
 </div>
-       
+
 
 
 <app-attribute-bar [selectedTool]="selectedTool"></app-attribute-bar>
 <app-drawing-space [selectedTool]="selectedTool"
                    [selectedShape]="selectedShape"></app-drawing-space>
-                   

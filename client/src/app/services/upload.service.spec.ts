@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PenService } from './pen.service';
+import { UploadService } from './upload.service';
 
-describe('PenService', () => {
+describe('UploadService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: PenService = TestBed.get(PenService);
+    const service: UploadService = TestBed.get(UploadService);
     expect(service).toBeTruthy();
   });
 });

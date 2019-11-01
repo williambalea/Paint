@@ -26,7 +26,7 @@
                         <rect *ngIf="this.rectangleService.strokeEnable && this.rectangleService.fillEnable" x="50"
                             y="25" width="100" height="50" [style.fill]="this.colorService.getFillColor()"
                             [style.stroke]="this.colorService.getStrokeColor()"
-                            [style.stroke-width]="this.rectangleService.strokeWidth" />                   
+                            [style.stroke-width]="this.rectangleService.strokeWidth" />
 
                         <rect *ngIf="!this.rectangleService.strokeEnable && this.rectangleService.fillEnable"
                             id="rectangleNoStroke" x="50" y="25" width="100" height="50"
@@ -43,7 +43,7 @@
                 <div class="attribute">
                     <div class="attributeHeader">Type</div>
                     <div>
-                        
+
                         <mat-radio-group>
                             <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
                             </mat-radio-button><br>
@@ -69,11 +69,11 @@
             </div>
         </div>
 
-            <div class="singleAttribute">
-        <div *ngSwitchCase="tool.ellipse">
+        <div class="singleAttribute">
+            <div *ngSwitchCase="tool.ellipse">
 
-            <div class="header">Ellipse</div>
-    
+                <div class="header">Ellipse</div>
+
                 <div>
                     <div class="svg">
                         <svg width="200" height="100">
@@ -81,36 +81,37 @@
                                 cy="50" rx="75" ry="40" [style.fill]="this.colorService.getFillColor()"
                                 [style.stroke]="this.colorService.getStrokeColor()"
                                 [style.stroke-width]="this.ellipseService.strokeWidth" />
-    
+
                             <ellipse *ngIf="!this.ellipseService.strokeEnable && this.ellipseService.fillEnable"
                                 id="rectangleNoStroke" cx="100" cy="50" rx="75" ry="40"
                                 [style.fill]="this.colorService.getFillColor()"
                                 [style.stroke-width]="this.ellipseService.strokeWidth" />
-    
+
                             <ellipse *ngIf="this.ellipseService.strokeEnable && !this.ellipseService.fillEnable"
                                 id="rectangleNoFill" cx="100" cy="50" rx="75" ry="40"
                                 [style.stroke]="this.colorService.getStrokeColor()"
                                 [style.stroke-width]="this.ellipseService.strokeWidth" />
                         </svg>
                     </div>
-    
+
                     <div class="attribute">
-    
+
                         <div class="attributeHeader">Type</div>
-    
+
                         <div>
                             <mat-radio-group>
                                 <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
                                 </mat-radio-button><br>
                                 <mat-radio-button value="Filled" (change)="radioChangeHandler($event)">Filled
                                 </mat-radio-button><br>
-                                <mat-radio-button value="Bordered & Filled" (change)="radioChangeHandler($event)" checked>
+                                <mat-radio-button value="Bordered & Filled" (change)="radioChangeHandler($event)"
+                                    checked>
                                     Bordered & Filled</mat-radio-button><br>
                             </mat-radio-group>
                         </div>
-    
+
                     </div>
-    
+
                     <div class="attribute">
                         <div class="attributeHeader">
                             Border Width<br>
@@ -124,113 +125,137 @@
                 </div>
             </div>
 
-                    <div *ngSwitchCase="tool.polygon">
-            <div class="header">Polygon</div>
-            <div class="singleAttribute">
+            <div *ngSwitchCase="tool.polygon">
+                <div class="header">Polygon</div>
+                <div class="singleAttribute">
 
                     <div class="sectionHeader">
                         Stroke:
                     </div>
-    
+
                     <div>
-                        <svg width="200" height="100">
+                        <svg width="200" height="120">
                             <polygon *ngIf="this.polygonService.strokeEnable && this.polygonService.fillEnable"
-                            points="60,20 100,40 100,80 60,100 20,80 20,40"
-                            [style.fill]="this.colorService.getFillColor()"
-                            [style.stroke]="this.colorService.getStrokeColor()"
-                            [style.stroke-width]="this.polygonService.strokeWidth"/>
-    
+                                points="60,20 100,40 100,80 60,100 20,80 20,40"
+                                [style.fill]="this.colorService.getFillColor()"
+                                [style.stroke]="this.colorService.getStrokeColor()"
+                                [style.stroke-width]="this.polygonService.strokeWidth" />
+
                             <polygon *ngIf="!this.polygonService.strokeEnable && this.polygonService.fillEnable"
-                            id="rectangleNoStroke"
-                            points="60,20 100,40 100,80 60,100 20,80 20,40"
-                            [style.fill]="this.colorService.getFillColor()"
-                            [style.stroke-width]="this.polygonService.strokeWidth"/>
-    
+                                id="rectangleNoStroke" points="60,20 100,40 100,80 60,100 20,80 20,40"
+                                [style.fill]="this.colorService.getFillColor()"
+                                [style.stroke-width]="this.polygonService.strokeWidth" />
+
                             <polygon *ngIf="this.polygonService.strokeEnable && !this.polygonService.fillEnable"
-                            id="rectangleNoFill"
-                            points="60,20 100,40 100,80 60,100 20,80 20,40"
-                            [style.stroke]="this.colorService.getStrokeColor()"
-                            [style.stroke-width]="this.polygonService.strokeWidth"/>
+                                id="rectangleNoFill" points="60,20 100,40 100,80 60,100 20,80 20,40"
+                                [style.stroke]="this.colorService.getStrokeColor()"
+                                [style.stroke-width]="this.polygonService.strokeWidth" />
                         </svg>
                     </div>
-    
-                    Current Stroke Width: <b class="dynamicValue">{{this.polygonService.strokeWidth}}</b> px<br>
-                    <label>
-                        <br>
-                        <div>
-                            <input class="inputFormStyle" type="range" #slider min="1" max="25"
-                                value={{this.polygonService.strokeWidth}} [(ngModel)]="this.polygonService.strokeWidth"
-                                id="drawTool">
+
+                    <div class="attribute">
+
+                        <div class="attributeHeader">
+                            Stroke <br>
                         </div>
-                    </label>
-                </div>
-    
-    
-                
-    
-                <div class="attribute">
-    
+
+
+                        Current Stroke Width: <b class="dynamicValue">{{this.polygonService.strokeWidth}}</b> px<br>
+                        <label>
+                            <br>
+                            <div>
+                                <mat-slider class="inputFormStyle" type="range" #slider min="1" max="25"
+                                    value={{this.polygonService.strokeWidth}}
+                                    (input)="this.polygonService.strokeWidth = $event.value"
+                                    [(ngModel)]="this.polygonService.strokeWidth" id="drawTool">
+                                </mat-slider>
+                            </div>
+                        </label>
+
+                    </div>
+
+
+
+
+                    <div class="attribute">
+
                         <div class="attributeHeader">Type</div>
-    
+
                         <div>
                             <mat-radio-group>
                                 <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
                                 </mat-radio-button><br>
                                 <mat-radio-button value="Filled" (change)="radioChangeHandler($event)">Filled
                                 </mat-radio-button><br>
-                                <mat-radio-button value="Bordered & Filled" (change)="radioChangeHandler($event)" checked>
+                                <mat-radio-button value="Bordered & Filled" (change)="radioChangeHandler($event)"
+                                    checked>
                                     Bordered & Filled</mat-radio-button><br>
                             </mat-radio-group>
                         </div>
-    
+
                     </div>
 
-            
-            <div>
-                Number of Sides 
-                    <input class="inputFormStyle" type="range" #slider min="3" max="12"
-                        value={{this.polygonService.sideNumber}} [(ngModel)]="this.polygonService.sideNumber">
-                        <span>{{this.polygonService.sideNumber}}</span>
+
+                    <div class="attribute">
+                        <div class="attributeHeader"> Number of Sides </div>
+                        <div>
+                            <mat-slider class="inputFormStyle" type="range" #slider min="3" max="12"
+                                value={{this.polygonService.sideNumber}}
+                                (input)="this.polygonService.sideNumber = $event.value"
+                                [(ngModel)]="this.polygonService.sideNumber">
+                            </mat-slider>
+                            <span>{{this.polygonService.sideNumber}}</span>
+                        </div>
+                    </div>
+
                 </div>
 
+            </div>
         </div>
-
         <div *ngSwitchCase="tool.brush">
 
             <div class="header">Brush</div>
             <div class="svg">
                 <svg class="lineStyleRound" width="200" height="100" baseProfile="full" version="1.1">
                     <filter id="chalk" x="-15px" y="-15px" height="40px" width="50px">
-                        <feTurbulence type="turbulence" baseFrequency="0.08" numOctaves="2" result="turbulence"/>
-                        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="24" xChannelSelector="R" yChannelSelector="G"/>
+                        <feTurbulence type="turbulence" baseFrequency="0.08" numOctaves="2" result="turbulence" />
+                        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="24" xChannelSelector="R"
+                            yChannelSelector="G" />
                     </filter>
                     <filter id="smear" x="-15px" y="-15px" height="40px" width="50px">
-                        <feTurbulence type="fractalNoise" numOctaves="3" baseFrequency="0.25 0.4" seed="5"/>
-                        <feComposite in="SourceGraphic" operator="in" in2="result5"/>
-                        <feMorphology operator="dilate" radius="1.5" result="result3"/>
-                        <feTurbulence numOctaves="5" baseFrequency="0.03" type="fractalNoise" seed="7"/>
-                        <feDisplacementMap in="result3" xChannelSelector="R" yChannelSelector="G" scale="27" result="result4" in2="result91"/>
+                        <feTurbulence type="fractalNoise" numOctaves="3" baseFrequency="0.25 0.4" seed="5" />
+                        <feComposite in="SourceGraphic" operator="in" in2="result5" />
+                        <feMorphology operator="dilate" radius="1.5" result="result3" />
+                        <feTurbulence numOctaves="5" baseFrequency="0.03" type="fractalNoise" seed="7" />
+                        <feDisplacementMap in="result3" xChannelSelector="R" yChannelSelector="G" scale="27"
+                            result="result4" in2="result91" />
                     </filter>
 
                     <filter id="rough" x="-15px" y="-15px" height="40px" width="50px">
-                        <feTurbulence type="turbulence" baseFrequency="0.1" numOctaves="2" result="turbulence"/>
-                        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+                        <feTurbulence type="turbulence" baseFrequency="0.1" numOctaves="2" result="turbulence" />
+                        <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="8" xChannelSelector="R"
+                            yChannelSelector="G" />
                         <feGaussianBlur stdDeviation="0.8" />
                     </filter>
 
                     <filter id="smooth" x="-15px" y="-15px" height="40px" width="50px">
-                        <feGaussianBlur result="result6" stdDeviation="3.5 7.1" in="SourceGraphic"/>
-                        <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result7" in="SourceGraphic" id="feColorMatrix226"/>
-                        <feComposite operator="in" in="result6" in2="result7"/>
+                        <feGaussianBlur result="result6" stdDeviation="3.5 7.1" in="SourceGraphic" />
+                        <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 " result="result7"
+                            in="SourceGraphic" id="feColorMatrix226" />
+                        <feComposite operator="in" in="result6" in2="result7" />
                     </filter>
 
                     <filter id="bubbly" x="-15px" y="-25px" height="40px" width="50px">
-                        <feTurbulence baseFrequency="0.058 0.932" type="fractalNoise" seed="667" numOctaves="1" result="result1" stdDeviation="0.01 5.15"/>
-                        <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic" in2="result1" result="fbSourceGraphic"/>
+                        <feTurbulence baseFrequency="0.058 0.932" type="fractalNoise" seed="667" numOctaves="1"
+                            result="result1" stdDeviation="0.01 5.15" />
+                        <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic"
+                            in2="result1" result="fbSourceGraphic" />
                     </filter>
 
-                    <path d="M20 70 L50 40 L70 30 L90 35 L140 72 L150 70 L180 40" [style.stroke]="this.colorService.getFillColor()"
-                        [style.stroke-width]="this.brushService.brushStrokeWidth" [attr.filter]="this.brushService.filter" />
+                    <path d="M20 70 L50 40 L70 30 L90 35 L140 72 L150 70 L180 40"
+                        [style.stroke]="this.colorService.getFillColor()"
+                        [style.stroke-width]="this.brushService.brushStrokeWidth"
+                        [attr.filter]="this.brushService.filter" />
                 </svg>
             </div>
 
@@ -271,6 +296,117 @@
             </div>
         </div>
 
+        <div *ngSwitchCase="tool.text">
+
+            <div class="header">Text</div>
+
+            <div>
+
+                <div class="svg" style="text-align: center;">
+                    <svg class="lineStyleRound" width="200" height="100">
+                        <text *ngIf="this.textService.isBold && this.textService.isItalic" x="50%" y="50%"
+                            [attr.font-family]="this.textService.font" [attr.font-size]="this.textService.fontSize"
+                            font-style="italic" font-weight="bold" [attr.fill]="this.colorService.getFillColor()"
+                            [attr.text-anchor]="this.textService.align" stroke="none">Sample</text>
+
+                        <text *ngIf="!this.textService.isBold && this.textService.isItalic" x="50%" y="50%"
+                            [attr.font-family]="this.textService.font" [attr.font-size]="this.textService.fontSize"
+                            font-style="italic" [attr.fill]="this.colorService.getFillColor()"
+                            [attr.text-anchor]="this.textService.align" stroke="none">Sample</text>
+
+                        <text *ngIf="this.textService.isBold && !this.textService.isItalic" x="50%" y="50%"
+                            [attr.font-family]="this.textService.font" [attr.font-size]="this.textService.fontSize"
+                            font-weight="bold" [attr.fill]="this.colorService.getFillColor()"
+                            [attr.text-anchor]="this.textService.align" stroke="none">Sample</text>
+
+                        <text *ngIf="!this.textService.isBold && !this.textService.isItalic" x="50%" y="50%"
+                            [attr.font-family]="this.textService.font" [attr.font-size]="this.textService.fontSize"
+                            [attr.fill]="this.colorService.getFillColor()" [attr.text-anchor]="this.textService.align"
+                            stroke="none">Sample</text>
+                    </svg>
+                </div>
+
+                <div class="attribute">
+                    <div class="attributeHeader">
+                        <div><br>
+                            <mat-select [(ngModel)]="this.textService.font"
+                                (selectionChange)="this.textService.update()">
+                                <mat-option *ngFor="let font of fonts" [value]="font"> {{ font }}</mat-option>
+                            </mat-select>
+                            <div></div> <br>
+
+                            <mat-select [(ngModel)]="this.textService.fontSize"
+                                (selectionChange)="this.textService.update()">
+                                <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize">{{ fontSize }}
+                                </mat-option>
+                            </mat-select>
+                            <div></div> <br>
+
+                            <div>
+                                <button mat-button [class.selected]="this.textService.isBold"
+                                    (click)="this.textService.toggleBold()">
+                                    <mat-icon>format_bold</mat-icon>
+                                </button>
+                                <button mat-button [class.selected]="this.textService.isItalic"
+                                    (click)="this.textService.toggleItalic()">
+                                    <mat-icon>format_italic</mat-icon>
+                                </button>
+                            </div> <br>
+
+                            <div>
+                                <button mat-button value="end" [class.selected]="this.textService.align === 'end'"
+                                    (click)="this.textService.setAlign('end')">
+                                    <mat-icon>format_align_left</mat-icon>
+                                </button>
+                                <button mat-button value="middle" [class.selected]="this.textService.align === 'middle'"
+                                    (click)="this.textService.setAlign('middle')">
+                                    <mat-icon>format_align_center</mat-icon>
+                                </button>
+                                <button mat-button value="start" [class.selected]="this.textService.align === 'start'"
+                                    (click)="this.textService.setAlign('start')">
+                                    <mat-icon>format_align_right</mat-icon>
+                                </button>
+                            </div> <br>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div *ngSwitchCase="tool.pencil">
+
+            <div class="header">Pencil</div>
+
+            <div>
+
+                <div class="svg">
+                    <svg class="lineStyleRound" width="200" height="100">
+                        <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
+                            [style.stroke-width]="this.pencilService.strokeWidth" />
+                    </svg>
+                </div>
+
+                <div class="attribute">
+                    <div class="attributeHeader">
+                        Size<br>
+                        {{this.pencilService.strokeWidth}} px
+                    </div>
+
+                    <div>
+                        <mat-slider min="1" max="40" value={{this.pencilService.strokeWidth}}
+                            [(ngModel)]="this.pencilService.strokeWidth"
+                            (input)="this.pencilService.strokeWidth = $event.value">
+                        </mat-slider>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
         <div *ngSwitchCase="tool.pen">
 
             <div class="header">Pen</div>
@@ -280,20 +416,29 @@
                 <div class="svg">
                     <svg class="lineStyleRound" width="200" height="100">
                         <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="this.penService.strokeWidth" />
+                            stroke-width="20" />
                     </svg>
                 </div>
 
                 <div class="attribute">
                     <div class="attributeHeader">
-                        Size<br>
-                        {{this.penService.strokeWidth}} px
+                        Maximum Stroke<br>
+                        {{this.penService.maxStrokeWidth}} px
                     </div>
-
                     <div>
-                        <mat-slider min="1" max="40" value={{this.penService.strokeWidth}}
-                            [(ngModel)]="this.penService.strokeWidth"
-                            (input)="this.penService.strokeWidth = $event.value">
+                        <mat-slider min="1" max="40" value={{this.penService.maxStrokeWidth}}
+                            [(ngModel)]="this.penService.maxStrokeWidth"
+                            (input)="this.penService.maxStrokeWidth = $event.value">
+                        </mat-slider>
+                    </div>
+                    <div class="attributeHeader">
+                        Minimum Stroke<br>
+                        {{this.penService.minStrokeWidth}} px
+                    </div>
+                    <div>
+                        <mat-slider min="1" max="40" value={{this.penService.minStrokeWidth}}
+                            [(ngModel)]="this.penService.minStrokeWidth"
+                            (input)="this.penService.minStrokeWidth = $event.value">
                         </mat-slider>
                     </div>
                 </div>
@@ -311,16 +456,19 @@
                 <div class="svg">
                     <svg class="lineStyleRound" width="200" height="100">
 
-                      <defs>
-                        <marker id="dot" viewBox="0 0 30 30" refX="15" refY="15" markerWidth="5" markerHeight="5" stroke-width="0">
-                          <circle cx="15" cy="15" [style.r]="this.lineService.dotSize" fill="black" />
-                        </marker>
+                        <defs>
+                            <marker id="dot" viewBox="0 0 30 30" refX="15" refY="15" markerWidth="5" markerHeight="5"
+                                stroke-width="0">
+                                <circle cx="15" cy="15" [style.r]="this.lineService.dotSize" fill="black" />
+                            </marker>
 
-                      </defs>
+                        </defs>
 
                         <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
-                            [style.stroke-width]="this.lineService.strokeWidth" [style.stroke-dasharray]="this.lineService.dashArrayType" 
-                            [style.marker-start]="this.lineService.junction" [style.marker-end]="this.lineService.junction"/>
+                            [style.stroke-width]="this.lineService.strokeWidth"
+                            [style.stroke-dasharray]="this.lineService.dashArrayType"
+                            [style.marker-start]="this.lineService.junction"
+                            [style.marker-end]="this.lineService.junction" />
                     </svg>
                 </div>
 
@@ -340,52 +488,70 @@
 
                 <div class="attribute">
 
-                  <div class="attributeHeader">Line pattern</div>
-                  <div>
-                      <mat-radio-group>
-                          <mat-radio-button [value]="this.dashStyle.fullLine" (change)="lineStypeRadioChangeHandler($event)">
-                              {{this.lineStyle.full}}</mat-radio-button><br>
-                          <mat-radio-button [value]="this.dashStyle.dottedPoint" (change)="lineStypeRadioChangeHandler($event)">
-                              {{this.lineStyle.dottedPoint}}</mat-radio-button><br>
-                          <mat-radio-button [value]="this.dashStyle.dottedLine" (change)="lineStypeRadioChangeHandler($event)">
-                              {{this.lineStyle.dottedLine}}</mat-radio-button><br>
-                      </mat-radio-group>
-                  </div>
+                    <div class="attributeHeader">Line pattern</div>
+                    <div>
+                        <mat-radio-group>
+                            <mat-radio-button [value]="this.dashStyle.fullLine"
+                                (change)="lineStypeRadioChangeHandler($event)">
+                                {{this.lineStyle.full}}</mat-radio-button><br>
+                            <mat-radio-button [value]="this.dashStyle.dottedPoint"
+                                (change)="lineStypeRadioChangeHandler($event)">
+                                {{this.lineStyle.dottedPoint}}</mat-radio-button><br>
+                            <mat-radio-button [value]="this.dashStyle.dottedLine"
+                                (change)="lineStypeRadioChangeHandler($event)">
+                                {{this.lineStyle.dottedLine}}</mat-radio-button><br>
+                        </mat-radio-group>
+                    </div>
 
-              </div>
+                </div>
 
                 <div class="attribute">
 
                     <div class="attributeHeader">Junction Type</div>
-                        <div>
-                            <mat-radio-group>
-                                <mat-radio-button [value]="this.linecorner.dot" (change)="lineJunctionChangeHandler($event)">
-                                    {{this.junctionStyle.dot}}</mat-radio-button><br>
-                                <mat-radio-button [value]="this.linecorner.angled" (change)="lineJunctionChangeHandler($event)">
-                                    {{this.junctionStyle.angled}}</mat-radio-button><br>
-                                <mat-radio-button [value]="this.linecorner.rounded" (change)="lineJunctionChangeHandler($event)">
-                                    {{this.junctionStyle.rounded}}</mat-radio-button><br>
-                            </mat-radio-group>
-                        </div>
+                    <div>
+                        <mat-radio-group>
+                            <mat-radio-button [value]="this.linecorner.dot"
+                                (change)="lineJunctionChangeHandler($event)">
+                                {{this.junctionStyle.dot}}</mat-radio-button><br>
+                            <mat-radio-button [value]="this.linecorner.angled"
+                                (change)="lineJunctionChangeHandler($event)">
+                                {{this.junctionStyle.angled}}</mat-radio-button><br>
+                            <mat-radio-button [value]="this.linecorner.rounded"
+                                (change)="lineJunctionChangeHandler($event)">
+                                {{this.junctionStyle.rounded}}</mat-radio-button><br>
+                        </mat-radio-group>
+                    </div>
 
                 </div>
+            </div>
+        </div>
 
-                <div *ngIf="this.lineService.junctionStyle == this.linecorner.dot" class="attribute" >
-                    <div class="attributeHeader">
-                        Dot Size<br>
-                        {{this.lineService.dotSize}} px
+        <div *ngSwitchCase='tool.eraser'>
+
+            <div class="header">Eraser</div>
+
+            <div class="attribute">
+
+                <div class="attributeHeader">Eraser size<br>
+
+                    <div class="svg">
+                        <svg width="200" height="100">
+                            <circle cx="97" cy="60" [style.r]="this.eraserService.eraserRadius" fill="black" />
+                        </svg>
                     </div>
-    
                     <div>
-                        <mat-slider min="1" max="15" value={{this.lineService.dotSize}}
-                            [(ngModel)]="this.lineService.dotSize"
-                            (input)="this.lineService.dotSize = $event.value">
+                        {{this.eraserService.eraserRadius}} px
+                    </div>
+                    <div>
+                        <mat-slider min="1" max="15" value={{this.eraserService.eraserRadius}}
+                            [(ngModel)]="this.eraserService.eraserRadius"
+                            (input)="this.eraserService.eraserRadius = $event.value">
                         </mat-slider>
                     </div>
+
                 </div>
 
             </div>
-
         </div>
 
         <div *ngSwitchCase="tool.colorApplicator">
@@ -398,7 +564,8 @@
 
                 <div class="svg">
                     <svg width="200" height="100">
-                        <rect x="3" y="3" width="194" height="84" rx="5" ry="5" [style.fill]="this.colorService.getFillColor()"/>
+                        <rect x="3" y="3" width="194" height="84" rx="5" ry="5"
+                            [style.fill]="this.colorService.getFillColor()" />
                     </svg>
                 </div>
 
@@ -406,77 +573,80 @@
 
             <div class="attribute">
 
-                    <div class="attributeHeader">New Border Color</div>
+                <div class="attributeHeader">New Border Color</div>
 
-                    <div class="svg">
-                        <svg width="200" height="100">
-                            <rect x="3" y="3" width="194" height="84" rx="5" ry="5" [style.fill]="this.colorService.getStrokeColor()"/>
-                        </svg>
-                    </div>
-
+                <div class="svg">
+                    <svg width="200" height="100">
+                        <rect x="3" y="3" width="194" height="84" rx="5" ry="5"
+                            [style.fill]="this.colorService.getStrokeColor()" />
+                    </svg>
                 </div>
+
+            </div>
 
         </div>
         <div *ngSwitchCase="tool.grid">
 
-            <div class="header">Grid</div>
+                <div class="header">Grid</div>
 
-            <div>
+                <div>
 
-                <div class="gridPreview">
-                    <svg width="210" height="210">
-                        <rect [attr.x] = 5 [attr.y] = 5 [attr.width]="this.gridService.gridRectangleDimension" [attr.height]="this.gridService.gridRectangleDimension" style="fill:white;stroke-width:3;stroke:red" />
-                    </svg>                    
-                </div>
+                    <div class="svgGrid">
+                        <svg width="200" height="200">
+                            <rect [attr.x]="100 - this.gridService.gridSize/2"
+                            [attr.y]="100 - this.gridService.gridSize/2" [attr.width]="this.gridService.gridSize" [attr.height]="this.gridService.gridSize" fill="none"
+                            stroke="red"
+                            stroke-width="1" />
+                        </svg>
+                    </div>
 
-                <div class="attribute">
-                    <div class="attributeHeader">
-                        Grid size<br>
-                        <div>
-                            {{this.gridService.gridSize}}
-                        </div>
-                    </div>
-                    <div class = "button">
-                        <button mat-button (click)="this.hideGrid()">Hide Grid</button>
-                    
-                       
-            <div>
-                  
-                        <input class="inputFormStyle" type="range" #slider min="40" max="200"
-                            value="40" [(ngModel)]="this.gridService.gridSize">
-                            <span>{{this.gridService.gridSize}}</span>
-                    </div>
-                    <button mat-button (click)="this.showGrid()">Apply Grid</button>
-                    </div>
-                </div>
-                <div class="attribute">
+                    <div class="attribute">
                         <div class="attributeHeader">
-                                Opacity<br>
-                                <div>
-                                        {{this.gridService.opacity}} %
-                                </div>
+                            Grid size<br>
+                            <div>
+                                {{this.gridService.gridSize}}
+                            </div>
                         </div>
-                        <div class = "button">
+                        <mat-slider class="inputFormStyle" type="range" #slider min="40" max="200" 
+                            value = {{this.gridService.gridSize}}
+                            [(ngModel)]="this.gridService.gridSize"
+                            (input) = "this.gridService.gridSize = $event.value; applyGrid(); showGrid()">
+                        </mat-slider>
+                        <div class="attributeHeader">
+                                Toggle Grid<br>
+                                <mat-slide-toggle
+                                    [checked]="usingGrid"
+                                    (change)="onGridToggle($event.checked)">
+                                </mat-slide-toggle>
+                        </div>
+                    </div>
+
+                    <div class="attribute">
+                        <div class="attributeHeader">
+                            Opacity<br>
+                            <div>
+                                {{this.gridService.opacity}} %
+                            </div>
+                        </div>
+                        <div class="button">
                             <mat-slider min="25" max="100" value={{this.gridService.opacity}}
-                                        [(ngModel)]="this.gridService.opacity"
-                                        (input)="this.gridService.opacity = $event.value">
+                                [(ngModel)]="this.gridService.opacity"
+                                (input)="this.gridService.opacity = $event.value">
                             </mat-slider>
                         </div>
+                    </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
 
         <div *ngSwitchCase="tool.stamp">
             <div class="header">Stamp</div>
             <div class="svg">
                 <svg width="200" height="100">
-                    <image [attr.xlink:href]="stampService.selectedStamp"
-                           [attr.x]="100 - stampService.size / 2"
-                           [attr.y]="50 - stampService.size / 2"
-                           [attr.height]="stampService.size"
-                           [attr.width]="stampService.size"
-                           [attr.transform]="'rotate(' + inputService.stampAngle + ' 100 50)'" />
+                    <image [attr.xlink:href]="stampService.selectedStamp" [attr.x]="100 - stampService.size / 2"
+                        [attr.y]="50 - stampService.size / 2" [attr.height]="stampService.size"
+                        [attr.width]="stampService.size"
+                        [attr.transform]="'rotate(' + inputService.stampAngle + ' 100 50)'" />
                 </svg>
             </div>
             <div class="attribute">
@@ -494,8 +664,7 @@
                 </div>
 
                 <div>
-                    <mat-slider min="1" max="100" value={{stampService.size}}
-                        [(ngModel)]="stampService.size"
+                    <mat-slider min="1" max="100" value={{stampService.size}} [(ngModel)]="stampService.size"
                         (input)="stampService.size = $event.value">
                     </mat-slider>
                 </div>
@@ -508,8 +677,7 @@
 
                 <div>
                     <mat-slider min="0" max="360" value={{inputService.stampAngle}}
-                        [(ngModel)]="inputService.stampAngle"
-                        (input)="inputService.stampAngle = $event.value">
+                        [(ngModel)]="inputService.stampAngle" (input)="inputService.stampAngle = $event.value">
                     </mat-slider>
                 </div>
             </div>
@@ -521,5 +689,5 @@
         <app-color-picker></app-color-picker>
 
     </div>
-    
+
 </div>

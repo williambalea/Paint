@@ -1,8 +1,12 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SaveFileModalwindowComponent } from 'src/app/components/save-file-modalwindow/save-file-modalwindow.component';
+import { DownloadModalComponent } from 'src/app/download-modal/download-modal.component';
+import { ExportModalComponent } from 'src/app/export-modal/export-modal.component';
+import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
+import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
@@ -10,9 +14,11 @@ import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService } from 'src/app/services/shapes/line.service';
 import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
+import { PencilService } from 'src/app/services/shapes/pencil.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
+import { TextService } from 'src/app/services/shapes/text.service';
 import { UndoRedoService } from 'src/app/services/undo-redo.service';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { HIDE_DIALOG, KEY, TOOL } from '../../../constants';
@@ -21,8 +27,6 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
-import { ExportModalComponent } from 'src/app/export-modal/export-modal.component';
-import { DownloadModalComponent } from 'src/app/download-modal/download-modal.component';
 
 @Component({
   selector: 'app-side-bar',
@@ -31,7 +35,7 @@ import { DownloadModalComponent } from 'src/app/download-modal/download-modal.co
   providers: [
     RectangleService,
     BrushService,
-    PenService,
+    PencilService,
     EllipseService,
     PolygonService,
     StampService,
@@ -41,6 +45,10 @@ import { DownloadModalComponent } from 'src/app/download-modal/download-modal.co
     LineService,
     NoShapeService,
     UndoRedoService,
+    TextService,
+    EraserService,
+    ClipboardService,
+    PenService,
   ],
 
 })
@@ -59,6 +67,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private unsubscribeService: UnsubscribeService,
               private stampService: StampService,
               private penService: PenService,
+              private pencilService: PencilService,
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
@@ -106,9 +115,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedShape = this.brushService;
         this.selectedTool = TOOL.brush;
         break;
-      case TOOL.pen:
-        this.selectedShape = this.penService;
-        this.selectedTool = TOOL.pen;
+      case TOOL.pencil:
+        this.selectedShape = this.pencilService;
+        this.selectedTool = TOOL.pencil;
         break;
       case TOOL.colorApplicator:
         this.selectedShape = this.noShapeService;
@@ -117,6 +126,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
       case TOOL.stamp:
         this.selectedShape = this.stampService;
         this.selectedTool = TOOL.stamp;
+        break;
+      case TOOL.pen:
+        this.selectedShape = this.penService;
+        this.selectedTool = TOOL.pen;
         break;
       case TOOL.grid:
         this.selectedShape = this.noShapeService;
@@ -137,6 +150,18 @@ export class SideBarComponent implements OnInit, OnDestroy {
       case TOOL.line:
         this.selectedShape = this.lineService;
         this.selectedTool = TOOL.line;
+        break;
+      case TOOL.text:
+        this.selectedShape = this.noShapeService;
+        this.selectedTool = TOOL.text;
+        break;
+      case TOOL.eraser:
+        this.selectedTool = TOOL.eraser;
+        this.selectedShape = this.noShapeService;
+        break;
+      case TOOL.clipboard:
+        this.selectedTool = TOOL.clipboard;
+        this.selectedShape = this.noShapeService;
         break;
       default:
     }
@@ -199,7 +224,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.enableKeyPress) {
+    if (this.enableKeyPress && this.selectedTool !== TOOL.text) {
       switch (event.key) {
         case KEY.o:
           event.preventDefault();
@@ -212,7 +237,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
           this.selectTool(TOOL.brush);
           break;
         case KEY.c:
-          this.selectTool(TOOL.pen);
+          this.selectTool(TOOL.pencil);
           break;
         case KEY.l:
           this.selectTool(TOOL.line);
@@ -222,9 +247,6 @@ export class SideBarComponent implements OnInit, OnDestroy {
           break;
         case KEY.r:
           this.selectedTool = TOOL.colorApplicator;
-          break;
-        case KEY.g:
-          this.selectedTool = TOOL.grid;
           break;
         case KEY.two:
           this.selectTool(TOOL.ellipse);

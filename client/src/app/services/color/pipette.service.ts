@@ -1,5 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { NB, STRINGS, SVGinnerWidth } from 'src/constants';
+import { NB, STRINGS } from 'src/constants';
+import { InputService } from '../input.service';
 import { ScreenshotService } from '../shapes/screenshot.service';
 import { ColorService } from './color.service';
 
@@ -9,6 +10,7 @@ import { ColorService } from './color.service';
 export class PipetteService {
 
   constructor(private colorService: ColorService,
+              private inputService: InputService,
               private screenshotService: ScreenshotService) { }
 
   private setUserColors(event: MouseEvent, data: Uint8ClampedArray): void {
@@ -30,7 +32,7 @@ export class PipetteService {
     image.onload = () => {
       (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, NB.Zero, NB.Zero, width, height);
       const data: Uint8ClampedArray = (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).
-        getImageData(event.clientX - SVGinnerWidth, event.clientY - NB.Five, NB.One, NB.One).data;
+        getImageData(this.inputService.getMouse().x, this.inputService.getMouse().y, NB.One, NB.One).data;
       this.setUserColors(event, data);
     };
   }

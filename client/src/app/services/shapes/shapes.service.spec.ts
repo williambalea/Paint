@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Pen } from 'src/Classes/Shapes/pen';
+import { Pencil } from 'src/Classes/Shapes/pencil';
 import { Rectangle } from 'src/Classes/Shapes/rectangle';
 import { COLORS, TOOL } from 'src/constants';
 import { Brush } from './../../../Classes/Shapes/brush';
@@ -23,16 +23,16 @@ describe('ShapesService', () => {
     expect(service.shapes[0]).toEqual(jasmine.any(Brush));
   });
 
-  it('Should draw Pen', () => {
-    service.drawPen();
+  it('Should draw Pencil', () => {
+    service.drawPencil();
     expect(service.shapes.length).toEqual(1);
-    expect(service.shapes[0]).toEqual(jasmine.any(Pen));
+    expect(service.shapes[0]).toEqual(jasmine.any(Pencil));
   });
 
   it('Should clear all shapes', () => {
     service.clearShapes();
     expect(service.shapes.length).toEqual(0);
-    service.drawPen();
+    service.drawPencil();
     expect(service.shapes.length).toEqual(1);
     service.clearShapes();
     expect(service.shapes.length).toEqual(0);

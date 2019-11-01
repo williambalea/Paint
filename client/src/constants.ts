@@ -87,13 +87,25 @@ export enum KEY {
   one = '1',
   two = '2',
   three = '3',
+  enter = 'Enter',
+  plus = '+',
+  minus = '-',
+  control = 'ctrlKey',
+}
+
+export const FONTS = ['Arial', 'Roboto', 'Times New Roman', 'Courier New', 'Georgia', 'Palatino', 'Comic Sans MS', 'Impact'];
+export const FONTSIZES = [8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72];
+export enum FONTALIGN {
+  left = 'Left',
+  center = 'Center',
+  right = 'Right',
 }
 
 export enum TOOL {
   rectangle = 'rectangle',
   brush = 'brush',
   pipette = 'pipette',
-  pen = 'pen',
+  pencil = 'pencil',
   colorApplicator = 'colorApplicator',
   stamp = 'stamp',
   grid = 'grid',
@@ -101,6 +113,10 @@ export enum TOOL {
   ellipse = 'ellipse',
   selector = 'selector',
   line = 'line',
+  text = 'text',
+  eraser = 'eraser',
+  pen = 'pen',
+  clipboard = 'clipboard',
 }
 
 export enum BRUSH {
@@ -165,6 +181,8 @@ export enum STRINGS {
   cantSaveToServer = 'could not save to server',
   serverNotAvailable = 'Server not available',
   unableToGetPicture = 'unable to get picture, please choose another one',
+  bold = 'bold',
+  italic = 'italic',
 }
 
 export enum COLORS {

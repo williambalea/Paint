@@ -1,14 +1,16 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PolygonService implements Shape {
+  renderer: Renderer2;
 
   polygon: HTMLElement;
   sideNumber: number;
@@ -23,9 +25,11 @@ export class PolygonService implements Shape {
   strokeWidth: number;
   strokeEnable: boolean;
 
-  constructor(private renderer: Renderer2,
+  constructor(private rendererFactory: RendererFactory2,
               private inputService: InputService,
+              private viewChildService: ViewChildService,
               private colorService: ColorService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.strokeWidth = NB.Seven;
     this.fill = EMPTY_STRING;
     this.stroke = EMPTY_STRING;
@@ -103,14 +107,14 @@ export class PolygonService implements Shape {
     this.initialPoint = { x: NB.Zero, y: -(NB.One) };
   }
 
-  onMouseDown(): any {
+  onMouseDown(): void {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin();
     this.setPolygonType();
     this.polygon = this.renderer.createElement('polygon', 'svg');
-    return this.polygon;
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.polygon);
   }
 
   onMouseMove(): void {

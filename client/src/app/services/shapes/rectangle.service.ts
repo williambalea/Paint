@@ -1,14 +1,17 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RectangleService implements Shape {
+  renderer: Renderer2;
+
   x: number;
   y: number;
   width: number;
@@ -27,8 +30,10 @@ export class RectangleService implements Shape {
   rectangle: HTMLElement;
 
   constructor(private colorService: ColorService,
-              private renderer: Renderer2,
+              private rendererFactory: RendererFactory2,
+              private viewChildService: ViewChildService,
               private inputService: InputService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.reset();
     this.strokeWidth = NB.Seven;
     this.fill = EMPTY_STRING;
@@ -55,7 +60,7 @@ export class RectangleService implements Shape {
     this.rectangle = this.renderer.createElement('rect', 'svg');
     this.setStyle();
     this.setRectangleType();
-    return this.rectangle;
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.rectangle);
   }
 
   setStyle() {

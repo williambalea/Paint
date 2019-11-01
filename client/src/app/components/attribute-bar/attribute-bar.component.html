@@ -366,16 +366,16 @@
                             </div> <br>
 
                             <div>
-                                <button mat-button value="end" [class.selected]="this.textService.align === 'end'"
-                                    (click)="this.textService.setAlign('end')">
+                                <button mat-button value="start" [class.selected]="this.textService.align === 'start'"
+                                    (click)="this.textService.setAlign('start')">
                                     <mat-icon>format_align_left</mat-icon>
                                 </button>
                                 <button mat-button value="middle" [class.selected]="this.textService.align === 'middle'"
                                     (click)="this.textService.setAlign('middle')">
                                     <mat-icon>format_align_center</mat-icon>
                                 </button>
-                                <button mat-button value="start" [class.selected]="this.textService.align === 'start'"
-                                    (click)="this.textService.setAlign('start')">
+                                <button mat-button value="end" [class.selected]="this.textService.align === 'end'"
+                                    (click)="this.textService.setAlign('end')">
                                     <mat-icon>format_align_right</mat-icon>
                                 </button>
                             </div> <br>
@@ -503,7 +503,7 @@
                     <div class="attributeHeader">Line pattern</div>
                     <div>
                         <mat-radio-group>
-                            <mat-radio-button [value]="this.dashStyle.fullLine"
+                            <mat-radio-button [value]="this.dashStyle.fullLine" checked
                                 (change)="lineStypeRadioChangeHandler($event)">
                                 {{this.lineStyle.full}}</mat-radio-button><br>
                             <mat-radio-button [value]="this.dashStyle.dottedPoint"
@@ -525,7 +525,7 @@
                             <mat-radio-button [value]="this.linecorner.dot"
                                 (change)="lineJunctionChangeHandler($event)">
                                 {{this.junctionStyle.dot}}</mat-radio-button><br>
-                            <mat-radio-button [value]="this.linecorner.angled"
+                            <mat-radio-button [value]="this.linecorner.angled" checked
                                 (change)="lineJunctionChangeHandler($event)">
                                 {{this.junctionStyle.angled}}</mat-radio-button><br>
                             <mat-radio-button [value]="this.linecorner.rounded"

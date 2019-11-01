@@ -199,15 +199,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onLeftClick(event: Event): void {
+    this.undoRedoService.poppedActions = [];
     if (this.notCanvasAndColorApplicator(event)) {
       const changeFill: UndoRedoAction = {
         action : ACTIONS.changeColor,
         shape : (event.target as SVGGraphicsElement),
         oldColor : (event.target as SVGGraphicsElement).getAttribute('fill') as string,
       };
-      if (this.undoRedoService.undoIsStarted) {
-        this.undoRedoService.poppedActions = [];
-      }
       this.changeFillColor(event.target as HTMLElement);
       this.undoRedoService.addAction(changeFill);
       // this.undoRedoService.color= (event.target as SVGGraphicsElement).getAttribute('fill') as string;

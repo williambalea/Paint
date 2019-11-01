@@ -1,14 +1,16 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { ColorService } from 'src/app/services/color/color.service';
 import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { InputService } from '../input.service';
 import { Point } from './../../../../../common/interface/point';
 import { Shape } from './shape';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EllipseService implements Shape {
+  renderer: Renderer2;
 
   x: number;
   y: number;
@@ -28,8 +30,10 @@ export class EllipseService implements Shape {
   ellipse: HTMLElement;
 
   constructor(private colorService: ColorService,
-              private renderer: Renderer2,
+              private rendererFactory: RendererFactory2,
+              private viewChildService: ViewChildService,
               private inputService: InputService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.reset();
     this.strokeWidth = NB.Seven;
     this.fill = EMPTY_STRING;
@@ -49,14 +53,14 @@ export class EllipseService implements Shape {
     this.active = false;
   }
 
-  onMouseDown(): HTMLElement {
+  onMouseDown(): void {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin(this.inputService.getMouse());
     this.setEllipseBorderType();
     this.ellipse = this.renderer.createElement('ellipse', 'svg');
-    return this.ellipse;
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.ellipse);
   }
 
   onMouseMove(): void {

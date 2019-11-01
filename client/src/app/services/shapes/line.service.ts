@@ -126,7 +126,7 @@ export class LineService implements Shape {
     if (this.inputService.escapePressed) {
       this.reset();
     }
-    if (this.doubleClick === true) {
+    if (this.doubleClick) {
       this.renderer.setAttribute(this.path, 'd', this.linepath);
       this.reset();
     }

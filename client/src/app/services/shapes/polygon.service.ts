@@ -115,7 +115,7 @@ export class PolygonService implements Shape {
     this.renderer.setStyle(this.polygon, 'stroke-width', this.strokeWidth.toString());
   }
 
-  onMouseDown(): void {
+  onMouseDown(): any {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
@@ -123,6 +123,7 @@ export class PolygonService implements Shape {
     this.setPolygonType();
     this.polygon = this.renderer.createElement('polygon', 'svg');
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.polygon);
+    return this.polygon;
   }
 
   onMouseMove(): void {

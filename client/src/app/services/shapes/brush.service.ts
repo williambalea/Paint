@@ -29,13 +29,14 @@ export class BrushService implements Shape {
     this.reset();
   }
 
-  onMouseDown(): void {
+  onMouseDown(): any {
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
     this.path = this.renderer.createElement('path', 'svg');
     this.linepath += `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_BRUSH}`;
     this.draw();
     this.active = true;
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.path);
+    return this.path;
   }
   onMouseMove(): void {
     if (this.active) {

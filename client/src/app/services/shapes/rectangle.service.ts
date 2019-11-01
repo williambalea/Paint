@@ -61,6 +61,7 @@ export class RectangleService implements Shape {
     this.setStyle();
     this.setRectangleType();
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.rectangle);
+    return this.rectangle;
   }
 
   setStyle() {

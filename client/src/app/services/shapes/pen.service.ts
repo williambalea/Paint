@@ -62,6 +62,7 @@ export class PenService implements Shape {
     this.canvas = this.viewChildService.canvas;
     this.active = true;
     this.createPenGroup();
+    return this.path;
   }
 
   createPath(): void {

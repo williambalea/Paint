@@ -33,7 +33,7 @@ export class PencilService implements Shape {
     this.active = false;
   }
 
-  onMouseDown(): void {
+  onMouseDown(): any {
     this.active = true;
     this.stroke = this.colorService.getFillColor();
     this.path = this.renderer.createElement('path', 'svg');
@@ -41,6 +41,7 @@ export class PencilService implements Shape {
     this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.path);
+    return this.path;
   }
 
   setStylePath(): void {

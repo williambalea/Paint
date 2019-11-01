@@ -53,7 +53,7 @@ export class EllipseService implements Shape {
     this.active = false;
   }
 
-  onMouseDown(): void {
+  onMouseDown(): any {
     this.active = true;
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
@@ -61,6 +61,7 @@ export class EllipseService implements Shape {
     this.setEllipseBorderType();
     this.ellipse = this.renderer.createElement('ellipse', 'svg');
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.ellipse);
+    return this.ellipse;
   }
 
   onMouseMove(): void {

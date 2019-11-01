@@ -4,6 +4,7 @@ import * as svgIntersections from 'svg-intersections';
 import { InputService } from '../input.service';
 import { RectangleService } from '../shapes/rectangle.service';
 import { Shape } from '../shapes/shape';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class SelectorService implements Shape {
 
   constructor(private rectangleService: RectangleService,
               private renderer: Renderer2,
+              private viewChildService: ViewChildService,
               private inputService: InputService) {
     this.active = false;
     this.selectedShapes = [];
@@ -51,6 +53,8 @@ export class SelectorService implements Shape {
 
   onMouseUp(): void {
     this.selectorIsSingle = true;
+    this.rectangleService.onMouseUp();
+    this.renderer.removeChild(this.viewChildService.canvas.nativeElement, this.rectangle);
   }
 
   returnRect(child: SVGGraphicsElement): any {
@@ -125,6 +129,7 @@ export class SelectorService implements Shape {
         this.validateIntersection(canvas.nativeElement.children[i]);
       }
     }
+    console.log(this.selectedShapes);
   }
 
   setCurrentShape(value: SVGGraphicsElement): any {

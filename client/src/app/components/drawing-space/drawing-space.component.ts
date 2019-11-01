@@ -43,10 +43,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   canvasWidth: number;
   canvasHeight: number;
   width: number;
-  shape: SVGSVGElement;
+  // shape: SVGSVGElement;
   selectorAreaActive: boolean;
   g: SVGGraphicsElement;
   interval;
+  shape: SVGSVGElement;
 
   constructor(private fileParameters: FileParametersServiceService,
               private colorService: ColorService,
@@ -257,7 +258,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
-      this.selectedShape.onMouseDown();
+      this.shape = this.selectedShape.onMouseDown();
       this.inputService.isBlank = false;
       this.colorService.setMakingColorChanges(false);
     }

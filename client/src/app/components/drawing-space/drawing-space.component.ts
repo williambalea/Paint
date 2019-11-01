@@ -395,9 +395,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eraserService.intersect();
     }
 
-    this.selectedShape.onMouseDown();
-    // this.shape = this.selectedShape.onMouseDown();
-    // this.draw(this.shape);
+    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
+      this.selectedShape.onMouseDown();
+      this.inputService.isBlank = false;
+      this.colorService.setMakingColorChanges(false);
+    }
+
     this.inputService.isNotEmpty = true;
     this.selectorAreaActive = true;
     if (this.selectedTool === TOOL.selector) {

@@ -1,13 +1,16 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { COLORS, EMPTY_STRING, INIT_MOVE_BRUSH, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BrushService implements Shape {
+  renderer: Renderer2;
+
   linepath: string;
   brushStrokeWidth: number;
   fillColor: string;
@@ -16,19 +19,23 @@ export class BrushService implements Shape {
   active: boolean;
   path: HTMLElement;
 
-  constructor(private renderer: Renderer2, private colorService: ColorService, private inputService: InputService) {
+  constructor(private rendererFactory: RendererFactory2,
+              private colorService: ColorService,
+              private viewChildService: ViewChildService,
+              private inputService: InputService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.brushStrokeWidth = NB.Seven;
     this.filter = `url(#smooth)`;
     this.reset();
   }
 
-  onMouseDown(): any {
+  onMouseDown(): void {
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
     this.path = this.renderer.createElement('path', 'svg');
     this.linepath += `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_BRUSH}`;
     this.draw();
     this.active = true;
-    return this.path;
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.path);
   }
   onMouseMove(): void {
     if (this.active) {

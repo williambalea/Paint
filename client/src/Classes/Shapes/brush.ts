@@ -1,7 +1,7 @@
 import { TOOL } from '../../constants';
-import { Pen } from './pen';
+import { Pencil } from './pencil';
 
-export class Brush extends Pen {
+export class Brush extends Pencil {
     filter: string;
 
     constructor(type: TOOL, path: string, stroke: string, strokeWidth: number, filter: string ) {

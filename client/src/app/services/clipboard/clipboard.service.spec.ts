@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PenService } from './pen.service';
+import { ClipboardService } from './clipboard.service';
 
-describe('PenService', () => {
+describe('ClipboardService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: PenService = TestBed.get(PenService);
+    const service: ClipboardService = TestBed.get(ClipboardService);
     expect(service).toBeTruthy();
   });
 });

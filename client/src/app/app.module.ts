@@ -19,9 +19,10 @@ import { GetFileModalwindowComponent } from './components/get-file-modalwindow/g
 import { NewFileModalwindowComponent } from './components/new-file-modalwindow/new-file-modalwindow.component';
 import { SaveFileModalwindowComponent } from './components/save-file-modalwindow/save-file-modalwindow.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { DownloadModalComponent } from './download-modal/download-modal.component';
+import { ExportModalComponent } from './export-modal/export-modal.component';
 import { MaterialModule } from './material/material.module';
 import { EventEmitterService } from './services/event-emitter.service';
-import { ExportModalComponent } from './export-modal/export-modal.component';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @NgModule({
@@ -40,6 +41,7 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     DisplayConfirmationComponent,
     ExportModalComponent,
     UploadModalComponent,
+    DownloadModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,8 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     GetFileModalwindowComponent,
     DisplayConfirmationComponent,
     ExportModalComponent,
-    UploadModalComponent
+    UploadModalComponent,
+    DownloadModalComponent,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

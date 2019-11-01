@@ -24,6 +24,7 @@ export class StampService implements Shape {
   }
 
   onMouseDown(): any {
+
     if (this.selectStampIndex !== undefined) {
       this.stamp = this.renderer.createElement('image', 'svg');
       this.draw();

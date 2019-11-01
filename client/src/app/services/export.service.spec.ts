@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PenService } from './pen.service';
+import { ExportService } from './export.service';
 
-describe('PenService', () => {
+describe('ExportService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: PenService = TestBed.get(PenService);
+    const service: ExportService = TestBed.get(ExportService);
     expect(service).toBeTruthy();
   });
 });

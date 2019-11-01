@@ -318,7 +318,7 @@ describe('DrawingSpaceComponent', () => {
     component.selectedTool = TOOL.brush;
     component.onMouseDown(new MouseEvent('mousedown'));
 
-    component.selectedTool = TOOL.pen;
+    component.selectedTool = TOOL.pencil;
     component.onMouseDown(new MouseEvent('mousedown'));
 
     expect(Spy).toHaveBeenCalledTimes(2);
@@ -380,8 +380,8 @@ describe('DrawingSpaceComponent', () => {
     expect(selectorService.selectedShapes.length).toEqual(1);
   });
 
-  // it('should initialize the svg path of pen', () => {
-  //   component.selectedTool = TOOL.pen;
+  // it('should initialize the svg path of pencil', () => {
+  //   component.selectedTool = TOOL.pencil;
   //   component.onMouseDown(new MouseEvent('mouseDown'));
   //   expect(shapesService.preview.path.length).toBeGreaterThan(0);
   // });
@@ -399,7 +399,7 @@ describe('DrawingSpaceComponent', () => {
     const selectorSpy = spyOn(selectorService, 'intersection');
     const includeSpy = spyOn(includingBoxService, 'update');
 
-    component.selectedTool = TOOL.pen;
+    component.selectedTool = TOOL.pencil;
     component.selectedShape = rectangleService;
     component.onMouseMove(new MouseEvent('mousemove'));
 
@@ -431,7 +431,7 @@ describe('DrawingSpaceComponent', () => {
     const includeSpy = spyOn(includingBoxService, 'update');
 
     component.selectorAreaActive = false;
-    component.selectedTool = TOOL.pen;
+    component.selectedTool = TOOL.pencil;
     component.selectedShape = rectangleService;
     component.onMouseMove(new MouseEvent('mousemove'));
 

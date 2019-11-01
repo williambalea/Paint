@@ -59,7 +59,7 @@ export class RectangleService implements Shape {
   }
 
   setStyle() {
-    this.renderer.setStyle(this.rectangle, 'fill', this.fill);
+    this.renderer.setAttribute(this.rectangle, 'fill', this.fill);
     this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
     this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
   }
@@ -87,7 +87,7 @@ export class RectangleService implements Shape {
 
   setRectangleType(): void {
     if (!this.fillEnable) {
-      this.renderer.setStyle(this.rectangle, 'fill', 'none');
+      this.renderer.setAttribute(this.rectangle, 'fill', 'none');
     }
     if (!this.strokeEnable) {
       this.renderer.setStyle(this.rectangle, 'stroke-opacity', '0');

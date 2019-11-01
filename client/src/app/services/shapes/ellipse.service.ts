@@ -120,7 +120,7 @@ export class EllipseService implements Shape {
     this.renderer.setAttribute(this.ellipse, 'cy', this.y.toString());
     this.renderer.setAttribute(this.ellipse, 'rx', this.xray.toString());
     this.renderer.setAttribute(this.ellipse, 'ry', this.yray.toString());
-    this.renderer.setStyle(this.ellipse, 'fill', this.fill);
+    this.renderer.setAttribute(this.ellipse, 'fill', this.fill);
     this.renderer.setStyle(this.ellipse, 'stroke', this.stroke);
     this.renderer.setStyle(this.ellipse, 'stroke-width', this.strokeWidth.toString());
   }

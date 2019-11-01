@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PenService } from './pen.service';
+import { UndoRedoService } from './undo-redo.service';
 
-describe('PenService', () => {
+describe('UndoRedoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: PenService = TestBed.get(PenService);
+    const service: UndoRedoService = TestBed.get(UndoRedoService);
     expect(service).toBeTruthy();
   });
 });

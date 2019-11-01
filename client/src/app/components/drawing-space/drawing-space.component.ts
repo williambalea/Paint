@@ -17,11 +17,11 @@ import { UndoRedoService } from 'src/app/services/undo-redo.service';
 import { UndoRedoAction} from 'src/app/services/undoRedoAction';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { UploadService } from 'src/app/services/upload.service';
+import { ViewChildService } from 'src/app/services/view-child.service';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { ACTIONS, EMPTY_STRING, KEY, NB, STRINGS, TOOL } from '../../../constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { Shape } from '../../services/shapes/shape';
-import { ViewChildService } from 'src/app/services/view-child.service';
 
 @Component({
   selector: 'app-drawing-space',
@@ -46,8 +46,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   shape: SVGSVGElement;
   selectorAreaActive: boolean;
   g: SVGGraphicsElement;
-  lastMouseMoveTime: number;
-  lastSpeed: number;
   interval;
 
   constructor(private fileParameters: FileParametersServiceService,
@@ -74,8 +72,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.selectorAreaActive = false;
-    this.lastMouseMoveTime = NB.Zero;
-    this.lastSpeed = NB.Zero;
   }
 
   ngOnInit(): void {
@@ -237,12 +233,57 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  @HostListener('mousedown', ['$event'])
+  onMouseDown(event: MouseEvent): void {
+    this.inputService.mouseButton = event.button;
+    this.inputService.isNotEmpty = true;
+    this.selectorAreaActive = true;
+
+    if (event.button === 0) {
+      this.selectorService.selectedShapes = [];
+    }
+    if (this.selectedTool === TOOL.pipette) {
+      event.preventDefault();
+      this.pipetteService.getColors(event, this.htmlCanvas, this.drawingBoard, this.canvasHeight, this.canvasWidth);
+    }
+
+    if (this.selectedTool === TOOL.eraser) {
+      this.eraserService.eraseMouseDown = true;
+      this.eraserService.intersect();
+    }
+
+    if (this.selectedTool === TOOL.text) {
+      this.textService.onMouseDown();
+    }
+
+    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
+      this.selectedShape.onMouseDown();
+      this.inputService.isBlank = false;
+      this.colorService.setMakingColorChanges(false);
+    }
+    if (this.selectedTool === TOOL.selector) {
+      if (this.selectorAreaActive) {
+        if (event.button === NB.Zero) {
+          if ((event.target as HTMLElement).id.includes('pen')) {
+            this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
+          } else {
+            this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
+          }
+        } else if (event.button === NB.Two) {
+          const index = this.selectorService.selectedShapes.indexOf(event.target as SVGGraphicsElement);
+          if (index !== -NB.One) {
+            this.selectorService.selectedShapes.splice(index, NB.One);
+          }
+        }
+        this.includingBoxService.update();
+      }
+    }
+  }
+
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
-    const speed: number = (Math.sqrt(Math.pow(event.movementX, 2) + Math.pow(event.movementY, 2))
-    / (event.timeStamp - this.lastMouseMoveTime));
-    this.lastMouseMoveTime = event.timeStamp;
-    this.inputService.setMouseSpeed(speed);
+    this.penService.getSpeed(event);
+
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement);
       this.selectedShape.onMouseMove();
@@ -376,52 +417,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.control) {
       this.inputService.controlPressed = false;
-    }
-  }
-
-  @HostListener('mousedown', ['$event'])
-  onMouseDown(event: MouseEvent): void {
-    this.inputService.mouseButton = event.button;
-    if (event.button === 0) {
-      this.selectorService.selectedShapes = [];
-    }
-    if (this.selectedTool === TOOL.pipette) {
-      event.preventDefault();
-      this.pipetteService.getColors(event, this.htmlCanvas, this.drawingBoard, this.canvasHeight, this.canvasWidth);
-    }
-
-    if (this.selectedTool === TOOL.eraser) {
-      this.eraserService.eraseMouseDown = true;
-      this.eraserService.intersect();
-    }
-
-    if (this.selectedTool !== TOOL.colorApplicator && this.selectedTool !== TOOL.pipette) {
-      this.selectedShape.onMouseDown();
-      this.inputService.isBlank = false;
-      this.colorService.setMakingColorChanges(false);
-    }
-
-    this.inputService.isNotEmpty = true;
-    this.selectorAreaActive = true;
-    if (this.selectedTool === TOOL.selector) {
-      if (this.selectorAreaActive) {
-        if (event.button === NB.Zero) {
-          if ((event.target as HTMLElement).id.includes('pen')) {
-            this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
-          } else {
-            this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
-          }
-        } else if (event.button === NB.Two) {
-          const index = this.selectorService.selectedShapes.indexOf(event.target as SVGGraphicsElement);
-          if (index !== -NB.One) {
-            this.selectorService.selectedShapes.splice(index, NB.One);
-          }
-        }
-        this.includingBoxService.update();
-      }
-    }
-    if (this.selectedTool === TOOL.text) {
-      this.renderer.appendChild(this.canvas.nativeElement, this.textService.onMouseDown());
     }
   }
 

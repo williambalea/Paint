@@ -258,8 +258,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     const array = Array.from(this.clipboardService.selectedItems);
 
     this.clipboardService.selectedItems = array;
-    this.selectorService.selectedShapes = this.clipboardService.selectedItems;
-    this.includingBoxService.draw();
+    this.selectorService.selectedShapes = array;
+    this.includingBoxService.update();
     console.log(array);
   }
 

@@ -1,14 +1,17 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { EMPTY_STRING, INIT_MOVE_PEN, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { Shape } from './shape';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class PencilService implements Shape {
+  renderer: Renderer2;
+
   linepath: string;
   stroke: string;
   strokeWidth: number;
@@ -16,9 +19,11 @@ export class PencilService implements Shape {
 
   path: HTMLElement;
 
-  constructor(private renderer: Renderer2,
+  constructor(private rendererFactory: RendererFactory2,
+              private viewChildService: ViewChildService,
               private inputService: InputService,
               private colorService: ColorService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.strokeWidth = NB.Seven;
     this.reset();
   }
@@ -28,7 +33,7 @@ export class PencilService implements Shape {
     this.active = false;
   }
 
-  onMouseDown(): any {
+  onMouseDown(): void {
     this.active = true;
     this.stroke = this.colorService.getFillColor();
     this.path = this.renderer.createElement('path', 'svg');
@@ -38,7 +43,7 @@ export class PencilService implements Shape {
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
     this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
-    return this.path;
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.path);
   }
 
   onMouseMove(): void {

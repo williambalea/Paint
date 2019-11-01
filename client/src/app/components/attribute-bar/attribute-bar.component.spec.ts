@@ -188,8 +188,8 @@ describe('AttributeBarComponent', () => {
     expect(result).toBeDefined();
   });
 
-  it('Should return PenService', () => {
-    const result = component.getPenService();
+  it('Should return PencilService', () => {
+    const result = component.getPencilService();
     expect(result).toBeDefined();
   });
 

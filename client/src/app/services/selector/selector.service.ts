@@ -141,6 +141,8 @@ export class SelectorService implements Shape {
         return this.returnRect(value);
       case 'text':
         return this.returnRect(value);
+      case 'g':
+        return this.returnRect(value);
     }
   }
 }

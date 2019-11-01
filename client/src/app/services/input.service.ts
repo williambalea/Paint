@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY_STRING, NB, SVGinnerWidth } from 'src/constants';
+import { EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../common/interface/point';
 
 @Injectable({
@@ -10,10 +10,13 @@ export class InputService {
   shiftPressed: boolean;
   escapePressed: boolean;
   backSpacePressed: boolean;
+  controlPressed: boolean;
+  cPressed: boolean;
   altPressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
   enterPressed: boolean;
+  private mouseSpeed: number;
 
   stampAngle: number;
   json: string;
@@ -41,10 +44,21 @@ export class InputService {
     this.drawingHtml = EMPTY_STRING;
     this.isNotEmpty = false;
     this.isDrawed = false;
+    this.cPressed = false;
+    this.controlPressed = false;
+    this.mouseSpeed = NB.Zero;
   }
 
-  setMouseOffset(event: MouseEvent): void {
-    this.mouse = { x: event.clientX - SVGinnerWidth, y: event.clientY - NB.Five };
+  setMouseOffset(event: MouseEvent, area: HTMLElement): void {
+    this.mouse = { x: event.clientX - area.getBoundingClientRect().left, y: event.clientY - area.getBoundingClientRect().top };
+  }
+
+  getMouseSpeed(): number {
+    return this.mouseSpeed;
+  }
+
+  setMouseSpeed(newSpeed: number): void {
+    this.mouseSpeed = newSpeed;
   }
 
   getMouse(): Point {

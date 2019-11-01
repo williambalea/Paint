@@ -1,7 +1,7 @@
 
     <div class="toolScroll">
             <button matTooltip="Rectangle" mat-button (click)="selectTool('rectangle')" [class.selected]="this.selectedTool === 'rectangle'"><mat-icon>crop_square</mat-icon></button>
-            <button matTooltip="Ellipse" mat-button (click)="selectTool('ellipse')" [class.selected]="this.selectedTool === ellipse"><mat-icon>panorama_fish_eye</mat-icon></button>
+            <button matTooltip="Ellipse" mat-button (click)="selectTool('ellipse')" [class.selected]="this.selectedTool === 'ellipse'"><mat-icon>panorama_fish_eye</mat-icon></button>
             <button matTooltip="Polygon" mat-button (click)="selectTool('polygon')"  class ="polygon_icon"><mat-icon>layers</mat-icon></button>
             <button matTooltip="Stamp" mat-button (click)="selectTool('stamp')" [class.selected]="this.selectedTool === 'stamp'"><mat-icon>mood</mat-icon></button>
             <button matTooltip="Brush" mat-button (click)="selectTool('brush')" [class.selected]="this.selectedTool === 'brush'"><mat-icon>brush</mat-icon></button>

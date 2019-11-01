@@ -90,8 +90,8 @@ export class AttributeBarComponent {
     this.eventEmitterService.controlV();
   }
 
-  controlQ(): void {
-    this.eventEmitterService.controlQ();
+  controlD(): void {
+    this.eventEmitterService.controlD();
   }
 
   controlA(): void {

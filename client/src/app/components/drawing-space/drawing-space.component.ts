@@ -225,22 +225,22 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (this.clipboardService.selectedItems[i].nodeName === 'polygon') {
         this.polygonArray = [];
-        let polygonPoints: string;
+        let polygonPoints: string[];
         let newPolygonPoints: string;
         let newX: number;
         let newY: number;
         let copiedNode = this.clipboardService.selectedItems[i].cloneNode(false) as SVGGraphicsElement;
-        polygonPoints = this.clipboardService.selectedItems[i].getAttribute('points').substring(0, this.clipboardService.selectedItems[i].getAttribute('points').length).split(" ");
+        polygonPoints = (this.clipboardService.selectedItems[i].getAttribute('points') as string).substring(0, (this.clipboardService.selectedItems[i].getAttribute('points') as string).length).split(" ");
         for (let j = 0; j < polygonPoints.length; j++) {
           this.polygonArray[j] = Number(polygonPoints[j]) + (NB.OneHundred * this.nbIncrements);
         }
         newPolygonPoints = this.polygonArray.join(' ');
         copiedNode.setAttribute('points', newPolygonPoints);
 
-        let xList: number[];
-        let yList: number[];
-        xList = [];
-        yList = [];
+    //let xList: number[];
+     //   let yList: number[];
+      //  xList = [];
+      //  yList = [];
 
         // Bonne methode, pas bonnesvaleurs, on doit regarder x et y individuellement.
         newX = Math.min.apply(Math, this.polygonArray);
@@ -351,22 +351,22 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         if (this.selectorService.selectedShapes[i].nodeName === 'polygon') {
           this.polygonArray = [];
-          let polygonPoints: string;
+          let polygonPoints: string[];
           let newPolygonPoints: string;
           let newX: number;
           let newY: number;
           let copiedNode = this.selectorService.selectedShapes[i].cloneNode(false) as SVGGraphicsElement;
-          polygonPoints = this.selectorService.selectedShapes[i].getAttribute('points').substring(0, this.selectorService.selectedShapes[i].getAttribute('points').length).split(" ");
+          polygonPoints = (this.selectorService.selectedShapes[i].getAttribute('points') as string).substring(0, (this.selectorService.selectedShapes[i].getAttribute('points') as string).length).split(" ");
           for (let j = 0; j < polygonPoints.length; j++) {
             this.polygonArray[j] = Number(polygonPoints[j]) + (NB.OneHundred * this.nbIncrements);
           }
           newPolygonPoints = this.polygonArray.join(' ');
           copiedNode.setAttribute('points', newPolygonPoints);
           
-          let xList: number[];
-          let yList: number[];
-          xList = [];
-          yList = [];
+          // let xList: number[];
+          // let yList: number[];
+          // xList = [];
+          // yList = [];
   
           // Bonne methode, pas bonnesvaleurs, on doit regarder x et y individuellement.
           newX = Math.min.apply(Math, this.polygonArray);

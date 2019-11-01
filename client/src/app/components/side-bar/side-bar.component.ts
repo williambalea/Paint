@@ -12,6 +12,7 @@ import { BrushService } from 'src/app/services/shapes/brush.service';
 import { LineService } from 'src/app/services/shapes/line.service';
 import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
+import { PencilService } from 'src/app/services/shapes/pencil.service';
 import { PolygonService } from 'src/app/services/shapes/polygon.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { StampService } from 'src/app/services/shapes/stamp.service';
@@ -30,7 +31,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   providers: [
     RectangleService,
     BrushService,
-    PenService,
+    PencilService,
     EllipseService,
     PolygonService,
     StampService,
@@ -41,6 +42,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     NoShapeService,
     EraserService,
     ClipboardService,
+    PenService,
   ],
 
 })
@@ -59,6 +61,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
               private unsubscribeService: UnsubscribeService,
               private stampService: StampService,
               private penService: PenService,
+              private pencilService: PencilService,
               private communicationsService: CommunicationsService,
               private selectorService: SelectorService,
               private lineService: LineService,
@@ -105,9 +108,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
         this.selectedShape = this.brushService;
         this.selectedTool = TOOL.brush;
         break;
-      case TOOL.pen:
-        this.selectedShape = this.penService;
-        this.selectedTool = TOOL.pen;
+      case TOOL.pencil:
+        this.selectedShape = this.pencilService;
+        this.selectedTool = TOOL.pencil;
         break;
       case TOOL.colorApplicator:
         this.selectedShape = this.noShapeService;
@@ -116,6 +119,10 @@ export class SideBarComponent implements OnInit, OnDestroy {
       case TOOL.stamp:
         this.selectedShape = this.stampService;
         this.selectedTool = TOOL.stamp;
+        break;
+      case TOOL.pen:
+        this.selectedShape = this.penService;
+        this.selectedTool = TOOL.pen;
         break;
       case TOOL.grid:
         this.selectedShape = this.noShapeService;
@@ -199,7 +206,7 @@ export class SideBarComponent implements OnInit, OnDestroy {
           this.selectTool(TOOL.brush);
           break;
         case KEY.c:
-          this.selectTool(TOOL.pen);
+          this.selectTool(TOOL.pencil);
           break;
         case KEY.l:
           this.selectTool(TOOL.line);

@@ -270,29 +270,29 @@
                 </div>
             </div>
 
-            <div *ngSwitchCase="tool.pen">
+            <div *ngSwitchCase="tool.pencil">
 
-                <div class="header">Pen</div>
+                <div class="header">Pencil</div>
 
                 <div>
 
                     <div class="svg">
                         <svg class="lineStyleRound" width="200" height="100">
                             <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
-                                [style.stroke-width]="this.penService.strokeWidth" />
+                                [style.stroke-width]="this.pencilService.strokeWidth" />
                         </svg>
                     </div>
 
                     <div class="attribute">
                         <div class="attributeHeader">
                             Size<br>
-                            {{this.penService.strokeWidth}} px
+                            {{this.pencilService.strokeWidth}} px
                         </div>
 
                         <div>
-                            <mat-slider min="1" max="40" value={{this.penService.strokeWidth}}
-                                [(ngModel)]="this.penService.strokeWidth"
-                                (input)="this.penService.strokeWidth = $event.value">
+                            <mat-slider min="1" max="40" value={{this.pencilService.strokeWidth}}
+                                [(ngModel)]="this.pencilService.strokeWidth"
+                                (input)="this.pencilService.strokeWidth = $event.value">
                             </mat-slider>
                         </div>
                     </div>
@@ -300,6 +300,46 @@
                 </div>
 
             </div>
+
+            <div *ngSwitchCase="tool.pen">
+
+                    <div class="header">Pen</div>
+    
+                    <div>
+    
+                        <div class="svg">
+                            <svg class="lineStyleRound" width="200" height="100">
+                                <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
+                                    stroke-width="20" />
+                            </svg>
+                        </div>
+    
+                        <div class="attribute">
+                            <div class="attributeHeader">
+                                Maximum Stroke<br>
+                                {{this.penService.maxStrokeWidth}} px
+                            </div>
+                            <div>
+                                <mat-slider min="1" max="40" value={{this.penService.maxStrokeWidth}}
+                                [(ngModel)]="this.penService.maxStrokeWidth"
+                                (input)="this.penService.maxStrokeWidth = $event.value">
+                                </mat-slider>
+                            </div>
+                            <div class="attributeHeader">
+                                Minimum Stroke<br>
+                                {{this.penService.minStrokeWidth}} px
+                            </div>
+                            <div>
+                                <mat-slider min="1" max="40" value={{this.penService.minStrokeWidth}}
+                                [(ngModel)]="this.penService.minStrokeWidth"
+                                (input)="this.penService.minStrokeWidth = $event.value">
+                                </mat-slider>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                </div>
 
             <div *ngSwitchCase="tool.line">
 

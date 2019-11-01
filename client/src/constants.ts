@@ -94,7 +94,7 @@ export enum TOOL {
   rectangle = 'rectangle',
   brush = 'brush',
   pipette = 'pipette',
-  pen = 'pen',
+  pencil = 'pencil',
   colorApplicator = 'colorApplicator',
   stamp = 'stamp',
   grid = 'grid',
@@ -103,6 +103,7 @@ export enum TOOL {
   selector = 'selector',
   line = 'line',
   eraser = 'eraser',
+  pen = 'pen',
   clipboard = 'clipboard',
 }
 

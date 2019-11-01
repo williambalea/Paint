@@ -1,7 +1,7 @@
 import { TOOL } from '../../constants';
 import { Shape } from './shape';
 
-export class Pen extends Shape {
+export class Pencil extends Shape {
     path: string;
     stroke: string;
     strokeWidth: number;

@@ -147,6 +147,8 @@ export class SelectorService implements Shape {
         return this.returnPolygon(value);
       case 'image':
         return this.returnImage(value);
+      case 'g':
+        return this.returnRect(value);
     }
   }
 }

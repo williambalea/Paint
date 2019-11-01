@@ -521,12 +521,12 @@
             <div class="header">Selector</div>
             <div class="attribute">
                 <div class="attributeHeader">Clipboard utilities<br><br>
-                    <div *ngIf = "this.clipboardService.findSelected()">
-                        <button (click) = "this.eventEmitterService.controlC()">Copy</button>
-                        <button (click) = "this.eventEmitterService.controlX()">Cut</button>
-                        <button (click) = "this.eventEmitterService.controlV()">Paste</button>
-                        <button (click) = "this.eventEmitterService.controlD()">Duplicate</button>
-                        <button (click) = "this.eventEmitterService.delete()">Delete</button><br>
+                    <div >
+                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlC()">Copy</button>
+                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlX()">Cut</button>
+                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlV()">Paste</button>
+                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlD()">Duplicate</button>
+                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.delete()">Delete</button><br>
                     </div>
 
                     <button (click) = "this.eventEmitterService.controlA()">Select all items</button>

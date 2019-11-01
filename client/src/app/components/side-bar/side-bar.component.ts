@@ -215,9 +215,9 @@ export class SideBarComponent implements OnInit, OnDestroy {
 
   upload(): void {
     this.enableKeyPress = false;
-    // tslint:disable-next-line
-    let dialogRefGet: MatDialogRef<UploadModalComponent, any> =
+    const dialogRefGet: MatDialogRef<UploadModalComponent, any> =
       this.dialog.open(UploadModalComponent, { disableClose: true });
+    console.log(dialogRefGet);
   }
 
   localSave(): void {

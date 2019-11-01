@@ -3,8 +3,8 @@ import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
-import { Shape } from './shape';
 import { ViewChildService } from '../view-child.service';
+import { Shape } from './shape';
 
 @Injectable({
   providedIn: 'root',

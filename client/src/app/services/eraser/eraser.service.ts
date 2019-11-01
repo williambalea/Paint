@@ -1,10 +1,12 @@
-import { ElementRef, Injectable, Renderer2 } from '@angular/core';
+import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { InputService } from '../input.service';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EraserService {
+  renderer: Renderer2;
 
   eraserRadius: number;
   eraseMouseDown: boolean;
@@ -13,10 +15,13 @@ export class EraserService {
   size: number;
   divider: number;
   canvas: ElementRef;
-  preview : SVGGraphicsElement[];
+  preview: SVGGraphicsElement[];
   g: SVGGraphicsElement;
 
-  constructor(private renderer: Renderer2, private inputService: InputService ) {
+  constructor(private viewChildService: ViewChildService,
+              private rendererFactory: RendererFactory2,
+              private inputService: InputService ) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.eraseMouseDown = false;
     this.eraserRadius = 5;
     this.size = 100;
@@ -25,7 +30,16 @@ export class EraserService {
     this.preview = [];
   }
 
+  initializeViewChildren(): void {
+    this.drawingBoard = this.viewChildService.drawingBoard;
+    this.canvas = this.viewChildService.canvas;
+    this.g = this.renderer.createElement('g', 'svg');
+    this.renderer.appendChild(this.drawingBoard.nativeElement, this.g);
+  }
+
   createEraser(x: number, y: number): void {
+    this.initializeViewChildren();
+
     this.renderer.setAttribute(this.cursor, 'fill', 'white');
     this.renderer.setAttribute(this.cursor, 'stroke', 'black');
     this.renderer.setAttribute(this.cursor, 'stroke-width', '1');

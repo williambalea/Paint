@@ -1,13 +1,15 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { EMPTY_STRING, INIT_MOVE_PEN, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
+import { ViewChildService } from '../view-child.service';
 import { Shape } from './shape';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PenService implements Shape {
+  renderer: Renderer2;
 
   linepath: string;
   stroke: string;
@@ -17,10 +19,15 @@ export class PenService implements Shape {
   active: boolean;
   path: HTMLElement;
   pathGroupIndex: number;
+  private interval: any;
 
-  constructor(private renderer: Renderer2,
+  canvas: ElementRef;
+
+  constructor(private rendererFactory: RendererFactory2,
               private inputService: InputService,
+              private viewChildService: ViewChildService,
               private colorService: ColorService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.maxStrokeWidth = NB.Twenty;
     this.minStrokeWidth = NB.Ten;
     this.pathGroupIndex = NB.Zero;
@@ -32,17 +39,32 @@ export class PenService implements Shape {
     this.active = false;
   }
 
+  createPenGroup(): void {
+    const penWrapper = this.renderer.createElement('g', 'svg');
+    this.renderer.appendChild(this.canvas.nativeElement, penWrapper);
+    this.interval = setInterval( () => {
+      this.createPath();
+      this.renderer.appendChild(penWrapper, this.path);
+    }, 10);
+  }
+
   onMouseDown(): any {
+    this.canvas = this.viewChildService.canvas;
     this.active = true;
-    this.stroke = this.colorService.getFillColor();
-    this.path = this.renderer.createElement('path', 'svg');
-    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
-    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
-    this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
-    this.renderer.setProperty(this.path, 'id', 'pen' + this.pathGroupIndex.toString());
-    this.renderer.setAttribute(this.path, 'd', this.linepath);
-    return this.path;
+    this.createPenGroup();
+  }
+
+  createPath(): void {
+    // if (this.active) {
+      this.stroke = this.colorService.getFillColor();
+      this.path = this.renderer.createElement('path', 'svg');
+      this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
+      this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
+      this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
+      this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
+      this.renderer.setProperty(this.path, 'id', 'pen' + this.pathGroupIndex.toString());
+      this.renderer.setAttribute(this.path, 'd', this.linepath);
+    // }
   }
 
   onMouseMove(): void {
@@ -62,7 +84,7 @@ export class PenService implements Shape {
   onMouseUp(): void {
     this.reset();
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor());
-
+    clearInterval(this.interval);
   }
 
   draw(): void {

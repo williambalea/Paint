@@ -20,6 +20,8 @@ export class PenService implements Shape {
   path: HTMLElement;
   pathGroupIndex: number;
   private interval: any;
+  private mouseSpeed: number;
+  lastMouseMoveTime: number;
 
   canvas: ElementRef;
 
@@ -31,7 +33,15 @@ export class PenService implements Shape {
     this.maxStrokeWidth = NB.Twenty;
     this.minStrokeWidth = NB.Ten;
     this.pathGroupIndex = NB.Zero;
+    this.mouseSpeed = NB.Zero;
+    this.lastMouseMoveTime = NB.Zero;
     this.reset();
+  }
+
+  getSpeed(event: MouseEvent): void {
+    this.mouseSpeed = (Math.sqrt(Math.pow(event.movementX, 2) + Math.pow(event.movementY, 2))
+    / (event.timeStamp - this.lastMouseMoveTime));
+    this.lastMouseMoveTime = event.timeStamp;
   }
 
   reset(): void {
@@ -71,7 +81,7 @@ export class PenService implements Shape {
 
   onMouseMove(): void {
     if (this.active) {
-      this.strokeWidth = (-(this.maxStrokeWidth - this.minStrokeWidth) / 2) * this.inputService.getMouseSpeed() + this.maxStrokeWidth;
+      this.strokeWidth = (-(this.maxStrokeWidth - this.minStrokeWidth) / 2) * this.mouseSpeed + this.maxStrokeWidth;
       this.validateStrokeWidthMin();
       this.validateStrokeWidthMax();
       this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());

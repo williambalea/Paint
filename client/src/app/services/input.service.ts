@@ -16,7 +16,6 @@ export class InputService {
   isBlank: boolean;
   isDoubleClick: boolean;
   enterPressed: boolean;
-  private mouseSpeed: number;
 
   stampAngle: number;
   json: string;
@@ -46,19 +45,10 @@ export class InputService {
     this.isDrawed = false;
     this.cPressed = false;
     this.controlPressed = false;
-    this.mouseSpeed = NB.Zero;
   }
 
   setMouseOffset(event: MouseEvent, area: HTMLElement): void {
     this.mouse = { x: event.clientX - area.getBoundingClientRect().left, y: event.clientY - area.getBoundingClientRect().top };
-  }
-
-  getMouseSpeed(): number {
-    return this.mouseSpeed;
-  }
-
-  setMouseSpeed(newSpeed: number): void {
-    this.mouseSpeed = newSpeed;
   }
 
   getMouse(): Point {

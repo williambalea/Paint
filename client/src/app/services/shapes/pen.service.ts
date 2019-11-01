@@ -55,29 +55,39 @@ export class PenService implements Shape {
   }
 
   createPath(): void {
-    // if (this.active) {
       this.stroke = this.colorService.getFillColor();
       this.path = this.renderer.createElement('path', 'svg');
-      this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
-      this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-      this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
+      this.setStylePath();
       this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
       this.renderer.setProperty(this.path, 'id', 'pen' + this.pathGroupIndex.toString());
       this.renderer.setAttribute(this.path, 'd', this.linepath);
-    // }
+  }
+
+  setStylePath(): void {
+    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
+    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
+    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
   }
 
   onMouseMove(): void {
     if (this.active) {
       this.strokeWidth = (-(this.maxStrokeWidth - this.minStrokeWidth) / 2) * this.inputService.getMouseSpeed() + this.maxStrokeWidth;
-      if (this.strokeWidth < this.minStrokeWidth) {
-        this.strokeWidth = this.minStrokeWidth;
-      }
-      if (this.strokeWidth > this.maxStrokeWidth) {
-        this.strokeWidth = this.maxStrokeWidth;
-      }
+      this.validateStrokeWidthMin();
+      this.validateStrokeWidthMax();
       this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
       this.draw();
+    }
+  }
+
+  validateStrokeWidthMin(): void {
+    if (this.strokeWidth < this.minStrokeWidth) {
+      this.strokeWidth = this.minStrokeWidth;
+    }
+  }
+
+  validateStrokeWidthMax(): void {
+    if (this.strokeWidth > this.maxStrokeWidth) {
+      this.strokeWidth = this.maxStrokeWidth;
     }
   }
 

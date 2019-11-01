@@ -1,14 +1,17 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { svgFileDataBase64, svgFileLocation } from 'src/assets/stamps/svgFileLocation';
 import { EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { InputService } from '../input.service';
+import { ViewChildService } from '../view-child.service';
 import { Shape } from './shape';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StampService implements Shape {
+  renderer: Renderer2;
+
   stamps: string[];
   selectedStamp: string;
   size: number;
@@ -16,7 +19,10 @@ export class StampService implements Shape {
   stamp: HTMLElement;
   selectStampIndex: number;
 
-  constructor(private renderer: Renderer2, private inputService: InputService) {
+  constructor(private rendererFactory: RendererFactory2,
+              private viewChildService: ViewChildService,
+              private inputService: InputService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.stamps = svgFileLocation;
     this.selectedStamp = EMPTY_STRING;
     this.size = NB.Thirty;
@@ -24,10 +30,10 @@ export class StampService implements Shape {
   }
 
   onMouseDown(): any {
-
     if (this.selectStampIndex !== undefined) {
       this.stamp = this.renderer.createElement('image', 'svg');
       this.draw();
+      this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.stamp);
       return this.stamp;
     }
   }

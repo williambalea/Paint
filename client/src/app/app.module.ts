@@ -62,7 +62,8 @@ import { DownloadModalComponent } from './download-modal/download-modal.componen
     SaveFileModalwindowComponent,
     GetFileModalwindowComponent,
     DisplayConfirmationComponent,
-    ExportModalComponent
+    ExportModalComponent,
+    DownloadModalComponent,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

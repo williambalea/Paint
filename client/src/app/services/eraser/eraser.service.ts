@@ -60,13 +60,6 @@ export class EraserService {
     this.intersect();
   }
 
-  // erase(target: EventTarget, element: HTMLElement): void {
-  //   if (this.eraseMouseDown) {
-  //     if (target !== element) {
-  //       this.renderer.removeChild(element, target);
-  //     }
-  //   }
-  // }
   addToPreview(shape: SVGGraphicsElement): void {
     if (!this.preview.includes(shape)) {
       const redContour = this.renderer.createElement('rect', 'svg');
@@ -92,6 +85,19 @@ export class EraserService {
     }
   }
 
+  validateErase(child: SVGGraphicsElement): void {
+    if (this.eraseMouseDown) {
+      this.renderer.removeChild(this.drawingBoard.nativeElement, child);
+    }
+  }
+
+  validateIntersection(isIntersection: boolean, child: SVGGraphicsElement): void {
+    if (isIntersection) {
+      this.addToPreview(child);
+      this.validateErase(child);
+    }
+  }
+
   intersect(): void {
     const cursorBox = this.cursor.getBoundingClientRect();
     this.clear();
@@ -101,17 +107,7 @@ export class EraserService {
         let isIntersection: boolean;
         isIntersection = (!(childBox.left > cursorBox.right || childBox.right < cursorBox.left
           || childBox.top > cursorBox.bottom || childBox.bottom < cursorBox.top));
-        if (isIntersection) {
-          this.addToPreview(child);
-
-          if (this.eraseMouseDown) {
-            this.renderer.removeChild(this.drawingBoard.nativeElement, child);
-          }
-        }
-
+        this.validateIntersection(isIntersection, child);
     }
-    console.log('preview', this.preview);
   }
-
-
 }

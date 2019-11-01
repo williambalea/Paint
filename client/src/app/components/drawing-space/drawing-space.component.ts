@@ -206,6 +206,22 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.nbIncrements = 1;
         this.nbIncrementsReset++;
+        this.includingBoxService.update();
+      }
+      if (this.clipboardService.selectedItems[i].nodeName === 'image') {
+        copiedNode = this.clipboardService.selectedItems[i].cloneNode(false);
+        let newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
+        let newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
+
+        if (newX < this.canvasWidth && newY < this.canvasHeight) {
+          this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
+          this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
+          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+
+          this.nbIncrements = 1;
+          this.nbIncrementsReset++;
+          this.includingBoxService.update();
+        }
       }
       if (this.clipboardService.selectedItems[i].nodeName === 'polygon') {
         this.polygonArray = [];
@@ -274,6 +290,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           newX = Number(this.selectorService.selectedShapes[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
           newY = Number(this.selectorService.selectedShapes[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
           copiedNode = this.selectorService.selectedShapes[i].cloneNode(true);
+          console.log(copiedNode);
 
           if (newX < this.canvasWidth && newY < this.canvasHeight) {
             this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
@@ -304,6 +321,21 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           } else {
             this.nbIncrements = 1;
             this.nbIncrementsReset++;
+          }
+        }
+        if (this.selectorService.selectedShapes[i].nodeName === 'image') {
+          copiedNode = this.selectorService.selectedShapes[i].cloneNode(false);
+          let newX = Number(this.selectorService.selectedShapes[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
+          let newY = Number(this.selectorService.selectedShapes[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
+          
+          if (newX < this.canvasWidth && newY < this.canvasHeight) {
+            this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
+            this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
+            this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
+  
+            this.nbIncrements = 1;
+            this.nbIncrementsReset++;
+            this.includingBoxService.update();
           }
         }
         if (this.selectorService.selectedShapes[i].nodeName === 'path') {

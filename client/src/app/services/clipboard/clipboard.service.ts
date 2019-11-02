@@ -74,8 +74,8 @@ export class ClipboardService implements OnInit {
   }
   dismissCanvas(): boolean {
     let shapeCounter = false;
-    for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
-      if (this.selectorService.selectedShapes[i].id !== 'canvas') {
+    for (const item of this.selectorService.selectedShapes) {
+      if (item.id !== 'canvas') {
         shapeCounter = true;
       }
     }

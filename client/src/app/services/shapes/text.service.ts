@@ -1,12 +1,15 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { EMPTY_STRING, NB, STRINGS } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TextService {
+  renderer: Renderer2;
+
   x: number;
   y: number;
   xPos: string;
@@ -20,9 +23,11 @@ export class TextService {
   isEnterPressed: boolean;
   textContent: string;
 
-  constructor(private renderer: Renderer2,
+  constructor(private rendererFactory: RendererFactory2,
+              private viewChildService: ViewChildService,
               private inputService: InputService,
               private colorService: ColorService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.textContent = EMPTY_STRING;
     this.font = 'Arial';
     this.align = 'middle';
@@ -46,11 +51,12 @@ export class TextService {
     this.update();
   }
 
-  onMouseDown(): any {
+  //Test ne marche pas
+  onMouseDown(): void {
     this.createTextElements();
     this.setTextAttributes();
     this.update();
-    return this.text;
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.text);
   }
 
   createTextElements(): void {

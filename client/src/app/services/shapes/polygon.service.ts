@@ -1,14 +1,16 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { EMPTY_STRING, NB, OUTLINE_TYPE } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
+import { ViewChildService } from '../view-child.service';
 import { Shape } from './shape';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PolygonService implements Shape {
+  renderer: Renderer2;
 
   polygon: HTMLElement;
   sideNumber: number;
@@ -23,9 +25,11 @@ export class PolygonService implements Shape {
   strokeWidth: number;
   strokeEnable: boolean;
 
-  constructor(private renderer: Renderer2,
+  constructor(private rendererFactory: RendererFactory2,
               private inputService: InputService,
+              private viewChildService: ViewChildService,
               private colorService: ColorService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.strokeWidth = NB.Seven;
     this.fill = EMPTY_STRING;
     this.stroke = EMPTY_STRING;
@@ -96,11 +100,19 @@ export class PolygonService implements Shape {
   }
 
   draw(): void {
+    this.setAttributesPolygon();
+    this.setStylePolygon();
+    this.initialPoint = { x: NB.Zero, y: -(NB.One) };
+  }
+
+  setAttributesPolygon(): void {
     this.renderer.setAttribute(this.polygon, 'points', this.pointString);
     this.renderer.setAttribute(this.polygon, 'fill', this.fill);
+  }
+
+  setStylePolygon(): void {
     this.renderer.setStyle(this.polygon, 'stroke', this.stroke);
     this.renderer.setStyle(this.polygon, 'stroke-width', this.strokeWidth.toString());
-    this.initialPoint = { x: NB.Zero, y: -(NB.One) };
   }
 
   onMouseDown(): any {
@@ -110,6 +122,7 @@ export class PolygonService implements Shape {
     this.setOrigin();
     this.setPolygonType();
     this.polygon = this.renderer.createElement('polygon', 'svg');
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.polygon);
     return this.polygon;
   }
 
@@ -132,13 +145,15 @@ export class PolygonService implements Shape {
     this.colorService.addColorsToLastUsed(this.colorService.getFillColor(), this.colorService.getStrokeColor());
   }
 
-  generateVertices(i: number, j: number, n: number, x: number, y: number): void {
-    let angle: number = NB.ThreeHundredSixty / n;
-
+  initialisePoints(i: number, j: number, n: number, x: number, y: number) {
     this.initialPoint.x = this.initialPoint.x + Math.min(this.origin.x, this.inputService.getMouse().x) + x;
     this.initialPoint.y = this.initialPoint.y * j / NB.Two + Math.min(this.origin.y, this.inputService.getMouse().y) + y;
     this.pointString = (`${this.initialPoint.x}` + ' ' + `${this.initialPoint.y}`);
+  }
 
+  generateVertices(i: number, j: number, n: number, x: number, y: number): void {
+    let angle: number = NB.ThreeHundredSixty / n;
+    this.initialisePoints(i, j, n, x, y);
     for (let k = 0; k < n - 1; k++) {
       const newPointX: number = (-Math.sin(angle * Math.PI / NB.OneHundredEighty) * i /
         NB.Two + Math.min(this.origin.x, this.inputService.getMouse().x)) + x;

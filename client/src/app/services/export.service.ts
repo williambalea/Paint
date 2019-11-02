@@ -1,22 +1,27 @@
-import { Injectable, ElementRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import html2canvas from 'html2canvas';
+import { ViewChildService } from './view-child.service';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ExportService {
   canvas: ElementRef;
   drawingBoard: ElementRef;
   downloadImage: ElementRef;
   downloadLink: ElementRef;
-  
-  constructor() {}
 
+  constructor(private viewChildService: ViewChildService) {
+    this.canvas = this.viewChildService.canvas;
+    this.drawingBoard = this.viewChildService.drawingBoard;
+    this.downloadImage = this.viewChildService.downloadImage;
+    this.downloadLink = this.viewChildService.downloadLink;
+  }
 
-  download(format : string, filename: string) {
- 
-    html2canvas(this.drawingBoard.nativeElement).then(downloadImage => {
-      this.downloadLink.nativeElement.href = downloadImage.toDataURL('image/'+format);
-      this.downloadLink.nativeElement.download = filename +'.'+format;
+  download(format: string, filename: string) {
+
+    html2canvas(this.drawingBoard.nativeElement).then((downloadImage) => {
+      this.downloadLink.nativeElement.href = downloadImage.toDataURL('image/' + format);
+      this.downloadLink.nativeElement.download = filename + '.' + format;
       this.downloadLink.nativeElement.click();
     });
     }

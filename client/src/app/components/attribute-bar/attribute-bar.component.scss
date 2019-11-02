@@ -194,11 +194,22 @@ img:hover {
 }
 
 .button {
-  text-align: center;
+  background-color: white;
+  color:black;
+  width: auto;
+  height: auto;
+  align-items: center;
+  align-content: center;
+  margin: 5px;
 }
 
 .noUseButton {
   background-color: grey;
   color:white;
   pointer-events: none;
+  width: auto;
+  height: auto;
+  align-items: center;
+  align-content: center;
+  margin: 5px;
 }

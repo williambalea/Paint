@@ -698,18 +698,16 @@
         <div *ngSwitchCase="tool.selector">
             <div class="header">Selector</div>
             <div class="attribute">
-                <div class="attributeHeader">Clipboard utilities<br><br>
-                    <div >
-                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlC()">Copy</button>
-                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlX()">Cut</button>
-                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlV()">Paste</button>
-                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlD()">Duplicate</button>
-                        <button [ngClass]="{'noUseButton' : !this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.delete()">Delete</button><br>
+                <div class="attributeHeader">Clipboard utilities</div><br>
+                    <div>
+                        <button mat-raised-button [ngClass]="{'noUseButton': !this.clipboardService.findSelected(), 'button': this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlC()">Copy</button>
+                        <button mat-raised-button [ngClass]="{'noUseButton': !this.clipboardService.findSelected(), 'button': this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlX()">Cut</button>
+                        <button mat-raised-button [ngClass]="{'noUseButton': !this.clipboardService.clipboardEmpty(), 'button': this.clipboardService.clipboardEmpty()}" (click) = "this.eventEmitterService.controlV()">Paste</button><br>
+                        <button mat-raised-button [ngClass]="{'noUseButton': !this.clipboardService.findSelected(), 'button': this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.controlD()">Duplicate</button>
+                        <button mat-raised-button [ngClass]="{'noUseButton': !this.clipboardService.findSelected(), 'button':this.clipboardService.findSelected()}" (click) = "this.eventEmitterService.delete()">Delete</button><br>
+                        <button mat-raised-button class='button' (click) = "this.eventEmitterService.controlA()">Select all items</button>
                     </div>
-
-                    <button (click) = "this.eventEmitterService.controlA()">Select all items</button>
                 </div>
-            </div>
         </div>
 
     </div>

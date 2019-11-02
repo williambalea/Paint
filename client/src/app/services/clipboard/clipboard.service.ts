@@ -45,6 +45,14 @@ export class ClipboardService {
     }
   }
 
+  clipboardEmpty(): boolean {
+    if (this.selectedItems.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   dismissCanvas(): boolean {
     let shapeCounter = false;
     for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
@@ -58,4 +66,5 @@ export class ClipboardService {
       return false;
     }
   }
+
 }

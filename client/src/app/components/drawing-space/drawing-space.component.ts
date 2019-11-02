@@ -46,9 +46,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   width: number;
   // shape: SVGSVGElement;
   selectorAreaActive: boolean;
-  nbIncrements: number;
-  nbIncrementsReset: number;
-  polygonArray: number[];
   g: SVGGraphicsElement;
   interval;
   shape: SVGSVGElement;
@@ -77,9 +74,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.width = NB.Zero;
     this.resizeFlag = false;
     this.selectorAreaActive = false;
-    this.nbIncrements = 1;
-    this.nbIncrementsReset = 0;
-    this.polygonArray = [];
   }
 
   ngOnInit(): void {
@@ -123,26 +117,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.inputService.isDrawed = false;
     });
-    this.eventEmitterService.controlAEmitter.subscribe(() => {
-      this.controlA();
-    });
-    this.eventEmitterService.controlCEmitter.subscribe(() => {
-      this.clipboardService.getElement();
-    });
-    this.eventEmitterService.controlXEmitter.subscribe(() => {
-      this.controlX();
-    });
-    this.eventEmitterService.controlVEmitter.subscribe(() => {
-      this.controlV();
-    });
-    this.eventEmitterService.deleteEmitter.subscribe(() => {
-      this.delete();
-    });
-    this.eventEmitterService.controlDEmitter.subscribe(() => {
-      this.controlD();
-    });
-    this.undoRedoService.canvas = this.canvas;
 
+    this.undoRedoService.canvas = this.canvas;
   }
 
   // TODO: What is that name function??? -WB
@@ -174,269 +150,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
     this.gridService.draw(this.gridService.gridSize);
     this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
-  }
-
-  controlV(): void {
-    this.addOffSet();
-  }
-
-  addOffSet(): void {
-    let copiedNode: Node;
-    for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
-      if (this.clipboardService.selectedItems[i].nodeName === 'ellipse') {
-          let newX: number;
-          let newY: number;
-          console.log(this.nbIncrementsReset);
-          console.log(this.nbIncrements);
-          newX = Number(this.clipboardService.selectedItems[i].getAttribute('cx')) + (NB.OneHundred * this.nbIncrements);
-          newY = Number(this.clipboardService.selectedItems[i].getAttribute('cy')) + (NB.OneHundred * this.nbIncrements);
-          copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
-
-          if (newX < this.canvasWidth && newY < this.canvasHeight) {
-            this.renderer.setAttribute(copiedNode, 'cx', (newX).toString());
-            this.renderer.setAttribute(copiedNode, 'cy', (newY).toString());
-            this.renderer.setStyle(copiedNode, 'fill', 'red');
-            this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-            this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-          } else {
-            this.nbIncrements = 1;
-            this.nbIncrementsReset++;
-          }
-      }
-      if (this.clipboardService.selectedItems[i].nodeName === 'rect') {
-        let newX: number;
-        let newY: number;
-        newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
-        newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
-        copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
-
-        if (newX < this.canvasWidth && newY < this.canvasHeight) {
-          this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-          this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
-          this.renderer.setStyle(copiedNode, 'fill', 'red');
-          this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-        } else {
-          this.nbIncrements = 1;
-          this.nbIncrementsReset++;
-        }
-      }
-      // if (this.clipboardService.selectedItems[i].nodeName === 'path') {
-      //   let newX: number;
-      //   let newY: number;
-      //   console.log(this.nbIncrementsReset);
-      //   console.log(this.nbIncrements);
-      //   newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
-      //   newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
-      //   copiedNode = this.clipboardService.selectedItems[i].cloneNode(true);
-
-      //   if (newX < this.canvasWidth && newY < this.canvasHeight) {
-      //     this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-      //     this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
-      //     this.renderer.setStyle(copiedNode, 'fill', 'red');
-      //     this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-      //     this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-      //   } else {
-      //     this.nbIncrements = 1;
-      //     this.nbIncrementsReset++;
-      //   }
-      // }
-      if (this.clipboardService.selectedItems[i].nodeName === 'path') {
-        copiedNode = this.clipboardService.selectedItems[i].cloneNode(false);
-
-        //if (newX < this.canvasWidth && newY < this.canvasHeight) {
-        this.renderer.setStyle(copiedNode, 'stroke', 'red');
-        this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
-        this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-
-        this.nbIncrements = 1;
-        this.nbIncrementsReset++;
-        this.includingBoxService.update();
-      }
-      if (this.clipboardService.selectedItems[i].nodeName === 'image') {
-        copiedNode = this.clipboardService.selectedItems[i].cloneNode(false);
-        let newX = Number(this.clipboardService.selectedItems[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
-        let newY = Number(this.clipboardService.selectedItems[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
-
-        if (newX < this.canvasWidth && newY < this.canvasHeight) {
-          this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-          this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
-          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-
-          this.nbIncrements = 1;
-          this.nbIncrementsReset++;
-          this.includingBoxService.update();
-        }
-      }
-      if (this.clipboardService.selectedItems[i].nodeName === 'polygon') {
-        this.polygonArray = [];
-        let polygonPoints: string[];
-        let newPolygonPoints: string;
-        let newX: number;
-        let newY: number;
-        let copiedNode = this.clipboardService.selectedItems[i].cloneNode(false) as SVGGraphicsElement;
-        polygonPoints = (this.clipboardService.selectedItems[i].getAttribute('points') as string).substring(0, (this.clipboardService.selectedItems[i].getAttribute('points') as string).length).split(" ");
-        for (let j = 0; j < polygonPoints.length; j++) {
-          this.polygonArray[j] = Number(polygonPoints[j]) + (NB.OneHundred * this.nbIncrements);
-        }
-        newPolygonPoints = this.polygonArray.join(' ');
-        copiedNode.setAttribute('points', newPolygonPoints);
-
-    //let xList: number[];
-     //   let yList: number[];
-      //  xList = [];
-      //  yList = [];
-
-        // Bonne methode, pas bonnesvaleurs, on doit regarder x et y individuellement.
-        newX = Math.min.apply(Math, this.polygonArray);
-        newY = Math.min.apply(Math, this.polygonArray);
-        if (newX < this.canvasWidth && newY < this.canvasHeight) {
-          this.renderer.setStyle(copiedNode, 'fill', 'red');
-          this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-        } else {
-          this.nbIncrements = 1;
-          this.nbIncrementsReset++;
-        }
-      }
-    }
-  }
-
-  controlX(): void {
-    this.clipboardService.getElement();
-    for (let i = 0; i < this.clipboardService.selectedItems.length; i++) {
-      if (this.clipboardService.selectedItems[i].id !== 'canvas') {
-        this.renderer.removeChild(this.canvas.nativeElement, this.clipboardService.selectedItems[i]);
-      }
-    }
-    this.selectorService.selectedShapes = [];
-    this.includingBoxService.clear();
-  }
-
-  controlA(): void {
-    this.clipboardService.selectedItems = [];
-    this.clipboardService.selectedItems = this.canvas.nativeElement.children as SVGGraphicsElement[];
-    const array = Array.from(this.clipboardService.selectedItems);
-
-    this.clipboardService.selectedItems = array;
-    this.selectorService.selectedShapes = array;
-    this.includingBoxService.update();
-    console.log(array);
-  }
-
-  controlD(): void {
-    let copiedNode: Node;
-    for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
-        if (this.selectorService.selectedShapes[i].nodeName === 'rect') {
-          let newX: number;
-          let newY: number;
-          console.log(this.nbIncrementsReset);
-          console.log(this.nbIncrements);
-          newX = Number(this.selectorService.selectedShapes[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
-          newY = Number(this.selectorService.selectedShapes[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
-          copiedNode = this.selectorService.selectedShapes[i].cloneNode(true);
-          console.log(copiedNode);
-
-          if (newX < this.canvasWidth && newY < this.canvasHeight) {
-            this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-            this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
-            this.renderer.setStyle(copiedNode, 'fill', 'red');
-            this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-            this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-          } else {
-            this.nbIncrements = 1;
-            this.nbIncrementsReset++;
-          }
-        }
-        if (this.selectorService.selectedShapes[i].nodeName === 'ellipse') {
-          let newX: number;
-          let newY: number;
-          console.log(this.nbIncrementsReset);
-          console.log(this.nbIncrements);
-          newX = Number(this.selectorService.selectedShapes[i].getAttribute('cx')) + (NB.OneHundred * this.nbIncrements);
-          newY = Number(this.selectorService.selectedShapes[i].getAttribute('cy')) + (NB.OneHundred * this.nbIncrements);
-          copiedNode = this.selectorService.selectedShapes[i].cloneNode(true);
-
-          if (newX < this.canvasWidth && newY < this.canvasHeight) {
-            this.renderer.setAttribute(copiedNode, 'cx', (newX).toString());
-            this.renderer.setAttribute(copiedNode, 'cy', (newY).toString());
-            this.renderer.setStyle(copiedNode, 'fill', 'red');
-            this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-            this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-          } else {
-            this.nbIncrements = 1;
-            this.nbIncrementsReset++;
-          }
-        }
-        if (this.selectorService.selectedShapes[i].nodeName === 'image') {
-          copiedNode = this.selectorService.selectedShapes[i].cloneNode(false);
-          let newX = Number(this.selectorService.selectedShapes[i].getAttribute('x')) + (NB.OneHundred * this.nbIncrements);
-          let newY = Number(this.selectorService.selectedShapes[i].getAttribute('y')) + (NB.OneHundred * this.nbIncrements);
-          
-          if (newX < this.canvasWidth && newY < this.canvasHeight) {
-            this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-            this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
-            this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-  
-            this.nbIncrements = 1;
-            this.nbIncrementsReset++;
-            this.includingBoxService.update();
-          }
-        }
-        if (this.selectorService.selectedShapes[i].nodeName === 'path') {
-
-          copiedNode = this.selectorService.selectedShapes[i].cloneNode(false);
-
-          //if (newX < this.canvasWidth && newY < this.canvasHeight) {
-          this.renderer.setStyle(copiedNode, 'stroke', 'red');
-          this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
-          this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-          this.nbIncrements = 1;
-          this.nbIncrementsReset++;
-        }
-        if (this.selectorService.selectedShapes[i].nodeName === 'polygon') {
-          this.polygonArray = [];
-          let polygonPoints: string[];
-          let newPolygonPoints: string;
-          let newX: number;
-          let newY: number;
-          let copiedNode = this.selectorService.selectedShapes[i].cloneNode(false) as SVGGraphicsElement;
-          polygonPoints = (this.selectorService.selectedShapes[i].getAttribute('points') as string).substring(0, (this.selectorService.selectedShapes[i].getAttribute('points') as string).length).split(" ");
-          for (let j = 0; j < polygonPoints.length; j++) {
-            this.polygonArray[j] = Number(polygonPoints[j]) + (NB.OneHundred * this.nbIncrements);
-          }
-          newPolygonPoints = this.polygonArray.join(' ');
-          copiedNode.setAttribute('points', newPolygonPoints);
-          
-          // let xList: number[];
-          // let yList: number[];
-          // xList = [];
-          // yList = [];
-  
-          // Bonne methode, pas bonnesvaleurs, on doit regarder x et y individuellement.
-          newX = Math.min.apply(Math, this.polygonArray);
-          newY = Math.min.apply(Math, this.polygonArray);
-          if (newX < this.canvasWidth && newY < this.canvasHeight) {
-            this.renderer.setStyle(copiedNode, 'fill', 'red');
-            this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-            this.renderer.appendChild(this.canvas.nativeElement, copiedNode);
-          } else {
-            this.nbIncrements = 1;
-            this.nbIncrementsReset++;
-          }
-        }
-      }
-    this.nbIncrements++;
-  }
-
-  delete(): void {
-    for (let i = 0; i < this.selectorService.selectedShapes.length; i++) {
-      if (this.selectorService.selectedShapes[i].id !== 'canvas') {
-        this.renderer.removeChild(this.canvas.nativeElement, this.selectorService.selectedShapes[i]);
-      }
-    }
-    this.selectorService.selectedShapes = [];
-    this.includingBoxService.clear();
   }
 
   draw(shape: SVGSVGElement): void {
@@ -601,9 +314,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
       this.eraserService.eraseMouseDown = false;
     }
-    // if (this.selectedTool === TOOL.clipboard) {
-    //   this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
-    // }
+
     if (this.selectedTool === TOOL.pen) {
       this.penService.onMouseUp();
     }
@@ -678,51 +389,37 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.c) {
       if (this.inputService.controlPressed === true) {
-        this.inputService.cPressed = true;
-        console.log('Control-C the clipboards content');
-        this.clipboardService.getElement();
-        this.nbIncrements = 1;
+        this.clipboardService.controlC();
       }
     }
     if (event.key === KEY.x) {
       if (this.inputService.controlPressed === true) {
-        this.inputService.xPressed = true;
-        console.log('Control-X the clipboards content');
-        this.clipboardService.getElement();
-        this.controlX();
-        this.nbIncrements = 1;
+        this.clipboardService.controlC();
+        this.clipboardService.controlX();
       }
     }
     if (event.key === KEY.v) {
       if (this.inputService.controlPressed === true) {
-        this.inputService.vPressed = true;
         this.eventEmitterService.assignSelectedTool();
-        console.log('Control-V the clipboards content');
-        this.controlV();
-        this.nbIncrements++;
+        this.clipboardService.controlV();
+        this.clipboardService.nbIncrements++;
       }
     }
     if (event.key === KEY.a) {
       event.preventDefault();
       if (this.inputService.controlPressed === true) {
-        this.inputService.aPressed = true;
         this.eventEmitterService.assignSelectedTool();
-        console.log('Control-A all the drawingBoard elements');
-        this.controlA();
+        this.clipboardService.controlA();
       }
     }
     if (event.key === KEY.d) {
       event.preventDefault();
       if (this.inputService.controlPressed === true) {
-        this.inputService.qPressed = true;
-        console.log('Control-D, duplicated the selection!');
-        this.controlD();
+        this.clipboardService.controlD();
       }
     }
     if (event.key === KEY.delete) {
-      this.inputService.deletePressed = true;
-      console.log('delete');
-      this.delete();
+      this.clipboardService.delete();
     }
   }
 
@@ -754,28 +451,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.control) {
       this.inputService.controlPressed = false;
-      this.nbIncrements = 1;
-    }
-    if (event.key === KEY.c) {
-      this.inputService.cPressed = false;
-    }
-    if (event.key === KEY.x) {
-      this.inputService.xPressed = false;
+      this.clipboardService.nbIncrements = 1;
     }
     if (event.key === KEY.d) {
-      this.inputService.qPressed = false;
-      this.polygonArray = [];
-    }
-    if (event.key === KEY.a) {
-      this.inputService.aPressed = false;
-    }
-    if (event.key === KEY.delete) {
-      this.inputService.deletePressed = false;
+      this.clipboardService.polygonArray = [];
     }
     if (event.key === KEY.v) {
-      this.inputService.vPressed = false;
-      this.polygonArray = [];
+      this.clipboardService.polygonArray = [];
     }
   }
-
 }

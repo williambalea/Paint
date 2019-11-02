@@ -11,13 +11,7 @@ export class InputService {
   escapePressed: boolean;
   backSpacePressed: boolean;
   controlPressed: boolean;
-  cPressed: boolean;
-  xPressed: boolean;
-  vPressed: boolean;
-  aPressed: boolean;
-  qPressed: boolean;
   altPressed: boolean;
-  deletePressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
   enterPressed: boolean;
@@ -48,9 +42,6 @@ export class InputService {
     this.drawingHtml = EMPTY_STRING;
     this.isNotEmpty = false;
     this.isDrawed = false;
-    this.cPressed = false;
-    this.xPressed = false;
-    this.qPressed = false;
     this.controlPressed = false;
   }
 

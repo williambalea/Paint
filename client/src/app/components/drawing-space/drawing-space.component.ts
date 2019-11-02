@@ -80,9 +80,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.nbIncrements = 1;
     this.nbIncrementsReset = 0;
     this.polygonArray = [];
-    this.lastMouseMoveTime = NB.Zero;
-    this.lastSpeed = NB.Zero;
-    this.penActive = false;
   }
 
   ngOnInit(): void {
@@ -604,9 +601,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
       this.eraserService.eraseMouseDown = false;
     }
-    if (this.selectedTool === TOOL.clipboard) {
-      this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
-    }
+    // if (this.selectedTool === TOOL.clipboard) {
+    //   this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
+    // }
     if (this.selectedTool === TOOL.pen) {
       this.penService.onMouseUp();
     }
@@ -778,51 +775,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.v) {
       this.inputService.vPressed = false;
       this.polygonArray = [];
-    }
-  }
-
-  @HostListener('mousedown', ['$event'])
-  onMouseDown(event: MouseEvent): void {
-    this.penActive = true;
-    this.inputService.mouseButton = event.button;
-    if (event.button === 0) {
-      this.selectorService.selectedShapes = [];
-    }
-    if (this.selectedTool === TOOL.pipette) {
-      event.preventDefault();
-      this.pipetteService.getColors(event, this.htmlCanvas, this.drawingBoard, this.canvasHeight, this.canvasWidth);
-    }
-    if (this.selectedTool === TOOL.eraser) {
-      this.eraserService.eraseMouseDown = true;
-    }
-    if (this.selectedTool === TOOL.pen) {
-      const penWrapper = this.renderer.createElement('g', 'svg');
-      this.renderer.appendChild(this.canvas.nativeElement, penWrapper);
-      this.interval = setInterval( () => {
-        this.shape = this.selectedShape.onMouseDown();
-        this.renderer.appendChild(penWrapper, this.shape);
-      }, 10);
-    }
-    this.shape = this.selectedShape.onMouseDown();
-    this.draw(this.shape);
-    this.inputService.isNotEmpty = true;
-    this.selectorAreaActive = true;
-    if (this.selectedTool === TOOL.selector) {
-      if (this.selectorAreaActive) {
-        if (event.button === NB.Zero) {
-          if ((event.target as HTMLElement).id.includes('pen')) {
-            this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
-          } else {
-            this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
-          }
-        } else if (event.button === NB.Two) {
-          const index = this.selectorService.selectedShapes.indexOf(event.target as SVGGraphicsElement);
-          if (index !== -NB.One) {
-            this.selectorService.selectedShapes.splice(index, NB.One);
-          }
-        }
-        this.includingBoxService.update();
-      }
     }
   }
 

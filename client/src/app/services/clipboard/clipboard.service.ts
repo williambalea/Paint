@@ -4,7 +4,7 @@ import { FileParametersServiceService } from '../file-parameters-service.service
 import { IncludingBoxService } from '../includingBox/including-box.service';
 import { SelectorService } from '../selector/selector.service';
 import { UnsubscribeService } from '../unsubscribe.service';
-import { ViewChildService } from '../view-child.service';
+import { ViewChildService } from '../view-child.service'; 
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +17,6 @@ export class ClipboardService implements OnInit {
   polygonArray: number[];
 
   getElementMouseDown: boolean;
-  controlCMode: boolean;
-  controlXMode: boolean;
-  controlVMode: boolean;
   nbIncrements: number;
   nbIncrementsReset: number;
 
@@ -39,11 +36,7 @@ export class ClipboardService implements OnInit {
 
     this.nbIncrements = 1;
     this.nbIncrementsReset = 0;
-
     this.getElementMouseDown = false;
-    this.controlCMode = false;
-    this.controlVMode = false;
-    this.controlVMode = false;
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
@@ -85,10 +78,23 @@ export class ClipboardService implements OnInit {
       return false;
     }
   }
+  writeTranslate(): string {
+
+    return ' ';
+  }
   renderPath(copiedNode: Node): void {
-    this.renderer.setStyle(copiedNode, 'stroke', 'red');
-    this.renderer.setAttribute(copiedNode, 'transform', 'translate(50, 50)');
-    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
+    let mainNode = copiedNode.cloneNode(true);
+    let translateX: number;
+    let translateY: number;
+    this.renderer.setStyle(mainNode, 'stroke', 'red');
+    console.log(mainNode);
+    translateX = 50 * this.nbIncrements;
+    translateY = 50 * this.nbIncrements;
+    console.log(translateX);
+    console.log(translateY);
+    this.renderer.setAttribute(mainNode, 'transform', this.writeTranslate());
+
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, mainNode);
   }
   renderRectangle(copiedNode: Node, newX: number, newY: number): void {
     this.renderer.setAttribute(copiedNode, 'x', (newX).toString());

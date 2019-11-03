@@ -59,6 +59,11 @@ describe('ClipboardService', () => {
     expect(service.clipboardEmpty()).not.toBeTruthy();
   });
 
+  it('should return true because the clipboard holds shapes', () => {
+    service.selectedItems.push(mockShape);
+    expect(service.clipboardEmpty()).not.toBeTruthy();
+  });
+
 
 
 });

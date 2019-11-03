@@ -1,7 +1,6 @@
 
 <input  type="file" (change)="onChange($event.target.files)">
 
-
 <div *ngIf = "this.uploadService.enableUploadButton">
 <button mat-button (click)="this.uploadService.confirm()" >confirm</button>
 </div>

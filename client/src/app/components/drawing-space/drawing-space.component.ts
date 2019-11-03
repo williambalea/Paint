@@ -302,6 +302,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (this.selectedTool === TOOL.eraser) {
+      if(this.eraserService.eraseMouseDown){
+      this.eraserService.mouseMove = true;
+      }
       this.eraserService.updatePosition(this.eraserService.cursor);
       }
   }
@@ -316,6 +319,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.eraser) {
       // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
+      
+      this.eraserService.mouseMove = false;
+    
       this.eraserService.eraseMouseDown = false;
     }
 

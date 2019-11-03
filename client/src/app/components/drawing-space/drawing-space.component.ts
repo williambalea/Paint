@@ -319,9 +319,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.eraser) {
       // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
-      
       this.eraserService.mouseMove = false;
-    
       this.eraserService.eraseMouseDown = false;
     }
 

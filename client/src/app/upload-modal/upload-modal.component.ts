@@ -1,8 +1,8 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { UploadService } from '../services/upload.service';
 import { InputService } from '../services/input.service';
+import { UploadService } from '../services/upload.service';
 
 @Component({
   selector: 'app-upload-modal',

@@ -48,4 +48,23 @@ describe('PenService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should get speed', () => {
+    service.mouseSpeed = 0;
+    service.lastMouseMoveTime = 0;
+    const event = new MouseEvent('mouseDown');
+    event.initMouseEvent('mouseDown', true, false, window, 1, 1, 1, 100, 100, false, false, false, false, 0, null);
+    service.getSpeed(event);
+    expect(service.mouseSpeed).not.toEqual(1);
+    expect(service.lastMouseMoveTime).not.toEqual(1);
+  });
+
+  it('should reset pen attributes', () => {
+    service.stroke = 'allo';
+    service.active = true;
+    service.reset();
+    expect(service.stroke).toEqual('');
+    expect(service.active).toBeFalsy();
+
+  });
+
 });

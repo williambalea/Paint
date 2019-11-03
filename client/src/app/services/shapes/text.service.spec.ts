@@ -4,22 +4,6 @@ import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { TextService } from './text.service';
 
-class RendererFactoryMock {
-  createRenderer(): void {return; }
-  appendChild(): void {return; }
-  // createElement(): void {return; }
-  setAttribute(): void {return; }
-  createElement(): void {return; }
-}
-
-// tslint:disable-next-line: max-classes-per-file
-class RendererMock {
-  createElement(): void {return; }
-  // // setStyle(): void {return; }
-  // setAttribute(): void {return; }
-  appendChild(): void {return; }
- }
-
 // tslint:disable-next-line: max-classes-per-file
 class ColorServiceMock {
   // getFillColor(): void {return; }
@@ -46,8 +30,7 @@ describe('TextService', () => {
         TextService,
         ColorService,
         InputService,
-        { provide: Renderer2, useClass: RendererMock },
-        { provide: RendererFactory2, useClass: RendererFactoryMock },
+        // { provide: RendererFactory2, useClass: RendererFactoryMock },
         { provide: InputService, useClass: InputServiceMock },
         { provide: ColorService, useClass: ColorServiceMock },
       ],
@@ -55,7 +38,7 @@ describe('TextService', () => {
     service = TestBed.get(TextService);
     // colorService = TestBed.get(ColorService);
     // inputService = TestBed.get(InputService);
-    renderer = TestBed.get(Renderer2);
+    // renderer = TestBed.get(Renderer2);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
   });
@@ -88,6 +71,14 @@ describe('TextService', () => {
     expect(spyOnUpdate).toHaveBeenCalled();
   });
 
+  it('should create text Elements', () => {
+    const spyOnCreateElement = spyOn(renderer, 'createElement');
+    const spyOnAppendChild = spyOn(renderer, 'appendChild');
+    service.createTextElements();
+    expect(spyOnCreateElement).toHaveBeenCalledTimes(2);
+    expect(spyOnAppendChild).toHaveBeenCalledTimes(1);
+  });
+
   // it('should excute on mouse down', () => {
   //   const spyOnCreateTextElements = spyOn(service, 'createTextElements');
   //   const spyOnSetTextAttributes = spyOn(service, 'setTextAttributes');
@@ -100,13 +91,17 @@ describe('TextService', () => {
   //   expect(spyOnAppendChild).toHaveBeenCalled();
   // });
 
-  it('should create text Elements', () => {
-    const spyOnCreateElement = spyOn(renderer, 'createElement');
-    const spyOnAppendChild = spyOn(renderer, 'appendChild');
-    service.createTextElements();
-    expect(spyOnCreateElement).toHaveBeenCalledTimes(2);
-    expect(spyOnAppendChild).toHaveBeenCalledTimes(1);
-  });
+  // it('should excute on mouse down', () => {
+  //   const spyOnCreateTextElements = spyOn(service, 'createTextElements');
+  //   const spyOnSetTextAttributes = spyOn(service, 'setTextAttributes');
+  //   const spyOnUpdate = spyOn(service, 'update');
+  //   const spyOnAppendChild = spyOn(renderer, 'appendChild');
+  //   service.onMouseDown();
+  //   expect(spyOnCreateTextElements).toHaveBeenCalled();
+  //   expect(spyOnSetTextAttributes).toHaveBeenCalled();
+  //   expect(spyOnUpdate).toHaveBeenCalled();
+  //   expect(spyOnAppendChild).toHaveBeenCalled();
+  // });
 
   // // it('should set text attributes', () => {
   // //   const spyOnSeAttributes = spyOn(renderer, 'setAttribute');

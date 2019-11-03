@@ -15,6 +15,7 @@ export class InputService {
   isBlank: boolean;
   isDoubleClick: boolean;
   enterPressed: boolean;
+  gridShortcutsActive: boolean;
 
   stampAngle: number;
   json: string;
@@ -43,6 +44,7 @@ export class InputService {
     this.isNotEmpty = false;
     this.isDrawed = false;
     this.controlPressed = false;
+    this.gridShortcutsActive = true;
   }
 
   setMouseOffset(event: MouseEvent, area: HTMLElement): void {

@@ -1,5 +1,5 @@
 
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { InputService } from 'src/app/services/input.service';
@@ -13,7 +13,7 @@ import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confi
   templateUrl: './new-file-modalwindow.component.html',
   styleUrls: ['./new-file-modalwindow.component.scss'],
 })
-export class NewFileModalwindowComponent implements OnInit {
+export class NewFileModalwindowComponent implements OnInit, OnDestroy {
   form: FormGroup;
   canvasWidth: number;
   canvasHeight: number;
@@ -23,7 +23,13 @@ export class NewFileModalwindowComponent implements OnInit {
               private inputService: InputService,
               private formBuilder: FormBuilder,
               private colorService: ColorService,
-              private dialogRef: MatDialogRef<NewFileModalwindowComponent>) { }
+              private dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
+  this.inputService.gridShortcutsActive = false;
+ }
+
+  ngOnDestroy() {
+    this.inputService.gridShortcutsActive = true;
+  }
 
   assignForm(): void {
     this.form = this.formBuilder.group({

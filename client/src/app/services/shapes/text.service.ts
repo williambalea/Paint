@@ -53,7 +53,7 @@ export class TextService {
     this.update();
   }
 
-  //Test ne marche pas
+  // Test ne marche pas
   onMouseDown(): void {
     this.isWriting = !this.isWriting;
     console.log(this.isWriting);

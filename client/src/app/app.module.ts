@@ -13,7 +13,6 @@ import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.
 import { BrushAttributesComponent } from './components/attribute-bar/brush-attributes/brush-attributes.component';
 import { EllipseAttributesComponent } from './components/attribute-bar/ellipse-attributes/ellipse-attributes.component';
 import { EraserAttributesComponent } from './components/attribute-bar/eraser-attributes/eraser-attributes.component';
-import { GridAttributesComponent } from './components/attribute-bar/grid-attributes/grid-attributes.component';
 import { LineAttributesComponent } from './components/attribute-bar/line-attributes/line-attributes.component';
 import { PenAttributesComponent } from './components/attribute-bar/pen-attributes/pen-attributes.component';
 import { PencilAttributesComponent } from './components/attribute-bar/pencil-attributes/pencil-attributes.component';
@@ -58,7 +57,6 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     BrushAttributesComponent,
     PenAttributesComponent,
     PencilAttributesComponent,
-    GridAttributesComponent,
     StampAttributesComponent,
     LineAttributesComponent,
     TextAttributesComponent,

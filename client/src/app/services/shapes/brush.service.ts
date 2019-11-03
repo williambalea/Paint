@@ -2,8 +2,8 @@ import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { COLORS, EMPTY_STRING, INIT_MOVE_BRUSH, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
-import { Shape } from './shape';
 import { ViewChildService } from '../view-child.service';
+import { Shape } from './shape';
 
 @Injectable({
   providedIn: 'root',

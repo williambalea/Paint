@@ -1,24 +1,33 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_STRING } from 'src/constants';
 import { ExportService } from '../services/export.service';
+import { InputService } from '../services/input.service';
 
 @Component({
   selector: 'app-download-modal',
   templateUrl: './download-modal.component.html',
   styleUrls: ['./download-modal.component.scss'],
 })
-export class DownloadModalComponent implements OnInit {
+export class DownloadModalComponent implements OnInit, OnDestroy {
   formats: string[];
   selectedFormat: string;
   name: string;
   fileName: string;
   fileUrl: any;
 
-  constructor(private exportService: ExportService, private sanitizer: DomSanitizer, private renderer: Renderer2) {
+  constructor(private exportService: ExportService,
+              private sanitizer: DomSanitizer,
+              private renderer: Renderer2,
+              private inputService: InputService) {
     this.selectedFormat = 'svg';
     this.name = EMPTY_STRING;
     this.fileName = EMPTY_STRING;
+    this.inputService.gridShortcutsActive = false;
+  }
+
+  ngOnDestroy() {
+    this.inputService.gridShortcutsActive = true;
   }
 
   ngOnInit() {

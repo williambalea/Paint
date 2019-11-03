@@ -1,6 +1,5 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-// import {RendererFactory2 } from '@angular/core';
-//Renderer2
+import {Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
@@ -23,8 +22,8 @@ describe('PenService', () => {
   let service: PenService;
   // let colorService: ColorService;
   // let inputService: InputService;
-  // let renderer: Renderer2;
-  // let rendererFactory: RendererFactory2;
+  let renderer: Renderer2;
+  let rendererFactory: RendererFactory2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,16 +31,15 @@ describe('PenService', () => {
         PenService,
         ColorService,
         InputService,
-        // { provide: RendererFactory2, useClass: RendererFactoryMock },
         { provide: InputService, useClass: InputServiceMock },
         { provide: ColorService, useClass: ColorServiceMock },
       ],
     }).compileComponents();
     service = TestBed.get(PenService);
     // colorService = TestBed.get(ColorService);
-    // renderer = TestBed.get(Renderer2);
-    // rendererFactory = TestBed.get(RendererFactory2);
-    // renderer = rendererFactory.createRenderer(null, null);
+    //renderer = TestBed.get(Renderer2);
+    rendererFactory = TestBed.get(RendererFactory2);
+    renderer = rendererFactory.createRenderer(null, null);
   });
 
   it('should be created', () => {
@@ -64,7 +62,39 @@ describe('PenService', () => {
     service.reset();
     expect(service.stroke).toEqual('');
     expect(service.active).toBeFalsy();
-
   });
+
+  it('should execute on mouse down', () => {
+    service.active = false;
+    const spyOnCreatePenGroupe = spyOn(service, 'createPenGroup');
+    service.onMouseDown();
+    expect(service.active).toBeTruthy();
+    expect(spyOnCreatePenGroupe).toHaveBeenCalled();
+  });
+
+  it('should create path', () => {
+    service.stroke = '';
+    service.linepath = '';
+    const spyOnSetStylePath = spyOn(service, 'setStylePath');
+    service.createPath();
+    expect(service.stroke).not.toEqual('');
+    expect(spyOnSetStylePath).toHaveBeenCalled();
+    expect(service.linepath).not.toEqual('');
+  });
+
+  it('should set style path', () => {
+    const spyOnSetStylePath = spyOn(renderer, 'setStyle');
+    service.setStylePath();
+    expect(spyOnSetStylePath).toHaveBeenCalledTimes(3);
+  });
+
+  //LES TESTS QUI NE MARCHENT PAS
+
+  //nativeElement of undefined
+  // it('should create pen group', () => {
+  //   const spyOnPenWrapper = spyOn(renderer, 'createElement');
+  //   service.createPenGroup();
+  //   expect(spyOnPenWrapper).toHaveBeenCalled();
+  // });
 
 });

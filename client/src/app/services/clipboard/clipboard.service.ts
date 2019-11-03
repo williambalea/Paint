@@ -1,15 +1,14 @@
-import { Injectable, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { NB } from 'src/constants';
 import { FileParametersServiceService } from '../file-parameters-service.service';
 import { IncludingBoxService } from '../includingBox/including-box.service';
 import { SelectorService } from '../selector/selector.service';
-import { UnsubscribeService } from '../unsubscribe.service';
-import { ViewChildService } from '../view-child.service'; 
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ClipboardService implements OnInit {
+export class ClipboardService {
 
   renderer: Renderer2;
   selectedItems: SVGGraphicsElement[];
@@ -26,8 +25,7 @@ export class ClipboardService implements OnInit {
               private viewChildService: ViewChildService,
               private rendererFactory: RendererFactory2,
               private includingBoxService: IncludingBoxService,
-              private fileParameterService: FileParametersServiceService,
-              private unsubscribeService: UnsubscribeService) {
+              private fileParameterService: FileParametersServiceService) {
     this.selectedItems = [];
 
     this.nbIncrements = 1;
@@ -36,17 +34,6 @@ export class ClipboardService implements OnInit {
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
-  ngOnInit(): void {
-    this.setCanvasParameters();
-  }
-  setCanvasParameters(): void {
-    this.unsubscribeService.subscriptons.push(this.fileParameterService.canvaswidth$
-      .subscribe((canvasWidth) => this.canvasWidth = canvasWidth));
-    this.unsubscribeService.subscriptons.push(this.fileParameterService.canvasheight$
-      .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
-    this.unsubscribeService.subscriptons.push(this.fileParameterService.resizeflag$
-      .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
-  }
   findSelected(): boolean {
     if (this.selectorService.selectedShapes.length !== 0 && this.dismissCanvas()) {
       return true;
@@ -88,11 +75,10 @@ export class ClipboardService implements OnInit {
     return 'translate(' + shiftX + ', ' + shiftY + ')';
   }
 
-  verifyTranslationCoordinates(copiedNode: SVGGraphicsElement): boolean {
-    const copiedNodeData = copiedNode as SVGGraphicsElement;
-    const value = copiedNodeData.getBoundingClientRect() as DOMRect;
-    console.log(value.top);
-    if (copiedNodeData.getBoundingClientRect().top > this.canvasHeight || copiedNodeData.getBoundingClientRect().left > this.canvasWidth) {
+  verifyTranslationCoordinates(x: number, y: number): boolean {
+    if (x + (NB.Fifteen * this.nbIncrements) > this.fileParameterService.canvasWidth.getValue()
+        || y + (NB.Fifteen * this.nbIncrements) > this.fileParameterService.canvasHeight.getValue()) {
+      this.nbIncrements = 0;
       return false;
     } else {
       return true;
@@ -142,7 +128,7 @@ export class ClipboardService implements OnInit {
     let copiedNode: SVGGraphicsElement;
     for (const item of this.selectorService.selectedShapes) {
       copiedNode = item.cloneNode(true) as SVGGraphicsElement;
-      if (this.verifyTranslationCoordinates(copiedNode)) {
+      if (this.verifyTranslationCoordinates(item.getBoundingClientRect().left, item.getBoundingClientRect().top)) {
         this.renderSVGElement(copiedNode);
       } else {
         this.nbIncrements = 0;
@@ -155,7 +141,7 @@ export class ClipboardService implements OnInit {
     let copiedNode: SVGGraphicsElement;
     for (const item of this.selectedItems) {
       copiedNode = item.cloneNode(true) as SVGGraphicsElement;
-      if (this.verifyTranslationCoordinates(copiedNode)) {
+      if (this.verifyTranslationCoordinates(item.getBoundingClientRect().left, item.getBoundingClientRect().top)) {
         this.renderSVGElement(copiedNode);
       } else {
         this.nbIncrements = 0;

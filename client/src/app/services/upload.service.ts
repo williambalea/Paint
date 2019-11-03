@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EventEmitterService } from './event-emitter.service';
 import { InputService } from './input.service';
+import { EMPTY_STRING } from 'src/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,11 @@ export class UploadService {
 
   fileContent : string;
   enableUploadButton : boolean;
+  backgroundColor : string;
 
   constructor(private eventEmitterService : EventEmitterService, private inputService : InputService) { 
     this.enableUploadButton = false;
+    this.backgroundColor = EMPTY_STRING;
   }
 
   confirm() : void {

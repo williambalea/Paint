@@ -88,6 +88,7 @@ export class EraserService {
   validateErase(child: SVGGraphicsElement): void {
     if (this.eraseMouseDown) {
       this.renderer.removeChild(this.drawingBoard.nativeElement, child);
+      this.eraseMouseDown = false;
     }
   }
 
@@ -102,12 +103,14 @@ export class EraserService {
     const cursorBox = this.cursor.getBoundingClientRect();
     this.clear();
     this.preview = [];
-    for (const child of this.canvas.nativeElement.children) {
-        const childBox = child.getBoundingClientRect();
+    for( let i :number = this.canvas.nativeElement.children.length  ; i-- ; i>0) {
+    //for (const child of this.canvas.nativeElement.children) {
+       // const childBox = child.getBoundingClientRect();
+       const childBox = this.canvas.nativeElement.children[i].getBoundingClientRect();
         let isIntersection: boolean;
         isIntersection = (!(childBox.left > cursorBox.right || childBox.right < cursorBox.left
           || childBox.top > cursorBox.bottom || childBox.bottom < cursorBox.top));
-        this.validateIntersection(isIntersection, child);
+        this.validateIntersection(isIntersection, this.canvas.nativeElement.children[i]);
     }
   }
 }

@@ -88,6 +88,38 @@ describe('PenService', () => {
     expect(spyOnSetStylePath).toHaveBeenCalledTimes(3);
   });
 
+  it('should execute on mouse move', () => {
+    service.active = true;
+    service.strokeWidth = 0;
+    const spyOnvalidateStrokeWidthMin = spyOn(service, 'validateStrokeWidthMin');
+    const spyOnvalidateStrokeWidthMax = spyOn(service, 'validateStrokeWidthMax');
+    const spyOnDraw = spyOn(service, 'draw');
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    service.onMouseMove();
+    expect(service.strokeWidth).not.toEqual(0);
+    expect(spyOnvalidateStrokeWidthMin).toHaveBeenCalled();
+    expect(spyOnvalidateStrokeWidthMax).toHaveBeenCalled();
+    expect(spyOnSetStyle).toHaveBeenCalled();
+    expect(spyOnDraw).toHaveBeenCalled();
+  });
+
+  it('should not execute on mouse move', () => {
+    service.active = false;
+    service.strokeWidth = 0;
+    const spyOnvalidateStrokeWidthMin = spyOn(service, 'validateStrokeWidthMin');
+    const spyOnvalidateStrokeWidthMax = spyOn(service, 'validateStrokeWidthMax');
+    const spyOnDraw = spyOn(service, 'draw');
+    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    service.onMouseMove();
+    expect(service.strokeWidth).toEqual(0);
+    expect(spyOnvalidateStrokeWidthMin).not.toHaveBeenCalled();
+    expect(spyOnvalidateStrokeWidthMax).not.toHaveBeenCalled();
+    expect(spyOnSetStyle).not.toHaveBeenCalled();
+    expect(spyOnDraw).not.toHaveBeenCalled();
+  });
+
+
+
   //LES TESTS QUI NE MARCHENT PAS
 
   //nativeElement of undefined

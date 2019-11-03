@@ -31,65 +31,38 @@
 
         <div *ngSwitchCase="tool.rectangle">
             <app-rectangle-attributes></app-rectangle-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.ellipse">
             <app-ellipse-attributes></app-ellipse-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.polygon">
             <app-polygon-attributes></app-polygon-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.brush">
             <app-brush-attributes></app-brush-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.text">
             <app-text-attributes></app-text-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.pencil">
             <app-pencil-attributes></app-pencil-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.pen">
             <app-pen-attributes></app-pen-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.line">
             <app-line-attributes></app-line-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.colorApplicator">
             <app-color-applicator-attributes></app-color-applicator-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.grid">
@@ -132,23 +105,20 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
 
         <div *ngSwitchCase="tool.eraser">
             <app-eraser-attributes></app-eraser-attributes>
-            <div *ngIf="this.colorService.getShowInAttributeBar()">
-                <app-color-picker></app-color-picker>
-            </div>
         </div>
-
 
         <div *ngSwitchCase="tool.stamp">
             <app-stamp-attributes></app-stamp-attributes>
         </div>
 
+    </div>
+
+    <div *ngIf="this.colorService.getShowInAttributeBar()">
+        <app-color-picker></app-color-picker>
     </div>
 
 </div>

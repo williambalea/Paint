@@ -291,7 +291,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.penService.getSpeed(event);
 
     if (this.selectedTool !== TOOL.colorApplicator) {
-      this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement);
+      this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement, this.selectedTool);
       this.selectedShape.onMouseMove();
     }
     if (this.selectedTool === TOOL.selector) {
@@ -302,7 +302,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (this.selectedTool === TOOL.eraser) {
-      if(this.eraserService.eraseMouseDown){
+      if (this.eraserService.eraseMouseDown) {
       this.eraserService.mouseMove = true;
       }
       this.eraserService.updatePosition(this.eraserService.cursor);

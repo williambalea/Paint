@@ -134,8 +134,15 @@ describe('PenService', () => {
   it('should validate stroke width max', () => {
     service.strokeWidth = 2;
     service.maxStrokeWidth = 1;
-    service.validateStrokeWidthMin();
-    expect(service.strokeWidth).toEqual(10);
+    service.validateStrokeWidthMax();
+    expect(service.strokeWidth).toEqual(1);
+  });
+
+  it('should validate stroke width max', () => {
+    service.strokeWidth = 1;
+    service.maxStrokeWidth = 2;
+    service.validateStrokeWidthMax();
+    expect(service.strokeWidth).toEqual(1);
   });
 
   it('should execute on mouse up', () => {

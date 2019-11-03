@@ -130,6 +130,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.uploadService.fileContent);
   this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.uploadService.backgroundColor);
+  this.uploadService.backgroundColor = EMPTY_STRING;
  }
 
   ngOnDestroy(): void {

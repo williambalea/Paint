@@ -24,6 +24,7 @@ import { ExportModalComponent } from './export-modal/export-modal.component';
 import { MaterialModule } from './material/material.module';
 import { EventEmitterService } from './services/event-emitter.service';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
+import { SafeStylePipe } from './safe-style.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     ExportModalComponent,
     UploadModalComponent,
     DownloadModalComponent,
+    SafeStylePipe,
   ],
   imports: [
     BrowserModule,

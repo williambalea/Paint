@@ -6,6 +6,7 @@ import { ExportModalComponent } from 'src/app/export-modal/export-modal.componen
 import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
+import { CursorService } from 'src/app/services/cursor.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
@@ -74,6 +75,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
               private selectorService: SelectorService,
               private lineService: LineService,
               private noShapeService: NoShapeService,
+              protected cursorService: CursorService,
               private undoRedoService: UndoRedoService,
               private eventEmitterService: EventEmitterService) {
     this.enableKeyPress = false;
@@ -175,6 +177,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       default:
     }
+    this.cursorService.setCursor(tool);
   }
 
   setColorNewFile(): void {

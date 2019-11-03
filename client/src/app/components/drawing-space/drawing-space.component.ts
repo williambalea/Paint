@@ -3,6 +3,7 @@ import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { PipetteService } from 'src/app/services/color/pipette.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
+import { CursorService } from 'src/app/services/cursor.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { GridService } from 'src/app/services/grid/grid.service';
@@ -60,6 +61,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private communicationService: CommunicationsService,
               private gridService: GridService,
               private penService: PenService,
+              protected cursorService: CursorService,
               private screenshotService: ScreenshotService,
               private unsubscribeService: UnsubscribeService,
               private includingBoxService: IncludingBoxService,

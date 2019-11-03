@@ -1,0 +1,27 @@
+<div class="header">Color Applicator</div>
+
+            <div class="attribute">
+
+                <div class="attributeHeader">New Fill Color</div>
+
+                <div class="svg">
+                    <svg width="200" height="100">
+                        <rect x="3" y="3" width="194" height="84" rx="5" ry="5"
+                            [style.fill]="this.colorService.getFillColor()" />
+                    </svg>
+                </div>
+
+            </div>
+
+            <div class="attribute">
+
+                <div class="attributeHeader">New Border Color</div>
+
+                <div class="svg">
+                    <svg width="200" height="100">
+                        <rect x="3" y="3" width="194" height="84" rx="5" ry="5"
+                            [style.fill]="this.colorService.getStrokeColor()" />
+                    </svg>
+                </div>
+
+            </div>

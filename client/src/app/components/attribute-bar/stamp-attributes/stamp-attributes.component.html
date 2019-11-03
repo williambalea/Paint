@@ -1,0 +1,39 @@
+<div class="header">Stamp</div>
+<div class="svg">
+    <svg width="200" height="100">
+        <image [attr.xlink:href]="stampService.selectedStamp" [attr.x]="100 - stampService.size / 2"
+            [attr.y]="50 - stampService.size / 2" [attr.height]="stampService.size"
+            [attr.width]="stampService.size"
+            [attr.transform]="'rotate(' + inputService.stampAngle + ' 100 50)'" />
+    </svg>
+</div>
+<div class="attribute">
+    <div class="attributeHeader">Emojis</div>
+    <div class="stampbox">
+        <span *ngFor="let stamp of stampService.stamps; index as i">
+            <img [attr.src]="stamp" (click)="stampService.selectStamp(stamp, i)">
+        </span>
+    </div>
+</div>
+<div class="attribute">
+    <div class="attributeHeader">
+        Icon Size: {{stampService.size}} px  <br>
+    </div>
+
+    <div>
+        <mat-slider min="1" max="100" value={{stampService.size}} [(ngModel)]="stampService.size"
+            (input)="stampService.size = $event.value">
+        </mat-slider>
+    </div>
+</div>
+<div class="attribute">
+    <div class="attributeHeader">
+        Icon Angle: {{inputService.stampAngle}}°<br>
+    </div>
+
+    <div>
+        <mat-slider min="0" max="360" value={{inputService.stampAngle}}
+            [(ngModel)]="inputService.stampAngle" (input)="inputService.stampAngle = $event.value">
+        </mat-slider>
+    </div>
+</div>

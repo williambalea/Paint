@@ -17,6 +17,7 @@ export class EraserService {
   canvas: ElementRef;
   preview: SVGGraphicsElement[];
   g: SVGGraphicsElement;
+  mouseMove : boolean;
 
   constructor(private viewChildService: ViewChildService,
               private rendererFactory: RendererFactory2,
@@ -28,6 +29,7 @@ export class EraserService {
     this.cursor = this.renderer.createElement('rect', 'svg');
     this.divider = 2;
     this.preview = [];
+    this.mouseMove = false;
   }
 
   initializeViewChildren(): void {
@@ -86,7 +88,12 @@ export class EraserService {
   }
 
   validateErase(child: SVGGraphicsElement): void {
-    if (this.eraseMouseDown) {
+    console.log('mouse move',this.mouseMove);
+    if (this.eraseMouseDown && this.mouseMove) {
+      this.renderer.removeChild(this.drawingBoard.nativeElement, child);
+      //this.eraseMouseDown = false;
+    }
+    else if (this.eraseMouseDown && !this.mouseMove){
       this.renderer.removeChild(this.drawingBoard.nativeElement, child);
       this.eraseMouseDown = false;
     }

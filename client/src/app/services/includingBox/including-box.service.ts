@@ -29,7 +29,13 @@ export class IncludingBoxService {
     const finalPoint: Point = { x: 0, y: 0 };
     const bottomRight: Point = { x: 0, y: 0 };
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
-      const shapeBoundary: SVGRect = value.getBBox();
+      const clientRect = value.getBoundingClientRect() as DOMRect;
+      const shapeBoundary: SVGRect = {
+        x: clientRect.x - 350,
+        y: clientRect.y,
+        width: clientRect.width,
+        height: clientRect.height,
+      } as SVGRect;
       this.validateNoStroke(value, shapeBoundary);
       this.calculateInitialPoint(shapeBoundary);
       this.calculateBottomRight(bottomRight, shapeBoundary);

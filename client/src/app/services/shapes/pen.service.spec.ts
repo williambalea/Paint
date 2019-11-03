@@ -7,8 +7,7 @@ import { PenService } from './pen.service';
 
 // tslint:disable-next-line: max-classes-per-file
 class ColorServiceMock {
-  // getFillColor(): void {return; }
-  // addColorsToLastUsed(): void {return; }
+  addColorsToLastUsed(): void {return; }
   getFillColor(): void {return; }
 }
 
@@ -20,7 +19,7 @@ class InputServiceMock {
 
 describe('PenService', () => {
   let service: PenService;
-  // let colorService: ColorService;
+  let colorService: ColorService;
   // let inputService: InputService;
   let renderer: Renderer2;
   let rendererFactory: RendererFactory2;
@@ -36,7 +35,7 @@ describe('PenService', () => {
       ],
     }).compileComponents();
     service = TestBed.get(PenService);
-    // colorService = TestBed.get(ColorService);
+    colorService = TestBed.get(ColorService);
     //renderer = TestBed.get(Renderer2);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
@@ -118,10 +117,53 @@ describe('PenService', () => {
     expect(spyOnDraw).not.toHaveBeenCalled();
   });
 
+  it('should validate stroke width min', () => {
+    service.strokeWidth = 1;
+    service.minStrokeWidth = 2;
+    service.validateStrokeWidthMin();
+    expect(service.strokeWidth).toEqual(2);
+  });
 
+  it('should not validate stroke width min', () => {
+    service.strokeWidth = 2;
+    service.minStrokeWidth = 1;
+    service.validateStrokeWidthMin();
+    expect(service.strokeWidth).toEqual(2);
+  });
+
+  it('should validate stroke width max', () => {
+    service.strokeWidth = 2;
+    service.maxStrokeWidth = 1;
+    service.validateStrokeWidthMin();
+    expect(service.strokeWidth).toEqual(10);
+  });
+
+  it('should execute on mouse up', () => {
+    const spyOnReset = spyOn(service, 'reset');
+    const spyOnColorService = spyOn(colorService, 'addColorsToLastUsed');
+    service.onMouseUp();
+    expect(spyOnReset).toHaveBeenCalled();
+    expect(spyOnColorService).toHaveBeenCalled();
+  });
+
+  it('should draw', () => {
+    service.linepath = '';
+    const spyOnsetAttribute = spyOn(renderer, 'setAttribute');
+    const spyOnsetStyle = spyOn(renderer, 'setStyle');
+    service.draw();
+    expect(service.linepath).not.toEqual('');
+    expect(spyOnsetAttribute).toHaveBeenCalled();
+    expect(spyOnsetStyle).toHaveBeenCalled();
+  });
+
+  // it('should not validate stroke width max', () => {
+  //   service.strokeWidth = 1;
+  //   service.maxStrokeWidth = 2;
+  //   service.validateStrokeWidthMin();
+  //   expect(service.strokeWidth).toEqual(10);
+  // });
 
   //LES TESTS QUI NE MARCHENT PAS
-
   //nativeElement of undefined
   // it('should create pen group', () => {
   //   const spyOnPenWrapper = spyOn(renderer, 'createElement');

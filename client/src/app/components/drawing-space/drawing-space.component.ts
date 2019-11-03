@@ -452,11 +452,5 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.control) {
       this.inputService.controlPressed = false;
     }
-    if (event.key === KEY.d) {
-      this.clipboardService.polygonArray = [];
-    }
-    if (event.key === KEY.v) {
-      this.clipboardService.polygonArray = [];
-    }
   }
 }

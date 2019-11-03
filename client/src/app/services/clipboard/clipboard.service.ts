@@ -13,8 +13,6 @@ export class ClipboardService implements OnInit {
 
   renderer: Renderer2;
   selectedItems: SVGGraphicsElement[];
-  memoryShapes: SVGGraphicsElement[];
-  polygonArray: number[];
 
   getElementMouseDown: boolean;
   nbIncrements: number;
@@ -31,8 +29,6 @@ export class ClipboardService implements OnInit {
               private fileParameterService: FileParametersServiceService,
               private unsubscribeService: UnsubscribeService) {
     this.selectedItems = [];
-    this.memoryShapes = [];
-    this.polygonArray = [];
 
     this.nbIncrements = 1;
     this.nbIncrementsReset = 0;
@@ -103,42 +99,11 @@ export class ClipboardService implements OnInit {
     }
   }
 
-  renderPath(copiedNode: Node): void {
-    this.renderer.setStyle(copiedNode, 'stroke', 'red');
+  renderSVGElement(copiedNode: Node): void {
     this.renderer.setAttribute(copiedNode, 'transform', this.writeTranslate());
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
   }
 
-  renderText(copiedNode: Node): void {
-    this.renderer.setStyle(copiedNode, 'fill', 'red');
-    this.renderer.setAttribute(copiedNode, 'transform', this.writeTranslate());
-    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
-  }
-
-  renderRectangle(copiedNode: Node, newX: number, newY: number): void {
-    this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-    this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
-    this.renderer.setStyle(copiedNode, 'fill', 'red');
-    this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
-  }
-  renderEllipse(copiedNode: Node, newX: number, newY: number): void {
-    this.renderer.setAttribute(copiedNode, 'cx', (newX).toString());
-    this.renderer.setAttribute(copiedNode, 'cy', (newY).toString());
-    this.renderer.setStyle(copiedNode, 'fill', 'red');
-    this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
-  }
-  renderStamp(copiedNode: Node, newX: number, newY: number): void {
-    this.renderer.setAttribute(copiedNode, 'x', (newX).toString());
-    this.renderer.setAttribute(copiedNode, 'y', (newY).toString());
-    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
-  }
-  renderPolygon(copiedNode: Node): void {
-    this.renderer.setStyle(copiedNode, 'fill', 'red');
-    this.renderer.setStyle(copiedNode, 'stroke', 'blue');
-    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
-  }
   controlC(): void {
     this.selectedItems = [];
     this.nbIncrements = 0;
@@ -152,6 +117,7 @@ export class ClipboardService implements OnInit {
     console.log(this.selectedItems);
     this.nbIncrements++;
   }
+
   controlX(): void {
     this.controlC();
     for (const item of this.selectedItems) {
@@ -162,6 +128,7 @@ export class ClipboardService implements OnInit {
     this.selectorService.selectedShapes = [];
     this.includingBoxService.clear();
   }
+
   controlA(): void {
     this.selectedItems = [];
     this.selectedItems = this.viewChildService.canvas.nativeElement.children as SVGGraphicsElement[];
@@ -170,168 +137,32 @@ export class ClipboardService implements OnInit {
     this.selectorService.selectedShapes = array;
     this.includingBoxService.update();
   }
+
   controlD(): void {
     let copiedNode: SVGGraphicsElement;
-    let newX: number;
-    let newY: number;
     for (const item of this.selectorService.selectedShapes) {
-        if (item.nodeName === 'rect') {
-          newX = Number(item.getAttribute('x')) + (NB.Fifteen * this.nbIncrements);
-          newY = Number(item.getAttribute('y')) + (NB.Fifteen * this.nbIncrements);
-          copiedNode = item.cloneNode(true) as SVGGraphicsElement;
-          if (this.verifyTranslationCoordinates(copiedNode)) {
-            this.renderRectangle(copiedNode, newX, newY);
-          } else {
-            this.nbIncrements = 0;
-            this.nbIncrementsReset++;
-          }
-        }
-        if (item.nodeName === 'ellipse') {
-          newX = Number(item.getAttribute('cx')) + (NB.Fifteen * this.nbIncrements);
-          newY = Number(item.getAttribute('cy')) + (NB.Fifteen * this.nbIncrements);
-          copiedNode = item.cloneNode(true) as SVGGraphicsElement;
-          if (this.verifyTranslationCoordinates(copiedNode)) {
-            this.renderEllipse(copiedNode, newX, newY);
-          } else {
-            this.nbIncrements = 0;
-            this.nbIncrementsReset++;
-          }
-        }
-        if (item.nodeName === 'image') {
-          copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-          newX = Number(item.getAttribute('x')) + (NB.Fifteen * this.nbIncrements);
-          newY = Number(item.getAttribute('y')) + (NB.Fifteen * this.nbIncrements);
-          if (this.verifyTranslationCoordinates(copiedNode)) {
-            this.renderStamp(copiedNode, newX, newY);
-          } else {
-            this.nbIncrements = 0;
-            this.nbIncrementsReset++;
-          }
-        }
-        if (item.nodeName === 'path') {
-          copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-          if (this.verifyTranslationCoordinates(copiedNode)) {
-            this.renderPath(copiedNode);
-          } else {
-          this.nbIncrements = 0;
-          this.nbIncrementsReset++;
-          }
-        }
-        if (item.nodeName === 'g') {
-          copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-          for (let h = 0; h < copiedNode.childElementCount; h++) {
-            this.renderPath(copiedNode.children[h] as SVGGraphicsElement);
-          }
-        }
-        if (item.nodeName === 'text') {
-          console.log('text branch');
-          copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-          if (this.verifyTranslationCoordinates(copiedNode)) {
-            this.renderText(copiedNode);
-          } else {
-          this.nbIncrements = 0;
-          this.nbIncrementsReset++;
-          }
-        }
-        if (item.nodeName === 'polygon') {
-          this.polygonArray = [];
-          let polygonPoints: string[];
-          let newPolygonPoints: string;
-          copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-          polygonPoints = (item.getAttribute('points') as string).substring(0,
-                          (item.getAttribute('points') as string).length).split(' ');
-          for (let j = 0; j < polygonPoints.length; j++) {
-            this.polygonArray[j] = Number(polygonPoints[j]) + (NB.OneHundred * this.nbIncrements);
-          }
-          newPolygonPoints = this.polygonArray.join(' ');
-          copiedNode.setAttribute('points', newPolygonPoints);
-
-          // Bonne methode, pas bonnesvaleurs, on doit regarder x et y individuellement.
-          newX = Math.min.apply(Math, this.polygonArray);
-          newY = Math.min.apply(Math, this.polygonArray);
-          if (this.verifyTranslationCoordinates(copiedNode)) {
-            this.renderPolygon(copiedNode);
-          } else {
-            this.nbIncrements = 0;
-            this.nbIncrementsReset++;
-          }
-        }
+      copiedNode = item.cloneNode(true) as SVGGraphicsElement;
+      if (this.verifyTranslationCoordinates(copiedNode)) {
+        this.renderSVGElement(copiedNode);
+      } else {
+        this.nbIncrements = 0;
+        this.nbIncrementsReset++;
       }
+    }
     this.nbIncrements++;
   }
   controlV(): void {
     let copiedNode: SVGGraphicsElement;
-    let newX: number;
-    let newY: number;
     for (const item of this.selectedItems) {
-      if (item.nodeName === 'ellipse') {
-          newX = Number(item.getAttribute('cx')) + (NB.Fifteen * this.nbIncrements);
-          newY = Number(item.getAttribute('cy')) + (NB.Fifteen * this.nbIncrements);
-          copiedNode = item.cloneNode(true) as SVGGraphicsElement;
-          if (this.verifyTranslationCoordinates(copiedNode)) {
-            this.renderEllipse(copiedNode, newX, newY);
-          } else {
-            this.nbIncrements = 0;
-            this.nbIncrementsReset++;
-          }
-          this.nbIncrements++;
-      }
-      if (item.nodeName === 'rect') {
-        newX = Number(item.getAttribute('x')) + (NB.Fifteen * this.nbIncrements);
-        newY = Number(item.getAttribute('y')) + (NB.Fifteen * this.nbIncrements);
-        copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-        if (this.verifyTranslationCoordinates(copiedNode)) {
-          this.renderRectangle(copiedNode, newX, newY);
-        } else {
-          this.nbIncrements = 0;
-          this.nbIncrementsReset++;
-        }
-        this.nbIncrements++;
-      }
-      if (item.nodeName === 'path') {
-        copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-        if (this.verifyTranslationCoordinates(copiedNode)) {
-          this.renderPath(copiedNode);
-        } else {
+      copiedNode = item.cloneNode(true) as SVGGraphicsElement;
+      if (this.verifyTranslationCoordinates(copiedNode)) {
+        this.renderSVGElement(copiedNode);
+      } else {
         this.nbIncrements = 0;
         this.nbIncrementsReset++;
-        }
       }
-      if (item.nodeName === 'image') {
-        copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-        newX = Number(item.getAttribute('x')) + (NB.Fifteen * this.nbIncrements);
-        newY = Number(item.getAttribute('y')) + (NB.Fifteen * this.nbIncrements);
-        if (this.verifyTranslationCoordinates(copiedNode)) {
-          this.renderStamp(copiedNode, newX, newY);
-          this.nbIncrements++;
-        } else {
-          this.nbIncrements = 0;
-          this.nbIncrementsReset = 0;
-        }
+      this.nbIncrements++;
       }
-      if (item.nodeName === 'polygon') {
-        this.polygonArray = [];
-        let polygonPoints: string[];
-        let newPolygonPoints: string;
-        copiedNode = item.cloneNode(false) as SVGGraphicsElement;
-        polygonPoints = (item.getAttribute('points') as string).substring(0,
-                        (item.getAttribute('points') as string).length).split(' ');
-        for (let j = 0; j < polygonPoints.length; j++) {
-          this.polygonArray[j] = Number(polygonPoints[j]) + (NB.Fifteen * this.nbIncrements);
-        }
-        newPolygonPoints = this.polygonArray.join(' ');
-        copiedNode.setAttribute('points', newPolygonPoints);
-        newX = Math.min.apply(Math, this.polygonArray);
-        newY = Math.min.apply(Math, this.polygonArray);
-        if (this.verifyTranslationCoordinates(copiedNode)) {
-          this.renderPolygon(copiedNode);
-        } else {
-          this.nbIncrements = 0;
-          this.nbIncrementsReset++;
-        }
-        this.nbIncrements++;
-      }
-    }
   }
   delete(): void {
     for (const item of this.selectorService.selectedShapes) {

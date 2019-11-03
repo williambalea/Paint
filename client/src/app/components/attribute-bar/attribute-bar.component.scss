@@ -194,22 +194,45 @@ img:hover {
 }
 
 .button {
-  background-color: white;
-  color:black;
-  width: auto;
-  height: auto;
-  align-items: center;
-  align-content: center;
-  margin: 5px;
+  text-align: center;
 }
 
-.noUseButton {
-  background-color: grey;
-  color:white;
-  pointer-events: none;
-  width: auto;
-  height: auto;
-  align-items: center;
-  align-content: center;
-  margin: 5px;
+.Arial {
+  font-family: Arial;
+}
+
+.Roboto {
+  font-family: Roboto;
+}
+
+.Times {
+  font-family: 'Times New Roman';
+}
+
+.Courrier {
+  font-family: 'Courier New';
+}
+
+.Georgia {
+  font-family: Georgia;
+}
+
+.Palatino {
+  font-family: Palatino;
+}
+
+.Comic {
+  font-family: Comic Sans MS;
+}
+
+.Impact {
+  font-family: Impact;
+}
+
+.boldButton {
+  margin-right: 2px;
+}
+
+.italicButton {
+  margin-left: 2px;
 }

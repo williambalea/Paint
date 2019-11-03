@@ -1,0 +1,46 @@
+<div class="header">Ellipse</div>
+
+<div>
+    <div class="svg">
+        <svg width="200" height="100">
+            <ellipse *ngIf="this.ellipseService.strokeEnable && this.ellipseService.fillEnable" cx="100" cy="50" rx="75"
+                ry="40" [style.fill]="this.colorService.getFillColor()"
+                [style.stroke]="this.colorService.getStrokeColor()"
+                [style.stroke-width]="this.ellipseService.strokeWidth" />
+
+            <ellipse *ngIf="!this.ellipseService.strokeEnable && this.ellipseService.fillEnable" id="rectangleNoStroke"
+                cx="100" cy="50" rx="75" ry="40" [style.fill]="this.colorService.getFillColor()"
+                [style.stroke-width]="this.ellipseService.strokeWidth" />
+
+            <ellipse *ngIf="this.ellipseService.strokeEnable && !this.ellipseService.fillEnable" id="rectangleNoFill"
+                cx="100" cy="50" rx="75" ry="40" [style.stroke]="this.colorService.getStrokeColor()"
+                [style.stroke-width]="this.ellipseService.strokeWidth" />
+        </svg>
+    </div>
+
+    <div class="attribute">
+
+        <div class="attributeHeader">Type</div>
+
+        <div>
+            <mat-radio-group>
+                <mat-radio-button value="Bordered" (change)="radioChangeHandler($event)">Bordered
+                </mat-radio-button><br>
+                <mat-radio-button value="Filled" (change)="radioChangeHandler($event)">Filled
+                </mat-radio-button><br>
+                <mat-radio-button value="Bordered & Filled" (change)="radioChangeHandler($event)" checked>
+                    Bordered & Filled</mat-radio-button><br>
+            </mat-radio-group>
+        </div>
+
+    </div>
+
+    <div *ngIf="this.ellipseService.strokeEnable" class="attribute">
+        <div class="attributeHeader">
+            Border Size: {{this.ellipseService.strokeWidth}} px <br>
+        </div>
+        <mat-slider min="1" max="40" #slider value={{this.ellipseService.strokeWidth}}
+            [(ngModel)]="this.ellipseService.strokeWidth" (input)="this.ellipseService.strokeWidth = $event.value">
+        </mat-slider>
+    </div>
+</div>

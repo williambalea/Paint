@@ -83,11 +83,11 @@ export class ClipboardService implements OnInit {
     let shiftX: number;
     let shiftY: number;
     if (this.nbIncrements > 0) {
-      shiftX = this.nbIncrements * 50;
-      shiftY = this.nbIncrements * 50;
+      shiftX = this.nbIncrements * NB.Fifteen;
+      shiftY = this.nbIncrements * NB.Fifteen;
     } else {
-      shiftX = 50;
-      shiftY = 50;
+      shiftX = NB.Fifteen;
+      shiftY = NB.Fifteen;
     }
     return 'translate(' + shiftX + ', ' + shiftY + ')';
   }
@@ -104,11 +104,15 @@ export class ClipboardService implements OnInit {
   }
 
   renderPath(copiedNode: Node): void {
-    let newNode: Node;
-    newNode = copiedNode.cloneNode(true);
-    this.renderer.setStyle(newNode, 'stroke', 'red');
-    this.renderer.setAttribute(newNode, 'transform', this.writeTranslate());
-    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, newNode);
+    this.renderer.setStyle(copiedNode, 'stroke', 'red');
+    this.renderer.setAttribute(copiedNode, 'transform', this.writeTranslate());
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
+  }
+
+  renderText(copiedNode: Node): void {
+    this.renderer.setStyle(copiedNode, 'fill', 'red');
+    this.renderer.setAttribute(copiedNode, 'transform', this.writeTranslate());
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
   }
 
   renderRectangle(copiedNode: Node, newX: number, newY: number): void {
@@ -208,6 +212,22 @@ export class ClipboardService implements OnInit {
           copiedNode = item.cloneNode(false) as SVGGraphicsElement;
           if (this.verifyTranslationCoordinates(copiedNode)) {
             this.renderPath(copiedNode);
+          } else {
+          this.nbIncrements = 0;
+          this.nbIncrementsReset++;
+          }
+        }
+        if (item.nodeName === 'g') {
+          copiedNode = item.cloneNode(false) as SVGGraphicsElement;
+          for (let h = 0; h < copiedNode.childElementCount; h++) {
+            this.renderPath(copiedNode.children[h] as SVGGraphicsElement);
+          }
+        }
+        if (item.nodeName === 'text') {
+          console.log('text branch');
+          copiedNode = item.cloneNode(false) as SVGGraphicsElement;
+          if (this.verifyTranslationCoordinates(copiedNode)) {
+            this.renderText(copiedNode);
           } else {
           this.nbIncrements = 0;
           this.nbIncrementsReset++;

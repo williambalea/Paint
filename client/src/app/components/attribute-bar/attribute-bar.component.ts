@@ -141,6 +141,7 @@ export class AttributeBarComponent {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
+    if (!this.textService.isWriting) {
       switch (event.key) {
         case KEY.g:
           this.toggleGrid();
@@ -157,6 +158,7 @@ export class AttributeBarComponent {
             break;
         default:
       }
+    }
   }
 
   getColorService(): ColorService {

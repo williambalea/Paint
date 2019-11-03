@@ -22,6 +22,7 @@ export class TextService {
   isItalic: boolean;
   isEnterPressed: boolean;
   textContent: string;
+  isWriting: boolean;
 
   constructor(private rendererFactory: RendererFactory2,
               private viewChildService: ViewChildService,
@@ -34,6 +35,7 @@ export class TextService {
     this.fontSize = NB.TwentyFour;
     this.isBold = false;
     this.isItalic = false;
+    this.isWriting = false;
   }
 
   setAlign(align: string): void {
@@ -53,10 +55,14 @@ export class TextService {
 
   //Test ne marche pas
   onMouseDown(): void {
-    this.createTextElements();
-    this.setTextAttributes();
-    this.update();
-    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.text);
+    this.isWriting = !this.isWriting;
+    console.log(this.isWriting);
+    if (this.isWriting) {
+      this.createTextElements();
+      this.setTextAttributes();
+      this.update();
+      this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.text);
+    }
   }
 
   createTextElements(): void {

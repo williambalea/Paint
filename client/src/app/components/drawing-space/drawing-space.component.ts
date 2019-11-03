@@ -351,7 +351,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onKeyDown(event: KeyboardEvent): void {
     if (this.selectedTool === TOOL.text) {
       event.preventDefault();
-      if (event.key.length === 1) {
+      if (event.key.length === 1 && this.textService.isWriting) {
         this.textService.textContent += event.key;
         this.textService.update();
         return;

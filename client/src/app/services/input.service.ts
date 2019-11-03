@@ -46,7 +46,7 @@ export class InputService {
   }
 
   setMouseOffset(event: MouseEvent, area: HTMLElement): void {
-    this.mouse = { x: event.clientX - area.getBoundingClientRect().left, y: event.clientY - area.getBoundingClientRect().top };
+    this.mouse = { x: event.clientX - area.getBoundingClientRect().left, y: event.clientY - area.getBoundingClientRect().top + NB.Twenty };
   }
 
   getMouse(): Point {

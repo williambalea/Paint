@@ -14,7 +14,7 @@
             Maximum Size: {{this.penService.maxStrokeWidth}} px <br>
         </div>
         <div>
-            <mat-slider min="1" max="40" value={{this.penService.maxStrokeWidth}}
+            <mat-slider min={{this.penService.minStrokeWidth}} max="40" value={{this.penService.maxStrokeWidth}}
                 [(ngModel)]="this.penService.maxStrokeWidth"
                 (input)="this.penService.maxStrokeWidth = $event.value">
             </mat-slider>
@@ -23,7 +23,7 @@
             Minimum Size: {{this.penService.minStrokeWidth}} px<br>
         </div>
         <div>
-            <mat-slider min="1" max="40" value={{this.penService.minStrokeWidth}}
+            <mat-slider min="1" max={{this.penService.maxStrokeWidth}} value={{this.penService.minStrokeWidth}}
                 [(ngModel)]="this.penService.minStrokeWidth"
                 (input)="this.penService.minStrokeWidth = $event.value">
             </mat-slider>

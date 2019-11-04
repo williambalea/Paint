@@ -86,6 +86,9 @@ export class EraserService {
       this.renderer.removeChild(this.g, i);
     }
   }
+  clearOnce(): void {
+      this.renderer.removeChild(this.g, this.preview[0]);
+  }
 
   validateErase(child: SVGGraphicsElement): void {
     console.log('mouse move', this.mouseMove);

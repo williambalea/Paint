@@ -11,9 +11,9 @@
 </form>
 
 
-<button *ngIf="selectedFormat === 'svg' " mat-button><a [href]="fileUrl" download="file.svg">download</a></button>
+<button *ngIf="selectedFormat === 'svg' " mat-button><a [href]="fileUrl" download="file.svg">confirm</a></button>
 
-<button *ngIf="!(selectedFormat === 'svg') " mat-button (click)='click()'>download</button>
+<button *ngIf="!(selectedFormat === 'svg') " mat-button (click)='click()'>confirm</button>
 <button mat-button [mat-dialog-close]="true">close</button>
 
 

@@ -175,6 +175,7 @@ export enum STROKE_DASHARRAY_STYLE {
 export enum ACTIONS {
   append = 'append',
   changeColor = 'changeColor',
+  remove = 'remove'
 }
 
 export enum STRINGS {

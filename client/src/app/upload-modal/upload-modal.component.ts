@@ -34,7 +34,7 @@ export class UploadModalComponent implements OnDestroy {
 
       this.uploadService.fileContent = self.fileContent.slice(96, -6);
       console.log(this.uploadService.fileContent.slice(0, 2));
-      for (let i = 25; i < 1000; i++) {
+      for (let i = 28; i < 1000; i++) {
         console.log(this.uploadService.fileContent[i]);
         this.uploadService.backgroundColor += this.uploadService.fileContent[i];
         if (this.uploadService.fileContent[i] === ')') {
@@ -47,7 +47,7 @@ export class UploadModalComponent implements OnDestroy {
     this.uploadService.enableUploadButton = true;
     fileReader.readAsText(file);
   } else {
-    window.alert('test');
+    window.alert('file could not be uploaded, please choose a file with an svg format');
   }
 
   }

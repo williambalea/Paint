@@ -115,6 +115,10 @@
             <app-stamp-attributes></app-stamp-attributes>
         </div>
 
+        <div *ngSwitchCase="tool.selector">
+            <app-selector-attributes></app-selector-attributes>
+        </div>
+
     </div>
 
     <div *ngIf="this.colorService.getShowInAttributeBar()">

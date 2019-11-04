@@ -18,6 +18,7 @@ import { PenAttributesComponent } from './components/attribute-bar/pen-attribute
 import { PencilAttributesComponent } from './components/attribute-bar/pencil-attributes/pencil-attributes.component';
 import { PolygonAttributesComponent } from './components/attribute-bar/polygon-attributes/polygon-attributes.component';
 import { RectangleAttributesComponent } from './components/attribute-bar/rectangle-attributes/rectangle-attributes.component';
+import { SelectorAttributesComponent } from './components/attribute-bar/selector-attributes/selector-attributes.component';
 import { StampAttributesComponent } from './components/attribute-bar/stamp-attributes/stamp-attributes.component';
 import { TextAttributesComponent } from './components/attribute-bar/text-attributes/text-attributes.component';
 import { ColorPickerModule } from './components/color-picker/color-picker.module';
@@ -64,6 +65,7 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     PolygonAttributesComponent,
     EllipseAttributesComponent,
     EraserAttributesComponent,
+    SelectorAttributesComponent,
   ],
   imports: [
     BrowserModule,

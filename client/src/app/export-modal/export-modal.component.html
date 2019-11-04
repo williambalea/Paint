@@ -9,12 +9,6 @@
           </mat-select>
         </mat-form-field>
 </form>
- 
-<form class="example-form">
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="File name" [(ngModel)]="fileName" name="name" value="Sushi">
-        </mat-form-field> 
- </form>
 
 
 <button *ngIf="selectedFormat === 'svg' " mat-button><a [href]="fileUrl" download="file.svg">download</a></button>

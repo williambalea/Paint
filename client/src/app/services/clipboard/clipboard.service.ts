@@ -88,6 +88,7 @@ export class ClipboardService {
   renderSVGElement(copiedNode: Node): void {
     this.renderer.setAttribute(copiedNode, 'transform', this.writeTranslate());
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
+    console.log('copy', (copiedNode as SVGGraphicsElement).getBoundingClientRect());
   }
 
   controlC(): void {
@@ -141,6 +142,7 @@ export class ClipboardService {
     let copiedNode: SVGGraphicsElement;
     for (const item of this.selectedItems) {
       copiedNode = item.cloneNode(true) as SVGGraphicsElement;
+
       if (this.verifyTranslationCoordinates(item.getBoundingClientRect().left, item.getBoundingClientRect().top)) {
         this.renderSVGElement(copiedNode);
       } else {

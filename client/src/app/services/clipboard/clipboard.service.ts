@@ -146,7 +146,7 @@ export class ClipboardService {
     let copiedNode: SVGGraphicsElement;
     for (const item of this.selectedItems) {
       copiedNode = item.cloneNode(true) as SVGGraphicsElement;
-      if (this.verifyTranslationCoordinates(copiedNode)) {
+      if (this.verifyTranslationCoordinates(0, 0)) { // recheck this please
         this.renderSVGElement(copiedNode);
       } else {
         this.nbIncrements = 0;

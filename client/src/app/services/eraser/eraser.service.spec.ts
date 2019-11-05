@@ -57,6 +57,18 @@ describe('EraserService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should update position', () => {
+    let cursor: SVGGraphicsElement;
+    cursor = renderer.createElement('rect', 'svg');
+    const spyOnCreateEraser = spyOn(service, 'createEraser');
+    const spyOnIntersect = spyOn(service, 'intersect');
+    const spyOnSetAttribute = spyOn( renderer, 'setAttribute');
+    service.updatePosition(cursor);
+    expect(spyOnCreateEraser).toHaveBeenCalled();
+    expect(spyOnIntersect).toHaveBeenCalled();
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+  });
+
   it('should set cursor attributes', () => {
     const x = 1;
     const y = 1;

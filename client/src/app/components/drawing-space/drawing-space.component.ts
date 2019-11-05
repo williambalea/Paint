@@ -306,8 +306,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.selector) {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
       this.clipboardService.wCloningPosition = {
-        x: this.includingBoxService.boxUpperLeft.x,
-        y: this.includingBoxService.boxUpperLeft.y,
+        x: this.includingBoxService.boxUpperLeft.x - 1,
+        y: this.includingBoxService.boxUpperLeft.y - 1 ,
       };
     }
     if (this.selectedTool === TOOL.eraser) {

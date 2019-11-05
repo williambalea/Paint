@@ -155,18 +155,24 @@ export class ClipboardService {
   controlD(): void {
     if (this.wNewSelection) {
       this.wNewSelection = false;
-      this.wIncrementMultiplier = 1;
+      this.wIncrementMultiplier = NB.One;
     }
     for (const shape of this.selectorService.selectedShapes) {
       const shapeCopy = shape.cloneNode(true) as SVGGraphicsElement;
-      // console.log('shapeCopy', shapeCopy);
-      const newPositionX = this.wIncrementMultiplier * 15 + this.wCloningPosition.x;
-      const newPositionY = this.wIncrementMultiplier * 15 + this.wCloningPosition.y;
+      let newPositionX = this.wIncrementMultiplier * 15;
+      let newPositionY = this.wIncrementMultiplier * 15;
+
+      if (newPositionX > this.fileParameterService.canvasWidth.getValue()
+          || newPositionY > this.fileParameterService.canvasHeight.getValue()) {
+            this.wIncrementMultiplier = NB.One;
+            newPositionX = this.wIncrementMultiplier * 15 + this.wCloningPosition.x;
+            newPositionY = this.wIncrementMultiplier * 15 + this.wCloningPosition.y;
+          }
+
       console.log('shapeCopy poisitons', shapeCopy.getBoundingClientRect());
       console.log('new x', newPositionX);
       console.log('new y', newPositionY);
-      shapeCopy.setAttribute('x', newPositionX.toString());
-      shapeCopy.setAttribute('y', newPositionY.toString());
+      shapeCopy.setAttribute('transform', `translate(${newPositionX}, ${newPositionY})`);
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, shapeCopy);
     }
     this.wIncrementMultiplier++;

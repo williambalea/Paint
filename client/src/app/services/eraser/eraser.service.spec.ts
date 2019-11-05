@@ -132,7 +132,7 @@ describe('EraserService', () => {
     expect(spyOnvalidateErase).not.toHaveBeenCalled();
   });
 
-  // TESTS QUI NE MARCHENT PAS:
+  // TESTS QUI NE MARCHENT PAS a cause du native Element
   // it('should initialize view children', () => {
   //   const createElement = spyOn( renderer, 'createElement');
   //   service.initializeViewChildren();
@@ -149,4 +149,12 @@ describe('EraserService', () => {
   //   service.validateErase(child);
   //   expect(spyOnRemoveChild).toHaveBeenCalled();
   // });
+
+  // it('should intersect', () => {
+  //   const spyOnCursorBox = spyOn(service.cursor, 'getBoundingClientRect');
+  //   const spyOnClear = spyOn(service, 'clear');
+  //   service.intersect();
+  //   expect(spyOnCursorBox).toHaveBeenCalled();
+  //   expect(spyOnClear).toHaveBeenCalled();
+  // })
 });

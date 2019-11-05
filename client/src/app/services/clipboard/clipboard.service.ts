@@ -12,10 +12,11 @@ export class ClipboardService {
 
   renderer: Renderer2;
   selectedItems: SVGGraphicsElement[];
+  maxX: number;
+  maxY: number;
 
   getElementMouseDown: boolean;
   nbIncrements: number;
-  nbIncrementsReset: number;
 
   resizeFlag: boolean;
   canvasWidth: number;
@@ -29,9 +30,10 @@ export class ClipboardService {
     this.selectedItems = [];
 
     this.nbIncrements = 1;
-    this.nbIncrementsReset = 0;
     this.getElementMouseDown = false;
     this.renderer = this.rendererFactory.createRenderer(null, null);
+    this.maxX = this.includingBoxService.boxUpperLeft.x;
+    this.maxY = this.includingBoxService.boxUpperLeft.y;
   }
 
   findSelected(): boolean {
@@ -76,19 +78,17 @@ export class ClipboardService {
   }
 
   verifyTranslationCoordinates(x: number, y: number): boolean {
-    if (x + (NB.Fifteen * this.nbIncrements) > this.fileParameterService.canvasWidth.getValue()
+    if (x + (NB.Fifteen * this.nbIncrements) > this.fileParameterService.canvasWidth.getValue() + 350
         || y + (NB.Fifteen * this.nbIncrements) > this.fileParameterService.canvasHeight.getValue()) {
-      this.nbIncrements = 0;
-      return false;
+        return false;
     } else {
       return true;
     }
   }
 
-  renderSVGElement(copiedNode: Node): void {
+  renderSVGElement(copiedNode: SVGGraphicsElement): void {
     this.renderer.setAttribute(copiedNode, 'transform', this.writeTranslate());
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, copiedNode);
-    console.log('copy', (copiedNode as SVGGraphicsElement).getBoundingClientRect());
   }
 
   controlC(): void {
@@ -129,11 +129,15 @@ export class ClipboardService {
     let copiedNode: SVGGraphicsElement;
     for (const item of this.selectorService.selectedShapes) {
       copiedNode = item.cloneNode(true) as SVGGraphicsElement;
-      if (this.verifyTranslationCoordinates(item.getBoundingClientRect().left, item.getBoundingClientRect().top)) {
+      this.maxX = (item as SVGGraphicsElement).getBoundingClientRect().left;
+      this.maxY = (item as SVGGraphicsElement).getBoundingClientRect().top;
+      console.log(this.maxX);
+      console.log(this.maxY);
+      console.log(item.getBoundingClientRect());
+      if (this.verifyTranslationCoordinates(this.maxX, this.maxY)) {
         this.renderSVGElement(copiedNode);
       } else {
         this.nbIncrements = 0;
-        this.nbIncrementsReset++;
       }
     }
     this.nbIncrements++;
@@ -142,12 +146,10 @@ export class ClipboardService {
     let copiedNode: SVGGraphicsElement;
     for (const item of this.selectedItems) {
       copiedNode = item.cloneNode(true) as SVGGraphicsElement;
-
-      if (this.verifyTranslationCoordinates(item.getBoundingClientRect().left, item.getBoundingClientRect().top)) {
+      if (this.verifyTranslationCoordinates(copiedNode)) {
         this.renderSVGElement(copiedNode);
       } else {
         this.nbIncrements = 0;
-        this.nbIncrementsReset++;
       }
       this.nbIncrements++;
       }

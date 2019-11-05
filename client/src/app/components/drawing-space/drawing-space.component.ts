@@ -407,7 +407,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.x) {
       if (this.inputService.controlPressed === true) {
-        this.clipboardService.controlC();
         this.clipboardService.controlX();
       }
     }
@@ -415,7 +414,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.inputService.controlPressed === true) {
         this.eventEmitterService.assignSelectedTool();
         this.clipboardService.controlV();
-        this.clipboardService.nbIncrements++;
       }
     }
     if (event.key === KEY.a) {
@@ -425,14 +423,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.clipboardService.controlA();
       }
     }
-    if (event.key === KEY.d) {
-      event.preventDefault();
-      if (this.inputService.controlPressed === true) {
-        this.clipboardService.controlD();
-      }
-    }
     if (event.key === KEY.delete) {
       this.clipboardService.delete();
+    }
+    if (event.key === KEY.d) {
+      if (this.inputService.controlPressed === true) {
+        event.preventDefault();
+      }
     }
   }
 
@@ -464,6 +461,17 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.control) {
       this.inputService.controlPressed = false;
+      this.clipboardService.nbIncrements = 0;
+    }
+    if (event.key === KEY.d) {
+      if (this.inputService.controlPressed === true) {
+        this.clipboardService.controlD();
+      }
+    }
+    if (event.key === KEY.v) {
+      if (this.inputService.controlPressed === true) {
+        this.clipboardService.controlV();
+      }
     }
   }
 }

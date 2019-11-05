@@ -228,7 +228,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.isComplexShape(targetTag)) {
       this.renderer.setAttribute(target, 'fill', this.colorService.getFillColor());
     } else if (targetTag === 'path') {
-      if ((target as HTMLElement).id.includes('pen')) {
+      if ((target as HTMLElement).id === 'pen') {
         const penElements = ((target as HTMLElement).parentNode as HTMLElement).children;
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < penElements.length; i++) {
@@ -271,7 +271,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
         if (event.button === NB.Zero) {
-          if ((event.target as HTMLElement).id.includes('pen')) {
+          if ((event.target as HTMLElement).id === 'pen') {
             this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
           } else {
             this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
@@ -312,6 +312,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mouseup', ['$event'])
   onMouseUp(event: MouseEvent): void {
+    if (this.selectedTool === TOOL.pen) {
+      this.penService.onMouseUp();
+    }
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.selectedShape.onMouseUp();
     }
@@ -328,9 +331,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
-    if (this.selectedTool === TOOL.pen) {
-      this.penService.onMouseUp();
-    }
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
     if (this.selectedShape !== this.noShapeService) {
@@ -347,7 +347,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.undoRedoService.undoIsStarted = false;
     clearInterval(this.interval);
-    this.penService.pathGroupIndex++;
   }
 
   @HostListener('wheel', ['$event'])

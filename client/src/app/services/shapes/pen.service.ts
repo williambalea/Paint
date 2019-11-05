@@ -18,7 +18,6 @@ export class PenService implements Shape {
   minStrokeWidth: number;
   active: boolean;
   path: HTMLElement;
-  pathGroupIndex: number;
   private interval: any;
   private mouseSpeed: number;
   lastMouseMoveTime: number;
@@ -32,7 +31,6 @@ export class PenService implements Shape {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.maxStrokeWidth = NB.Twenty;
     this.minStrokeWidth = NB.Ten;
-    this.pathGroupIndex = NB.Zero;
     this.mouseSpeed = NB.Zero;
     this.lastMouseMoveTime = NB.Zero;
     this.reset();
@@ -46,6 +44,7 @@ export class PenService implements Shape {
 
   reset(): void {
     this.stroke = EMPTY_STRING;
+    this.linepath = EMPTY_STRING;
     this.active = false;
   }
 
@@ -54,6 +53,7 @@ export class PenService implements Shape {
     this.renderer.appendChild(this.canvas.nativeElement, penWrapper);
     this.interval = setInterval( () => {
       this.createPath();
+      console.log(this.path);
       this.renderer.appendChild(penWrapper, this.path);
     }, 10);
   }
@@ -70,7 +70,7 @@ export class PenService implements Shape {
       this.path = this.renderer.createElement('path', 'svg');
       this.setStylePath();
       this.linepath = `M${this.inputService.getMouse().x} ${this.inputService.getMouse().y} ${INIT_MOVE_PEN}`;
-      this.renderer.setProperty(this.path, 'id', 'pen' + this.pathGroupIndex.toString());
+      this.renderer.setProperty(this.path, 'id', 'pen');
       this.renderer.setAttribute(this.path, 'd', this.linepath);
   }
 

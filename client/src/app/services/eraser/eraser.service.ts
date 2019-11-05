@@ -16,7 +16,7 @@ export class EraserService {
   divider: number;
   canvas: ElementRef;
   preview: SVGGraphicsElement[];
-  g: SVGGraphicsElement;
+  redContourGroupe: SVGGraphicsElement;
 
   constructor(private viewChildService: ViewChildService,
               private rendererFactory: RendererFactory2,
@@ -33,8 +33,8 @@ export class EraserService {
   initializeViewChildren(): void {
     this.drawingBoard = this.viewChildService.drawingBoard;
     this.canvas = this.viewChildService.canvas;
-    this.g = this.renderer.createElement('g', 'svg');
-    this.renderer.appendChild(this.drawingBoard.nativeElement, this.g);
+    this.redContourGroupe = this.renderer.createElement('g', 'svg');
+    this.renderer.appendChild(this.drawingBoard.nativeElement, this.redContourGroupe);
   }
 
   createEraser(x: number, y: number): void {
@@ -65,7 +65,7 @@ export class EraserService {
       const redContour = this.renderer.createElement('rect', 'svg');
       this.setAttributePreview(redContour, shape);
       this.preview.push(redContour);
-      this.renderer.appendChild(this.g, redContour);
+      this.renderer.appendChild(this.redContourGroupe, redContour);
     }
   }
 
@@ -81,7 +81,7 @@ export class EraserService {
 
   clear(): void {
     for ( const i of this.preview) {
-      this.renderer.removeChild(this.g, i);
+      this.renderer.removeChild(this.redContourGroupe, i);
     }
   }
 

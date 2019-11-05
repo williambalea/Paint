@@ -162,18 +162,19 @@ export class ClipboardService {
       let newPositionX = this.wIncrementMultiplier * 15;
       let newPositionY = this.wIncrementMultiplier * 15;
 
-      if (newPositionX > this.fileParameterService.canvasWidth.getValue()
-          || newPositionY > this.fileParameterService.canvasHeight.getValue()) {
-            this.wIncrementMultiplier = NB.One;
-            newPositionX = this.wIncrementMultiplier * 15 + this.wCloningPosition.x;
-            newPositionY = this.wIncrementMultiplier * 15 + this.wCloningPosition.y;
+      const overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
+      const overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
+
+      if (overflowX + 15 > this.fileParameterService.canvasWidth.getValue()
+          || overflowY + 15 > this.fileParameterService.canvasHeight.getValue()) {
+            this.wIncrementMultiplier = NB.Zero;
+            newPositionX = this.wIncrementMultiplier * 15;
+            newPositionY = this.wIncrementMultiplier * 15;
           }
 
-      console.log('shapeCopy poisitons', shapeCopy.getBoundingClientRect());
-      console.log('new x', newPositionX);
-      console.log('new y', newPositionY);
       shapeCopy.setAttribute('transform', `translate(${newPositionX}, ${newPositionY})`);
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, shapeCopy);
+
     }
     this.wIncrementMultiplier++;
   }

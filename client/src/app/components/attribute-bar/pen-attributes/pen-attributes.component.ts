@@ -12,4 +12,11 @@ export class PenAttributesComponent {
   constructor(protected penService: PenService,
               protected colorService: ColorService) { }
 
+  validateStrokes() {
+    if (this.penService.minStrokeWidth > this.penService.maxStrokeWidth) {
+      this.penService.maxStrokeWidth = this.penService.minStrokeWidth;
+      this.penService.minStrokeWidth = this.penService.maxStrokeWidth - 1;
+    }
+  }
+
 }

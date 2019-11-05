@@ -253,6 +253,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.colorService.setMakingColorChanges(false);
     }
     if (this.selectedTool === TOOL.selector) {
+      this.clipboardService.wNewSelection = true;
       if (this.selectorAreaActive) {
         if (event.button === NB.Zero) {
           if ((event.target as HTMLElement).id === 'pen') {
@@ -304,6 +305,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.selector) {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+      this.clipboardService.wCloningPosition = {
+        x: this.includingBoxService.boxUpperLeft.x,
+        y: this.includingBoxService.boxUpperLeft.y,
+      };
     }
     if (this.selectedTool === TOOL.eraser) {
       // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);

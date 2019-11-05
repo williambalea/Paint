@@ -4,11 +4,16 @@ import { FileParametersServiceService } from '../file-parameters-service.service
 import { IncludingBoxService } from '../includingBox/including-box.service';
 import { SelectorService } from '../selector/selector.service';
 import { ViewChildService } from '../view-child.service';
+import { Point } from '../../../../../common/interface/point';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClipboardService {
+
+  wIncrementMultiplier: number;
+  wNewSelection: boolean;
+  wCloningPosition: Point;
 
   renderer: Renderer2;
   selectedItems: SVGGraphicsElement[];
@@ -34,6 +39,10 @@ export class ClipboardService {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.maxX = this.includingBoxService.boxUpperLeft.x;
     this.maxY = this.includingBoxService.boxUpperLeft.y;
+
+    this.wIncrementMultiplier = NB.One;
+    this.wNewSelection = true;
+    this.wCloningPosition = {x: 0, y: 0};
   }
 
   findSelected(): boolean {
@@ -125,7 +134,7 @@ export class ClipboardService {
     this.includingBoxService.update();
   }
 
-  controlD(): void {
+  controlDD(): void {
     let copiedNode: SVGGraphicsElement;
     for (const item of this.selectorService.selectedShapes) {
       copiedNode = item.cloneNode(true) as SVGGraphicsElement;
@@ -142,6 +151,27 @@ export class ClipboardService {
     }
     this.nbIncrements++;
   }
+
+  controlD(): void {
+    if (this.wNewSelection) {
+      this.wNewSelection = false;
+      this.wIncrementMultiplier = 1;
+    }
+    for (const shape of this.selectorService.selectedShapes) {
+      const shapeCopy = shape.cloneNode(true) as SVGGraphicsElement;
+      // console.log('shapeCopy', shapeCopy);
+      const newPositionX = this.wIncrementMultiplier * 15 + this.wCloningPosition.x;
+      const newPositionY = this.wIncrementMultiplier * 15 + this.wCloningPosition.y;
+      console.log('shapeCopy poisitons', shapeCopy.getBoundingClientRect());
+      console.log('new x', newPositionX);
+      console.log('new y', newPositionY);
+      shapeCopy.setAttribute('x', newPositionX.toString());
+      shapeCopy.setAttribute('y', newPositionY.toString());
+      this.renderer.appendChild(this.viewChildService.canvas.nativeElement, shapeCopy);
+    }
+    this.wIncrementMultiplier++;
+  }
+
   controlV(): void {
     let copiedNode: SVGGraphicsElement;
     for (const item of this.selectedItems) {

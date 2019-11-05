@@ -24,7 +24,8 @@ export class AttributeBarComponent {
               protected textService: TextService,
               protected inputService: InputService,
               protected eventEmitterService: EventEmitterService,
-              protected undoRedoService: UndoRedoService) {
+              protected undoRedoService: UndoRedoService,
+              ) {
     this.gridService.gridSize = NB.Fifty;
     this.usingGrid = false;
     this.tool = TOOL;
@@ -34,17 +35,10 @@ export class AttributeBarComponent {
     this.toggleGrid();
   }
 
-  showGrid(): void {
-    this.eventEmitterService.showGrid();
-  }
-
-  hideGrid(): void {
-    this.eventEmitterService.hideGrid();
-  }
 
   toggleGrid(): void {
     this.usingGrid = !this.usingGrid;
-    this.usingGrid ? this.showGrid() : this.hideGrid();
+    this.usingGrid ? this.gridService.showGrid() : this.gridService.hideGrid();
   }
 
   applyGrid(): void {
@@ -61,12 +55,12 @@ export class AttributeBarComponent {
         case KEY.plus:
             this.applyGrid();
             this.gridService.setNextGridSize();
-            this.showGrid();
+            this.gridService.showGrid();
             break;
         case KEY.minus:
             this.applyGrid();
             this.gridService.setLastGridSize();
-            this.showGrid();
+            this.gridService.showGrid();
             break;
         default:
       }

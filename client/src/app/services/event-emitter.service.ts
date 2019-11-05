@@ -5,8 +5,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class EventEmitterService {
 
-  showGridEmitter = new EventEmitter();
-  hideGridEmitter = new EventEmitter();
+  
   sendSVGToServerEmitter = new EventEmitter();
   appendToDrawingSpaceEmitter = new EventEmitter();
   selectEmitter = new EventEmitter();
@@ -22,13 +21,7 @@ export class EventEmitterService {
 
   assignSelectorToolEmitter = new EventEmitter();
 
-  showGrid(): void {
-    this.showGridEmitter.emit();
-  }
-
-  hideGrid(): void {
-    this.hideGridEmitter.emit();
-  }
+ 
 
   sendSVGToServer(): void {
     this.sendSVGToServerEmitter.emit();

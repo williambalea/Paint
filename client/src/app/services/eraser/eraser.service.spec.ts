@@ -80,7 +80,6 @@ describe('EraserService', () => {
   it('should add to preview', () => {
     let shape: SVGGraphicsElement;
     shape = renderer.createElement('rect', 'svg');
-    // service.preview.push(shape);
     const spyOnCreateElement  = spyOn(renderer, 'createElement');
     const spyOnsetAttributePreview  = spyOn(service, 'setAttributePreview');
     const spyOnPush = spyOn(service.preview, 'push');
@@ -92,6 +91,47 @@ describe('EraserService', () => {
     expect(spyOnappendChild).toHaveBeenCalled();
   });
 
+  it('should set attribute preview', () => {
+    let shape: SVGGraphicsElement;
+    shape = renderer.createElement('rect', 'svg');
+    let redContour: HTMLElement;
+    redContour = renderer.createElement('rect', 'svg');
+    const spyOnSetAttribute = spyOn( renderer, 'setAttribute');
+    service.setAttributePreview(redContour, shape);
+    expect(spyOnSetAttribute).toHaveBeenCalledTimes(7);
+  });
+
+  it('should clear', () => {
+    let i: SVGGraphicsElement;
+    i = renderer.createElement('rect', 'svg');
+    service.preview.push(i);
+    const spyOnRemoveChild = spyOn( renderer, 'removeChild');
+    service.clear();
+    expect(spyOnRemoveChild).toHaveBeenCalled();
+  });
+
+  it('should validate intersection', () => {
+    const isIntersection = true;
+    let child: SVGGraphicsElement;
+    child = renderer.createElement('rect', 'svg');
+    const spyOnaddToPreview = spyOn(service, 'addToPreview');
+    const spyOnvalidateErase = spyOn(service, 'validateErase');
+    service.validateIntersection(isIntersection, child);
+    expect(spyOnaddToPreview).toHaveBeenCalled();
+    expect(spyOnvalidateErase).toHaveBeenCalled();
+  });
+
+  it('should not validate intersection', () => {
+    const isIntersection = false;
+    let child: SVGGraphicsElement;
+    child = renderer.createElement('rect', 'svg');
+    const spyOnaddToPreview = spyOn(service, 'addToPreview');
+    const spyOnvalidateErase = spyOn(service, 'validateErase');
+    service.validateIntersection(isIntersection, child);
+    expect(spyOnaddToPreview).not.toHaveBeenCalled();
+    expect(spyOnvalidateErase).not.toHaveBeenCalled();
+  });
+
   // TESTS QUI NE MARCHENT PAS:
   // it('should initialize view children', () => {
   //   const createElement = spyOn( renderer, 'createElement');
@@ -99,6 +139,14 @@ describe('EraserService', () => {
   //   expect(createElement).toHaveBeenCalled();
   //   expect(viewChildService.drawingBoard).toBeDefined();
   //   expect(viewChildService.canvas).toBeDefined();
-
   // })
+
+  // it('should validate erase', () => {
+  //   let child: SVGGraphicsElement;
+  //   child = renderer.createElement('rect', 'svg');
+  //   service.eraseMouseDown = true;
+  //   const spyOnRemoveChild = spyOn( renderer, 'removeChild');
+  //   service.validateErase(child);
+  //   expect(spyOnRemoveChild).toHaveBeenCalled();
+  // });
 });

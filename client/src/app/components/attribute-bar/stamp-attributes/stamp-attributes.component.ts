@@ -9,7 +9,7 @@ import { StampService } from 'src/app/services/shapes/stamp.service';
 })
 export class StampAttributesComponent {
 
-  constructor(protected stampService: StampService,
-              protected inputService: InputService) { }
+  constructor(public stampService: StampService,
+              public inputService: InputService) { }
 
 }

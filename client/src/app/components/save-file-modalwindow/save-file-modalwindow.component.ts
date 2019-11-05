@@ -21,8 +21,8 @@ export class SaveFileModalwindowComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,
               private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
               private eventEmitterService: EventEmitterService,
-              private inputService: InputService,
-              private communicationService: CommunicationsService) {
+              public inputService: InputService,
+              public communicationService: CommunicationsService) {
     this.currentTag = EMPTY_STRING;
     this.inputService.gridShortcutsActive = false;
   }

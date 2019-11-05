@@ -9,7 +9,7 @@ import { PencilService } from 'src/app/services/shapes/pencil.service';
 })
 export class PencilAttributesComponent {
 
-  constructor(protected pencilService: PencilService,
-              protected colorService: ColorService) { }
+  constructor(public pencilService: PencilService,
+              public colorService: ColorService) { }
 
 }

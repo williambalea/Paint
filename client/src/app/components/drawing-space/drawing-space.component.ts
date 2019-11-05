@@ -51,7 +51,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   shape: SVGSVGElement;
 
   constructor(private fileParameters: FileParametersServiceService,
-              private colorService: ColorService,
+              public colorService: ColorService,
               private inputService: InputService,
               private renderer: Renderer2,
               private textService: TextService,
@@ -59,10 +59,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private selectorService: SelectorService,
               private communicationService: CommunicationsService,
               private penService: PenService,
-              protected cursorService: CursorService,
+              public cursorService: CursorService,
               private screenshotService: ScreenshotService,
               private unsubscribeService: UnsubscribeService,
-              private includingBoxService: IncludingBoxService,
+              public includingBoxService: IncludingBoxService,
               private eventEmitterService: EventEmitterService,
               private undoRedoService: UndoRedoService,
               private noShapeService: NoShapeService,

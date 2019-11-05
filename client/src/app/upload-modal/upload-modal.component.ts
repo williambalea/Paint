@@ -14,7 +14,7 @@ export class UploadModalComponent implements OnDestroy {
   error: boolean;
   fileContent = '';
   constructor(public dialogRef: MatDialogRef<UploadModalComponent>,
-              private uploadService: UploadService,
+              public uploadService: UploadService,
               private inputService: InputService) {
     this.error = false;
     this.inputService.gridShortcutsActive = false;

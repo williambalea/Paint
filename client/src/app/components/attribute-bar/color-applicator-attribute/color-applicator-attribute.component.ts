@@ -7,7 +7,7 @@ import { ColorService } from 'src/app/services/color/color.service';
   styleUrls: ['../attribute-bar.component.scss'],
 })
 export class ColorApplicatorAttributeComponent {
-  constructor(protected colorService: ColorService) {
+  constructor(public colorService: ColorService) {
 
   }
 

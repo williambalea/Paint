@@ -9,8 +9,8 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 })
 export class PenAttributesComponent {
 
-  constructor(protected penService: PenService,
-              protected colorService: ColorService) { }
+  constructor(public penService: PenService,
+              public colorService: ColorService) { }
 
   validateStrokes() {
     if (this.penService.minStrokeWidth > this.penService.maxStrokeWidth) {

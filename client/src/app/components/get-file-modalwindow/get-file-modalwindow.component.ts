@@ -26,7 +26,7 @@ export class GetFileModalwindowComponent implements OnInit, OnDestroy {
                private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
                private inputService: InputService,
                private eventEmitter: EventEmitterService,
-               private communicationService: CommunicationsService) {
+               public communicationService: CommunicationsService) {
     this.dataTable = [];
     this.tags = [];
     this.displayedData = [];

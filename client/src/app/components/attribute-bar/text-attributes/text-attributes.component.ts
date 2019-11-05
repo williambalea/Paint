@@ -13,8 +13,8 @@ export class TextAttributesComponent {
   fontSizes: number[];
   fontAlign: typeof FONTALIGN;
 
-  constructor(protected textService: TextService,
-              protected colorService: ColorService) {
+  constructor(public textService: TextService,
+              public colorService: ColorService) {
     this.fonts = FONTS;
     this.fontSizes = FONTSIZES;
     this.textService.isWriting = false;

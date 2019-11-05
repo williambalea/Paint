@@ -11,6 +11,7 @@ import { SafeUrlPipe} from '../app/safe-url.pipe';
 import { AppComponent } from './app.component';
 import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.component';
 import { BrushAttributesComponent } from './components/attribute-bar/brush-attributes/brush-attributes.component';
+import { ColorApplicatorAttributeComponent } from './components/attribute-bar/color-applicator-attribute/color-applicator-attribute.component';
 import { EllipseAttributesComponent } from './components/attribute-bar/ellipse-attributes/ellipse-attributes.component';
 import { EraserAttributesComponent } from './components/attribute-bar/eraser-attributes/eraser-attributes.component';
 import { LineAttributesComponent } from './components/attribute-bar/line-attributes/line-attributes.component';
@@ -36,7 +37,6 @@ import { MaterialModule } from './material/material.module';
 import { SafeStylePipe } from './safe-style.pipe';
 import { EventEmitterService } from './services/event-emitter.service';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
-import { ColorApplicatorAttributeComponent } from './components/attribute-bar/color-applicator-attribute/color-applicator-attribute.component';
 
 @NgModule({
   declarations: [

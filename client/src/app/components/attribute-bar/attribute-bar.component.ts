@@ -19,12 +19,12 @@ export class AttributeBarComponent {
   gridSize: number;
   usingGrid: boolean;
 
-  constructor(protected colorService: ColorService,
-              protected gridService: GridService,
+  constructor(public colorService: ColorService,
+              public gridService: GridService,
               protected textService: TextService,
               protected inputService: InputService,
               protected eventEmitterService: EventEmitterService,
-              protected undoRedoService: UndoRedoService,
+              public undoRedoService: UndoRedoService,
               ) {
     this.gridService.gridSize = NB.Fifty;
     this.usingGrid = false;
@@ -34,7 +34,6 @@ export class AttributeBarComponent {
   onGridToggle(): void {
     this.toggleGrid();
   }
-
 
   toggleGrid(): void {
     this.usingGrid = !this.usingGrid;

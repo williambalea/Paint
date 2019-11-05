@@ -8,6 +8,6 @@ import { EraserService } from 'src/app/services/eraser/eraser.service';
 })
 export class EraserAttributesComponent {
 
-  constructor(protected eraserService: EraserService) { }
+  constructor(public eraserService: EraserService) { }
 
 }

@@ -6,7 +6,6 @@ import { CommunicationsService } from 'src/app/services/communications.service';
 import { CursorService } from 'src/app/services/cursor.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
-import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { InputService } from 'src/app/services/input.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
@@ -59,7 +58,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
               private pipetteService: PipetteService,
               private selectorService: SelectorService,
               private communicationService: CommunicationsService,
-              private gridService: GridService,
               private penService: PenService,
               protected cursorService: CursorService,
               private screenshotService: ScreenshotService,
@@ -99,12 +97,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.uploadService.fileContent = EMPTY_STRING;
     });
 
-    this.eventEmitterService.showGridEmitter.subscribe(() => {
-      this.showGrid();
-    });
-    this.eventEmitterService.hideGridEmitter.subscribe(() => {
-      this.hideGrid();
-    });
+   
+  
     this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
       this.convertSVGtoJSON();
     });
@@ -145,16 +139,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
     this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
       .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
-  }
-
-  hideGrid(): void {
-    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
-  }
-
-  showGrid(): void {
-    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
-    this.gridService.draw(this.gridService.gridSize);
-    this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
   draw(shape: SVGSVGElement): void {

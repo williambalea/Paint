@@ -31,6 +31,10 @@ export class UndoRedoService {
         this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
         this.poppedActions.push(lastAction);
         break;
+      case ACTIONS.remove :
+        this.renderer.appendChild(this.canvas.nativeElement, lastAction.shape);
+        this.poppedActions.push(lastAction);
+        break;
       case ACTIONS.changeColor :
         const changeFill: UndoRedoAction = {
           action: ACTIONS.changeColor,
@@ -53,6 +57,10 @@ export class UndoRedoService {
       case ACTIONS.append :
         this.renderer.appendChild(this.canvas.nativeElement, lastAction.shape);
         this.actions.push(lastAction);
+        break;
+      case ACTIONS.remove :
+          this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
+          this.actions.push(lastAction);
         break;
       case ACTIONS.changeColor :
         const changeFill: UndoRedoAction = {

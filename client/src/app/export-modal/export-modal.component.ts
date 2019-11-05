@@ -44,12 +44,11 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 
+
   click() {
-    if (window.confirm('please confirm export operation')) {
-      if (this.selectedFormat !== 'svg') {
+    if (this.selectedFormat !== 'svg') {
       this.exportService.download(this.selectedFormat, this.fileName);
       }
     }
-  }
 
 }

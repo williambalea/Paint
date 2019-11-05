@@ -1,6 +1,11 @@
 import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { InputService } from '../input.service';
 import { ViewChildService } from '../view-child.service';
+import { UndoRedoAction } from '../undoRedoAction';
+import { ACTIONS } from 'src/constants';
+import { UndoRedoService } from '../undo-redo.service';
+
+
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +26,9 @@ export class EraserService {
 
   constructor(private viewChildService: ViewChildService,
               private rendererFactory: RendererFactory2,
-              private inputService: InputService ) {
+              private inputService: InputService,
+              private undoRedoService : UndoRedoService
+              ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.eraseMouseDown = false;
     this.eraserRadius = 5;
@@ -91,10 +98,15 @@ export class EraserService {
   }
 
   validateErase(child: SVGGraphicsElement): void {
-    console.log('mouse move', this.mouseMove);
+    const undoRedoAction: UndoRedoAction = {
+      action: ACTIONS.remove,
+      shape: child,
+    };
     if (this.eraseMouseDown && this.mouseMove) {
+      this.undoRedoService.addAction(undoRedoAction);
       this.renderer.removeChild(this.drawingBoard.nativeElement, child);
     } else if (this.eraseMouseDown && !this.mouseMove) {
+      this.undoRedoService.addAction(undoRedoAction);
       this.renderer.removeChild(this.drawingBoard.nativeElement, child);
       this.eraseMouseDown = false;
     }

@@ -1,8 +1,8 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-import { ElementRef } from '@angular/core';
-import { Renderer2, RendererFactory2 } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
+import { ElementRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Renderer2, RendererFactory2 } from '@angular/core';
 import { InputService } from '../input.service';
 import {ViewChildService} from '../view-child.service';
 import { EraserService } from './eraser.service';
@@ -75,6 +75,21 @@ describe('EraserService', () => {
     const spyOnSetAttribute = spyOn( renderer, 'setAttribute');
     service.setAttributeCursor(x, y);
     expect(spyOnSetAttribute).toHaveBeenCalledTimes(7);
+  });
+
+  it('should add to preview', () => {
+    let shape: SVGGraphicsElement;
+    shape = renderer.createElement('rect', 'svg');
+    // service.preview.push(shape);
+    const spyOnCreateElement  = spyOn(renderer, 'createElement');
+    const spyOnsetAttributePreview  = spyOn(service, 'setAttributePreview');
+    const spyOnPush = spyOn(service.preview, 'push');
+    const spyOnappendChild = spyOn( renderer, 'appendChild');
+    service.addToPreview(shape);
+    expect(spyOnCreateElement).toHaveBeenCalled();
+    expect(spyOnsetAttributePreview).toHaveBeenCalled();
+    expect(spyOnPush).toHaveBeenCalled();
+    expect(spyOnappendChild).toHaveBeenCalled();
   });
 
   // TESTS QUI NE MARCHENT PAS:

@@ -53,7 +53,6 @@ export class PenService implements Shape {
     this.renderer.appendChild(this.canvas.nativeElement, penWrapper);
     this.interval = setInterval( () => {
       this.createPath();
-      console.log(this.path);
       this.renderer.appendChild(penWrapper, this.path);
     }, 10);
   }

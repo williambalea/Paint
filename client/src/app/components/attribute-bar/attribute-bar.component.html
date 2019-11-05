@@ -119,6 +119,10 @@
             <app-selector-attributes></app-selector-attributes>
         </div>
 
+        <div *ngSwitchCase="tool.colorApplicator">
+            <app-color-applicator-attribute></app-color-applicator-attribute>
+        </div>
+
     </div>
 
     <div *ngIf="this.colorService.getShowInAttributeBar()">

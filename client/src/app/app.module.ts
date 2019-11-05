@@ -36,6 +36,7 @@ import { MaterialModule } from './material/material.module';
 import { SafeStylePipe } from './safe-style.pipe';
 import { EventEmitterService } from './services/event-emitter.service';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
+import { ColorApplicatorAttributeComponent } from './components/attribute-bar/color-applicator-attribute/color-applicator-attribute.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     EllipseAttributesComponent,
     EraserAttributesComponent,
     SelectorAttributesComponent,
+    ColorApplicatorAttributeComponent,
   ],
   imports: [
     BrowserModule,

@@ -253,7 +253,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.colorService.setMakingColorChanges(false);
     }
     if (this.selectedTool === TOOL.selector) {
-      this.clipboardService.wNewSelection = true;
       if (this.selectorAreaActive) {
         if (event.button === NB.Zero) {
           if ((event.target as HTMLElement).id === 'pen') {
@@ -305,10 +304,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.selector) {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
-      this.clipboardService.wCloningPosition = {
+      this.clipboardService.cloningPosition = {
         x: this.includingBoxService.boxUpperLeft.x - 1,
         y: this.includingBoxService.boxUpperLeft.y - 1 ,
       };
+      this.clipboardService.newSelection = true;
     }
     if (this.selectedTool === TOOL.eraser) {
       // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
@@ -398,12 +398,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.clipboardService.controlX();
       }
     }
-    if (event.key === KEY.v) {
-      if (this.inputService.controlPressed === true) {
-        this.eventEmitterService.assignSelectedTool();
-        this.clipboardService.controlV();
-      }
-    }
     if (event.key === KEY.a) {
       event.preventDefault();
       if (this.inputService.controlPressed === true) {
@@ -449,7 +443,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.control) {
       this.inputService.controlPressed = false;
-      this.clipboardService.nbIncrements = 0;
     }
     if (event.key === KEY.d) {
       if (this.inputService.controlPressed === true) {

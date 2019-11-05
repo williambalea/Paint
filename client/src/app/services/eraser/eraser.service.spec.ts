@@ -1,6 +1,6 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 import { ElementRef } from '@angular/core';
-// import { Renderer2, RendererFactory2 } from '@angular/core';
+import { Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
@@ -29,9 +29,9 @@ describe('EraserService', () => {
   let service: EraserService;
   // let colorService: ColorService;
   // let inputService: InputService;
-  // let renderer: Renderer2;
-  // let rendererFactory: RendererFactory2;
-  // let viewChildService: ViewChildService;
+  let renderer: Renderer2;
+  let rendererFactory: RendererFactory2;
+  //let viewChildService: ViewChildService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,14 +49,23 @@ describe('EraserService', () => {
     // viewChildService = TestBed.get(ViewChildService);
     // colorService = TestBed.get(ColorService);
     // renderer = TestBed.get(Renderer2);
-    // rendererFactory = TestBed.get(RendererFactory2);
-    // renderer = rendererFactory.createRenderer(null, null);
+    rendererFactory = TestBed.get(RendererFactory2);
+    renderer = rendererFactory.createRenderer(null, null);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should set cursor attributes', () => {
+    const x = 1;
+    const y = 1;
+    const spyOnSetAttribute = spyOn( renderer, 'setAttribute');
+    service.setAttributeCursor(x, y);
+    expect(spyOnSetAttribute).toHaveBeenCalledTimes(7);
+  });
+
+  // TESTS QUI NE MARCHENT PAS:
   // it('should initialize view children', () => {
   //   const createElement = spyOn( renderer, 'createElement');
   //   service.initializeViewChildren();

@@ -10,8 +10,8 @@ import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 })
 export class RectangleAttributesComponent {
 
-  constructor(protected rectangleService: RectangleService,
-              protected colorService: ColorService) { }
+  constructor(public rectangleService: RectangleService,
+              public colorService: ColorService) { }
 
   radioChangeHandler(event: MatRadioChange): void {
     this.rectangleService.rectangleType = event.value;

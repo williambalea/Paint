@@ -10,8 +10,8 @@ import { EllipseService } from 'src/app/services/shapes/ellipse.service';
 })
 export class EllipseAttributesComponent {
 
-  constructor(protected ellipseService: EllipseService,
-              protected colorService: ColorService) { }
+  constructor(public ellipseService: EllipseService,
+              public colorService: ColorService) { }
 
   radioChangeHandler(event: MatRadioChange): void {
     this.ellipseService.ellipseType = event.value;

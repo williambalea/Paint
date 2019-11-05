@@ -84,11 +84,11 @@
                     </div>
                     <mat-slider class="inputFormStyle" type="range" #slider min="40" max="200"
                         value={{this.gridService.gridSize}} [(ngModel)]="this.gridService.gridSize"
-                        (input)="this.gridService.gridSize = $event.value; applyGrid(); showGrid()">
+                        (input)="this.gridService.gridSize = $event.value; applyGrid(); this.gridService.showGrid()">
                     </mat-slider>
                     <div class="attributeHeader">
                         Toggle Grid<br>
-                        <mat-slide-toggle [checked]="usingGrid" (change)="onGridToggle($event.checked)">
+                        <mat-slide-toggle [checked]="usingGrid" (change)="onGridToggle()">
                         </mat-slide-toggle>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                     <div class="button">
                         <mat-slider min="25" max="100" value={{this.gridService.opacity}}
                             [(ngModel)]="this.gridService.opacity"
-                            (input)="this.gridService.opacity = $event.value; applyGrid(); showGrid()">
+                            (input)="this.gridService.opacity = $event.value; applyGrid(); this.gridService.showGrid()">
                         </mat-slider>
                     </div>
                 </div>

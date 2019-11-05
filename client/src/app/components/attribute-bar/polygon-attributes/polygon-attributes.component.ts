@@ -10,8 +10,8 @@ import { PolygonService } from 'src/app/services/shapes/polygon.service';
 })
 export class PolygonAttributesComponent {
 
-  constructor(protected polygonService: PolygonService,
-              protected colorService: ColorService) { }
+  constructor(public polygonService: PolygonService,
+              public colorService: ColorService) { }
 
   radioChangeHandler(event: MatRadioChange): void {
     this.polygonService.polygonType = event.value;

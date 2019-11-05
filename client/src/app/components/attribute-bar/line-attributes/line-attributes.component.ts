@@ -16,8 +16,8 @@ export class LineAttributesComponent {
   lineStyle: typeof LINE_PATTERN;
   dashStyle: typeof STROKE_DASHARRAY_STYLE;
 
-  constructor(protected lineService: LineService,
-              protected colorService: ColorService) {
+  constructor(public lineService: LineService,
+              public colorService: ColorService) {
     this.linecorner = LINECORNER;
     this.lineStyle = LINE_PATTERN;
     this.junctionStyle = JUNCTIONSTYLE;

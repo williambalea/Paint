@@ -12,8 +12,8 @@ import { BRUSH } from 'src/constants';
 export class BrushAttributesComponent {
   brush: typeof BRUSH;
 
-  constructor(protected brushService: BrushService,
-              protected colorService: ColorService) {
+  constructor(public brushService: BrushService,
+              public colorService: ColorService) {
                 this.brush = BRUSH;
   }
 

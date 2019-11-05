@@ -106,7 +106,7 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  @HostListener('window:mouseup', ['$event'])
+  @HostListener('window:mouseup', [''])
   onMouseUp(): void {
     this.mousedown = false;
   }

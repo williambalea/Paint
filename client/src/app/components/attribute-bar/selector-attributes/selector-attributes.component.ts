@@ -8,7 +8,7 @@ import { ClipboardService } from '../../../services/clipboard/clipboard.service'
 })
 export class SelectorAttributesComponent {
 
-  constructor(private clipboardService: ClipboardService) {
+  constructor(public clipboardService: ClipboardService) {
     this.clipboardService.findSelected();
   }
 

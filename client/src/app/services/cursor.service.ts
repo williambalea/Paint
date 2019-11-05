@@ -5,7 +5,7 @@ import { EMPTY_STRING, TOOL } from 'src/constants';
   providedIn: 'root',
 })
 export class CursorService {
-  private cursor;
+  cursor;
 
   constructor() {
     this.cursor = EMPTY_STRING;

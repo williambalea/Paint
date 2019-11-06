@@ -10,19 +10,19 @@ describe('EventEmitterService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should emit showgrid', () => {
-    const service: EventEmitterService = TestBed.get(EventEmitterService);
-    const spyEmit = spyOn(service.showGridEmitter, 'emit');
-    service.showGrid();
-    expect(spyEmit).toHaveBeenCalled();
-  });
+  // it('should emit showgrid', () => {
+  //   const service: EventEmitterService = TestBed.get(EventEmitterService);
+  //   const spyEmit = spyOn(service.showGridEmitter, 'emit');
+  //   service.showGrid();
+  //   expect(spyEmit).toHaveBeenCalled();
+  // });
 
-  it('should emit hideGrid', () => {
-    const service: EventEmitterService = TestBed.get(EventEmitterService);
-    const spyEmit = spyOn(service.hideGridEmitter, 'emit');
-    service.hideGrid();
-    expect(spyEmit).toHaveBeenCalled();
-  });
+  // it('should emit hideGrid', () => {
+  //   const service: EventEmitterService = TestBed.get(EventEmitterService);
+  //   const spyEmit = spyOn(service.hideGridEmitter, 'emit');
+  //   service.hideGrid();
+  //   expect(spyEmit).toHaveBeenCalled();
+  // });
 
   it('should emit sendSVGToServer', () => {
     const service: EventEmitterService = TestBed.get(EventEmitterService);

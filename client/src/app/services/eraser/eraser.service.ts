@@ -1,11 +1,9 @@
 import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { InputService } from '../input.service';
-import { ViewChildService } from '../view-child.service';
-import { UndoRedoAction } from '../undoRedoAction';
 import { ACTIONS } from 'src/constants';
+import { InputService } from '../input.service';
 import { UndoRedoService } from '../undo-redo.service';
-
-
+import { UndoRedoAction } from '../undoRedoAction';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +19,13 @@ export class EraserService {
   divider: number;
   canvas: ElementRef;
   preview: SVGGraphicsElement[];
-  g: SVGGraphicsElement;
+  redContourGroupe: SVGGraphicsElement;
   mouseMove: boolean;
 
   constructor(private viewChildService: ViewChildService,
               private rendererFactory: RendererFactory2,
               private inputService: InputService,
-              private undoRedoService : UndoRedoService
+              private undoRedoService: UndoRedoService,
               ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.eraseMouseDown = false;
@@ -42,8 +40,8 @@ export class EraserService {
   initializeViewChildren(): void {
     this.drawingBoard = this.viewChildService.drawingBoard;
     this.canvas = this.viewChildService.canvas;
-    this.g = this.renderer.createElement('g', 'svg');
-    this.renderer.appendChild(this.drawingBoard.nativeElement, this.g);
+    this.redContourGroupe = this.renderer.createElement('g', 'svg');
+    this.renderer.appendChild(this.drawingBoard.nativeElement, this.redContourGroupe);
   }
 
   createEraser(x: number, y: number): void {
@@ -74,7 +72,7 @@ export class EraserService {
       const redContour = this.renderer.createElement('rect', 'svg');
       this.setAttributePreview(redContour, shape);
       this.preview.push(redContour);
-      this.renderer.appendChild(this.g, redContour);
+      this.renderer.appendChild(this.redContourGroupe, redContour);
     }
   }
 
@@ -90,11 +88,11 @@ export class EraserService {
 
   clear(): void {
     for ( const i of this.preview) {
-      this.renderer.removeChild(this.g, i);
+      this.renderer.removeChild(this.redContourGroupe, i);
     }
   }
   clearOnce(): void {
-      this.renderer.removeChild(this.g, this.preview[0]);
+      this.renderer.removeChild(this.redContourGroupe, this.preview[0]);
   }
 
   validateErase(child: SVGGraphicsElement): void {

@@ -1,5 +1,5 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { NB, ACTIONS } from 'src/constants';
+import { NB, ACTIONS, EMPTY_STRING } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { FileParametersServiceService } from '../file-parameters-service.service';
 import { IncludingBoxService } from '../includingBox/including-box.service';
@@ -79,7 +79,6 @@ export class ClipboardService {
             }
         }
     }
-    console.log(this.selectedItems);
   }
 
   controlX(): void {
@@ -110,7 +109,6 @@ export class ClipboardService {
 
   duplicate(shapes: SVGGraphicsElement[]): void {
     if (this.newSelection) {
-      console.log('newSelection!!');
       this.newSelection = false;
       this.inputService.incrementMultiplier = NB.One;
     }
@@ -119,7 +117,6 @@ export class ClipboardService {
       let newPositionX = this.inputService.incrementMultiplier * 15;
       let newPositionY = this.inputService.incrementMultiplier * 15;
 
-      console.log(shape.getBoundingClientRect().left);
 
       const overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
       const overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
@@ -131,15 +128,12 @@ export class ClipboardService {
             newPositionY = this.inputService.incrementMultiplier * 15;
           }
 
-      const oldTransform = shapeCopy.getAttribute('transform');
-      if (oldTransform) {
-        const translate = oldTransform.slice(10, oldTransform.length - 1);
-        console.log(translate);
-        const positionsXY: string[] = translate.split(',');
-        shapeCopy.setAttribute('transform', `translate(${newPositionX + Number(positionsXY[0])}, ${newPositionY + Number(positionsXY[1])})`);
-      } else {
-        shapeCopy.setAttribute('transform', `translate(${newPositionX}, ${newPositionY})`);
+      let oldTransform = shapeCopy.getAttribute('transform');
+      if (!oldTransform) {
+        oldTransform = EMPTY_STRING;
       }
+      shapeCopy.setAttribute('transform', `translate(${newPositionX}, ${newPositionY})` + oldTransform);
+
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, shapeCopy);
       const undoRedoAction: UndoRedoAction = {
         action: ACTIONS.append,

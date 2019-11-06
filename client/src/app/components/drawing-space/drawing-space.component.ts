@@ -30,12 +30,11 @@ import { Shape } from '../../services/shapes/shape';
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('g', { static: true }) canvas: ElementRef;
-  @ViewChild('v', { static: false }) canvasOffset: ElementRef;
   @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
-  @ViewChild('includingBox', { static: false }) includingBox: ElementRef;
   @ViewChild('downloadImage', { static: false }) downloadImage: ElementRef;
   @ViewChild('downloadLink', { static: false }) downloadLink: ElementRef;
+  @ViewChild('defs', {static: false}) defs: ElementRef;
 
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
@@ -239,6 +238,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.eraser) {
       this.eraserService.eraseMouseDown = true;
       this.eraserService.intersect();
+      this.eraserService.clearOnce();
     }
 
     if (this.selectedTool === TOOL.text) {
@@ -371,10 +371,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (event.key === KEY.shift) {
-      this.inputService.shiftPressed = true;
-      this.selectedShape.onMouseMove();
-      this.selectedShape.onMouseUp();
       event.preventDefault();
+      this.inputService.shiftPressed = true;
+      if (this.selectedTool === TOOL.line) {
+        this.selectedShape.onMouseMove();
+        this.selectedShape.onMouseUp();
+      }
     }
     if (event.key === KEY.alt) {
       this.inputService.altPressed = true;

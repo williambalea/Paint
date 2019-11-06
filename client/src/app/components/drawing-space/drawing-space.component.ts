@@ -370,10 +370,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (event.key === KEY.shift) {
-      this.inputService.shiftPressed = true;
-      this.selectedShape.onMouseMove();
-      this.selectedShape.onMouseUp();
       event.preventDefault();
+      this.inputService.shiftPressed = true;
+      if (this.selectedTool === TOOL.line) {
+        this.selectedShape.onMouseMove();
+        this.selectedShape.onMouseUp();
+      }
     }
     if (event.key === KEY.alt) {
       this.inputService.altPressed = true;

@@ -43,6 +43,7 @@ describe('EraserService', () => {
         // { provide: RendererFactory2, useClass: RendererFactoryMock },
         { provide: InputService, useClass: InputServiceMock },
         { provide: ColorService, useClass: ColorServiceMock },
+          Renderer2,
       ],
     }).compileComponents();
     service = TestBed.get(EraserService);

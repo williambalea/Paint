@@ -261,8 +261,11 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
           break;
         case KEY.c:
           if (!event.ctrlKey) {
-            this.selectTool(TOOL.pen);
+            this.selectTool(TOOL.pencil);
           }
+          break;
+        case KEY.g:
+          this.selectTool(TOOL.grid);
           break;
         case KEY.l:
           this.selectTool(TOOL.line);

@@ -83,13 +83,13 @@ export class TextService {
       this.createTextElements();
       this.setTextAttributes();
       this.update();
-      // this.renderer.setProperty(this.tspan, 'innerHTML', ' ');
+      this.renderer.setProperty(this.tspan, 'innerHTML', '1');
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.text);
 
-      this.textBox.setAttribute('x', this.inputService.getMouse().x.toString());
-      this.textBox.setAttribute('y', (this.inputService.getMouse().y - (this.fontSize)).toString());
-      this.textBox.setAttribute('width', '10');
-      this.textBox.setAttribute('height', this.fontSize.toString());
+      // this.textBox.setAttribute('x', this.inputService.getMouse().x.toString());
+      // this.textBox.setAttribute('y', (this.inputService.getMouse().y - (this.fontSize)).toString());
+      // this.textBox.setAttribute('width', '10');
+      // this.textBox.setAttribute('height', this.fontSize.toString());
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.textBox);
       console.log(this.textBox);
     } else {

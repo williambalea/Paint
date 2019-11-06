@@ -34,6 +34,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   @ViewChild('downloadImage', { static: false }) downloadImage: ElementRef;
   @ViewChild('downloadLink', { static: false }) downloadLink: ElementRef;
+  @ViewChild('defs', {static: false}) defs: ElementRef;
 
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;

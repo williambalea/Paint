@@ -331,8 +331,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.undoRedoService.undoIsStarted) {
         this.undoRedoService.poppedActions = [];
       }
-      const shapeIsNotNull: boolean = this.shape.getBBox().width !== 0;
-      shapeIsNotNull ? this.undoRedoService.addAction(undoRedoAction) : this.renderer.removeChild(this.canvas, this.shape);
+      if (this.selectedTool !== TOOL.line) {
+        const shapeIsNotNull: boolean = this.shape.getBBox().width !== 0;
+        shapeIsNotNull ? this.undoRedoService.addAction(undoRedoAction) : this.renderer.removeChild(this.canvas, this.shape);
+      }
     }
     this.undoRedoService.undoIsStarted = false;
     clearInterval(this.interval);
@@ -394,18 +396,18 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.controlPressed = true;
     }
     if (event.key === KEY.c) {
-      if (this.inputService.controlPressed === true) {
+      if (this.inputService.controlPressed) {
         this.clipboardService.controlC();
       }
     }
     if (event.key === KEY.x) {
-      if (this.inputService.controlPressed === true) {
+      if (this.inputService.controlPressed) {
         this.clipboardService.controlX();
       }
     }
     if (event.key === KEY.a) {
       event.preventDefault();
-      if (this.inputService.controlPressed === true) {
+      if (this.inputService.controlPressed) {
         this.eventEmitterService.assignSelectedTool();
         this.clipboardService.controlA();
       }
@@ -414,7 +416,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.clipboardService.delete();
     }
     if (event.key === KEY.d) {
-      if (this.inputService.controlPressed === true) {
+      if (this.inputService.controlPressed) {
         event.preventDefault();
       }
     }
@@ -450,12 +452,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.controlPressed = false;
     }
     if (event.key === KEY.d) {
-      if (this.inputService.controlPressed === true) {
+      if (this.inputService.controlPressed) {
         this.clipboardService.controlD();
       }
     }
     if (event.key === KEY.v) {
-      if (this.inputService.controlPressed === true) {
+      if (this.inputService.controlPressed) {
         this.clipboardService.controlV();
       }
     }

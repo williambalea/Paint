@@ -1,6 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LineAttributesComponent } from './line-attributes.component';
 
 describe('LineAttributesComponent', () => {
@@ -10,9 +9,7 @@ describe('LineAttributesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LineAttributesComponent ],
-      imports: [
-        CUSTOM_ELEMENTS_SCHEMA,
-      ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

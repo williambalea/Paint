@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ColorApplicatorAttributeComponent } from './color-applicator-attribute.component';
 
 describe('ColorApplicatorAttributeComponent', () => {
@@ -8,7 +8,8 @@ describe('ColorApplicatorAttributeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ColorApplicatorAttributeComponent ]
+      declarations: [ ColorApplicatorAttributeComponent ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

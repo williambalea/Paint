@@ -1,7 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { StampAttributesComponent } from './stamp-attributes.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StampAttributesComponent } from './stamp-attributes.component';
 
 describe('StampAttributesComponent', () => {
   let component: StampAttributesComponent;

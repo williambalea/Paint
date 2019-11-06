@@ -1,6 +1,5 @@
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Renderer2 } from '@angular/core';
 import { SelectorAttributesComponent } from './selector-attributes.component';
 
 describe('SelectorComponent', () => {
@@ -13,6 +12,7 @@ describe('SelectorComponent', () => {
       providers: [
         Renderer2,
       ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

@@ -1,4 +1,4 @@
-<div class="drawingBoard" (click)="this.onLeftClick($event);" (contextmenu)="this.onRightClick($event)" [style]="cursorService.cursor | safeStyle">
+<div class="drawingBoard" (click)="this.onLeftClick($event);" (contextmenu)="this.onRightClick($event)">
     <canvas #htmlCanvas hidden></canvas>
     <svg #svg id="canvas" version="1.1"
         baseProfile="full"

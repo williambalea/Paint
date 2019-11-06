@@ -15,16 +15,6 @@
             (click)="this.undoRedoService.redo()">
             <mat-icon>redo</mat-icon>
         </button>
-
-        <div class="actionList">
-            <span *ngFor="let action of this.undoRedoService.actions">
-                {{action.action}} {{action.shape.tagName}} ({{action.shape.getBBox().x}},
-                {{action.shape.getBBox().y}})<br>
-            </span>
-            <span *ngFor="let action of this.undoRedoService.poppedActions">
-                <span style="color: grey">{{action.action}} {{action.shape.tagName}}<br></span>
-            </span>
-        </div>
     </div>
 
     <div [ngSwitch]="selectedTool">

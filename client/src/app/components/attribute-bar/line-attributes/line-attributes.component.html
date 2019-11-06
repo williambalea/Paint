@@ -1,0 +1,74 @@
+<div class="header">Line</div>
+
+<div>
+
+    <div class="svg">
+        <svg class="lineStyleRound" width="200" height="100">
+
+            <defs>
+                <marker id="dot" viewBox="0 0 30 30" refX="15" refY="15" markerWidth="5" markerHeight="5"
+                    stroke-width="0">
+                    <circle cx="15" cy="15" [style.r]="this.lineService.dotSize" fill="black" />
+                </marker>
+
+            </defs>
+
+            <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
+                [style.stroke-width]="this.lineService.strokeWidth"
+                [style.stroke-dasharray]="this.lineService.dashArrayType"
+                [style.marker-start]="this.lineService.junction"
+                [style.marker-end]="this.lineService.junction" />
+        </svg>
+    </div>
+
+    <div class="attribute">
+        <div class="attributeHeader">
+            Size: {{this.lineService.strokeWidth}} px <br>
+        </div>
+
+        <div>
+            <mat-slider min="1" max="40" value={{this.lineService.strokeWidth}}
+                [(ngModel)]="this.lineService.strokeWidth"
+                (input)="this.lineService.strokeWidth = $event.value">
+            </mat-slider>
+        </div>
+    </div>
+
+    <div class="attribute">
+
+        <div class="attributeHeader">Line pattern</div>
+        <div>
+            <mat-radio-group>
+                <mat-radio-button [value]="this.dashStyle.fullLine" checked
+                    (change)="lineStypeRadioChangeHandler($event)">
+                    {{this.lineStyle.full}}</mat-radio-button><br>
+                <mat-radio-button [value]="this.dashStyle.dottedPoint"
+                    (change)="lineStypeRadioChangeHandler($event)">
+                    {{this.lineStyle.dottedPoint}}</mat-radio-button><br>
+                <mat-radio-button [value]="this.dashStyle.dottedLine"
+                    (change)="lineStypeRadioChangeHandler($event)">
+                    {{this.lineStyle.dottedLine}}</mat-radio-button><br>
+            </mat-radio-group>
+        </div>
+
+    </div>
+
+    <div class="attribute">
+
+        <div class="attributeHeader">Junction Type</div>
+        <div>
+            <mat-radio-group>
+                <mat-radio-button [value]="this.linecorner.dot"
+                    (change)="lineJunctionChangeHandler($event)">
+                    {{this.junctionStyle.dot}}</mat-radio-button><br>
+                <mat-radio-button [value]="this.linecorner.angled" checked
+                    (change)="lineJunctionChangeHandler($event)">
+                    {{this.junctionStyle.angled}}</mat-radio-button><br>
+                <mat-radio-button [value]="this.linecorner.rounded"
+                    (change)="lineJunctionChangeHandler($event)">
+                    {{this.junctionStyle.rounded}}</mat-radio-button><br>
+            </mat-radio-group>
+        </div>
+
+    </div>
+</div>

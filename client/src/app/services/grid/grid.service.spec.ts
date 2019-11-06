@@ -27,6 +27,7 @@ describe('GridService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
   it('Should set a numeral grid size', () => {
     const size = 10;
     service.setGridSize(size);

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
@@ -12,7 +12,7 @@ import { DisplayConfirmationComponent } from '../display-confirmation/display-co
   templateUrl: './get-file-modalwindow.component.html',
   styleUrls: ['./get-file-modalwindow.component.scss'],
 })
-export class GetFileModalwindowComponent implements OnInit {
+export class GetFileModalwindowComponent implements OnInit, OnDestroy {
 
   dataTable: SVGJSON[];
   tag: string;
@@ -22,19 +22,22 @@ export class GetFileModalwindowComponent implements OnInit {
   filterActivated: boolean;
   caughtGetError: boolean;
 
-  constructor(
-    private dialog: MatDialog,
-    private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
-    private inputService: InputService,
-    private eventEmitter: EventEmitterService,
-    private communicationService: CommunicationsService,
-  ) {
+  constructor( private dialog: MatDialog,
+               private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
+               private inputService: InputService,
+               private eventEmitter: EventEmitterService,
+               public communicationService: CommunicationsService) {
     this.dataTable = [];
     this.tags = [];
     this.displayedData = [];
     this.filteredThroughTagData = [];
     this.filterActivated = false;
     this.caughtGetError = false;
+    this.inputService.gridShortcutsActive = false;
+  }
+
+  ngOnDestroy() {
+    this.inputService.gridShortcutsActive = true;
   }
 
   ngOnInit(): void {

@@ -73,6 +73,7 @@ export enum KEY {
   backspace = 'Backspace',
   escape = 'Escape',
   shift = 'Shift',
+  control = 'Control',
   c = 'c',
   g = 'g',
   i = 'i',
@@ -87,10 +88,14 @@ export enum KEY {
   one = '1',
   two = '2',
   three = '3',
+  x = 'x',
+  v = 'v',
+  a = 'a',
+  d = 'd',
+  delete = 'Delete',
   enter = 'Enter',
   plus = '+',
   minus = '-',
-  control = 'ctrlKey',
 }
 
 export const FONTS = ['Arial', 'Roboto', 'Times New Roman', 'Courier New', 'Georgia', 'Palatino', 'Comic Sans MS', 'Impact'];
@@ -170,8 +175,8 @@ export enum STROKE_DASHARRAY_STYLE {
 export enum ACTIONS {
   append = 'append',
   changeColor = 'changeColor',
+  remove = 'remove'
 }
-
 
 export enum STRINGS {
   white = 'white',

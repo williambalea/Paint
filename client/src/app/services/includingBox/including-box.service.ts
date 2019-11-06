@@ -1,5 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { NB } from 'src/constants';
+import { NB, SVGinnerWidth } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { SelectorService } from '../selector/selector.service';
 
@@ -29,7 +29,13 @@ export class IncludingBoxService {
     const finalPoint: Point = { x: 0, y: 0 };
     const bottomRight: Point = { x: 0, y: 0 };
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
-      const shapeBoundary: SVGRect = value.getBBox();
+      const clientRect = value.getBoundingClientRect() as DOMRect;
+      const shapeBoundary = {
+        x: clientRect.x - SVGinnerWidth + NB.Two,
+        y: clientRect.y,
+        width: clientRect.width,
+        height: clientRect.height,
+      } as SVGRect;
       this.validateNoStroke(value, shapeBoundary);
       this.calculateInitialPoint(shapeBoundary);
       this.calculateBottomRight(bottomRight, shapeBoundary);

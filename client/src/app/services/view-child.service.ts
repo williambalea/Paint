@@ -8,7 +8,4 @@ export class ViewChildService {
   canvas: ElementRef;
   downloadImage: ElementRef;
   downloadLink: ElementRef;
-
-  // TODO: Do ElementRef needs to be initialized? -WB
-  constructor() { }
 }

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 
@@ -13,7 +13,7 @@ import { InputService } from '../../services/input.service';
   styleUrls: ['./save-file-modalwindow.component.scss'],
 })
 
-export class SaveFileModalwindowComponent implements OnInit {
+export class SaveFileModalwindowComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   currentTag: string;
@@ -21,11 +21,14 @@ export class SaveFileModalwindowComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
               private eventEmitterService: EventEmitterService,
-              private inputService: InputService,
-              private communicationService: CommunicationsService,
-  ) {
+              public inputService: InputService,
+              public communicationService: CommunicationsService) {
     this.currentTag = EMPTY_STRING;
+    this.inputService.gridShortcutsActive = false;
+  }
 
+  ngOnDestroy() {
+    this.inputService.gridShortcutsActive = true;
   }
 
   ngOnInit(): void {

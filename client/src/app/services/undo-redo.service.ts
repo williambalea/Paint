@@ -1,6 +1,7 @@
 import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 import { ACTIONS } from 'src/constants';
 import { UndoRedoAction } from './undoRedoAction';
+import { InputService } from './input.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class UndoRedoService {
   canvas: ElementRef;
   color: string;
   undoIsStarted: boolean;
-  constructor(private renderer: Renderer2) {
+  constructor(private renderer: Renderer2, private inputService: InputService) {
     this.actions = [];
     this.poppedActions = [];
     this.undoIsStarted = false;
@@ -30,6 +31,13 @@ export class UndoRedoService {
       case ACTIONS.append :
         this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
         this.poppedActions.push(lastAction);
+        if (lastAction.increment){ 
+          this.inputService.incrementMultiplier--;
+        }
+        break;
+      case ACTIONS.remove :
+        this.renderer.appendChild(this.canvas.nativeElement, lastAction.shape);
+        this.poppedActions.push(lastAction);
         break;
       case ACTIONS.changeColor :
         const changeFill: UndoRedoAction = {
@@ -41,9 +49,6 @@ export class UndoRedoService {
         this.poppedActions.push(changeFill);
     }
 
-    // console.log('next color', lastAction.nextColor);
-    // this.poppedActions[this.poppedActions.length - 1].oldColor = lastAction.nextColor;
-   // this.poppedActions[this.poppedActions.length-1].color = this.color;
     this.undoIsStarted = true;
   }
 
@@ -53,6 +58,13 @@ export class UndoRedoService {
       case ACTIONS.append :
         this.renderer.appendChild(this.canvas.nativeElement, lastAction.shape);
         this.actions.push(lastAction);
+        if (lastAction.increment){ 
+          this.inputService.incrementMultiplier++;
+        }
+        break;
+      case ACTIONS.remove :
+          this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
+          this.actions.push(lastAction);
         break;
       case ACTIONS.changeColor :
         const changeFill: UndoRedoAction = {

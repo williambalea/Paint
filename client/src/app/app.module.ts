@@ -10,6 +10,18 @@ import { SafeHtmlPipe} from '../app/safe-html.pipe';
 import { SafeUrlPipe} from '../app/safe-url.pipe';
 import { AppComponent } from './app.component';
 import { AttributeBarComponent } from './components/attribute-bar/attribute-bar.component';
+import { BrushAttributesComponent } from './components/attribute-bar/brush-attributes/brush-attributes.component';
+import { ColorApplicatorAttributeComponent } from './components/attribute-bar/color-applicator-attribute/color-applicator-attribute.component';
+import { EllipseAttributesComponent } from './components/attribute-bar/ellipse-attributes/ellipse-attributes.component';
+import { EraserAttributesComponent } from './components/attribute-bar/eraser-attributes/eraser-attributes.component';
+import { LineAttributesComponent } from './components/attribute-bar/line-attributes/line-attributes.component';
+import { PenAttributesComponent } from './components/attribute-bar/pen-attributes/pen-attributes.component';
+import { PencilAttributesComponent } from './components/attribute-bar/pencil-attributes/pencil-attributes.component';
+import { PolygonAttributesComponent } from './components/attribute-bar/polygon-attributes/polygon-attributes.component';
+import { RectangleAttributesComponent } from './components/attribute-bar/rectangle-attributes/rectangle-attributes.component';
+import { SelectorAttributesComponent } from './components/attribute-bar/selector-attributes/selector-attributes.component';
+import { StampAttributesComponent } from './components/attribute-bar/stamp-attributes/stamp-attributes.component';
+import { TextAttributesComponent } from './components/attribute-bar/text-attributes/text-attributes.component';
 import { ColorPickerModule } from './components/color-picker/color-picker.module';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { DisplayConfirmationComponent } from './components/display-confirmation/display-confirmation.component';
@@ -22,6 +34,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { DownloadModalComponent } from './download-modal/download-modal.component';
 import { ExportModalComponent } from './export-modal/export-modal.component';
 import { MaterialModule } from './material/material.module';
+import { SafeStylePipe } from './safe-style.pipe';
 import { EventEmitterService } from './services/event-emitter.service';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
@@ -42,6 +55,19 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     ExportModalComponent,
     UploadModalComponent,
     DownloadModalComponent,
+    SafeStylePipe,
+    BrushAttributesComponent,
+    PenAttributesComponent,
+    PencilAttributesComponent,
+    StampAttributesComponent,
+    LineAttributesComponent,
+    TextAttributesComponent,
+    RectangleAttributesComponent,
+    PolygonAttributesComponent,
+    EllipseAttributesComponent,
+    EraserAttributesComponent,
+    SelectorAttributesComponent,
+    ColorApplicatorAttributeComponent,
   ],
   imports: [
     BrowserModule,

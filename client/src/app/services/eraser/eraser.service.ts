@@ -1,5 +1,8 @@
 import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { ACTIONS } from 'src/constants';
 import { InputService } from '../input.service';
+import { UndoRedoService } from '../undo-redo.service';
+import { UndoRedoAction } from '../undoRedoAction';
 import { ViewChildService } from '../view-child.service';
 
 @Injectable({
@@ -17,10 +20,13 @@ export class EraserService {
   canvas: ElementRef;
   preview: SVGGraphicsElement[];
   redContourGroupe: SVGGraphicsElement;
+  mouseMove: boolean;
 
   constructor(private viewChildService: ViewChildService,
               private rendererFactory: RendererFactory2,
-              private inputService: InputService ) {
+              private inputService: InputService,
+              private undoRedoService: UndoRedoService,
+              ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.eraseMouseDown = false;
     this.eraserRadius = 5;
@@ -28,6 +34,7 @@ export class EraserService {
     this.cursor = this.renderer.createElement('rect', 'svg');
     this.divider = 2;
     this.preview = [];
+    this.mouseMove = false;
   }
 
   initializeViewChildren(): void {
@@ -84,10 +91,22 @@ export class EraserService {
       this.renderer.removeChild(this.redContourGroupe, i);
     }
   }
+  clearOnce(): void {
+      this.renderer.removeChild(this.redContourGroupe, this.preview[0]);
+  }
 
   validateErase(child: SVGGraphicsElement): void {
-    if (this.eraseMouseDown) {
+    const undoRedoAction: UndoRedoAction = {
+      action: ACTIONS.remove,
+      shape: child,
+    };
+    if (this.eraseMouseDown && this.mouseMove) {
+      this.undoRedoService.addAction(undoRedoAction);
       this.renderer.removeChild(this.drawingBoard.nativeElement, child);
+    } else if (this.eraseMouseDown && !this.mouseMove) {
+      this.undoRedoService.addAction(undoRedoAction);
+      this.renderer.removeChild(this.drawingBoard.nativeElement, child);
+      this.eraseMouseDown = false;
     }
   }
 
@@ -102,12 +121,12 @@ export class EraserService {
     const cursorBox = this.cursor.getBoundingClientRect();
     this.clear();
     this.preview = [];
-    for (const child of this.canvas.nativeElement.children) {
-        const childBox = child.getBoundingClientRect();
-        let isIntersection: boolean;
-        isIntersection = (!(childBox.left > cursorBox.right || childBox.right < cursorBox.left
+    for ( let i: number = this.canvas.nativeElement.children.length  ; i-- ; i > 0) {
+       const childBox = this.canvas.nativeElement.children[i].getBoundingClientRect();
+       let isIntersection: boolean;
+       isIntersection = (!(childBox.left > cursorBox.right || childBox.right < cursorBox.left
           || childBox.top > cursorBox.bottom || childBox.bottom < cursorBox.top));
-        this.validateIntersection(isIntersection, child);
+       this.validateIntersection(isIntersection, this.canvas.nativeElement.children[i]);
     }
   }
 }

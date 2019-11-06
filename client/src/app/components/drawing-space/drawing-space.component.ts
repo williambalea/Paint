@@ -3,9 +3,9 @@ import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
 import { ColorService } from 'src/app/services/color/color.service';
 import { PipetteService } from 'src/app/services/color/pipette.service';
 import { CommunicationsService } from 'src/app/services/communications.service';
+import { CursorService } from 'src/app/services/cursor.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
-import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { InputService } from 'src/app/services/input.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
@@ -14,7 +14,7 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { TextService } from 'src/app/services/shapes/text.service';
 import { UndoRedoService } from 'src/app/services/undo-redo.service';
-import { UndoRedoAction} from 'src/app/services/undoRedoAction';
+import { UndoRedoAction } from 'src/app/services/undoRedoAction';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { UploadService } from 'src/app/services/upload.service';
 import { ViewChildService } from 'src/app/services/view-child.service';
@@ -29,7 +29,8 @@ import { Shape } from '../../services/shapes/shape';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('g', { static: false }) canvas: ElementRef;
+  @ViewChild('g', { static: true }) canvas: ElementRef;
+  @ViewChild('v', { static: false }) canvasOffset: ElementRef;
   @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
   @ViewChild('includingBox', { static: false }) includingBox: ElementRef;
@@ -50,18 +51,18 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   shape: SVGSVGElement;
 
   constructor(private fileParameters: FileParametersServiceService,
-              private colorService: ColorService,
+              public colorService: ColorService,
               private inputService: InputService,
               private renderer: Renderer2,
               private textService: TextService,
               private pipetteService: PipetteService,
               private selectorService: SelectorService,
               private communicationService: CommunicationsService,
-              private gridService: GridService,
               private penService: PenService,
+              public cursorService: CursorService,
               private screenshotService: ScreenshotService,
               private unsubscribeService: UnsubscribeService,
-              private includingBoxService: IncludingBoxService,
+              public includingBoxService: IncludingBoxService,
               private eventEmitterService: EventEmitterService,
               private undoRedoService: UndoRedoService,
               private noShapeService: NoShapeService,
@@ -96,12 +97,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.uploadService.fileContent = EMPTY_STRING;
     });
 
-    this.eventEmitterService.showGridEmitter.subscribe(() => {
-      this.showGrid();
-    });
-    this.eventEmitterService.hideGridEmitter.subscribe(() => {
-      this.hideGrid();
-    });
     this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
       this.convertSVGtoJSON();
     });
@@ -116,18 +111,20 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.inputService.isDrawed = false;
     });
-    this.undoRedoService.canvas = this.canvas;
 
+    this.undoRedoService.canvas = this.canvas;
   }
 
   // TODO: What is that name function??? -WB
- click(): void {
-  for (const child of this.canvas.nativeElement.children) {
-    this.renderer.removeChild(this.canvas, child);
+  click(): void {
+    for (const child of this.canvas.nativeElement.children) {
+      this.renderer.removeChild(this.canvas, child);
+    }
+    this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.uploadService.fileContent);
+    console.log('here', this.uploadService.backgroundColor);
+    this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.uploadService.backgroundColor);
+    this.uploadService.backgroundColor = EMPTY_STRING;
   }
-  this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.uploadService.fileContent);
-  this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.uploadService.backgroundColor);
- }
 
   ngOnDestroy(): void {
     this.unsubscribeService.onDestroy();
@@ -140,16 +137,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((canvasHeight) => this.canvasHeight = canvasHeight));
     this.unsubscribeService.subscriptons.push(this.fileParameters.resizeflag$
       .subscribe((resizeFlag) => this.resizeFlag = resizeFlag));
-  }
-
-  hideGrid(): void {
-    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
-  }
-
-  showGrid(): void {
-    this.renderer.removeChild(this.drawingBoard.nativeElement, this.gridService.elementG);
-    this.gridService.draw(this.gridService.gridSize);
-    this.renderer.appendChild(this.drawingBoard.nativeElement, this.gridService.elementG);
   }
 
   draw(shape: SVGSVGElement): void {
@@ -197,9 +184,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.undoRedoService.poppedActions = [];
     if (this.notCanvasAndColorApplicator(event)) {
       const changeFill: UndoRedoAction = {
-        action : ACTIONS.changeColor,
-        shape : (event.target as SVGGraphicsElement),
-        oldColor : (event.target as SVGGraphicsElement).getAttribute('fill') as string,
+        action: ACTIONS.changeColor,
+        shape: (event.target as SVGGraphicsElement),
+        oldColor: (event.target as SVGGraphicsElement).getAttribute('fill') as string,
       };
       this.changeFillColor(event.target as HTMLElement);
       this.undoRedoService.addAction(changeFill);
@@ -223,7 +210,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.isComplexShape(targetTag)) {
       this.renderer.setAttribute(target, 'fill', this.colorService.getFillColor());
     } else if (targetTag === 'path') {
-      if ((target as HTMLElement).id.includes('pen')) {
+      if ((target as HTMLElement).id === 'pen') {
         const penElements = ((target as HTMLElement).parentNode as HTMLElement).children;
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < penElements.length; i++) {
@@ -266,7 +253,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.selector) {
       if (this.selectorAreaActive) {
         if (event.button === NB.Zero) {
-          if ((event.target as HTMLElement).id.includes('pen')) {
+          if ((event.target as HTMLElement).id === 'pen') {
+            this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
+          } else if ((event.target as HTMLElement).tagName === 'tspan') {
             this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
           } else {
             this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
@@ -287,7 +276,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.penService.getSpeed(event);
 
     if (this.selectedTool !== TOOL.colorApplicator) {
-      this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement);
+      this.inputService.setMouseOffset(event, this.drawingBoard.nativeElement, this.selectedTool);
       this.selectedShape.onMouseMove();
     }
     if (this.selectedTool === TOOL.selector) {
@@ -298,45 +287,55 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (this.selectedTool === TOOL.eraser) {
-      this.eraserService.updatePosition(this.eraserService.cursor);
+      if (this.eraserService.eraseMouseDown) {
+        this.eraserService.mouseMove = true;
       }
+      this.eraserService.updatePosition(this.eraserService.cursor);
+    }
   }
 
   @HostListener('mouseup', ['$event'])
   onMouseUp(event: MouseEvent): void {
+    if (this.selectedTool === TOOL.pen) {
+      this.penService.onMouseUp();
+    }
     if (this.selectedTool !== TOOL.colorApplicator) {
       this.selectedShape.onMouseUp();
     }
     if (this.selectedTool === TOOL.selector) {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+      this.clipboardService.cloningPosition = {
+        x: this.includingBoxService.boxUpperLeft.x - 1,
+        y: this.includingBoxService.boxUpperLeft.y - 1,
+      };
+      this.clipboardService.newSelection = true;
     }
     if (this.selectedTool === TOOL.eraser) {
       // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
+      this.eraserService.mouseMove = false;
       this.eraserService.eraseMouseDown = false;
+      if (this.eraserService.preview.length >= 1) {
+        this.eraserService.clearOnce();
+      }
+
     }
-    if (this.selectedTool === TOOL.clipboard) {
-      this.clipboardService.getElement(event.target as EventTarget, this.drawingBoard.nativeElement);
-    }
-    if (this.selectedTool === TOOL.pen) {
-      this.penService.onMouseUp();
-    }
+
     this.inputService.isDrawed = true;
     this.selectorAreaActive = false;
     if (this.selectedShape !== this.noShapeService) {
       const undoRedoAction: UndoRedoAction = {
-        action : ACTIONS.append,
-        shape : this.shape,
+        action: ACTIONS.append,
+        shape: this.shape,
       };
 
       if (this.undoRedoService.undoIsStarted) {
-      this.undoRedoService.poppedActions = [];
-    }
+        this.undoRedoService.poppedActions = [];
+      }
       const shapeIsNotNull: boolean = this.shape.getBBox().width !== 0;
       shapeIsNotNull ? this.undoRedoService.addAction(undoRedoAction) : this.renderer.removeChild(this.canvas, this.shape);
     }
     this.undoRedoService.undoIsStarted = false;
     clearInterval(this.interval);
-    this.penService.pathGroupIndex++;
   }
 
   @HostListener('wheel', ['$event'])
@@ -351,7 +350,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onKeyDown(event: KeyboardEvent): void {
     if (this.selectedTool === TOOL.text) {
       event.preventDefault();
-      if (event.key.length === 1) {
+      if (event.key.length === 1 && this.textService.isWriting) {
         this.textService.textContent += event.key;
         this.textService.update();
         return;
@@ -366,7 +365,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (event.key === KEY.enter) {
         this.textService.lineJump();
-        }
+      }
     }
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = true;
@@ -380,7 +379,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.escape) {
       this.inputService.escapePressed = true;
-      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+      if (!this.shape) {
+        return;
+      }
+      this.renderer.removeChild(this.canvas.nativeElement, this.shape, true);
+      (this.shape as any) = undefined;
     }
     if (event.key === KEY.backspace) {
       this.inputService.backSpacePressed = true;
@@ -388,6 +391,31 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.control) {
       this.inputService.controlPressed = true;
+    }
+    if (event.key === KEY.c) {
+      if (this.inputService.controlPressed === true) {
+        this.clipboardService.controlC();
+      }
+    }
+    if (event.key === KEY.x) {
+      if (this.inputService.controlPressed === true) {
+        this.clipboardService.controlX();
+      }
+    }
+    if (event.key === KEY.a) {
+      event.preventDefault();
+      if (this.inputService.controlPressed === true) {
+        this.eventEmitterService.assignSelectedTool();
+        this.clipboardService.controlA();
+      }
+    }
+    if (event.key === KEY.delete) {
+      this.clipboardService.delete();
+    }
+    if (event.key === KEY.d) {
+      if (this.inputService.controlPressed === true) {
+        event.preventDefault();
+      }
     }
   }
 
@@ -420,6 +448,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.control) {
       this.inputService.controlPressed = false;
     }
+    if (event.key === KEY.d) {
+      if (this.inputService.controlPressed === true) {
+        this.clipboardService.controlD();
+      }
+    }
+    if (event.key === KEY.v) {
+      if (this.inputService.controlPressed === true) {
+        this.clipboardService.controlV();
+      }
+    }
   }
-
 }

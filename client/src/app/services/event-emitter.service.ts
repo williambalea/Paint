@@ -5,21 +5,23 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class EventEmitterService {
 
-  showGridEmitter = new EventEmitter();
-  hideGridEmitter = new EventEmitter();
+  
   sendSVGToServerEmitter = new EventEmitter();
   appendToDrawingSpaceEmitter = new EventEmitter();
   selectEmitter = new EventEmitter();
   clearCanvasEmitter = new EventEmitter();
   uploadEmitter = new EventEmitter();
 
-  showGrid(): void {
-    this.showGridEmitter.emit();
-  }
+  controlCEmitter = new EventEmitter();
+  controlXEmitter = new EventEmitter();
+  controlVEmitter = new EventEmitter();
+  controlDEmitter = new EventEmitter();
+  controlAEmitter = new EventEmitter();
+  deleteEmitter = new EventEmitter();
 
-  hideGrid(): void {
-    this.hideGridEmitter.emit();
-  }
+  assignSelectorToolEmitter = new EventEmitter();
+
+ 
 
   sendSVGToServer(): void {
     this.sendSVGToServerEmitter.emit();
@@ -37,8 +39,36 @@ export class EventEmitterService {
     this.clearCanvasEmitter.emit();
   }
 
-  upload() : void {
+  controlC(): void {
+    this.controlCEmitter.emit();
+  }
+
+  controlX(): void {
+    this.controlXEmitter.emit();
+  }
+
+  controlV(): void {
+    this.controlVEmitter.emit();
+  }
+
+  controlD(): void {
+    this.controlDEmitter.emit();
+  }
+
+  controlA(): void {
+    this.controlAEmitter.emit();
+  }
+
+  delete(): void {
+    this.deleteEmitter.emit();
+  }
+
+  assignSelectedTool(): void {
+    this.assignSelectorToolEmitter.emit();
+  }
+
+  upload(): void {
     this.uploadEmitter.emit();
   }
- 
+
 }

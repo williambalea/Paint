@@ -139,7 +139,7 @@ describe('TextService', () => {
     expect(service.textContent).toEqual('');
   });
 
-  //LES TESTS QUI NE MARCHENT PAS :
+  // LES TESTS QUI NE MARCHENT PAS :
 
   // it('should update text attributes', () => {
   //   const spyOnSetTextAttributes = spyOn(renderer, 'setAttribute');

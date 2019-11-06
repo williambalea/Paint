@@ -1,8 +1,9 @@
-  import { Injectable, Renderer2 } from '@angular/core';
+  import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
   import { EMPTY_STRING, JUNCTIONSTYLE, LINECORNER, NB, STROKE_DASHARRAY_STYLE } from 'src/constants';
   import { Point } from '../../../../../common/interface/point';
   import { ColorService } from '../color/color.service';
   import { InputService } from '../input.service';
+  import { ViewChildService } from '../view-child.service';
   import { Shape } from './shape';
 
   @Injectable({
@@ -23,12 +24,14 @@ export class LineService implements Shape {
   junctionStyle: string;
   junctionValue: string;
   dotSize: number;
+  renderer: Renderer2;
 
   path: HTMLElement;
 
-  constructor(private renderer: Renderer2,
+  constructor(private rendererFactory: RendererFactory2,
               private inputService: InputService,
-              private colorService: ColorService) {
+              private colorService: ColorService,
+              private viewChildService: ViewChildService) {
     this.strokeWidth = NB.Seven;
     this.doubleClick = false;
     this.junctionStyle = LINECORNER.angled;
@@ -37,6 +40,7 @@ export class LineService implements Shape {
     this.junction = EMPTY_STRING;
     this.dotSize = NB.Seven;
     this.reset();
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     }
 
   reset(): void {
@@ -55,6 +59,7 @@ export class LineService implements Shape {
     this.validationToCreatePath();
     this.setStyle();
     this.draw();
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.path);
     return this.path;
   }
 

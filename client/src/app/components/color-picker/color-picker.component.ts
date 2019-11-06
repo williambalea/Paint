@@ -11,11 +11,11 @@ import { COLORS, EMPTY_STRING, NB, STRING_NB } from '../../../constants';
 
 export class ColorPickerComponent implements OnInit {
 
-  private hue: string;
-  private color: string;
+  hue: string;
+  color: string;
   private oldPointedColor: string;
-  private transparency: number;
-  private colorHex: string;
+  transparency: number;
+  colorHex: string;
   private transparencyString: string;
   private colorInputControl: ColorInputControl;
 
@@ -23,7 +23,7 @@ export class ColorPickerComponent implements OnInit {
     this.sendColorWrapper();
   }
 
-  constructor(private colorService: ColorService) {
+  constructor(public colorService: ColorService) {
     this.hue = EMPTY_STRING;
     this.color = COLORS.blackRGBA;
     this.oldPointedColor = COLORS.whiteRGBA;

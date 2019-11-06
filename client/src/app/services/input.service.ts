@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY_STRING, NB } from 'src/constants';
+import { EMPTY_STRING, NB, TOOL } from 'src/constants';
 import { Point } from '../../../../common/interface/point';
 
 @Injectable({
@@ -11,11 +11,12 @@ export class InputService {
   escapePressed: boolean;
   backSpacePressed: boolean;
   controlPressed: boolean;
-  cPressed: boolean;
   altPressed: boolean;
   isBlank: boolean;
   isDoubleClick: boolean;
   enterPressed: boolean;
+  gridShortcutsActive: boolean;
+  incrementMultiplier: number;
 
   stampAngle: number;
   json: string;
@@ -26,6 +27,8 @@ export class InputService {
   isNotEmpty: boolean;
   mouseButton: number;
   isDrawed: boolean;
+
+
 
   constructor() {
     this.shiftPressed = false;
@@ -43,12 +46,19 @@ export class InputService {
     this.drawingHtml = EMPTY_STRING;
     this.isNotEmpty = false;
     this.isDrawed = false;
-    this.cPressed = false;
     this.controlPressed = false;
+    this.gridShortcutsActive = true;
+    this.incrementMultiplier = NB.One;
   }
 
-  setMouseOffset(event: MouseEvent, area: HTMLElement): void {
-    this.mouse = { x: event.clientX - area.getBoundingClientRect().left, y: event.clientY - area.getBoundingClientRect().top };
+  setMouseOffset(event: MouseEvent, area: HTMLElement, tool: string): void {
+    if (tool === TOOL.brush || tool === TOOL.pen || tool === TOOL.pencil ||
+      tool === TOOL.pipette || tool === TOOL.eraser) {
+      this.mouse = { x: event.clientX - area.getBoundingClientRect().left,
+      y: event.clientY - area.getBoundingClientRect().top + NB.Twenty };
+    } else {
+      this.mouse = { x: event.clientX - area.getBoundingClientRect().left, y: event.clientY - area.getBoundingClientRect().top};
+    }
   }
 
   getMouse(): Point {

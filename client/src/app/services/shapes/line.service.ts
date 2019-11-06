@@ -98,7 +98,6 @@ export class LineService implements Shape {
     if (this.inputService.shiftPressed) {
       this.isShiftPressed();
     }
-
     this.doubleClick = false;
     }
 
@@ -123,7 +122,11 @@ export class LineService implements Shape {
     }
 
     isShiftPressed(): void {
+      if (this.linepath === EMPTY_STRING) {
+        return;
+      }
       this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
+      this.path = this.renderer.createElement('path', 'svg');
       this.reset();
     }
 

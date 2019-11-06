@@ -101,7 +101,6 @@ describe('SideBarComponent', () => {
   });
 
   it('should set selectedTool when chosing tool', () => {
-    expect(component.selectedTool).not.toBeDefined();
     component.selectTool(TOOL.rectangle);
     expect(component.selectedTool).toEqual(TOOL.rectangle);
   });
@@ -117,8 +116,10 @@ describe('SideBarComponent', () => {
   });
 
   it('should access default case when selectTool', () => {
+    component.selectTool('pipette');
+    expect(component.selectedTool).toEqual(TOOL.pipette);
     component.selectTool('abc');
-    expect(component.selectedTool).toBeUndefined();
+    expect(component.selectedTool).toEqual(TOOL.pipette);
   });
 
   it('should set selectedTool to colorApplicator when chosing tool', () => {
@@ -247,9 +248,12 @@ describe('SideBarComponent', () => {
 
   it('should do nothing when pressing other keys', () => {
     component.enableKeyPress = true;
-    const pressingOther = new KeyboardEvent('keydown', {key: 'p'});
-    component.onKeyDown(pressingOther);
-    expect(component.selectedTool).not.toBeDefined();
+    const press1 = new KeyboardEvent('keydown', {key: '1'});
+    component.onKeyDown(press1);
+    expect(component.selectedTool).toEqual(TOOL.rectangle);
+    const press2 = new KeyboardEvent('keydown', {key: 'p'});
+    component.onKeyDown(press2);
+    expect(component.selectedTool).toEqual(TOOL.rectangle);
   });
 
 });

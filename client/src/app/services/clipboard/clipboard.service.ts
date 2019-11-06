@@ -105,6 +105,7 @@ export class ClipboardService {
       y: this.includingBoxService.boxUpperLeft.y - 1 ,
     };
     this.newSelection = true;
+    this.includingBoxService.update();
   }
 
   duplicate(shapes: SVGGraphicsElement[]): void {

@@ -117,7 +117,6 @@ export class ClipboardService {
       let newPositionX = this.inputService.incrementMultiplier * 15;
       let newPositionY = this.inputService.incrementMultiplier * 15;
 
-
       const overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
       const overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
 
@@ -143,6 +142,7 @@ export class ClipboardService {
       this.undoRedoService.addAction(undoRedoAction);
     }
     this.inputService.incrementMultiplier++;
+    this.includingBoxService.update();
   }
 
   controlV(): void {

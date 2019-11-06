@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StampAttributesComponent } from './stamp-attributes.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('StampAttributesComponent', () => {
   let component: StampAttributesComponent;
@@ -9,6 +10,7 @@ describe('StampAttributesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ StampAttributesComponent ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

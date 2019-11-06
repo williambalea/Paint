@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Renderer2 } from '@angular/core';
 import { SelectorAttributesComponent } from './selector-attributes.component';
 
 describe('SelectorComponent', () => {
@@ -8,7 +9,10 @@ describe('SelectorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectorAttributesComponent ]
+      declarations: [ SelectorAttributesComponent ],
+      providers: [
+        Renderer2,
+      ],
     })
     .compileComponents();
   }));

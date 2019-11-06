@@ -19,7 +19,7 @@ export class PenService implements Shape {
   active: boolean;
   path: HTMLElement;
   private interval: any;
-  private mouseSpeed: number;
+  mouseSpeed: number;
   lastMouseMoveTime: number;
 
   canvas: ElementRef;

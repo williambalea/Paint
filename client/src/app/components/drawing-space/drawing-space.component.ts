@@ -14,7 +14,7 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 import { ScreenshotService } from 'src/app/services/shapes/screenshot.service';
 import { TextService } from 'src/app/services/shapes/text.service';
 import { UndoRedoService } from 'src/app/services/undo-redo.service';
-import { UndoRedoAction} from 'src/app/services/undoRedoAction';
+import { UndoRedoAction } from 'src/app/services/undoRedoAction';
 import { UnsubscribeService } from 'src/app/services/unsubscribe.service';
 import { UploadService } from 'src/app/services/upload.service';
 import { ViewChildService } from 'src/app/services/view-child.service';
@@ -29,7 +29,7 @@ import { Shape } from '../../services/shapes/shape';
   styleUrls: ['./drawing-space.component.scss'],
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('g', { static: false }) canvas: ElementRef;
+  @ViewChild('g', { static: true }) canvas: ElementRef;
   @ViewChild('v', { static: false }) canvasOffset: ElementRef;
   @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
@@ -97,8 +97,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.uploadService.fileContent = EMPTY_STRING;
     });
 
-   
-  
     this.eventEmitterService.sendSVGToServerEmitter.subscribe(() => {
       this.convertSVGtoJSON();
     });
@@ -118,15 +116,15 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // TODO: What is that name function??? -WB
- click(): void {
-  for (const child of this.canvas.nativeElement.children) {
-    this.renderer.removeChild(this.canvas, child);
+  click(): void {
+    for (const child of this.canvas.nativeElement.children) {
+      this.renderer.removeChild(this.canvas, child);
+    }
+    this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.uploadService.fileContent);
+    console.log('here', this.uploadService.backgroundColor);
+    this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.uploadService.backgroundColor);
+    this.uploadService.backgroundColor = EMPTY_STRING;
   }
-  this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.uploadService.fileContent);
-  console.log('here', this.uploadService.backgroundColor);
-  this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.uploadService.backgroundColor);
-  this.uploadService.backgroundColor = EMPTY_STRING;
- }
 
   ngOnDestroy(): void {
     this.unsubscribeService.onDestroy();
@@ -186,9 +184,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.undoRedoService.poppedActions = [];
     if (this.notCanvasAndColorApplicator(event)) {
       const changeFill: UndoRedoAction = {
-        action : ACTIONS.changeColor,
-        shape : (event.target as SVGGraphicsElement),
-        oldColor : (event.target as SVGGraphicsElement).getAttribute('fill') as string,
+        action: ACTIONS.changeColor,
+        shape: (event.target as SVGGraphicsElement),
+        oldColor: (event.target as SVGGraphicsElement).getAttribute('fill') as string,
       };
       this.changeFillColor(event.target as HTMLElement);
       this.undoRedoService.addAction(changeFill);
@@ -288,10 +286,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (this.selectedTool === TOOL.eraser) {
       if (this.eraserService.eraseMouseDown) {
-      this.eraserService.mouseMove = true;
+        this.eraserService.mouseMove = true;
       }
       this.eraserService.updatePosition(this.eraserService.cursor);
-      }
+    }
   }
 
   @HostListener('mouseup', ['$event'])
@@ -306,7 +304,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.renderer.removeChild(this.canvas.nativeElement, this.shape);
       this.clipboardService.cloningPosition = {
         x: this.includingBoxService.boxUpperLeft.x - 1,
-        y: this.includingBoxService.boxUpperLeft.y - 1 ,
+        y: this.includingBoxService.boxUpperLeft.y - 1,
       };
       this.clipboardService.newSelection = true;
     }
@@ -314,8 +312,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
       this.eraserService.mouseMove = false;
       this.eraserService.eraseMouseDown = false;
-      if(this.eraserService.preview.length >= 1){
-      this.eraserService.clearOnce();
+      if (this.eraserService.preview.length >= 1) {
+        this.eraserService.clearOnce();
       }
 
     }
@@ -324,13 +322,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectorAreaActive = false;
     if (this.selectedShape !== this.noShapeService) {
       const undoRedoAction: UndoRedoAction = {
-        action : ACTIONS.append,
-        shape : this.shape,
+        action: ACTIONS.append,
+        shape: this.shape,
       };
 
       if (this.undoRedoService.undoIsStarted) {
-      this.undoRedoService.poppedActions = [];
-    }
+        this.undoRedoService.poppedActions = [];
+      }
       const shapeIsNotNull: boolean = this.shape.getBBox().width !== 0;
       shapeIsNotNull ? this.undoRedoService.addAction(undoRedoAction) : this.renderer.removeChild(this.canvas, this.shape);
     }
@@ -365,7 +363,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (event.key === KEY.enter) {
         this.textService.lineJump();
-        }
+      }
     }
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = true;
@@ -379,7 +377,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.escape) {
       this.inputService.escapePressed = true;
-      this.renderer.removeChild(this.canvas.nativeElement, this.shape);
+      if (!this.shape) {
+        return;
+      }
+      this.renderer.removeChild(this.canvas.nativeElement, this.shape, true);
+      (this.shape as any) = undefined;
     }
     if (event.key === KEY.backspace) {
       this.inputService.backSpacePressed = true;

@@ -79,7 +79,10 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
               private undoRedoService: UndoRedoService,
               private eventEmitterService: EventEmitterService) {
     this.enableKeyPress = false;
+    this.selectedShape = this.stampService;
+    this.selectedTool = TOOL.stamp;
     this.selectedShape = this.noShapeService;
+    this.selectedTool = TOOL.noTool;
   }
 
   ngOnInit(): void {

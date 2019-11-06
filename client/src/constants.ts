@@ -122,6 +122,7 @@ export enum TOOL {
   eraser = 'eraser',
   pen = 'pen',
   clipboard = 'clipboard',
+  noTool = ' noTool',
 }
 
 export enum BRUSH {

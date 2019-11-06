@@ -5,7 +5,6 @@ import { EventEmitter, Injectable } from '@angular/core';
 })
 export class EventEmitterService {
 
-  
   sendSVGToServerEmitter = new EventEmitter();
   appendToDrawingSpaceEmitter = new EventEmitter();
   selectEmitter = new EventEmitter();
@@ -21,8 +20,6 @@ export class EventEmitterService {
 
   assignSelectorToolEmitter = new EventEmitter();
 
- 
-
   sendSVGToServer(): void {
     this.sendSVGToServerEmitter.emit();
   }
@@ -37,30 +34,6 @@ export class EventEmitterService {
 
   clearCanvas(): void {
     this.clearCanvasEmitter.emit();
-  }
-
-  controlC(): void {
-    this.controlCEmitter.emit();
-  }
-
-  controlX(): void {
-    this.controlXEmitter.emit();
-  }
-
-  controlV(): void {
-    this.controlVEmitter.emit();
-  }
-
-  controlD(): void {
-    this.controlDEmitter.emit();
-  }
-
-  controlA(): void {
-    this.controlAEmitter.emit();
-  }
-
-  delete(): void {
-    this.deleteEmitter.emit();
   }
 
   assignSelectedTool(): void {

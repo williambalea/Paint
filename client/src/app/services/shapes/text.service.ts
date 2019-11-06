@@ -24,6 +24,7 @@ export class TextService {
   textContent: string;
   isWriting: boolean;
   enterLineMultiplier: number;
+  textBox: SVGGraphicsElement;
 
   constructor(private rendererFactory: RendererFactory2,
               private viewChildService: ViewChildService,
@@ -38,6 +39,25 @@ export class TextService {
     this.isItalic = false;
     this.isWriting = false;
     this.enterLineMultiplier = NB.One;
+    this.createTextBox();
+  }
+
+  createTextBox(): void {
+    this.textBox = this.renderer.createElement('rect', 'svg');
+    this.textBox.setAttribute('stroke-dasharray', '3');
+    this.textBox.setAttribute('stroke', 'navy');
+    this.textBox.setAttribute('stroke-width', '1');
+    this.textBox.setAttribute('fill', 'none');
+    this.textBox.setAttribute('width', '5');
+    this.textBox.setAttribute('height', this.fontSize.toString());
+  }
+
+  updateTextBox(): void {
+    const bbox = (this.text as unknown as SVGGraphicsElement).getBBox();
+    this.textBox.setAttribute('x', bbox.x.toString());
+    this.textBox.setAttribute('y', bbox.y.toString());
+    this.textBox.setAttribute('width', bbox.width.toString());
+    this.textBox.setAttribute('height', bbox.height.toString());
   }
 
   setAlign(align: string): void {
@@ -64,6 +84,15 @@ export class TextService {
       this.setTextAttributes();
       this.update();
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.text);
+
+      this.textBox.setAttribute('x', (this.inputService.getMouse().x - NB.Three).toString());
+      this.textBox.setAttribute('y', (this.inputService.getMouse().y - (this.fontSize + NB.Eight)).toString());
+      this.textBox.setAttribute('width', NB.Eight.toString());
+      this.textBox.setAttribute('height', this.fontSize.toString());
+      this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.textBox);
+      console.log(this.textBox);
+    } else {
+      this.renderer.removeChild(this.viewChildService.canvas.nativeElement, this.textBox);
     }
   }
 
@@ -86,6 +115,7 @@ export class TextService {
     this.updateTextAttributes();
     this.setBoldString();
     this.setItalicString();
+    this.updateTextBox();
   }
 
   updateTextAttributes(): void {
@@ -93,10 +123,6 @@ export class TextService {
     this.renderer.setAttribute(this.text, 'font-size', this.fontSize.toString());
     this.renderer.setAttribute(this.text, 'text-anchor', this.align);
     this.renderer.setAttribute(this.text, 'fill', this.colorService.getFillColor());
-    this.text.childNodes.forEach((element) => {
-      // console.log('update', this.enterLineMultiplier);
-      // this.renderer.setAttribute(element, 'dy', (this.fontSize * this.enterLineMultiplier).toString());
-    });
   }
 
   setBoldString(): void {
@@ -119,6 +145,10 @@ export class TextService {
     console.log('dy', this.fontSize * this.enterLineMultiplier);
     this.renderer.setAttribute(this.tspan, 'dy', (this.fontSize * this.enterLineMultiplier).toString());
     this.renderer.appendChild(this.text, this.tspan);
+
+    const tempHeight = (this.textBox as SVGGraphicsElement).getBBox().height + this.fontSize;
+    this.renderer.setAttribute(this.textBox, 'height', tempHeight.toString());
+
     this.textContent = EMPTY_STRING;
     this.inputService.enterPressed = false;
     this.enterLineMultiplier ++;

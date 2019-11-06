@@ -353,6 +353,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (event.key.length === 1 && this.textService.isWriting) {
         this.textService.textContent += event.key;
         this.textService.update();
+        this.textService.enterLineMultiplier = NB.One;
         return;
       } else if (event.key === KEY.backspace) {
         if (this.textService.textContent.length === 0 && this.textService.text.childElementCount > 1) {

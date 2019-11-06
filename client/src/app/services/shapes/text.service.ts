@@ -23,6 +23,7 @@ export class TextService {
   isEnterPressed: boolean;
   textContent: string;
   isWriting: boolean;
+  enterLineMultiplier: number;
 
   constructor(private rendererFactory: RendererFactory2,
               private viewChildService: ViewChildService,
@@ -36,6 +37,7 @@ export class TextService {
     this.isBold = false;
     this.isItalic = false;
     this.isWriting = false;
+    this.enterLineMultiplier = NB.One;
   }
 
   setAlign(align: string): void {
@@ -92,7 +94,8 @@ export class TextService {
     this.renderer.setAttribute(this.text, 'text-anchor', this.align);
     this.renderer.setAttribute(this.text, 'fill', this.colorService.getFillColor());
     this.text.childNodes.forEach((element) => {
-      this.renderer.setAttribute(element, 'dy', this.fontSize.toString());
+      // console.log('update', this.enterLineMultiplier);
+      // this.renderer.setAttribute(element, 'dy', (this.fontSize * this.enterLineMultiplier).toString());
     });
   }
 
@@ -112,10 +115,13 @@ export class TextService {
   lineJump(): void {
     this.tspan = this.renderer.createElement('tspan', 'svg');
     this.renderer.setAttribute(this.tspan, 'x', this.xPos);
-    this.renderer.setAttribute(this.tspan, 'dy', this.fontSize.toString());
+    console.log('multiplier', this.enterLineMultiplier);
+    console.log('dy', this.fontSize * this.enterLineMultiplier);
+    this.renderer.setAttribute(this.tspan, 'dy', (this.fontSize * this.enterLineMultiplier).toString());
     this.renderer.appendChild(this.text, this.tspan);
     this.textContent = EMPTY_STRING;
     this.inputService.enterPressed = false;
+    this.enterLineMultiplier ++;
   }
 
   lineJumpBack(): void {

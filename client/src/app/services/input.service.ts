@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY_STRING, NBs } from 'src/constants';
+import { EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../common/interface/point';
 
 @Injectable({

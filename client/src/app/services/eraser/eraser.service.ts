@@ -1,5 +1,5 @@
 import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { ACTIONS } from 'src/constants';
+import { ACTIONS, SVGinnerWidth } from 'src/constants';
 import { InputService } from '../input.service';
 import { UndoRedoService } from '../undo-redo.service';
 import { UndoRedoAction } from '../undoRedoAction';
@@ -77,10 +77,10 @@ export class EraserService {
   }
 
   setAttributePreview(redContour: HTMLElement, shape: SVGGraphicsElement): void {
-    this.renderer.setAttribute(redContour, 'x', (shape.getBBox().x).toString());
-    this.renderer.setAttribute(redContour, 'y', (shape.getBBox().y).toString());
-    this.renderer.setAttribute(redContour, 'width', (shape.getBBox().width).toString());
-    this.renderer.setAttribute(redContour, 'height', (shape.getBBox().height).toString());
+    this.renderer.setAttribute(redContour, 'x', (shape.getBoundingClientRect().left - SVGinnerWidth).toString());
+    this.renderer.setAttribute(redContour, 'y', (shape.getBoundingClientRect().top).toString());
+    this.renderer.setAttribute(redContour, 'width', (shape.getBoundingClientRect().width).toString());
+    this.renderer.setAttribute(redContour, 'height', (shape.getBoundingClientRect().height).toString());
     this.renderer.setAttribute(redContour, 'fill', 'none');
     this.renderer.setAttribute(redContour, 'stroke', 'red');
     this.renderer.setAttribute(redContour, 'stroke-width', '1');

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ExportModalComponent } from './export-modal.component';
 
 describe('ExportModalComponent', () => {
@@ -9,6 +10,7 @@ describe('ExportModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ExportModalComponent ],
+      imports: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

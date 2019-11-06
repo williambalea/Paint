@@ -8,7 +8,5 @@ import { ColorService } from 'src/app/services/color/color.service';
 })
 export class ColorApplicatorAttributeComponent {
   constructor(public colorService: ColorService) {
-
   }
-
 }

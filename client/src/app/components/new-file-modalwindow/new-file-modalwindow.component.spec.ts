@@ -1,6 +1,5 @@
 import { InputService } from 'src/app/services/input.service';
 import { KEY, SVGinnerWidth } from 'src/constants';
-
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,14 +8,12 @@ import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ColorService } from 'src/app/services/color/color.service';
-import { ShapesService } from 'src/app/services/shapes/shapes.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { NewFileModalwindowComponent } from './new-file-modalwindow.component';
 
 describe('NewFileModalwindowComponent', () => {
   let component: NewFileModalwindowComponent;
-  let shapeService: ShapesService;
   let fileParameters: FileParametersServiceService;
   let colorService: ColorService;
   let dialog: MatDialog;
@@ -52,7 +49,6 @@ describe('NewFileModalwindowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NewFileModalwindowComponent);
     inputService = TestBed.get(InputService);
-    shapeService = TestBed.get(ShapesService);
     fileParameters = TestBed.get(FileParametersServiceService);
     dialogRef = TestBed.get(MatDialogRef);
     dialog = TestBed.get(MatDialog);
@@ -119,7 +115,6 @@ describe('NewFileModalwindowComponent', () => {
  });
 
   it ('submitParameters should create new drawing if canvas empty', () => {
-    shapeService.shapes.length = 0;
     const spy = spyOn(component, 'createNewDrawing').and.callThrough();
     spyOn(component, 'validForm').and.returnValue(true);
     component.submitParameters(10, 10);
@@ -127,7 +122,6 @@ describe('NewFileModalwindowComponent', () => {
   });
 
   it ('submitParameters should call deleteConfirmation if canvas not empty', () => {
-    shapeService.shapes.length = 1;
     inputService.isDrawed = true;
     const spy = spyOn(component, 'deleteConfirmation').and.callThrough();
     spyOn(component, 'validForm').and.returnValue(true);

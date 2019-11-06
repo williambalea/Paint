@@ -17,5 +17,4 @@ export class RectangleAttributesComponent {
     this.rectangleService.rectangleType = event.value;
     this.rectangleService.assignRectangleType();
   }
-
 }

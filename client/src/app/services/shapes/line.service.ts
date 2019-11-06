@@ -3,8 +3,8 @@
   import { Point } from '../../../../../common/interface/point';
   import { ColorService } from '../color/color.service';
   import { InputService } from '../input.service';
+  import { ViewChildService } from '../view-child.service';
   import { Shape } from './shape';
-import { ViewChildService } from '../view-child.service';
 
   @Injectable({
   providedIn: 'root',
@@ -24,14 +24,14 @@ export class LineService implements Shape {
   junctionStyle: string;
   junctionValue: string;
   dotSize: number;
-  renderer : Renderer2;
+  renderer: Renderer2;
 
   path: HTMLElement;
 
   constructor(private rendererFactory: RendererFactory2,
               private inputService: InputService,
               private colorService: ColorService,
-              private viewChildService : ViewChildService) {
+              private viewChildService: ViewChildService) {
     this.strokeWidth = NB.Seven;
     this.doubleClick = false;
     this.junctionStyle = LINECORNER.angled;
@@ -40,7 +40,7 @@ export class LineService implements Shape {
     this.junction = EMPTY_STRING;
     this.dotSize = NB.Seven;
     this.reset();
-    this.renderer = this.rendererFactory.createRenderer(null,null);
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     }
 
   reset(): void {

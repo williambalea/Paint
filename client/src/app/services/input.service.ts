@@ -16,6 +16,7 @@ export class InputService {
   isDoubleClick: boolean;
   enterPressed: boolean;
   gridShortcutsActive: boolean;
+  incrementMultiplier: number;
 
   stampAngle: number;
   json: string;
@@ -26,6 +27,8 @@ export class InputService {
   isNotEmpty: boolean;
   mouseButton: number;
   isDrawed: boolean;
+
+
 
   constructor() {
     this.shiftPressed = false;
@@ -45,6 +48,7 @@ export class InputService {
     this.isDrawed = false;
     this.controlPressed = false;
     this.gridShortcutsActive = true;
+    this.incrementMultiplier = NB.One;
   }
 
   setMouseOffset(event: MouseEvent, area: HTMLElement, tool: string): void {

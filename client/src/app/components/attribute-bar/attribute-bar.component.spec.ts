@@ -35,8 +35,6 @@ describe('AttributeBarComponent', () => {
   let textService: TextService;
   let inputService: InputService;
 
-  const keyEvent = new KeyboardEvent('keyUp', { code: 'd' });
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -73,14 +71,19 @@ describe('AttributeBarComponent', () => {
 
   it('should register a key up', () => {
     const onKeyUpSpy = spyOn(component, 'onKeyUp');
+    const keyEvent = new KeyboardEvent('keyup', {
+      key: 'g',
+    });
     component.onKeyUp(keyEvent);
     expect(onKeyUpSpy).toHaveBeenCalled();
   });
 
   it('should go through case KEY.g', () => {
     const toggleGridSpy = spyOn(component, 'toggleGrid');
-    const keyEventG = new KeyboardEvent('KEY.g');
-    component.onKeyUp(keyEventG);
+    const keyEvent = new KeyboardEvent('keyup', {
+      key: KEY.g,
+    });
+    component.onKeyUp(keyEvent);
     expect(toggleGridSpy).toHaveBeenCalled();
   });
 
@@ -91,8 +94,9 @@ describe('AttributeBarComponent', () => {
     textService.isWriting = false;
     inputService.gridShortcutsActive = true;
 
-    const key = KEY.plus;
-    const keyEvent = new KeyboardEvent(key);
+    const keyEvent = new KeyboardEvent('keyup', {
+      key: KEY.plus,
+    });
 
     component.onKeyUp(keyEvent);
     expect(setNextGridSizeSpy).toHaveBeenCalled();
@@ -106,9 +110,9 @@ describe('AttributeBarComponent', () => {
     const showGridSpy = spyOn(gridService, 'showGrid');
     textService.isWriting = false;
     inputService.gridShortcutsActive = true;
-
-    const key = KEY.minus;
-    const keyEvent = new KeyboardEvent(key);
+    const keyEvent = new KeyboardEvent('keyup', {
+      key: KEY.minus,
+    });
 
     component.onKeyUp(keyEvent);
     expect(setLastGridSizeSpy).toHaveBeenCalled();
@@ -117,25 +121,14 @@ describe('AttributeBarComponent', () => {
   });
 
   it('should enter if statement when not writing and shortcuts active', () => {
-    const spyApplyGrid = spyOn(component, 'applyGrid');
+    const spyToggleGrid = spyOn(component, 'toggleGrid');
     textService.isWriting = false;
     inputService.gridShortcutsActive = true;
-    const key = KEY.minus;
-    const keyEvent2 = new KeyboardEvent(key);
-
-    component.onKeyUp(keyEvent2);
-    expect(spyApplyGrid).toHaveBeenCalled();
-  });
-
-  it('should enter if statement when not writing and shortcuts active', () => {
-    const spyApplyGrid = spyOn(component, 'applyGrid');
-    textService.isWriting = false;
-    inputService.gridShortcutsActive = true;
-    const key = KEY.minus;
-    const keyEvent2 = new KeyboardEvent(key);
-
-    component.onKeyUp(keyEvent2);
-    expect(spyApplyGrid).toHaveBeenCalled();
+    const keyEvent = new KeyboardEvent('keyup', {
+      key: KEY.g,
+    });
+    component.onKeyUp(keyEvent);
+    expect(spyToggleGrid).toHaveBeenCalled();
   });
 
   it('should not enter if statement when writing', () => {

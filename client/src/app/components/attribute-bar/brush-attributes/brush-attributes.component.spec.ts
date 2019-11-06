@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrushAttributesComponent } from './brush-attributes.component';
 
 describe('BrushAttributesComponent', () => {
@@ -9,6 +10,9 @@ describe('BrushAttributesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ BrushAttributesComponent ],
+      imports: [
+        CUSTOM_ELEMENTS_SCHEMA,
+      ],
     })
     .compileComponents();
   }));

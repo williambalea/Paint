@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RectangleAttributesComponent } from './rectangle-attributes.component';
 
 describe('RectangleAttributesComponent', () => {
@@ -9,6 +10,7 @@ describe('RectangleAttributesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RectangleAttributesComponent ],
+      imports: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

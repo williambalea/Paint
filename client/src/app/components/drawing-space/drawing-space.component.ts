@@ -30,10 +30,8 @@ import { Shape } from '../../services/shapes/shape';
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('g', { static: true }) canvas: ElementRef;
-  @ViewChild('v', { static: false }) canvasOffset: ElementRef;
   @ViewChild('svg', { static: false }) drawingBoard: ElementRef;
   @ViewChild('htmlCanvas', { static: false }) htmlCanvas: ElementRef;
-  @ViewChild('includingBox', { static: false }) includingBox: ElementRef;
   @ViewChild('downloadImage', { static: false }) downloadImage: ElementRef;
   @ViewChild('downloadLink', { static: false }) downloadLink: ElementRef;
 

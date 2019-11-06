@@ -7,13 +7,13 @@ import { SelectorService } from '../selector/selector.service';
 import { ViewChildService } from '../view-child.service';
 import { UndoRedoService } from '../undo-redo.service';
 import { UndoRedoAction } from '../undoRedoAction';
+import { InputService } from '../input.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClipboardService {
 
-  incrementMultiplier: number;
   newSelection: boolean;
   cloningPosition: Point;
 
@@ -31,13 +31,13 @@ export class ClipboardService {
               private rendererFactory: RendererFactory2,
               private includingBoxService: IncludingBoxService,
               private undoRedoService: UndoRedoService,
+              private inputService: InputService,
               private fileParameterService: FileParametersServiceService) {
     this.selectedItems = [];
 
     this.getElementMouseDown = false;
     this.renderer = this.rendererFactory.createRenderer(null, null);
 
-    this.incrementMultiplier = NB.One;
     this.newSelection = true;
     this.cloningPosition = {x: 0, y: 0};
   }
@@ -112,12 +112,12 @@ export class ClipboardService {
     if (this.newSelection) {
       console.log('newSelection!!');
       this.newSelection = false;
-      this.incrementMultiplier = NB.One;
+      this.inputService.incrementMultiplier = NB.One;
     }
     for (const shape of shapes) {
       const shapeCopy = shape.cloneNode(true) as SVGGraphicsElement;
-      let newPositionX = this.incrementMultiplier * 15;
-      let newPositionY = this.incrementMultiplier * 15;
+      let newPositionX = this.inputService.incrementMultiplier * 15;
+      let newPositionY = this.inputService.incrementMultiplier * 15;
 
       console.log(shape.getBoundingClientRect().left);
 
@@ -126,9 +126,9 @@ export class ClipboardService {
 
       if (overflowX + 15 > this.fileParameterService.canvasWidth.getValue()
           || overflowY + 15 > this.fileParameterService.canvasHeight.getValue()) {
-            this.incrementMultiplier = NB.Zero;
-            newPositionX = this.incrementMultiplier * 15;
-            newPositionY = this.incrementMultiplier * 15;
+            this.inputService.incrementMultiplier = NB.Zero;
+            newPositionX = this.inputService.incrementMultiplier * 15;
+            newPositionY = this.inputService.incrementMultiplier * 15;
           }
 
       const oldTransform = shapeCopy.getAttribute('transform');
@@ -144,16 +144,19 @@ export class ClipboardService {
       const undoRedoAction: UndoRedoAction = {
         action: ACTIONS.append,
         shape: shapeCopy,
+        increment : this.inputService.incrementMultiplier,
       };
       this.undoRedoService.addAction(undoRedoAction);
     }
-    this.incrementMultiplier++;
+    this.inputService.incrementMultiplier++;
   }
 
   controlV(): void {
+    this.undoRedoService.poppedActions = [];
     this.duplicate(this.selectedItems);
   }
   controlD(): void {
+    this.undoRedoService.poppedActions = [];
     this.duplicate(this.selectorService.selectedShapes);
   }
 

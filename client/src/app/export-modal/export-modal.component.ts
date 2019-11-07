@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_STRING } from 'src/constants';
 import { ColorService } from '../services/color/color.service';
@@ -43,7 +43,6 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     const blob = new Blob([svg.outerHTML], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
-
 
   click() {
     if (this.selectedFormat !== 'svg') {

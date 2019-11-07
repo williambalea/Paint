@@ -21,7 +21,7 @@ export class ExportService {
 
     html2canvas(this.drawingBoard.nativeElement).then((downloadImage) => {
       this.downloadLink.nativeElement.href = downloadImage.toDataURL('image/' + format);
-      this.downloadLink.nativeElement.download = 'file.'+ format;
+      this.downloadLink.nativeElement.download = 'file.' + format;
       this.downloadLink.nativeElement.click();
     });
     }

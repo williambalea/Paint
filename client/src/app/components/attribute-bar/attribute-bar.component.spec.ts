@@ -13,6 +13,7 @@ export class RectangleServiceMock {
   assignRectangleType(): void { return; }
 }
 
+// tslint:disable-next-line: max-classes-per-file
 export class Renderer2Mock {
   createElement(): void { return; }
 }

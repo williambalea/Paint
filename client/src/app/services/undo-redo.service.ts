@@ -1,7 +1,7 @@
 import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 import { ACTIONS } from 'src/constants';
-import { UndoRedoAction } from './undoRedoAction';
 import { InputService } from './input.service';
+import { UndoRedoAction } from './undoRedoAction';
 
 @Injectable({
   providedIn: 'root',
@@ -26,12 +26,11 @@ export class UndoRedoService {
 
   undo(): void {
     const lastAction: UndoRedoAction =  this.actions.pop() as UndoRedoAction;
-    // let lastColor : string;
     switch (lastAction.action) {
       case ACTIONS.append :
         this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
         this.poppedActions.push(lastAction);
-        if (lastAction.increment){ 
+        if (lastAction.increment) {
           this.inputService.incrementMultiplier--;
         }
         break;
@@ -58,14 +57,14 @@ export class UndoRedoService {
       case ACTIONS.append :
         this.renderer.appendChild(this.canvas.nativeElement, lastAction.shape);
         this.actions.push(lastAction);
-        if (lastAction.increment){ 
+        if (lastAction.increment) {
           this.inputService.incrementMultiplier++;
         }
         break;
       case ACTIONS.remove :
           this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
           this.actions.push(lastAction);
-        break;
+          break;
       case ACTIONS.changeColor :
         const changeFill: UndoRedoAction = {
           action: ACTIONS.changeColor,

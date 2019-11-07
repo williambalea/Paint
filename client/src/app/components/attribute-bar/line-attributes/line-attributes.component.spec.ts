@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { LineAttributesComponent } from './line-attributes.component';
 import { LineService } from 'src/app/services/shapes/line.service';
+import { LineAttributesComponent } from './line-attributes.component';
 
 describe('LineAttributesComponent', () => {
   let component: LineAttributesComponent;

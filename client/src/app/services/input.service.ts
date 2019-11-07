@@ -28,8 +28,6 @@ export class InputService {
   mouseButton: number;
   isDrawed: boolean;
 
-
-
   constructor() {
     this.shiftPressed = false;
     this.altPressed = false;

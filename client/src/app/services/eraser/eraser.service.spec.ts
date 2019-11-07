@@ -1,8 +1,7 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-import { ColorService } from '../color/color.service';
-import { ElementRef } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Renderer2, RendererFactory2 } from '@angular/core';
+import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import {ViewChildService} from '../view-child.service';
 import { EraserService } from './eraser.service';
@@ -31,7 +30,7 @@ describe('EraserService', () => {
   // let inputService: InputService;
   let renderer: Renderer2;
   let rendererFactory: RendererFactory2;
-  //let viewChildService: ViewChildService;
+  // let viewChildService: ViewChildService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

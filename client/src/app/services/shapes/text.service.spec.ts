@@ -89,10 +89,12 @@ describe('TextService', () => {
     const spyOnUpdateTextAttributes = spyOn(service, 'updateTextAttributes');
     const spyOnSetBoldString = spyOn(service, 'setBoldString');
     const spyOnSetItalicString = spyOn(service, 'setItalicString');
+    const spyOnupdateTextBox = spyOn(service, 'updateTextBox');
     service.update();
     expect(spyOnUpdateTextAttributes).toHaveBeenCalled();
     expect(spyOnSetBoldString).toHaveBeenCalled();
     expect(spyOnSetItalicString).toHaveBeenCalled();
+    expect(spyOnupdateTextBox).toHaveBeenCalled();
   });
 
   it ('should set bold string', () => {

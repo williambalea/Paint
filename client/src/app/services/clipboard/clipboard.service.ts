@@ -16,12 +16,9 @@ export class ClipboardService {
 
   newSelection: boolean;
   cloningPosition: Point;
-
   renderer: Renderer2;
   selectedItems: SVGGraphicsElement[];
-
   getElementMouseDown: boolean;
-
   resizeFlag: boolean;
   canvasWidth: number;
   canvasHeight: number;
@@ -34,10 +31,8 @@ export class ClipboardService {
               private inputService: InputService,
               private fileParameterService: FileParametersServiceService) {
     this.selectedItems = [];
-
     this.getElementMouseDown = false;
     this.renderer = this.rendererFactory.createRenderer(null, null);
-
     this.newSelection = true;
     this.cloningPosition = {x: 0, y: 0};
   }
@@ -49,6 +44,7 @@ export class ClipboardService {
       return false;
     }
   }
+
   clipboardEmpty(): boolean {
     if (this.selectedItems.length === 0) {
       return false;
@@ -56,6 +52,7 @@ export class ClipboardService {
       return true;
     }
   }
+
   dismissCanvas(): boolean {
     let shapeCounter = false;
     for (const item of this.selectorService.selectedShapes) {
@@ -74,9 +71,7 @@ export class ClipboardService {
     this.selectedItems = [];
     for (const item of this.selectorService.selectedShapes) {
         if (item.id !== 'canvas') {
-            {
               this.selectedItems.push(item);
-            }
         }
     }
   }
@@ -84,7 +79,7 @@ export class ClipboardService {
   controlX(): void {
     this.controlC();
     for (const item of this.selectedItems) {
-      if (item.id !== 'canvas') {
+      if (item.id !== 'canvas' && item.id !== 'svg') {
         this.renderer.removeChild(this.viewChildService.canvas.nativeElement, item);
       }
     }
@@ -118,8 +113,12 @@ export class ClipboardService {
       let newPositionX = this.inputService.incrementMultiplier * 15;
       let newPositionY = this.inputService.incrementMultiplier * 15;
 
-      const overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
-      const overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
+      let overflowX;
+      let overflowY;
+      if (!this.viewChildService.canvas.nativeElement.lastChild === null) {
+        overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
+        overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
+      }
 
       if (overflowX + 15 > this.fileParameterService.canvasWidth.getValue()
           || overflowY + 15 > this.fileParameterService.canvasHeight.getValue()) {
@@ -149,6 +148,7 @@ export class ClipboardService {
   controlV(): void {
     this.undoRedoService.poppedActions = [];
     this.duplicate(this.selectedItems);
+    this.includingBoxService.update();
   }
   controlD(): void {
     this.undoRedoService.poppedActions = [];
@@ -157,7 +157,7 @@ export class ClipboardService {
 
   delete(): void {
     for (const item of this.selectorService.selectedShapes) {
-      if (item.id !== 'canvas') {
+      if (item.id !== 'canvas' && item.id !== 'svg') {
         this.renderer.removeChild(this.viewChildService.canvas.nativeElement, item);
       }
     }

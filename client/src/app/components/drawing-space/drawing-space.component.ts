@@ -401,11 +401,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.controlPressed = true;
     }
     if (event.key === KEY.c) {
-      if (this.inputService.controlPressed) {
+      if (this.inputService.controlPressed && this.selectorService.selectedShapes.length > 0) {
         this.clipboardService.controlC();
       }
     }
-    if (event.key === KEY.x) {
+    if (event.key === KEY.x && this.selectorService.selectedShapes.length > 0) {
       if (this.inputService.controlPressed) {
         this.clipboardService.controlX();
       }

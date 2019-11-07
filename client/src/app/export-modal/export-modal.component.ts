@@ -24,7 +24,7 @@ export class ExportModalComponent implements OnInit, OnDestroy {
               private inputService: InputService,
               private colorService: ColorService,
               private fileParameterService: FileParametersServiceService) {
-    this.formats = ['jpg', 'png', 'bmp', 'svg'];
+    this.formats = ['jpeg', 'png', 'bmp', 'svg'];
     this.selectedFormat = EMPTY_STRING;
     this.name = EMPTY_STRING;
     this.fileName = EMPTY_STRING;

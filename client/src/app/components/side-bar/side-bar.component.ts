@@ -9,7 +9,6 @@ import { CommunicationsService } from 'src/app/services/communications.service';
 import { CursorService } from 'src/app/services/cursor.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
-import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
@@ -222,6 +221,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.enableKeyPress = false;
     const dialogRefGet: MatDialogRef<UploadModalComponent, any> =
       this.dialog.open(UploadModalComponent, { disableClose: true });
+    console.log(dialogRefGet); // TODO: qu'est-ce qu'on fait avec ça? -WB
   }
 
   localSave(): void {

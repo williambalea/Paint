@@ -35,35 +35,37 @@ export class UploadModalComponent implements OnDestroy {
       this.uploadService.content = self.fileContent;
       this.uploadService.fileContent = self.fileContent.slice(96, -6);
 
-      let widthIndex : number = self.fileContent.indexOf('width');
-      for( let i : number = widthIndex+7; i < 112; i++) { 
-        if(this.uploadService.content[i] ==='"')
+      const widthIndex: number = self.fileContent.indexOf('width');
+      for ( let i: number = widthIndex + 7; i < 112; i++) {
+        if (this.uploadService.content[i] === '"') {
           break;
+        }
         this.uploadService.width += this.uploadService.content[i];
       }
-     
 
-      let heightIndex : number = self.fileContent.indexOf('height');
-      for( let i : number = heightIndex+8; i < 200; i++) { 
-        if(this.uploadService.content[i] ==='"')
+      const heightIndex: number = self.fileContent.indexOf('height');
+      for ( let i: number = heightIndex + 8; i < 200; i++) {
+        if (this.uploadService.content[i] === '"') {
           break;
+        }
         this.uploadService.height += this.uploadService.content[i];
       }
 
-      let colorIndex : number = self.fileContent.indexOf('rgb');
-      for( let i : number = colorIndex; i < 200; i++) { 
+      const colorIndex: number = self.fileContent.indexOf('rgb');
+      for ( let i: number = colorIndex; i < 200; i++) {
         this.uploadService.backgroundColor += this.uploadService.content[i];
-        if(this.uploadService.content[i] ===')')
+        if (this.uploadService.content[i] === ')') {
         break;
+        }
       }
-      
-      let gIndex : number = self.fileContent.indexOf('<g');
-      for( let i : number = gIndex; i < this.uploadService.content.length; i++) { 
+
+      const gIndex: number = self.fileContent.indexOf('<g');
+      for ( let i: number = gIndex; i < this.uploadService.content.length; i++) {
         this.uploadService.g += this.uploadService.content[i];
       }
 
     });
-    
+
     if (file.type === 'image/svg+xml') {
     this.uploadService.enableUploadButton = true;
     fileReader.readAsText(file);

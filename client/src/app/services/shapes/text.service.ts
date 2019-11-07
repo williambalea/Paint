@@ -1,10 +1,10 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { EMPTY_STRING, NB, STRINGS, ACTIONS } from 'src/constants';
+import { ACTIONS, EMPTY_STRING, NB, STRINGS } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
-import { ViewChildService } from '../view-child.service';
 import { UndoRedoService } from '../undo-redo.service';
 import { UndoRedoAction } from '../undoRedoAction';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,9 +1,9 @@
 import { Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Point } from '../../../../../common/interface/point';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { BrushService } from './brush.service';
-import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 
 describe('BrushService', () => {
   let service: BrushService;

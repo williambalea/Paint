@@ -3,8 +3,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_STRING } from 'src/constants';
 import { ColorService } from '../services/color/color.service';
 import { ExportService } from '../services/export.service';
-import { InputService } from '../services/input.service';
 import { FileParametersServiceService } from '../services/file-parameters-service.service';
+import { InputService } from '../services/input.service';
 
 @Component({
   selector: 'app-export-modal',

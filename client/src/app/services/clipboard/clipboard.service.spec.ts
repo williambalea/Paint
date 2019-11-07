@@ -33,8 +33,8 @@ describe('ClipboardService', () => {
   let viewChildService: ViewChildService;
 
   const mockShape: any = {id: 'shape'};
-  let mockShapeArray: any[] = [];
-  let mockShapes: SVGGraphicsElement[] = [];
+  const mockShapeArray: any[] = [];
+  const mockShapes: SVGGraphicsElement[] = [];
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [

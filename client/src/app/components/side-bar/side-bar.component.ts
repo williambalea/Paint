@@ -250,9 +250,33 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.enableKeyPress && this.selectedTool !== TOOL.text) {
       switch (event.key) {
         case KEY.o:
-          event.preventDefault();
-          this.createNewFile();
+          if (event.ctrlKey) {
+            event.preventDefault();
+            this.createNewFile();
+          }
           break;
+        case KEY.s:
+            if (event.ctrlKey) {
+              event.preventDefault();
+              this.saveOnServer();
+            } else {
+              this.selectTool(TOOL.selector);
+            }
+            break;
+        case KEY.g:
+            if (event.ctrlKey) {
+              event.preventDefault();
+              this.accessServer();
+            }
+            break;
+        case KEY.e:
+            if (event.ctrlKey) {
+              event.preventDefault();
+              this.export();
+            } else {
+              this.selectTool(TOOL.eraser);
+            }
+            break;
         case KEY.one:
           this.selectTool(TOOL.rectangle);
           break;
@@ -267,6 +291,12 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
         case KEY.g:
           this.selectTool(TOOL.grid);
           break;
+        case KEY.y:
+            this.selectTool(TOOL.pen);
+            break;
+        case KEY.t:
+            this.selectTool(TOOL.text);
+            break;
         case KEY.l:
           this.selectTool(TOOL.line);
           break;
@@ -274,16 +304,13 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
           this.selectTool(TOOL.pipette);
           break;
         case KEY.r:
-          this.selectedTool = TOOL.colorApplicator;
+          this.selectTool(TOOL.colorApplicator);
           break;
         case KEY.two:
           this.selectTool(TOOL.ellipse);
           break;
         case KEY.three:
           this.selectTool(TOOL.polygon);
-          break;
-        case KEY.s:
-          this.selectTool(TOOL.selector);
           break;
         case KEY.z:
           if (event.ctrlKey && this.undoRedoService.actions.length > 0) {

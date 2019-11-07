@@ -408,8 +408,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (event.key === KEY.a) {
-      event.preventDefault();
       if (this.inputService.controlPressed) {
+        event.preventDefault();
         this.eventEmitterService.assignSelectedTool();
         this.clipboardService.controlA();
       }
@@ -433,6 +433,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
+    console.log(event.key);
     event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;

@@ -1,11 +1,13 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, RendererFactory2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material';
 import { EMPTY, of } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
-import { HIDE_DIALOG, KEY, TOOL } from 'src/constants';
+import { UndoRedoAction } from 'src/app/services/undoRedoAction';
+import { ACTIONS, HIDE_DIALOG, KEY, TOOL } from 'src/constants';
+import { UndoRedoService } from './../../services/undo-redo.service';
 import { SideBarComponent } from './side-bar.component';
 
 export class MatDialogMock {
@@ -21,11 +23,21 @@ export class ColorServiceMock {
   setShowInAttributeBar(): void { return; }
 }
 
+// tslint:disable-next-line: max-classes-per-file
+class UndoRedoServiceMock {
+  actions: UndoRedoAction[];
+  poppedActions: UndoRedoAction[];
+  undo(): void { return; }
+}
+
 describe('SideBarComponent', () => {
   let component: SideBarComponent;
   let fixture: ComponentFixture<SideBarComponent>;
   let dialog: MatDialog;
   let colorService: ColorService;
+  let undoRedoService: UndoRedoService;
+  let renderer: Renderer2;
+  let rendererFactory: RendererFactory2;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,6 +49,7 @@ describe('SideBarComponent', () => {
         SideBarComponent,
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: ColorService, useClass: ColorServiceMock },
+        { provide: UndoRedoService, useClass: UndoRedoServiceMock },
         Renderer2,
         Overlay,
         HttpClient,
@@ -48,12 +61,16 @@ describe('SideBarComponent', () => {
     component = TestBed.get(SideBarComponent);
     dialog = TestBed.get(MatDialog);
     colorService = TestBed.get(ColorService);
+    undoRedoService = TestBed.get(UndoRedoService);
+    rendererFactory = TestBed.get(RendererFactory2);
+    renderer = rendererFactory.createRenderer(null, null);
 
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SideBarComponent);
     component = fixture.componentInstance;
+    undoRedoService = fixture.debugElement.injector.get(UndoRedoService);
     fixture.detectChanges();
   });
 
@@ -101,7 +118,6 @@ describe('SideBarComponent', () => {
   });
 
   it('should set selectedTool when chosing tool', () => {
-    expect(component.selectedTool).not.toBeDefined();
     component.selectTool(TOOL.rectangle);
     expect(component.selectedTool).toEqual(TOOL.rectangle);
   });
@@ -117,8 +133,10 @@ describe('SideBarComponent', () => {
   });
 
   it('should access default case when selectTool', () => {
+    component.selectTool('pipette');
+    expect(component.selectedTool).toEqual(TOOL.pipette);
     component.selectTool('abc');
-    expect(component.selectedTool).toBeUndefined();
+    expect(component.selectedTool).toEqual(TOOL.pipette);
   });
 
   it('should set selectedTool to colorApplicator when chosing tool', () => {
@@ -154,7 +172,7 @@ describe('SideBarComponent', () => {
   it('should open new-file window when pressing \'o\' on keyboard', () => {
     const spy = spyOn(component, 'createNewFile');
     component.enableKeyPress = false;
-    const pressingO = new KeyboardEvent('keydown', {key: KEY.o});
+    const pressingO = new KeyboardEvent('keydown', {key: KEY.o, ctrlKey: true});
     component.onKeyDown(pressingO);
     expect(spy).not.toHaveBeenCalled();
 
@@ -217,13 +235,6 @@ describe('SideBarComponent', () => {
     expect(component.selectedTool).toEqual(TOOL.ellipse);
   });
 
-  it('should select grid tool when pressing \'g\' on keyboard', () => {
-    component.enableKeyPress = true;
-    const pressing = new KeyboardEvent('keydown', {key: KEY.g});
-    component.onKeyDown(pressing);
-    expect(component.selectedTool).toEqual(TOOL.grid);
-  });
-
   it('should select pipette tool when pressing \'i\' on keyboard', () => {
     component.enableKeyPress = true;
     const pressing = new KeyboardEvent('keydown', {key: KEY.i});
@@ -245,11 +256,120 @@ describe('SideBarComponent', () => {
     expect(component.selectedTool).toEqual(TOOL.selector);
   });
 
+  it('should select text tool when pressing \'t\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const action = new KeyboardEvent('keydown', {key: KEY.t});
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.text);
+  });
+
+  it('should select pen tool when pressing \'y\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const action = new KeyboardEvent('keydown', {key: KEY.y});
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.pen);
+  });
+
+  it('should select eraser tool when pressing \'e\' without ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'export');
+    const action = new KeyboardEvent('keydown', {key: KEY.e, ctrlKey: false});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.eraser);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should export when pressing \'e\' and ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'export');
+    const action = new KeyboardEvent('keydown', {key: KEY.e, ctrlKey: true});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.noTool);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should access server when pressing \'g\' and ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'accessServer');
+    const action = new KeyboardEvent('keydown', {key: KEY.g, ctrlKey: true});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.noTool);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not access server when pressing \'g\' wihtout ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'accessServer');
+    const action = new KeyboardEvent('keydown', {key: KEY.g, ctrlKey: false});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.noTool);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should save on server when pressing \'s\' and ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'saveOnServer');
+    const action = new KeyboardEvent('keydown', {key: KEY.s, ctrlKey: true});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.noTool);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should select selector tool when pressing \'s\' without ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'saveOnServer');
+    const action = new KeyboardEvent('keydown', {key: KEY.s, ctrlKey: false});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.selector);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('should do nothing when pressing other keys', () => {
     component.enableKeyPress = true;
-    const pressingOther = new KeyboardEvent('keydown', {key: 'p'});
-    component.onKeyDown(pressingOther);
-    expect(component.selectedTool).not.toBeDefined();
+    const press1 = new KeyboardEvent('keydown', {key: '1'});
+    component.onKeyDown(press1);
+    expect(component.selectedTool).toEqual(TOOL.rectangle);
+    const press2 = new KeyboardEvent('keydown', {key: 'p'});
+    component.onKeyDown(press2);
+    expect(component.selectedTool).toEqual(TOOL.rectangle);
+  });
+
+  it('should trigger undo action', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(undoRedoService, 'undo');
+    const event = new KeyboardEvent('keydown', {key: KEY.z, ctrlKey: true});
+    let element: SVGGraphicsElement;
+    element = renderer.createElement('rect', 'svg');
+    const test: UndoRedoAction = {
+      action: ACTIONS.append,
+      shape: element,
+    };
+    undoRedoService.actions.push(test);
+
+    component.onKeyDown(event);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should trigger redo action', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(undoRedoService, 'redo');
+    const event = new KeyboardEvent('keydown', {key: KEY.Z, ctrlKey: true});
+    let element: SVGGraphicsElement;
+    element = renderer.createElement('rect', 'svg');
+    const test: UndoRedoAction = {
+      action: ACTIONS.append,
+      shape: element,
+    };
+    undoRedoService.poppedActions.push(test);
+
+    component.onKeyDown(event);
+    expect(spy).toHaveBeenCalled();
   });
 
 });

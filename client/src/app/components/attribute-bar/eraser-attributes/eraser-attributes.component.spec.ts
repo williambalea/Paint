@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EraserAttributesComponent } from './eraser-attributes.component';
 
@@ -9,6 +9,9 @@ describe('EraserAttributesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ EraserAttributesComponent ],
+      providers: [
+        Renderer2,
+      ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();

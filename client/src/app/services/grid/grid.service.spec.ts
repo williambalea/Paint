@@ -1,28 +1,23 @@
-import { Renderer2 } from '@angular/core';
+import { Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { GridService } from './grid.service';
 
-class RendererMock {
-  createElement(): void {return; }
-  setStyle(): void {return; }
-  setAttribute(): void {return; }
-  appendChild(): void {return; }
-}
 
 describe('GridService', () => {
   let service: GridService;
-  let rendererMock: Renderer2;
+  let renderer: Renderer2;
+  let rendererFactory: RendererFactory2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         GridService,
-        { provide: Renderer2, useClass: RendererMock },
+        // { provide: Renderer2, useClass: RendererMock },
       ],
     }).compileComponents();
     service = TestBed.get(GridService);
-    rendererMock = TestBed.get(Renderer2);
-  });
+    rendererFactory = TestBed.get(RendererFactory2);
+    renderer = rendererFactory.createRenderer(null, null);  });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
@@ -53,10 +48,10 @@ describe('GridService', () => {
     expect(service.gridSize).toBeLessThanOrEqual(200);
   });
   it('Should build a grid with expected parameters', () => {
-    const createElementSpy = spyOn(rendererMock, 'createElement').and.callThrough();
-    const setAttributeSpy = spyOn(rendererMock, 'setAttribute').and.callThrough();
-    const setStyleSpy = spyOn(rendererMock, 'setStyle').and.callThrough();
-    const appendChildSpy = spyOn(rendererMock, 'appendChild').and.callThrough();
+    const createElementSpy = spyOn(renderer, 'createElement').and.callThrough();
+    const setAttributeSpy = spyOn(renderer, 'setAttribute').and.callThrough();
+    const setStyleSpy = spyOn(renderer, 'setStyle').and.callThrough();
+    const appendChildSpy = spyOn(renderer, 'appendChild').and.callThrough();
 
     service.gridSize = 50;
     service.draw(service.gridSize);

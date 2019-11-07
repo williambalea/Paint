@@ -241,3 +241,24 @@ img:hover {
 .italicButton {
   margin-left: 2px;
 }
+
+.button {
+  background-color: white;
+  color:black;
+  width: auto;
+  height: auto;
+  align-items: center;
+  align-content: center;
+  margin: 5px;
+}
+
+.noUseButton {
+  background-color: grey;
+  color:white;
+  pointer-events: none;
+  width: auto;
+  height: auto;
+  align-items: center;
+  align-content: center;
+  margin: 5px;
+}

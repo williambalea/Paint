@@ -84,6 +84,9 @@ export enum KEY {
   r = 'r',
   s = 's',
   u = 'u',
+  e = 'e',
+  t = 't',
+  y = 'y',
   w = 'w',
   z = 'z',
   Z = 'Z',
@@ -178,7 +181,7 @@ export enum STROKE_DASHARRAY_STYLE {
 export enum ACTIONS {
   append = 'append',
   changeColor = 'changeColor',
-  remove = 'remove'
+  remove = 'remove',
 }
 
 export enum STRINGS {

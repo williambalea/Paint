@@ -1,5 +1,3 @@
-import { InputService } from 'src/app/services/input.service';
-import { KEY, SVGinnerWidth } from 'src/constants';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +6,8 @@ import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ColorService } from 'src/app/services/color/color.service';
+import { InputService } from 'src/app/services/input.service';
+import { KEY, SVGinnerWidth } from 'src/constants';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 import { NewFileModalwindowComponent } from './new-file-modalwindow.component';

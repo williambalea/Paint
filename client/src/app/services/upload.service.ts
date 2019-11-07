@@ -11,10 +11,16 @@ export class UploadService {
   fileContent: string;
   enableUploadButton: boolean;
   backgroundColor: string;
-
+  width: string;
+  height: string;
+  content: string;
+  g: string;
   constructor(private eventEmitterService: EventEmitterService, private inputService: InputService) {
     this.enableUploadButton = false;
     this.backgroundColor = EMPTY_STRING;
+    this.width = EMPTY_STRING;
+    this.height = EMPTY_STRING;
+    this.g = EMPTY_STRING;
   }
 
   confirm(): void {

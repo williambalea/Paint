@@ -1,11 +1,13 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA, Renderer2 } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, RendererFactory2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog, MatDialogModule } from '@angular/material';
 import { EMPTY, of } from 'rxjs';
 import { ColorService } from 'src/app/services/color/color.service';
-import { HIDE_DIALOG, KEY, TOOL } from 'src/constants';
+import { UndoRedoAction } from 'src/app/services/undoRedoAction';
+import { ACTIONS, HIDE_DIALOG, KEY, TOOL } from 'src/constants';
+import { UndoRedoService } from './../../services/undo-redo.service';
 import { SideBarComponent } from './side-bar.component';
 
 export class MatDialogMock {
@@ -21,11 +23,20 @@ export class ColorServiceMock {
   setShowInAttributeBar(): void { return; }
 }
 
+// // tslint:disable-next-line: max-classes-per-file
+// class UndoRedoServiceMock {
+//   actions: UndoRedoAction[];
+//   undo(): void { return; }
+// }
+
 describe('SideBarComponent', () => {
   let component: SideBarComponent;
   let fixture: ComponentFixture<SideBarComponent>;
   let dialog: MatDialog;
   let colorService: ColorService;
+  let undoRedoService: UndoRedoService;
+  let renderer: Renderer2;
+  let rendererFactory: RendererFactory2;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,6 +48,7 @@ describe('SideBarComponent', () => {
         SideBarComponent,
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: ColorService, useClass: ColorServiceMock },
+        UndoRedoService,
         Renderer2,
         Overlay,
         HttpClient,
@@ -48,6 +60,9 @@ describe('SideBarComponent', () => {
     component = TestBed.get(SideBarComponent);
     dialog = TestBed.get(MatDialog);
     colorService = TestBed.get(ColorService);
+    undoRedoService = TestBed.get(UndoRedoService);
+    rendererFactory = TestBed.get(RendererFactory2);
+    renderer = rendererFactory.createRenderer(null, null);
 
   }));
 
@@ -254,6 +269,51 @@ describe('SideBarComponent', () => {
     const press2 = new KeyboardEvent('keydown', {key: 'p'});
     component.onKeyDown(press2);
     expect(component.selectedTool).toEqual(TOOL.rectangle);
+  });
+
+  it('should trigger undo action', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(undoRedoService, 'undo');
+
+    const event = new KeyboardEvent('keydown', {key: KEY.z, ctrlKey: true});
+
+    let element: SVGGraphicsElement;
+    element = renderer.createElement('rect', 'svg');
+
+    const test: UndoRedoAction = {
+      action: ACTIONS.append,
+      shape: element,
+    };
+    undoRedoService.actions.push(test);
+    
+    console.log(undoRedoService.actions);
+    console.log(event.ctrlKey);
+    console.log(undoRedoService.actions.length);
+
+    component.onKeyDown(event);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should trigger redo action', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(undoRedoService, 'redo');
+
+    const event = new KeyboardEvent('keydown', {key: KEY.Z, ctrlKey: true});
+
+    let element: SVGGraphicsElement;
+    element = renderer.createElement('rect', 'svg');
+    const test: UndoRedoAction = {
+      action: ACTIONS.append,
+      shape: element,
+    };
+    undoRedoService.actions.push(test);
+    
+    console.log(undoRedoService.actions);
+    console.log(event.ctrlKey);
+    console.log(undoRedoService.actions.length);
+
+    component.onKeyDown(event);
+    expect(spy).toHaveBeenCalled();
   });
 
 });

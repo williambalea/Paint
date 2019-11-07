@@ -36,22 +36,12 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
   providers: [
-    RectangleService,
-    BrushService,
-    PencilService,
-    EllipseService,
-    PolygonService,
-    StampService,
-    GridService,
     SelectorService,
     IncludingBoxService,
-    LineService,
-    NoShapeService,
     UndoRedoService,
     TextService,
     EraserService,
     ClipboardService,
-    PenService,
   ],
 
 })

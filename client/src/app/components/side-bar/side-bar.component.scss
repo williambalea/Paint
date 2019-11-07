@@ -26,13 +26,15 @@ p {
     margin: 0%;
     position: absolute; 
     left: 0;
-    width: 60px;
+    width: 55px;
     overflow-x: hidden;
     flex-direction: column;
     align-items: center;
-    height: calc(100% - 300px);
+    height: calc(100% - 303px);
     overflow-y: scroll;
-    padding-left: 3px;
+    padding-left: 4px;
+    border: 1px solid lightgrey;
+    border-right: none;
 }
 
 .toolFixed {
@@ -40,14 +42,14 @@ p {
     margin: 0%;
     position: absolute; 
     left: 0;
-    width: 60px;
+    width: 50px;
     overflow: hidden;
     flex-direction: column;
     align-items: center;
     bottom: 0%;
     height: 300px;
-    border-top: 1px solid lightgrey;
-    padding-left: 3px;
+    border: 1px solid lightgrey;
+    padding-left: 8px;
 }
 
 .selected {

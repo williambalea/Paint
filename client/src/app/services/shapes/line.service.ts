@@ -35,7 +35,7 @@ export class LineService implements Shape {
     this.strokeWidth = NB.Seven;
     this.doubleClick = false;
     this.junctionStyle = LINECORNER.angled;
-    this.junctionValue = JUNCTIONSTYLE.angled;
+    this.junctionValue = JUNCTIONSTYLE.rounded;
     this.dashArrayType = STROKE_DASHARRAY_STYLE.fullLine;
     this.junction = EMPTY_STRING;
     this.dotSize = NB.Seven;

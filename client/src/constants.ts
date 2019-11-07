@@ -32,7 +32,9 @@ export enum NB {
   Fifteen = 15,
   Sixteen = 16,
   Seventeen = 17,
+  Nineteen = 19,
   Twenty = 20,
+  TwentyThree = 23,
   TwentyFour = 24,
   TwentyFive = 25,
   Thirty = 30,
@@ -66,7 +68,7 @@ export enum NB {
   TenThousand = 10000,
   }
 
-export const SVGinnerWidth = 353;
+export const SVGinnerWidth = 350;
 
 export enum KEY {
   alt = 'Alt',

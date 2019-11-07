@@ -2,8 +2,8 @@
 
 <div>
 
-    <div class="svg">
-        <svg class="lineStyleRound" width="200" height="100">
+    <div class="svgLine">
+        <svg class="lineStyleRound" width="200" height="120">
 
             <defs>
                 <marker id="dot" viewBox="0 0 30 30" refX="15" refY="15" markerWidth="5" markerHeight="5"
@@ -13,10 +13,12 @@
 
             </defs>
 
-            <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
+            <path d="M60 90 L100 30 L140 90" [style.stroke]="this.colorService.getFillColor()"
+                [style.stroke-linejoin]="this.lineService.junctionValue"
                 [style.stroke-width]="this.lineService.strokeWidth"
                 [style.stroke-dasharray]="this.lineService.dashArrayType"
                 [style.marker-start]="this.lineService.junction"
+                [style.marker-mid]="this.lineService.junction"
                 [style.marker-end]="this.lineService.junction" />
         </svg>
     </div>
@@ -61,10 +63,10 @@
                 <mat-radio-button [value]="this.linecorner.dot"
                     (change)="lineJunctionChangeHandler($event)">
                     {{this.junctionStyle.dot}}</mat-radio-button><br>
-                <mat-radio-button [value]="this.linecorner.angled" checked
+                <mat-radio-button [value]="this.linecorner.angled"
                     (change)="lineJunctionChangeHandler($event)">
                     {{this.junctionStyle.angled}}</mat-radio-button><br>
-                <mat-radio-button [value]="this.linecorner.rounded"
+                <mat-radio-button [value]="this.linecorner.rounded" checked
                     (change)="lineJunctionChangeHandler($event)">
                     {{this.junctionStyle.rounded}}</mat-radio-button><br>
             </mat-radio-group>

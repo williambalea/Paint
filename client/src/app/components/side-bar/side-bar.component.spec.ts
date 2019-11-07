@@ -256,6 +256,60 @@ describe('SideBarComponent', () => {
     expect(component.selectedTool).toEqual(TOOL.selector);
   });
 
+  it('should select text tool when pressing \'t\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const action = new KeyboardEvent('keydown', {key: KEY.t});
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.text);
+  });
+
+  it('should select pen tool when pressing \'y\' on keyboard', () => {
+    component.enableKeyPress = true;
+    const action = new KeyboardEvent('keydown', {key: KEY.y});
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.pen);
+  });
+
+  it('should select eraser tool when pressing \'e\' without ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'export');
+    const action = new KeyboardEvent('keydown', {key: KEY.e, ctrlKey: false});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.eraser);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should export when pressing \'e\' and ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'export');
+    const action = new KeyboardEvent('keydown', {key: KEY.e, ctrlKey: true});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.noTool);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should access server when pressing \'g\' and ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'accessServer');
+    const action = new KeyboardEvent('keydown', {key: KEY.g, ctrlKey: true});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.noTool);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not access server when pressing \'g\' wihtout ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'accessServer');
+    const action = new KeyboardEvent('keydown', {key: KEY.g, ctrlKey: false});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.noTool);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('should do nothing when pressing other keys', () => {
     component.enableKeyPress = true;
     const press1 = new KeyboardEvent('keydown', {key: '1'});

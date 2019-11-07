@@ -3,8 +3,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_STRING } from 'src/constants';
 import { ColorService } from '../services/color/color.service';
 import { ExportService } from '../services/export.service';
-import { InputService } from '../services/input.service';
 import { FileParametersServiceService } from '../services/file-parameters-service.service';
+import { InputService } from '../services/input.service';
 
 @Component({
   selector: 'app-export-modal',
@@ -42,7 +42,6 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.renderer.setAttribute(svg, 'xmlns', 'http://www.w3.org/2000/svg');
     this.renderer.setAttribute(svg, 'width', this.fileParameterService.canvasWidth.getValue().toString());
     this.renderer.setAttribute(svg, 'height', this.fileParameterService.canvasHeight.getValue().toString());
-    console.log('background color', this.colorService.getBackgroundColor());
     this.renderer.setStyle(svg, 'backgroundColor', this.colorService.getBackgroundColor());
     this.renderer.appendChild(svg, this.exportService.canvas.nativeElement.cloneNode(true));
     const blob = new Blob([svg.outerHTML], { type: 'application/octet-stream' });
@@ -52,7 +51,7 @@ export class ExportModalComponent implements OnInit, OnDestroy {
   click() {
     if (this.selectedFormat !== 'svg') {
       this.exportService.download(this.selectedFormat, this.fileName);
-      }
     }
+  }
 
 }

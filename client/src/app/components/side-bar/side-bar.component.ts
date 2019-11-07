@@ -97,7 +97,6 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   assignSelectedTool(): void {
-    console.log('hi');
     this.selectTool('selector');
   }
 
@@ -230,9 +229,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   upload(): void {
     this.enableKeyPress = false;
-    const dialogRefGet: MatDialogRef<UploadModalComponent, any> =
-      this.dialog.open(UploadModalComponent, { disableClose: true });
-    console.log(dialogRefGet);
+    this.dialog.open(UploadModalComponent, { disableClose: true });
   }
 
   localSave(): void {

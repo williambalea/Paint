@@ -37,7 +37,6 @@ describe('PolygonAttributesComponent', () => {
   it('should assign a polygon type after an effective radio change', () => {
     const assignPolygonTypeSpy = spyOn(polygonService, 'assignPolygonType');
     component.radioChangeHandler(event);
-    console.log(event);
     expect(assignPolygonTypeSpy).toHaveBeenCalled();
     expect(polygonService.polygonType).toEqual(event.value);
   });

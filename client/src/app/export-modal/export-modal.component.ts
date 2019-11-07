@@ -42,7 +42,6 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.renderer.setAttribute(svg, 'xmlns', 'http://www.w3.org/2000/svg');
     this.renderer.setAttribute(svg, 'width', this.fileParameterService.canvasWidth.getValue().toString());
     this.renderer.setAttribute(svg, 'height', this.fileParameterService.canvasHeight.getValue().toString());
-    console.log('background color', this.colorService.getBackgroundColor());
     this.renderer.setStyle(svg, 'backgroundColor', this.colorService.getBackgroundColor());
     this.renderer.appendChild(svg, this.exportService.canvas.nativeElement.cloneNode(true));
     const blob = new Blob([svg.outerHTML], { type: 'application/octet-stream' });

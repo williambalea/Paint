@@ -353,7 +353,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.selectedTool === TOOL.text) {
+    if (this.selectedTool === TOOL.text && this.textService.isWriting) {
       event.preventDefault();
       if (event.key.length === 1 && this.textService.isWriting) {
         this.textService.textContent += event.key;
@@ -436,12 +436,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
-    console.log(event.key);
     event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;
-      this.selectedShape.onMouseMove();
-      this.selectedShape.onMouseUp();
     }
     if (event.key === KEY.escape) {
       this.selectedShape.onMouseUp();

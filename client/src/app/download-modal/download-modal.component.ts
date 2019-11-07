@@ -36,7 +36,6 @@ export class DownloadModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.exportService.downloadLink);
     const svg = this.renderer.createElement('svg');
     this.setAttributeSVG(svg);
     this.renderer.setStyle(svg, 'backgroundColor', this.colorService.getBackgroundColor());

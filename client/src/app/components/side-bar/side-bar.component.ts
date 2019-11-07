@@ -77,6 +77,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
               private noShapeService: NoShapeService,
               protected cursorService: CursorService,
               private undoRedoService: UndoRedoService,
+              private textService: TextService,
               private eventEmitterService: EventEmitterService) {
     this.enableKeyPress = false;
     this.selectedShape = this.stampService;
@@ -97,7 +98,6 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   assignSelectedTool(): void {
-    console.log('hi');
     this.selectTool('selector');
   }
 
@@ -232,7 +232,6 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
     this.enableKeyPress = false;
     const dialogRefGet: MatDialogRef<UploadModalComponent, any> =
       this.dialog.open(UploadModalComponent, { disableClose: true });
-    console.log(dialogRefGet);
   }
 
   localSave(): void {
@@ -247,7 +246,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.enableKeyPress && this.selectedTool !== TOOL.text) {
+    if (this.enableKeyPress && !this.textService.isWriting) {
       switch (event.key) {
         case KEY.o:
           if (event.ctrlKey) {

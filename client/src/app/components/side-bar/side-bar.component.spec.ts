@@ -310,6 +310,26 @@ describe('SideBarComponent', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
+  it('should save on server when pressing \'s\' and ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'saveOnServer');
+    const action = new KeyboardEvent('keydown', {key: KEY.s, ctrlKey: true});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.noTool);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should select selector tool when pressing \'s\' without ctrl on keyboard', () => {
+    component.enableKeyPress = true;
+    const spy = spyOn(component, 'saveOnServer');
+    const action = new KeyboardEvent('keydown', {key: KEY.s, ctrlKey: false});
+
+    component.onKeyDown(action);
+    expect(component.selectedTool).toEqual(TOOL.selector);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('should do nothing when pressing other keys', () => {
     component.enableKeyPress = true;
     const press1 = new KeyboardEvent('keydown', {key: '1'});

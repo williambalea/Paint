@@ -1,10 +1,11 @@
-import { Renderer2, RendererFactory2 } from '@angular/core';
+import { Renderer2, RendererFactory2, ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ViewChildService } from '../view-child.service';
 import { GridService } from './grid.service';
 
 describe('GridService', () => {
   let service: GridService;
+  let viewChildService: ViewChildService;
   let renderer: Renderer2;
   let rendererFactory: RendererFactory2;
 
@@ -16,6 +17,7 @@ describe('GridService', () => {
         // { provide: Renderer2, useClass: RendererMock },
       ],
     }).compileComponents();
+    viewChildService = TestBed.get(ViewChildService);
     service = TestBed.get(GridService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
@@ -23,6 +25,24 @@ describe('GridService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should hide child', () => {
+    viewChildService.drawingBoard = new ElementRef('allo');
+    const spyOnremoveChildt = spyOn(renderer, 'removeChild');
+    service.hideGrid();
+    expect(spyOnremoveChildt).toHaveBeenCalled();
+  });
+
+  it('Should append a child when showing grid', () => {
+    viewChildService.drawingBoard = new ElementRef('allo');
+    const appendChildSpy = spyOn(renderer, 'appendChild');
+    const spyOnremoveChildt = spyOn(renderer, 'removeChild');
+    const spydraw = spyOn(service, 'draw');
+    service.showGrid();
+    expect(appendChildSpy).toHaveBeenCalled();
+    expect(spyOnremoveChildt).toHaveBeenCalled();
+    expect(spydraw).toHaveBeenCalled();
   });
 
   it('Should set a numeral grid size', () => {
@@ -91,23 +111,5 @@ describe('GridService', () => {
     service.gridSize = 150;
     service.setNextGridSize();
     expect(service.gridSize).toEqual(155);
-  });
-
-  it('Should append a child when showing grid', () => {
-    const appendChildSpy = spyOn(renderer, 'appendChild');
-    service.showGrid();
-    expect(appendChildSpy).toHaveBeenCalled();
-  });
-
-  it('Should remove a child when showing grid', () => {
-    const removeChildSpy = spyOn(renderer, 'removeChild');
-    service.showGrid();
-    expect(removeChildSpy).toHaveBeenCalled();
-  });
-
-  it('Should call the draw function when showing grid', () => {
-    const drawSpy = spyOn(service, 'draw');
-    service.showGrid();
-    expect(drawSpy).toHaveBeenCalled();
   });
 });

@@ -1,18 +1,19 @@
 <div class="attributeBar">
     <div class="actions">
         <button *ngIf='this.undoRedoService.actions.length === 0' mat-button (click)="this.undoRedoService.undo()"
-            disabled>
+            disabled matTooltip="undo">
             <mat-icon>undo</mat-icon>
         </button>
-        <button *ngIf='this.undoRedoService.actions.length !== 0' mat-button (click)="this.undoRedoService.undo()">
+        <button *ngIf='this.undoRedoService.actions.length !== 0' mat-button (click)="this.undoRedoService.undo()"
+        matTooltip="undo">
             <mat-icon>undo</mat-icon>
         </button>
         <button *ngIf='this.undoRedoService.poppedActions.length === 0' mat-button (click)="this.undoRedoService.redo()"
-            disabled>
+            disabled matTooltip="redo">
             <mat-icon>redo</mat-icon>
         </button>
-        <button *ngIf='this.undoRedoService.poppedActions.length !== 0' mat-button
-            (click)="this.undoRedoService.redo()">
+        <button *ngIf='this.undoRedoService.poppedActions.length !== 0' mat-button (click)="this.undoRedoService.redo()"
+            matTooltip="redo">
             <mat-icon>redo</mat-icon>
         </button>
     </div>

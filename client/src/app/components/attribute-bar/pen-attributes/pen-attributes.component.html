@@ -4,8 +4,10 @@
 
     <div class="svg">
         <svg class="lineStyleRound" width="200" height="100">
-            <line x1="20" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()"
-                stroke-width="20" />
+            <line x1="20" y1="50" x2="45" y2="50" [style.stroke]="this.colorService.getFillColor()" [attr.stroke-width]="this.penService.minStrokeWidth" />
+            <line x1="45" y1="50" x2="90" y2="50" [style.stroke]="this.colorService.getFillColor()" [attr.stroke-width]="secondStrokeSize" />
+            <line x1="90" y1="50" x2="135" y2="50" [style.stroke]="this.colorService.getFillColor()" [attr.stroke-width]="thirdStrokeSize" />
+            <line x1="135" y1="50" x2="180" y2="50" [style.stroke]="this.colorService.getFillColor()" [attr.stroke-width]="this.penService.maxStrokeWidth" />
         </svg>
     </div>
 

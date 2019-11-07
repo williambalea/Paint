@@ -23,11 +23,12 @@ export class ColorServiceMock {
   setShowInAttributeBar(): void { return; }
 }
 
-// // tslint:disable-next-line: max-classes-per-file
-// class UndoRedoServiceMock {
-//   actions: UndoRedoAction[];
-//   undo(): void { return; }
-// }
+// tslint:disable-next-line: max-classes-per-file
+class UndoRedoServiceMock {
+  actions: UndoRedoAction[];
+  poppedActions: UndoRedoAction[];
+  undo(): void { return; }
+}
 
 describe('SideBarComponent', () => {
   let component: SideBarComponent;
@@ -48,7 +49,7 @@ describe('SideBarComponent', () => {
         SideBarComponent,
         { provide: MatDialog, useClass: MatDialogMock },
         { provide: ColorService, useClass: ColorServiceMock },
-        UndoRedoService,
+        { provide: UndoRedoService, useClass: UndoRedoServiceMock },
         Renderer2,
         Overlay,
         HttpClient,
@@ -69,6 +70,7 @@ describe('SideBarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SideBarComponent);
     component = fixture.componentInstance;
+    undoRedoService = fixture.debugElement.injector.get(UndoRedoService);
     fixture.detectChanges();
   });
 
@@ -170,7 +172,7 @@ describe('SideBarComponent', () => {
   it('should open new-file window when pressing \'o\' on keyboard', () => {
     const spy = spyOn(component, 'createNewFile');
     component.enableKeyPress = false;
-    const pressingO = new KeyboardEvent('keydown', {key: KEY.o});
+    const pressingO = new KeyboardEvent('keydown', {key: KEY.o, ctrlKey: true});
     component.onKeyDown(pressingO);
     expect(spy).not.toHaveBeenCalled();
 
@@ -233,13 +235,6 @@ describe('SideBarComponent', () => {
     expect(component.selectedTool).toEqual(TOOL.ellipse);
   });
 
-  it('should select grid tool when pressing \'g\' on keyboard', () => {
-    component.enableKeyPress = true;
-    const pressing = new KeyboardEvent('keydown', {key: KEY.g});
-    component.onKeyDown(pressing);
-    expect(component.selectedTool).toEqual(TOOL.grid);
-  });
-
   it('should select pipette tool when pressing \'i\' on keyboard', () => {
     component.enableKeyPress = true;
     const pressing = new KeyboardEvent('keydown', {key: KEY.i});
@@ -274,21 +269,14 @@ describe('SideBarComponent', () => {
   it('should trigger undo action', () => {
     component.enableKeyPress = true;
     const spy = spyOn(undoRedoService, 'undo');
-
     const event = new KeyboardEvent('keydown', {key: KEY.z, ctrlKey: true});
-
     let element: SVGGraphicsElement;
     element = renderer.createElement('rect', 'svg');
-
     const test: UndoRedoAction = {
       action: ACTIONS.append,
       shape: element,
     };
     undoRedoService.actions.push(test);
-    
-    console.log(undoRedoService.actions);
-    console.log(event.ctrlKey);
-    console.log(undoRedoService.actions.length);
 
     component.onKeyDown(event);
     expect(spy).toHaveBeenCalled();
@@ -297,20 +285,14 @@ describe('SideBarComponent', () => {
   it('should trigger redo action', () => {
     component.enableKeyPress = true;
     const spy = spyOn(undoRedoService, 'redo');
-
     const event = new KeyboardEvent('keydown', {key: KEY.Z, ctrlKey: true});
-
     let element: SVGGraphicsElement;
     element = renderer.createElement('rect', 'svg');
     const test: UndoRedoAction = {
       action: ACTIONS.append,
       shape: element,
     };
-    undoRedoService.actions.push(test);
-    
-    console.log(undoRedoService.actions);
-    console.log(event.ctrlKey);
-    console.log(undoRedoService.actions.length);
+    undoRedoService.poppedActions.push(test);
 
     component.onKeyDown(event);
     expect(spy).toHaveBeenCalled();

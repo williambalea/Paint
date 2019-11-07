@@ -401,7 +401,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputService.controlPressed = true;
     }
     if (event.key === KEY.c) {
-      console.log('hi', this.selectorService.selectedShapes);
       if (this.inputService.controlPressed && this.selectorService.selectedShapes.length > 0) {
         this.clipboardService.controlC();
       }

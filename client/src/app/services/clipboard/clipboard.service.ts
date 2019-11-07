@@ -115,11 +115,9 @@ export class ClipboardService {
 
       let overflowX;
       let overflowY;
-      if (this.viewChildService.canvas.nativeElement.lastChild === null) {
-        console.log('it is null');
-      } else {
-      overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
-      overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
+      if (!this.viewChildService.canvas.nativeElement.lastChild === null) {
+        overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
+        overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
       }
 
       if (overflowX + 15 > this.fileParameterService.canvasWidth.getValue()
@@ -150,6 +148,7 @@ export class ClipboardService {
   controlV(): void {
     this.undoRedoService.poppedActions = [];
     this.duplicate(this.selectedItems);
+    this.includingBoxService.update();
   }
   controlD(): void {
     this.undoRedoService.poppedActions = [];

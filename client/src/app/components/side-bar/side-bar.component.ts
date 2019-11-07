@@ -9,7 +9,6 @@ import { CommunicationsService } from 'src/app/services/communications.service';
 import { CursorService } from 'src/app/services/cursor.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
-import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
@@ -36,22 +35,12 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
   templateUrl: './side-bar.component.html',
   styleUrls: ['./side-bar.component.scss'],
   providers: [
-    RectangleService,
-    BrushService,
-    PencilService,
-    EllipseService,
-    PolygonService,
-    StampService,
-    GridService,
     SelectorService,
     IncludingBoxService,
-    LineService,
-    NoShapeService,
     UndoRedoService,
     TextService,
     EraserService,
     ClipboardService,
-    PenService,
   ],
 
 })
@@ -77,6 +66,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
               private noShapeService: NoShapeService,
               protected cursorService: CursorService,
               private undoRedoService: UndoRedoService,
+              private textService: TextService,
               private eventEmitterService: EventEmitterService) {
     this.enableKeyPress = false;
     this.selectedShape = this.stampService;
@@ -244,7 +234,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.enableKeyPress && this.selectedTool !== TOOL.text) {
+    if (this.enableKeyPress && !this.textService.isWriting) {
       switch (event.key) {
         case KEY.o:
           if (event.ctrlKey) {

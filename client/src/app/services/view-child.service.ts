@@ -6,6 +6,7 @@ import { ElementRef, Injectable } from '@angular/core';
 export class ViewChildService {
   drawingBoard: ElementRef;
   canvas: ElementRef;
+  defs: ElementRef;
   downloadImage: ElementRef;
   downloadLink: ElementRef;
 }

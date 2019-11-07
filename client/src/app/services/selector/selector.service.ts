@@ -109,7 +109,6 @@ export class SelectorService implements Shape {
     if (!this.selectedShapes.includes(child) && this.inputService.mouseButton === NB.Zero) {
       this.selectedShapes.push(child);
     }
-    console.log(this.selectedShapes);
   }
 
   intersection(selectorArea: any, canvas: ElementRef): void {
@@ -129,7 +128,6 @@ export class SelectorService implements Shape {
         this.validateIntersection(canvas.nativeElement.children[i]);
       }
     }
-    console.log(this.selectedShapes);
   }
 
   setCurrentShape(value: SVGGraphicsElement): any {

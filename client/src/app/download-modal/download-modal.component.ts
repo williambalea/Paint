@@ -5,6 +5,7 @@ import { ColorService } from '../services/color/color.service';
 import { ExportService } from '../services/export.service';
 import { FileParametersServiceService } from '../services/file-parameters-service.service';
 import { InputService } from '../services/input.service';
+import { ViewChildService } from '../services/view-child.service';
 
 @Component({
   selector: 'app-download-modal',
@@ -23,6 +24,7 @@ export class DownloadModalComponent implements OnInit, OnDestroy {
               private renderer: Renderer2,
               private inputService: InputService,
               private colorService: ColorService,
+              private viewChildService: ViewChildService,
               private fileParameterService: FileParametersServiceService) {
     this.selectedFormat = 'svg';
     this.name = EMPTY_STRING;
@@ -41,6 +43,7 @@ export class DownloadModalComponent implements OnInit, OnDestroy {
     this.renderer.setAttribute(svg, 'width', this.fileParameterService.canvasWidth.getValue().toString());
     this.renderer.setAttribute(svg, 'height', this.fileParameterService.canvasHeight.getValue().toString());
     this.renderer.appendChild(svg, this.exportService.canvas.nativeElement.cloneNode(true));
+    this.renderer.appendChild(svg, this.viewChildService.defs.nativeElement);
     const blob = new Blob([svg.outerHTML], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }

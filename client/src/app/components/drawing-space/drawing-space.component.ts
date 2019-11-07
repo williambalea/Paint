@@ -46,7 +46,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   // shape: SVGSVGElement;
   selectorAreaActive: boolean;
   g: SVGGraphicsElement;
-  interval;
+  interval; // TODO: type? -WB
   shape: SVGSVGElement;
 
   constructor(private fileParameters: FileParametersServiceService,
@@ -84,6 +84,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewChildService.canvas = this.canvas;
     this.viewChildService.downloadImage = this.downloadImage;
     this.viewChildService.downloadLink = this.downloadLink;
+    this.viewChildService.defs = this.defs;
   }
 
   ngAfterViewInit(): void {
@@ -353,7 +354,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
-    if (this.selectedTool === TOOL.text) {
+    if (this.selectedTool === TOOL.text && this.textService.isWriting) {
       event.preventDefault();
       if (event.key.length === 1 && this.textService.isWriting) {
         this.textService.textContent += event.key;
@@ -439,8 +440,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;
-      this.selectedShape.onMouseMove();
-      this.selectedShape.onMouseUp();
     }
     if (event.key === KEY.escape) {
       this.selectedShape.onMouseUp();

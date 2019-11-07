@@ -1,7 +1,9 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { EMPTY_STRING, NB, STRINGS } from 'src/constants';
+import { ACTIONS, EMPTY_STRING, NB, STRINGS } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
+import { UndoRedoService } from '../undo-redo.service';
+import { UndoRedoAction } from '../undoRedoAction';
 import { ViewChildService } from '../view-child.service';
 
 @Injectable({
@@ -29,6 +31,7 @@ export class TextService {
   constructor(private rendererFactory: RendererFactory2,
               private viewChildService: ViewChildService,
               private inputService: InputService,
+              private undoRedoService: UndoRedoService,
               private colorService: ColorService) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.textContent = EMPTY_STRING;
@@ -78,19 +81,22 @@ export class TextService {
   // Test ne marche pas
   onMouseDown(): void {
     this.isWriting = !this.isWriting;
-    console.log(this.isWriting);
     if (this.isWriting) {
       this.createTextElements();
       this.setTextAttributes();
       this.update();
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.text);
+      const undoRedoAction: UndoRedoAction = {
+        action: ACTIONS.append,
+        shape: this.text as unknown as SVGGraphicsElement,
+      };
+      this.undoRedoService.addAction(undoRedoAction);
 
       this.textBox.setAttribute('x', (this.inputService.getMouse().x - NB.Three).toString());
       this.textBox.setAttribute('y', (this.inputService.getMouse().y - (this.fontSize + NB.Eight)).toString());
       this.textBox.setAttribute('width', NB.Eight.toString());
       this.textBox.setAttribute('height', this.fontSize.toString());
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.textBox);
-      console.log(this.textBox);
     } else {
       this.renderer.removeChild(this.viewChildService.canvas.nativeElement, this.textBox);
     }
@@ -141,8 +147,6 @@ export class TextService {
   lineJump(): void {
     this.tspan = this.renderer.createElement('tspan', 'svg');
     this.renderer.setAttribute(this.tspan, 'x', this.xPos);
-    console.log('multiplier', this.enterLineMultiplier);
-    console.log('dy', this.fontSize * this.enterLineMultiplier);
     this.renderer.setAttribute(this.tspan, 'dy', (this.fontSize * this.enterLineMultiplier).toString());
     this.renderer.appendChild(this.text, this.tspan);
 

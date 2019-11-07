@@ -11,15 +11,15 @@ export class GridService {
   height: number;
   gridSize: number;
   opacity: number;
-  renderer: Renderer2; 
+  renderer: Renderer2;
 
-  constructor(private rendererFactory : RendererFactory2,
-              private viewChildService : ViewChildService) {
+  constructor(private rendererFactory: RendererFactory2,
+              private viewChildService: ViewChildService) {
     this.width = window.innerWidth - SVGinnerWidth;
     this.height = window.innerHeight;
     this.gridSize = NB.OneHundred;
     this.opacity = NB.Fifty;
-    this.renderer = this.rendererFactory.createRenderer(null,null);
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.elementG = this.renderer.createElement('g', 'svg');
   }
 

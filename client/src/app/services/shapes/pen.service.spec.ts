@@ -36,7 +36,6 @@ describe('PenService', () => {
     }).compileComponents();
     service = TestBed.get(PenService);
     colorService = TestBed.get(ColorService);
-    //renderer = TestBed.get(Renderer2);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
   });
@@ -170,8 +169,8 @@ describe('PenService', () => {
   //   expect(service.strokeWidth).toEqual(10);
   // });
 
-  //LES TESTS QUI NE MARCHENT PAS
-  //nativeElement of undefined
+  // LES TESTS QUI NE MARCHENT PAS
+  // nativeElement of undefined
   // it('should create pen group', () => {
   //   const spyOnPenWrapper = spyOn(renderer, 'createElement');
   //   service.createPenGroup();

@@ -119,10 +119,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     for (const child of this.canvas.nativeElement.children) {
       this.renderer.removeChild(this.canvas, child);
     }
-    this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.uploadService.fileContent);
-    console.log('here', this.uploadService.backgroundColor);
+    this.canvas.nativeElement.insertAdjacentHTML('beforeend', this.uploadService.g);
+    this.renderer.setAttribute(this.drawingBoard.nativeElement, 'width', this.uploadService.width);
+    this.renderer.setAttribute(this.drawingBoard.nativeElement, 'height', this.uploadService.height);
     this.renderer.setStyle(this.drawingBoard.nativeElement, 'background-color', this.uploadService.backgroundColor);
     this.uploadService.backgroundColor = EMPTY_STRING;
+    this.uploadService.height = EMPTY_STRING;
+    this.uploadService.width = EMPTY_STRING;
   }
 
   ngOnDestroy(): void {
@@ -408,8 +411,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     if (event.key === KEY.a) {
-      event.preventDefault();
       if (this.inputService.controlPressed) {
+        event.preventDefault();
         this.eventEmitterService.assignSelectedTool();
         this.clipboardService.controlA();
       }
@@ -433,6 +436,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
+    console.log(event.key);
     event.preventDefault();
     if (event.key === KEY.shift) {
       this.inputService.shiftPressed = false;

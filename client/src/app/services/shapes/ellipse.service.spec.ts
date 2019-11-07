@@ -1,15 +1,9 @@
-import { Renderer2 } from '@angular/core';
+import { Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { COLORS, OUTLINE_TYPE } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { EllipseService } from './ellipse.service';
-
-class RendererMock {
-  createElement(): void {return; }
-  setAttribute(): void {return; }
-  setStyle(): void {return; }
-}
 
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
@@ -31,6 +25,7 @@ describe('EllipseService', () => {
   // tslint:disable-next-line: prefer-const
   let inputService: InputService;
   let renderer: Renderer2;
+  let rendererFactory: RendererFactory2;
 
   beforeEach(() => {
   TestBed.configureTestingModule({
@@ -38,14 +33,13 @@ describe('EllipseService', () => {
       EllipseService,
       { provide: InputService, useClass: InputServiceMock },
       { provide: ColorService, useClass: ColorServiceMock },
-      {provide: Renderer2, useClass: RendererMock},
     ],
   }).compileComponents();
   service = TestBed.get(EllipseService);
   colorService = TestBed.get(ColorService);
   inputService = TestBed.get(InputService);
-  renderer = TestBed.get(Renderer2);
-
+  rendererFactory = TestBed.get(RendererFactory2);
+  renderer = rendererFactory.createRenderer(null, null);
 });
 
   it('should be created', () => {
@@ -194,11 +188,11 @@ describe('EllipseService', () => {
   });
 
   it('Should draw', () => {
-    const setAttributeSpy = spyOn(renderer, 'setAttribute');
-    const setStyleSpy = spyOn(renderer, 'setStyle');
+    const setAttributeSpy = spyOn(service, 'setAttribute');
+    const setStyleSpy = spyOn(service, 'setStyle');
     service.draw();
-    expect(setAttributeSpy).toHaveBeenCalledTimes(4);
-    expect(setStyleSpy).toHaveBeenCalledTimes(3);
+    expect(setAttributeSpy).toHaveBeenCalledTimes(1);
+    expect(setStyleSpy).toHaveBeenCalledTimes(1);
   });
 
   it('Should set Circle offset', () => {
@@ -225,8 +219,8 @@ describe('EllipseService', () => {
     const setAttributeSpy = spyOn(renderer, 'setAttribute');
     const setStyleSpy = spyOn(renderer, 'setStyle');
     service.draw();
-    expect(setAttributeSpy).toHaveBeenCalledTimes(4);
-    expect(setStyleSpy).toHaveBeenCalledTimes(3);
+    expect(setAttributeSpy).toHaveBeenCalledTimes(5);
+    expect(setStyleSpy).toHaveBeenCalledTimes(2);
   });
 
   it('Should set up Bordered Ellipse', () => {

@@ -1,13 +1,13 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { NB, ACTIONS, EMPTY_STRING } from 'src/constants';
+import { ACTIONS, EMPTY_STRING, NB } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { FileParametersServiceService } from '../file-parameters-service.service';
 import { IncludingBoxService } from '../includingBox/including-box.service';
+import { InputService } from '../input.service';
 import { SelectorService } from '../selector/selector.service';
-import { ViewChildService } from '../view-child.service';
 import { UndoRedoService } from '../undo-redo.service';
 import { UndoRedoAction } from '../undoRedoAction';
-import { InputService } from '../input.service';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
@@ -105,6 +105,7 @@ export class ClipboardService {
       y: this.includingBoxService.boxUpperLeft.y - 1 ,
     };
     this.newSelection = true;
+    this.includingBoxService.update();
   }
 
   duplicate(shapes: SVGGraphicsElement[]): void {

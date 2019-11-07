@@ -1,9 +1,10 @@
-import { Component, OnInit, Renderer2, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_STRING } from 'src/constants';
 import { ColorService } from '../services/color/color.service';
 import { ExportService } from '../services/export.service';
 import { InputService } from '../services/input.service';
+import { FileParametersServiceService } from '../services/file-parameters-service.service';
 
 @Component({
   selector: 'app-export-modal',
@@ -21,8 +22,9 @@ export class ExportModalComponent implements OnInit, OnDestroy {
               private sanitizer: DomSanitizer,
               private renderer: Renderer2,
               private inputService: InputService,
-              private colorService: ColorService) {
-    this.formats = ['jpg', 'png', 'bmp', 'svg'];
+              private colorService: ColorService,
+              private fileParameterService: FileParametersServiceService) {
+    this.formats = ['jpeg', 'png', 'bmp', 'svg'];
     this.selectedFormat = EMPTY_STRING;
     this.name = EMPTY_STRING;
     this.fileName = EMPTY_STRING;
@@ -38,12 +40,14 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.renderer.setAttribute(svg, 'viewBox', `0 0 ${this.exportService.canvas.nativeElement.width}
     ${this.exportService.canvas.nativeElement.height}`);
     this.renderer.setAttribute(svg, 'xmlns', 'http://www.w3.org/2000/svg');
+    this.renderer.setAttribute(svg, 'width', this.fileParameterService.canvasWidth.getValue().toString());
+    this.renderer.setAttribute(svg, 'height', this.fileParameterService.canvasHeight.getValue().toString());
+    console.log('background color', this.colorService.getBackgroundColor());
     this.renderer.setStyle(svg, 'backgroundColor', this.colorService.getBackgroundColor());
     this.renderer.appendChild(svg, this.exportService.canvas.nativeElement.cloneNode(true));
     const blob = new Blob([svg.outerHTML], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
-
 
   click() {
     if (this.selectedFormat !== 'svg') {

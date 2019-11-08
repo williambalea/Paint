@@ -48,6 +48,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   g: SVGGraphicsElement;
   interval; // TODO: type? -WB
   shape: SVGSVGElement;
+  fileUrl: string;
 
   constructor(private fileParameters: FileParametersServiceService,
               public colorService: ColorService,
@@ -85,6 +86,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewChildService.downloadImage = this.downloadImage;
     this.viewChildService.downloadLink = this.downloadLink;
     this.viewChildService.defs = this.defs;
+    this.viewChildService.htmlCanvas = this.htmlCanvas;
   }
 
   ngAfterViewInit(): void {

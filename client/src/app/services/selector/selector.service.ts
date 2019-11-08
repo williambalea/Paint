@@ -16,9 +16,9 @@ export class SelectorService implements Shape {
   selectorIsSingle: boolean;
 
   constructor(private rectangleService: RectangleService,
-              private renderer: Renderer2,
-              private viewChildService: ViewChildService,
-              private inputService: InputService) {
+    private renderer: Renderer2,
+    private viewChildService: ViewChildService,
+    private inputService: InputService) {
     this.active = false;
     this.selectedShapes = [];
     this.selectorIsSingle = true;
@@ -112,7 +112,6 @@ export class SelectorService implements Shape {
   }
 
   intersection(selectorArea: any, canvas: ElementRef): void {
-    console.log('will', selectorArea, canvas);
     const intersect = svgIntersections.intersect;
     const elementsCount: number = canvas.nativeElement.children.length;
     let currentShape: any;
@@ -133,20 +132,17 @@ export class SelectorService implements Shape {
 
   setCurrentShape(value: SVGGraphicsElement): any {
     switch (value.tagName) {
-      case 'rect':
-        return this.returnRect(value);
       case 'ellipse':
         return this.returnEllipse(value);
       case 'path':
         return this.returnPath(value);
+      case 'rect':
       case 'polygon':
-        return this.returnRect(value);
       case 'image':
-        return this.returnRect(value);
       case 'text':
-        return this.returnRect(value);
       case 'g':
         return this.returnRect(value);
+      default:
     }
   }
 }

@@ -344,7 +344,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.undoRedoService.undoIsStarted) {
         this.undoRedoService.poppedActions = [];
       }
-      if (this.selectedTool !== TOOL.line) {
+      if (this.selectedTool !== TOOL.line && this.selectedTool !== TOOL.selector) {
         const shapeIsNotNull: boolean = this.shape.getBBox().width !== 0;
         shapeIsNotNull ? this.undoRedoService.addAction(undoRedoAction) : this.renderer.removeChild(this.canvas, this.shape);
       }

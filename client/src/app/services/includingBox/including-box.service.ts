@@ -31,7 +31,7 @@ export class IncludingBoxService {
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const clientRect = value.getBoundingClientRect() as DOMRect;
       const shapeBoundary = {
-        x: clientRect.x - SVGinnerWidth + NB.Two,
+        x: clientRect.x - SVGinnerWidth,
         y: clientRect.y,
         width: clientRect.width,
         height: clientRect.height,

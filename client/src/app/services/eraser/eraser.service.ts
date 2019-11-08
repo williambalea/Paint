@@ -69,21 +69,36 @@ export class EraserService {
 
   addToPreview(shape: SVGGraphicsElement): void {
     if (!this.preview.includes(shape)) {
-      const redContour = this.renderer.createElement('rect', 'svg');
-      this.setAttributePreview(redContour, shape);
+      const redContour = this.setAttributePreview(shape);
       this.preview.push(redContour);
       this.renderer.appendChild(this.redContourGroupe, redContour);
     }
   }
 
-  setAttributePreview(redContour: HTMLElement, shape: SVGGraphicsElement): void {
-    this.renderer.setAttribute(redContour, 'x', (shape.getBoundingClientRect().left - SVGinnerWidth).toString());
-    this.renderer.setAttribute(redContour, 'y', (shape.getBoundingClientRect().top).toString());
-    this.renderer.setAttribute(redContour, 'width', (shape.getBoundingClientRect().width).toString());
-    this.renderer.setAttribute(redContour, 'height', (shape.getBoundingClientRect().height).toString());
-    this.renderer.setAttribute(redContour, 'fill', 'none');
-    this.renderer.setAttribute(redContour, 'stroke', 'red');
-    this.renderer.setAttribute(redContour, 'stroke-width', '1');
+  setAttributePreview(shape: SVGGraphicsElement): SVGGraphicsElement {
+    if (shape.getAttributeNames().includes('stroke')) {
+      const copy = shape.cloneNode(true) as SVGGraphicsElement;
+      copy.setAttribute('fill', 'none');
+      copy.setAttribute('stroke', 'red');
+      copy.setAttribute('stroke-opacity', '1');
+      console.log(shape.getAttribute('stroke-opacity'));
+      console.log(shape.getAttribute('stroke-opacity') === '0');
+      if (shape.getAttribute('stroke-opacity') === '0') {
+        console.log('opacité 0');
+        copy.setAttribute('stroke-width', '1');
+      }
+      return copy;
+    } else {
+      const rect = this.renderer.createElement('rect', 'svg');
+      this.renderer.setAttribute(rect, 'x', (shape.getBoundingClientRect().left - SVGinnerWidth - 1).toString());
+      this.renderer.setAttribute(rect, 'y', (shape.getBoundingClientRect().top - 1).toString());
+      this.renderer.setAttribute(rect, 'width', (shape.getBoundingClientRect().width).toString());
+      this.renderer.setAttribute(rect, 'height', (shape.getBoundingClientRect().height).toString());
+      this.renderer.setAttribute(rect, 'fill', 'none');
+      this.renderer.setAttribute(rect, 'stroke', 'red');
+      this.renderer.setAttribute(rect, 'stroke-width', '1');
+      return rect;
+    }
   }
 
   clear(): void {

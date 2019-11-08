@@ -58,8 +58,8 @@ export class EllipseService implements Shape {
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin(this.inputService.getMouse());
-    this.setEllipseBorderType();
     this.ellipse = this.renderer.createElement('ellipse', 'svg');
+    this.setEllipseBorderType();
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.ellipse);
     return this.ellipse;
   }
@@ -85,16 +85,11 @@ export class EllipseService implements Shape {
 
   setEllipseBorderType(): void {
     if (!this.fillEnable) {
-      this.fill = this.removeColor(this.fill);
+      this.renderer.setAttribute(this.ellipse, 'fill', 'none');
     }
     if (!this.strokeEnable) {
-      this.stroke = this.removeColor(this.stroke);
+      this.renderer.setAttribute(this.ellipse, 'stroke-opacity', '0');
     }
-  }
-
-  removeColor(fill: string): string {
-    const individualParams: string[] = fill.substr(NB.Five, fill.length - NB.One).split(',', NB.Four);
-    return `rgba(${individualParams[NB.Zero]},${individualParams[NB.One]},${individualParams[NB.Two]},0)`;
   }
 
   setCircleOffset(): void {
@@ -126,8 +121,8 @@ export class EllipseService implements Shape {
   }
 
   setStyle(): void {
-    this.renderer.setStyle(this.ellipse, 'stroke', this.stroke);
-    this.renderer.setStyle(this.ellipse, 'stroke-width', this.strokeWidth.toString());
+    this.renderer.setAttribute(this.ellipse, 'stroke', this.stroke);
+    this.renderer.setAttribute(this.ellipse, 'stroke-width', this.strokeWidth.toString());
   }
 
   setAttribute(): void {

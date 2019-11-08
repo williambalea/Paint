@@ -1,8 +1,9 @@
-import { Renderer2, RendererFactory2 } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { COLORS, OUTLINE_TYPE } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
+import { ViewChildService } from '../view-child.service';
 import { EllipseService } from './ellipse.service';
 
 // tslint:disable-next-line: max-classes-per-file
@@ -22,19 +23,22 @@ class ColorServiceMock {
 describe('EllipseService', () => {
   let service: EllipseService;
   let colorService: ColorService;
-  // tslint:disable-next-line: prefer-const
   let inputService: InputService;
   let renderer: Renderer2;
   let rendererFactory: RendererFactory2;
+  let viewChildService: ViewChildService;
 
   beforeEach(() => {
   TestBed.configureTestingModule({
     providers: [
       EllipseService,
+      ViewChildService,
+      Renderer2,
       { provide: InputService, useClass: InputServiceMock },
       { provide: ColorService, useClass: ColorServiceMock },
     ],
   }).compileComponents();
+  viewChildService = TestBed.get(ViewChildService);
   service = TestBed.get(EllipseService);
   colorService = TestBed.get(ColorService);
   inputService = TestBed.get(InputService);
@@ -78,24 +82,53 @@ describe('EllipseService', () => {
     expect(service.active).toEqual(false);
   });
 
-  // NATIVEELEMENT EROR
-  // it('should call onMouseDown() upon mouse being clicked', () => {
-  //   service.active = false;
-  //   const fillColorSpy = spyOn(colorService, 'getFillColor');
-  //   const strokeColorSpy = spyOn(colorService, 'getStrokeColor');
-  //   const setOriginSpy = spyOn(service, 'setOrigin');
-  //   const setEllipseSpy = spyOn(service, 'setEllipseBorderType');
-  //   const createElSpy = spyOn(renderer, 'createElement');
+  it('should not fill ellipse', () => {
+    service.fillEnable = true;
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    service.setEllipseBorderType();
+    expect(spyOnSetAttribute).not.toHaveBeenCalled();
+  });
 
-  //   service.onMouseDown();
+  it('should fill ellipse', () => {
+    service.fillEnable = false;
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    service.setEllipseBorderType();
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+  });
 
-  //   expect(fillColorSpy).toHaveBeenCalled();
-  //   expect(strokeColorSpy).toHaveBeenCalled();
-  //   expect(setOriginSpy).toHaveBeenCalled();
-  //   expect(setEllipseSpy).toHaveBeenCalled();
-  //   expect(service.active).toEqual(true);
-  //   expect(createElSpy).toHaveBeenCalled();
-  // });
+  it('should not put stroke on ellipse', () => {
+    service.strokeEnable = true;
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    service.setEllipseBorderType();
+    expect(spyOnSetAttribute).not.toHaveBeenCalled();
+  });
+
+  it('should put stroke on ellipse', () => {
+    service.strokeEnable = false;
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    service.setEllipseBorderType();
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+  });
+
+  it('should call onMouseDown() upon mouse being clicked', () => {
+    service.active = false;
+    const createElSpy = spyOn(renderer, 'createElement').and.callThrough();
+    const svg = renderer.createElement('ellipse', 'svg');
+    viewChildService.canvas = new ElementRef(svg);
+    const fillColorSpy = spyOn(colorService, 'getFillColor');
+    const strokeColorSpy = spyOn(colorService, 'getStrokeColor');
+    const setOriginSpy = spyOn(service, 'setOrigin');
+    const setEllipseSpy = spyOn(service, 'setEllipseBorderType');
+
+    service.onMouseDown();
+
+    expect(fillColorSpy).toHaveBeenCalled();
+    expect(strokeColorSpy).toHaveBeenCalled();
+    expect(setOriginSpy).toHaveBeenCalled();
+    expect(setEllipseSpy).toHaveBeenCalled();
+    expect(service.active).toEqual(true);
+    expect(createElSpy).toHaveBeenCalled();
+  });
 
   it('should call setCircleOffset when mouse moving and shift is pressed', () => {
     const getMouseSpy = spyOn(inputService, 'getMouse');
@@ -151,48 +184,14 @@ describe('EllipseService', () => {
     expect(service.y).toEqual(2);
   });
 
-  // it('Should not remove any filling color fillEnable and strokeEnable are true', () => {
-  //   const removeColorSpy = spyOn(service, 'removeColor');
-  //   service.fillEnable = true;
-  //   service.strokeEnable = true;
-
-  //   service.setEllipseBorderType();
-
-  //   expect(removeColorSpy).toHaveBeenCalledTimes(0);
-  // });
-
-  // it('Should remove filling color fillEnable is false', () => {
-  //   const removeColorSpy = spyOn(service, 'removeColor');
-  //   service.fillEnable = false;
-  //   service.strokeEnable = true;
-
-  //   service.setEllipseBorderType();
-
-  //   expect(removeColorSpy).toHaveBeenCalledTimes(1);
-  // });
-
-  // it('Should remove both color fillEnable and strokeEnable are both false', () => {
-  //   const removeColorSpy = spyOn(service, 'removeColor');
-  //   service.fillEnable = false;
-  //   service.strokeEnable = false;
-
-  //   service.setEllipseBorderType();
-
-  //   expect(removeColorSpy).toHaveBeenCalledTimes(2);
-  // });
-
-  // it('Should remove color by setting A to 0', () => {
-  //   let blueColor: string = COLORS.greenRBGA;
-  //   blueColor = service.removeColor(blueColor);
-  //   expect(blueColor).toEqual('rgba(0, 255, 0,0)');
-  // });
-
   it('Should draw', () => {
     const setAttributeSpy = spyOn(service, 'setAttribute');
     const setStyleSpy = spyOn(service, 'setStyle');
+    const setsetEllipseBorderType = spyOn(service, 'setEllipseBorderType');
     service.draw();
-    expect(setAttributeSpy).toHaveBeenCalledTimes(1);
-    expect(setStyleSpy).toHaveBeenCalledTimes(1);
+    expect(setAttributeSpy).toHaveBeenCalled();
+    expect(setStyleSpy).toHaveBeenCalled();
+    expect(setsetEllipseBorderType).toHaveBeenCalled();
   });
 
   it('Should set Circle offset', () => {
@@ -217,10 +216,8 @@ describe('EllipseService', () => {
 
   it('Should draw', () => {
     const setAttributeSpy = spyOn(renderer, 'setAttribute');
-    const setStyleSpy = spyOn(renderer, 'setStyle');
     service.draw();
-    expect(setAttributeSpy).toHaveBeenCalledTimes(5);
-    expect(setStyleSpy).toHaveBeenCalledTimes(2);
+    expect(setAttributeSpy).toHaveBeenCalledTimes(7);
   });
 
   it('Should set up Bordered Ellipse', () => {

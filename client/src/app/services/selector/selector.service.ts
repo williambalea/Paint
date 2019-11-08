@@ -14,14 +14,16 @@ export class SelectorService implements Shape {
   active: boolean;
   selectedShapes: SVGGraphicsElement[];
   selectorIsSingle: boolean;
+  memory: SVGGraphicsElement[];
 
   constructor(private rectangleService: RectangleService,
-    private renderer: Renderer2,
-    private viewChildService: ViewChildService,
-    private inputService: InputService) {
+              private renderer: Renderer2,
+              private viewChildService: ViewChildService,
+              private inputService: InputService) {
     this.active = false;
     this.selectedShapes = [];
     this.selectorIsSingle = true;
+    this.memory = [];
   }
 
   onMouseDown(): any {
@@ -55,6 +57,7 @@ export class SelectorService implements Shape {
     this.selectorIsSingle = true;
     this.rectangleService.onMouseUp();
     this.renderer.removeChild(this.viewChildService.canvas.nativeElement, this.rectangle);
+    this.memory = [];
   }
 
   returnRect(child: SVGGraphicsElement): any {
@@ -100,11 +103,19 @@ export class SelectorService implements Shape {
   }
 
   validateIntersection(child: SVGGraphicsElement): void {
+    if (this.memory.includes(child)) {
+      return;
+    }
     if (this.inputService.mouseButton === NB.Two) {
       const index = this.selectedShapes.indexOf(child);
       if (index !== -NB.One) {
+        console.log('allo1');
         this.selectedShapes.splice(index, NB.One);
+      } else if (child.tagName !== 'svg') {
+        console.log('allo2');
+        this.selectedShapes.push(child);
       }
+      this.memory.push(child);
     }
     if (!this.selectedShapes.includes(child) && this.inputService.mouseButton === NB.Zero) {
       this.selectedShapes.push(child);

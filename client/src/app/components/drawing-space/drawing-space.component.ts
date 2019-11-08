@@ -115,8 +115,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.inputService.isDrawed = false;
     });
-
-    this.undoRedoService.canvas = this.canvas;
   }
 
   // TODO: What is that name function??? -WB

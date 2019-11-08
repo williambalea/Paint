@@ -32,6 +32,7 @@ describe('PenService', () => {
         InputService,
         { provide: InputService, useClass: InputServiceMock },
         { provide: ColorService, useClass: ColorServiceMock },
+        Renderer2,
       ],
     }).compileComponents();
     service = TestBed.get(PenService);
@@ -81,7 +82,7 @@ describe('PenService', () => {
   });
 
   it('should set style path', () => {
-    const spyOnSetStylePath = spyOn(renderer, 'setStyle');
+    const spyOnSetStylePath = spyOn(renderer, 'setAttribute');
     service.setStylePath();
     expect(spyOnSetStylePath).toHaveBeenCalledTimes(3);
   });
@@ -92,7 +93,7 @@ describe('PenService', () => {
     const spyOnvalidateStrokeWidthMin = spyOn(service, 'validateStrokeWidthMin');
     const spyOnvalidateStrokeWidthMax = spyOn(service, 'validateStrokeWidthMax');
     const spyOnDraw = spyOn(service, 'draw');
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setAttribute');
     service.onMouseMove();
     expect(service.strokeWidth).not.toEqual(0);
     expect(spyOnvalidateStrokeWidthMin).toHaveBeenCalled();
@@ -107,7 +108,7 @@ describe('PenService', () => {
     const spyOnvalidateStrokeWidthMin = spyOn(service, 'validateStrokeWidthMin');
     const spyOnvalidateStrokeWidthMax = spyOn(service, 'validateStrokeWidthMax');
     const spyOnDraw = spyOn(service, 'draw');
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setAttribute');
     service.onMouseMove();
     expect(service.strokeWidth).toEqual(0);
     expect(spyOnvalidateStrokeWidthMin).not.toHaveBeenCalled();
@@ -155,11 +156,10 @@ describe('PenService', () => {
   it('should draw', () => {
     service.linepath = '';
     const spyOnsetAttribute = spyOn(renderer, 'setAttribute');
-    const spyOnsetStyle = spyOn(renderer, 'setStyle');
+    // const spyOnsetStyle = spyOn(renderer, 'setStyle');
     service.draw();
     expect(service.linepath).not.toEqual('');
-    expect(spyOnsetAttribute).toHaveBeenCalled();
-    expect(spyOnsetStyle).toHaveBeenCalled();
+    expect(spyOnsetAttribute).toHaveBeenCalledTimes(2);
   });
 
   // it('should not validate stroke width max', () => {

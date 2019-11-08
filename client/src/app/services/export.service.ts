@@ -17,8 +17,7 @@ export class ExportService {
     this.downloadLink = this.viewChildService.downloadLink;
   }
 
-  download(format: string, filename: string) {
-
+  download(format: string) {
     html2canvas(this.drawingBoard.nativeElement).then((downloadImage) => {
       this.downloadLink.nativeElement.href = downloadImage.toDataURL('image/' + format);
       this.downloadLink.nativeElement.download = 'file.' + format;

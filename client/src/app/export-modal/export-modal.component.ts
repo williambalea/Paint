@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { EMPTY_STRING } from 'src/constants';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { EMPTY_STRING, NB, STRINGS } from 'src/constants';
 import { ColorService } from '../services/color/color.service';
 import { ExportService } from '../services/export.service';
 import { FileParametersServiceService } from '../services/file-parameters-service.service';
 import { InputService } from '../services/input.service';
+import { ScreenshotService } from '../services/shapes/screenshot.service';
 import { ViewChildService } from '../services/view-child.service';
+import { CanvasToBMP } from './canvasToBMP';
 
 @Component({
   selector: 'app-export-modal',
@@ -13,15 +15,21 @@ import { ViewChildService } from '../services/view-child.service';
   styleUrls: ['./export-modal.component.scss'],
 })
 export class ExportModalComponent implements OnInit, OnDestroy {
+  bmpURL: SafeResourceUrl;
   formats: string[];
   selectedFormat: string;
   name: string;
   fileName: string;
-  fileUrl;
+  fileUrl; // TODO type -WB
+  fileUrl2;
+  downloadLink: ElementRef;
+  image: any;
+  @ViewChild('allo', {static: false}) alloChild: ElementRef;
 
   constructor(private exportService: ExportService,
               private sanitizer: DomSanitizer,
               private renderer: Renderer2,
+              private screenshotService: ScreenshotService,
               private inputService: InputService,
               private colorService: ColorService,
               private viewChildService: ViewChildService,
@@ -31,6 +39,7 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.name = EMPTY_STRING;
     this.fileName = EMPTY_STRING;
     this.inputService.gridShortcutsActive = false;
+    this.downloadLink = this.viewChildService.downloadLink;
   }
 
   ngOnDestroy() {
@@ -49,11 +58,42 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.renderer.appendChild(svg, this.viewChildService.defs.nativeElement);
     const blob = new Blob([svg.outerHTML], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    this.convertSvgToCanvas();
+  }
+
+  createBMPLink(): void {
+    this.screenshotService.screenshotBase64(this.viewChildService.drawingBoard.nativeElement);
+    const canvas = this.viewChildService.htmlCanvas.nativeElement as HTMLCanvasElement;
+    const canvasToBMP: CanvasToBMP = new CanvasToBMP();
+    const newBlob = new Blob([canvasToBMP.toArrayBuffer(canvas)], {type: 'image/bmp'});
+    this.bmpURL = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(newBlob));
+  }
+
+  convertSvgToCanvas() {
+    const canvas: HTMLCanvasElement = this.viewChildService.htmlCanvas.nativeElement;
+    canvas.height = this.fileParameterService.canvasHeight.getValue();
+    canvas.width = this.fileParameterService.canvasWidth.getValue();
+    const images64: string = this.screenshotService.screenshotBase64(this.viewChildService.drawingBoard.nativeElement);
+    const image = new Image();
+    image.src = images64;
+    image.onload = () => {
+      (canvas.getContext(STRINGS.twoD) as CanvasRenderingContext2D).drawImage(image, NB.Zero, NB.Zero, canvas.width, canvas.height);
+    };
   }
 
   click() {
-    if (this.selectedFormat !== 'svg') {
-      this.exportService.download(this.selectedFormat, this.fileName);
+    if (this.selectedFormat !== 'svg' && this.selectedFormat !== 'bmp') {
+      this.exportService.download(this.selectedFormat);
+    } else if (this.selectedFormat === 'bmp') {
+      this.convertSvgToCanvas();
+      const canvasToBMP: CanvasToBMP = new CanvasToBMP();
+      console.log(canvasToBMP.toDataURL(this.viewChildService.htmlCanvas.nativeElement));
+      const blobUrl = canvasToBMP.toDataURL(this.viewChildService.htmlCanvas.nativeElement);
+      this.fileUrl2 = blobUrl;
+      console.log(this.fileUrl2);
+      // this.downloadLink.nativeElement.href = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+      // this.downloadLink.nativeElement.download = 'file.' + 'bmp';
+      // this.downloadLink.nativeElement.click();
     }
   }
 

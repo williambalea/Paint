@@ -262,6 +262,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.colorService.setMakingColorChanges(false);
     }
     if (this.selectedTool === TOOL.selector) {
+      const target = event.target as SVGGraphicsElement;
       if (this.selectorAreaActive) {
         if (event.button === NB.Zero) {
           if ((event.target as HTMLElement).id === 'pen') {
@@ -277,8 +278,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           const index = this.selectorService.selectedShapes.indexOf(event.target as SVGGraphicsElement);
           if (index !== -NB.One) {
             this.selectorService.selectedShapes.splice(index, NB.One);
-          } else {
-            this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
+          } else if (target.tagName !== 'svg') {
+            this.selectorService.selectedShapes.push(target);
           }
         }
         this.includingBoxService.update();

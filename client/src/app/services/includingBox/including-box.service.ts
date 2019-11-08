@@ -1,5 +1,5 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { NB, SVGinnerWidth } from 'src/constants';
+import { EMPTY_STRING, NB, SVGinnerWidth } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { SelectorService } from '../selector/selector.service';
 import { ViewChildService } from '../view-child.service';
@@ -27,6 +27,7 @@ export class IncludingBoxService {
   }
 
   update(): void {
+    (this.viewChildService.includingBox.nativeElement as SVGGraphicsElement).innerHTML = EMPTY_STRING;
     this.boxUpperLeft = { x: Number.MAX_VALUE, y: Number.MAX_VALUE };
     const finalPoint: Point = { x: 0, y: 0 };
     const bottomRight: Point = { x: 0, y: 0 };

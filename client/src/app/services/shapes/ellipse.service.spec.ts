@@ -151,41 +151,41 @@ describe('EllipseService', () => {
     expect(service.y).toEqual(2);
   });
 
-  it('Should not remove any filling color fillEnable and strokeEnable are true', () => {
-    const removeColorSpy = spyOn(service, 'removeColor');
-    service.fillEnable = true;
-    service.strokeEnable = true;
+  // it('Should not remove any filling color fillEnable and strokeEnable are true', () => {
+  //   const removeColorSpy = spyOn(service, 'removeColor');
+  //   service.fillEnable = true;
+  //   service.strokeEnable = true;
 
-    service.setEllipseBorderType();
+  //   service.setEllipseBorderType();
 
-    expect(removeColorSpy).toHaveBeenCalledTimes(0);
-  });
+  //   expect(removeColorSpy).toHaveBeenCalledTimes(0);
+  // });
 
-  it('Should remove filling color fillEnable is false', () => {
-    const removeColorSpy = spyOn(service, 'removeColor');
-    service.fillEnable = false;
-    service.strokeEnable = true;
+  // it('Should remove filling color fillEnable is false', () => {
+  //   const removeColorSpy = spyOn(service, 'removeColor');
+  //   service.fillEnable = false;
+  //   service.strokeEnable = true;
 
-    service.setEllipseBorderType();
+  //   service.setEllipseBorderType();
 
-    expect(removeColorSpy).toHaveBeenCalledTimes(1);
-  });
+  //   expect(removeColorSpy).toHaveBeenCalledTimes(1);
+  // });
 
-  it('Should remove both color fillEnable and strokeEnable are both false', () => {
-    const removeColorSpy = spyOn(service, 'removeColor');
-    service.fillEnable = false;
-    service.strokeEnable = false;
+  // it('Should remove both color fillEnable and strokeEnable are both false', () => {
+  //   const removeColorSpy = spyOn(service, 'removeColor');
+  //   service.fillEnable = false;
+  //   service.strokeEnable = false;
 
-    service.setEllipseBorderType();
+  //   service.setEllipseBorderType();
 
-    expect(removeColorSpy).toHaveBeenCalledTimes(2);
-  });
+  //   expect(removeColorSpy).toHaveBeenCalledTimes(2);
+  // });
 
-  it('Should remove color by setting A to 0', () => {
-    let blueColor: string = COLORS.greenRBGA;
-    blueColor = service.removeColor(blueColor);
-    expect(blueColor).toEqual('rgba(0, 255, 0,0)');
-  });
+  // it('Should remove color by setting A to 0', () => {
+  //   let blueColor: string = COLORS.greenRBGA;
+  //   blueColor = service.removeColor(blueColor);
+  //   expect(blueColor).toEqual('rgba(0, 255, 0,0)');
+  // });
 
   it('Should draw', () => {
     const setAttributeSpy = spyOn(service, 'setAttribute');

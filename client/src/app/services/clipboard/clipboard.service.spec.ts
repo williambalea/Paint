@@ -136,6 +136,18 @@ describe('ClipboardService', () => {
     expect(inputService.incrementMultiplier).toEqual(0);
   });
 
+  it('should validate last child', () => {
+    const svg = renderer.createElement('rect', 'svg');
+    const svgSecond = renderer.createElement('rect', 'svg');
+    viewChildService.canvas = new ElementRef(svg);
+    svg.appendChild(viewChildService.canvas, svgSecond);
+    const overflowX = 1;
+    const overflowY = 2;
+    service.validateLastChild(overflowX, overflowY);
+    expect(overflowX).toEqual(1);
+    expect(overflowY).toEqual(2);
+  });
+
   // it('should assign values to overflows', () => {
   //   viewChildService.canvas = new ElementRef(document.createElement('svg'));
   //   const getBoundingClientRectSpy = spyOn(viewChildService.canvas.nativeElement.lastChild, 'getBoundingClientRect').and.callThrough();

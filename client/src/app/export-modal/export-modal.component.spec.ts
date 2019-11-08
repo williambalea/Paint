@@ -54,5 +54,18 @@ describe('ExportModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  // it('should download image if not svg selected', () => {
+  //   const spy = spyOn(exportService, 'download');
+  //   component.selectedFormat = 'jpeg';
+  //   component.click();
+  //   expect(spy).toHaveBeenCalled();
+  // });
+
+  // it('should not download image if svg selected', () => {
+  //   const spy = spyOn(exportService, 'download');
+  //   component.selectedFormat = 'svg';
+  //   component.click();
+  //   expect(spy).not.toHaveBeenCalled();
+  // });
 
 });

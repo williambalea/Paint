@@ -31,8 +31,8 @@ export class IncludingBoxService {
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const clientRect = value.getBoundingClientRect() as DOMRect;
       const shapeBoundary = {
-        x: clientRect.x - SVGinnerWidth,
-        y: clientRect.y,
+        x: clientRect.x - SVGinnerWidth - NB.One,
+        y: clientRect.y - NB.One,
         width: clientRect.width,
         height: clientRect.height,
       } as SVGRect;
@@ -65,9 +65,9 @@ export class IncludingBoxService {
   }
 
   validateNoStroke(value: SVGGraphicsElement, shapeBoundary: SVGRect): void {
-    if (value.style.strokeOpacity !== NB.Zero.toString() &&
+    if (value.getAttribute('stroke-opacity') !== NB.Zero.toString() &&
     value.tagName !== 'image' && value.tagName !== 'text' && value.tagName !== 'g') {
-      const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, NB.Ten);
+      const strokeWidthOverflow = Number(value.getAttribute('stroke-width') as string);
       shapeBoundary.x -= strokeWidthOverflow / NB.Two;
       shapeBoundary.y -= strokeWidthOverflow / NB.Two;
       shapeBoundary.width += strokeWidthOverflow;

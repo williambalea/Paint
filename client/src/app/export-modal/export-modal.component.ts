@@ -54,7 +54,7 @@ export class ExportModalComponent implements OnInit, OnDestroy {
   click() {
     if (this.selectedFormat !== 'svg') {
       this.exportService.download(this.selectedFormat, this.fileName);
-      }
     }
+  }
 
 }

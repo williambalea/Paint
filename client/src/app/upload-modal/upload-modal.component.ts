@@ -42,7 +42,6 @@ export class UploadModalComponent implements OnDestroy {
         }
         this.uploadService.width += this.uploadService.content[i];
       }
-
       const heightIndex: number = self.fileContent.indexOf('height');
       for ( let i: number = heightIndex + 8; i < 200; i++) {
         if (this.uploadService.content[i] === '"') {
@@ -55,7 +54,7 @@ export class UploadModalComponent implements OnDestroy {
       for ( let i: number = colorIndex; i < 200; i++) {
         this.uploadService.backgroundColor += this.uploadService.content[i];
         if (this.uploadService.content[i] === ')') {
-        break;
+          break;
         }
       }
 

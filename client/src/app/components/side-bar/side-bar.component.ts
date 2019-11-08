@@ -219,9 +219,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   upload(): void {
     this.enableKeyPress = false;
-    const dialogRefGet: MatDialogRef<UploadModalComponent, any> =
-      this.dialog.open(UploadModalComponent, { disableClose: true });
-    console.log(dialogRefGet); // TODO: qu'est-ce qu'on fait avec ça? -WB
+    this.dialog.open(UploadModalComponent, { disableClose: true });
   }
 
   localSave(): void {

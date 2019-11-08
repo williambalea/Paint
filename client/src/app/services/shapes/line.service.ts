@@ -73,7 +73,7 @@ export class LineService implements Shape {
   }
 
   setStyle(): void {
-    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
+    this.renderer.setAttribute(this.path, 'stroke', this.stroke.toString());
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
     this.renderer.setStyle(this.path, 'fill', 'none');
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());

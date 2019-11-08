@@ -1,13 +1,10 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Renderer2, ElementRef } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material';
+import { ViewChildService } from '../services/view-child.service';
 import { ExportService } from './../services/export.service';
 import { ExportModalComponent } from './export-modal.component';
-import { ViewChildService } from '../services/view-child.service';
-
-class ExportServiceMock {
-  download(): void {return; }
-}
+import { provideAutoMock } from 'src/test.helpers.spec';
 
 describe('ExportModalComponent', () => {
   let component: ExportModalComponent;
@@ -19,19 +16,19 @@ describe('ExportModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExportModalComponent ],
+      declarations: [ExportModalComponent],
       providers: [
         ExportModalComponent,
         Renderer2,
-        ViewChildService,
-        { provide: ExportService, useClass: ExportServiceMock },
+        provideAutoMock(ViewChildService),
+        provideAutoMock(ExportService),
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         MatDialogModule,
       ],
     })
-    .compileComponents();
+      .compileComponents();
     viewChildService = TestBed.get(ViewChildService);
     component = TestBed.get(ExportModalComponent);
     exportService = TestBed.get(ExportService);
@@ -44,8 +41,12 @@ describe('ExportModalComponent', () => {
     fixture = TestBed.createComponent(ExportModalComponent);
     component = fixture.componentInstance;
 
-    viewChildService.defs = new ElementRef('allo');
-    exportService.canvas = new ElementRef({width: 100, height: 100});
+    // tslint:disable-next-line: no-string-literal
+    exportService.canvas = new ElementRef(document.createElement('div'));
+    viewChildService.defs = new ElementRef(document.createElement('div'));
+    viewChildService.htmlCanvas = new ElementRef(document.createElement('canvas'));
+    viewChildService.drawingBoard = new ElementRef(document.createElement('canvas'));
+
     fixture.autoDetectChanges();
 
   });

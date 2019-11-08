@@ -1,19 +1,22 @@
-import { Injectable, Renderer2 } from '@angular/core';
-import { NB, SVGinnerWidth } from 'src/constants';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { EMPTY_STRING, NB, SVGinnerWidth } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { SelectorService } from '../selector/selector.service';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IncludingBoxService {
+  renderer: Renderer2;
   boxUpperLeft: Point;
   width: number;
   height: number;
-  boxGElement: HTMLElement;
 
   constructor(private selectorService: SelectorService,
-              private renderer: Renderer2) {
+              private viewChildService: ViewChildService,
+              private rendererFactory: RendererFactory2) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.clear();
   }
 
@@ -21,18 +24,18 @@ export class IncludingBoxService {
     this.boxUpperLeft = { x: NB.Zero, y: NB.Zero };
     this.width = NB.Zero;
     this.height = NB.Zero;
-    this.boxGElement = this.renderer.createElement('g', 'svg');
   }
 
   update(): void {
+    (this.viewChildService.includingBox.nativeElement as SVGGraphicsElement).innerHTML = EMPTY_STRING;
     this.boxUpperLeft = { x: Number.MAX_VALUE, y: Number.MAX_VALUE };
     const finalPoint: Point = { x: 0, y: 0 };
     const bottomRight: Point = { x: 0, y: 0 };
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const clientRect = value.getBoundingClientRect() as DOMRect;
       const shapeBoundary = {
-        x: clientRect.x - SVGinnerWidth + NB.Two,
-        y: clientRect.y,
+        x: clientRect.x - SVGinnerWidth - NB.One,
+        y: clientRect.y - NB.One,
         width: clientRect.width,
         height: clientRect.height,
       } as SVGRect;
@@ -65,9 +68,9 @@ export class IncludingBoxService {
   }
 
   validateNoStroke(value: SVGGraphicsElement, shapeBoundary: SVGRect): void {
-    if (value.style.strokeOpacity !== NB.Zero.toString() &&
+    if (value.getAttribute('stroke-opacity') !== NB.Zero.toString() &&
     value.tagName !== 'image' && value.tagName !== 'text' && value.tagName !== 'g') {
-      const strokeWidthOverflow = Number.parseInt(value.style.strokeWidth as string, NB.Ten);
+      const strokeWidthOverflow = Number(value.getAttribute('stroke-width') as string);
       shapeBoundary.x -= strokeWidthOverflow / NB.Two;
       shapeBoundary.y -= strokeWidthOverflow / NB.Two;
       shapeBoundary.width += strokeWidthOverflow;
@@ -85,7 +88,6 @@ export class IncludingBoxService {
   }
 
   draw(): void {
-    this.boxGElement = this.renderer.createElement('g', 'svg');
     this.appendRectangleBox();
     this.appendControlPoints();
   }
@@ -95,7 +97,7 @@ export class IncludingBoxService {
       const rectangle = this.renderer.createElement('rect', 'svg');
       this.setAttributeRectangleBox(rectangle);
       this.setStyleRectangleBox(rectangle);
-      this.renderer.appendChild(this.boxGElement, rectangle);
+      this.renderer.appendChild(this.viewChildService.includingBox.nativeElement, rectangle);
     }
   }
 
@@ -107,19 +109,21 @@ export class IncludingBoxService {
   }
 
   setStyleRectangleBox(rectangle: SVGGraphicsElement): void {
-    this.renderer.setStyle(rectangle, 'stroke-width', '1');
-    this.renderer.setStyle(rectangle, 'stroke', 'navy');
-    this.renderer.setStyle(rectangle, 'fill', 'none');
+    this.renderer.setAttribute(rectangle, 'stroke-width', '1');
+    this.renderer.setAttribute(rectangle, 'stroke', 'navy');
+    this.renderer.setAttribute(rectangle, 'fill', 'none');
   }
 
   appendControlPoints(): void {
-    const positions: Point[] = this.setControlPoints();
-    for (let i = 0; i < NB.Eight; i++) {
-      const point = this.renderer.createElement('circle', 'svg');
-      this.setAttributeControlPoints(point, positions[i]);
-      this.renderer.setAttribute(point, 'id', `control${i}`);
-      this.setStylePoints(point, positions[i]);
-      this.renderer.appendChild(this.boxGElement, point);
+    if (this.width > 0 && this.height > 0) {
+      const positions: Point[] = this.setControlPoints();
+      for (let i = 0; i < NB.Eight; i++) {
+        const point = this.renderer.createElement('circle', 'svg');
+        this.setAttributeControlPoints(point, positions[i]);
+        this.renderer.setAttribute(point, 'id', `control${i}`);
+        this.setStylePoints(point, positions[i]);
+        this.renderer.appendChild(this.viewChildService.includingBox.nativeElement, point);
+      }
     }
   }
 
@@ -130,9 +134,9 @@ export class IncludingBoxService {
   }
 
   setStylePoints(point: SVGGraphicsElement, positions: Point): void {
-    this.renderer.setStyle(point, 'fill', 'white');
-    this.renderer.setStyle(point, 'stroke', 'navy');
-    this.renderer.setStyle(point, 'stroke-width', '1');
+    this.renderer.setAttribute(point, 'fill', 'white');
+    this.renderer.setAttribute(point, 'stroke', 'navy');
+    this.renderer.setAttribute(point, 'stroke-width', '1');
   }
 
   setControlPoints(): Point[] {

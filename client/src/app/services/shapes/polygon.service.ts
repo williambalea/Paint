@@ -68,16 +68,11 @@ export class PolygonService implements Shape {
 
   setPolygonType(): void {
     if (!this.fillEnable) {
-      this.fill = this.removeColor(this.fill);
+      this.renderer.setAttribute(this.polygon, 'fill', 'none');
     }
     if (!this.strokeEnable) {
-      this.stroke = this.removeColor(this.stroke);
+      this.renderer.setAttribute(this.polygon, 'stroke-opacity', '0');
     }
-  }
-
-  removeColor(fill: string): string {
-    const individualParams: string[] = fill.substr(NB.Five, fill.length - NB.One).split(',', NB.Four);
-    return `rgba(${individualParams[NB.Zero]},${individualParams[NB.One]},${individualParams[NB.Two]},0)`;
   }
 
   assignBorderedAndFilledPolygon(): void {
@@ -102,6 +97,7 @@ export class PolygonService implements Shape {
   draw(): void {
     this.setAttributesPolygon();
     this.setStylePolygon();
+    this.setPolygonType();
     this.initialPoint = { x: NB.Zero, y: -(NB.One) };
   }
 
@@ -111,8 +107,8 @@ export class PolygonService implements Shape {
   }
 
   setStylePolygon(): void {
-    this.renderer.setStyle(this.polygon, 'stroke', this.stroke);
-    this.renderer.setStyle(this.polygon, 'stroke-width', this.strokeWidth.toString());
+    this.renderer.setAttribute(this.polygon, 'stroke', this.stroke);
+    this.renderer.setAttribute(this.polygon, 'stroke-width', this.strokeWidth.toString());
   }
 
   onMouseDown(): any {
@@ -120,8 +116,8 @@ export class PolygonService implements Shape {
     this.fill = this.colorService.getFillColor();
     this.stroke = this.colorService.getStrokeColor();
     this.setOrigin();
-    this.setPolygonType();
     this.polygon = this.renderer.createElement('polygon', 'svg');
+    this.setPolygonType();
     this.renderer.appendChild(this.viewChildService.canvas.nativeElement, this.polygon);
     return this.polygon;
   }

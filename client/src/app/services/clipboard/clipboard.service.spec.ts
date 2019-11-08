@@ -1,4 +1,4 @@
-import { Renderer2, RendererFactory2, ɵEMPTY_ARRAY } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { IncludingBoxService } from '../includingBox/including-box.service';
 import { InputService } from '../input.service';
@@ -6,22 +6,22 @@ import { SelectorService } from '../selector/selector.service';
 import { UndoRedoService } from '../undo-redo.service';
 import { ViewChildService } from '../view-child.service';
 import { ClipboardService } from './clipboard.service';
-class RendererMock {
-  createElement(): void {return; }
-  setStyle(): void {return; }
-  setAttribute(): void {return; }
-  appendChild(): void {return; }
-  removeChild(one: any, two: any): void {return; }
-}
-// tslint:disable-next-line: max-classes-per-file
-class RendererFactoryMock {
-    createRenderer(): void {return; }
-  }
+// class RendererMock {
+//   createElement(): void {return; }
+//   setStyle(): void {return; }
+//   setAttribute(): void {return; }
+//   appendChild(): void {return; }
+//   removeChild(one: any, two: any): void {return; }
+// }
+// // tslint:disable-next-line: max-classes-per-file
+// class RendererFactoryMock {
+//     createRenderer(): void {return; }
+//   }
 
-  // tslint:disable-next-line: max-classes-per-file
-class ViewChildServiceMock {
-    canvas: any = '';
-  }
+//   // tslint:disable-next-line: max-classes-per-file
+// class ViewChildServiceMock {
+//     canvas: any = '';
+//   }
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
@@ -29,6 +29,7 @@ describe('ClipboardService', () => {
   let includingBoxService: IncludingBoxService;
   let undoRedoService: UndoRedoService;
   let renderer: Renderer2;
+  let rendererFactory: RendererFactory2;
   let inputService: InputService;
   let viewChildService: ViewChildService;
 
@@ -40,21 +41,19 @@ describe('ClipboardService', () => {
       providers: [
         ClipboardService,
         SelectorService,
-        RendererFactory2,
         ViewChildService,
         InputService,
-        { provide: Renderer2, useClass: RendererMock },
-        { provide: RendererFactory2, useClass: RendererFactoryMock },
-        { provide: ViewChildService, useClass: ViewChildServiceMock },
+        Renderer2,
       ],
     }).compileComponents();
     service = TestBed.get(ClipboardService);
     selectorService = TestBed.get(SelectorService);
     includingBoxService = TestBed.get(IncludingBoxService);
     undoRedoService = TestBed.get(UndoRedoService);
-    renderer = TestBed.get(Renderer2);
     inputService = TestBed.get(InputService);
     viewChildService = TestBed.get(ViewChildService);
+    rendererFactory = TestBed.get(RendererFactory2);
+    renderer = rendererFactory.createRenderer(null, null);
     });
 
   it('should be created', () => {
@@ -75,58 +74,59 @@ describe('ClipboardService', () => {
 
   it('should find that the clipboard is empty', () => {
     service.selectedItems = [];
-    expect(service.clipboardEmpty()).toBeTruthy();
+    expect(service.clipboardEmpty()).not.toBeTruthy();
   });
 
-  it('should find that the clipboard is empty', () => {
+  it('should find that the clipboard is not empty', () => {
     service.selectedItems.push(mockShape);
-    expect(service.clipboardEmpty()).not.toBeTruthy();
+    expect(service.clipboardEmpty()).toBeTruthy();
   });
 
   it('should have called controlC() thoroughly', () => {
     const controlCSpy = spyOn(service, 'controlC');
     service.controlC();
-
     expect(controlCSpy).toHaveBeenCalled();
     expect(service.selectedItems.length).toEqual(0);
   });
 
   it('should have called controlA() thoroughly', () => {
-    const updateSpy = spyOn(includingBoxService, 'update');
-    viewChildService.canvas.nativeElement = [];
+    const svg = renderer.createElement('svg');
+    includingBoxService.boxUpperLeft.x = 2;
+    includingBoxService.boxUpperLeft.y = 2;
+    viewChildService.canvas = new ElementRef(svg);
     service.controlA();
-    expect(service.selectedItems.length).toEqual(selectorService.selectedShapes.length);
-
-    expect(updateSpy).toHaveBeenCalled();
-    expect(service.selectedItems.length).toEqual(0);
     expect(service.newSelection).toBeTruthy();
+    expect(service.cloningPosition.x).toEqual(1);
+    expect(service.cloningPosition.x).toEqual(1);
+
   });
 
   it('should have called controlX() thoroughly', () => {
+    const svg = renderer.createElement('notsvg');
+    service.selectedItems.push(svg);
+    viewChildService.canvas = new ElementRef(svg);
+    const removeChildMock = spyOn(renderer, 'removeChild');
     const controlCSpy = spyOn(service, 'controlC');
-    const clearSpy = spyOn(includingBoxService, 'clear');
-    service.controlX();
 
+    service.controlX();
+    expect(removeChildMock).toHaveBeenCalled();
     expect(controlCSpy).toHaveBeenCalled();
-    expect(selectorService.selectedShapes.length).toEqual(0);
-    expect(clearSpy).toHaveBeenCalled();
   });
 
   it('should have called delete() thoroughly', () => {
-    const rendererMockSpy = spyOn(renderer, 'removeChild');
-    const clearSpy = spyOn(includingBoxService, 'clear');
-    selectorService.selectedShapes.push(mockShape);
+    const svg = renderer.createElement('svg');
+    svg.setAttribute('id', 'notsvg');
+    console.log(svg);
+    const removeChildSpy = spyOn(renderer, 'removeChild');
+    viewChildService.canvas = new ElementRef(svg);
+    selectorService.selectedShapes.push(svg);
     service.delete();
-    expect(rendererMockSpy).toHaveBeenCalled();
+    expect(removeChildSpy).toHaveBeenCalled();
     expect(selectorService.selectedShapes.length).toEqual(0);
-    console.log(selectorService.selectedShapes);
-    expect(selectorService.selectedShapes).toEqual(ɵEMPTY_ARRAY);
-    expect(clearSpy).toHaveBeenCalled();
   });
 
   it('should have called controlV() thoroughly', () => {
     const duplicateSpy = spyOn(service, 'duplicate');
-
     service.controlV();
     expect(duplicateSpy).toHaveBeenCalled();
     expect(undoRedoService.poppedActions.length).toEqual(0);

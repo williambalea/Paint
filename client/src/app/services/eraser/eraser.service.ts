@@ -19,7 +19,6 @@ export class EraserService {
   divider: number;
   canvas: ElementRef;
   preview: SVGGraphicsElement[];
-  redContourGroupe: SVGGraphicsElement;
   mouseMove: boolean;
 
   constructor(private viewChildService: ViewChildService,
@@ -40,8 +39,6 @@ export class EraserService {
   initializeViewChildren(): void {
     this.drawingBoard = this.viewChildService.drawingBoard;
     this.canvas = this.viewChildService.canvas;
-    this.redContourGroupe = this.renderer.createElement('g', 'svg');
-    this.renderer.appendChild(this.drawingBoard.nativeElement, this.redContourGroupe);
   }
 
   createEraser(x: number, y: number): void {
@@ -65,34 +62,47 @@ export class EraserService {
     this.renderer.setAttribute(cursor, 'x', (this.inputService.getMouse().x - (this.size) / this.divider).toString());
     this.renderer.setAttribute(cursor, 'y', (this.inputService.getMouse().y - (this.size) / this.divider).toString());
     this.intersect();
+
   }
 
   addToPreview(shape: SVGGraphicsElement): void {
     if (!this.preview.includes(shape)) {
-      const redContour = this.renderer.createElement('rect', 'svg');
-      this.setAttributePreview(redContour, shape);
+      const redContour = this.setAttributePreview(shape);
       this.preview.push(redContour);
-      this.renderer.appendChild(this.redContourGroupe, redContour);
+      this.renderer.appendChild(this.viewChildService.eraserCountour.nativeElement, redContour);
     }
   }
 
-  setAttributePreview(redContour: HTMLElement, shape: SVGGraphicsElement): void {
-    this.renderer.setAttribute(redContour, 'x', (shape.getBoundingClientRect().left - SVGinnerWidth).toString());
-    this.renderer.setAttribute(redContour, 'y', (shape.getBoundingClientRect().top).toString());
-    this.renderer.setAttribute(redContour, 'width', (shape.getBoundingClientRect().width).toString());
-    this.renderer.setAttribute(redContour, 'height', (shape.getBoundingClientRect().height).toString());
-    this.renderer.setAttribute(redContour, 'fill', 'none');
-    this.renderer.setAttribute(redContour, 'stroke', 'red');
-    this.renderer.setAttribute(redContour, 'stroke-width', '1');
+  setAttributePreview(shape: SVGGraphicsElement): SVGGraphicsElement {
+    if (shape.getAttributeNames().includes('stroke')) {
+      const copy = shape.cloneNode(true) as SVGGraphicsElement;
+      copy.setAttribute('fill', 'none');
+      copy.setAttribute('stroke', 'red');
+      copy.setAttribute('stroke-opacity', '1');
+      if (shape.getAttribute('stroke-opacity') === '0') {
+        copy.setAttribute('stroke-width', '1');
+      }
+      return copy;
+    } else {
+      const rect = this.renderer.createElement('rect', 'svg');
+      this.renderer.setAttribute(rect, 'x', (shape.getBoundingClientRect().left - SVGinnerWidth - 1).toString());
+      this.renderer.setAttribute(rect, 'y', (shape.getBoundingClientRect().top - 1).toString());
+      this.renderer.setAttribute(rect, 'width', (shape.getBoundingClientRect().width).toString());
+      this.renderer.setAttribute(rect, 'height', (shape.getBoundingClientRect().height).toString());
+      this.renderer.setAttribute(rect, 'fill', 'none');
+      this.renderer.setAttribute(rect, 'stroke', 'red');
+      this.renderer.setAttribute(rect, 'stroke-width', '1');
+      return rect;
+    }
   }
 
   clear(): void {
     for ( const i of this.preview) {
-      this.renderer.removeChild(this.redContourGroupe, i);
+      this.renderer.removeChild(this.viewChildService.eraserCountour, i);
     }
   }
   clearOnce(): void {
-      this.renderer.removeChild(this.redContourGroupe, this.preview[0]);
+      this.renderer.removeChild(this.viewChildService.eraserCountour, this.preview[0]);
   }
 
   validateErase(child: SVGGraphicsElement): void {

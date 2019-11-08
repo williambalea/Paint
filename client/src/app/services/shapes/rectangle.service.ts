@@ -66,8 +66,8 @@ export class RectangleService implements Shape {
 
   setStyle() {
     this.renderer.setAttribute(this.rectangle, 'fill', this.fill);
-    this.renderer.setStyle(this.rectangle, 'stroke', this.stroke);
-    this.renderer.setStyle(this.rectangle, 'stroke-width', this.strokeWidth.toString());
+    this.renderer.setAttribute(this.rectangle, 'stroke', this.stroke);
+    this.renderer.setAttribute(this.rectangle, 'stroke-width', this.strokeWidth.toString());
   }
 
   onMouseMove(): void {
@@ -96,7 +96,7 @@ export class RectangleService implements Shape {
       this.renderer.setAttribute(this.rectangle, 'fill', 'none');
     }
     if (!this.strokeEnable) {
-      this.renderer.setStyle(this.rectangle, 'stroke-opacity', '0');
+      this.renderer.setAttribute(this.rectangle, 'stroke-opacity', '0');
     }
   }
 

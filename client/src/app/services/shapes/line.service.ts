@@ -1,12 +1,14 @@
-  import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-  import { EMPTY_STRING, JUNCTIONSTYLE, LINECORNER, NB, STROKE_DASHARRAY_STYLE } from 'src/constants';
-  import { Point } from '../../../../../common/interface/point';
-  import { ColorService } from '../color/color.service';
-  import { InputService } from '../input.service';
-  import { ViewChildService } from '../view-child.service';
-  import { Shape } from './shape';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { ACTIONS, EMPTY_STRING, JUNCTIONSTYLE, LINECORNER, NB, STROKE_DASHARRAY_STYLE } from 'src/constants';
+import { Point } from '../../../../../common/interface/point';
+import { ColorService } from '../color/color.service';
+import { InputService } from '../input.service';
+import { UndoRedoService } from '../undo-redo.service';
+import { UndoRedoAction } from '../undoRedoAction';
+import { ViewChildService } from '../view-child.service';
+import { Shape } from './shape';
 
-  @Injectable({
+@Injectable({
   providedIn: 'root',
 })
 
@@ -31,6 +33,7 @@ export class LineService implements Shape {
   constructor(private rendererFactory: RendererFactory2,
               private inputService: InputService,
               private colorService: ColorService,
+              private undoRedoService: UndoRedoService,
               private viewChildService: ViewChildService) {
     this.strokeWidth = NB.Seven;
     this.doubleClick = false;
@@ -70,21 +73,21 @@ export class LineService implements Shape {
   }
 
   setStyle(): void {
-    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
-    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'fill', 'none');
-    this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
-    this.renderer.setStyle(this.path, 'stroke-dasharray', this.dashArrayType);
+    this.renderer.setAttribute(this.path, 'stroke', this.stroke.toString());
+    this.renderer.setAttribute(this.path, 'stroke-linecap', 'round');
+    this.renderer.setAttribute(this.path, 'fill', 'none');
+    this.renderer.setAttribute(this.path, 'stroke-width', this.strokeWidth.toString());
+    this.renderer.setAttribute(this.path, 'stroke-dasharray', this.dashArrayType);
     this.validateJunctionStyle();
   }
 
   validateJunctionStyle(): void {
     if (this.junctionStyle === LINECORNER.dot) {
-      this.renderer.setStyle(this.path, 'marker-start', this.junction);
-      this.renderer.setStyle(this.path, 'marker-mid', this.junction);
-      this.renderer.setStyle(this.path, 'marker-end', this.junction);
+      this.renderer.setAttribute(this.path, 'marker-start', this.junction);
+      this.renderer.setAttribute(this.path, 'marker-mid', this.junction);
+      this.renderer.setAttribute(this.path, 'marker-end', this.junction);
       } else {
-      this.renderer.setStyle(this.path, 'stroke-linejoin', this.junctionValue);
+      this.renderer.setAttribute(this.path, 'stroke-linejoin', this.junctionValue);
       }
   }
 
@@ -126,6 +129,11 @@ export class LineService implements Shape {
         return;
       }
       this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
+      const undoRedoAction: UndoRedoAction = {
+        shape: this.path as unknown as SVGGraphicsElement,
+        action: ACTIONS.append,
+      };
+      this.undoRedoService.addAction(undoRedoAction);
       this.path = this.renderer.createElement('path', 'svg');
       this.reset();
     }
@@ -136,6 +144,11 @@ export class LineService implements Shape {
     }
     if (this.doubleClick) {
       this.renderer.setAttribute(this.path, 'd', this.linepath);
+      const undoRedoAction: UndoRedoAction = {
+        shape: this.path as unknown as SVGGraphicsElement,
+        action: ACTIONS.append,
+      };
+      this.undoRedoService.addAction(undoRedoAction);
       this.reset();
     }
     this.doubleClick = true;

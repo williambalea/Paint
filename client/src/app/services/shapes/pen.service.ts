@@ -1,9 +1,11 @@
 import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { EMPTY_STRING, INIT_MOVE_PEN, NB } from 'src/constants';
+import { EMPTY_STRING, INIT_MOVE_PEN, NB, ACTIONS } from 'src/constants';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { ViewChildService } from '../view-child.service';
 import { Shape } from './shape';
+import { UndoRedoService } from '../undo-redo.service';
+import { UndoRedoAction } from '../undoRedoAction';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +23,14 @@ export class PenService implements Shape {
   private interval: any;
   mouseSpeed: number;
   lastMouseMoveTime: number;
+  penWrapper2: SVGGraphicsElement;
 
   canvas: ElementRef;
 
   constructor(private rendererFactory: RendererFactory2,
               private inputService: InputService,
               private viewChildService: ViewChildService,
+              private undoRedoSerivce: UndoRedoService,
               private colorService: ColorService) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.maxStrokeWidth = NB.Twenty;
@@ -50,7 +54,13 @@ export class PenService implements Shape {
 
   createPenGroup(): void {
     const penWrapper = this.renderer.createElement('g', 'svg');
+    this.penWrapper2 = penWrapper;
     this.renderer.appendChild(this.canvas.nativeElement, penWrapper);
+    const undoRedoAction: UndoRedoAction = {
+      shape: penWrapper,
+      action: ACTIONS.append,
+    };
+    this.undoRedoSerivce.addAction(undoRedoAction);
     this.interval = setInterval( () => {
       this.createPath();
       this.renderer.appendChild(penWrapper, this.path);
@@ -74,9 +84,9 @@ export class PenService implements Shape {
   }
 
   setStylePath(): void {
-    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
-    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
+    this.renderer.setAttribute(this.penWrapper2, 'stroke', this.stroke.toString());
+    this.renderer.setAttribute(this.path, 'stroke-linecap', 'round');
+    this.renderer.setAttribute(this.path, 'stroke-linejoin', 'round');
   }
 
   onMouseMove(): void {
@@ -84,7 +94,7 @@ export class PenService implements Shape {
       this.strokeWidth = (-(this.maxStrokeWidth - this.minStrokeWidth) / 2) * this.mouseSpeed + this.maxStrokeWidth;
       this.validateStrokeWidthMin();
       this.validateStrokeWidthMax();
-      this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
+      this.renderer.setAttribute(this.path, 'stroke-width', this.strokeWidth.toString());
       this.draw();
     }
   }
@@ -110,6 +120,6 @@ export class PenService implements Shape {
   draw(): void {
     this.linepath += `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
-    this.renderer.setStyle(this.path, 'fill', 'none');
+    this.renderer.setAttribute(this.path, 'fill', 'none');
   }
 }

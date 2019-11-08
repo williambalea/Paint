@@ -10,4 +10,6 @@ export class ViewChildService {
   downloadImage: ElementRef;
   downloadLink: ElementRef;
   htmlCanvas: ElementRef;
+  eraserCountour: ElementRef;
+  includingBox: ElementRef;
 }

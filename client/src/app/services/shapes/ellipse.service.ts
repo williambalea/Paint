@@ -118,6 +118,7 @@ export class EllipseService implements Shape {
   draw(): void {
     this.setAttribute();
     this.setStyle();
+    this.setEllipseBorderType();
   }
 
   setStyle(): void {

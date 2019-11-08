@@ -97,6 +97,7 @@ export class PolygonService implements Shape {
   draw(): void {
     this.setAttributesPolygon();
     this.setStylePolygon();
+    this.setPolygonType();
     this.initialPoint = { x: NB.Zero, y: -(NB.One) };
   }
 

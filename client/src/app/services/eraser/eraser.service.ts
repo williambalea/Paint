@@ -19,7 +19,6 @@ export class EraserService {
   divider: number;
   canvas: ElementRef;
   preview: SVGGraphicsElement[];
-  redContourGroupe: SVGGraphicsElement;
   mouseMove: boolean;
 
   constructor(private viewChildService: ViewChildService,
@@ -40,8 +39,6 @@ export class EraserService {
   initializeViewChildren(): void {
     this.drawingBoard = this.viewChildService.drawingBoard;
     this.canvas = this.viewChildService.canvas;
-    this.redContourGroupe = this.renderer.createElement('g', 'svg');
-    this.renderer.appendChild(this.drawingBoard.nativeElement, this.redContourGroupe);
   }
 
   createEraser(x: number, y: number): void {
@@ -65,13 +62,14 @@ export class EraserService {
     this.renderer.setAttribute(cursor, 'x', (this.inputService.getMouse().x - (this.size) / this.divider).toString());
     this.renderer.setAttribute(cursor, 'y', (this.inputService.getMouse().y - (this.size) / this.divider).toString());
     this.intersect();
+
   }
 
   addToPreview(shape: SVGGraphicsElement): void {
     if (!this.preview.includes(shape)) {
       const redContour = this.setAttributePreview(shape);
       this.preview.push(redContour);
-      this.renderer.appendChild(this.redContourGroupe, redContour);
+      this.renderer.appendChild(this.viewChildService.eraserCountour.nativeElement, redContour);
     }
   }
 
@@ -103,11 +101,11 @@ export class EraserService {
 
   clear(): void {
     for ( const i of this.preview) {
-      this.renderer.removeChild(this.redContourGroupe, i);
+      this.renderer.removeChild(this.viewChildService.eraserCountour, i);
     }
   }
   clearOnce(): void {
-      this.renderer.removeChild(this.redContourGroupe, this.preview[0]);
+      this.renderer.removeChild(this.viewChildService.eraserCountour, this.preview[0]);
   }
 
   validateErase(child: SVGGraphicsElement): void {

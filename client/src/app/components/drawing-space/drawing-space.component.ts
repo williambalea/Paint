@@ -35,6 +35,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('downloadImage', { static: false }) downloadImage: ElementRef;
   @ViewChild('downloadLink', { static: false }) downloadLink: ElementRef;
   @ViewChild('defs', {static: false}) defs: ElementRef;
+  @ViewChild('eraserCountour', {static: false}) eraserCountour: ElementRef;
 
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
@@ -85,6 +86,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewChildService.downloadImage = this.downloadImage;
     this.viewChildService.downloadLink = this.downloadLink;
     this.viewChildService.defs = this.defs;
+    this.viewChildService.eraserCountour = this.eraserCountour;
   }
 
   ngAfterViewInit(): void {

@@ -1,10 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material';
+import { provideAutoMock } from 'src/test.helpers.spec';
 import { ViewChildService } from '../services/view-child.service';
 import { ExportService } from './../services/export.service';
 import { ExportModalComponent } from './export-modal.component';
-import { provideAutoMock } from 'src/test.helpers.spec';
 
 describe('ExportModalComponent', () => {
   let component: ExportModalComponent;
@@ -55,18 +55,16 @@ describe('ExportModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should download image if not svg selected', () => {
-  //   const spy = spyOn(exportService, 'download');
-  //   component.selectedFormat = 'jpeg';
-  //   component.click();
-  //   expect(spy).toHaveBeenCalled();
-  // });
+  it('should download image if not svg selected', () => {
+    component.selectedFormat = 'jpeg';
+    component.click();
+    expect(exportService.download).toHaveBeenCalled();
+  });
 
-  // it('should not download image if svg selected', () => {
-  //   const spy = spyOn(exportService, 'download');
-  //   component.selectedFormat = 'svg';
-  //   component.click();
-  //   expect(spy).not.toHaveBeenCalled();
-  // });
+  it('should not download image if svg selected', () => {
+    component.selectedFormat = 'svg';
+    component.click();
+    expect(exportService.download).not.toHaveBeenCalled();
+  });
 
 });

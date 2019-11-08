@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_STRING, NB, STRINGS } from 'src/constants';
 import { ColorService } from '../services/color/color.service';
 import { ExportService } from '../services/export.service';
@@ -15,7 +15,7 @@ import { CanvasToBMP } from './canvasToBMP';
   styleUrls: ['./export-modal.component.scss'],
 })
 export class ExportModalComponent implements OnInit, OnDestroy {
-  ines: any;
+  bmpURL: SafeResourceUrl;
   formats: string[];
   selectedFormat: string;
   name: string;
@@ -58,31 +58,15 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.renderer.appendChild(svg, this.viewChildService.defs.nativeElement);
     const blob = new Blob([svg.outerHTML], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-
-
     this.convertSvgToCanvas();
-    const canvasToBMP: CanvasToBMP = new CanvasToBMP();
-    const blobUrl = canvasToBMP.toDataURL(this.viewChildService.htmlCanvas.nativeElement);
-    this.fileUrl2 = blobUrl;
-    console.log(this.fileUrl2);
   }
 
-  alloo(): void {
-    const allo = this.screenshotService.screenshotBase64(this.viewChildService.drawingBoard.nativeElement);
-
-    let will = this.viewChildService.htmlCanvas.nativeElement as HTMLCanvasElement;
-
-    let canvasToBMP: CanvasToBMP = new CanvasToBMP();
-
-    const newBlob = new Blob([canvasToBMP.toArrayBuffer(will)], {type: 'image/bmp'});
-
-    // const reader = new FileReader();
-    // reader.onloadend = (() => {
-    //   console.log(reader.result as string);
-    // });
-    // reader.readAsDataURL(newBlob);
-
-    this.ines = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(newBlob));
+  createBMPLink(): void {
+    this.screenshotService.screenshotBase64(this.viewChildService.drawingBoard.nativeElement);
+    const canvas = this.viewChildService.htmlCanvas.nativeElement as HTMLCanvasElement;
+    const canvasToBMP: CanvasToBMP = new CanvasToBMP();
+    const newBlob = new Blob([canvasToBMP.toArrayBuffer(canvas)], {type: 'image/bmp'});
+    this.bmpURL = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(newBlob));
   }
 
   convertSvgToCanvas() {

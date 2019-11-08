@@ -45,14 +45,18 @@ export class UndoRedoService {
     const changeFill: UndoRedoAction = {
       action: ACTIONS.changeColor,
       shape: lastAction.shape,
-      oldColor: lastAction.shape.getAttribute('fill') as string,
+      oldColor: lastAction.shape.tagName === 'path' || lastAction.shape.tagName === 'g' ? lastAction.shape.getAttribute('stroke') as string : lastAction.shape.getAttribute('fill') as string,
+
     };
-    this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
+    console.log('will', lastAction.oldColor);
+    (lastAction.shape.tagName === 'path' || lastAction.shape.tagName === 'g') ? this.renderer.setAttribute(lastAction.shape, 'stroke', lastAction.oldColor as string) : this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
     this.poppedActions.push(changeFill);
   }
 
   undo(): void {
     const lastAction: UndoRedoAction =  this.actions.pop() as UndoRedoAction;
+    console.log('action', this.actions);
+    console.log('popped', this.poppedActions);
     switch (lastAction.action) {
       case ACTIONS.append :
         this.appendOnUndo(lastAction);
@@ -89,14 +93,17 @@ export class UndoRedoService {
     const changeFill: UndoRedoAction = {
       action: ACTIONS.changeColor,
       shape: lastAction.shape,
-      oldColor: lastAction.shape.getAttribute('fill') as string,
+      oldColor: (lastAction.shape.tagName === 'path' || lastAction.shape.tagName === 'g') ? lastAction.shape.getAttribute('stroke') as string : lastAction.shape.getAttribute('fill') as string,
     };
-    this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
+    console.log(lastAction.shape.tagName);
+    (lastAction.shape.tagName === 'path' || lastAction.shape.tagName === 'g') ? this.renderer.setAttribute(lastAction.shape, 'stroke', lastAction.oldColor as string) : this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
     this.actions.push(changeFill);
   }
 
   redo() {
     const lastAction: UndoRedoAction =  this.poppedActions.pop() as UndoRedoAction;
+    console.log('action', this.actions);
+    console.log('popped', this.poppedActions);
     switch (lastAction.action) {
       case ACTIONS.append :
         this.appendOnRedo(lastAction);

@@ -45,7 +45,7 @@ export class PencilService implements Shape {
   }
 
   setStylePath(): void {
-    this.renderer.setStyle(this.path, 'stroke', this.stroke.toString());
+    this.renderer.setAttribute(this.path, 'stroke', this.stroke.toString());
     this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
     this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
     this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());

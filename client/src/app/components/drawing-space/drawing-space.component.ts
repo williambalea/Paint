@@ -188,10 +188,16 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onLeftClick(event: Event): void {
     this.undoRedoService.poppedActions = [];
     if (this.notCanvasAndColorApplicator(event)) {
+      let shape = event.target as SVGGraphicsElement;
+      if (shape.id === 'pen') {
+        shape = shape.parentElement as unknown as SVGGraphicsElement;
+      }
+      console.log('amena', shape.getAttribute('stroke'));
+      const oldColor = (shape.tagName === 'path' || shape.tagName === 'g') ? shape.getAttribute('stroke') as string : shape.getAttribute('fill') as string;
       const changeFill: UndoRedoAction = {
         action: ACTIONS.changeColor,
-        shape: (event.target as SVGGraphicsElement),
-        oldColor: (event.target as SVGGraphicsElement).getAttribute('fill') as string,
+        shape,
+        oldColor,
       };
       this.changeFillColor(event.target as HTMLElement);
       this.undoRedoService.addAction(changeFill);
@@ -205,7 +211,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.notCanvasAndColorApplicator(event)) {
       const targetTag: string = (event.target as HTMLElement).tagName;
       if (this.isComplexShape(targetTag)) {
-        this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());
+        this.renderer.setAttribute(event.target, 'stroke', this.colorService.getStrokeColor());
       }
     }
   }
@@ -216,13 +222,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.renderer.setAttribute(target, 'fill', this.colorService.getFillColor());
     } else if (targetTag === 'path') {
       if ((target as HTMLElement).id === 'pen') {
-        const penElements = ((target as HTMLElement).parentNode as HTMLElement).children;
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < penElements.length; i++) {
-          this.renderer.setStyle(penElements.item(i), 'stroke', this.colorService.getFillColor());
-        }
+        const penElements = ((target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
+        this.renderer.setAttribute(penElements, 'stroke', this.colorService.getFillColor());
       } else {
-        this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
+        this.renderer.setAttribute(target, 'stroke', this.colorService.getFillColor());
       }
     }
   }

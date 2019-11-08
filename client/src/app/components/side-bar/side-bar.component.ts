@@ -42,6 +42,7 @@ import { EllipseService } from './../../services/shapes/ellipse.service';
     EraserService,
     ClipboardService,
     LineService,
+    PenService,
   ],
 
 })

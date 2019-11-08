@@ -169,8 +169,6 @@ describe('PenService', () => {
     expect(service.strokeWidth).toEqual(10);
   });
 
-  // LES TESTS QUI NE MARCHENT PAS
-  // nativeElement of undefined
   it('should create pen group', () => {
     service.canvas = new ElementRef(document.createElement('div'));
     const spyOnPenWrapper = spyOn(renderer, 'createElement').and.callThrough();

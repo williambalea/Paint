@@ -1,5 +1,5 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-import {Renderer2, RendererFactory2 } from '@angular/core';
+import {Renderer2, RendererFactory2, ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
@@ -162,19 +162,21 @@ describe('PenService', () => {
     expect(spyOnsetAttribute).toHaveBeenCalledTimes(2);
   });
 
-  // it('should not validate stroke width max', () => {
-  //   service.strokeWidth = 1;
-  //   service.maxStrokeWidth = 2;
-  //   service.validateStrokeWidthMin();
-  //   expect(service.strokeWidth).toEqual(10);
-  // });
+  it('should not validate stroke width max', () => {
+    service.strokeWidth = 1;
+    service.maxStrokeWidth = 2;
+    service.validateStrokeWidthMin();
+    expect(service.strokeWidth).toEqual(10);
+  });
 
   // LES TESTS QUI NE MARCHENT PAS
   // nativeElement of undefined
-  // it('should create pen group', () => {
-  //   const spyOnPenWrapper = spyOn(renderer, 'createElement');
-  //   service.createPenGroup();
-  //   expect(spyOnPenWrapper).toHaveBeenCalled();
-  // });
+  it('should create pen group', () => {
+    service.canvas = new ElementRef(document.createElement('div'));
+    const spyOnPenWrapper = spyOn(renderer, 'createElement').and.callThrough();
+    service.createPenGroup();
+    expect(spyOnPenWrapper).toHaveBeenCalled();
+    clearInterval((service as any).interval);
+  });
 
 });

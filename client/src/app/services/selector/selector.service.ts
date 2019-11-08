@@ -14,6 +14,7 @@ export class SelectorService implements Shape {
   active: boolean;
   selectedShapes: SVGGraphicsElement[];
   selectorIsSingle: boolean;
+  memory: SVGGraphicsElement;
 
   constructor(private rectangleService: RectangleService,
               private renderer: Renderer2,
@@ -22,6 +23,7 @@ export class SelectorService implements Shape {
     this.active = false;
     this.selectedShapes = [];
     this.selectorIsSingle = true;
+    this.memory = this.renderer.createElement('rect', 'svg');
   }
 
   onMouseDown(): any {
@@ -100,6 +102,9 @@ export class SelectorService implements Shape {
   }
 
   validateIntersection(child: SVGGraphicsElement): void {
+    if (child === this.memory) {
+      return;
+    }
     if (this.inputService.mouseButton === NB.Two) {
       const index = this.selectedShapes.indexOf(child);
       if (index !== -NB.One) {
@@ -109,6 +114,7 @@ export class SelectorService implements Shape {
         console.log('allo2');
         this.selectedShapes.push(child);
       }
+      this.memory = child;
     }
     if (!this.selectedShapes.includes(child) && this.inputService.mouseButton === NB.Zero) {
       this.selectedShapes.push(child);

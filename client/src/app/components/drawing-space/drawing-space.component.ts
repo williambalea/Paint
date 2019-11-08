@@ -420,6 +420,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (event.key === KEY.x && this.selectorService.selectedShapes.length > 0) {
       if (this.inputService.controlPressed) {
         this.clipboardService.controlX();
+        this.includingBoxService.update();
       }
     }
     if (event.key === KEY.a) {
@@ -427,10 +428,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         event.preventDefault();
         this.eventEmitterService.assignSelectedTool();
         this.clipboardService.controlA();
+        this.includingBoxService.update();
       }
     }
     if (event.key === KEY.delete) {
       this.clipboardService.delete();
+      this.includingBoxService.update();
     }
     if (event.key === KEY.d) {
       if (this.inputService.controlPressed) {

@@ -84,7 +84,6 @@ export class ClipboardService {
       }
     }
     this.selectorService.selectedShapes = [];
-    this.includingBoxService.update();
   }
 
   controlA(): void {
@@ -93,14 +92,12 @@ export class ClipboardService {
     const array = Array.from(this.selectedItems);
     this.selectedItems = array;
     this.selectorService.selectedShapes = array;
-    this.includingBoxService.update();
 
     this.cloningPosition = {
       x: this.includingBoxService.boxUpperLeft.x - 1,
       y: this.includingBoxService.boxUpperLeft.y - 1 ,
     };
     this.newSelection = true;
-    this.includingBoxService.update();
   }
 
   duplicate(shapes: SVGGraphicsElement[]): void {
@@ -142,14 +139,13 @@ export class ClipboardService {
       this.undoRedoService.addAction(undoRedoAction);
     }
     this.inputService.incrementMultiplier++;
-    this.includingBoxService.update();
   }
 
   controlV(): void {
     this.undoRedoService.poppedActions = [];
     this.duplicate(this.selectedItems);
-    this.includingBoxService.update();
   }
+
   controlD(): void {
     this.undoRedoService.poppedActions = [];
     this.duplicate(this.selectorService.selectedShapes);

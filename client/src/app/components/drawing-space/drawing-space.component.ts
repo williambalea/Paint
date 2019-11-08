@@ -36,6 +36,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('downloadLink', { static: false }) downloadLink: ElementRef;
   @ViewChild('defs', {static: false}) defs: ElementRef;
   @ViewChild('eraserCountour', {static: false}) eraserCountour: ElementRef;
+  @ViewChild('includingBox', {static: false}) includingBox: ElementRef;
 
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
@@ -87,6 +88,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewChildService.downloadLink = this.downloadLink;
     this.viewChildService.defs = this.defs;
     this.viewChildService.eraserCountour = this.eraserCountour;
+    this.viewChildService.includingBox = this.includingBox;
   }
 
   ngAfterViewInit(): void {
@@ -188,10 +190,16 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onLeftClick(event: Event): void {
     this.undoRedoService.poppedActions = [];
     if (this.notCanvasAndColorApplicator(event)) {
+      let shape = event.target as SVGGraphicsElement;
+      if (shape.id === 'pen') {
+        shape = shape.parentElement as unknown as SVGGraphicsElement;
+      }
+      console.log('amena', shape.getAttribute('stroke'));
+      const oldColor = (shape.tagName === 'path' || shape.tagName === 'g') ? shape.getAttribute('stroke') as string : shape.getAttribute('fill') as string;
       const changeFill: UndoRedoAction = {
         action: ACTIONS.changeColor,
-        shape: (event.target as SVGGraphicsElement),
-        oldColor: (event.target as SVGGraphicsElement).getAttribute('fill') as string,
+        shape,
+        oldColor,
       };
       this.changeFillColor(event.target as HTMLElement);
       this.undoRedoService.addAction(changeFill);
@@ -205,7 +213,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.notCanvasAndColorApplicator(event)) {
       const targetTag: string = (event.target as HTMLElement).tagName;
       if (this.isComplexShape(targetTag)) {
-        this.renderer.setStyle(event.target, 'stroke', this.colorService.getStrokeColor());
+        this.renderer.setAttribute(event.target, 'stroke', this.colorService.getStrokeColor());
       }
     }
   }
@@ -216,13 +224,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.renderer.setAttribute(target, 'fill', this.colorService.getFillColor());
     } else if (targetTag === 'path') {
       if ((target as HTMLElement).id === 'pen') {
-        const penElements = ((target as HTMLElement).parentNode as HTMLElement).children;
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < penElements.length; i++) {
-          this.renderer.setStyle(penElements.item(i), 'stroke', this.colorService.getFillColor());
-        }
+        const penElements = ((target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
+        this.renderer.setAttribute(penElements, 'stroke', this.colorService.getFillColor());
       } else {
-        this.renderer.setStyle(target, 'stroke', this.colorService.getFillColor());
+        this.renderer.setAttribute(target, 'stroke', this.colorService.getFillColor());
       }
     }
   }
@@ -263,6 +268,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
           } else if ((event.target as HTMLElement).tagName === 'tspan') {
             this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
+          } else if ((event.target as HTMLElement) === this.drawingBoard.nativeElement) {
+            this.selectorService.selectedShapes = [];
           } else {
             this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
           }
@@ -337,7 +344,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.undoRedoService.undoIsStarted) {
         this.undoRedoService.poppedActions = [];
       }
-      if (this.selectedTool !== TOOL.line) {
+      if (this.selectedTool !== TOOL.line && this.selectedTool !== TOOL.selector) {
         const shapeIsNotNull: boolean = this.shape.getBBox().width !== 0;
         shapeIsNotNull ? this.undoRedoService.addAction(undoRedoAction) : this.renderer.removeChild(this.canvas, this.shape);
       }
@@ -390,11 +397,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.escape) {
       this.inputService.escapePressed = true;
-      if (!this.shape) {
-        return;
+      if (this.selectedTool === TOOL.line) {
+        if (!this.shape) {
+          return;
+        }
+        this.renderer.removeChild(this.canvas.nativeElement, this.shape, true);
+        (this.shape as any) = undefined;
       }
-      this.renderer.removeChild(this.canvas.nativeElement, this.shape, true);
-      (this.shape as any) = undefined;
     }
     if (event.key === KEY.backspace) {
       this.inputService.backSpacePressed = true;

@@ -84,7 +84,7 @@ export class ClipboardService {
       }
     }
     this.selectorService.selectedShapes = [];
-    this.includingBoxService.clear();
+    this.includingBoxService.update();
   }
 
   controlA(): void {
@@ -162,6 +162,6 @@ export class ClipboardService {
       }
     }
     this.selectorService.selectedShapes = [];
-    this.includingBoxService.clear();
+    this.includingBoxService.update();
   }
 }

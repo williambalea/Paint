@@ -11,13 +11,13 @@
 
             <polygon *ngIf="!this.polygonService.strokeEnable && this.polygonService.fillEnable"
                 id="rectangleNoStroke"
-                points="130,20 170,40 170,80 130,100 90,80 90,40"
+                points="145,20 185,40 185,80 145,100 105,80 105,40"
                 [style.fill]="this.colorService.getFillColor()"
                 [style.stroke-width]="this.polygonService.strokeWidth" />
 
             <polygon *ngIf="this.polygonService.strokeEnable && !this.polygonService.fillEnable"
                 id="rectangleNoFill"
-                points="130,20 170,40 170,80 130,100 90,80 90,40"
+                points="145,20 185,40 185,80 145,100 105,80 105,40"
                 [style.stroke]="this.colorService.getStrokeColor()"
                 [style.stroke-width]="this.polygonService.strokeWidth" />
         </svg>

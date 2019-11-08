@@ -16,9 +16,9 @@ export class SelectorService implements Shape {
   selectorIsSingle: boolean;
 
   constructor(private rectangleService: RectangleService,
-              private renderer: Renderer2,
-              private viewChildService: ViewChildService,
-              private inputService: InputService) {
+    private renderer: Renderer2,
+    private viewChildService: ViewChildService,
+    private inputService: InputService) {
     this.active = false;
     this.selectedShapes = [];
     this.selectorIsSingle = true;
@@ -26,12 +26,12 @@ export class SelectorService implements Shape {
 
   onMouseDown(): any {
     this.validateSelectorIsSingle();
-    this.renderer.setStyle(this.rectangle, 'fill', 'none');
-    this.renderer.setStyle(this.rectangle, 'stroke-dasharray', '3');
-    this.renderer.setStyle(this.rectangle, 'stroke', 'navy');
+    this.renderer.setAttribute(this.rectangle, 'fill', 'none');
+    this.renderer.setAttribute(this.rectangle, 'stroke-dasharray', '3');
+    this.renderer.setAttribute(this.rectangle, 'stroke', 'navy');
     this.validateMouseButton();
-    this.renderer.setStyle(this.rectangle, 'stroke-width', '1');
-    this.renderer.setStyle(this.rectangle, 'stroke-opacity', '1');
+    this.renderer.setAttribute(this.rectangle, 'stroke-width', '1');
+    this.renderer.setAttribute(this.rectangle, 'stroke-opacity', '1');
     return this.rectangle;
   }
 
@@ -43,7 +43,7 @@ export class SelectorService implements Shape {
   }
   validateMouseButton(): void {
     if (this.inputService.mouseButton === 2) {
-      this.renderer.setStyle(this.rectangle, 'stroke', 'red');
+      this.renderer.setAttribute(this.rectangle, 'stroke', 'red');
     }
   }
 
@@ -132,20 +132,17 @@ export class SelectorService implements Shape {
 
   setCurrentShape(value: SVGGraphicsElement): any {
     switch (value.tagName) {
-      case 'rect':
-        return this.returnRect(value);
       case 'ellipse':
         return this.returnEllipse(value);
       case 'path':
         return this.returnPath(value);
+      case 'rect':
       case 'polygon':
-        return this.returnRect(value);
       case 'image':
-        return this.returnRect(value);
       case 'text':
-        return this.returnRect(value);
       case 'g':
         return this.returnRect(value);
+      default:
     }
   }
 }

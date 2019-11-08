@@ -1,19 +1,22 @@
-import { ElementRef, Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { ACTIONS } from 'src/constants';
 import { InputService } from './input.service';
 import { UndoRedoAction } from './undoRedoAction';
+import { ViewChildService } from './view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UndoRedoService {
-
+  renderer: Renderer2;
   actions: UndoRedoAction[];
   poppedActions: UndoRedoAction[];
-  canvas: ElementRef;
   color: string;
   undoIsStarted: boolean;
-  constructor(private renderer: Renderer2, private inputService: InputService) {
+  constructor(private rendererFactory: RendererFactory2,
+              private inputService: InputService,
+              private viewChildService: ViewChildService) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.actions = [];
     this.poppedActions = [];
     this.undoIsStarted = false;
@@ -25,7 +28,7 @@ export class UndoRedoService {
   }
 
   appendOnUndo( lastAction: UndoRedoAction): void {
-    this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
+    this.renderer.removeChild(this.viewChildService.canvas.nativeElement, lastAction.shape);
     this.poppedActions.push(lastAction);
     this.validateIncrement(lastAction);
   }
@@ -37,7 +40,7 @@ export class UndoRedoService {
   }
 
   removeOnUndo(lastAction: UndoRedoAction): void {
-    this.renderer.appendChild(this.canvas.nativeElement, lastAction.shape);
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, lastAction.shape);
     this.poppedActions.push(lastAction);
   }
 
@@ -73,7 +76,7 @@ export class UndoRedoService {
   }
 
   appendOnRedo(lastAction: UndoRedoAction): void {
-    this.renderer.appendChild(this.canvas.nativeElement, lastAction.shape);
+    this.renderer.appendChild(this.viewChildService.canvas.nativeElement, lastAction.shape);
     this.actions.push(lastAction);
     this.validaincrementMultiplier(lastAction);
   }
@@ -85,7 +88,7 @@ export class UndoRedoService {
   }
 
   removeOnRedo(lastAction: UndoRedoAction): void {
-    this.renderer.removeChild(this.canvas.nativeElement, lastAction.shape);
+    this.renderer.removeChild(this.viewChildService.canvas.nativeElement, lastAction.shape);
     this.actions.push(lastAction);
   }
 

@@ -171,11 +171,15 @@ export class ClipboardService {
     this.duplicate(this.selectorService.selectedShapes);
   }
 
+  validateRemoveChild(item: SVGGraphicsElement): void {
+    if (item.id !== 'canvas' && item.id !== 'svg') {
+      this.renderer.removeChild(this.viewChildService.canvas.nativeElement, item);
+    }
+  }
+
   delete(): void {
     for (const item of this.selectorService.selectedShapes) {
-      if (item.id !== 'canvas' && item.id !== 'svg') {
-        this.renderer.removeChild(this.viewChildService.canvas.nativeElement, item);
-      }
+      this.validateRemoveChild(item);
     }
     this.selectorService.selectedShapes = [];
   }

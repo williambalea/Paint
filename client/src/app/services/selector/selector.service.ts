@@ -16,9 +16,9 @@ export class SelectorService implements Shape {
   selectorIsSingle: boolean;
 
   constructor(private rectangleService: RectangleService,
-    private renderer: Renderer2,
-    private viewChildService: ViewChildService,
-    private inputService: InputService) {
+              private renderer: Renderer2,
+              private viewChildService: ViewChildService,
+              private inputService: InputService) {
     this.active = false;
     this.selectedShapes = [];
     this.selectorIsSingle = true;

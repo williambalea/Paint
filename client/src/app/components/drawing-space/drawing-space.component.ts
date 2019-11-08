@@ -50,6 +50,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   g: SVGGraphicsElement;
   interval; // TODO: type? -WB
   shape: SVGSVGElement;
+  fileUrl: string;
 
   constructor(private fileParameters: FileParametersServiceService,
               public colorService: ColorService,
@@ -87,6 +88,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewChildService.downloadImage = this.downloadImage;
     this.viewChildService.downloadLink = this.downloadLink;
     this.viewChildService.defs = this.defs;
+    this.viewChildService.htmlCanvas = this.htmlCanvas;
     this.viewChildService.eraserCountour = this.eraserCountour;
     this.viewChildService.includingBox = this.includingBox;
   }
@@ -275,6 +277,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           const index = this.selectorService.selectedShapes.indexOf(event.target as SVGGraphicsElement);
           if (index !== -NB.One) {
             this.selectorService.selectedShapes.splice(index, NB.One);
+          } else {
+            this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
           }
         }
         this.includingBoxService.update();

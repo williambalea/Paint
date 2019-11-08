@@ -277,6 +277,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
           const index = this.selectorService.selectedShapes.indexOf(event.target as SVGGraphicsElement);
           if (index !== -NB.One) {
             this.selectorService.selectedShapes.splice(index, NB.One);
+          } else {
+            this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
           }
         }
         this.includingBoxService.update();

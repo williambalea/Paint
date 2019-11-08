@@ -87,13 +87,8 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     } else if (this.selectedFormat === 'bmp') {
       this.convertSvgToCanvas();
       const canvasToBMP: CanvasToBMP = new CanvasToBMP();
-      console.log(canvasToBMP.toDataURL(this.viewChildService.htmlCanvas.nativeElement));
       const blobUrl = canvasToBMP.toDataURL(this.viewChildService.htmlCanvas.nativeElement);
       this.fileUrl2 = blobUrl;
-      console.log(this.fileUrl2);
-      // this.downloadLink.nativeElement.href = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
-      // this.downloadLink.nativeElement.download = 'file.' + 'bmp';
-      // this.downloadLink.nativeElement.click();
     }
   }
 

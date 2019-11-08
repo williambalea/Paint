@@ -1,5 +1,7 @@
 import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { EMPTY_STRING } from 'src/constants';
+import { FileParametersServiceService } from '../file-parameters-service.service';
 import { IncludingBoxService } from '../includingBox/including-box.service';
 import { InputService } from '../input.service';
 import { SelectorService } from '../selector/selector.service';
@@ -32,6 +34,7 @@ describe('ClipboardService', () => {
   let rendererFactory: RendererFactory2;
   let inputService: InputService;
   let viewChildService: ViewChildService;
+  let fileParameterService: FileParametersServiceService;
 
   const mockShape: any = {id: 'shape'};
   const mockShapeArray: any[] = [];
@@ -54,6 +57,7 @@ describe('ClipboardService', () => {
     viewChildService = TestBed.get(ViewChildService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
+    fileParameterService = TestBed.get(FileParametersServiceService);
     });
 
   it('should be created', () => {
@@ -67,8 +71,6 @@ describe('ClipboardService', () => {
 
   it('should not find a selection if no object is targeted', () => {
     selectorService.selectedShapes = [];
-    console.log(selectorService.selectedShapes);
-    console.log(service.dismissCanvas());
     expect(service.findSelected()).not.toBeTruthy();
   });
 
@@ -89,6 +91,71 @@ describe('ClipboardService', () => {
     expect(service.selectedItems.length).toEqual(0);
   });
 
+  it('should clone the node when generating a shape', () => {
+    const shapeCopy = 'value' as unknown as SVGGraphicsElement;
+    const cloneNodeSpy = spyOn(shapeCopy, 'cloneNode').and.callThrough();
+    service.generateShapes(service.selectedItems);
+    expect(cloneNodeSpy).toHaveBeenCalled();
+  });
+
+  it('should return an action object with the proper attributes', () => {
+    const shapeCopy = 'value' as unknown as SVGGraphicsElement;
+    const returnAction = service.defineAction(shapeCopy);
+    expect(returnAction).toBeDefined();
+  });
+
+  it('should not return an empty string as transformValue', () => {
+    const shapeCopy = 'value' as unknown as SVGGraphicsElement;
+    const oldTransform = service.validateOldTransform(shapeCopy);
+    expect(oldTransform).toBeDefined();
+  });
+
+  it('should return an empty string as transformValue', () => {
+    const shapeCopy = 'value' as unknown as SVGGraphicsElement;
+    const oldTransform = service.validateOldTransform(shapeCopy);
+    expect(oldTransform).toEqual(EMPTY_STRING);
+  });
+
+  it('should not enter conditionnal statement nor modify values', () => {
+    inputService.incrementMultiplier = 1;
+    service.validateOverflow(1, 1, 2, 2);
+    expect(inputService.incrementMultiplier).toEqual(1);
+  });
+
+  it('should enter conditionnal statement and modify values', () => {
+    inputService.incrementMultiplier = 1;
+    service.validateOverflow(1000, 1000, 2, 2);
+    console.log(fileParameterService.canvasHeight.getValue());
+    expect(inputService.incrementMultiplier).toEqual(0);
+  });
+
+  it('should assign values to overflows', () => {
+    viewChildService.canvas = new ElementRef(document.createElement('svg'));
+    const getBoundingClientRectSpy = spyOn(viewChildService.canvas.nativeElement.lastChild, 'getBoundingClientRect').and.callThrough();
+    const svg = renderer.createElement('svg');
+    renderer.appendChild(viewChildService.canvas, svg);
+    console.log(viewChildService.canvas);
+
+    service.validateLastChild(1, 1);
+    expect(getBoundingClientRectSpy).toHaveBeenCalled();
+  });
+
+  it('should assign validate to false after new selection', () => {
+    service.newSelection = true;
+    inputService.incrementMultiplier = 5;
+    service.validateNewSelection();
+    expect(service.newSelection).toEqual(false);
+    expect(inputService.incrementMultiplier).toEqual(1);
+  });
+
+  it('should not assign validate to false after new selection', () => {
+    service.newSelection = false;
+    inputService.incrementMultiplier = 10;
+    service.validateNewSelection();
+    expect(service.newSelection).toEqual(false);
+    expect(inputService.incrementMultiplier).toEqual(10);
+
+  });
   it('should have called controlA() thoroughly', () => {
     const svg = renderer.createElement('svg');
     includingBoxService.boxUpperLeft.x = 2;
@@ -98,17 +165,16 @@ describe('ClipboardService', () => {
     expect(service.newSelection).toBeTruthy();
     expect(service.cloningPosition.x).toEqual(1);
     expect(service.cloningPosition.x).toEqual(1);
-
   });
 
   it('should have called controlX() thoroughly', () => {
     const svg = renderer.createElement('notsvg');
     service.selectedItems.push(svg);
     viewChildService.canvas = new ElementRef(svg);
-    const removeChildMock = spyOn(renderer, 'removeChild');
-    const controlCSpy = spyOn(service, 'controlC');
+    const removeChildMock = spyOn(renderer, 'removeChild').and.callThrough();
+    const controlCSpy = spyOn(service, 'controlC').and.callThrough();
 
-    service.controlX();
+    service.controlC();
     expect(removeChildMock).toHaveBeenCalled();
     expect(controlCSpy).toHaveBeenCalled();
   });
@@ -117,7 +183,7 @@ describe('ClipboardService', () => {
     const svg = renderer.createElement('svg');
     svg.setAttribute('id', 'notsvg');
     console.log(svg);
-    const removeChildSpy = spyOn(renderer, 'removeChild');
+    const removeChildSpy = spyOn(renderer, 'removeChild').and.callThrough();
     viewChildService.canvas = new ElementRef(svg);
     selectorService.selectedShapes.push(svg);
     service.delete();
@@ -125,8 +191,18 @@ describe('ClipboardService', () => {
     expect(selectorService.selectedShapes.length).toEqual(0);
   });
 
+  it('should return an empty selector array on delete()', () => {
+    const svgChild = renderer.createElement('svg');
+    viewChildService.canvas = new ElementRef(document.createElement('svg'));
+    renderer.appendChild(viewChildService.canvas, svgChild);
+    selectorService.selectedShapes.push(svgChild);
+    service.delete();
+    console.log(selectorService.selectedShapes.length);
+    expect(selectorService.selectedShapes.length).toEqual(0);
+  });
+
   it('should have called controlV() thoroughly', () => {
-    const duplicateSpy = spyOn(service, 'duplicate');
+    const duplicateSpy = spyOn(service, 'duplicate').and.callThrough();
     service.controlV();
     expect(duplicateSpy).toHaveBeenCalled();
     expect(undoRedoService.poppedActions.length).toEqual(0);

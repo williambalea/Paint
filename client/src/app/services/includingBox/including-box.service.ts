@@ -1,19 +1,22 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { NB, SVGinnerWidth } from 'src/constants';
 import { Point } from '../../../../../common/interface/point';
 import { SelectorService } from '../selector/selector.service';
+import { ViewChildService } from '../view-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IncludingBoxService {
+  renderer: Renderer2;
   boxUpperLeft: Point;
   width: number;
   height: number;
-  boxGElement: HTMLElement;
 
   constructor(private selectorService: SelectorService,
-              private renderer: Renderer2) {
+              private viewChildService: ViewChildService,
+              private rendererFactory: RendererFactory2) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     this.clear();
   }
 
@@ -21,7 +24,6 @@ export class IncludingBoxService {
     this.boxUpperLeft = { x: NB.Zero, y: NB.Zero };
     this.width = NB.Zero;
     this.height = NB.Zero;
-    this.boxGElement = this.renderer.createElement('g', 'svg');
   }
 
   update(): void {
@@ -85,7 +87,6 @@ export class IncludingBoxService {
   }
 
   draw(): void {
-    this.boxGElement = this.renderer.createElement('g', 'svg');
     this.appendRectangleBox();
     this.appendControlPoints();
   }
@@ -95,7 +96,7 @@ export class IncludingBoxService {
       const rectangle = this.renderer.createElement('rect', 'svg');
       this.setAttributeRectangleBox(rectangle);
       this.setStyleRectangleBox(rectangle);
-      this.renderer.appendChild(this.boxGElement, rectangle);
+      this.renderer.appendChild(this.viewChildService.includingBox.nativeElement, rectangle);
     }
   }
 
@@ -119,7 +120,7 @@ export class IncludingBoxService {
       this.setAttributeControlPoints(point, positions[i]);
       this.renderer.setAttribute(point, 'id', `control${i}`);
       this.setStylePoints(point, positions[i]);
-      this.renderer.appendChild(this.boxGElement, point);
+      this.renderer.appendChild(this.viewChildService.includingBox.nativeElement, point);
     }
   }
 

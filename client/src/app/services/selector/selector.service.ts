@@ -112,7 +112,6 @@ export class SelectorService implements Shape {
   }
 
   intersection(selectorArea: any, canvas: ElementRef): void {
-    console.log('allo', selectorArea, canvas.nativeElement);
     const intersect = svgIntersections.intersect;
     const elementsCount: number = canvas.nativeElement.children.length;
     let currentShape: any;

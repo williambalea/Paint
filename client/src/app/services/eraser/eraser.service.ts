@@ -79,10 +79,7 @@ export class EraserService {
       copy.setAttribute('fill', 'none');
       copy.setAttribute('stroke', 'red');
       copy.setAttribute('stroke-opacity', '1');
-      console.log(shape.getAttribute('stroke-opacity'));
-      console.log(shape.getAttribute('stroke-opacity') === '0');
       if (shape.getAttribute('stroke-opacity') === '0') {
-        console.log('opacité 0');
         copy.setAttribute('stroke-width', '1');
       }
       return copy;

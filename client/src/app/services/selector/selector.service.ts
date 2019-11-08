@@ -103,7 +103,11 @@ export class SelectorService implements Shape {
     if (this.inputService.mouseButton === NB.Two) {
       const index = this.selectedShapes.indexOf(child);
       if (index !== -NB.One) {
+        console.log('allo1');
         this.selectedShapes.splice(index, NB.One);
+      } else if (child.tagName !== 'svg') {
+        console.log('allo2');
+        this.selectedShapes.push(child);
       }
     }
     if (!this.selectedShapes.includes(child) && this.inputService.mouseButton === NB.Zero) {

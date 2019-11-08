@@ -57,6 +57,7 @@ export class SelectorService implements Shape {
     this.selectorIsSingle = true;
     this.rectangleService.onMouseUp();
     this.renderer.removeChild(this.viewChildService.canvas.nativeElement, this.rectangle);
+    this.memory = this.renderer.createElement('rect', 'svg');
   }
 
   returnRect(child: SVGGraphicsElement): any {

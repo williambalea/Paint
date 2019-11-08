@@ -158,6 +158,5 @@ export class ClipboardService {
       }
     }
     this.selectorService.selectedShapes = [];
-    this.includingBoxService.update();
   }
 }

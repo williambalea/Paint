@@ -100,44 +100,64 @@ export class ClipboardService {
     this.newSelection = true;
   }
 
-  duplicate(shapes: SVGGraphicsElement[]): void {
+  validateNewSelection(): void {
     if (this.newSelection) {
       this.newSelection = false;
       this.inputService.incrementMultiplier = NB.One;
     }
-    for (const shape of shapes) {
-      const shapeCopy = shape.cloneNode(true) as SVGGraphicsElement;
-      let newPositionX = this.inputService.incrementMultiplier * 15;
-      let newPositionY = this.inputService.incrementMultiplier * 15;
+  }
 
-      let overflowX;
-      let overflowY;
-      if (!this.viewChildService.canvas.nativeElement.lastChild === null) {
-        overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
-        overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
-      }
+  validateLastChild(overflowX: number, overflowY: number): void {
+    if (!this.viewChildService.canvas.nativeElement.lastChild === null) {
+      overflowX = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().left - 353;
+      overflowY = this.viewChildService.canvas.nativeElement.lastChild.getBoundingClientRect().top;
+    }
+  }
 
-      if (overflowX + 15 > this.fileParameterService.canvasWidth.getValue()
-          || overflowY + 15 > this.fileParameterService.canvasHeight.getValue()) {
-            this.inputService.incrementMultiplier = NB.Zero;
-            newPositionX = this.inputService.incrementMultiplier * 15;
-            newPositionY = this.inputService.incrementMultiplier * 15;
-          }
+  validateOverflow(overflowX: number, overflowY: number, newPositionX: number, newPositionY: number): void {
+    if (overflowX + 15 > this.fileParameterService.canvasWidth.getValue()
+    || overflowY + 15 > this.fileParameterService.canvasHeight.getValue()) {
+      this.inputService.incrementMultiplier = NB.Zero;
+      newPositionX = this.inputService.incrementMultiplier * 15;
+      newPositionY = this.inputService.incrementMultiplier * 15;
+    }
+  }
 
-      let oldTransform = shapeCopy.getAttribute('transform');
-      if (!oldTransform) {
+  validateOldTransform(shapeCopy: SVGGraphicsElement): string | null {
+    let oldTransform = shapeCopy.getAttribute('transform');
+    if (!oldTransform) {
         oldTransform = EMPTY_STRING;
       }
-      shapeCopy.setAttribute('transform', `translate(${newPositionX}, ${newPositionY})` + oldTransform);
+    return oldTransform;
+  }
 
+  defineAction(shapeCopy: SVGGraphicsElement): UndoRedoAction {
+    const undoRedoAction: UndoRedoAction = {
+      action: ACTIONS.append,
+      shape: shapeCopy,
+      increment : this.inputService.incrementMultiplier,
+    };
+    return undoRedoAction;
+  }
+
+  generateShapes(shapes: SVGGraphicsElement[]): void {
+    let overflowX;
+    let overflowY;
+    for (const shape of shapes) {
+      const shapeCopy = shape.cloneNode(true) as SVGGraphicsElement;
+      const newPositionX = this.inputService.incrementMultiplier * 15;
+      const newPositionY = this.inputService.incrementMultiplier * 15;
+      this.validateLastChild(overflowX, overflowY);
+      this.validateOverflow(overflowX, overflowY, newPositionX, newPositionY);
+      shapeCopy.setAttribute('transform', `translate(${newPositionX}, ${newPositionY})` + this.validateOldTransform(shapeCopy));
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, shapeCopy);
-      const undoRedoAction: UndoRedoAction = {
-        action: ACTIONS.append,
-        shape: shapeCopy,
-        increment : this.inputService.incrementMultiplier,
-      };
-      this.undoRedoService.addAction(undoRedoAction);
+      this.undoRedoService.addAction(this.defineAction(shapeCopy));
     }
+  }
+
+  duplicate(shapes: SVGGraphicsElement[]): void {
+    this.validateNewSelection();
+    this.generateShapes(shapes);
     this.inputService.incrementMultiplier++;
   }
 

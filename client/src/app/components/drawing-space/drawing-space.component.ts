@@ -397,11 +397,13 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (event.key === KEY.escape) {
       this.inputService.escapePressed = true;
-      if (!this.shape) {
-        return;
+      if (this.selectedTool === TOOL.line) {
+        if (!this.shape) {
+          return;
+        }
+        this.renderer.removeChild(this.canvas.nativeElement, this.shape, true);
+        (this.shape as any) = undefined;
       }
-      this.renderer.removeChild(this.canvas.nativeElement, this.shape, true);
-      (this.shape as any) = undefined;
     }
     if (event.key === KEY.backspace) {
       this.inputService.backSpacePressed = true;

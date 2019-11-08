@@ -1,4 +1,3 @@
-import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
 import { Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Point } from '../../../../../common/interface/point';

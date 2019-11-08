@@ -26,12 +26,12 @@ export class SelectorService implements Shape {
 
   onMouseDown(): any {
     this.validateSelectorIsSingle();
-    this.renderer.setStyle(this.rectangle, 'fill', 'none');
-    this.renderer.setStyle(this.rectangle, 'stroke-dasharray', '3');
-    this.renderer.setStyle(this.rectangle, 'stroke', 'navy');
+    this.renderer.setAttribute(this.rectangle, 'fill', 'none');
+    this.renderer.setAttribute(this.rectangle, 'stroke-dasharray', '3');
+    this.renderer.setAttribute(this.rectangle, 'stroke', 'navy');
     this.validateMouseButton();
-    this.renderer.setStyle(this.rectangle, 'stroke-width', '1');
-    this.renderer.setStyle(this.rectangle, 'stroke-opacity', '1');
+    this.renderer.setAttribute(this.rectangle, 'stroke-width', '1');
+    this.renderer.setAttribute(this.rectangle, 'stroke-opacity', '1');
     return this.rectangle;
   }
 
@@ -43,7 +43,7 @@ export class SelectorService implements Shape {
   }
   validateMouseButton(): void {
     if (this.inputService.mouseButton === 2) {
-      this.renderer.setStyle(this.rectangle, 'stroke', 'red');
+      this.renderer.setAttribute(this.rectangle, 'stroke', 'red');
     }
   }
 
@@ -112,6 +112,7 @@ export class SelectorService implements Shape {
   }
 
   intersection(selectorArea: any, canvas: ElementRef): void {
+    console.log('allo', selectorArea, canvas.nativeElement);
     const intersect = svgIntersections.intersect;
     const elementsCount: number = canvas.nativeElement.children.length;
     let currentShape: any;

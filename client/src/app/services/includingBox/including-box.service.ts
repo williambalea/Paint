@@ -107,9 +107,9 @@ export class IncludingBoxService {
   }
 
   setStyleRectangleBox(rectangle: SVGGraphicsElement): void {
-    this.renderer.setStyle(rectangle, 'stroke-width', '1');
-    this.renderer.setStyle(rectangle, 'stroke', 'navy');
-    this.renderer.setStyle(rectangle, 'fill', 'none');
+    this.renderer.setAttribute(rectangle, 'stroke-width', '1');
+    this.renderer.setAttribute(rectangle, 'stroke', 'navy');
+    this.renderer.setAttribute(rectangle, 'fill', 'none');
   }
 
   appendControlPoints(): void {
@@ -130,9 +130,9 @@ export class IncludingBoxService {
   }
 
   setStylePoints(point: SVGGraphicsElement, positions: Point): void {
-    this.renderer.setStyle(point, 'fill', 'white');
-    this.renderer.setStyle(point, 'stroke', 'navy');
-    this.renderer.setStyle(point, 'stroke-width', '1');
+    this.renderer.setAttribute(point, 'fill', 'white');
+    this.renderer.setAttribute(point, 'stroke', 'navy');
+    this.renderer.setAttribute(point, 'stroke-width', '1');
   }
 
   setControlPoints(): Point[] {

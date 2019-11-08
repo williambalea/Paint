@@ -85,8 +85,8 @@ export class PenService implements Shape {
 
   setStylePath(): void {
     this.renderer.setAttribute(this.penWrapper2, 'stroke', this.stroke.toString());
-    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
+    this.renderer.setAttribute(this.path, 'stroke-linecap', 'round');
+    this.renderer.setAttribute(this.path, 'stroke-linejoin', 'round');
   }
 
   onMouseMove(): void {
@@ -94,7 +94,7 @@ export class PenService implements Shape {
       this.strokeWidth = (-(this.maxStrokeWidth - this.minStrokeWidth) / 2) * this.mouseSpeed + this.maxStrokeWidth;
       this.validateStrokeWidthMin();
       this.validateStrokeWidthMax();
-      this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
+      this.renderer.setAttribute(this.path, 'stroke-width', this.strokeWidth.toString());
       this.draw();
     }
   }
@@ -120,6 +120,6 @@ export class PenService implements Shape {
   draw(): void {
     this.linepath += `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y} `;
     this.renderer.setAttribute(this.path, 'd', this.linepath);
-    this.renderer.setStyle(this.path, 'fill', 'none');
+    this.renderer.setAttribute(this.path, 'fill', 'none');
   }
 }

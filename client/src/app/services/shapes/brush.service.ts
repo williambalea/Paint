@@ -69,11 +69,11 @@ export class BrushService implements Shape {
 
   draw(): void {
     this.renderer.setAttribute(this.path, 'd', this.linepath);
-    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'stroke-linejoin', 'round');
+    this.renderer.setAttribute(this.path, 'stroke-linecap', 'round');
+    this.renderer.setAttribute(this.path, 'stroke-linejoin', 'round');
     this.renderer.setAttribute(this.path, 'stroke', this.colorService.getFillColor());
-    this.renderer.setStyle(this.path, 'stroke-width', this.brushStrokeWidth.toString());
-    this.renderer.setStyle(this.path, 'fill', 'none');
-    this.renderer.setStyle(this.path, 'filter', this.filter.toString());
+    this.renderer.setAttribute(this.path, 'stroke-width', this.brushStrokeWidth.toString());
+    this.renderer.setAttribute(this.path, 'fill', 'none');
+    this.renderer.setAttribute(this.path, 'filter', this.filter.toString());
   }
 }

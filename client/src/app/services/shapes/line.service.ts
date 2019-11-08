@@ -74,20 +74,20 @@ export class LineService implements Shape {
 
   setStyle(): void {
     this.renderer.setAttribute(this.path, 'stroke', this.stroke.toString());
-    this.renderer.setStyle(this.path, 'stroke-linecap', 'round');
-    this.renderer.setStyle(this.path, 'fill', 'none');
-    this.renderer.setStyle(this.path, 'stroke-width', this.strokeWidth.toString());
-    this.renderer.setStyle(this.path, 'stroke-dasharray', this.dashArrayType);
+    this.renderer.setAttribute(this.path, 'stroke-linecap', 'round');
+    this.renderer.setAttribute(this.path, 'fill', 'none');
+    this.renderer.setAttribute(this.path, 'stroke-width', this.strokeWidth.toString());
+    this.renderer.setAttribute(this.path, 'stroke-dasharray', this.dashArrayType);
     this.validateJunctionStyle();
   }
 
   validateJunctionStyle(): void {
     if (this.junctionStyle === LINECORNER.dot) {
-      this.renderer.setStyle(this.path, 'marker-start', this.junction);
-      this.renderer.setStyle(this.path, 'marker-mid', this.junction);
-      this.renderer.setStyle(this.path, 'marker-end', this.junction);
+      this.renderer.setAttribute(this.path, 'marker-start', this.junction);
+      this.renderer.setAttribute(this.path, 'marker-mid', this.junction);
+      this.renderer.setAttribute(this.path, 'marker-end', this.junction);
       } else {
-      this.renderer.setStyle(this.path, 'stroke-linejoin', this.junctionValue);
+      this.renderer.setAttribute(this.path, 'stroke-linejoin', this.junctionValue);
       }
   }
 

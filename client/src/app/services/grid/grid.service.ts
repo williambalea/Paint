@@ -70,8 +70,8 @@ export class GridService {
       this.renderer.setAttribute(line, 'x2', (i * this.gridSize).toString());
       this.renderer.setAttribute(line, 'y1', NB.Zero.toString());
       this.renderer.setAttribute(line, 'y2', this.height.toString());
-      this.renderer.setStyle(line, 'stroke', 'red');
-      this.renderer.setStyle(line, 'stroke-opacity', this.opacity / NB.OneHundred);
+      this.renderer.setAttribute(line, 'stroke', 'red');
+      this.renderer.setAttribute(line, 'stroke-opacity', (this.opacity / NB.OneHundred).toString());
       this.renderer.appendChild(this.elementG, line);
     }
     for (let i = 0; i < this.height; i++) {
@@ -80,8 +80,8 @@ export class GridService {
       this.renderer.setAttribute(line, 'x2', this.width.toString());
       this.renderer.setAttribute(line, 'y1', (i * this.gridSize).toString());
       this.renderer.setAttribute(line, 'y2', (i * this.gridSize).toString());
-      this.renderer.setStyle(line, 'stroke', 'red');
-      this.renderer.setStyle(line, 'stroke-opacity', this.opacity / NB.OneHundred);
+      this.renderer.setAttribute(line, 'stroke', 'red');
+      this.renderer.setAttribute(line, 'stroke-opacity', (this.opacity / NB.OneHundred).toString());
       this.renderer.appendChild(this.elementG, line);
     }
   }

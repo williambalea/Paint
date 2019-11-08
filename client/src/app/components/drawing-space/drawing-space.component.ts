@@ -268,6 +268,8 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
           } else if ((event.target as HTMLElement).tagName === 'tspan') {
             this.selectorService.selectedShapes.push((event.target as HTMLElement).parentElement as unknown as SVGGraphicsElement);
+          } else if ((event.target as HTMLElement) === this.drawingBoard.nativeElement) {
+            this.selectorService.selectedShapes = [];
           } else {
             this.selectorService.selectedShapes.push(event.target as SVGGraphicsElement);
           }

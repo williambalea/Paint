@@ -115,13 +115,15 @@ export class IncludingBoxService {
   }
 
   appendControlPoints(): void {
-    const positions: Point[] = this.setControlPoints();
-    for (let i = 0; i < NB.Eight; i++) {
-      const point = this.renderer.createElement('circle', 'svg');
-      this.setAttributeControlPoints(point, positions[i]);
-      this.renderer.setAttribute(point, 'id', `control${i}`);
-      this.setStylePoints(point, positions[i]);
-      this.renderer.appendChild(this.viewChildService.includingBox.nativeElement, point);
+    if (this.width > 0 && this.height > 0) {
+      const positions: Point[] = this.setControlPoints();
+      for (let i = 0; i < NB.Eight; i++) {
+        const point = this.renderer.createElement('circle', 'svg');
+        this.setAttributeControlPoints(point, positions[i]);
+        this.renderer.setAttribute(point, 'id', `control${i}`);
+        this.setStylePoints(point, positions[i]);
+        this.renderer.appendChild(this.viewChildService.includingBox.nativeElement, point);
+      }
     }
   }
 

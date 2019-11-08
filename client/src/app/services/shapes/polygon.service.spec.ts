@@ -82,20 +82,20 @@ describe('PolygonService', () => {
     expect(service.stroke).toEqual('strokeColor');
   });
 
-  it('should set polygon type', () => {
-    const removeColorSpy = spyOn(service, 'removeColor').and.callThrough();
-    service.fillEnable = false;
-    service.strokeEnable = false;
-    service.setPolygonType();
-    expect(removeColorSpy).toHaveBeenCalled();
-    expect(removeColorSpy).toHaveBeenCalled();
-  });
+  // it('should set polygon type', () => {
+  //   const removeColorSpy = spyOn(service, 'removeColor').and.callThrough();
+  //   service.fillEnable = false;
+  //   service.strokeEnable = false;
+  //   service.setPolygonType();
+  //   expect(removeColorSpy).toHaveBeenCalled();
+  //   expect(removeColorSpy).toHaveBeenCalled();
+  // });
 
-  it('should remove color', () => {
-    const fill = 'black';
-    const returnValue = service.removeColor(fill);
-    expect(returnValue).toEqual(jasmine.any(String));
-  });
+  // it('should remove color', () => {
+  //   const fill = 'black';
+  //   const returnValue = service.removeColor(fill);
+  //   expect(returnValue).toEqual(jasmine.any(String));
+  // });
 
   it('should assign accordingly to bordered and filled polygon', () => {
     service.assignBorderedAndFilledPolygon();

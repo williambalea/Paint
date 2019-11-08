@@ -10,6 +10,10 @@
         </mat-form-field>
 </form>
 
+<div #allo></div>
+
+<button (click)="this.alloo()">convert</button>
+<button><a [href]="this.ines" download="file.bmp">allo</a></button>
 
 <button *ngIf="selectedFormat === 'svg' " mat-button><a [href]="fileUrl" download="file.svg">confirm</a></button>
 <button mat-button><a [href]="fileUrl2" download="file.bmp">bmp</a></button>

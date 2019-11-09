@@ -2,10 +2,11 @@ import { CUSTOM_ELEMENTS_SCHEMA, ElementRef, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
-import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { TextService } from 'src/app/services/shapes/text.service';
 import { EMPTY_STRING, KEY } from 'src/constants';
+import { provideAutoMock } from 'src/test.helpers.spec';
+import { GridService } from './../../services/grid/grid.service';
 import { AttributeBarComponent } from './attribute-bar.component';
 
 export class RectangleServiceMock {
@@ -49,6 +50,7 @@ describe('AttributeBarComponent', () => {
         {provide: ElementRef, useClass: MockElementRef},
         {provide: eventEmitterService, useClass: EventEmitterServiceMock},
         {provide: Renderer2, useClass: Renderer2Mock },
+        provideAutoMock(GridService),
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
@@ -89,9 +91,7 @@ describe('AttributeBarComponent', () => {
   });
 
   it('should go through case KEY.plus', () => {
-    const setNextGridSizeSpy = spyOn(gridService, 'setNextGridSize');
     const applyGridSpy = spyOn(component, 'applyGrid');
-    const showGridSpy = spyOn(gridService, 'showGrid');
     textService.isWriting = false;
     inputService.gridShortcutsActive = true;
 
@@ -100,15 +100,13 @@ describe('AttributeBarComponent', () => {
     });
 
     component.onKeyUp(keyEvent);
-    expect(setNextGridSizeSpy).toHaveBeenCalled();
+    expect(gridService.setNextGridSize).toHaveBeenCalled();
     expect(applyGridSpy).toHaveBeenCalled();
-    expect(showGridSpy).toHaveBeenCalled();
+    expect(gridService.showGrid).toHaveBeenCalled();
   });
 
   it('should go through case KEY.minus', () => {
-    const setLastGridSizeSpy = spyOn(gridService, 'setLastGridSize');
     const applyGridSpy = spyOn(component, 'applyGrid');
-    const showGridSpy = spyOn(gridService, 'showGrid');
     textService.isWriting = false;
     inputService.gridShortcutsActive = true;
     const keyEvent = new KeyboardEvent('keyup', {
@@ -116,9 +114,9 @@ describe('AttributeBarComponent', () => {
     });
 
     component.onKeyUp(keyEvent);
-    expect(setLastGridSizeSpy).toHaveBeenCalled();
+    expect(gridService.setLastGridSize).toHaveBeenCalled();
     expect(applyGridSpy).toHaveBeenCalled();
-    expect(showGridSpy).toHaveBeenCalled();
+    expect(gridService.showGrid).toHaveBeenCalled();
   });
 
   it('should enter if statement when not writing and shortcuts active', () => {
@@ -159,23 +157,21 @@ describe('AttributeBarComponent', () => {
   });
 
   it('should show grid if it was hidden, upon toggling', () => {
-    const showGridSpy = spyOn(gridService, 'showGrid');
-    component.usingGrid = false;
+    // component.usingGrid = false;
     component.toggleGrid();
-    expect(showGridSpy).toHaveBeenCalled();
+    expect(gridService.showGrid).toHaveBeenCalled();
   });
 
   it('should hide grid if it was shown, upon toggling', () => {
-    const hideGridSpy = spyOn(gridService, 'hideGrid');
-    component.usingGrid = true;
+    gridService.isUsingGrid = true;
     component.toggleGrid();
-    expect(hideGridSpy).toHaveBeenCalled();
+    expect(gridService.hideGrid).toHaveBeenCalled();
   });
 
   it('should assign usingGrid to true when calling applyGrid', () => {
-    component.usingGrid = false;
+    gridService.isUsingGrid = false;
     component.applyGrid();
-    expect(component.usingGrid).toBeTruthy();
+    expect(gridService.isUsingGrid).toBeTruthy();
   });
 
 });

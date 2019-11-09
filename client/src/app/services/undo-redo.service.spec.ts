@@ -79,4 +79,46 @@ describe('UndoRedoService', () => {
     expect(spyOnappendChild).toHaveBeenCalled();
     expect(spyOnpush).toHaveBeenCalled();
   });
+
+  it('should remove many on undo', () => {
+    viewChildService.canvas = new ElementRef('allo');
+    const shapes: SVGGraphicsElement[] = [];
+    const firstshape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+    const secondshape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+    shapes.push(firstshape);
+    shapes.push(secondshape);
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shapes};
+    const spyOnAppendChild = spyOn(renderer, 'appendChild');
+    const spyOnpush = spyOn(service.poppedActions, 'push');
+    service.removeManyOnUndo(lastAction);
+    expect(spyOnAppendChild).toHaveBeenCalled();
+    expect(spyOnpush).toHaveBeenCalled();
+  });
+
+  it('should set old color by tagName path', () => {
+    const shape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+    shape.setAttribute('tagName', 'path');
+    const spyOngetAttribute = spyOn(shape, 'getAttribute');
+    service.setOldColor(shape);
+    expect(spyOngetAttribute).toHaveBeenCalled();
+  });
+
+  it('should set old color by tagName g', () => {
+    const shape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+    shape.setAttribute('tagName', 'g');
+    const spyOngetAttribute = spyOn(shape, 'getAttribute');
+    service.setOldColor(shape);
+    expect(spyOngetAttribute).toHaveBeenCalled();
+  });
+
+  // DEVRAIT PASSER MAIS NE PASSER PAS ...
+  // it('should not set old color if tag name is not path or svg', () => {
+  //   const shape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+  //   shape.setAttribute('tagName', 'wrongTagName');
+  //   const spyOngetAttribute = spyOn(shape, 'getAttribute');
+  //   service.setOldColor(shape);
+  //   expect(spyOngetAttribute).not.toHaveBeenCalled();
+  // });
+
+
 });

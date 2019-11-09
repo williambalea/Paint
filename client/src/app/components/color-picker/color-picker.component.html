@@ -1,60 +1,74 @@
 <div class="attribute">
-<div class="attributeHeader">Color</div>
-<div *ngIf="colorService.getMakingColorChanges()">
+  <div class="attributeHeader">Color</div>
+  <div *ngIf="colorService.getMakingColorChanges()">
     <div class=color-wrapper>
-      <app-color-palette [hue]="hue" (color)="color = $event"></app-color-palette>
-      <app-color-slider (color)="hue = $event"></app-color-slider>
-    </div>    
+      <app-color-palette [hue]="hue" (color)="color = $event" (click)="this.colorService.inNewFileWindow = false"></app-color-palette>
+      <app-color-slider (color)="hue = $event" (click)="this.colorService.inNewFileWindow = false"></app-color-slider>
+    </div>
     <div class="form-field">
-        <mat-form-field>
-          <input matInput placeholder="HEX" #box type="text" minlength="6" maxlength="6" (keyup)="onEnterHex(box.value)" value={{colorHex}} [(ngModel)]="colorHex">
-          <span matPrefix>#</span>
-        </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="HEX" #box type="text" minlength="6" maxlength="6" (keyup)="onEnterHex(box.value)"
+          value={{colorHex}} [(ngModel)]="colorHex">
+        <span matPrefix>#</span>
+      </mat-form-field>
     </div>
 
     <div class="lastTen1">
-      <span class="color-div" (click)="setColorFromLastTen(0)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(0) || 'white'}"></span>
-      <span class="color-div" (click)="setColorFromLastTen(1)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(1) || 'white'}"></span>
-      <span class="color-div" (click)="setColorFromLastTen(2)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(2) || 'white'}"></span>
-      <span class="color-div" (click)="setColorFromLastTen(3)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(3) || 'white'}"></span>
-      <span class="color-div" (click)="setColorFromLastTen(4)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(4) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(0)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(0) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(1)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(1) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(2)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(2) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(3)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(3) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(4)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(4) || 'white'}"></span>
     </div>
-  
+
     <div class="lastTen2">
-      <span class="color-div" (click)="setColorFromLastTen(5)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(5) || 'white'}"></span>
-      <span class="color-div" (click)="setColorFromLastTen(6)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(6) || 'white'}"></span>
-      <span class="color-div" (click)="setColorFromLastTen(7)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(7) || 'white'}"></span>
-      <span class="color-div" (click)="setColorFromLastTen(8)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(8) || 'white'}"></span>
-      <span class="color-div" (click)="setColorFromLastTen(9)" [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(9) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(5)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(5) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(6)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(6) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(7)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(7) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(8)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(8) || 'white'}"></span>
+      <span class="color-div" (click)="setColorFromLastTen(9)"
+        [ngStyle]="{'background-color': colorService.getItemFromLastTenColors(9) || 'white'}"></span>
     </div>
 
-    <div class="attributeHeader" >
-        Transparency<br>
+    <div class="attributeHeader">
+      Transparency<br>
 
-        <div class="type-flexbox">
-          <div class="type">Dec</div>
-          <div class="type-box">{{transparency / 255 | number: '1.2-2'}}</div>
-          <div class="type">Hex</div>
-          <div class="type-box">0x{{transparency.toString(16).toUpperCase()}}</div>
-        </div>
+      <div class="type-flexbox">
+        <div class="type">Dec</div>
+        <div class="type-box">{{transparency / 255 | number: '1.2-2'}}</div>
+        <div class="type">Hex</div>
+        <div class="type-box">0x{{transparency.toString(16).toUpperCase()}}</div>
+      </div>
 
-        <mat-slider min="0" max="255" value=transparency [(ngModel)]="transparency" (change)="onEnterSlider()" (input)="transparency = $event.value"></mat-slider>
-    </div>
-</div>
-<div *ngIf="colorService.getShowBackgroundButton()">
-  <div class="primSec-wrapper">
-    <div class="color" [class.color-selected]="colorService.getUsingPrimary()">
-      <div class="attributeHeader">Primary</div>
-      <div (click)="setPrimary()" class="primary" [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
-    </div>
-    <div class="color" [class.color-selected]="!colorService.getUsingPrimary()">
-      <div class="attributeHeader">Secondary</div>
-      <div (click)="setSecondary()" class="secondary" [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>
+      <mat-slider min="0" max="255" value=transparency [(ngModel)]="transparency" (change)="onEnterSlider()"
+        (input)="transparency = $event.value"></mat-slider>
     </div>
   </div>
-  <div class="button">
-    <button mat-flat-button color="primary" (click)="swapColors()">Swap Colors</button>
-    <button mat-stroked-button class="changeButton" (click)="changeBackgroundColor()">Change background color</button>
-  </div>
+  <div *ngIf="colorService.getShowBackgroundButton()">
+    <div class="primSec-wrapper">
+      <div class="color" [class.color-selected]="colorService.getUsingPrimary()">
+        <div class="attributeHeader">Primary</div>
+        <div (click)="setPrimary()" class="primary"
+          [ngStyle]="{'background-color': colorService.getFillColor() || 'white'}"></div>
+      </div>
+      <div class="color" [class.color-selected]="!colorService.getUsingPrimary()">
+        <div class="attributeHeader">Secondary</div>
+        <div (click)="setSecondary()" class="secondary"
+          [ngStyle]="{'background-color': colorService.getStrokeColor() || 'white'}"></div>
+      </div>
+    </div>
+    <div class="button">
+      <button mat-flat-button color="primary" (click)="swapColors()">Swap Colors</button>
+      <button mat-stroked-button class="changeButton" (click)="changeBackgroundColor()">Change background color</button>
+    </div>
   </div>
 </div>

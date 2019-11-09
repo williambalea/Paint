@@ -15,6 +15,7 @@ export class ColorService {
   private lastTenColors: ColorQueue<string>;
   private showBackgroundButton: boolean;
   private backgroundColor: string;
+  inNewFileWindow: boolean;
 
   constructor() {
     this.fill = COLORS.blackRGBA;
@@ -25,6 +26,7 @@ export class ColorService {
     this.lastTenColors = new ColorQueue(COLORS.whiteRGBA);
     this.showBackgroundButton = true;
     this.backgroundColor = COLORS.whiteRGBA;
+    this.inNewFileWindow = false;
   }
 
   getBackgroundColor(): string {
@@ -105,6 +107,9 @@ export class ColorService {
   }
 
   changeBackgroundColor(): void {
+    if (this.inNewFileWindow) {
+      return;
+    }
     this.backgroundColor = (this.usingPrimary) ? this.getFillColor() : this.getStrokeColor();
   }
 }

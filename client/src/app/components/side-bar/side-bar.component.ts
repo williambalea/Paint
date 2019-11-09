@@ -181,11 +181,13 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   createNewFile(): void {
     this.enableKeyPress = false;
-
+    this.colorService.inNewFileWindow = true;
     const dialogRef: MatDialogRef<NewFileModalwindowComponent, any> =
       this.dialog.open(NewFileModalwindowComponent, { disableClose: true });
-    this.unsubscribeService.subscriptons.push(dialogRef.afterClosed()
-      .subscribe(() => { this.enableKeyPress = true; }));
+    this.unsubscribeService.subscriptons.push(dialogRef.afterClosed().subscribe(() => {
+      this.enableKeyPress = true;
+      this.colorService.inNewFileWindow = false;
+    }));
 
     this.setColorNewFile();
   }

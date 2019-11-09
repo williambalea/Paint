@@ -1,5 +1,5 @@
 import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { ACTIONS, SVGinnerWidth } from 'src/constants';
+import { ACTIONS, SVGinnerWidth, EMPTY_STRING } from 'src/constants';
 import { InputService } from '../input.service';
 import { UndoRedoService } from '../undo-redo.service';
 import { UndoRedoAction } from '../undoRedoAction';
@@ -19,8 +19,6 @@ export class EraserService {
   divider: number;
   canvas: ElementRef;
   preview: SVGGraphicsElement[];
-  shapeToErase: SVGGraphicsElement[];
-  mouseMove: boolean;
 
   constructor(private viewChildService: ViewChildService,
               private rendererFactory: RendererFactory2,
@@ -34,8 +32,6 @@ export class EraserService {
     this.cursor = this.renderer.createElement('rect', 'svg');
     this.divider = 2;
     this.preview = [];
-    this.shapeToErase = [];
-    this.mouseMove = false;
   }
 
   initializeViewChildren(): void {
@@ -60,7 +56,6 @@ export class EraserService {
   }
 
   updatePosition(cursor: SVGGraphicsElement): void {
-    this.clear();
     this.createEraser(1, 2);
     this.renderer.setAttribute(cursor, 'x', (this.inputService.getMouse().x - (this.size) / this.divider).toString());
     this.renderer.setAttribute(cursor, 'y', (this.inputService.getMouse().y - (this.size) / this.divider).toString());
@@ -70,8 +65,7 @@ export class EraserService {
   addToPreview(shape: SVGGraphicsElement): void {
     if (!this.preview.includes(shape)) {
       const redContour = this.setAttributePreview(shape);
-      this.preview.push(redContour);
-      this.shapeToErase.push(shape);
+      this.preview.push(shape);
       this.renderer.appendChild(this.viewChildService.eraserCountour.nativeElement, redContour);
     }
   }
@@ -99,46 +93,23 @@ export class EraserService {
     }
   }
 
-  clear(): void {
+  eraseShapes(): void {
     for (const shape of this.preview) {
-      this.renderer.removeChild(this.viewChildService.eraserCountour.nativeElement, shape);
+      this.renderer.removeChild(this.viewChildService.canvas.nativeElement, shape);
     }
-  }
-
-  clearOnce(): void {
-    this.renderer.removeChild(this.viewChildService.eraserCountour, this.preview[0]);
-  }
-
-  validateErase(child: SVGGraphicsElement): void {
-    const undoRedoAction: UndoRedoAction = {
-      action: ACTIONS.remove,
-      shape: child,
-    };
-    if (this.eraseMouseDown && this.mouseMove) {
-      this.undoRedoService.addAction(undoRedoAction);
-      this.renderer.removeChild(this.drawingBoard.nativeElement, child);
-    } else if (this.eraseMouseDown && !this.mouseMove) {
-      this.undoRedoService.addAction(undoRedoAction);
-      for (const shape of this.shapeToErase) {
-        this.renderer.removeChild(this.canvas.nativeElement, shape);
-        console.log('will!');
-      }
-      this.eraseMouseDown = false;
-    }
+    this.viewChildService.eraserCountour.nativeElement.innerHTML = EMPTY_STRING;
   }
 
   validateIntersection(isIntersection: boolean, child: SVGGraphicsElement): void {
     if (isIntersection) {
       this.addToPreview(child);
-      this.validateErase(child);
     }
   }
 
   intersect(): void {
     const cursorBox = this.cursor.getBoundingClientRect();
-    this.clear();
     this.preview = [];
-    this.shapeToErase = [];
+    this.viewChildService.eraserCountour.nativeElement.innerHTML = EMPTY_STRING;
     for (let i: number = this.canvas.nativeElement.children.length; i--; i > 0) {
       const childBox: DOMRect = this.canvas.nativeElement.children[i].getBoundingClientRect();
       let isIntersection: boolean;

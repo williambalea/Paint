@@ -1,4 +1,4 @@
-import { Renderer2, RendererFactory2, ElementRef } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ViewChildService } from '../view-child.service';
 import { GridService } from './grid.service';

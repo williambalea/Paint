@@ -1,5 +1,5 @@
 import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { ACTIONS, SVGinnerWidth, EMPTY_STRING } from 'src/constants';
+import { ACTIONS, EMPTY_STRING, SVGinnerWidth } from 'src/constants';
 import { InputService } from '../input.service';
 import { UndoRedoService } from '../undo-redo.service';
 import { UndoRedoAction } from '../undoRedoAction';

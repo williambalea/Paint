@@ -141,8 +141,8 @@ export class ClipboardService {
   }
 
   generateShapes(shapes: SVGGraphicsElement[]): void {
-    let overflowX;
-    let overflowY;
+    const overflowX = NB.Zero;
+    const overflowY = NB.Zero;
     for (const shape of shapes) {
       const shapeCopy = shape.cloneNode(true) as SVGGraphicsElement;
       const newPositionX = this.inputService.incrementMultiplier * 15;

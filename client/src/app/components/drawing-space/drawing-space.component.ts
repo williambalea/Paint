@@ -196,17 +196,14 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       if (shape.id === 'pen') {
         shape = shape.parentElement as unknown as SVGGraphicsElement;
       }
-      console.log('amena', shape.getAttribute('stroke'));
-      const oldColor = (shape.tagName === 'path' || shape.tagName === 'g') ? shape.getAttribute('stroke') as string : shape.getAttribute('fill') as string;
-      const changeFill: UndoRedoAction = {
-        action: ACTIONS.changeColor,
-        shape,
-        oldColor,
-      };
+
+      const oldColor: string = (shape.tagName === 'path' || shape.tagName === 'g') ?
+        shape.getAttribute('stroke') as string :
+        shape.getAttribute('fill') as string;
+
+      const changeFill: UndoRedoAction = { action: ACTIONS.changeColor, shape, oldColor };
       this.changeFillColor(event.target as HTMLElement);
       this.undoRedoService.addAction(changeFill);
-      // this.undoRedoService.color= (event.target as SVGGraphicsElement).getAttribute('fill') as string;
-      // undoRedoAction.nextColor = (event.target as SVGGraphicsElement).getAttribute('fill') as string;
       this.undoRedoService.undoIsStarted = false;
     }
   }

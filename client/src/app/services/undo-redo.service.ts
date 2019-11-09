@@ -52,13 +52,31 @@ export class UndoRedoService {
     this.poppedActions.push(lastAction);
   }
 
-  changeColorOnUndo(lastAction: UndoRedoAction): void {
+  setOldColor(shape: SVGGraphicsElement): string {
+    if (shape.tagName === 'path' || shape.tagName === 'g') {
+      return shape.getAttribute('stroke') as string;
+    } else {
+      return shape.getAttribute('fill') as string;
+    }
+  }
+
+  restoreColor(lastAction: UndoRedoAction): void {
     const shape = lastAction.shape as SVGGraphicsElement;
+    const oldColor = lastAction.oldColor as string;
+    if (shape.tagName === 'path' || shape.tagName === 'g') {
+      this.renderer.setAttribute(shape, 'stroke', oldColor);
+    } else {
+      this.renderer.setAttribute(shape, 'fill', oldColor);
+    }
+  }
+
+  changeColorOnUndo(lastAction: UndoRedoAction): void {
     const changeFill: UndoRedoAction = {
       action: ACTIONS.changeColor,
       shape: lastAction.shape,
-      oldColor: shape.tagName === 'path' || shape.tagName === 'g' ? shape.getAttribute('stroke') as string : shape.getAttribute('fill') as string };
-    (shape.tagName === 'path' || shape.tagName === 'g') ? this.renderer.setAttribute(lastAction.shape, 'stroke', lastAction.oldColor as string) : this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
+      oldColor: this.setOldColor(lastAction.shape as SVGGraphicsElement),
+    };
+    this.restoreColor(lastAction);
     this.poppedActions.push(changeFill);
   }
 
@@ -109,12 +127,12 @@ export class UndoRedoService {
   }
 
   changeColorOnRedo(lastAction: UndoRedoAction): void {
-    const shape = lastAction.shape as SVGGraphicsElement;
     const changeFill: UndoRedoAction = {
       action: ACTIONS.changeColor,
       shape: lastAction.shape,
-      oldColor: (shape.tagName === 'path' || shape.tagName === 'g') ? shape.getAttribute('stroke') as string : shape.getAttribute('fill') as string };
-    (shape.tagName === 'path' || shape.tagName === 'g') ? this.renderer.setAttribute(lastAction.shape, 'stroke', lastAction.oldColor as string) : this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
+      oldColor: this.setOldColor(lastAction.shape as SVGGraphicsElement),
+    };
+    this.restoreColor(lastAction);
     this.actions.push(changeFill);
   }
 
@@ -130,7 +148,7 @@ export class UndoRedoService {
       case ACTIONS.changeColor :
         this.changeColorOnRedo(lastAction);
         break;
-      case ACTIONS.removeMany : 
+      case ACTIONS.removeMany :
         this.removeManyOnRedo(lastAction);
         break;
       default:

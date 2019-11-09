@@ -19,13 +19,14 @@ export class EraserService {
   divider: number;
   canvas: ElementRef;
   preview: SVGGraphicsElement[];
+  shapeToErase: SVGGraphicsElement[];
   mouseMove: boolean;
 
   constructor(private viewChildService: ViewChildService,
               private rendererFactory: RendererFactory2,
               private inputService: InputService,
               private undoRedoService: UndoRedoService,
-              ) {
+  ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.eraseMouseDown = false;
     this.eraserRadius = 5;
@@ -33,6 +34,7 @@ export class EraserService {
     this.cursor = this.renderer.createElement('rect', 'svg');
     this.divider = 2;
     this.preview = [];
+    this.shapeToErase = [];
     this.mouseMove = false;
   }
 
@@ -58,17 +60,18 @@ export class EraserService {
   }
 
   updatePosition(cursor: SVGGraphicsElement): void {
+    this.clear();
     this.createEraser(1, 2);
     this.renderer.setAttribute(cursor, 'x', (this.inputService.getMouse().x - (this.size) / this.divider).toString());
     this.renderer.setAttribute(cursor, 'y', (this.inputService.getMouse().y - (this.size) / this.divider).toString());
     this.intersect();
-
   }
 
   addToPreview(shape: SVGGraphicsElement): void {
     if (!this.preview.includes(shape)) {
       const redContour = this.setAttributePreview(shape);
       this.preview.push(redContour);
+      this.shapeToErase.push(shape);
       this.renderer.appendChild(this.viewChildService.eraserCountour.nativeElement, redContour);
     }
   }
@@ -97,12 +100,13 @@ export class EraserService {
   }
 
   clear(): void {
-    for ( const i of this.preview) {
-      this.renderer.removeChild(this.viewChildService.eraserCountour, i);
+    for (const shape of this.preview) {
+      this.renderer.removeChild(this.viewChildService.eraserCountour.nativeElement, shape);
     }
   }
+
   clearOnce(): void {
-      this.renderer.removeChild(this.viewChildService.eraserCountour, this.preview[0]);
+    this.renderer.removeChild(this.viewChildService.eraserCountour, this.preview[0]);
   }
 
   validateErase(child: SVGGraphicsElement): void {
@@ -115,7 +119,10 @@ export class EraserService {
       this.renderer.removeChild(this.drawingBoard.nativeElement, child);
     } else if (this.eraseMouseDown && !this.mouseMove) {
       this.undoRedoService.addAction(undoRedoAction);
-      this.renderer.removeChild(this.drawingBoard.nativeElement, child);
+      for (const shape of this.shapeToErase) {
+        this.renderer.removeChild(this.canvas.nativeElement, shape);
+        console.log('will!');
+      }
       this.eraseMouseDown = false;
     }
   }
@@ -131,12 +138,23 @@ export class EraserService {
     const cursorBox = this.cursor.getBoundingClientRect();
     this.clear();
     this.preview = [];
-    for ( let i: number = this.canvas.nativeElement.children.length  ; i-- ; i > 0) {
-       const childBox = this.canvas.nativeElement.children[i].getBoundingClientRect();
-       let isIntersection: boolean;
-       isIntersection = (!(childBox.left > cursorBox.right || childBox.right < cursorBox.left
-          || childBox.top > cursorBox.bottom || childBox.bottom < cursorBox.top));
-       this.validateIntersection(isIntersection, this.canvas.nativeElement.children[i]);
+    this.shapeToErase = [];
+    for (let i: number = this.canvas.nativeElement.children.length; i--; i > 0) {
+      const childBox: DOMRect = this.canvas.nativeElement.children[i].getBoundingClientRect();
+      let isIntersection: boolean;
+      isIntersection = (!(childBox.left > cursorBox.right || childBox.right < cursorBox.left
+        || childBox.top > cursorBox.bottom || childBox.bottom < cursorBox.top));
+
+      for (const shape of this.preview) {
+        const shapeBox: ClientRect = shape.getBoundingClientRect();
+        if (!(shapeBox.left > childBox.right || shapeBox.right < childBox.left
+          || shapeBox.top > childBox.bottom || shapeBox.bottom < childBox.top)) {
+            isIntersection = false;
+            break;
+        }
+      }
+
+      this.validateIntersection(isIntersection, this.canvas.nativeElement.children[i]);
     }
   }
 }

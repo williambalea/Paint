@@ -102,14 +102,6 @@ describe('SelectorService', () => {
     expect(spyOnGetAttribute).toHaveBeenCalledTimes(4);
   });
 
-  it('should return a polygon', () => {
-    const domRectangle = {x: 10, y: 10, width: 15, height: 15} as DOMRect;
-    const child = {getBBox(): any { return; }};
-    const spy = spyOn(child, 'getBBox').and.returnValue(domRectangle);
-    service.returnPolygon(child as unknown as SVGGraphicsElement);
-    expect(spy).toHaveBeenCalledTimes(4);
-  });
-
 //   it('should return an Image', () => {
 //       const domRectangle = {x: 10, y: 10, width: 15, height: 15} as DOMRect;
 //       const child = {getBBox(): any { return; }};

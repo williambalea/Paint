@@ -84,15 +84,6 @@ export class SelectorService implements Shape {
     });
   }
 
-  returnPolygon(child: SVGGraphicsElement): any {
-    return svgIntersections.shape('rect', {
-      x: child.getBBox().x,
-      y: child.getBBox().y,
-      width: child.getBBox().width,
-      height: child.getBBox().height,
-    });
-  }
-
   returnIntersectionShape(selectorArea: any): any {
     return svgIntersections.shape('rect', {
       x: selectorArea.x.animVal.value,
@@ -109,10 +100,8 @@ export class SelectorService implements Shape {
     if (this.inputService.mouseButton === NB.Two) {
       const index = this.selectedShapes.indexOf(child);
       if (index !== -NB.One) {
-        console.log('allo1');
         this.selectedShapes.splice(index, NB.One);
       } else if (child.tagName !== 'svg') {
-        console.log('allo2');
         this.selectedShapes.push(child);
       }
       this.memory.push(child);

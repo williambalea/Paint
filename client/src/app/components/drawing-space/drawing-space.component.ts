@@ -251,7 +251,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.eraser) {
       this.eraserService.eraseMouseDown = true;
       this.eraserService.intersect();
-      this.eraserService.clearOnce();
+      this.eraserService.clear();
     }
 
     if (this.selectedTool === TOOL.text) {
@@ -309,6 +309,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
         this.eraserService.mouseMove = true;
       }
       this.eraserService.updatePosition(this.eraserService.cursor);
+      console.log(this.eraserService.shapeToErase);
     }
   }
 
@@ -329,11 +330,10 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       this.clipboardService.newSelection = true;
     }
     if (this.selectedTool === TOOL.eraser) {
-      // this.eraserService.erase(event.target as EventTarget, this.drawingBoard.nativeElement);
       this.eraserService.mouseMove = false;
       this.eraserService.eraseMouseDown = false;
       if (this.eraserService.preview.length >= 1) {
-        this.eraserService.clearOnce();
+        this.eraserService.clear();
       }
 
     }

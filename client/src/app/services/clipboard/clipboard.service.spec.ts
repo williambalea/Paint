@@ -1,29 +1,12 @@
 import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FileParametersServiceService } from '../file-parameters-service.service';
+//import { FileParametersServiceService } from '../file-parameters-service.service';
 import { IncludingBoxService } from '../includingBox/including-box.service';
 import { InputService } from '../input.service';
 import { SelectorService } from '../selector/selector.service';
 import { UndoRedoService } from '../undo-redo.service';
 import { ViewChildService } from '../view-child.service';
 import { ClipboardService } from './clipboard.service';
-// class RendererMock {
-//   createElement(): void {return; }
-//   setStyle(): void {return; }
-//   setAttribute(): void {return; }
-//   appendChild(): void {return; }
-//   removeChild(one: any, two: any): void {return; }
-// }
-// // tslint:disable-next-line: max-classes-per-file
-
-// class RendererFactoryMock {
-//     createRenderer(): void {return; }
-//   }
-
-//   // tslint:disable-next-line: max-classes-per-file
-// class ViewChildServiceMock {
-//     canvas: any = '';
-//   }
 
 describe('ClipboardService', () => {
   let service: ClipboardService;
@@ -34,7 +17,7 @@ describe('ClipboardService', () => {
   let rendererFactory: RendererFactory2;
   let inputService: InputService;
   let viewChildService: ViewChildService;
-  let fileParameterService: FileParametersServiceService;
+  //let fileParameterService: FileParametersServiceService;
 
   const mockShape: any = {id: 'shape'};
   const mockShapeArray: any[] = [];
@@ -57,7 +40,7 @@ describe('ClipboardService', () => {
     viewChildService = TestBed.get(ViewChildService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
-    fileParameterService = TestBed.get(FileParametersServiceService);
+    //fileParameterService = TestBed.get(FileParametersServiceService);
     });
 
   it('should be created', () => {
@@ -84,11 +67,34 @@ describe('ClipboardService', () => {
     expect(service.clipboardEmpty()).toBeTruthy();
   });
 
-  it('should have called controlC() thoroughly', () => {
+  it('should have called controlC by calling controlX', () => {
     const controlCSpy = spyOn(service, 'controlC');
     service.controlC();
     expect(controlCSpy).toHaveBeenCalled();
     expect(service.selectedItems.length).toEqual(0);
+  });
+
+  it('should not remove the child if the id is canvas or svg', () => {
+    const removeChildSpy = spyOn(renderer, 'removeChild');
+    viewChildService.canvas = new ElementRef(renderer.createElement('svg'));
+    const item = renderer.createElement('object1');
+    const item2 = renderer.createElement('object2');
+    item.setAttribute('id', 'canvas');
+    item2.setAttribute('id', 'svg');
+    service.selectedItems.push(item);
+    service.selectedItems.push(item2);
+    service.controlX();
+    expect(removeChildSpy).not.toHaveBeenCalled();
+  });
+
+  it('should remove the child if the id isnt canvas or svg', () => {
+    const removeChildSpy = spyOn(renderer, 'removeChild');
+    viewChildService.canvas = new ElementRef(renderer.createElement('svg'));
+    const item = renderer.createElement('object1');
+    item.setAttribute('id', 'rect');
+    selectorService.selectedShapes.push(item);
+    service.controlX();
+    expect(removeChildSpy).toHaveBeenCalled();
   });
 
   it('should clone the node when generating a shape', () => {
@@ -101,9 +107,12 @@ describe('ClipboardService', () => {
     expect(cloneNodeSpy).toHaveBeenCalled();
   });
 
-  // it('should clone the node when generating a shape', () => {
-
-  // });
+  it('should return false if shapecounter is false', () => {
+    const item: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+    item.setAttribute('id', 'canvas');
+    selectorService.selectedShapes.push(item);
+    expect(service.dismissCanvas()).not.toBeTruthy();
+  });
 
   it('should return an action object with the proper attributes', () => {
     const shapeCopy = 'value' as unknown as SVGGraphicsElement;
@@ -132,15 +141,16 @@ describe('ClipboardService', () => {
   it('should enter conditionnal statement and modify values', () => {
     inputService.incrementMultiplier = 1;
     service.validateOverflow(1000, 1000, 2, 2);
-    console.log(fileParameterService.canvasHeight.getValue());
     expect(inputService.incrementMultiplier).toEqual(0);
   });
 
   it('should validate last child', () => {
-    const svg = renderer.createElement('rect', 'svg');
-    const svgSecond = renderer.createElement('rect', 'svg');
-    viewChildService.canvas = new ElementRef(svg);
-    svg.appendChild(viewChildService.canvas, svgSecond);
+    const svgSecond = new ElementRef(renderer.createElement('svg'));
+    viewChildService.canvas = new ElementRef(renderer.createElement('value'));
+    renderer.appendChild(viewChildService.canvas, svgSecond);
+    console.log(svgSecond);
+    console.log(viewChildService.canvas);
+    //console.log(viewChildService.canvas.nativeElement.lastChild);
     const overflowX = 1;
     const overflowY = 2;
     service.validateLastChild(overflowX, overflowY);

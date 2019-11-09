@@ -81,7 +81,7 @@ describe('GridService', () => {
     const appendChildSpy = spyOn(renderer, 'appendChild').and.callThrough();
 
     service.gridSize = 50;
-    service.draw(service.gridSize);
+    service.draw();
     expect(createElementSpy).toHaveBeenCalled();
     expect(service.gridSize).toEqual(50);
     expect(setAttributeSpy).toHaveBeenCalled();

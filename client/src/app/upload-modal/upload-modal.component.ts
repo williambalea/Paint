@@ -3,6 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { InputService } from '../services/input.service';
 import { UploadService } from '../services/upload.service';
+import { EMPTY_STRING } from 'src/constants';
 
 @Component({
   selector: 'app-upload-modal',
@@ -12,12 +13,14 @@ import { UploadService } from '../services/upload.service';
 export class UploadModalComponent implements OnDestroy {
 
   error: boolean;
+  fileName: string;
   fileContent = '';
   constructor(public dialogRef: MatDialogRef<UploadModalComponent>,
               public uploadService: UploadService,
               private inputService: InputService) {
     this.error = false;
     this.inputService.gridShortcutsActive = false;
+    this.fileName = EMPTY_STRING;
   }
 
   ngOnDestroy() {
@@ -31,7 +34,7 @@ export class UploadModalComponent implements OnDestroy {
     const self = this;
     fileReader.onloadend = (() => {
       self.fileContent = fileReader.result as string;
-
+      
       this.uploadService.content = self.fileContent;
       this.uploadService.fileContent = self.fileContent.slice(96, -6);
 
@@ -64,8 +67,9 @@ export class UploadModalComponent implements OnDestroy {
       }
 
     });
-
+  
     if (file.type === 'image/svg+xml') {
+      this.fileName = file.name;
     this.uploadService.enableUploadButton = true;
     fileReader.readAsText(file);
   } else {

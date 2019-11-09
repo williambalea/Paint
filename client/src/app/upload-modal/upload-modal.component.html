@@ -1,11 +1,13 @@
-
-<input  type="file" (change)="onChange($event.target.files)">
-{{fileContent}}
-<div *ngIf = "this.uploadService.enableUploadButton">
-<button mat-button (click)="this.uploadService.confirm()" >confirm</button>
+<button mat-raised-button>
+  <input type="file" name="file" id="file" class="inputfile" (change)="onChange($event.target.files)">
+  <label for="file">choose file</label>
+</button>
+{{this.fileName}}
+<div *ngIf="this.uploadService.enableUploadButton">
+  <button mat-button (click)="this.uploadService.confirm()">confirm</button>
 </div>
 
-<div *ngIf = "!this.uploadService.enableUploadButton">
-  <button mat-button (click)="this.uploadService.confirm()"disabled>confirm</button>
-  </div>
+<div *ngIf="!this.uploadService.enableUploadButton">
+  <button mat-button (click)="this.uploadService.confirm()" disabled>confirm</button>
+</div>
 <button mat-button (click)="onNoClick()">close</button>

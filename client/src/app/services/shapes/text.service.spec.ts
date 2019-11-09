@@ -1,15 +1,17 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-import { Renderer2, RendererFactory2 } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
+import { UndoRedoService } from '../undo-redo.service';
+import { ViewChildService } from '../view-child.service';
 import { TextService } from './text.service';
 
 // tslint:disable-next-line: max-classes-per-file
 class ColorServiceMock {
   // getFillColor(): void {return; }
   // addColorsToLastUsed(): void {return; }
-  getFillColor(): void {return; }
+  getFillColor(): string {return 'color'; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -20,10 +22,12 @@ class InputServiceMock {
 
 describe('TextService', () => {
   let service: TextService;
-  // let colorService: ColorService;
+  let colorService: ColorService;
   // let inputService: InputService;
+  let viewChildService: ViewChildService;
   let renderer: Renderer2;
   let rendererFactory: RendererFactory2;
+  let undoRedoService: UndoRedoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,16 +35,18 @@ describe('TextService', () => {
         TextService,
         ColorService,
         InputService,
+        ViewChildService,
         // { provide: RendererFactory2, useClass: RendererFactoryMock },
         { provide: InputService, useClass: InputServiceMock },
         { provide: ColorService, useClass: ColorServiceMock },
       ],
     }).compileComponents();
     service = TestBed.get(TextService);
-    // colorService = TestBed.get(ColorService);
-    // renderer = TestBed.get(Renderer2);
+    colorService = TestBed.get(ColorService);
+    viewChildService = TestBed.get(ViewChildService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
+    undoRedoService = TestBed.get(UndoRedoService);
   });
 
   it('should be created', () => {
@@ -161,10 +167,61 @@ describe('TextService', () => {
   //   expect(spyOnAppendChild).toHaveBeenCalled();
   // });
 
+  it('should not enter mouseDown conditional statement', () => {
+    viewChildService.canvas = new ElementRef('svg');
+    service.textBox = renderer.createElement('textBox');
+    const removeChildSpy = spyOn(renderer, 'removeChild');
+    service.isWriting = true;
+    service.onMouseDown();
+    expect(removeChildSpy).toHaveBeenCalled();
+  });
+
+  it('should enter mouseDown conditional statement', () => {
+    viewChildService.canvas = new ElementRef('svg');
+    service.textBox = renderer.createElement('textBox');
+    service.text = renderer.createElement('text');
+
+    const createTextElementsSpy = spyOn(service, 'createTextElements');
+    const setTextAttributesSpy = spyOn(service, 'setTextAttributes');
+    const setAttributesSpy = spyOn(service.textBox, 'setAttribute');
+    const updateSpy = spyOn(service, 'update');
+    const addActionSpy = spyOn(undoRedoService, 'addAction');
+
+    service.isWriting = false;
+    service.onMouseDown();
+    expect(createTextElementsSpy).toHaveBeenCalled();
+    expect(setTextAttributesSpy).toHaveBeenCalled();
+    expect(updateSpy).toHaveBeenCalledTimes(2);
+    expect(setAttributesSpy).toHaveBeenCalledTimes(4);
+    expect(addActionSpy).toHaveBeenCalled();
+
+  });
+
   // it ('should line jumpBack', () => {
   //   service.textContent = '';
   //   service.lineJumpBack();
   //   expect(service.textContent).not.toEqual('');
   // });
+
+  it ('should reassign text content', () => {
+    const child = renderer.createElement('svg');
+    child.setAttribute('innerHTML', '<p>childHTML</p>');
+    service.text = document.createElement('text');
+    service.tspan = document.createElement('tspan');
+    service.tspan.setAttribute('innerHTML', '<p>test</p>');
+    service.text.appendChild(child);
+    service.lineJumpBack();
+    expect(service.tspan).toEqual(service.text.lastChild as HTMLElement);
+    expect(service.textContent).toEqual(service.tspan.innerHTML);
+  });
+
+  it ('should update text attributes', () => {
+    service.text = document.createElement('text');
+    service.updateTextAttributes();
+    expect(service.text.getAttribute('font-family')).toEqual(service.font);
+    expect(service.text.getAttribute('font-size')).toEqual(service.fontSize.toString());
+    expect(service.text.getAttribute('text-anchor')).toEqual(service.align);
+    expect(service.text.getAttribute('fill')).toEqual(colorService.getFillColor());
+  });
 
 });

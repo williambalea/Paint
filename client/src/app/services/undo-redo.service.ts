@@ -44,22 +44,26 @@ export class UndoRedoService {
     this.poppedActions.push(lastAction);
   }
 
+  removeManyOnUndo(lastAction: UndoRedoAction): void {
+    const shapes = lastAction.shapes as unknown as SVGGraphicsElement[];
+    for (const shape of shapes) {
+      this.renderer.appendChild(this.viewChildService.canvas.nativeElement, shape);
+    }
+    this.poppedActions.push(lastAction);
+  }
+
   changeColorOnUndo(lastAction: UndoRedoAction): void {
+    const shape = lastAction.shape as SVGGraphicsElement;
     const changeFill: UndoRedoAction = {
       action: ACTIONS.changeColor,
       shape: lastAction.shape,
-      oldColor: lastAction.shape.tagName === 'path' || lastAction.shape.tagName === 'g' ? lastAction.shape.getAttribute('stroke') as string : lastAction.shape.getAttribute('fill') as string,
-
-    };
-    console.log('will', lastAction.oldColor);
-    (lastAction.shape.tagName === 'path' || lastAction.shape.tagName === 'g') ? this.renderer.setAttribute(lastAction.shape, 'stroke', lastAction.oldColor as string) : this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
+      oldColor: shape.tagName === 'path' || shape.tagName === 'g' ? shape.getAttribute('stroke') as string : shape.getAttribute('fill') as string };
+    (shape.tagName === 'path' || shape.tagName === 'g') ? this.renderer.setAttribute(lastAction.shape, 'stroke', lastAction.oldColor as string) : this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
     this.poppedActions.push(changeFill);
   }
 
   undo(): void {
     const lastAction: UndoRedoAction =  this.actions.pop() as UndoRedoAction;
-    console.log('action', this.actions);
-    console.log('popped', this.poppedActions);
     switch (lastAction.action) {
       case ACTIONS.append :
         this.appendOnUndo(lastAction);
@@ -70,6 +74,10 @@ export class UndoRedoService {
       case ACTIONS.changeColor :
         this.changeColorOnUndo(lastAction);
         break;
+      case ACTIONS.removeMany :
+        this.removeManyOnUndo(lastAction);
+        break;
+      default:
     }
 
     this.undoIsStarted = true;
@@ -92,21 +100,26 @@ export class UndoRedoService {
     this.actions.push(lastAction);
   }
 
+  removeManyOnRedo(lastAction: UndoRedoAction): void {
+    const shapes = lastAction.shapes as unknown as SVGGraphicsElement[];
+    for (const shape of shapes) {
+      this.renderer.removeChild(this.viewChildService.canvas.nativeElement, shape);
+    }
+    this.actions.push(lastAction);
+  }
+
   changeColorOnRedo(lastAction: UndoRedoAction): void {
+    const shape = lastAction.shape as SVGGraphicsElement;
     const changeFill: UndoRedoAction = {
       action: ACTIONS.changeColor,
       shape: lastAction.shape,
-      oldColor: (lastAction.shape.tagName === 'path' || lastAction.shape.tagName === 'g') ? lastAction.shape.getAttribute('stroke') as string : lastAction.shape.getAttribute('fill') as string,
-    };
-    console.log(lastAction.shape.tagName);
-    (lastAction.shape.tagName === 'path' || lastAction.shape.tagName === 'g') ? this.renderer.setAttribute(lastAction.shape, 'stroke', lastAction.oldColor as string) : this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
+      oldColor: (shape.tagName === 'path' || shape.tagName === 'g') ? shape.getAttribute('stroke') as string : shape.getAttribute('fill') as string };
+    (shape.tagName === 'path' || shape.tagName === 'g') ? this.renderer.setAttribute(lastAction.shape, 'stroke', lastAction.oldColor as string) : this.renderer.setAttribute(lastAction.shape, 'fill', lastAction.oldColor as string);
     this.actions.push(changeFill);
   }
 
   redo() {
     const lastAction: UndoRedoAction =  this.poppedActions.pop() as UndoRedoAction;
-    console.log('action', this.actions);
-    console.log('popped', this.poppedActions);
     switch (lastAction.action) {
       case ACTIONS.append :
         this.appendOnRedo(lastAction);
@@ -116,6 +129,9 @@ export class UndoRedoService {
           break;
       case ACTIONS.changeColor :
         this.changeColorOnRedo(lastAction);
+        break;
+      case ACTIONS.removeMany : 
+        this.removeManyOnRedo(lastAction);
         break;
       default:
     }

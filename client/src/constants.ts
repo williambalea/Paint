@@ -182,6 +182,7 @@ export enum ACTIONS {
   append = 'append',
   changeColor = 'changeColor',
   remove = 'remove',
+  removeMany = 'removeMany',
 }
 
 export enum STRINGS {

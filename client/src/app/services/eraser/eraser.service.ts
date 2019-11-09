@@ -94,10 +94,17 @@ export class EraserService {
   }
 
   eraseShapes(): void {
+    const undoRedoShapes: SVGGraphicsElement[] = [];
     for (const shape of this.preview) {
+      undoRedoShapes.push(shape);
       this.renderer.removeChild(this.viewChildService.canvas.nativeElement, shape);
     }
     this.viewChildService.eraserCountour.nativeElement.innerHTML = EMPTY_STRING;
+    const undoRedoAction: UndoRedoAction = {
+      action: ACTIONS.removeMany,
+      shapes: undoRedoShapes,
+    };
+    this.undoRedoService.addAction(undoRedoAction);
   }
 
   validateIntersection(isIntersection: boolean, child: SVGGraphicsElement): void {

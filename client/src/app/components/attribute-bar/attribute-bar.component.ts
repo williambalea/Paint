@@ -17,7 +17,6 @@ export class AttributeBarComponent {
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
   gridSize: number;
-  usingGrid: boolean;
 
   constructor(public colorService: ColorService,
               public gridService: GridService,
@@ -27,7 +26,6 @@ export class AttributeBarComponent {
               public undoRedoService: UndoRedoService,
               ) {
     this.gridService.gridSize = NB.Fifty;
-    this.usingGrid = false;
     this.tool = TOOL;
   }
 
@@ -36,12 +34,12 @@ export class AttributeBarComponent {
   }
 
   toggleGrid(): void {
-    this.usingGrid = !this.usingGrid;
-    this.usingGrid ? this.gridService.showGrid() : this.gridService.hideGrid();
+    this.gridService.isUsingGrid = !this.gridService.isUsingGrid;
+    this.gridService.isUsingGrid ? this.gridService.showGrid() : this.gridService.hideGrid();
   }
 
   applyGrid(): void {
-    this.usingGrid = true;
+    this.gridService.isUsingGrid = true;
   }
 
   @HostListener('window:keyup', ['$event'])

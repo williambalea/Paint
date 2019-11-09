@@ -12,6 +12,7 @@ export class GridService {
   gridSize: number;
   opacity: number;
   renderer: Renderer2;
+  isUsingGrid: boolean;
 
   constructor(private rendererFactory: RendererFactory2,
               private viewChildService: ViewChildService) {
@@ -21,6 +22,7 @@ export class GridService {
     this.opacity = NB.Fifty;
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.elementG = this.renderer.createElement('g', 'svg');
+    this.isUsingGrid = false;
   }
 
   hideGrid(): void {
@@ -29,7 +31,7 @@ export class GridService {
 
   showGrid(): void {
     this.renderer.removeChild(this.viewChildService.drawingBoard.nativeElement, this.elementG);
-    this.draw(this.gridSize);
+    this.draw();
     this.renderer.appendChild(this.viewChildService.drawingBoard.nativeElement, this.elementG);
   }
 
@@ -61,9 +63,8 @@ export class GridService {
     this.gridSize = data;
   }
 
-  draw(value: number): void {
+  draw(): void {
     this.elementG = this.renderer.createElement('g', 'svg');
-    this.gridSize = value;
     for (let i = 0; i < this.width; i++) {
       const line: any = this.renderer.createElement('line', 'svg');
       this.renderer.setAttribute(line, 'x1', (i * this.gridSize).toString());

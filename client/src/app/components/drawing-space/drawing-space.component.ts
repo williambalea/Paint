@@ -326,6 +326,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.eraser) {
       this.eraserService.eraseMouseDown = false;
       this.eraserService.eraseShapes();
+      setInterval(() => {
+        this.eraserService.intersect();
+      }, Math.pow(1, Number.MIN_SAFE_INTEGER));
     }
 
     this.inputService.isDrawed = true;
@@ -358,6 +361,12 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
+    if (this.selectedTool !== TOOL.eraser) {
+      this.eraserService.cursor.remove();
+      this.eraserService.reset();
+    } else {
+      this.eraserService.updatePosition(this.eraserService.cursor);
+    }
     if (this.selectedTool === TOOL.text && this.textService.isWriting) {
       event.preventDefault();
       if (event.key.length === 1 && this.textService.isWriting) {

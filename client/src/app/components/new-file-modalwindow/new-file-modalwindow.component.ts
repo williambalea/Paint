@@ -7,6 +7,7 @@ import { KEY, SVGinnerWidth } from 'src/constants';
 import { ColorService } from '../../services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
+import { GridService } from 'src/app/services/grid/grid.service';
 
 @Component({
   selector: 'app-new-file-modalwindow',
@@ -23,6 +24,7 @@ export class NewFileModalwindowComponent implements OnInit, OnDestroy {
               private inputService: InputService,
               private formBuilder: FormBuilder,
               private colorService: ColorService,
+              private gridService: GridService,
               private dialogRef: MatDialogRef<NewFileModalwindowComponent>) {
   this.inputService.gridShortcutsActive = false;
  }
@@ -85,6 +87,12 @@ export class NewFileModalwindowComponent implements OnInit, OnDestroy {
     if (this.validForm()) {
       this.fileParameters.tempresize = true;
       this.inputService.isDrawed ? this.deleteConfirmation(canvaswidth, canvasheight) : this.createNewDrawing(canvaswidth, canvasheight);
+      this.gridService.width = this.fileParameters.canvasWidth.getValue();
+      this.gridService.height = this.fileParameters.canvasHeight.getValue();
+      if (this.gridService.isUsingGrid) {
+        this.gridService.hideGrid();
+        this.gridService.showGrid();
+      }
       this.dialogRef.close();
     } else {
       this.assignForm();

@@ -37,6 +37,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('defs', {static: false}) defs: ElementRef;
   @ViewChild('eraserCountour', {static: false}) eraserCountour: ElementRef;
   @ViewChild('includingBox', {static: false}) includingBox: ElementRef;
+  @ViewChild('canvasDiv', {static: false}) canvasDiv: ElementRef;
 
   tool: typeof TOOL;
   @Input() selectedTool: TOOL;
@@ -91,6 +92,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewChildService.htmlCanvas = this.htmlCanvas;
     this.viewChildService.eraserCountour = this.eraserCountour;
     this.viewChildService.includingBox = this.includingBox;
+    this.viewChildService.canvasDiv = this.canvasDiv;
   }
 
   ngAfterViewInit(): void {

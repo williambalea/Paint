@@ -12,4 +12,5 @@ export class ViewChildService {
   htmlCanvas: ElementRef;
   eraserCountour: ElementRef;
   includingBox: ElementRef;
+  canvasDiv: ElementRef;
 }

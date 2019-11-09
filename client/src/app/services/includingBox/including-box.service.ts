@@ -33,9 +33,13 @@ export class IncludingBoxService {
     const bottomRight: Point = { x: 0, y: 0 };
     this.selectorService.selectedShapes.forEach((value: SVGGraphicsElement) => {
       const clientRect = value.getBoundingClientRect() as DOMRect;
+      const rectifiedPosition: Point = {
+        x: clientRect.x - SVGinnerWidth + this.viewChildService.canvasDiv.nativeElement.scrollLeft - NB.One,
+        y: clientRect.y + this.viewChildService.canvasDiv.nativeElement.scrollTop - NB.One,
+      };
       const shapeBoundary = {
-        x: clientRect.x - SVGinnerWidth - NB.One,
-        y: clientRect.y - NB.One,
+        x: rectifiedPosition.x,
+        y: rectifiedPosition.y,
         width: clientRect.width,
         height: clientRect.height,
       } as SVGRect;

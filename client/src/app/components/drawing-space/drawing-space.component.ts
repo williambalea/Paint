@@ -326,6 +326,9 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.selectedTool === TOOL.eraser) {
       this.eraserService.eraseMouseDown = false;
       this.eraserService.eraseShapes();
+      setInterval(() => {
+        this.eraserService.intersect();
+      }, Math.pow(1, Number.MIN_SAFE_INTEGER));
     }
 
     this.inputService.isDrawed = true;

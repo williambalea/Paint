@@ -1,10 +1,10 @@
-import { Renderer2, RendererFactory2, ElementRef } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ACTIONS } from 'src/constants';
+import { InputService } from './input.service';
 import { UndoRedoService } from './undo-redo.service';
 import { UndoRedoAction } from './undoRedoAction';
 import { ViewChildService } from './view-child.service';
-import { InputService } from './input.service';
 
 class RendererMock {
   createElement(): void {return; }
@@ -25,18 +25,12 @@ describe('UndoRedoService', () => {
         UndoRedoService,
         ViewChildService,
         InputService,
-        // ColorService,
-        // InputService,
         { provide: Renderer2, useClass: RendererMock },
-        // { provide: InputService, useClass: InputServiceMock },
-        // { provide: ColorService, useClass: ColorServiceMock },
       ],
     }).compileComponents();
     service = TestBed.get(UndoRedoService);
     viewChildService = TestBed.get(ViewChildService);
     inputService = TestBed.get(InputService);
-    // colorService = TestBed.get(ColorService);
-    // inputService = TestBed.get(InputService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
     });
@@ -52,7 +46,7 @@ describe('UndoRedoService', () => {
     expect(spyOnPush).toHaveBeenCalled();
   });
 
-  it('should append on undi', () => {
+  it('should append on undo', () => {
     viewChildService.canvas = new ElementRef('allo');
     const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
     const spyOnremoveChild = spyOn(renderer, 'removeChild');
@@ -111,14 +105,74 @@ describe('UndoRedoService', () => {
     expect(spyOngetAttribute).toHaveBeenCalled();
   });
 
-  // DEVRAIT PASSER MAIS NE PASSER PAS ...
-  // it('should not set old color if tag name is not path or svg', () => {
-  //   const shape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
-  //   shape.setAttribute('tagName', 'wrongTagName');
-  //   const spyOngetAttribute = spyOn(shape, 'getAttribute');
-  //   service.setOldColor(shape);
-  //   expect(spyOngetAttribute).not.toHaveBeenCalled();
-  // });
+  it('should restore color', () => {
+    const shape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+    shape.setAttribute('tagName', 'path');
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape};
+    const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
+    service.restoreColor(lastAction);
+    expect(spyOnSetAttribute).toHaveBeenCalled();
+  });
 
+  it('should change color on undo', () => {
+    const spyOnrestoreColor = spyOn(service, 'restoreColor');
+    const spyOnpush = spyOn(service.poppedActions, 'push');
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.changeColorOnUndo(lastAction);
+    expect(spyOnrestoreColor).toHaveBeenCalled();
+    expect(spyOnpush).toHaveBeenCalled();
+  });
+
+  it('should append on redo', () => {
+    viewChildService.canvas = new ElementRef('allo');
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    const spyOnappendChild = spyOn(renderer, 'appendChild');
+    const spyOnpush = spyOn(service.actions, 'push');
+    const spyOnvvalidaincrementMultiplier = spyOn(service, 'validaincrementMultiplier');
+    service.appendOnRedo(lastAction);
+    expect(spyOnappendChild).toHaveBeenCalled();
+    expect(spyOnpush).toHaveBeenCalled();
+    expect(spyOnvvalidaincrementMultiplier).toHaveBeenCalled();
+  });
+
+  it('should validate increment multiplier', () => {
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.validaincrementMultiplier(lastAction);
+    expect(inputService.incrementMultiplier).toEqual(1);
+  });
+
+  it('should remove on redo', () => {
+    viewChildService.canvas = new ElementRef(renderer.createElement('rect', 'svg'));
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    const spyOnremoveChild = spyOn(renderer, 'removeChild');
+    const spyOnpush = spyOn(service.actions, 'push');
+    service.removeOnRedo(lastAction);
+    expect(spyOnremoveChild).toHaveBeenCalled();
+    expect(spyOnpush).toHaveBeenCalled();
+  });
+
+  it('should remove many on undo', () => {
+    viewChildService.canvas = new ElementRef('allo');
+    const shapes: SVGGraphicsElement[] = [];
+    const firstshape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+    const secondshape: SVGGraphicsElement = renderer.createElement('rect', 'svg');
+    shapes.push(firstshape);
+    shapes.push(secondshape);
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shapes};
+    const spyOnRemoveChild = spyOn(renderer, 'removeChild');
+    const spyOnpush = spyOn(service.actions, 'push');
+    service.removeManyOnRedo(lastAction);
+    expect(spyOnRemoveChild).toHaveBeenCalled();
+    expect(spyOnpush).toHaveBeenCalled();
+  });
+
+  it('should change color on redo', () => {
+    const spyOnrestoreColor = spyOn(service, 'restoreColor');
+    const spyOnpush = spyOn(service.actions, 'push');
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.changeColorOnRedo(lastAction);
+    expect(spyOnrestoreColor).toHaveBeenCalled();
+    expect(spyOnpush).toHaveBeenCalled();
+  });
 
 });

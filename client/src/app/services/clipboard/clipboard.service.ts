@@ -134,8 +134,8 @@ export class ClipboardService {
   defineAction(shapeCopy: SVGGraphicsElement): UndoRedoAction {
     const undoRedoAction: UndoRedoAction = {
       action: ACTIONS.append,
-      shape: shapeCopy,
       increment : this.inputService.incrementMultiplier,
+      shape: shapeCopy,
     };
     return undoRedoAction;
   }
@@ -149,7 +149,7 @@ export class ClipboardService {
       const newPositionY = this.inputService.incrementMultiplier * 15;
       this.validateLastChild(overflowX, overflowY);
       this.validateOverflow(overflowX, overflowY, newPositionX, newPositionY);
-      shapeCopy.setAttribute('transform', `translate(${newPositionX}, ${newPositionY})` + this.validateOldTransform(shapeCopy));
+      shapeCopy.setAttribute('transform', `translate(${newPositionX}, ${newPositionY}) ${this.validateOldTransform(shapeCopy)}`);
       this.renderer.appendChild(this.viewChildService.canvas.nativeElement, shapeCopy);
       this.undoRedoService.addAction(this.defineAction(shapeCopy));
     }

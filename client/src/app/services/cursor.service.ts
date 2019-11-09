@@ -15,7 +15,7 @@ export class CursorService {
     if (tool === TOOL.text) {
       this.cursor = 'cursor: text';
     } else {
-      this.cursor = 'cursor: url("../../../assets/cursors/' + tool + '.svg"), default;';
+      this.cursor = `cursor: url("../../../assets/cursors/'${tool}.svg"), default;`;
     }
   }
 

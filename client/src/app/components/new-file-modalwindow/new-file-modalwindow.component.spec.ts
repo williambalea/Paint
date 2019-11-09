@@ -29,6 +29,7 @@ describe('NewFileModalwindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+    declarations: [ NewFileModalwindowComponent, DeleteConfirmationComponent ],
     imports: [
     ReactiveFormsModule,
     MatDialogModule,
@@ -38,7 +39,6 @@ describe('NewFileModalwindowComponent', () => {
     { provide: MatDialogRef, useValue: dialogMock },
     FileParametersServiceService,
     ],
-    declarations: [ NewFileModalwindowComponent, DeleteConfirmationComponent ],
     schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
     ],

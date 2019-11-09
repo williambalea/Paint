@@ -6,8 +6,8 @@ import { CommunicationsService } from 'src/app/services/communications.service';
 
 @Component({
   selector: 'app-display-confirmation',
-  templateUrl: './display-confirmation.component.html',
   styleUrls: ['./display-confirmation.component.scss'],
+  templateUrl: './display-confirmation.component.html',
 })
 export class DisplayConfirmationComponent {
 

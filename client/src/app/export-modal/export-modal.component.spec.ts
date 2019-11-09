@@ -17,6 +17,9 @@ describe('ExportModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ExportModalComponent],
+      imports: [
+        MatDialogModule,
+      ],
       providers: [
         ExportModalComponent,
         Renderer2,
@@ -24,9 +27,6 @@ describe('ExportModalComponent', () => {
         provideAutoMock(ExportService),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        MatDialogModule,
-      ],
     })
       .compileComponents();
     viewChildService = TestBed.get(ViewChildService);

@@ -105,7 +105,7 @@ export class LineService implements Shape {
     }
 
     isActive(): void {
-      this.linepath = this.savedPath + `L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
+      this.linepath = `${this.savedPath} L${this.inputService.getMouse().x} ${this.inputService.getMouse().y}`;
       this.renderer.setAttribute(this.path, 'd', this.linepath);
     }
 
@@ -130,8 +130,8 @@ export class LineService implements Shape {
       }
       this.renderer.setAttribute(this.path, 'd', this.linepath += 'Z');
       const undoRedoAction: UndoRedoAction = {
-        shape: this.path as unknown as SVGGraphicsElement,
         action: ACTIONS.append,
+        shape: this.path as unknown as SVGGraphicsElement,
       };
       this.undoRedoService.addAction(undoRedoAction);
       this.path = this.renderer.createElement('path', 'svg');
@@ -145,8 +145,8 @@ export class LineService implements Shape {
     if (this.doubleClick) {
       this.renderer.setAttribute(this.path, 'd', this.linepath);
       const undoRedoAction: UndoRedoAction = {
-        shape: this.path as unknown as SVGGraphicsElement,
         action: ACTIONS.append,
+        shape: this.path as unknown as SVGGraphicsElement,
       };
       this.undoRedoService.addAction(undoRedoAction);
       this.reset();

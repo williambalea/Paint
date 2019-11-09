@@ -6,14 +6,14 @@ import {
   EventEmitter,
   HostListener,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { COLORS, NB, STRINGS } from '../../../../constants';
 
 @Component({
   selector: 'app-color-slider',
-  templateUrl: './color-slider.component.html',
   styleUrls: ['./color-slider.component.scss'],
+  templateUrl: './color-slider.component.html',
 })
 export class ColorSliderComponent implements AfterViewInit {
 
@@ -109,6 +109,6 @@ export class ColorSliderComponent implements AfterViewInit {
 
   getColorAtPosition(x: number, y: number): string {
     const imageData = this.ctx.getImageData(x, y, NB.One, NB.One).data;
-    return 'rgba(' + imageData[NB.Zero] + ',' + imageData[NB.One] + ',' + imageData[NB.Two] + ',1)';
+    return `rgba(${imageData[0]}, ${imageData[1]}, ${imageData[2]}, 1)`;
   }
 }

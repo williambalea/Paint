@@ -9,10 +9,10 @@ import { SVGJSON } from '../../../../common/communication/SVGJSON';
   providedIn: 'root',
 })
 export class CommunicationsService {
-  private listeners: any = new Subject<any>();
   HTML: string;
   enableSubmit: boolean;
   isLoading: boolean;
+  private listeners: any = new Subject<any>();
 
   constructor(private http: HttpClient) {
     this.HTML = EMPTY_STRING;

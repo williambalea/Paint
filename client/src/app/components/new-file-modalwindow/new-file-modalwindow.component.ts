@@ -2,17 +2,17 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { GridService } from 'src/app/services/grid/grid.service';
 import { InputService } from 'src/app/services/input.service';
 import { KEY, SVGinnerWidth } from 'src/constants';
 import { ColorService } from '../../services/color/color.service';
 import { FileParametersServiceService } from '../../services/file-parameters-service.service';
 import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
-import { GridService } from 'src/app/services/grid/grid.service';
 
 @Component({
   selector: 'app-new-file-modalwindow',
-  templateUrl: './new-file-modalwindow.component.html',
   styleUrls: ['./new-file-modalwindow.component.scss'],
+  templateUrl: './new-file-modalwindow.component.html',
 })
 export class NewFileModalwindowComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -35,8 +35,8 @@ export class NewFileModalwindowComponent implements OnInit, OnDestroy {
 
   assignForm(): void {
     this.form = this.formBuilder.group({
-      canvaswidth: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
       canvasheight: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
+      canvaswidth: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
     });
   }
 

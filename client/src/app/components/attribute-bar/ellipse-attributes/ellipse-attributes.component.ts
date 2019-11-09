@@ -5,8 +5,8 @@ import { EllipseService } from 'src/app/services/shapes/ellipse.service';
 
 @Component({
   selector: 'app-ellipse-attributes',
-  templateUrl: './ellipse-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './ellipse-attributes.component.html',
 })
 export class EllipseAttributesComponent {
 

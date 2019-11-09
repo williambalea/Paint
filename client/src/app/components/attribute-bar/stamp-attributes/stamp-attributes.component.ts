@@ -4,8 +4,8 @@ import { StampService } from 'src/app/services/shapes/stamp.service';
 
 @Component({
   selector: 'app-stamp-attributes',
-  templateUrl: './stamp-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './stamp-attributes.component.html',
 })
 export class StampAttributesComponent {
 

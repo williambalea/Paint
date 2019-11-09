@@ -9,8 +9,8 @@ import { KEY, NB, TOOL } from '../../../constants';
 
 @Component({
   selector: 'app-attribute-bar',
-  templateUrl: './attribute-bar.component.html',
   styleUrls: ['./attribute-bar.component.scss'],
+  templateUrl: './attribute-bar.component.html',
 })
 
 export class AttributeBarComponent {

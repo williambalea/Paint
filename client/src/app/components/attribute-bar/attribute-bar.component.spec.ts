@@ -25,7 +25,7 @@ export class EventEmitterServiceMock {
 
 // tslint:disable-next-line: max-classes-per-file
 export class MockElementRef extends ElementRef {
-  constructor() { super(null); }
+  constructor() { super(undefined); }
 }
 
 describe('AttributeBarComponent', () => {
@@ -41,14 +41,14 @@ describe('AttributeBarComponent', () => {
       declarations: [
         AttributeBarComponent,
       ],
+      imports: [
+        FormsModule,
+      ],
       providers: [
         AttributeBarComponent,
         {provide: ElementRef, useClass: MockElementRef},
         {provide: eventEmitterService, useClass: EventEmitterServiceMock},
         {provide: Renderer2, useClass: Renderer2Mock },
-      ],
-      imports: [
-        FormsModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })

@@ -5,23 +5,19 @@ import { COLORS, EMPTY_STRING, NB, STRING_NB } from '../../../constants';
 
 @Component({
   selector: 'app-color-picker',
-  templateUrl: './color-picker.component.html',
   styleUrls: ['./color-picker.component.scss'],
+  templateUrl: './color-picker.component.html',
 })
 
 export class ColorPickerComponent implements OnInit {
 
   hue: string;
   color: string;
-  private oldPointedColor: string;
   transparency: number;
   colorHex: string;
+  private oldPointedColor: string;
   private transparencyString: string;
   private colorInputControl: ColorInputControl;
-
-  ngOnInit(): void {
-    this.sendColorWrapper();
-  }
 
   constructor(public colorService: ColorService) {
     this.hue = EMPTY_STRING;
@@ -31,6 +27,10 @@ export class ColorPickerComponent implements OnInit {
     this.colorHex = COLORS.whiteHEX;
     this.transparencyString = STRING_NB.One;
     this.colorInputControl = new ColorInputControl();
+  }
+
+  ngOnInit(): void {
+    this.sendColorWrapper();
   }
 
   getHue(): string {
@@ -124,7 +124,7 @@ export class ColorPickerComponent implements OnInit {
     this.color = this.color.substr(NB.Five, this.color.length);
     this.color = this.color.substr(NB.Zero, this.color.length - NB.One);
     const rgb: string[] = this.color.split(',');
-    this.color = 'rgba(' + rgb[NB.Zero] + ',' + rgb[NB.One] + ',' + rgb[NB.Two] + ',' + this.transparencyString + ')';
+    this.color = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${this.transparencyString})`;
   }
 
   syncValue(): void {
@@ -132,10 +132,7 @@ export class ColorPickerComponent implements OnInit {
     const r: number = parseInt(colorArray[NB.One], NB.Sixteen);
     const g: number = parseInt(colorArray[NB.Two], NB.Sixteen);
     const b: number = parseInt(colorArray[NB.Three], NB.Sixteen);
-    this.color = 'rgba(' + r.toString() +
-      ',' + g.toString() +
-      ',' + b.toString() +
-      ',' + this.transparencyString + ')';
+    this.color = `rgba(${r.toString()}, ${g.toString()}, ${b.toString()}, ${this.transparencyString})`;
   }
 
   swapColors(): void {

@@ -6,7 +6,9 @@
         [attr.height]="this.canvasHeight" [style.background-color]="colorService.getBackgroundColor()"
         xmlns="http://www.w3.org/2000/svg" (contextmenu)="$event.preventDefault()">
 
-        <g #g></g>
+        <g #g>
+
+        </g>
 
         <g #includingBox></g>
 
@@ -50,9 +52,10 @@
                     result="fbSourceGraphic" />
             </filter>
 
-            <marker id="dot" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5">
-                <circle cx="5" cy="5" r="30" fill="red" />
+            <marker id="dot" viewBox="0 0 30 30" refX="15" refY="15" markerWidth="5" markerHeight="5" stroke-width="0">
+                <circle cx="15" cy="15" r="10" fill="black" />
             </marker>
+
 
         </defs>
 

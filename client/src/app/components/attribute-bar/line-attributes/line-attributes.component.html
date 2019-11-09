@@ -5,13 +5,7 @@
     <div class="svgLine">
         <svg class="lineStyleRound" width="200" height="120">
 
-            <defs>
-                <marker id="dot" viewBox="0 0 30 30" refX="15" refY="15" markerWidth="5" markerHeight="5"
-                    stroke-width="0">
-                    <circle cx="15" cy="15" [style.r]="this.lineService.dotSize" fill="black" />
-                </marker>
-
-            </defs>
+            
 
             <path d="M60 90 L100 30 L140 90" [style.stroke]="this.colorService.getFillColor()"
                 [style.stroke-linejoin]="this.lineService.junctionValue"

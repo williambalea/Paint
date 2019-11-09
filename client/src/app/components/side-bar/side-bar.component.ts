@@ -29,6 +29,7 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -68,6 +69,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
               private noShapeService: NoShapeService,
               protected cursorService: CursorService,
               private undoRedoService: UndoRedoService,
+              private gridService: GridService,
               private textService: TextService,
               private eventEmitterService: EventEmitterService) {
     this.enableKeyPress = false;

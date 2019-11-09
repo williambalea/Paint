@@ -69,7 +69,7 @@ export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {
               private noShapeService: NoShapeService,
               protected cursorService: CursorService,
               private undoRedoService: UndoRedoService,
-              private gridService: GridService,
+              public gridService: GridService,
               private textService: TextService,
               private eventEmitterService: EventEmitterService) {
     this.enableKeyPress = false;

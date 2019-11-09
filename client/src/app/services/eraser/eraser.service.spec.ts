@@ -82,7 +82,7 @@ describe('EraserService', () => {
     shape = renderer.createElement('rect', 'svg');
     const spyOnCreateElement  = spyOn(renderer, 'createElement');
     const spyOnsetAttributePreview  = spyOn(service, 'setAttributePreview');
-    const spyOnPush = spyOn(service.preview, 'push');
+    const spyOnPush = spyOn(service.shapesToErase, 'push');
     const spyOnappendChild = spyOn( renderer, 'appendChild');
     service.addToPreview(shape);
     expect(spyOnCreateElement).toHaveBeenCalled();
@@ -104,7 +104,7 @@ describe('EraserService', () => {
   it('should clear', () => {
     let i: SVGGraphicsElement;
     i = renderer.createElement('rect', 'svg');
-    service.preview.push(i);
+    service.shapesToErase.push(i);
     const spyOnRemoveChild = spyOn( renderer, 'removeChild');
     service.clear();
     expect(spyOnRemoveChild).toHaveBeenCalled();

@@ -53,21 +53,18 @@ export class UndoRedoService {
   }
 
   setOldColor(shape: SVGGraphicsElement): string {
-    if (shape.tagName === 'path' || shape.tagName === 'g') {
-      return shape.getAttribute('stroke') as string;
-    } else {
-      return shape.getAttribute('fill') as string;
-    }
+    return (shape.tagName === 'path' || shape.tagName === 'g') ?
+      shape.getAttribute('stroke') as string :
+      shape.getAttribute('fill') as string;
   }
 
   restoreColor(lastAction: UndoRedoAction): void {
     const shape = lastAction.shape as SVGGraphicsElement;
     const oldColor = lastAction.oldColor as string;
-    if (shape.tagName === 'path' || shape.tagName === 'g') {
-      this.renderer.setAttribute(shape, 'stroke', oldColor);
-    } else {
+
+    (shape.tagName === 'path' || shape.tagName === 'g') ?
+      this.renderer.setAttribute(shape, 'stroke', oldColor) :
       this.renderer.setAttribute(shape, 'fill', oldColor);
-    }
   }
 
   changeColorOnUndo(lastAction: UndoRedoAction): void {

@@ -9,23 +9,23 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { COLORS, NB, STRINGS } from '../../../../constants';
 
 @Component({
   selector: 'app-color-palette',
-  templateUrl: './color-palette.component.html',
   styleUrls: ['./color-palette.component.scss'],
+  templateUrl: './color-palette.component.html',
 })
 export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   @Input() hue: string;
   @Output() color: EventEmitter<string>;
   @ViewChild(STRINGS.canvas, { static: false }) canvas: ElementRef<HTMLCanvasElement>;
+  selectedPosition: { x: number; y: number };
   private ctx: CanvasRenderingContext2D;
   private mousedown: boolean;
-  selectedPosition: { x: number; y: number };
 
   constructor() {
     this.selectedPosition = { x: NB.SeventyFive, y: NB.SeventyFive };
@@ -133,6 +133,6 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
 
   getColorAtPosition(x: number, y: number): string {
     const imageData = this.ctx.getImageData(x, y, NB.One, NB.One).data;
-    return 'rgba(' + imageData[NB.Zero] + ',' + imageData[NB.One] + ',' + imageData[NB.Two] + ',1)';
+    return `rgba(${imageData[0]}, ${imageData[1]}, ${imageData[2]})`;
   }
 }

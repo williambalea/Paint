@@ -23,6 +23,9 @@ describe('DisplayConfirmationComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DisplayConfirmationComponent ],
+      imports: [
+        MatDialogModule,
+      ],
       providers: [
         DisplayConfirmationComponent,
         EventEmitterService,
@@ -30,9 +33,6 @@ describe('DisplayConfirmationComponent', () => {
         { provide: CommunicationsService, useValue: CommunicationsServiceMock },
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      imports: [
-        MatDialogModule,
-      ],
     });
 
     TestBed.overrideModule(BrowserDynamicTestingModule, {

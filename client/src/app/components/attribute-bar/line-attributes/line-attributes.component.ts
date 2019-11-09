@@ -6,8 +6,8 @@ import { JUNCTIONSTYLE, LINE_PATTERN, LINECORNER, STROKE_DASHARRAY_STYLE } from 
 
 @Component({
   selector: 'app-line-attributes',
-  templateUrl: './line-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './line-attributes.component.html',
 })
 export class LineAttributesComponent {
 

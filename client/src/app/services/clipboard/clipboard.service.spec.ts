@@ -1,6 +1,6 @@
 import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-//import { FileParametersServiceService } from '../file-parameters-service.service';
+// import { FileParametersServiceService } from '../file-parameters-service.service';
 import { IncludingBoxService } from '../includingBox/including-box.service';
 import { InputService } from '../input.service';
 import { SelectorService } from '../selector/selector.service';
@@ -17,7 +17,7 @@ describe('ClipboardService', () => {
   let rendererFactory: RendererFactory2;
   let inputService: InputService;
   let viewChildService: ViewChildService;
-  //let fileParameterService: FileParametersServiceService;
+  // let fileParameterService: FileParametersServiceService;
 
   const mockShape: any = {id: 'shape'};
   const mockShapeArray: any[] = [];
@@ -40,7 +40,7 @@ describe('ClipboardService', () => {
     viewChildService = TestBed.get(ViewChildService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
-    //fileParameterService = TestBed.get(FileParametersServiceService);
+    // fileParameterService = TestBed.get(FileParametersServiceService);
     });
 
   it('should be created', () => {
@@ -150,7 +150,7 @@ describe('ClipboardService', () => {
     renderer.appendChild(viewChildService.canvas, svgSecond);
     console.log(svgSecond);
     console.log(viewChildService.canvas);
-    //console.log(viewChildService.canvas.nativeElement.lastChild);
+    // console.log(viewChildService.canvas.nativeElement.lastChild);
     const overflowX = 1;
     const overflowY = 2;
     service.validateLastChild(overflowX, overflowY);

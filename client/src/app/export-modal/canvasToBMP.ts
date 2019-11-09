@@ -11,9 +11,9 @@ export class CanvasToBMP {
         const idata = (canvas.getContext('2d') as CanvasRenderingContext2D).getImageData(0, 0, w, h);
         const data32 = new Uint32Array(idata.data.buffer); // 32-bit representation of canvas
 
-        const stride = Math.floor((32 * w + 31) / 32) * 4; // row length incl. padding
+        const stride = Math.floor((w * 32 + 31) / 32) * 4; // row length incl. padding
         const pixelArraySize = stride * h;                 // total bitmap size
-        const fileLength = 122 + pixelArraySize;           // header size is known + bitmap
+        const fileLength = pixelArraySize + 122;           // header size is known + bitmap
 
         const file = new ArrayBuffer(fileLength);          // raw byte buffer (returned)
         this.view = new DataView(file);                    // handle endian, reg. width etc.
@@ -48,7 +48,7 @@ export class CanvasToBMP {
 
         // bitmap data, change order of ABGR to BGRA
         while (y < h) {
-            p = 0x7a + y * stride; // offset + stride x height
+            p = y * stride + 0x7a; // offset + stride x height
             x = 0;
             while (x < w4) {
                 abgr = data32[s++];                     // get ABGR
@@ -64,9 +64,6 @@ export class CanvasToBMP {
 
     }
 
-    private setU16(data: number) {this.view.setUint16(this.pos, data, true); this.pos += 2; }
-    private setU32(data: number) {this.view.setUint32(this.pos, data, true); this.pos += 4; }
-
     toBlob(canvas: HTMLCanvasElement): Blob {
         return new Blob([this.toArrayBuffer(canvas)], {
         type: 'image/bmp',
@@ -81,6 +78,9 @@ export class CanvasToBMP {
         while (i < length) {
             bs += String.fromCharCode(buffer[i++]);
         }
-        return 'data:image/bmp;base64,' + btoa(bs);
+        return `data:image/bmp;base64, ${btoa(bs)}`;
     }
+
+    private setU16(data: number) {this.view.setUint16(this.pos, data, true); this.pos += 2; }
+    private setU32(data: number) {this.view.setUint32(this.pos, data, true); this.pos += 4; }
 }

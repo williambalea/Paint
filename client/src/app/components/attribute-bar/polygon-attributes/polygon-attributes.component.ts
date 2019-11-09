@@ -5,8 +5,8 @@ import { PolygonService } from 'src/app/services/shapes/polygon.service';
 
 @Component({
   selector: 'app-polygon-attributes',
-  templateUrl: './polygon-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './polygon-attributes.component.html',
 })
 export class PolygonAttributesComponent {
 

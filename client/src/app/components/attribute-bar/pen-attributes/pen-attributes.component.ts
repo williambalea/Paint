@@ -4,14 +4,14 @@ import { PenService } from 'src/app/services/shapes/pen.service';
 
 @Component({
   selector: 'app-pen-attributes',
-  templateUrl: './pen-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './pen-attributes.component.html',
 })
 export class PenAttributesComponent {
-  private readonly oneThird = 1 / 3;
-  private readonly twoThirds = 2 / 3;
   secondStrokeSize: number;
   thirdStrokeSize: number;
+  private readonly oneThird = 1 / 3;
+  private readonly twoThirds = 2 / 3;
 
   constructor(public penService: PenService,
               public colorService: ColorService) {

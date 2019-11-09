@@ -9,8 +9,8 @@ import { InputService } from '../../services/input.service';
 
 @Component({
   selector: 'app-save-file-modalwindow',
-  templateUrl: './save-file-modalwindow.component.html',
   styleUrls: ['./save-file-modalwindow.component.scss'],
+  templateUrl: './save-file-modalwindow.component.html',
 })
 
 export class SaveFileModalwindowComponent implements OnInit, OnDestroy {

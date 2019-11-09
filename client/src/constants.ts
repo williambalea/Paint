@@ -217,11 +217,6 @@ export const DATABASE_URL = '/database';
 export const SVGTABLE_URL = '/svgTable';
 export const POST_TABLE_URL = '/postToTable';
 
-export interface DrawingInfo {
-  drawingName: string;
-  tags: string[];
-}
-
 export const EMPTY_STRING = '';
 export const HIDE_DIALOG = 'hideDialog';
 export const INIT_MOVE_PEN = 'l0.01 0.01 ';

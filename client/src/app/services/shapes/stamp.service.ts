@@ -53,7 +53,7 @@ export class StampService implements Shape {
   }
 
   draw(): void {
-    this.renderer.setAttribute(this.stamp, 'href', 'data:image/svg+xml;base64,' + svgFileDataBase64[this.selectStampIndex]);
+    this.renderer.setAttribute(this.stamp, 'href', `data:image/svg+xml;base64,${svgFileDataBase64[this.selectStampIndex]}`);
     this.renderer.setAttribute(this.stamp, 'x', this.position.x.toString());
     this.renderer.setAttribute(this.stamp, 'y', this.position.y.toString());
     this.renderer.setAttribute(this.stamp, 'width', this.size.toString());

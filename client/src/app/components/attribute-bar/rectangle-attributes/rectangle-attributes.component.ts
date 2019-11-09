@@ -5,8 +5,8 @@ import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 
 @Component({
   selector: 'app-rectangle-attributes',
-  templateUrl: './rectangle-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './rectangle-attributes.component.html',
 })
 export class RectangleAttributesComponent {
 

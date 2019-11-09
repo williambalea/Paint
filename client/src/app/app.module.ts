@@ -40,6 +40,9 @@ import { EventEmitterService } from './services/event-emitter.service';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @NgModule({
+  bootstrap: [
+    AppComponent,
+  ],
   declarations: [
     AppComponent,
     EntryPointComponent,
@@ -70,6 +73,17 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     SelectorAttributesComponent,
     ColorApplicatorAttributeComponent,
   ],
+  entryComponents: [
+    EntryPointComponent,
+    DeleteConfirmationComponent,
+    NewFileModalwindowComponent,
+    SaveFileModalwindowComponent,
+    GetFileModalwindowComponent,
+    DisplayConfirmationComponent,
+    ExportModalComponent,
+    UploadModalComponent,
+    DownloadModalComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -84,23 +98,9 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     MaterialModule,
     MatTooltipModule,
   ],
-  entryComponents: [
-    EntryPointComponent,
-    DeleteConfirmationComponent,
-    NewFileModalwindowComponent,
-    SaveFileModalwindowComponent,
-    GetFileModalwindowComponent,
-    DisplayConfirmationComponent,
-    ExportModalComponent,
-    UploadModalComponent,
-    DownloadModalComponent,
-  ],
+  providers: [EventEmitterService],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
-  ],
-  providers: [EventEmitterService],
-  bootstrap: [
-    AppComponent,
   ],
 })
 

@@ -1,14 +1,14 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { EMPTY_STRING } from 'src/constants';
 import { InputService } from '../services/input.service';
 import { UploadService } from '../services/upload.service';
-import { EMPTY_STRING } from 'src/constants';
 
 @Component({
   selector: 'app-upload-modal',
-  templateUrl: './upload-modal.component.html',
   styleUrls: ['./upload-modal.component.scss'],
+  templateUrl: './upload-modal.component.html',
 })
 export class UploadModalComponent implements OnDestroy {
 
@@ -34,7 +34,7 @@ export class UploadModalComponent implements OnDestroy {
     const self = this;
     fileReader.onloadend = (() => {
       self.fileContent = fileReader.result as string;
-      
+
       this.uploadService.content = self.fileContent;
       this.uploadService.fileContent = self.fileContent.slice(96, -6);
 
@@ -67,11 +67,11 @@ export class UploadModalComponent implements OnDestroy {
       }
 
     });
-  
+
     if (file.type === 'image/svg+xml') {
       this.fileName = file.name;
-    this.uploadService.enableUploadButton = true;
-    fileReader.readAsText(file);
+      this.uploadService.enableUploadButton = true;
+      fileReader.readAsText(file);
   } else {
     window.alert('file could not be uploaded, please choose a file with an svg format');
   }

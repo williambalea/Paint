@@ -9,8 +9,8 @@ import { DisplayConfirmationComponent } from '../display-confirmation/display-co
 
 @Component({
   selector: 'app-get-file-modalwindow',
-  templateUrl: './get-file-modalwindow.component.html',
   styleUrls: ['./get-file-modalwindow.component.scss'],
+  templateUrl: './get-file-modalwindow.component.html',
 })
 export class GetFileModalwindowComponent implements OnInit, OnDestroy {
 

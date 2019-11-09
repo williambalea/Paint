@@ -1,4 +1,5 @@
 // tslint:disable: max-line-length
+// tslint:disable: prefer-template
 /* Icons taken from noto-emoji:
 * https://github.com/googlefonts/noto-emoji
 */

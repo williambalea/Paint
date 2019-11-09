@@ -3,8 +3,8 @@ import { EraserService } from 'src/app/services/eraser/eraser.service';
 
 @Component({
   selector: 'app-eraser-attributes',
-  templateUrl: './eraser-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './eraser-attributes.component.html',
 })
 export class EraserAttributesComponent {
 

@@ -77,19 +77,19 @@ describe('EraserService', () => {
     expect(spyOnSetAttribute).toHaveBeenCalledTimes(7);
   });
 
-  it('should add to preview', () => {
-    let shape: SVGGraphicsElement;
-    shape = renderer.createElement('rect', 'svg');
-    const spyOnCreateElement  = spyOn(renderer, 'createElement');
-    const spyOnsetAttributePreview  = spyOn(service, 'setAttributePreview');
-    const spyOnPush = spyOn(service.shapesToErase, 'push');
-    const spyOnappendChild = spyOn( renderer, 'appendChild');
-    service.addToPreview(shape);
-    expect(spyOnCreateElement).toHaveBeenCalled();
-    expect(spyOnsetAttributePreview).toHaveBeenCalled();
-    expect(spyOnPush).toHaveBeenCalled();
-    expect(spyOnappendChild).toHaveBeenCalled();
-  });
+  // it('should add to preview', () => {
+  //   let shape: SVGGraphicsElement;
+  //   shape = renderer.createElement('rect', 'svg');
+  //   const spyOnCreateElement  = spyOn(renderer, 'createElement');
+  //   const spyOnsetAttributePreview  = spyOn(service, 'setAttributePreview');
+  //   const spyOnPush = spyOn(service.shapesToErase, 'push');
+  //   const spyOnappendChild = spyOn( renderer, 'appendChild');
+  //   service.addToPreview(shape);
+  //   expect(spyOnCreateElement).toHaveBeenCalled();
+  //   expect(spyOnsetAttributePreview).toHaveBeenCalled();
+  //   expect(spyOnPush).toHaveBeenCalled();
+  //   expect(spyOnappendChild).toHaveBeenCalled();
+  // });
 
   // it('should set attribute preview', () => {
   //   let shape: SVGGraphicsElement;

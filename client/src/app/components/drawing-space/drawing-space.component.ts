@@ -25,8 +25,8 @@ import { Shape } from '../../services/shapes/shape';
 
 @Component({
   selector: 'app-drawing-space',
-  templateUrl: './drawing-space.component.html',
   styleUrls: ['./drawing-space.component.scss'],
+  templateUrl: './drawing-space.component.html',
 })
 export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('g', { static: true }) canvas: ElementRef;
@@ -165,11 +165,11 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
     const element = this.canvas.nativeElement;
     const html = element.innerHTML;
     const data: SVGJSON = {
+      color: this.colorService.getBackgroundColor(),
+      html,
       name: nom,
       tags: tag,
       thumbnail: picture,
-      html,
-      color: this.colorService.getBackgroundColor(),
     };
     const json = JSON.stringify(data);
     this.communicationService.HTML = json;

@@ -16,15 +16,15 @@ export class ColorQueue<T> {
         }
     }
 
-    private pop(): T | undefined {
-      return this.store.shift();
-    }
-
     get(index: number): T {
         return this.store[index];
     }
 
     getLength(): number {
         return this.store.length;
+    }
+
+    private pop(): T | undefined {
+      return this.store.shift();
     }
 }

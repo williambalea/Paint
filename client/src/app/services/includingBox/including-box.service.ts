@@ -38,10 +38,10 @@ export class IncludingBoxService {
         y: clientRect.y + this.viewChildService.canvasDiv.nativeElement.scrollTop - NB.One,
       };
       const shapeBoundary = {
+        height: clientRect.height,
+        width: clientRect.width,
         x: rectifiedPosition.x,
         y: rectifiedPosition.y,
-        width: clientRect.width,
-        height: clientRect.height,
       } as SVGRect;
       this.validateNoStroke(value, shapeBoundary);
       this.calculateInitialPoint(shapeBoundary);

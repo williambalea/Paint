@@ -5,8 +5,8 @@ import { FONTALIGN, FONTS, FONTSIZES } from 'src/constants';
 
 @Component({
   selector: 'app-text-attributes',
-  templateUrl: './text-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './text-attributes.component.html',
 })
 export class TextAttributesComponent {
   fonts: string[];

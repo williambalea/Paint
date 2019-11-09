@@ -6,6 +6,7 @@ import { ColorQueue } from '../../../Classes/ColorQueue';
   providedIn: 'root',
 })
 export class ColorService {
+  inNewFileWindow: boolean;
 
   private fill: string;
   private stroke: string;
@@ -15,7 +16,6 @@ export class ColorService {
   private lastTenColors: ColorQueue<string>;
   private showBackgroundButton: boolean;
   private backgroundColor: string;
-  inNewFileWindow: boolean;
 
   constructor() {
     this.fill = COLORS.blackRGBA;

@@ -20,12 +20,12 @@ export class PenService implements Shape {
   minStrokeWidth: number;
   active: boolean;
   path: HTMLElement;
-  private interval: any;
   mouseSpeed: number;
   lastMouseMoveTime: number;
   penWrapper2: SVGGraphicsElement;
 
   canvas: ElementRef;
+  private interval: any;
 
   constructor(private rendererFactory: RendererFactory2,
               private inputService: InputService,
@@ -57,8 +57,8 @@ export class PenService implements Shape {
     this.penWrapper2 = penWrapper;
     this.renderer.appendChild(this.canvas.nativeElement, penWrapper);
     const undoRedoAction: UndoRedoAction = {
-      shape: penWrapper,
       action: ACTIONS.append,
+      shape: penWrapper,
     };
     this.undoRedoSerivce.addAction(undoRedoAction);
     this.interval = setInterval( () => {

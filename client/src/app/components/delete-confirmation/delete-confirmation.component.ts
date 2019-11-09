@@ -7,8 +7,8 @@ import { FileParametersServiceService } from '../../services/file-parameters-ser
 
 @Component({
   selector: 'app-delete-confirmation',
-  templateUrl: './delete-confirmation.component.html',
   styleUrls: ['./delete-confirmation.component.scss'],
+  templateUrl: './delete-confirmation.component.html',
 })
 export class DeleteConfirmationComponent {
 

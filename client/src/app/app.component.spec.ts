@@ -21,21 +21,21 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientModule,
-      ],
       declarations: [
         AppComponent,
         SideBarComponent,
         DrawingSpaceComponent,
         SafeHtmlPipe,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      imports: [
+        RouterTestingModule,
+        HttpClientModule,
+      ],
       providers: [
         {provide: IndexService, useValue: indexServiceSpy},
         {provide: MatDialog, useValue: {}},
       ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     });
   }));
 

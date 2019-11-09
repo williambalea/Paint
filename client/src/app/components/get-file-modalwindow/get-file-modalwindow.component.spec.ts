@@ -53,6 +53,7 @@ describe('GetFileModalwindowComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ GetFileModalwindowComponent, SafeUrlPipe ],
+      imports: [ FormsModule, MatDialogModule ],
       providers: [
         GetFileModalwindowComponent,
         { provide: InputService, useClass: InputServiceMock },
@@ -63,7 +64,6 @@ describe('GetFileModalwindowComponent', () => {
         HttpClient,
         HttpHandler,
       ],
-      imports: [ FormsModule, MatDialogModule ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();

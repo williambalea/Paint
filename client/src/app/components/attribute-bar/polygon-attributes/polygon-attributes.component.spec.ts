@@ -17,8 +17,8 @@ describe('PolygonAttributesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ PolygonAttributesComponent ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));

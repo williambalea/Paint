@@ -8,6 +8,8 @@ import { ColorPickerComponent } from './color-picker.component';
 import { ColorSliderComponent } from './color-slider/color-slider.component';
 
 @NgModule({
+  declarations: [ColorPickerComponent, ColorPaletteComponent, ColorSliderComponent],
+  exports: [ColorPickerComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -17,8 +19,6 @@ import { ColorSliderComponent } from './color-slider/color-slider.component';
     MatFormFieldModule,
     MatInputModule,
   ],
-  declarations: [ColorPickerComponent, ColorPaletteComponent, ColorSliderComponent],
-  exports: [ColorPickerComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ColorPickerModule { }

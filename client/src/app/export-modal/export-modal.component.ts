@@ -11,8 +11,8 @@ import { CanvasToBMP } from './canvasToBMP';
 
 @Component({
   selector: 'app-export-modal',
-  templateUrl: './export-modal.component.html',
   styleUrls: ['./export-modal.component.scss'],
+  templateUrl: './export-modal.component.html',
 })
 export class ExportModalComponent implements OnInit, OnDestroy {
   bmpURL: SafeResourceUrl;

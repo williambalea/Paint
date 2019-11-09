@@ -4,8 +4,8 @@ import { PencilService } from 'src/app/services/shapes/pencil.service';
 
 @Component({
   selector: 'app-pencil-attributes',
-  templateUrl: './pencil-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './pencil-attributes.component.html',
 })
 export class PencilAttributesComponent {
 

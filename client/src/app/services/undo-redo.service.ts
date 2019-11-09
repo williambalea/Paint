@@ -70,8 +70,8 @@ export class UndoRedoService {
   changeColorOnUndo(lastAction: UndoRedoAction): void {
     const changeFill: UndoRedoAction = {
       action: ACTIONS.changeColor,
-      shape: lastAction.shape,
       oldColor: this.setOldColor(lastAction.shape as SVGGraphicsElement),
+      shape: lastAction.shape,
     };
     this.restoreColor(lastAction);
     this.poppedActions.push(changeFill);
@@ -126,8 +126,8 @@ export class UndoRedoService {
   changeColorOnRedo(lastAction: UndoRedoAction): void {
     const changeFill: UndoRedoAction = {
       action: ACTIONS.changeColor,
-      shape: lastAction.shape,
       oldColor: this.setOldColor(lastAction.shape as SVGGraphicsElement),
+      shape: lastAction.shape,
     };
     this.restoreColor(lastAction);
     this.actions.push(changeFill);

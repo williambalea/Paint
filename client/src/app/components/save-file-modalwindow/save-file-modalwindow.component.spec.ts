@@ -32,6 +32,9 @@ describe('SaveFileModalwindowComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SaveFileModalwindowComponent ],
+      imports: [
+        ReactiveFormsModule,
+      ],
       providers: [
         CommunicationsService,
         FormBuilder,
@@ -42,9 +45,6 @@ describe('SaveFileModalwindowComponent', () => {
         HttpClient,
         HttpHandler,
 
-      ],
-      imports: [
-        ReactiveFormsModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })

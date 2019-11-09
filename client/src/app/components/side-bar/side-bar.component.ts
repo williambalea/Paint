@@ -9,6 +9,7 @@ import { CommunicationsService } from 'src/app/services/communications.service';
 import { CursorService } from 'src/app/services/cursor.service';
 import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
+import { GridService } from 'src/app/services/grid/grid.service';
 import { IncludingBoxService } from 'src/app/services/includingBox/including-box.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
 import { BrushService } from 'src/app/services/shapes/brush.service';
@@ -29,12 +30,8 @@ import { EntryPointComponent } from '../entry-point/entry-point.component';
 import { GetFileModalwindowComponent } from '../get-file-modalwindow/get-file-modalwindow.component';
 import { NewFileModalwindowComponent } from '../new-file-modalwindow/new-file-modalwindow.component';
 import { EllipseService } from './../../services/shapes/ellipse.service';
-import { GridService } from 'src/app/services/grid/grid.service';
 
 @Component({
-  selector: 'app-side-bar',
-  templateUrl: './side-bar.component.html',
-  styleUrls: ['./side-bar.component.scss'],
   providers: [
     SelectorService,
     IncludingBoxService,
@@ -45,6 +42,9 @@ import { GridService } from 'src/app/services/grid/grid.service';
     LineService,
     PenService,
   ],
+  selector: 'app-side-bar',
+  styleUrls: ['./side-bar.component.scss'],
+  templateUrl: './side-bar.component.html',
 
 })
 export class SideBarComponent implements OnInit, OnDestroy, AfterViewInit {

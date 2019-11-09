@@ -9,8 +9,8 @@ import { ViewChildService } from '../services/view-child.service';
 
 @Component({
   selector: 'app-download-modal',
-  templateUrl: './download-modal.component.html',
   styleUrls: ['./download-modal.component.scss'],
+  templateUrl: './download-modal.component.html',
 })
 export class DownloadModalComponent implements OnInit, OnDestroy {
   formats: string[];

@@ -6,7 +6,6 @@ import { Point } from '../../../../common/interface/point';
   providedIn: 'root',
 })
 export class InputService {
-  private mouse: Point;
   shiftPressed: boolean;
   escapePressed: boolean;
   backSpacePressed: boolean;
@@ -27,6 +26,7 @@ export class InputService {
   isNotEmpty: boolean;
   mouseButton: number;
   isDrawed: boolean;
+  private mouse: Point;
 
   constructor() {
     this.shiftPressed = false;

@@ -3,8 +3,8 @@ import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-entry-point',
-  templateUrl: './entry-point.component.html',
   styleUrls: ['./entry-point.component.scss'],
+  templateUrl: './entry-point.component.html',
 })
 export class EntryPointComponent {
   isHidden: boolean;

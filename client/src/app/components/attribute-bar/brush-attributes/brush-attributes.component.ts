@@ -6,8 +6,8 @@ import { BRUSH } from 'src/constants';
 
 @Component({
   selector: 'app-brush-attributes',
-  templateUrl: './brush-attributes.component.html',
   styleUrls: ['../attribute-bar.component.scss'],
+  templateUrl: './brush-attributes.component.html',
 })
 export class BrushAttributesComponent {
   brush: typeof BRUSH;

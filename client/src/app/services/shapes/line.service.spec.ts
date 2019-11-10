@@ -99,8 +99,9 @@ describe('LineService', () => {
   });
 
   it('should set style', () => {
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setAttribute');
     const spyOnvalidateJunctionStyle = spyOn(service, 'validateJunctionStyle');
+    service.path = renderer.createElement('path', 'svg');
     service.setStyle();
     expect(spyOnSetStyle).toHaveBeenCalled();
     expect(spyOnvalidateJunctionStyle).toHaveBeenCalled();
@@ -108,21 +109,24 @@ describe('LineService', () => {
 
   it ('should call setStyle if dot is a selected junction', () => {
     service.junctionStyle = 'dot';
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setAttribute');
+    service.path = renderer.createElement('path', 'svg');
     service.validateJunctionStyle();
     expect(spyOnSetStyle).toHaveBeenCalled();
   });
 
   it ('should call setStyle if angeled is a selected junction', () => {
     service.junctionStyle = 'miter';
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setAttribute');
+    service.path = renderer.createElement('path', 'svg');
     service.validateJunctionStyle();
     expect(spyOnSetStyle).toHaveBeenCalled();
   });
 
   it ('should call setStyle if round is a selected junction', () => {
     service.junctionStyle = 'round';
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setAttribute');
+    service.path = renderer.createElement('path', 'svg');
     service.validateJunctionStyle();
     expect(spyOnSetStyle).toHaveBeenCalled();
   });
@@ -131,7 +135,7 @@ describe('LineService', () => {
     service.savedPath = 'abc';
     const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
     service.isActive();
-    expect(service.linepath).toEqual('abcL1 2');
+    expect(service.linepath).toEqual('abc L1 2');
     expect(spyOnSetAttribute).toHaveBeenCalled();
   });
 

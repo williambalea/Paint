@@ -1,12 +1,11 @@
 import { ElementRef, Renderer2, RendererFactory2, ɵEMPTY_ARRAY } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { EMPTY_STRING } from 'src/constants';
+import { provideAutoMock } from 'src/test.helpers.spec';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import {ViewChildService} from '../view-child.service';
 import { EraserService } from './eraser.service';
-import { EMPTY_STRING } from 'src/constants';
-import { provideAutoMock } from 'src/test.helpers.spec';
-
 
 describe('EraserService', () => {
   let service: EraserService;
@@ -25,14 +24,12 @@ describe('EraserService', () => {
         provideAutoMock(InputService),
         provideAutoMock(ColorService),
         provideAutoMock(ViewChildService),
-        // { provide: RendererFactory2, useClass: RendererFactoryMock },
-          Renderer2,
+        Renderer2,
       ],
     }).compileComponents();
     service = TestBed.get(EraserService);
     viewChildService = TestBed.get(ViewChildService);
     // colorService = TestBed.get(ColorService);
-    // renderer = TestBed.get(Renderer2);
     inputService = TestBed.get(InputService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
@@ -141,35 +138,24 @@ describe('EraserService', () => {
     expect(spyOnappendChild).toHaveBeenCalled();
   });
 
-  // it('should set attribute preview', () => {
-  //   let shape: SVGGraphicsElement;
-  //   shape = renderer.createElement('rect', 'svg');
-  //   let redContour: HTMLElement;
-  //   redContour = renderer.createElement('rect', 'svg');
-  //   const spyOnSetAttribute = spyOn( renderer, 'setAttribute');
-  //   service.setAttributePreview(redContour);
-  //   expect(spyOnSetAttribute).toHaveBeenCalledTimes(7);
-  // });
+  it('should set attribute preview with stroke', () => {
+    const setForElementWithStrokeSpy = spyOn(service, 'setForElementWithStroke');
+    const setForElementWithoutStrokeSpy = spyOn(service, 'setForElementWithoutStroke');
+    const shape = renderer.createElement('element') as SVGGraphicsElement;
+    shape.setAttribute('stroke', 'strokeValue');
+    service.setAttributePreview(shape);
+    expect(setForElementWithStrokeSpy).toHaveBeenCalled();
+    expect(setForElementWithoutStrokeSpy).not.toHaveBeenCalled();
+  });
 
-  // it('should clear', () => {
-  //   let i: SVGGraphicsElement;
-  //   i = renderer.createElement('rect', 'svg');
-  //   service.shapesToErase.push(i);
-  //   const spyOnRemoveChild = spyOn( renderer, 'removeChild');
-  //   service.clear();
-  //   expect(spyOnRemoveChild).toHaveBeenCalled();
-  // });
-
-  // it('should validate intersection', () => {
-  //   const isIntersection = true;
-  //   let child: SVGGraphicsElement;
-  //   child = renderer.createElement('rect', 'svg');
-  //   const spyOnaddToPreview = spyOn(service, 'addToPreview');
-  //   const spyOnvalidateErase = spyOn(service, 'validateErase');
-  //   service.validateIntersection(isIntersection, child);
-  //   expect(spyOnaddToPreview).toHaveBeenCalled();
-  //   expect(spyOnvalidateErase).toHaveBeenCalled();
-  // });
+  it('should set attribute preview without stroke', () => {
+    const setForElementWithStrokeSpy = spyOn(service, 'setForElementWithStroke');
+    const setForElementWithoutStrokeSpy = spyOn(service, 'setForElementWithoutStroke');
+    const shape = renderer.createElement('element') as SVGGraphicsElement;
+    service.setAttributePreview(shape);
+    expect(setForElementWithStrokeSpy).not.toHaveBeenCalled();
+    expect(setForElementWithoutStrokeSpy).toHaveBeenCalled();
+  });
 
   it('should return valid intersection', () => {
     const firstShape: ClientRect = { bottom: 1, height: 1, left: 1,
@@ -187,32 +173,18 @@ describe('EraserService', () => {
     expect(service.calculateIntersection(firstShape, secondShape)).not.toBeTruthy();
   });
 
-  // TESTS QUI NE MARCHENT PAS a cause du native Element
-  // it('should initialize view children', () => {
-  //   const createElement = spyOn( renderer, 'createElement');
-  //   service.initializeViewChildren();
-  //   expect(createElement).toHaveBeenCalled();
-  //   expect(viewChildService.drawingBoard).toBeDefined();
-  //   expect(viewChildService.canvas).toBeDefined();
-  // })
-
-  // it('should validate erase', () => {
-  //   let child: SVGGraphicsElement;
-  //   child = renderer.createElement('rect', 'svg');
-  //   service.eraseMouseDown = true;
-  //   const spyOnRemoveChild = spyOn( renderer, 'removeChild');
-  //   service.validateErase(child);
-  //   expect(spyOnRemoveChild).toHaveBeenCalled();
-  // });
-
   it('should reset upon calling intersect', () => {
     const resetSpy = spyOn(service, 'reset');
-    // const spyOnCursorBox = spyOn(service.cursor, 'getBoundingClientRect');
-    // const spyOnClear = spyOn(service, 'clear');
-    // service.intersect();
-    // expect(spyOnCursorBox).toHaveBeenCalled();
-    // expect(spyOnClear).toHaveBeenCalled();
+    service.canvas = new ElementRef(renderer.createElement('canvas'));
     service.intersect();
     expect(resetSpy).toHaveBeenCalled();
+  });
+
+  it('should not itterate if the canvas is empty', () => {
+    const calculateIntersectionSpy = spyOn(service, 'calculateIntersection');
+    service.canvas = new ElementRef(renderer.createElement('canvas'));
+    console.log(service.canvas);
+    service.intersect();
+    expect(calculateIntersectionSpy).not.toHaveBeenCalled();
   });
 });

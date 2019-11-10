@@ -3,17 +3,6 @@
 
   <h2>Save master piece to server </h2>
 
-  <mat-form-field class="input">
-    <mat-chip-list #chipList aria-label="Tags selection">
-      <mat-chip *ngFor="let tag of this.inputService.drawingTags" (removed)="removeTag(tag)">
-        {{tag}}
-        <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
-      <input formControlName="tag" placeholder="Add tags" [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="this.separatorKeysCodes" (matChipInputTokenEnd)="addTag($event)">
-    </mat-chip-list>
-  </mat-form-field>
-
   <form (ngSubmit)="submitDrawing()" [formGroup]="form">
     <div mat-dialog-content>
       <div class="field">
@@ -21,22 +10,30 @@
           <mat-form-field class="input">
             <input placeholder="Baptize creation" name="test" type="name" formControlName="name"
               value={{this.inputService.drawingName}} matInput [(ngModel)]="this.inputService.drawingName">
-            <mat-error>Enter string longer than 0</mat-error>
+            <mat-error>Minimum one character for the name</mat-error>
           </mat-form-field>
         </div>
       </div>
-
-
-
     </div>
+
+    <mat-form-field class="input">
+      <mat-chip-list #chipList aria-label="Tags selection">
+        <mat-chip *ngFor="let tag of this.inputService.drawingTags" (removed)="removeTag(tag)">
+          {{tag}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input formControlName="tag" placeholder="Add tags" [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="this.separatorKeysCodes" (matChipInputTokenEnd)="addTag($event)">
+      </mat-chip-list>
+    </mat-form-field>
 
     <div class="submit" mat-dialog-actions>
 
-      <div *ngIf="this.communicationService.enableSubmit">
+      <div *ngIf="this.communicationService.enableSubmit && this.inputService.drawingName.length > 0">
         <button type="submit" mat-stroked-button>submit</button>
       </div>
 
-      <div *ngIf="!this.communicationService.enableSubmit">
+      <div *ngIf="!this.communicationService.enableSubmit || this.inputService.drawingName.length === 0">
         <button type="submit" mat-stroked-button disabled>submit</button>
       </div>
 

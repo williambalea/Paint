@@ -1,4 +1,4 @@
-import {COMMA, ENTER } from '@angular/cdk/keycodes';
+import {COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
@@ -19,7 +19,7 @@ export class SaveFileModalwindowComponent implements OnInit, OnDestroy {
   form: FormGroup;
   currentTag: string;
 
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
 
   constructor(private formBuilder: FormBuilder,
               private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,

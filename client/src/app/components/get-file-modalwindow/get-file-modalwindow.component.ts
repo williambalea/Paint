@@ -1,4 +1,4 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -26,7 +26,7 @@ export class GetFileModalwindowComponent implements OnInit, OnDestroy {
   filterActivated: boolean;
   caughtGetError: boolean;
 
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
   private readonly SCROLL_AMOUNT: number = 200;
 
   constructor( private dialog: MatDialog,

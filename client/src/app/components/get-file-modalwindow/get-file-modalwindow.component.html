@@ -1,13 +1,27 @@
 <div class="top">
   <h1>Load master pieces from server </h1>
 
+  <!-- <mat-form-field>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
+        (removed)="remove(fruit)">
+        {{fruit.name}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="New fruit..." [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field> -->
+
   <mat-form-field>
     <input matInput type="text" placeholder="Enter tag for search" value={{this.tag}} matInput [(ngModel)]="tag">
     <button mat-button *ngIf="this.tag" matSuffix mat-icon-button aria-label="Clear" (click)="this.tag = ''">
       <mat-icon>close</mat-icon>
     </button>
-  </mat-form-field><br>
-  <button mat-stroked-button (click)="addTagToFilter()">Search</button>
+  </mat-form-field>
+  <button class="search" color="primary" mat-flat-button (click)="addTagToFilter()">Search</button>
+
 </div>
 <div *ngFor="let tag of tags; let i = index">
   <div class="tag">{{tag}}
@@ -17,16 +31,20 @@
   </div>
 </div>
 <br>
-<div class="data">
-  <div *ngFor=" let data of displayedData; let i = index">
-    <div class="drawing">
-      {{data.name}}
-      {{data.tags}}
-      <img [attr.src]="data.thumbnail | safeUrl" width="50" height="50">
-      <button matTooltip="Click me to confirm" id="drawing" (click)="this.selectDrawing(i); this.closeModalWindow()">
-        open </button>
+<div class="data" #data>
+  <span *ngFor=" let data of displayedData; let i = index">
+    <span>
+      <div class="drawing">
+        <div>{{data.name}}</div>
+        <div>[{{data.tags}}]</div>
+        <img [attr.src]="data.thumbnail | safeUrl" width="70" height="70">
+        <button class="chooseDrawing" mat-stroked-button matTooltip="Click me to confirm"
+          (click)="this.selectDrawing(i); this.closeModalWindow()">
+          Open
+        </button>
       </div>
-  </div>
+    </span>
+  </span>
 </div>
 
 <div *ngIf="this.communicationService.isLoading"> Loading ... </div>
@@ -35,5 +53,6 @@
   No Data Found
 </div>
 <div class="cancel">
-  <button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>
+  <button class="cancelButton" type="cancel" mat-flat-button (click)="closeModalWindow()"
+    cdkFocusInitial>cancel</button>
 </div>

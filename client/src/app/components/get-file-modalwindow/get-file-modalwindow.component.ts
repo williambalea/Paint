@@ -1,9 +1,9 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
-import { KEY, NB, STRINGS } from 'src/constants';
+import { KEY, STRINGS } from 'src/constants';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { DisplayConfirmationComponent } from '../display-confirmation/display-confirmation.component';
 
@@ -12,8 +12,10 @@ import { DisplayConfirmationComponent } from '../display-confirmation/display-co
   styleUrls: ['./get-file-modalwindow.component.scss'],
   templateUrl: './get-file-modalwindow.component.html',
 })
+
 export class GetFileModalwindowComponent implements OnInit, OnDestroy {
 
+  @ViewChild('data', {static: false}) data: ElementRef;
   dataTable: SVGJSON[];
   tag: string;
   tags: string[];
@@ -21,6 +23,8 @@ export class GetFileModalwindowComponent implements OnInit, OnDestroy {
   filteredThroughTagData: SVGJSON[];
   filterActivated: boolean;
   caughtGetError: boolean;
+
+  private readonly SCROLL_AMOUNT: number = 160;
 
   constructor( private dialog: MatDialog,
                private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
@@ -134,5 +138,13 @@ export class GetFileModalwindowComponent implements OnInit, OnDestroy {
         event.preventDefault();
       }
     }
+  }
+
+  @HostListener('wheel', ['$event'])
+  onwheel(event: WheelEvent): void {
+    event.preventDefault();
+    const scroll = Math.sign(event.deltaY);
+    const div = this.data.nativeElement;
+    (scroll === 1) ? div.scrollBy(0, this.SCROLL_AMOUNT) : div.scrollBy(0, -this.SCROLL_AMOUNT);
   }
 }

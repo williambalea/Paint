@@ -1,467 +1,424 @@
-// import { HttpClient, HttpHandler } from '@angular/common/http';
-// import { Renderer2, Type } from '@angular/core';
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-// import { SafeHtmlPipe } from 'src/app/safe-html.pipe';
-// import { ColorService } from 'src/app/services/color/color.service';
-// import { PipetteService } from 'src/app/services/color/pipette.service';
-// import { InputService } from 'src/app/services/input.service';
-// import { SelectorService } from 'src/app/services/selector/selector.service';
-// import { RectangleService } from 'src/app/services/shapes/rectangle.service';
-// import { ShapesService } from 'src/app/services/shapes/shapes.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { ElementRef, Renderer2, RendererFactory2, Type } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SafeHtmlPipe } from 'src/app/safe-html.pipe';
+import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
+import { ColorService } from 'src/app/services/color/color.service';
+import { PipetteService } from 'src/app/services/color/pipette.service';
+import { EraserService } from 'src/app/services/eraser/eraser.service';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
+import { InputService } from 'src/app/services/input.service';
+import { SelectorService } from 'src/app/services/selector/selector.service';
+//import { Shape } from 'src/app/services/shapes/shape';
+import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
+import { RectangleService } from 'src/app/services/shapes/rectangle.service';
+import { KEY, TOOL, EMPTY_STRING } from 'src/constants';
+import { provideAutoMock } from 'src/test.helpers.spec';
 // import { EMPTY_STRING, KEY, NB, TOOL } from 'src/constants';
 // import { Point } from '../../../../../common/interface/point';
 // import { Preview } from '../../../../../common/interface/preview';
-// import { Shape } from '../../services/shapes/shape';
-// import { GridService } from './../../services/grid/grid.service';
-// import { IncludingBoxService } from './../../services/includingBox/including-box.service';
-// // import { UnsubscribeService } from './../../services/unsubscribe.service';
-// import { DrawingSpaceComponent } from './drawing-space.component';
-// class ShapesServiceMock {
-//   shapes: Shape[];
-//   mouse: Point;
-//   preview: Preview = {
-//     active: false,
-//     x: NB.Zero,
-//     y: NB.Zero,
-//     width: NB.Zero,
-//     height: NB.Zero,
-//     path: EMPTY_STRING,
-//     filter: EMPTY_STRING,
-//   };
+//import { Shape } from '../../services/shapes/shape';
+import { GridService } from './../../services/grid/grid.service';
+import { IncludingBoxService } from './../../services/includingBox/including-box.service';
+// import { UnsubscribeService } from './../../services/unsubscribe.service';
+import { DrawingSpaceComponent } from './drawing-space.component';
+import { PenService } from 'src/app/services/shapes/pen.service';
+import { UndoRedoService } from 'src/app/services/undo-redo.service';
+import { UploadService } from 'src/app/services/upload.service';
+//import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 
-//   setSquareOffset(): void { return; }
-//   setRectangleOffset(): void { return; }
-//   setMouseOrigin(): void { return; }
-//   setRectangleType(): void { return; }
-
-//   drawRectangle(): void { return; }
-//   drawBrush(): void { return; }
-//   drawPen(): void { return; }
-
-//   resetPreview(): void { return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// class ColorServiceMock {
-//   getFillColor(): void { return; }
-//   getStrokeColor(): void { return; }
-//   getBackgroundColor(): void { return; }
-//   setMakingColorChanges(): void { return; }
-//   addColorsToLastUsed(): void { return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// class InputServiceMock {
-//   isBlank: boolean;
-//   isNotEmpty: boolean;
-//   isDrawed: boolean;
-//   shiftPressed = false;
-//   setMouseOffset(): void { return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// class RectangleServiceMock implements Shape {
-//   onMouseDown(): void { return; }
-//   onMouseMove(): void { return; }
-//   onMouseUp(): void { return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// class PipetteServiceMock {
-//   getColors(): void {return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// class Renderer2Mock {
-//   appendChild(): void {return; }
-//   removeChild(): void {return; }
-//   createElement(): void {return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// class IncludingBoxServiceMock {
-//   boxGElement: HTMLElement = {innerHTML: 'abc'} as HTMLElement;
-//   update(): void {return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// class GridServiceMock {
-//   draw(): void {return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// class SelectorServiceMock {
-//   selectedShapes: SVGGraphicsElement[];
-//   intersection(): void {return; }
-// }
-
-// // tslint:disable-next-line: max-classes-per-file
-// // class UnsubscribeServiceMock {
-// //   OnDestroy(): void {return; }
-// // }
-
-// describe('DrawingSpaceComponent', () => {
-//   let component: DrawingSpaceComponent;
-//   let fixture: ComponentFixture<DrawingSpaceComponent>;
+describe('DrawingSpaceComponent', () => {
+  let component: DrawingSpaceComponent;
+  let fixture: ComponentFixture<DrawingSpaceComponent>;
+  let clipboardService: ClipboardService;
+  let penService: PenService;
+  let uploadService: UploadService;
 //   let gridService: GridService;
-//   // let shapesService: ShapesService;
-//   let colorService: ColorService;
-//   let inputService: InputService;
+//let shapesService: ShapesService;
+  let colorService: ColorService;
+  let inputService: InputService;
 //   let rectangleService: RectangleService;
 //   let pipetteService: PipetteService;
-//   let renderer2: Renderer2;
-//   let selectorService: SelectorService;
-
-//   // let unsubscribeService: UnsubscribeService;
-//   let includingBoxService: IncludingBoxService;
-
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ DrawingSpaceComponent, SafeHtmlPipe ],
-//       providers: [
-//         DrawingSpaceComponent,
-//         { provide: ShapesService, useClass: ShapesServiceMock },
-//         { provide: ColorService, useClass: ColorServiceMock },
-//         { provide: InputService, useClass: InputServiceMock },
-//         { provide: RectangleService, useClass: RectangleServiceMock },
-//         { provide: PipetteService, useClass: PipetteServiceMock},
-//         { provide: Renderer2, useClass: Renderer2Mock },
-//         { provide: IncludingBoxService, useClass: IncludingBoxServiceMock},
-//         { provide: GridService, useClass: GridServiceMock},
-//         { provide: SelectorService, useClass: SelectorServiceMock},
-//         // { provide: UnsubscribeService, useClass: UnsubscribeServiceMock},
-//         HttpClient,
-//         HttpHandler,
-//       ],
-//       imports: [
-//         // SharedModule,
-//       ],
-//     })
-//     .compileComponents();
-//     component = TestBed.get(DrawingSpaceComponent);
-//     gridService = TestBed.get(GridService);
-//     // unsubscribeService = TestBed.get(UnsubscribeService);
-//     // shapesService = TestBed.get(ShapesService);
-//     colorService = TestBed.get(ColorService);
-//     inputService = TestBed.get(InputService);
-//     rectangleService = TestBed.get(RectangleService);
-//     pipetteService = TestBed.get(PipetteService);
-//     // renderer = TestBed.get(Renderer2);
-//     includingBoxService = TestBed.get(IncludingBoxService);
-//     selectorService = TestBed.get(SelectorService);
-
-//   }));
-
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(DrawingSpaceComponent);
-//     component = fixture.componentInstance;
-//     renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
-//     fixture.detectChanges();
-//   });
-
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-
-//   it('should call setCanvasParameters() when init', () => {
-//     const spy = spyOn(component, 'setCanvasParameters');
-//     component.ngOnInit();
-//     expect(spy).toHaveBeenCalled();
-//   });
-
-//   // it('should call onDestroy() from unsubService when destroying', () => {
-//   //   const spy = spyOn(unsubscribeService, 'onDestroy');
-//   //   component.ngOnDestroy();
-//   //   expect(spy).toHaveBeenCalled();
-//   // });
-
-//   it('should call remove child from renderer when hiding grid', () => {
-//     const spy = spyOn(renderer2, 'removeChild');
-//     component.hideGrid();
-//     expect(spy).toHaveBeenCalled();
-//   });
-
-//   it('should call remove child from renderer when showing grid', () => {
-//     const spyRemove = spyOn(renderer2, 'removeChild');
-//     const spyAppend = spyOn(renderer2, 'appendChild');
-//     const spyGrid = spyOn(gridService, 'draw');
-//     component.showGrid();
-//     expect(spyRemove).toHaveBeenCalled();
-//     expect(spyAppend).toHaveBeenCalled();
-//     expect(spyGrid).toHaveBeenCalled();
-//   });
-
-//   it('should draw but not append child ', () => {
-//     const shape = false;
-//     inputService.isBlank = true;
-//     component.selectedTool = TOOL.ellipse;
-//     const renderSpy = spyOn(renderer2, 'appendChild');
-//     const colorSpy = spyOn(colorService, 'setMakingColorChanges');
-//     component.draw(shape);
-
-//     expect(inputService.isBlank).toEqual(false);
-//     expect(renderSpy).not.toHaveBeenCalled();
-//     expect(colorSpy).toHaveBeenCalled();
-//   });
-
-//   it('should draw and append child ', () => {
-//     const shape = true;
-//     inputService.isBlank = true;
-//     component.selectedTool = TOOL.ellipse;
-//     const renderSpy = spyOn(renderer2, 'appendChild');
-//     const colorSpy = spyOn(colorService, 'setMakingColorChanges');
-//     component.draw(shape);
-
-//     expect(inputService.isBlank).toEqual(false);
-//     expect(renderSpy).toHaveBeenCalled();
-//     expect(colorSpy).toHaveBeenCalled();
-//   });
-
-//   it('should not draw', () => {
-//     const shape = true;
-//     inputService.isBlank = true;
-//     component.selectedTool = TOOL.colorApplicator;
-//     const renderSpy = spyOn(renderer2, 'appendChild');
-//     const colorSpy = spyOn(colorService, 'setMakingColorChanges');
-//     component.draw(shape);
-
-//     expect(inputService.isBlank).toEqual(true);
-//     expect(renderSpy).not.toHaveBeenCalled();
-//     expect(colorSpy).not.toHaveBeenCalled();
-//   });
-
-//   it('should activate square mode when holding shift', () => {
-//     component.selectedShape = rectangleService;
-//     const spy = spyOn(component.selectedShape, 'onMouseMove');
-//     const pressingShift = new KeyboardEvent('keydown', {key: KEY.shift});
-//     const pressingOther = new KeyboardEvent('keydown', {key: KEY.o});
-
-//     component.onKeyDown(pressingOther);
-//     expect(inputService.shiftPressed).toBeFalsy();
-//     component.onKeyDown(pressingShift);
-//     expect(inputService.shiftPressed).toBeTruthy();
-//     expect(spy).toHaveBeenCalledTimes(1);
-//   });
-
-//   it('should return to rectangle mode when releasing shift', () => {
-//     inputService.shiftPressed = true;
-//     component.selectedShape = rectangleService;
-//     const spy = spyOn(component.selectedShape, 'onMouseMove');
-//     const pressingShift = new KeyboardEvent('keyup', {key: KEY.shift});
-//     const pressingOther = new KeyboardEvent('keydown', {key: KEY.o});
-
-//     component.onKeyUp(pressingOther);
-//     expect(inputService.shiftPressed).toBeTruthy();
-//     component.onKeyUp(pressingShift);
-//     expect(inputService.shiftPressed).toBeFalsy();
-//     expect(spy).toHaveBeenCalledTimes(1);
-//   });
-
-//   // it('should change the color of the clicked shape with filling color', () => {
-//   //   const rect = new Rectangle(
-//   //     TOOL.rectangle,
-//   //     NB.One,
-//   //     NB.One,
-//   //     NB.One,
-//   //     NB.One,
-//   //     COLORS.blackRGBA,
-//   //     COLORS.blackRGBA,
-//   //     NB.One,
-//   //   );
-//   //   shapesService.shapes = [rect];
-
-//   //   const changePrimarySpy = spyOn(shapesService.shapes[0], 'changePrimaryColor');
-//   //   const fillColorSpy = spyOn(colorService, 'getFillColor');
-
-//   //   component.selectedTool = TOOL.rectangle;
-//   //   component.onLeftClick(rect);
-
-//   //   component.selectedTool = TOOL.colorApplicator;
-//   //   component.onLeftClick(rect);
-
-//   //   expect(changePrimarySpy).toHaveBeenCalledTimes(1);
-//   //   expect(fillColorSpy).toHaveBeenCalledTimes(1);
-//   //   });
-
-//   // it('should change the color of the clicked shape with stroke color', () => {
-//   //   const rect = new Rectangle(
-//   //     TOOL.rectangle,
-//   //     NB.One,
-//   //     NB.One,
-//   //     NB.One,
-//   //     NB.One,
-//   //     COLORS.blackRGBA,
-//   //     COLORS.blackRGBA,
-//   //     NB.One,
-//   //   );
-//   //   shapesService.shapes = [rect];
-
-//   //   const event = new MouseEvent('contextmenu');
-//   //   const changePrimarySpy = spyOn(shapesService.shapes[0], 'changeSecondaryColor');
-//   //   const fillColorSpy = spyOn(colorService, 'getStrokeColor');
-//   //   const preventSpy = spyOn(event, 'preventDefault');
-
-//   //   component.selectedTool = TOOL.rectangle;
-//   //   component.onRightClick(event, rect);
-
-//   //   component.selectedTool = TOOL.colorApplicator;
-//   //   component.onRightClick(event, rect);
-
-//   //   expect(preventSpy).toHaveBeenCalledTimes(2);
-//   //   expect(changePrimarySpy).toHaveBeenCalledTimes(1);
-//   //   expect(fillColorSpy).toHaveBeenCalledTimes(1);
-//   // });
-
-//   it('should call the appropriate mousedown handler for the selectedTool', () => {
-//     const Spy = spyOn(component, 'onMouseDown');
-
-//     component.selectedTool = TOOL.brush;
-//     component.onMouseDown(new MouseEvent('mousedown'));
-
-//     component.selectedTool = TOOL.pencil;
-//     component.onMouseDown(new MouseEvent('mousedown'));
-
-//     expect(Spy).toHaveBeenCalledTimes(2);
-//   });
-
-//   it('should call getColor from pipette when it is selected', () => {
-//     const mouseDown = new MouseEvent('mousedown');
-//     const spyMouse = spyOn(pipetteService, 'getColors');
-//     component.selectedTool = TOOL.pipette;
-//     component.selectedShape = rectangleService;
-//     component.onMouseDown(mouseDown);
-//     expect(spyMouse).toHaveBeenCalled();
-//     expect(inputService.isNotEmpty).toEqual(true);
-//     expect(component.selectorAreaActive).toEqual(true);
-//   });
-
-//   it('should call update from includingBoxService when selector is selected', () => {
-//     const mouseDown = new MouseEvent('mousedown');
-//     const spyMouse = spyOn(includingBoxService, 'update');
-//     component.selectedTool = TOOL.selector;
-//     component.selectedShape = rectangleService;
-//     component.selectorAreaActive = false;
-
-//     component.onMouseDown(mouseDown);
-
-//     expect(spyMouse).toHaveBeenCalled();
-
-//     expect(inputService.isNotEmpty).toEqual(true);
-//     expect(component.selectorAreaActive).toEqual(true);
-//   });
-
-//   it('should clear selectedShapes table when click button is 0', () => {
-//     const mouseDown = new MouseEvent('mousedown', {button: 0});
-
-//     component.selectedShape = rectangleService;
-//     component.selectedTool = TOOL.polygon;
-//     component.selectorAreaActive = true;
-
-//     component.onMouseDown(mouseDown);
-
-//     expect(inputService.mouseButton).toEqual(0);
-//     expect(inputService.isNotEmpty).toEqual(true);
-//     expect(component.selectorAreaActive).toEqual(true);
-//     expect(selectorService.selectedShapes.length).toEqual(0);
-//   });
-
-//   it('should push in selectedShapes table when selector is used', () => {
-//     const mouseDown = new MouseEvent('mousedown', {button: 0});
-
-//     component.selectedShape = rectangleService;
-//     component.selectedTool = TOOL.selector;
-//     component.selectorAreaActive = true;
-
-//     component.onMouseDown(mouseDown);
-
-//     expect(inputService.mouseButton).toEqual(0);
-//     expect(inputService.isNotEmpty).toEqual(true);
-//     expect(component.selectorAreaActive).toEqual(true);
-//     expect(selectorService.selectedShapes.length).toEqual(1);
-//   });
-
-//   // it('should initialize the svg path of pencil', () => {
-//   //   component.selectedTool = TOOL.pencil;
-//   //   component.onMouseDown(new MouseEvent('mouseDown'));
-//   //   expect(shapesService.preview.path.length).toBeGreaterThan(0);
-//   // });
-
-//   // it('should initialize the svg path of brush', () => {
-//   //   component.selectedTool = TOOL.brush;
-//   //   component.onMouseDown(new MouseEvent('mouseDown'));
-//   //   expect(shapesService.preview.path.length).toBeGreaterThan(0);
-//   //   expect(shapesService.preview.filter.length).toBeGreaterThan(0);
-//   // });
-
-//   it('should call setMouseOffset when selected  tool is not colorApplicator', () => {
-//     component.selectedTool = TOOL.brush;
-//     const inputSpy = spyOn(inputService, 'setMouseOffset');
-//     const selectorSpy = spyOn(selectorService, 'intersection');
-//     const includeSpy = spyOn(includingBoxService, 'update');
-
-//     component.selectedTool = TOOL.pencil;
-//     component.selectedShape = rectangleService;
-//     component.onMouseMove(new MouseEvent('mousemove'));
-
-//     expect(inputSpy).toHaveBeenCalled();
-//     expect(selectorSpy).not.toHaveBeenCalled();
-//     expect(includeSpy).not.toHaveBeenCalled();
-//   });
-
-//   it('should call intersection() and update is selector tool is selected and active', () => {
-//     component.selectedTool = TOOL.selector;
-//     const inputSpy = spyOn(inputService, 'setMouseOffset');
-//     const selectorSpy = spyOn(selectorService, 'intersection');
-//     const includeSpy = spyOn(includingBoxService, 'update');
-
-//     component.selectorAreaActive = true;
-//     component.selectedTool = TOOL.selector;
-//     component.selectedShape = rectangleService;
-//     component.onMouseMove(new MouseEvent('mousemove'));
-
-//     expect(inputSpy).toHaveBeenCalled();
-//     expect(selectorSpy).toHaveBeenCalled();
-//     expect(includeSpy).toHaveBeenCalled();
-//   });
-
-//   it('should call intersection() and update is selector tool is selected and not active', () => {
-//     component.selectedTool = TOOL.selector;
-//     const inputSpy = spyOn(inputService, 'setMouseOffset');
-//     const selectorSpy = spyOn(selectorService, 'intersection');
-//     const includeSpy = spyOn(includingBoxService, 'update');
-
-//     component.selectorAreaActive = false;
-//     component.selectedTool = TOOL.pencil;
-//     component.selectedShape = rectangleService;
-//     component.onMouseMove(new MouseEvent('mousemove'));
-
-//     expect(inputSpy).toHaveBeenCalled();
-//     expect(selectorSpy).not.toHaveBeenCalled();
-//     expect(includeSpy).not.toHaveBeenCalled();
-//   });
-
-//   it('should call onMouseUp on selected shape', () => {
-//     component.selectedShape = rectangleService;
-//     component.selectedTool = TOOL.rectangle;
-//     const mouseUpSpy = spyOn(component.selectedShape, 'onMouseUp');
-
-//     component.onMouseUp();
-
-//     expect(inputService.isDrawed).toEqual(true);
-//     expect(component.selectorAreaActive).toEqual(false);
-//     expect(mouseUpSpy).toHaveBeenCalled();
-//   });
-
-//   it('should call onMouseUp on selected shape', () => {
-//     component.selectedShape = rectangleService;
-//     component.selectedTool = TOOL.selector;
-//     const rendererSpy = spyOn(renderer2, 'removeChild');
-
-//     component.onMouseUp();
-
-//     expect(inputService.isDrawed).toEqual(true);
-//     expect(component.selectorAreaActive).toEqual(false);
-//     expect(rendererSpy).toHaveBeenCalled();
-//   });
-
-// });
+  let renderer: Renderer2;
+  let eraserService: EraserService;
+  let rendererFactory: RendererFactory2;
+  let selectorService: SelectorService;
+    let eventEmitterService: EventEmitterService;
+    let undoRedoService: UndoRedoService;
+  // let unsubscribeService: UnsubscribeService;
+  let includingBoxService: IncludingBoxService;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ DrawingSpaceComponent, SafeHtmlPipe ],
+      providers: [
+        DrawingSpaceComponent,
+        provideAutoMock(GridService),
+        provideAutoMock(SelectorService),
+        provideAutoMock(ColorService),
+        provideAutoMock(InputService),
+        provideAutoMock(RectangleService),
+        provideAutoMock(PipetteService),
+        provideAutoMock(IncludingBoxService),
+        provideAutoMock(ClipboardService),
+        provideAutoMock(KeyboardEvent),
+        provideAutoMock(EraserService),
+        provideAutoMock(PenService),
+        provideAutoMock(UndoRedoService),
+        provideAutoMock(UploadService),
+       //provideAutoMock(NoShapeService),
+        HttpClient,
+        HttpHandler,
+        Renderer2,
+      ],
+    //   imports: [
+    //     // SharedModule,
+    //   ],
+    })
+    .compileComponents();
+    component = TestBed.get(DrawingSpaceComponent);
+    //gridService = TestBed.get(GridService);
+    undoRedoService = TestBed.get(UndoRedoService);
+    // unsubscribeService = TestBed.get(UnsubscribeService);
+    // shapesService = TestBed.get(ShapesService);
+    colorService = TestBed.get(ColorService);
+    inputService = TestBed.get(InputService);
+    uploadService = TestBed.get(UploadService);
+    eraserService = TestBed.get(EraserService);
+    // rectangleService = TestBed.get(RectangleService);
+    // pipetteService = TestBed.get(PipetteService);
+    rendererFactory = TestBed.get(RendererFactory2);
+    renderer = rendererFactory.createRenderer(null, null);
+    includingBoxService = TestBed.get(IncludingBoxService);
+    selectorService = TestBed.get(SelectorService);
+    clipboardService = TestBed.get(ClipboardService);
+    eventEmitterService = TestBed.get(EventEmitterService);
+    penService = TestBed.get(PenService);
+
+    component.drawingBoard = new ElementRef(renderer.createElement('drawingBoard'));
+    eraserService.cursor = renderer.createElement('svgElement') as SVGGraphicsElement;
+    component.selectedShape = 'rect' as unknown as NoShapeService;
+    selectorService.selectedShapes = [];
+
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DrawingSpaceComponent);
+    component = fixture.componentInstance;
+    renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+    renderer.createElement('element');
+  });
+
+  it('should call controlV upon registering control + v', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.v});
+    inputService.controlPressed = true;
+    component.onKeyUp(keyboardEvent);
+    expect(clipboardService.controlV).toHaveBeenCalled();
+  });
+
+  it('should call controlD upon registering control + d', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.d});
+    inputService.controlPressed = true;
+    component.onKeyUp(keyboardEvent);
+    expect(clipboardService.controlD).toHaveBeenCalled();
+  });
+
+  it('should call put controlPressed to false', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.control});
+    inputService.controlPressed = true;
+    component.onKeyUp(keyboardEvent);
+    expect(inputService.controlPressed).not.toBeTruthy();
+  });
+
+  it('should call put altPressed to false', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.alt});
+    inputService.altPressed = true;
+    component.onKeyUp(keyboardEvent);
+    expect(inputService.controlPressed).not.toBeTruthy();
+  });
+
+  it('should call put altPressed to false', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.alt});
+    inputService.altPressed = true;
+    component.onKeyUp(keyboardEvent);
+    expect(inputService.altPressed).not.toBeTruthy();
+  });
+
+  it('should call put backspace to false', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.backspace});
+    inputService.altPressed = true;
+    component.onKeyUp(keyboardEvent);
+    expect(inputService.backSpacePressed).not.toBeTruthy();
+  });
+
+  it('should call selectedShape onMouseMove', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.backspace});
+    component.onKeyUp(keyboardEvent);
+    expect(component.selectedShape.onMouseMove).toHaveBeenCalled();
+  });
+
+  it('should call selectedShape onMouseMove', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.escape});
+    inputService.escapePressed = true;
+    component.onKeyUp(keyboardEvent);
+    expect(inputService.escapePressed).not.toBeTruthy();
+  });
+
+  it('should call onMouseUp when onMouseMove', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.escape});
+    component.onKeyUp(keyboardEvent);
+    expect(component.selectedShape.onMouseMove).toHaveBeenCalled();
+  });
+
+  it('should put shifPressed to false', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.shift});
+    inputService.shiftPressed = true;
+    component.onKeyUp(keyboardEvent);
+    expect(inputService.shiftPressed).not.toBeTruthy();
+  });
+
+  it('should remove the element the cursor is on from the canvas', () => {
+    const mouseEvent = new MouseEvent('eraser');
+    component.onMouseLeave(mouseEvent);
+    eraserService.cursor;
+    expect(renderer.removeChild).toHaveBeenCalled();
+  });
+
+  it('should not call prevent default', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.d});
+    inputService.controlPressed = false;
+    component.onKeyDown(keyboardEvent);
+    expect(keyboardEvent.preventDefault).not.toHaveBeenCalled();
+  });
+
+  it('should call prevent default', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.d});
+    inputService.controlPressed = false;
+    component.onKeyDown(keyboardEvent);
+    expect(keyboardEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should delete canvas selection', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.delete});
+    component.onKeyDown(keyboardEvent);
+    expect(clipboardService.delete).toHaveBeenCalled();
+  });
+
+  it('should update including selection', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.delete});
+    component.onKeyDown(keyboardEvent);
+    expect(clipboardService.delete).toHaveBeenCalled();
+  });
+
+  it('should reset eraser services', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.shift});
+    component.selectedTool = TOOL.line;
+    component.onKeyDown(keyboardEvent);
+    expect(eraserService.cursor.remove).toHaveBeenCalled();
+    expect(eraserService.reset).toHaveBeenCalled();
+    expect(eraserService.updatePosition).not.toHaveBeenCalled();
+  });
+
+  it('should update eraser position', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.shift});
+    component.selectedTool = TOOL.eraser;
+    component.onKeyDown(keyboardEvent);
+    expect(eraserService.cursor.remove).not.toHaveBeenCalled();
+    expect(eraserService.reset).not.toHaveBeenCalled();
+    expect(eraserService.updatePosition).toHaveBeenCalled();
+  });
+
+  it('should put shiftpressed to true when keyboard pressing it', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.shift});
+    inputService.shiftPressed = false;
+    component.onKeyDown(keyboardEvent);
+    expect(inputService.shiftPressed).toBeTruthy();
+  });
+
+  it('should call mouse up and move if tool is line', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.shift});
+    inputService.shiftPressed = false;
+    component.selectedTool = TOOL.line;
+    component.onKeyDown(keyboardEvent);
+    expect(component.selectedShape.onMouseMove).toHaveBeenCalled();
+    expect(component.selectedShape.onMouseUp).toHaveBeenCalled();
+  });
+
+  it('should put altPressed to true', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.alt});
+    inputService.altPressed = false;
+    component.onKeyDown(keyboardEvent);
+    expect(inputService.altPressed).toBeTruthy();
+  });
+
+  it('should put escapePressed to true', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.escape});
+    inputService.escapePressed = false;
+    component.selectedTool = TOOL.eraser;
+    component.onKeyDown(keyboardEvent);
+    expect(inputService.escapePressed).toBeTruthy();
+    expect(renderer.removeChild).not.toHaveBeenCalled();
+  });
+
+  it('should put backspacePressed to true and mousemove to have been called', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.backspace});
+    inputService.backSpacePressed = false;
+    component.onKeyDown(keyboardEvent);
+    expect(inputService.backSpacePressed).toBeTruthy();
+    expect(component.selectedShape.onMouseMove).toHaveBeenCalled();
+  });
+
+  it('should put controlPressed to true', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.control});
+    inputService.controlPressed = false;
+    component.onKeyDown(keyboardEvent);
+    expect(inputService.controlPressed).toBeTruthy();
+  });
+
+  it('should not call controlC when pressing c down', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.c});
+    inputService.controlPressed = false;
+    component.onKeyDown(keyboardEvent);
+    expect(clipboardService.controlC).not.toHaveBeenCalled();
+  });
+
+  it('should call controlC when pressing c down', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.c});
+    const mockSVGElement = renderer.createElement('svgElement') as SVGGraphicsElement;
+    inputService.controlPressed = true;
+    selectorService.selectedShapes.push(mockSVGElement);
+    component.onKeyDown(keyboardEvent);
+    expect(clipboardService.controlC).toHaveBeenCalled();
+  });
+
+  it('should call controlX and update when pressing x down', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.x});
+    const mockSVGElement = renderer.createElement('svgElement') as SVGGraphicsElement;
+    inputService.controlPressed = true;
+    selectorService.selectedShapes.push(mockSVGElement);
+    component.onKeyDown(keyboardEvent);
+    expect(includingBoxService.update).toHaveBeenCalled();
+    expect(clipboardService.controlX).toHaveBeenCalled();
+  });
+
+  it('should call controlA, update and assignTool when pressing a down', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.a});
+    inputService.controlPressed = true;
+    component.onKeyDown(keyboardEvent);
+    eventEmitterService.clearCanvas(); // removefate
+    expect(includingBoxService.update).toHaveBeenCalled();
+    expect(clipboardService.controlA).toHaveBeenCalled();
+   // expect(eventEmitterService.assignSelectedTool).toHaveBeenCalled();
+  });
+
+  it('should delete clipboard and update includingbox', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.delete});
+    component.onKeyDown(keyboardEvent);
+    expect(clipboardService.delete).toHaveBeenCalled();
+    expect(includingBoxService.update).toHaveBeenCalled();
+  });
+
+  it('should call preventDefault for the submited event', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.d});
+    inputService.controlPressed = true;
+    component.onKeyDown(keyboardEvent);
+    expect(keyboardEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should change stamp angle', () => {
+    const wheelEvent = new WheelEvent('keydown');
+    component.selectedTool = TOOL.stamp;
+    component.onwheel(wheelEvent);
+    expect(inputService.changeStampAngle).toHaveBeenCalled();
+  });
+
+  it('should not change stamp angle', () => {
+    const wheelEvent = new WheelEvent('keydown');
+    component.selectedTool = TOOL.line;
+    component.onwheel(wheelEvent);
+    expect(inputService.changeStampAngle).not.toHaveBeenCalled();
+  });
+
+  it('should call penService mouse up', () => {
+    const mouseEvent = new MouseEvent('click');
+    component.selectedTool = TOOL.pen;
+    component.onMouseUp(mouseEvent);
+    expect(penService.onMouseUp).toHaveBeenCalled();
+  });
+
+  it('should not call selected shape mouseup', () => {
+    const mouseEvent = new MouseEvent('click');
+    component.selectedTool = TOOL.colorApplicator;
+    component.onMouseUp(mouseEvent);
+    expect(component.selectedShape.onMouseUp).not.toHaveBeenCalled();
+  });
+
+  it('should call selected shape mouseup', () => {
+    const mouseEvent = new MouseEvent('click');
+    component.selectedTool = TOOL.line;
+    component.onMouseUp(mouseEvent);
+    expect(component.selectedShape.onMouseUp).toHaveBeenCalled();
+  });
+
+  it('should set new selection to true', () => {
+    const mouseEvent = new MouseEvent('click');
+    component.selectedTool = TOOL.selector;
+    component.onMouseUp(mouseEvent);
+    expect(clipboardService.newSelection).toBeTruthy();
+  });
+
+  it('should eraseShapes and set erasedown to true', () => {
+    const mouseEvent = new MouseEvent('click');
+    component.selectedTool = TOOL.selector;
+    component.onMouseUp(mouseEvent);
+    expect(eraserService.eraseMouseDown).not.toBeTruthy();
+    expect(eraserService.eraseShapes).toHaveBeenCalled();
+  });
+
+  it('should put isDrawed, areaActive to true and undoisstarted to false', () => {
+    const mouseEvent = new MouseEvent('click');
+    component.onMouseUp(mouseEvent);
+    expect(inputService.isDrawed).toBeTruthy();
+    expect(component.selectorAreaActive).toBeTruthy();
+    expect(undoRedoService.undoIsStarted).not.toBeTruthy();
+  });
+
+  it('should return true as it is a complex shape', () => {
+      const tag = 'rect';
+      expect(component.isComplexShape(tag)).toBeTruthy();
+  });
+
+  it('should return false to as it is not a complex shape', () => {
+    const tag = 'shape';
+    expect(component.isComplexShape(tag)).not.toBeTruthy();
+  });
+
+  it('should return false to as it is not a complex shape', () => {
+    const event = new Event('value');
+    expect(component.notCanvasAndColorApplicator(event)).not.toBeTruthy();
+  });
+
+  it('should put isBlank to true', () => {
+    const shape = renderer.createElement('testShape') as SVGSVGElement;
+    component.selectedTool = TOOL.line;
+    component.draw(shape);
+    expect(inputService.isBlank).not.toBeTruthy();
+    expect(colorService.setMakingColorChanges).toHaveBeenCalled();
+  });
+
+  it('should set renderer attributes', () => {
+    component.click();
+    expect(component.canvas.nativeElement.insertAdjacentHTML).toHaveBeenCalled();
+    expect(renderer.setAttribute).toHaveBeenCalled();
+    expect(renderer.setStyle).toHaveBeenCalled();
+    expect(uploadService.backgroundColor).toEqual(EMPTY_STRING);
+    expect(uploadService.height).toEqual(EMPTY_STRING);
+    expect(uploadService.width).toEqual(EMPTY_STRING);
+  });
+
+});

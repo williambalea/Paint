@@ -3,7 +3,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatChipsModule, MatDialogRef } from '@angular/material';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 // import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
@@ -53,7 +53,10 @@ describe('GetFileModalwindowComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ GetFileModalwindowComponent, SafeUrlPipe ],
-      imports: [ FormsModule, MatDialogModule ],
+      imports: [ FormsModule,
+        MatDialogModule,
+        MatChipsModule,
+      ],
       providers: [
         GetFileModalwindowComponent,
         { provide: InputService, useClass: InputServiceMock },

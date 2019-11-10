@@ -1,27 +1,39 @@
-<h1>Choose tags to filter drawings: </h1>
-  <p>Enter tag name:</p>
-  <input name="test" value ={{this.tag}} matInput [(ngModel)]="tag" >
-  <button (click) = "addTagToFilter()">Add current tag</button>
-  <div *ngFor ="let tag of tags; let i = index"> 
-    <div class = "tag">{{tag}}
-      <button mat-button (click) = "removeTags(i)"> <mat-icon>clear</mat-icon></button>
-    </div>
-  </div>
-<br>
-<div *ngFor = " let data of displayedData; let i = index">
-  <div  >
-    {{data.name}}
-    {{data.tags}}
-    <img [attr.src]="data.thumbnail | safeUrl" width="50" height="50">
-    <button matTooltip="Click me to confirm" id="drawing" (click)="this.selectDrawing(i)"> open </button>
-  </div>
+<div class="top">
+  <h1>Load master pieces from server </h1>
 
-  <div *ngIf="this.communicationService.isLoading"> Loading ... </div>
-  
+  <mat-form-field>
+    <input matInput type="text" placeholder="Enter tag for search" value={{this.tag}} matInput [(ngModel)]="tag">
+    <button mat-button *ngIf="this.tag" matSuffix mat-icon-button aria-label="Clear" (click)="this.tag = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field><br>
+  <button mat-stroked-button (click)="addTagToFilter()">Search</button>
 </div>
-<div *ngIf =" displayedData.length === 0">
+<div *ngFor="let tag of tags; let i = index">
+  <div class="tag">{{tag}}
+    <button mat-button (click)="removeTags(i)">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+</div>
+<br>
+<div class="data">
+  <div *ngFor=" let data of displayedData; let i = index">
+    <div class="drawing">
+      {{data.name}}
+      {{data.tags}}
+      <img [attr.src]="data.thumbnail | safeUrl" width="50" height="50">
+      <button matTooltip="Click me to confirm" id="drawing" (click)="this.selectDrawing(i); this.closeModalWindow()">
+        open </button>
+      </div>
+  </div>
+</div>
+
+<div *ngIf="this.communicationService.isLoading"> Loading ... </div>
+
+<div *ngIf=" displayedData.length === 0">
   No Data Found
 </div>
 <div class="cancel">
-    <button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>
+  <button type="cancel" mat-button (click)="closeModalWindow()" cdkFocusInitial>cancel</button>
 </div>

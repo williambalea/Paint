@@ -62,14 +62,9 @@ export class GetFileModalwindowComponent implements OnInit, OnDestroy {
   }
 
   selectMostRecent(table: SVGJSON[]): void {
-    let counter: number = NB.Zero;
     this.displayedData = [];
     for (let i: number = table.length - 1; i >= 0; i--) {
       this.displayedData.push(table[i]);
-      counter++;
-      if (counter === NB.Seven) {
-        break;
-      }
     }
   }
 

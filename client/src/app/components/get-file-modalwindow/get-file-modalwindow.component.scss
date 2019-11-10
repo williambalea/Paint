@@ -1,10 +1,5 @@
-.modalWindow{
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.field {
-    overflow-x: hidden;  
+.top {
+    text-align: center;
 }
 
 .submit {
@@ -27,4 +22,34 @@
 
 img {
     border: 1px solid black;
+}
+
+.data {
+    height: 300px;
+    width: 200px;
+    overflow-y: scroll;
+    text-align: center;
+    display: flex;
+}
+
+.drawing {
+    width: 100px;
+    height: 100px;
+    padding: 0px 0px 0px 0px;
+    border: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    text-align: center;
+    overflow: hidden;
+    flex: 1;
+}
+
+.drawing:hover {
+    width: 100px;
+    height: 100px;
+    padding: 0px 0px 0px 0px;
+    border: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    background-color: grey;
+    flex: 1;
+    overflow: hidden;
 }

@@ -6,3 +6,20 @@
     position: absolute;
     z-index: -1;
 }
+
+.modal {
+    text-align: center;
+    height: 200px;
+}
+
+mat-icon {
+    cursor: pointer;
+}
+
+label {
+    cursor: pointer;
+}
+
+.confirm {
+    background-color: rgb(230, 230, 230);
+}

@@ -1,6 +1,8 @@
 .modalWindow{
     overflow-x: hidden;
     overflow-y: auto;
+    width: 600px;
+    text-align: center;
 }
 
 .field {
@@ -15,8 +17,11 @@
     text-align:center;
     }
 
-.cancel {
-     margin:auto;
-     display:block;
-    text-align:center;
-        }
+mat-icon {
+    cursor: pointer;
+}
+
+.input {
+    width: 80%;
+}
+

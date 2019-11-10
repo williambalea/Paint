@@ -1,79 +1,47 @@
+<mat-icon (click)="closeModalWindow()">clear</mat-icon>
+<div class="modalWindow">
 
-<div class = "modalWindow">
-   
-  <h1>Save master piece to server </h1>
-  
+  <h2>Save master piece to server </h2>
+
+  <mat-form-field class="input">
+    <mat-chip-list #chipList aria-label="Tags selection">
+      <mat-chip *ngFor="let tag of this.inputService.drawingTags" (removed)="removeTag(tag)">
+        {{tag}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input formControlName="tag" placeholder="Add tags" [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="this.separatorKeysCodes" (matChipInputTokenEnd)="addTag($event)">
+    </mat-chip-list>
+  </mat-form-field>
+
   <form (ngSubmit)="submitDrawing()" [formGroup]="form">
-      <div mat-dialog-content>
-          <p>Enter name </p>
-          <div class="field"> 
-          <div class="control">
-          <mat-form-field>
-            <input name="test" type = "name"  formControlName="name" value ={{this.inputService.drawingName}} matInput [(ngModel)]="this.inputService.drawingName" >
+    <div mat-dialog-content>
+      <div class="field">
+        <div class="control">
+          <mat-form-field class="input">
+            <input placeholder="Baptize creation" name="test" type="name" formControlName="name"
+              value={{this.inputService.drawingName}} matInput [(ngModel)]="this.inputService.drawingName">
             <mat-error>Enter string longer than 0</mat-error>
           </mat-form-field>
-         </div>
-        </div> 
-       
-      
- 
+        </div>
       </div>
-      
-      <div class ="submit"  mat-dialog-actions>
-       
-     <div *ngIf ="this.communicationService.enableSubmit"> 
-          <button type="submit" mat-stroked-button>submit</button> 
-     </div> 
-
-       <div *ngIf ="!this.communicationService.enableSubmit">
-            <button type="submit" mat-stroked-button disabled >submit</button> 
-        </div>
-     
-
-      </div> 
-      </form>
 
 
 
-      <form (ngSubmit)="addTag()" [formGroup]="form">
-          <div mat-dialog-content>
-       
-           
-          
-            <p>Enter drawing tags</p>
-            <div class="field"> 
-              <div class="control">
-            <mat-form-field>
-              <input matInput type = "tags"  formControlName="tag" value ={{this.currentTag}} [(ngModel)]="currentTag">
-              <mat-error>Enter string longer than 0</mat-error>
-            </mat-form-field>
-             
-         
-    
-           
-            <div *ngFor = " let tag of inputService.drawingTags; let i = index">
-              {{ tag }} <button (click) = 'deleteTag(tag)'>Delete Tag</button>
-            </div>
-          </div>
-        </div>
-     
-          </div>
-          
-          <div class ="submit"  mat-dialog-actions>
-           
-       
-              <button type="submit" mat-stroked-button>Add current tag</button> 
-         
-          </div> 
-          </form>
+    </div>
+
+    <div class="submit" mat-dialog-actions>
+
+      <div *ngIf="this.communicationService.enableSubmit">
+        <button type="submit" mat-stroked-button>submit</button>
+      </div>
+
+      <div *ngIf="!this.communicationService.enableSubmit">
+        <button type="submit" mat-stroked-button disabled>submit</button>
+      </div>
 
 
+    </div>
+  </form>
 
-
-
-
-
-
-
-      <button mat-stroked-button (click) = 'closeModalWindow()'>close</button><br>
 </div>

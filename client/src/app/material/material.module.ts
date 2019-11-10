@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
   MatCheckboxModule,
+  MatChipsModule,
   MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
@@ -31,6 +32,7 @@ const MaterialComponents = [
   MatSliderModule,
   MatSlideToggleModule,
   MatToolbarModule,
+  MatChipsModule,
 ];
 
 @NgModule({

@@ -1,9 +1,10 @@
+import {COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
-import { EventEmitterService } from 'src/app/services/event-emitter.service';
-
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { CommunicationsService } from 'src/app/services/communications.service';
+import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { EMPTY_STRING, KEY } from 'src/constants';
 import { InputService } from '../../services/input.service';
 
@@ -17,6 +18,8 @@ export class SaveFileModalwindowComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   currentTag: string;
+
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(private formBuilder: FormBuilder,
               private dialogRef: MatDialogRef<SaveFileModalwindowComponent>,
@@ -47,15 +50,23 @@ export class SaveFileModalwindowComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  deleteTag(tag: string): void {
-    this.inputService.drawingTags.splice(this.inputService.drawingTags.indexOf(tag), 1);
+  removeTag(tag: string): void {
+    const index = this.inputService.drawingTags.indexOf(tag);
+    if (index >= 0) {
+      this.inputService.drawingTags.splice(index, 1);
+    }
   }
 
-  addTag(): void {
-    if (this.currentTag) {
-      if (this.inputService.drawingTags.indexOf(this.currentTag) === -1) {
-        this.inputService.drawingTags.push(this.currentTag);
-      }
+  addTag(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || EMPTY_STRING).trim()) {
+      this.inputService.drawingTags.push(value.trim());
+    }
+
+    if (input) {
+      input.value = EMPTY_STRING;
     }
   }
 

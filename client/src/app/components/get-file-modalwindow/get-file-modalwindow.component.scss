@@ -2,15 +2,13 @@
     text-align: center;
 }
 
+.chips {
+    width: 100%;
+}
+
 .submit {
     margin:auto;
     display:block;
-    text-align:center;
-}
-
-.cancel {
-     margin:auto;
-     display:block;
     text-align:center;
 }
 
@@ -24,17 +22,13 @@
     overflow-y: scroll;
 }
 
-img {
-    border: 1px solid black;
-}
-
 .cancelButton {
     background-color: rgb(230, 230, 230);
 }
 
 .data {
-    height: 320px;
-    width: 659px;
+    height: 400px;
+    width: 820px;
     overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
@@ -46,29 +40,33 @@ img {
 .drawing {
     border-radius: 5px;
     border: none;
-    background-color: rgb(250, 250, 250);
-    width: 158px;
-    height: 158px;
+    width: 198px;
+    height: 198px;
     padding: 0px 0px 0px 0px;
     margin: 2px 0px 0px 2px;
     text-align: center;
     overflow: hidden;
+    background-color: white;
 }
 
 .drawing:hover {
     background-color: rgb(245, 245, 245);
     border: 1px grey;
-    width: 158px;
-    height: 158px;
+    width: 198px;
+    height: 198px;
     padding: 0px 0px 0px 0px;
     margin: 2px 0px 0px 2px;
     overflow: hidden;
 }
 
 img {
-    border: 1px rgb(240, 240, 240);
+    border: 1px solid grey;
     border-radius: 5px;
     text-align: center;
-    padding-left: 25px;
-    padding-right: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+mat-icon {
+    cursor: pointer;
 }

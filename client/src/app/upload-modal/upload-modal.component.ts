@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { EMPTY_STRING } from 'src/constants';
 import { InputService } from '../services/input.service';
@@ -10,7 +10,7 @@ import { UploadService } from '../services/upload.service';
   styleUrls: ['./upload-modal.component.scss'],
   templateUrl: './upload-modal.component.html',
 })
-export class UploadModalComponent implements OnDestroy {
+export class UploadModalComponent implements OnDestroy, OnInit {
 
   error: boolean;
   fileName: string;
@@ -21,6 +21,10 @@ export class UploadModalComponent implements OnDestroy {
     this.error = false;
     this.inputService.gridShortcutsActive = false;
     this.fileName = EMPTY_STRING;
+  }
+
+  ngOnInit(): void {
+    this.uploadService.enableUploadButton = false;
   }
 
   ngOnDestroy() {

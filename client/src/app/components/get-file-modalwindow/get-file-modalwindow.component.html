@@ -1,43 +1,29 @@
+<mat-icon (click)="closeModalWindow()">clear</mat-icon>
 <div class="top">
-  <h1>Load master pieces from server </h1>
+  <h2>Load master pieces from server </h2>
 
-  <!-- <mat-form-field>
-    <mat-chip-list #chipList aria-label="Fruit selection">
-      <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
-        (removed)="remove(fruit)">
-        {{fruit.name}}
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+  <mat-form-field class="chips">
+    <mat-chip-list #chipList aria-label="Tags selection">
+      <mat-chip *ngFor="let tag of tags"
+        (removed)="removeTag(tag)">
+        {{tag}}
+        <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
-      <input placeholder="New fruit..." [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-        (matChipInputTokenEnd)="add($event)">
+      <input placeholder="Search by tags" [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="this.separatorKeysCodes"
+        (matChipInputTokenEnd)="addTag($event)">
     </mat-chip-list>
-  </mat-form-field> -->
-
-  <mat-form-field>
-    <input matInput type="text" placeholder="Enter tag for search" value={{this.tag}} matInput [(ngModel)]="tag">
-    <button mat-button *ngIf="this.tag" matSuffix mat-icon-button aria-label="Clear" (click)="this.tag = ''">
-      <mat-icon>close</mat-icon>
-    </button>
   </mat-form-field>
-  <button class="search" color="primary" mat-flat-button (click)="addTagToFilter()">Search</button>
 
 </div>
-<div *ngFor="let tag of tags; let i = index">
-  <div class="tag">{{tag}}
-    <button mat-button (click)="removeTags(i)">
-      <mat-icon>clear</mat-icon>
-    </button>
-  </div>
-</div>
-<br>
+
 <div class="data" #data>
   <span *ngFor=" let data of displayedData; let i = index">
     <span>
       <div class="drawing">
         <div>{{data.name}}</div>
         <div>[{{data.tags}}]</div>
-        <img [attr.src]="data.thumbnail | safeUrl" width="70" height="70">
+        <img [attr.src]="data.thumbnail | safeUrl" width="110" height="110">
         <button class="chooseDrawing" mat-stroked-button matTooltip="Click me to confirm"
           (click)="this.selectDrawing(i); this.closeModalWindow()">
           Open
@@ -51,8 +37,4 @@
 
 <div *ngIf=" displayedData.length === 0">
   No Data Found
-</div>
-<div class="cancel">
-  <button class="cancelButton" type="cancel" mat-flat-button (click)="closeModalWindow()"
-    cdkFocusInitial>cancel</button>
 </div>

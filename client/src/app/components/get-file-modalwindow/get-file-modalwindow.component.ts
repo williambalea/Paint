@@ -1,9 +1,11 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { CommunicationsService } from 'src/app/services/communications.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
-import { KEY, STRINGS } from 'src/constants';
+import { EMPTY_STRING, KEY, STRINGS } from 'src/constants';
 import { SVGJSON } from '../../../../../common/communication/SVGJSON';
 import { DisplayConfirmationComponent } from '../display-confirmation/display-confirmation.component';
 
@@ -24,7 +26,8 @@ export class GetFileModalwindowComponent implements OnInit, OnDestroy {
   filterActivated: boolean;
   caughtGetError: boolean;
 
-  private readonly SCROLL_AMOUNT: number = 160;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  private readonly SCROLL_AMOUNT: number = 200;
 
   constructor( private dialog: MatDialog,
                private dialogRef: MatDialogRef<GetFileModalwindowComponent>,
@@ -62,6 +65,28 @@ export class GetFileModalwindowComponent implements OnInit, OnDestroy {
 
   removeTags(value: number): void {
     this.tags.splice(value, 1);
+    this.updateDisplayTable();
+  }
+
+  addTag(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || EMPTY_STRING).trim()) {
+      this.tags.push(value.trim());
+    }
+
+    if (input) {
+      input.value = EMPTY_STRING;
+    }
+    this.updateDisplayTable();
+  }
+
+  removeTag(tag: string) {
+    const index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+    }
     this.updateDisplayTable();
   }
 
@@ -145,6 +170,6 @@ export class GetFileModalwindowComponent implements OnInit, OnDestroy {
     event.preventDefault();
     const scroll = Math.sign(event.deltaY);
     const div = this.data.nativeElement;
-    (scroll === 1) ? div.scrollBy(0, this.SCROLL_AMOUNT) : div.scrollBy(0, -this.SCROLL_AMOUNT);
+    (scroll > 0) ? div.scrollBy(0, this.SCROLL_AMOUNT) : div.scrollBy(0, -this.SCROLL_AMOUNT);
   }
 }

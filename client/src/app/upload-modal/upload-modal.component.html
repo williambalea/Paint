@@ -1,13 +1,18 @@
-<button mat-raised-button>
-  <input type="file" name="file" id="file" class="inputfile" (change)="onChange($event.target.files)">
-  <label for="file">choose file</label>
-</button>
-{{this.fileName}}
-<div *ngIf="this.uploadService.enableUploadButton">
-  <button mat-button (click)="this.uploadService.confirm()">confirm</button>
-</div>
+<mat-icon (click)="onNoClick()">clear</mat-icon>
+<div class="modal">
+  <h2>Upload master piece in app</h2>
+  <button mat-stroked-button>
+    <input type="file" name="file" id="file" class="inputfile" (change)="onChange($event.target.files)">
+    <label for="file">choose file</label>
+  </button>
+  {{this.fileName}}
+  <br>
+  <br>
+  <br>
+  <br>
+  <div>
+      <button *ngIf="this.uploadService.enableUploadButton" mat-button (click)="this.uploadService.confirm()">Upload</button>
+      <button *ngIf="!this.uploadService.enableUploadButton" class="confirm" mat-flat-button (click)="this.uploadService.confirm()" disabled>Upload</button>
+  </div>
 
-<div *ngIf="!this.uploadService.enableUploadButton">
-  <button mat-button (click)="this.uploadService.confirm()" disabled>confirm</button>
 </div>
-<button mat-button (click)="onNoClick()">close</button>

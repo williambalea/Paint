@@ -60,6 +60,38 @@ describe('EraserService', () => {
     expect(setAttributeCursorSpy).toHaveBeenCalled();
   });
 
+  it('should set copy attributes with a stroke', () => {
+    const shape = renderer.createElement('svg') as SVGGraphicsElement;
+    shape.setAttribute('fill', 'blue');
+    shape.setAttribute('stroke', 'blue');
+    shape.setAttribute('stroke-opacity', '-5');
+    shape.setAttribute('stroke-width', '-5');
+    service.setForElementWithStroke(shape);
+    expect(service.setForElementWithStroke(shape).getAttribute('fill')).toEqual('none');
+    expect(service.setForElementWithStroke(shape).getAttribute('stroke')).toEqual('red');
+    expect(service.setForElementWithStroke(shape).getAttribute('stroke-opacity')).toEqual('1');
+    expect(service.setForElementWithStroke(shape).getAttribute('stroke-width')).not.toEqual('initialValue');
+  });
+
+  it('should set copy attributes without a stroke', () => {
+    const shape = renderer.createElement('svg') as SVGGraphicsElement;
+    shape.setAttribute('x', '-5');
+    shape.setAttribute('y', '-5');
+    shape.setAttribute('width', '-5');
+    shape.setAttribute('height', '-5');
+    shape.setAttribute('fill', 'blue');
+    shape.setAttribute('stroke', 'blue');
+    shape.setAttribute('stroke-width', '-5');
+    service.setForElementWithoutStroke(shape);
+    expect(service.setForElementWithStroke(shape).getAttribute('fill')).toEqual('none');
+    expect(service.setForElementWithStroke(shape).getAttribute('stroke')).toEqual('red');
+    expect(service.setForElementWithStroke(shape).getAttribute('width')).not.toBeNaN();
+    expect(service.setForElementWithStroke(shape).getAttribute('height')).not.toBeNaN();
+    expect(service.setForElementWithStroke(shape).getAttribute('stroke-width')).not.toBeNaN();
+    expect(service.setForElementWithStroke(shape).getAttribute('x')).not.toBeNaN();
+    expect(service.setForElementWithStroke(shape).getAttribute('y')).not.toBeNaN();
+  });
+
   it('should update position', () => {
     let cursor: SVGGraphicsElement;
     cursor = renderer.createElement('rect', 'svg');

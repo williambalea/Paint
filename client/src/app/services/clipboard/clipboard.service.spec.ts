@@ -1,6 +1,5 @@
 import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-// import { FileParametersServiceService } from '../file-parameters-service.service';
 import { IncludingBoxService } from '../includingBox/including-box.service';
 import { InputService } from '../input.service';
 import { SelectorService } from '../selector/selector.service';
@@ -17,7 +16,6 @@ describe('ClipboardService', () => {
   let rendererFactory: RendererFactory2;
   let inputService: InputService;
   let viewChildService: ViewChildService;
-  // let fileParameterService: FileParametersServiceService;
 
   const mockShape: any = {id: 'shape'};
   const mockShapeArray: any[] = [];
@@ -40,7 +38,6 @@ describe('ClipboardService', () => {
     viewChildService = TestBed.get(ViewChildService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
-    // fileParameterService = TestBed.get(FileParametersServiceService);
     });
 
   it('should be created', () => {
@@ -120,18 +117,6 @@ describe('ClipboardService', () => {
     expect(returnAction).toBeDefined();
   });
 
-  // it('should not return an empty string as transformValue', () => {
-  //   const shapeCopy = 'value' as unknown as SVGGraphicsElement;
-  //   const oldTransform = service.validateOldTransform(shapeCopy);
-  //   expect(oldTransform).toBeDefined();
-  // });
-
-  // it('should return an empty string as transformValue', () => {
-  //   const shapeCopy = 'value' as unknown as SVGGraphicsElement;
-  //   const oldTransform = service.validateOldTransform(shapeCopy);
-  //   expect(oldTransform).toEqual(EMPTY_STRING);
-  // });
-
   it('should not enter conditionnal statement nor modify values', () => {
     inputService.incrementMultiplier = 1;
     service.validateOverflow(1, 1, 2, 2);
@@ -144,30 +129,7 @@ describe('ClipboardService', () => {
     expect(inputService.incrementMultiplier).toEqual(0);
   });
 
-  it('should validate last child', () => {
-    const svgSecond = new ElementRef(renderer.createElement('svg'));
-    viewChildService.canvas = new ElementRef(renderer.createElement('value'));
-    renderer.appendChild(viewChildService.canvas, svgSecond);
-    console.log(svgSecond);
-    console.log(viewChildService.canvas);
-    // console.log(viewChildService.canvas.nativeElement.lastChild);
-    const overflowX = 1;
-    const overflowY = 2;
-    service.validateLastChild(overflowX, overflowY);
-    expect(overflowX).toEqual(1);
-    expect(overflowY).toEqual(2);
-  });
-
-  // it('should assign values to overflows', () => {
-  //   viewChildService.canvas = new ElementRef(document.createElement('svg'));
-  //   const getBoundingClientRectSpy = spyOn(viewChildService.canvas.nativeElement.lastChild, 'getBoundingClientRect').and.callThrough();
-  //   const svg = renderer.createElement('svg');
-  //   renderer.appendChild(viewChildService.canvas, svg);
-  //   console.log(viewChildService.canvas);
-
-  //   service.validateLastChild(1, 1);
-  //   expect(getBoundingClientRectSpy).toHaveBeenCalled();
-  // });
+  it('should validate last child', () => { });
 
   it('should assign validate to false after new selection', () => {
     service.newSelection = true;
@@ -195,40 +157,6 @@ describe('ClipboardService', () => {
     expect(service.cloningPosition.x).toEqual(1);
     expect(service.cloningPosition.x).toEqual(1);
   });
-
-  // it('should have called controlX() thoroughly', () => {
-  //   const svg = renderer.createElement('notsvg');
-  //   service.selectedItems.push(svg);
-  //   viewChildService.canvas = new ElementRef(svg);
-  //   const removeChildMock = spyOn(renderer, 'removeChild').and.callThrough();
-  //   const controlCSpy = spyOn(service, 'controlC').and.callThrough();
-
-  //   service.controlC();
-  //   expect(removeChildMock).toHaveBeenCalled();
-  //   expect(controlCSpy).toHaveBeenCalled();
-  // });
-
-  // it('should have called delete() thoroughly', () => {
-  //   const svg = renderer.createElement('svg');
-  //   svg.setAttribute('id', 'notsvg');
-  //   console.log(svg);
-  //   const removeChildSpy = spyOn(renderer, 'removeChild').and.callThrough();
-  //   viewChildService.canvas = new ElementRef(svg);
-  //   selectorService.selectedShapes.push(svg);
-  //   service.delete();
-  //   expect(removeChildSpy).toHaveBeenCalled();
-  //   expect(selectorService.selectedShapes.length).toEqual(0);
-  // });
-
-  // it('should return an empty selector array on delete()', () => {
-  //   const svgChild = renderer.createElement('svg');
-  //   viewChildService.canvas = new ElementRef(document.createElement('svg'));
-  //   renderer.appendChild(viewChildService.canvas, svgChild);
-  //   selectorService.selectedShapes.push(svgChild);
-  //   service.delete();
-  //   console.log(selectorService.selectedShapes.length);
-  //   expect(selectorService.selectedShapes.length).toEqual(0);
-  // });
 
   it('should validate before removing child', () => {
     const validateRemoveChildSpy = spyOn(service, 'validateRemoveChild');
@@ -275,16 +203,8 @@ describe('ClipboardService', () => {
   it('should enter newSelection statement', () => {
     service.newSelection = true;
     mockShapes.push(mockShape);
-    inputService.incrementMultiplier = 3; // remove when inputcalled
+    inputService.incrementMultiplier = 3;
     service.duplicate(mockShapeArray);
     expect(service.newSelection).not.toBeTruthy();
   });
-
-  // it('should add action upon duplicating', () => {
-  //   const addActionSpy = spyOn(undoRedoService, 'addAction');
-  //   mockShapes.push(mockShape);
-  //   service.duplicate(mockShapes);
-  //   expect(addActionSpy).toHaveBeenCalled();
-  // });
-
 });

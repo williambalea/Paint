@@ -22,6 +22,7 @@ export class ExportModalComponent implements OnInit, OnDestroy {
   fileName: string;
   fileUrl; // TODO type -WB
   fileUrl2;
+  pngURL;
   downloadLink: ElementRef;
   image: any;
   @ViewChild('allo', {static: false}) alloChild: ElementRef;
@@ -61,11 +62,11 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.convertSvgToCanvas();
   }
 
-  createLink(type: string): void {
+  createBMPLink(): void {
     this.screenshotService.screenshotBase64(this.viewChildService.drawingBoard.nativeElement);
     const canvas = this.viewChildService.htmlCanvas.nativeElement as HTMLCanvasElement;
     const canvasToBMP: CanvasToBMP = new CanvasToBMP();
-    const newBlob = new Blob([canvasToBMP.toArrayBuffer(canvas)], {type: `image/${type}`});
+    const newBlob = new Blob([canvasToBMP.toArrayBuffer(canvas)], {type: `image/bmp`});
     this.bmpURL = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(newBlob));
   }
 
@@ -92,4 +93,10 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     }
   }
 
+  downloadImage(type: string): void {
+    const canvas = this.viewChildService.htmlCanvas.nativeElement as HTMLCanvasElement;
+    this.downloadLink.nativeElement.href = canvas.toDataURL(`image/${type}`);
+    this.downloadLink.nativeElement.download = `file.${type}`;
+    this.downloadLink.nativeElement.click();
+  }
 }

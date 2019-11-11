@@ -1,7 +1,9 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-import { Renderer2 } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideAutoMock } from 'src/test.helpers.spec';
 import { SelectorService } from '../selector/selector.service';
+import { ViewChildService } from '../view-child.service';
 import { IncludingBoxService } from './including-box.service';
 
 class RendererMock {
@@ -18,6 +20,8 @@ class SelectorServiceServiceMock {
 describe('IncludingBoxService', () => {
   let service: IncludingBoxService;
   let renderer: Renderer2;
+  let rendererFactory: RendererFactory2;
+  let viewChildService: ViewChildService;
   // let selectorService: SelectorService;
 
   beforeEach(() => {
@@ -28,10 +32,13 @@ describe('IncludingBoxService', () => {
         IncludingBoxService,
         { provide: Renderer2, useClass: RendererMock },
         { provide: SelectorService, useClass: SelectorServiceServiceMock },
+        provideAutoMock(ViewChildService),
       ],
     }).compileComponents();
+    viewChildService = TestBed.get(ViewChildService);
     service = TestBed.get(IncludingBoxService);
-    renderer = TestBed.get(Renderer2);
+    rendererFactory = TestBed.get(RendererFactory2);
+    renderer = rendererFactory.createRenderer(null, null);
     // selectorService = TestBed.get(SelectorService);
   });
 
@@ -43,13 +50,11 @@ describe('IncludingBoxService', () => {
     service.boxUpperLeft = { x: 1, y: 1 };
     service.width = 1;
     service.height = 1;
-    const spyOnCreateElement = spyOn(renderer, 'createElement');
     service.clear();
     expect(service.boxUpperLeft.x).toEqual(0);
     expect(service.boxUpperLeft.y).toEqual(0);
     expect(service.width).toEqual(0);
     expect(service.height).toEqual(0);
-    expect(spyOnCreateElement).toHaveBeenCalled();
   });
 
   it('should calculate size', () => {
@@ -113,10 +118,10 @@ describe('IncludingBoxService', () => {
   it('should set style points', () => {
     const point: SVGGraphicsElement = renderer.createElement('circle', 'svg');
     const positions: Point[] = service.setControlPoints();
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spy = spyOn(renderer, 'setAttribute');
     for (let i = 0; i < 8; i++) {
     service.setStylePoints(point, positions[i]); }
-    expect(spyOnSetStyle).toHaveBeenCalledTimes(24);
+    expect(spy).toHaveBeenCalledTimes(24);
   });
 
   it('should set attribute control points', () => {
@@ -133,6 +138,9 @@ describe('IncludingBoxService', () => {
     const spyOnSetAttribute = spyOn(renderer, 'setAttribute');
     const spyOnSetStylePoints = spyOn(service, 'setStylePoints');
     const spyOnAppendChild = spyOn(renderer, 'appendChild');
+    service.width = 10;
+    service.height = 10;
+    viewChildService.includingBox = new ElementRef(document.createElement('canvas'));
     service.appendControlPoints();
     expect(spyOnSetAttributeControlPoints).toHaveBeenCalledTimes(8);
     expect(spyOnSetAttribute).toHaveBeenCalledTimes(8);
@@ -142,9 +150,9 @@ describe('IncludingBoxService', () => {
 
   it('should set style rectangle Box', () => {
     const rectangle: SVGGraphicsElement = renderer.createElement('rectangle', 'svg');
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spy = spyOn(renderer, 'setAttribute');
     service.setStyleRectangleBox(rectangle);
-    expect(spyOnSetStyle).toHaveBeenCalledTimes(3);
+    expect(spy).toHaveBeenCalledTimes(3);
   });
 
   it('should set attribute rectangle Box', () => {
@@ -155,11 +163,12 @@ describe('IncludingBoxService', () => {
   });
 
   it('it should append rectangle box', () => {
-    service.width = 2;
-    service.height = 2;
     const spyOnSetSetAttributeRectangleBox = spyOn(service, 'setAttributeRectangleBox');
     const spyOnSetStyleRectangleBox = spyOn(service, 'setStyleRectangleBox');
     const spyOnAppendChild = spyOn(renderer, 'appendChild');
+    service.width = 2;
+    service.height = 2;
+    viewChildService.includingBox = new ElementRef(document.createElement('canvas'));
     service.appendRectangleBox();
     expect(spyOnSetSetAttributeRectangleBox).toHaveBeenCalledTimes(1);
     expect(spyOnSetStyleRectangleBox).toHaveBeenCalledTimes(1);
@@ -179,11 +188,9 @@ describe('IncludingBoxService', () => {
   });
 
   it('should draw', () => {
-    const spyOnCreateElement = spyOn(renderer, 'createElement');
     const spyOnAppendRectangleBox = spyOn(service, 'appendRectangleBox');
     const spyOnAppendControlPoint = spyOn(service, 'appendControlPoints');
     service.draw();
-    expect(spyOnCreateElement).toHaveBeenCalled();
     expect(spyOnAppendRectangleBox).toHaveBeenCalled();
     expect(spyOnAppendControlPoint).toHaveBeenCalled();
   });
@@ -206,30 +213,36 @@ describe('IncludingBoxService', () => {
     expect(service.boxUpperLeft.y).toEqual(1);
   });
 
-  it('should validate that there is no stroke', () => {
+  it('should validate that there is no stroke1', () => {
     const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
-    const value = {style: {strokeOpacity: 1, strokeWidth: 1}, tagName: 'rect'} ;
-    service.validateNoStroke(value as unknown as SVGGraphicsElement, shapeBoundary);
+    let element: SVGGraphicsElement;
+    element = renderer.createElement('rect', 'svg');
+    renderer.setAttribute(element, 'stroke-width', '1');
+    service.validateNoStroke(element, shapeBoundary);
     expect(shapeBoundary.x).toEqual(0.5);
     expect(shapeBoundary.y).toEqual(0.5);
     expect(shapeBoundary.width).toEqual(2);
     expect(shapeBoundary.height).toEqual(2);
   });
 
-  it('should validate that there is no stroke', () => {
+  it('should validate that there is no stroke2', () => {
     const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
-    const value = {style: {strokeOpacity: 1, strokeWidth: 1}, tagName: 'image'} ;
-    service.validateNoStroke(value as unknown as SVGGraphicsElement, shapeBoundary);
+    let element: SVGGraphicsElement;
+    element = renderer.createElement('image', 'svg');
+    renderer.setAttribute(element, 'stroke-width', '1');
+    service.validateNoStroke(element, shapeBoundary);
     expect(shapeBoundary.x).toEqual(1);
     expect(shapeBoundary.y).toEqual(1);
     expect(shapeBoundary.width).toEqual(1);
     expect(shapeBoundary.height).toEqual(1);
   });
 
-  it('should validate that there is no stroke', () => {
+  it('should validate that there is no stroke3', () => {
     const shapeBoundary = {x: 1, y: 1, width: 1, height: 1} as SVGRect;
-    const value = {style: {strokeOpacity: 0, strokeWidth: 1}, tagName: 'image'} ;
-    service.validateNoStroke(value as unknown as SVGGraphicsElement, shapeBoundary);
+    let element: SVGGraphicsElement;
+    element = renderer.createElement('image', 'svg');
+    renderer.setAttribute(element, 'stroke-width', '1');
+    service.validateNoStroke(element, shapeBoundary);
     expect(shapeBoundary.x).toEqual(1);
     expect(shapeBoundary.y).toEqual(1);
     expect(shapeBoundary.width).toEqual(1);

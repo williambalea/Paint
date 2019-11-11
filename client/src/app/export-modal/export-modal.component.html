@@ -13,10 +13,10 @@
 <div #allo></div>
 
 <button mat-raised-button *ngIf="selectedFormat === 'bmp'" (click)="this.createBMPLink()"><a [href]="bmpURL" download="file.bmp">confirm</a></button>
+<button mat-raised-button *ngIf="selectedFormat === 'svg' " ><a [href]="fileUrl" download="file.svg">confirm</a></button>
+<button mat-raised-button *ngIf="selectedFormat === 'png' " (click)="this.downloadImage('png')">confirm</button>
+<button mat-raised-button *ngIf="selectedFormat === 'jpeg' " (click)="this.downloadImage('jpeg')">confirm</button>
 
-<button *ngIf="selectedFormat === 'svg' " mat-raised-button><a [href]="fileUrl" download="file.svg">confirm</a></button>
-
-<button *ngIf="!(selectedFormat === 'svg' || selectedFormat === 'bmp') " mat-raised-button (click)='click()'>confirm</button>
 <button mat-button [mat-dialog-close]="true">close</button>
 
 

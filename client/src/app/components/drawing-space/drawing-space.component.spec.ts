@@ -9,23 +9,24 @@ import { EraserService } from 'src/app/services/eraser/eraser.service';
 import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { InputService } from 'src/app/services/input.service';
 import { SelectorService } from 'src/app/services/selector/selector.service';
-//import { Shape } from 'src/app/services/shapes/shape';
+// import { Shape } from 'src/app/services/shapes/shape';
 import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
+import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
-import { KEY, TOOL, EMPTY_STRING } from 'src/constants';
+import { UndoRedoService } from 'src/app/services/undo-redo.service';
+import { UploadService } from 'src/app/services/upload.service';
+import { EMPTY_STRING, KEY, TOOL } from 'src/constants';
 import { provideAutoMock } from 'src/test.helpers.spec';
 // import { EMPTY_STRING, KEY, NB, TOOL } from 'src/constants';
 // import { Point } from '../../../../../common/interface/point';
 // import { Preview } from '../../../../../common/interface/preview';
-//import { Shape } from '../../services/shapes/shape';
+// import { Shape } from '../../services/shapes/shape';
 import { GridService } from './../../services/grid/grid.service';
 import { IncludingBoxService } from './../../services/includingBox/including-box.service';
+import { LineService } from './../../services/shapes/line.service';
 // import { UnsubscribeService } from './../../services/unsubscribe.service';
 import { DrawingSpaceComponent } from './drawing-space.component';
-import { PenService } from 'src/app/services/shapes/pen.service';
-import { UndoRedoService } from 'src/app/services/undo-redo.service';
-import { UploadService } from 'src/app/services/upload.service';
-//import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
+// import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 
 describe('DrawingSpaceComponent', () => {
   let component: DrawingSpaceComponent;
@@ -34,17 +35,18 @@ describe('DrawingSpaceComponent', () => {
   let penService: PenService;
   let uploadService: UploadService;
 //   let gridService: GridService;
-//let shapesService: ShapesService;
+// let shapesService: ShapesService;
   let colorService: ColorService;
   let inputService: InputService;
-//   let rectangleService: RectangleService;
+  // let lineService: LineService;
+  let rectangleService: RectangleService;
 //   let pipetteService: PipetteService;
   let renderer: Renderer2;
   let eraserService: EraserService;
   let rendererFactory: RendererFactory2;
   let selectorService: SelectorService;
-    let eventEmitterService: EventEmitterService;
-    let undoRedoService: UndoRedoService;
+  let eventEmitterService: EventEmitterService;
+  let undoRedoService: UndoRedoService;
   // let unsubscribeService: UnsubscribeService;
   let includingBoxService: IncludingBoxService;
 
@@ -61,12 +63,13 @@ describe('DrawingSpaceComponent', () => {
         provideAutoMock(PipetteService),
         provideAutoMock(IncludingBoxService),
         provideAutoMock(ClipboardService),
-        provideAutoMock(KeyboardEvent),
+        // provideAutoMock(KeyboardEvent),
         provideAutoMock(EraserService),
         provideAutoMock(PenService),
         provideAutoMock(UndoRedoService),
         provideAutoMock(UploadService),
-       //provideAutoMock(NoShapeService),
+        provideAutoMock(LineService),
+       // provideAutoMock(NoShapeService),
         HttpClient,
         HttpHandler,
         Renderer2,
@@ -77,7 +80,7 @@ describe('DrawingSpaceComponent', () => {
     })
     .compileComponents();
     component = TestBed.get(DrawingSpaceComponent);
-    //gridService = TestBed.get(GridService);
+    // gridService = TestBed.get(GridService);
     undoRedoService = TestBed.get(UndoRedoService);
     // unsubscribeService = TestBed.get(UnsubscribeService);
     // shapesService = TestBed.get(ShapesService);
@@ -85,7 +88,7 @@ describe('DrawingSpaceComponent', () => {
     inputService = TestBed.get(InputService);
     uploadService = TestBed.get(UploadService);
     eraserService = TestBed.get(EraserService);
-    // rectangleService = TestBed.get(RectangleService);
+    rectangleService = TestBed.get(RectangleService);
     // pipetteService = TestBed.get(PipetteService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
@@ -94,6 +97,7 @@ describe('DrawingSpaceComponent', () => {
     clipboardService = TestBed.get(ClipboardService);
     eventEmitterService = TestBed.get(EventEmitterService);
     penService = TestBed.get(PenService);
+    // lineService = TestBed.get(LineService);
 
     component.drawingBoard = new ElementRef(renderer.createElement('drawingBoard'));
     eraserService.cursor = renderer.createElement('svgElement') as SVGGraphicsElement;
@@ -151,13 +155,15 @@ describe('DrawingSpaceComponent', () => {
 
   it('should call put backspace to false', () => {
     const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.backspace});
+    component.selectedShape = rectangleService;
     inputService.altPressed = true;
     component.onKeyUp(keyboardEvent);
-    expect(inputService.backSpacePressed).not.toBeTruthy();
+    expect(inputService.backSpacePressed).toBeFalsy();
   });
 
   it('should call selectedShape onMouseMove', () => {
     const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.backspace});
+    component.selectedShape = rectangleService;
     component.onKeyUp(keyboardEvent);
     expect(component.selectedShape.onMouseMove).toHaveBeenCalled();
   });
@@ -171,8 +177,9 @@ describe('DrawingSpaceComponent', () => {
 
   it('should call onMouseUp when onMouseMove', () => {
     const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.escape});
+    component.selectedShape = rectangleService;
     component.onKeyUp(keyboardEvent);
-    expect(component.selectedShape.onMouseMove).toHaveBeenCalled();
+    expect(rectangleService.onMouseUp).toHaveBeenCalled();
   });
 
   it('should put shifPressed to false', () => {
@@ -184,9 +191,10 @@ describe('DrawingSpaceComponent', () => {
 
   it('should remove the element the cursor is on from the canvas', () => {
     const mouseEvent = new MouseEvent('eraser');
+    const spy = spyOn(renderer, 'removeChild');
+    component.selectedTool = TOOL.eraser;
     component.onMouseLeave(mouseEvent);
-    eraserService.cursor;
-    expect(renderer.removeChild).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should not call prevent default', () => {
@@ -198,9 +206,10 @@ describe('DrawingSpaceComponent', () => {
 
   it('should call prevent default', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.d});
-    inputService.controlPressed = false;
+    const spy = spyOn(keyboardEvent, 'preventDefault');
+    inputService.controlPressed = true;
     component.onKeyDown(keyboardEvent);
-    expect(keyboardEvent.preventDefault).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should delete canvas selection', () => {
@@ -217,18 +226,21 @@ describe('DrawingSpaceComponent', () => {
 
   it('should reset eraser services', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.shift});
+    const spy = spyOn(eraserService.cursor, 'remove');
     component.selectedTool = TOOL.line;
+    component.selectedShape = rectangleService;
     component.onKeyDown(keyboardEvent);
-    expect(eraserService.cursor.remove).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
     expect(eraserService.reset).toHaveBeenCalled();
     expect(eraserService.updatePosition).not.toHaveBeenCalled();
   });
 
   it('should update eraser position', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.shift});
+    const spy = spyOn(eraserService.cursor, 'remove');
     component.selectedTool = TOOL.eraser;
     component.onKeyDown(keyboardEvent);
-    expect(eraserService.cursor.remove).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
     expect(eraserService.reset).not.toHaveBeenCalled();
     expect(eraserService.updatePosition).toHaveBeenCalled();
   });
@@ -258,11 +270,12 @@ describe('DrawingSpaceComponent', () => {
 
   it('should put escapePressed to true', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.escape});
+    const spy = spyOn(renderer, 'removeChild');
     inputService.escapePressed = false;
     component.selectedTool = TOOL.eraser;
     component.onKeyDown(keyboardEvent);
     expect(inputService.escapePressed).toBeTruthy();
-    expect(renderer.removeChild).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it('should put backspacePressed to true and mousemove to have been called', () => {
@@ -325,9 +338,10 @@ describe('DrawingSpaceComponent', () => {
 
   it('should call preventDefault for the submited event', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.d});
+    const spy = spyOn(keyboardEvent, 'preventDefault');
     inputService.controlPressed = true;
     component.onKeyDown(keyboardEvent);
-    expect(keyboardEvent.preventDefault).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should change stamp angle', () => {
@@ -375,6 +389,7 @@ describe('DrawingSpaceComponent', () => {
   it('should eraseShapes and set erasedown to true', () => {
     const mouseEvent = new MouseEvent('click');
     component.selectedTool = TOOL.selector;
+    component.selectedShape = rectangleService;
     component.onMouseUp(mouseEvent);
     expect(eraserService.eraseMouseDown).not.toBeTruthy();
     expect(eraserService.eraseShapes).toHaveBeenCalled();

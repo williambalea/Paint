@@ -2,7 +2,6 @@ import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EMPTY_STRING, NB, STRINGS } from 'src/constants';
 import { ColorService } from '../services/color/color.service';
-import { ExportService } from '../services/export.service';
 import { FileParametersServiceService } from '../services/file-parameters-service.service';
 import { InputService } from '../services/input.service';
 import { ScreenshotService } from '../services/shapes/screenshot.service';
@@ -20,14 +19,12 @@ export class ExportModalComponent implements OnInit, OnDestroy {
   selectedFormat: string;
   name: string;
   fileName: string;
-  fileUrl; // TODO type -WB
-  fileUrl2;
+  fileUrl: SafeResourceUrl;
   downloadLink: ElementRef;
   image: any;
   @ViewChild('allo', {static: false}) alloChild: ElementRef;
 
-  constructor(private exportService: ExportService,
-              private sanitizer: DomSanitizer,
+  constructor(private sanitizer: DomSanitizer,
               private renderer: Renderer2,
               private screenshotService: ScreenshotService,
               private inputService: InputService,
@@ -48,13 +45,13 @@ export class ExportModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const svg = this.renderer.createElement('svg');
-    this.renderer.setAttribute(svg, 'viewBox', `0 0 ${this.exportService.canvas.nativeElement.width}
-    ${this.exportService.canvas.nativeElement.height}`);
+    this.renderer.setAttribute(svg, 'viewBox', `0 0 ${this.viewChildService.canvas.nativeElement.width}
+    ${this.viewChildService.canvas.nativeElement.height}`);
     this.renderer.setAttribute(svg, 'xmlns', 'http://www.w3.org/2000/svg');
     this.renderer.setAttribute(svg, 'width', this.fileParameterService.canvasWidth.getValue().toString());
     this.renderer.setAttribute(svg, 'height', this.fileParameterService.canvasHeight.getValue().toString());
     this.renderer.setStyle(svg, 'backgroundColor', this.colorService.getBackgroundColor());
-    this.renderer.appendChild(svg, this.exportService.canvas.nativeElement.cloneNode(true));
+    this.renderer.appendChild(svg, this.viewChildService.canvas.nativeElement.cloneNode(true));
     this.renderer.appendChild(svg, this.viewChildService.defs.nativeElement);
     const blob = new Blob([svg.outerHTML], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
@@ -65,7 +62,7 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.screenshotService.screenshotBase64(this.viewChildService.drawingBoard.nativeElement);
     const canvas = this.viewChildService.htmlCanvas.nativeElement as HTMLCanvasElement;
     const canvasToBMP: CanvasToBMP = new CanvasToBMP();
-    const newBlob = new Blob([canvasToBMP.toArrayBuffer(canvas)], {type: 'image/bmp'});
+    const newBlob = new Blob([canvasToBMP.toArrayBuffer(canvas)], {type: `image/bmp`});
     this.bmpURL = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(newBlob));
   }
 
@@ -81,15 +78,10 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     };
   }
 
-  click() {
-    if (this.selectedFormat !== 'svg' && this.selectedFormat !== 'bmp') {
-      this.exportService.download(this.selectedFormat);
-    } else if (this.selectedFormat === 'bmp') {
-      this.convertSvgToCanvas();
-      const canvasToBMP: CanvasToBMP = new CanvasToBMP();
-      const blobUrl = canvasToBMP.toDataURL(this.viewChildService.htmlCanvas.nativeElement);
-      this.fileUrl2 = blobUrl;
-    }
+  downloadImage(type: string): void {
+    const canvas = this.viewChildService.htmlCanvas.nativeElement as HTMLCanvasElement;
+    this.downloadLink.nativeElement.href = canvas.toDataURL(`image/${type}`);
+    this.downloadLink.nativeElement.download = `file.${type}`;
+    this.downloadLink.nativeElement.click();
   }
-
 }

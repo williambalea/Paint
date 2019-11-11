@@ -22,7 +22,8 @@
     <span>
       <div class="drawing">
         <div>{{data.name}}</div>
-        <div>[{{data.tags}}]</div>
+        <div *ngIf="data.tags.length > 0">[{{data.tags}}]</div>
+        <p *ngIf="data.tags.length === 0"></p>
         <img [attr.src]="data.thumbnail | safeUrl" width="110" height="110">
         <button class="chooseDrawing" mat-stroked-button matTooltip="Click me to confirm"
           (click)="this.selectDrawing(i); this.closeModalWindow()">

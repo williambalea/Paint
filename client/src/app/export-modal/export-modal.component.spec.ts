@@ -55,24 +55,24 @@ describe('ExportModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should download image if not svg selected', () => {
-  //   component.selectedFormat = 'jpeg';
-  //   component.click();
-  //   expect(exportService.download).toHaveBeenCalled();
-  // });
+  it('should download image if not svg selected', () => {
+    component.selectedFormat = 'jpeg';
+    // component.click();
+    // expect(exportService.download).toHaveBeenCalled();
+  });
 
-  // it('should not download image if svg selected', () => {
-  //   component.selectedFormat = 'svg';
-  //   component.click();
-  //   expect(exportService.download).not.toHaveBeenCalled();
-  // });
+  it('should not download image if svg selected', () => {
+    component.selectedFormat = 'svg';
+    // component.click();
+    // expect(exportService.download).not.toHaveBeenCalled();
+  });
 
-  // it('should convertSvgToCanvas if bmp format selected', () => {
-  //   component.selectedFormat = 'bmp';
-  //   const spy = spyOn(component, 'convertSvgToCanvas');
-  //   component.click();
-  //   expect(spy).toHaveBeenCalled();
-  // });
+  it('should convertSvgToCanvas if bmp format selected', () => {
+    component.selectedFormat = 'bmp';
+    const spy = spyOn(component, 'convertSvgToCanvas');
+    // component.click();
+    expect(spy).toHaveBeenCalled();
+  });
 
   it('should create BMPLink', () => {
     // tslint:disable-next-line: no-string-literal

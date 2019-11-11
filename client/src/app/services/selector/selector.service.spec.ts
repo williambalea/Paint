@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Renderer2 } from '@angular/core';
+import { Renderer2, ElementRef } from '@angular/core';
 import { InputService } from '../input.service';
 import { RectangleService } from '../shapes/rectangle.service';
 import { SelectorService } from './selector.service';
@@ -48,6 +48,18 @@ describe('SelectorService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should find intersection', () => {
+    const canvas = new ElementRef(renderer.createElement('canvas'));
+    const child = renderer.createElement('child');
+    const selectorArea: any = child;
+    renderer.appendChild(canvas, child);
+    const spyOnsetCurrentShape = spyOn(service, 'setCurrentShape');
+    const spyOnvalidateIntersection = spyOn(service, 'validateIntersection');
+    service.intersection(selectorArea, canvas);
+    expect(spyOnsetCurrentShape).toHaveBeenCalled();
+    expect(spyOnvalidateIntersection).toHaveBeenCalled();
   });
 
   it ('should react on mouse down', () => {

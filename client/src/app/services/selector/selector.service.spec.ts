@@ -53,7 +53,7 @@ describe('SelectorService', () => {
   it ('should react on mouse down', () => {
     const spyOnValidateSelectorIsSingle = spyOn(service, 'validateSelectorIsSingle');
     const spyOnValidateMouseButton = spyOn(service, 'validateMouseButton');
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setAttribute');
     service.onMouseDown();
     expect(spyOnValidateSelectorIsSingle).toHaveBeenCalled();
     expect(spyOnSetStyle).toHaveBeenCalledTimes(5);
@@ -70,7 +70,7 @@ describe('SelectorService', () => {
 
   it('should validate mouse button', () => {
     inputService.mouseButton = 2;
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
+    const spyOnSetStyle = spyOn(renderer, 'setAttribute');
     service.validateMouseButton();
     expect(spyOnSetStyle).toHaveBeenCalled();
   });
@@ -113,7 +113,8 @@ describe('SelectorService', () => {
   it ('should validate intersection when right click', () => {
     inputService.mouseButton = 2;
     const selectedShapes: SVGGraphicsElement[] = [];
-    const child = renderer.createElement('rect', 'svg');
+    const child = document.createElement('rect') as unknown as SVGGraphicsElement;
+    child.setAttribute('tagName', 'svg');
     const index = selectedShapes.indexOf(child);
     service.validateIntersection(child);
     expect(index).toBeDefined();

@@ -14,7 +14,6 @@ describe('GridService', () => {
       providers: [
         GridService,
         ViewChildService,
-        // { provide: Renderer2, useClass: RendererMock },
       ],
     }).compileComponents();
     viewChildService = TestBed.get(ViewChildService);

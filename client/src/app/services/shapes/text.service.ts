@@ -78,7 +78,6 @@ export class TextService {
     this.update();
   }
 
-  // Test ne marche pas
   onMouseDown(): void {
     this.isWriting = !this.isWriting;
     if (this.isWriting) {

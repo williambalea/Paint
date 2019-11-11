@@ -14,7 +14,6 @@ describe('GridService', () => {
       providers: [
         GridService,
         ViewChildService,
-        // { provide: Renderer2, useClass: RendererMock },
       ],
     }).compileComponents();
     viewChildService = TestBed.get(ViewChildService);
@@ -77,7 +76,6 @@ describe('GridService', () => {
   it('Should build a grid with expected parameters', () => {
     const createElementSpy = spyOn(renderer, 'createElement').and.callThrough();
     const setAttributeSpy = spyOn(renderer, 'setAttribute').and.callThrough();
-    const setStyleSpy = spyOn(renderer, 'setStyle').and.callThrough();
     const appendChildSpy = spyOn(renderer, 'appendChild').and.callThrough();
 
     service.gridSize = 50;
@@ -85,7 +83,6 @@ describe('GridService', () => {
     expect(createElementSpy).toHaveBeenCalled();
     expect(service.gridSize).toEqual(50);
     expect(setAttributeSpy).toHaveBeenCalled();
-    expect(setStyleSpy).toHaveBeenCalled();
     expect(appendChildSpy).toHaveBeenCalled();
   });
 

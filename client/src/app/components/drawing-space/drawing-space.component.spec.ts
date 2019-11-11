@@ -1,5 +1,5 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { ElementRef, Renderer2, RendererFactory2, Type } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2, Type, ɵEMPTY_ARRAY } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SafeHtmlPipe } from 'src/app/safe-html.pipe';
 import { ClipboardService } from 'src/app/services/clipboard/clipboard.service';
@@ -16,9 +16,8 @@ import { RectangleService } from 'src/app/services/shapes/rectangle.service';
 import { TextService } from 'src/app/services/shapes/text.service';
 import { UndoRedoService } from 'src/app/services/undo-redo.service';
 import { UploadService } from 'src/app/services/upload.service';
-import { EMPTY_STRING, KEY, TOOL } from 'src/constants';
 import { provideAutoMock } from 'src/test.helpers.spec';
-// import { EMPTY_STRING, KEY, NB, TOOL } from 'src/constants';
+import { EMPTY_STRING, KEY, NB, TOOL } from 'src/constants';
 // import { Point } from '../../../../../common/interface/point';
 // import { Preview } from '../../../../../common/interface/preview';
 // import { Shape } from '../../services/shapes/shape';
@@ -27,6 +26,7 @@ import { IncludingBoxService } from './../../services/includingBox/including-box
 import { LineService } from './../../services/shapes/line.service';
 // import { UnsubscribeService } from './../../services/unsubscribe.service';
 import { DrawingSpaceComponent } from './drawing-space.component';
+import { Shape } from 'src/app/services/shapes/shape';
 // import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 
 describe('DrawingSpaceComponent', () => {
@@ -42,7 +42,7 @@ describe('DrawingSpaceComponent', () => {
   let inputService: InputService;
   // let lineService: LineService;
   let rectangleService: RectangleService;
-//   let pipetteService: PipetteService;
+  let pipetteService: PipetteService;
   let renderer: Renderer2;
   let eraserService: EraserService;
   let rendererFactory: RendererFactory2;
@@ -72,6 +72,8 @@ describe('DrawingSpaceComponent', () => {
         provideAutoMock(UploadService),
         provideAutoMock(LineService),
         provideAutoMock(TextService),
+        provideAutoMock(DrawingSpaceComponent),
+        provideAutoMock(PipetteService),
        // provideAutoMock(NoShapeService),
         HttpClient,
         HttpHandler,
@@ -92,7 +94,7 @@ describe('DrawingSpaceComponent', () => {
     uploadService = TestBed.get(UploadService);
     eraserService = TestBed.get(EraserService);
     rectangleService = TestBed.get(RectangleService);
-    // pipetteService = TestBed.get(PipetteService);
+    pipetteService = TestBed.get(PipetteService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
     includingBoxService = TestBed.get(IncludingBoxService);
@@ -107,6 +109,7 @@ describe('DrawingSpaceComponent', () => {
     eraserService.cursor = renderer.createElement('svgElement') as SVGGraphicsElement;
     component.selectedShape = 'rect' as unknown as NoShapeService;
     selectorService.selectedShapes = [];
+    console.log(NB.Forty);
 
   }));
 
@@ -163,6 +166,13 @@ describe('DrawingSpaceComponent', () => {
     inputService.altPressed = true;
     component.onKeyUp(keyboardEvent);
     expect(inputService.backSpacePressed).toBeFalsy();
+  });
+
+  it('should call selectedShape onMouseMove', () => {
+    const keyboardEvent = new KeyboardEvent('keyup', {key: KEY.backspace});
+    component.selectedShape = rectangleService;
+    component.onKeyUp(keyboardEvent);
+    expect(component.selectedShape.onMouseMove).toHaveBeenCalled();
   });
 
   it('should call selectedShape onMouseMove', () => {
@@ -316,7 +326,17 @@ describe('DrawingSpaceComponent', () => {
     renderer.appendChild(textService.text, renderer.createElement('child2'));
     component.onKeyDown(keyboardEvent);
     expect(textService.lineJumpBack).toHaveBeenCalled();
+  });
 
+  it('should update text content with user input', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.c});
+    textService.textContent = '';
+    component.selectedTool = TOOL.text;
+    textService.isWriting = true;
+    component.onKeyDown(keyboardEvent);
+    expect(textService.textContent).toEqual('c');
+    expect(textService.update).toHaveBeenCalled();
+    expect(textService.enterLineMultiplier).toEqual(1);
   });
 
   // it('should return if not shape is provided', () => {
@@ -432,6 +452,104 @@ describe('DrawingSpaceComponent', () => {
     expect(component.selectedShape.onMouseUp).toHaveBeenCalled();
   });
 
+  it('should call getSpeed', () => {
+    const mouseEvent = new MouseEvent('move');
+    component.onMouseMove(mouseEvent);
+    expect(penService.getSpeed).toHaveBeenCalled();
+  });
+
+  it('should call set mouseOffset and call mousemove', () => {
+    const mouseEvent = new MouseEvent('mousemove');
+    component.selectedTool = TOOL.line;
+    component.selectedShape = renderer.createElement('shape') as Shape;
+    component.onMouseMove(mouseEvent);
+    expect(inputService.setMouseOffset).toHaveBeenCalled();
+    expect(component.selectedShape.onMouseMove).toHaveBeenCalled();
+  });
+
+  it('should call intersection and update', () => {
+    const mouseEvent = new MouseEvent('mousemove');
+    component.selectedTool = TOOL.selector;
+    component.selectedShape = renderer.createElement('shape') as Shape;
+    component.selectorAreaActive = true;
+    component.onMouseMove(mouseEvent);
+    expect(includingBoxService.update).toHaveBeenCalled();
+    expect(selectorService.intersection).toHaveBeenCalled();
+  });
+
+  it('should call eraseShapes and updatePosition', () => {
+    const mouseEvent = new MouseEvent('mousemove');
+    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedTool = TOOL.eraser;
+    eraserService.eraseMouseDown = true;
+    component.onMouseMove(mouseEvent);
+    expect(eraserService.updatePosition).toHaveBeenCalled();
+    expect(eraserService.eraseShapes).toHaveBeenCalled();
+  });
+
+  it('should set areaactive to true and isnotempty to true', () => {
+    const mouseEvent = new MouseEvent('mousedown');
+    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedTool = TOOL.line;
+    inputService.isNotEmpty = false;
+    component.selectorAreaActive = false;
+    component.onMouseDown(mouseEvent);
+    expect(inputService.mouseButton).toEqual(mouseEvent.button);
+    expect(inputService.isNotEmpty).toBeTruthy();
+    expect(component.selectorAreaActive).toBeTruthy();
+  });
+
+  it('should empty selected shapes array', () => {
+    const mouseEvent = new MouseEvent('mousedown');
+    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedTool = TOOL.line;
+    component.onMouseDown(mouseEvent);
+    expect(selectorService.selectedShapes).toEqual(ɵEMPTY_ARRAY);
+  });
+
+  it('should get colors', () => {
+    const mouseEvent = new MouseEvent('mousedown');
+    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedTool = TOOL.pipette;
+    component.onMouseDown(mouseEvent);
+    expect(pipetteService.getColors).toHaveBeenCalled();
+  });
+
+  it('should assign eraseMouseDown to true', () => {
+    const mouseEvent = new MouseEvent('mousedown');
+    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedTool = TOOL.eraser;
+    component.onMouseDown(mouseEvent);
+    expect(eraserService.eraseMouseDown).toBeTruthy();
+  });
+
+  it('should call textservice mousedown', () => {
+    const mouseEvent = new MouseEvent('mousedown');
+    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedTool = TOOL.text;
+    component.onMouseDown(mouseEvent);
+    expect(textService.onMouseDown).toHaveBeenCalled();
+  });
+
+  it('should assign isblank to false and cal setmakingcolorchanges', () => {
+    const mouseEvent = new MouseEvent('mousedown');
+    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedTool = TOOL.line;
+    inputService.isBlank = true;
+    component.onMouseDown(mouseEvent);
+    expect(colorService.setMakingColorChanges).toHaveBeenCalled();
+    expect(inputService.isBlank).not.toBeTruthy();
+  });
+
+  it('should call includingBox update', () => {
+    const mouseEvent = new MouseEvent('mousedown');
+    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedTool = TOOL.selector;
+    component.selectorAreaActive = true;
+    component.onMouseDown(mouseEvent);
+    expect(includingBoxService.update).toHaveBeenCalled();
+  });
+
   it('should set new selection to true', () => {
     const mouseEvent = new MouseEvent('click');
     component.selectedTool = TOOL.selector;
@@ -446,6 +564,24 @@ describe('DrawingSpaceComponent', () => {
     component.onMouseUp(mouseEvent);
     expect(eraserService.eraseMouseDown).not.toBeTruthy();
     expect(eraserService.eraseShapes).toHaveBeenCalled();
+  });
+
+  it('should assign undoIsStarted to false and clearinterval', () => {
+    const mouseEvent = new MouseEvent('click');
+    undoRedoService.undoIsStarted = true;
+    component.selectedTool = TOOL.line;
+    component.onMouseUp(mouseEvent);
+    expect(undoRedoService.undoIsStarted).not.toBeTruthy();
+    expect(clearInterval).toHaveBeenCalled();
+  });
+
+  it('should confirm that shape is null', () => {
+    const mouseEvent = new MouseEvent('click');
+    undoRedoService.undoIsStarted = true;
+    component.selectedTool = TOOL.colorApplicator;
+    component.shape = renderer.createElement('shape');
+    component.onMouseUp(mouseEvent);
+    expect(undoRedoService.addAction).not.toHaveBeenCalled();
   });
 
   it('should put isDrawed, areaActive to true and undoisstarted to false', () => {

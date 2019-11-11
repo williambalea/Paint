@@ -13,6 +13,7 @@ import { SelectorService } from 'src/app/services/selector/selector.service';
 import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 import { PenService } from 'src/app/services/shapes/pen.service';
 import { RectangleService } from 'src/app/services/shapes/rectangle.service';
+import { TextService } from 'src/app/services/shapes/text.service';
 import { UndoRedoService } from 'src/app/services/undo-redo.service';
 import { UploadService } from 'src/app/services/upload.service';
 import { EMPTY_STRING, KEY, TOOL } from 'src/constants';
@@ -34,6 +35,7 @@ describe('DrawingSpaceComponent', () => {
   let clipboardService: ClipboardService;
   let penService: PenService;
   let uploadService: UploadService;
+  let textService: TextService;
 //   let gridService: GridService;
 // let shapesService: ShapesService;
   let colorService: ColorService;
@@ -69,6 +71,7 @@ describe('DrawingSpaceComponent', () => {
         provideAutoMock(UndoRedoService),
         provideAutoMock(UploadService),
         provideAutoMock(LineService),
+        provideAutoMock(TextService),
        // provideAutoMock(NoShapeService),
         HttpClient,
         HttpHandler,
@@ -97,6 +100,7 @@ describe('DrawingSpaceComponent', () => {
     clipboardService = TestBed.get(ClipboardService);
     eventEmitterService = TestBed.get(EventEmitterService);
     penService = TestBed.get(PenService);
+    textService = TestBed.get(TextService);
     // lineService = TestBed.get(LineService);
 
     component.drawingBoard = new ElementRef(renderer.createElement('drawingBoard'));
@@ -268,15 +272,64 @@ describe('DrawingSpaceComponent', () => {
     expect(inputService.altPressed).toBeTruthy();
   });
 
-  it('should put escapePressed to true', () => {
+  it('should call removeChild', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.escape});
-    const spy = spyOn(renderer, 'removeChild');
+    const removeChildSpy = spyOn(renderer, 'removeChild');
+    component.canvas = new ElementRef(renderer.createElement('canvas'));
+    component.shape = renderer.createElement('shape');
+    inputService.escapePressed = false;
+    component.selectedTool = TOOL.line;
+    component.onKeyDown(keyboardEvent);
+    expect(inputService.escapePressed).toBeTruthy();
+    expect(removeChildSpy).toHaveBeenCalled();
+  });
+
+  it('should not call removeChild', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.escape});
+    const removeChildSpy = spyOn(renderer, 'removeChild');
+    component.canvas = new ElementRef(renderer.createElement('canvas'));
+    component.shape = renderer.createElement('shape');
     inputService.escapePressed = false;
     component.selectedTool = TOOL.eraser;
     component.onKeyDown(keyboardEvent);
     expect(inputService.escapePressed).toBeTruthy();
-    expect(spy).not.toHaveBeenCalled();
+    expect(removeChildSpy).not.toHaveBeenCalled();
   });
+
+  it('should call linejump function if keydown is enter', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.enter});
+    inputService.escapePressed = false;
+    component.selectedTool = TOOL.text;
+    textService.isWriting = true;
+    component.onKeyDown(keyboardEvent);
+    expect(textService.lineJump).toHaveBeenCalled();
+  });
+
+  it('should call text service update', () => {
+    const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.backspace});
+    textService.textContent = '';
+    inputService.escapePressed = false;
+    component.selectedTool = TOOL.text;
+    textService.isWriting = true;
+    textService.text = renderer.createElement('text') as HTMLElement;
+    renderer.appendChild(textService.text, renderer.createElement('child1'));
+    renderer.appendChild(textService.text, renderer.createElement('child2'));
+    component.onKeyDown(keyboardEvent);
+    expect(textService.lineJumpBack).toHaveBeenCalled();
+
+  });
+
+  // it('should return if not shape is provided', () => {
+  //   const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.escape});
+  //   const removeChildSpy = spyOn(renderer, 'removeChild');
+  //   component.canvas = new ElementRef(renderer.createElement('canvas'));
+  //   //component.shape = renderer.createElement('shape');
+  //   inputService.escapePressed = false;
+  //   component.selectedTool = TOOL.line;
+  //   component.onKeyDown(keyboardEvent);
+  //   expect().toHaveBeenCalled();
+  //   expect(removeChildSpy).not.toHaveBeenCalled();
+  // });
 
   it('should put backspacePressed to true and mousemove to have been called', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.backspace});

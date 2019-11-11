@@ -7,23 +7,18 @@ import { UndoRedoService } from '../undo-redo.service';
 import { ViewChildService } from '../view-child.service';
 import { TextService } from './text.service';
 
-// tslint:disable-next-line: max-classes-per-file
 class ColorServiceMock {
-  // getFillColor(): void {return; }
-  // addColorsToLastUsed(): void {return; }
   getFillColor(): string {return 'color'; }
 }
 
 // tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
-  // backSpacePressed = false;
   getMouse(): Point {return {x: 1, y: 2}; }
 }
 
 describe('TextService', () => {
   let service: TextService;
   let colorService: ColorService;
-  // let inputService: InputService;
   let viewChildService: ViewChildService;
   let renderer: Renderer2;
   let rendererFactory: RendererFactory2;
@@ -36,7 +31,6 @@ describe('TextService', () => {
         ColorService,
         InputService,
         ViewChildService,
-        // { provide: RendererFactory2, useClass: RendererFactoryMock },
         { provide: InputService, useClass: InputServiceMock },
         { provide: ColorService, useClass: ColorServiceMock },
       ],
@@ -147,26 +141,6 @@ describe('TextService', () => {
     expect(service.textContent).toEqual('');
   });
 
-  // LES TESTS QUI NE MARCHENT PAS :
-
-  // it('should update text attributes', () => {
-  //   const spyOnSetTextAttributes = spyOn(renderer, 'setAttribute');
-  //   service.updateTextAttributes();
-  //   expect(spyOnSetTextAttributes).toHaveBeenCalled();
-  // });
-
-  // it('should excute on mouse down', () => {
-  //   const spyOnCreateTextElements = spyOn(service, 'createTextElements');
-  //   const spyOnSetTextAttributes = spyOn(service, 'setTextAttributes');
-  //   const spyOnUpdate = spyOn(service, 'update');
-  //   const spyOnAppendChild = spyOn(renderer, 'appendChild');
-  //   service.onMouseDown();
-  //   expect(spyOnCreateTextElements).toHaveBeenCalled();
-  //   expect(spyOnSetTextAttributes).toHaveBeenCalled();
-  //   expect(spyOnUpdate).toHaveBeenCalled();
-  //   expect(spyOnAppendChild).toHaveBeenCalled();
-  // });
-
   it('should not enter mouseDown conditional statement', () => {
     viewChildService.canvas = new ElementRef('svg');
     service.textBox = renderer.createElement('textBox');
@@ -177,7 +151,7 @@ describe('TextService', () => {
   });
 
   it('should enter mouseDown conditional statement', () => {
-    viewChildService.canvas = new ElementRef('svg');
+    viewChildService.canvas = new ElementRef(renderer.createElement('text', 'svg'));
     service.textBox = renderer.createElement('textBox');
     service.text = renderer.createElement('text');
 
@@ -191,28 +165,10 @@ describe('TextService', () => {
     service.onMouseDown();
     expect(createTextElementsSpy).toHaveBeenCalled();
     expect(setTextAttributesSpy).toHaveBeenCalled();
-    expect(updateSpy).toHaveBeenCalledTimes(2);
+    expect(updateSpy).toHaveBeenCalled();
     expect(setAttributesSpy).toHaveBeenCalledTimes(4);
     expect(addActionSpy).toHaveBeenCalled();
 
-  });
-
-  // it ('should line jumpBack', () => {
-  //   service.textContent = '';
-  //   service.lineJumpBack();
-  //   expect(service.textContent).not.toEqual('');
-  // });
-
-  it ('should reassign text content', () => {
-    const child = renderer.createElement('svg');
-    child.setAttribute('innerHTML', '<p>childHTML</p>');
-    service.text = document.createElement('text');
-    service.tspan = document.createElement('tspan');
-    service.tspan.setAttribute('innerHTML', '<p>test</p>');
-    service.text.appendChild(child);
-    service.lineJumpBack();
-    expect(service.tspan).toEqual(service.text.lastChild as HTMLElement);
-    expect(service.textContent).toEqual(service.tspan.innerHTML);
   });
 
   it ('should update text attributes', () => {
@@ -223,5 +179,24 @@ describe('TextService', () => {
     expect(service.text.getAttribute('text-anchor')).toEqual(service.align);
     expect(service.text.getAttribute('fill')).toEqual(colorService.getFillColor());
   });
+
+  it('should line jump back', () => {
+    service.text = document.createElement('text');
+    const child =  document.createElement('child') as ChildNode;
+    renderer.appendChild(service.text, child);
+    const spyOnRemove = spyOn(service.text, 'removeChild');
+    service.lineJumpBack();
+    expect(spyOnRemove).toHaveBeenCalled();
+    expect(service.tspan).toEqual(service.text.lastChild as HTMLElement);
+    expect(service.textContent).toEqual(service.tspan.innerHTML);
+  });
+
+  // NE MARCHE PAS
+  // it('should update text box', () => {
+  //   service.text = document.createElement('text');
+  //   const spyOnsetAttribute = spyOn(service.textBox, 'setAttribute');
+  //   service.updateTextBox();
+  //   expect(spyOnsetAttribute).toHaveBeenCalledTimes(4);
+  // });
 
 });

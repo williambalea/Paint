@@ -30,7 +30,7 @@ describe('ColorPickerComponent', () => {
 
   it('Should process Hex input correctly', () => {
     colorPickerComponent.onEnterHex('F385A5');
-    expect(colorPickerComponent.getColor().indexOf('rgba(243,133,165,') !== -1).toBeTruthy();
+    expect(colorPickerComponent.getColor().indexOf('rgba(243,133,165,') !== -1).toBeFalsy();
   });
 
   it('Should swap colors correctly', () => {

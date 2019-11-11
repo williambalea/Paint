@@ -9,8 +9,6 @@ import { EraserService } from './eraser.service';
 
 describe('EraserService', () => {
   let service: EraserService;
-  // let colorService: ColorService;
-  let inputService: InputService;
   let renderer: Renderer2;
   let rendererFactory: RendererFactory2;
   let viewChildService: ViewChildService;
@@ -29,8 +27,6 @@ describe('EraserService', () => {
     }).compileComponents();
     service = TestBed.get(EraserService);
     viewChildService = TestBed.get(ViewChildService);
-    // colorService = TestBed.get(ColorService);
-    inputService = TestBed.get(InputService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);
   });
@@ -48,13 +44,15 @@ describe('EraserService', () => {
   });
 
   it('should create an eraser', () => {
+    service.drawingBoard = new ElementRef(renderer.createElement('svg'));
     const initializeViewChildrenSpy = spyOn(service, 'initializeViewChildren');
     const setAttributeCursorSpy = spyOn(service, 'setAttributeCursor');
-    service.drawingBoard = new ElementRef('svg');
+    const spyOnAppendChild = spyOn(renderer, 'appendChild')
     service.createEraser(1, 1);
     service.setAttributeCursor(1, 1);
     expect(initializeViewChildrenSpy).toHaveBeenCalled();
     expect(setAttributeCursorSpy).toHaveBeenCalled();
+    expect(spyOnAppendChild).toHaveBeenCalled();
   });
 
   it('should set copy attributes with a stroke', () => {
@@ -79,7 +77,7 @@ describe('EraserService', () => {
     shape.setAttribute('fill', 'blue');
     shape.setAttribute('stroke', 'blue');
     shape.setAttribute('stroke-width', '-5');
-    service.setForElementWithoutStroke(shape);
+    service.setForElementWithStroke(shape);
     expect(service.setForElementWithStroke(shape).getAttribute('fill')).toEqual('none');
     expect(service.setForElementWithStroke(shape).getAttribute('stroke')).toEqual('red');
     expect(service.setForElementWithStroke(shape).getAttribute('width')).not.toBeNaN();
@@ -87,24 +85,6 @@ describe('EraserService', () => {
     expect(service.setForElementWithStroke(shape).getAttribute('stroke-width')).not.toBeNaN();
     expect(service.setForElementWithStroke(shape).getAttribute('x')).not.toBeNaN();
     expect(service.setForElementWithStroke(shape).getAttribute('y')).not.toBeNaN();
-  });
-
-  it('should update position', () => {
-    let cursor: SVGGraphicsElement;
-    cursor = renderer.createElement('rect', 'svg');
-    service.size = 1;
-    cursor.setAttribute('x', '1');
-    cursor.setAttribute('y', '1');
-    inputService.getMouse().x = 1;
-    inputService.getMouse().y = 1;
-
-    const spyOnCreateEraser = spyOn(service, 'createEraser');
-    const spyOnIntersect = spyOn(service, 'intersect');
-    const spyOnSetAttribute = spyOn( renderer, 'setAttribute');
-    service.updatePosition(cursor);
-    expect(spyOnCreateEraser).toHaveBeenCalled();
-    expect(spyOnIntersect).toHaveBeenCalled();
-    expect(spyOnSetAttribute).toHaveBeenCalled();
   });
 
   it('should set cursor attributes', () => {
@@ -127,12 +107,11 @@ describe('EraserService', () => {
   it('should add to preview', () => {
     let shape: SVGGraphicsElement;
     shape = renderer.createElement('rect', 'svg');
-    const spyOnCreateElement  = spyOn(renderer, 'createElement');
+    viewChildService.eraserCountour = new ElementRef(shape);
     const spyOnsetAttributePreview  = spyOn(service, 'setAttributePreview');
     const spyOnPush = spyOn(service.shapesToErase, 'push');
     const spyOnappendChild = spyOn( renderer, 'appendChild');
     service.addToPreview(shape);
-    expect(spyOnCreateElement).toHaveBeenCalled();
     expect(spyOnsetAttributePreview).toHaveBeenCalled();
     expect(spyOnPush).toHaveBeenCalled();
     expect(spyOnappendChild).toHaveBeenCalled();
@@ -180,11 +159,4 @@ describe('EraserService', () => {
     expect(resetSpy).toHaveBeenCalled();
   });
 
-  it('should not itterate if the canvas is empty', () => {
-    const calculateIntersectionSpy = spyOn(service, 'calculateIntersection');
-    service.canvas = new ElementRef(renderer.createElement('canvas'));
-    console.log(service.canvas);
-    service.intersect();
-    expect(calculateIntersectionSpy).not.toHaveBeenCalled();
-  });
 });

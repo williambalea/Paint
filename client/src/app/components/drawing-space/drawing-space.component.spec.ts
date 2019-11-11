@@ -27,6 +27,7 @@ import { LineService } from './../../services/shapes/line.service';
 // import { UnsubscribeService } from './../../services/unsubscribe.service';
 import { DrawingSpaceComponent } from './drawing-space.component';
 import { Shape } from 'src/app/services/shapes/shape';
+//import { CommunicationsService } from 'src/app/services/communications.service';
 // import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 
 describe('DrawingSpaceComponent', () => {
@@ -51,6 +52,7 @@ describe('DrawingSpaceComponent', () => {
   let undoRedoService: UndoRedoService;
   // let unsubscribeService: UnsubscribeService;
   let includingBoxService: IncludingBoxService;
+  //let communicationService: CommunicationsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -74,6 +76,7 @@ describe('DrawingSpaceComponent', () => {
         provideAutoMock(TextService),
         provideAutoMock(DrawingSpaceComponent),
         provideAutoMock(PipetteService),
+        //provideAutoMock(CommunicationsService),
        // provideAutoMock(NoShapeService),
         HttpClient,
         HttpHandler,
@@ -103,6 +106,7 @@ describe('DrawingSpaceComponent', () => {
     eventEmitterService = TestBed.get(EventEmitterService);
     penService = TestBed.get(PenService);
     textService = TestBed.get(TextService);
+    //communicationService = TestBed.get(CommunicationsService);
     // lineService = TestBed.get(LineService);
 
     component.drawingBoard = new ElementRef(renderer.createElement('drawingBoard'));
@@ -430,6 +434,13 @@ describe('DrawingSpaceComponent', () => {
     component.onwheel(wheelEvent);
     expect(inputService.changeStampAngle).not.toHaveBeenCalled();
   });
+
+  it('should get background color when converting to json', () => {
+    component.convertSVGtoJSON();
+    expect(colorService.getBackgroundColor).toHaveBeenCalled();
+  });
+
+
 
   it('should call penService mouse up', () => {
     const mouseEvent = new MouseEvent('click');

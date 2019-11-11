@@ -1,19 +1,13 @@
-// import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-import { Renderer2, RendererFactory2, ElementRef } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ColorService } from '../color/color.service';
 import { InputService } from '../input.service';
 import { ViewChildService } from '../view-child.service';
 import { PencilService } from './pencil.service';
 
-// class InputServiceMock {
-//   getMouse(): Point {return {x: 0, y: 0}; }
-// }
-
 describe('PencilService', () => {
   let service: PencilService;
   let colorService: ColorService;
-  // let inputService: InputService;
   let renderer: Renderer2;
   let rendererFactory: RendererFactory2;
   let viewChildService: ViewChildService;
@@ -25,15 +19,11 @@ describe('PencilService', () => {
         ColorService,
         InputService,
         ViewChildService,
-        // { provide: Renderer2, useClass: Renderer2Mock },
-        // { provide: InputService, useClass: InputServiceMock },
-
       ],
     }).compileComponents();
     service = TestBed.get(PencilService);
     colorService = TestBed.get(ColorService);
     viewChildService = TestBed.get(ViewChildService);
-    // inputService = TestBed.get(InputService);
     rendererFactory = TestBed.get(RendererFactory2);
     renderer = rendererFactory.createRenderer(null, null);  });
 
@@ -78,6 +68,7 @@ describe('PencilService', () => {
       expect(drawSpy).not.toHaveBeenCalled();
     }
   });
+
   it('Should call onMouseUp() upon mouse click released', () => {
     const resetSpy = spyOn(service, 'reset').and.callThrough();
     const addColorsSpy = spyOn(colorService, 'addColorsToLastUsed').and.callThrough();

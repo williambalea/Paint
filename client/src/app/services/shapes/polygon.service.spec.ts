@@ -1,5 +1,5 @@
 import { Point } from '@angular/cdk/drag-drop/typings/drag-ref';
-import { Renderer2, RendererFactory2, ElementRef } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY_STRING, NB } from 'src/constants';
 import { ColorService } from '../color/color.service';
@@ -7,7 +7,6 @@ import { InputService } from '../input.service';
 import { ViewChildService } from '../view-child.service';
 import { PolygonService } from './polygon.service';
 
-// tslint:disable-next-line: max-classes-per-file
 class InputServiceMock {
   backSpacePressed = false;
   getMouse(): Point {return {x: 0, y: 0}; }
@@ -102,12 +101,6 @@ describe('PolygonService', () => {
     expect(spyOnSetAttributes).not.toHaveBeenCalled();
   });
 
-  // it('should remove color', () => {
-  //   const fill = 'black';
-  //   const returnValue = service.removeColor(fill);
-  //   expect(returnValue).toEqual(jasmine.any(String));
-  // });
-
   it('should assign accordingly to bordered and filled polygon', () => {
     service.assignBorderedAndFilledPolygon();
     expect(service.strokeEnable).toEqual(true);
@@ -176,11 +169,9 @@ describe('PolygonService', () => {
   it('should generate vertices upon moving mouse if active', () => {
     service.active = true;
     const generateVerticesSpy = spyOn(service, 'generateVertices');
-    // const getMouseSpy = spyOn(inputService, 'getMouse');
     const drawSpy = spyOn(service, 'draw');
     service.onMouseMove();
     expect(generateVerticesSpy).toHaveBeenCalled();
-    // expect(getMouseSpy).toHaveBeenCalled();
     expect(drawSpy).toHaveBeenCalled();
   });
 
@@ -188,7 +179,6 @@ describe('PolygonService', () => {
     const generateVerticesSpy = spyOn(service, 'generateVertices').and.callThrough();
     const getMouseSpy = spyOn(inputService, 'getMouse').and.callThrough();
     const drawSpy = spyOn(service, 'draw').and.callThrough();
-
     service.active = false;
     service.onMouseMove();
     expect(service.active).toEqual(false);

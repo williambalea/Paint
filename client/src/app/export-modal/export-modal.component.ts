@@ -61,11 +61,11 @@ export class ExportModalComponent implements OnInit, OnDestroy {
     this.convertSvgToCanvas();
   }
 
-  createBMPLink(): void {
+  createLink(type: string): void {
     this.screenshotService.screenshotBase64(this.viewChildService.drawingBoard.nativeElement);
     const canvas = this.viewChildService.htmlCanvas.nativeElement as HTMLCanvasElement;
     const canvasToBMP: CanvasToBMP = new CanvasToBMP();
-    const newBlob = new Blob([canvasToBMP.toArrayBuffer(canvas)], {type: 'image/bmp'});
+    const newBlob = new Blob([canvasToBMP.toArrayBuffer(canvas)], {type: `image/${type}`});
     this.bmpURL = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(newBlob));
   }
 

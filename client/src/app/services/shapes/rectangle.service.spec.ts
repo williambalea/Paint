@@ -83,9 +83,7 @@ describe('RectangleService', () => {
 
   it('should set style', () => {
     const spyOnsetAttribute = spyOn(renderer, 'setAttribute');
-    const spyOnSetStyle = spyOn(renderer, 'setStyle');
     service.setStyle();
-    expect(spyOnSetStyle).toHaveBeenCalledTimes(2);
     expect(spyOnsetAttribute).toHaveBeenCalled();
   });
 
@@ -169,10 +167,8 @@ describe('RectangleService', () => {
     service.fillEnable = false;
     service.strokeEnable = false;
     const spyOnsetAttribute = spyOn(renderer, 'setAttribute');
-    const spyOnsetStyle = spyOn(renderer, 'setStyle');
     service.setRectangleType();
     expect(spyOnsetAttribute).toHaveBeenCalled();
-    expect(spyOnsetStyle).toHaveBeenCalled();
   });
 
   it('should not set rectangle type', () => {

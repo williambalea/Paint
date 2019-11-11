@@ -20,7 +20,6 @@ describe('DownloadModalComponent', () => {
         DownloadModalComponent,
         Renderer2,
         provideAutoMock(ViewChildService),
-        provideAutoMock(ExportService),
       ],
       imports: [
         MatDialogModule,

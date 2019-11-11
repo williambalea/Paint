@@ -177,7 +177,7 @@ describe('TextService', () => {
   });
 
   it('should enter mouseDown conditional statement', () => {
-    viewChildService.canvas = new ElementRef('svg');
+    viewChildService.canvas = new ElementRef(renderer.createElement('text', 'svg'));
     service.textBox = renderer.createElement('textBox');
     service.text = renderer.createElement('text');
 
@@ -191,7 +191,7 @@ describe('TextService', () => {
     service.onMouseDown();
     expect(createTextElementsSpy).toHaveBeenCalled();
     expect(setTextAttributesSpy).toHaveBeenCalled();
-    expect(updateSpy).toHaveBeenCalledTimes(2);
+    expect(updateSpy).toHaveBeenCalled();
     expect(setAttributesSpy).toHaveBeenCalledTimes(4);
     expect(addActionSpy).toHaveBeenCalled();
 
@@ -204,16 +204,30 @@ describe('TextService', () => {
   // });
 
   it ('should reassign text content', () => {
-    const child = renderer.createElement('svg');
-    child.setAttribute('innerHTML', '<p>childHTML</p>');
-    service.text = document.createElement('text');
-    service.tspan = document.createElement('tspan');
-    service.tspan.setAttribute('innerHTML', '<p>test</p>');
-    service.text.appendChild(child);
+    // const child = renderer.createElement('svg') as ChildNode;
+    // service.tspan = child.lastChild as HTMLElement;
+    // service.text = document.createElement('text');
+    // service.tspan = document.createElement('tspan');
+    // service.tspan.setAttribute('innerHTML', '<p>test</p>');
+    service.text.appendChild(renderer.createElement('text', 'svg') as ChildNode);
+    const spyOnRemove = spyOn(renderer, 'removeChild');
     service.lineJumpBack();
-    expect(service.tspan).toEqual(service.text.lastChild as HTMLElement);
-    expect(service.textContent).toEqual(service.tspan.innerHTML);
+    expect(spyOnRemove).toHaveBeenCalled();
+    // expect(service.tspan).toEqual(service.text.lastChild as HTMLElement);
+    // expect(service.textContent).toEqual(service.tspan.innerHTML);
   });
+
+  // it('should line jump back', () => {
+  //   // service.tspan = '' as unknown as HTMLElement;
+  //   viewChildService.canvas = new ElementRef({ action: ACTIONS.append, shape: SVGGraphicsElement = renderer.createElement('text', 'svg')});
+  //   const spyOnremoveChild = spyOn(renderer, 'removeChild');
+  //   service.lineJumpBack();
+  //   // expect(service.tspan).not.toEqual('');
+  //   expect(service.textContent).not.toEqual('');
+  //   // const spyOnRemoveChild = spyOn(renderer, 'removeChild');
+  //   // service.lineJumpBack();
+  //   expect(spyOnremoveChild).toHaveBeenCalled();
+  // });
 
   it ('should update text attributes', () => {
     service.text = document.createElement('text');
@@ -222,6 +236,17 @@ describe('TextService', () => {
     expect(service.text.getAttribute('font-size')).toEqual(service.fontSize.toString());
     expect(service.text.getAttribute('text-anchor')).toEqual(service.align);
     expect(service.text.getAttribute('fill')).toEqual(colorService.getFillColor());
+  });
+
+  it('should line jump back', () => {
+    service.text = document.createElement('text');
+    const child =  document.createElement('child') as ChildNode;
+    renderer.appendChild(service.text, child);
+    const spyOnRemove = spyOn(service.text, 'removeChild');
+    service.lineJumpBack();
+    expect(spyOnRemove).toHaveBeenCalled();
+    expect(service.tspan).toEqual(service.text.lastChild as HTMLElement);
+    expect(service.textContent).toEqual(service.tspan.innerHTML);
   });
 
 });

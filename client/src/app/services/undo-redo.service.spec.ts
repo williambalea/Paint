@@ -60,6 +60,16 @@ describe('UndoRedoService', () => {
 
   it('should validate increment', () => {
     const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    lastAction.increment = 1;
+    expect(inputService.incrementMultiplier).toEqual(1);
+    service.validateIncrement(lastAction);
+    expect(inputService.incrementMultiplier).toEqual(0);
+  });
+
+  it('should not validate increment', () => {
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    lastAction.increment = undefined;
+    expect(inputService.incrementMultiplier).toEqual(1);
     service.validateIncrement(lastAction);
     expect(inputService.incrementMultiplier).toEqual(1);
   });
@@ -137,6 +147,16 @@ describe('UndoRedoService', () => {
 
   it('should validate increment multiplier', () => {
     const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    lastAction.increment = 1;
+    expect(inputService.incrementMultiplier).toEqual(1);
+    service.validaincrementMultiplier(lastAction);
+    expect(inputService.incrementMultiplier).toEqual(2);
+  });
+
+  it('should not validate increment multiplier', () => {
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    lastAction.increment = undefined;
+    expect(inputService.incrementMultiplier).toEqual(1);
     service.validaincrementMultiplier(lastAction);
     expect(inputService.incrementMultiplier).toEqual(1);
   });
@@ -222,17 +242,17 @@ describe('UndoRedoService', () => {
 
   it('should append on redo when action is append', () => {
     const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
-    service.actions.push(lastAction);
-    service.actions.push(lastAction);
+    service.poppedActions.push(lastAction);
+    service.poppedActions.push(lastAction);
     const spyOnAction = spyOn(service, 'appendOnRedo');
     service.redo();
     expect(spyOnAction).toHaveBeenCalled();
   });
 
-  it('should remove on redo when action is remove', () => {
-    const lastAction: UndoRedoAction = { action: ACTIONS.remove , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
-    service.actions.push(lastAction);
-    service.actions.push(lastAction);
+  it('------should remove on redo when action is remove', () => {
+    const previousAction: UndoRedoAction = { action: ACTIONS.remove , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.poppedActions.push(previousAction);
+    service.poppedActions.push(previousAction);
     const spyOnAction = spyOn(service, 'removeOnRedo');
     service.redo();
     expect(spyOnAction).toHaveBeenCalled();
@@ -240,15 +260,17 @@ describe('UndoRedoService', () => {
 
   it('should changeColor on redo when action is changeColor', () => {
     const lastAction: UndoRedoAction = { action: ACTIONS.changeColor , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
-    service.actions.push(lastAction);
-    service.actions.push(lastAction);
+    service.poppedActions.push(lastAction);
+    service.poppedActions.push(lastAction);
     const spyOnAction = spyOn(service, 'changeColorOnRedo');
     service.redo();
     expect(spyOnAction).toHaveBeenCalled();
   });
 
   it('should removeManyOnUndo on redo when action is removeManyOnUndo', () => {
-    service.actions.push(ACTIONS.removeMany as unknown as UndoRedoAction );
+    const lastAction: UndoRedoAction = { action: ACTIONS.removeMany , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.poppedActions.push(lastAction);
+    service.poppedActions.push(lastAction);
     const spyOnAction = spyOn(service, 'removeManyOnRedo');
     service.redo();
     expect(spyOnAction).toHaveBeenCalled();

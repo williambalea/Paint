@@ -329,6 +329,7 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
       setInterval(() => {
         this.eraserService.intersect();
       }, Math.pow(1, Number.MIN_SAFE_INTEGER));
+      this.eraserService.sendToUndoRedo();
     }
 
     this.inputService.isDrawed = true;
@@ -363,7 +364,6 @@ export class DrawingSpaceComponent implements OnInit, OnDestroy, AfterViewInit {
   onKeyDown(event: KeyboardEvent): void {
     if (this.selectedTool !== TOOL.eraser) {
       this.eraserService.cursor.remove();
-      this.eraserService.reset();
     } else {
       this.eraserService.updatePosition(this.eraserService.cursor);
     }

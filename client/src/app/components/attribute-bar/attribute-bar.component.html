@@ -79,7 +79,7 @@
                     </mat-slider>
                     <div class="attributeHeader">
                         Toggle Grid<br>
-                        <mat-slide-toggle [checked]="usingGrid" (change)="onGridToggle()">
+                        <mat-slide-toggle [checked]="this.gridService.isUsingGrid " (change)="onGridToggle()">
                         </mat-slide-toggle>
                     </div>
                 </div>

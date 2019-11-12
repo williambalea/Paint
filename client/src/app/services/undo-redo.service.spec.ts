@@ -194,14 +194,18 @@ describe('UndoRedoService', () => {
   });
 
   it('should changeColor on undo when action is changeColor', () => {
-    service.actions.push(ACTIONS.changeColor as unknown as UndoRedoAction );
+    const lastAction: UndoRedoAction = { action: ACTIONS.changeColor , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.actions.push(lastAction);
+    service.actions.push(lastAction);
     const spyOnAction = spyOn(service, 'changeColorOnUndo');
     service.undo();
     expect(spyOnAction).toHaveBeenCalled();
   });
 
   it('should removeManyOnUndo on undo when action is removeManyOnUndo', () => {
-    service.actions.push(ACTIONS.removeMany as unknown as UndoRedoAction );
+    const lastAction: UndoRedoAction = { action: ACTIONS.removeMany , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.actions.push(lastAction);
+    service.actions.push(lastAction);
     const spyOnAction = spyOn(service, 'removeManyOnUndo');
     service.undo();
     expect(spyOnAction).toHaveBeenCalled();
@@ -217,30 +221,36 @@ describe('UndoRedoService', () => {
   });
 
   it('should append on redo when action is append', () => {
-    service.actions.push(ACTIONS.append as unknown as UndoRedoAction );
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.actions.push(lastAction);
+    service.actions.push(lastAction);
     const spyOnAction = spyOn(service, 'appendOnRedo');
-    service.undo();
+    service.redo();
     expect(spyOnAction).toHaveBeenCalled();
   });
 
   it('should remove on redo when action is remove', () => {
-    service.actions.push(ACTIONS.remove as unknown as UndoRedoAction );
+    const lastAction: UndoRedoAction = { action: ACTIONS.remove , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.actions.push(lastAction);
+    service.actions.push(lastAction);
     const spyOnAction = spyOn(service, 'removeOnRedo');
-    service.undo();
+    service.redo();
     expect(spyOnAction).toHaveBeenCalled();
   });
 
   it('should changeColor on redo when action is changeColor', () => {
-    service.actions.push(ACTIONS.changeColor as unknown as UndoRedoAction );
+    const lastAction: UndoRedoAction = { action: ACTIONS.changeColor , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.actions.push(lastAction);
+    service.actions.push(lastAction);
     const spyOnAction = spyOn(service, 'changeColorOnRedo');
-    service.undo();
+    service.redo();
     expect(spyOnAction).toHaveBeenCalled();
   });
 
   it('should removeManyOnUndo on redo when action is removeManyOnUndo', () => {
     service.actions.push(ACTIONS.removeMany as unknown as UndoRedoAction );
     const spyOnAction = spyOn(service, 'removeManyOnRedo');
-    service.undo();
+    service.redo();
     expect(spyOnAction).toHaveBeenCalled();
   });
 

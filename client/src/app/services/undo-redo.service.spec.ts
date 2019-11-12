@@ -176,14 +176,18 @@ describe('UndoRedoService', () => {
   });
 
   it('should append on undo when action is append', () => {
-    service.actions.push(ACTIONS.append as unknown as UndoRedoAction );
+    const lastAction: UndoRedoAction = { action: ACTIONS.append , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.actions.push(lastAction);
+    service.actions.push(lastAction);
     const spyOnAction = spyOn(service, 'appendOnUndo');
     service.undo();
     expect(spyOnAction).toHaveBeenCalled();
   });
 
   it('should remove on undo when action is remove', () => {
-    service.actions.push(ACTIONS.remove as unknown as UndoRedoAction );
+    const lastAction: UndoRedoAction = { action: ACTIONS.remove , shape: SVGGraphicsElement = renderer.createElement('rect', 'svg')};
+    service.actions.push(lastAction);
+    service.actions.push(lastAction);
     const spyOnAction = spyOn(service, 'removeOnUndo');
     service.undo();
     expect(spyOnAction).toHaveBeenCalled();

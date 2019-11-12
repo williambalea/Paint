@@ -207,6 +207,44 @@ describe('DrawingSpaceComponent', () => {
     expect(inputService.shiftPressed).not.toBeTruthy();
   });
 
+  it('should empty poppedactions array', () => {
+    const keyboardEvent = new Event('keyup');
+    component.onLeftClick(keyboardEvent);
+    expect(undoRedoService.poppedActions).toEqual(ɵEMPTY_ARRAY);
+  });
+
+  it('should call changefillcolor and addaction', () => {
+    const keyboardEvent = new Event('keyup');
+    undoRedoService.undoIsStarted = true;
+    component.onLeftClick(keyboardEvent);
+    expect(component.changeFillColor).toHaveBeenCalled();
+    expect(undoRedoService.undoIsStarted).not.toBeTruthy();
+    expect(undoRedoService.addAction).toHaveBeenCalled();
+  });
+
+  it('should call isComplexShape', () => {
+    const target = document.createElement('target');
+    target.setAttribute('tagName', 'path');
+    target.id = 'pen';
+    const isComplexSpy = spyOn(component, 'isComplexShape');
+    component.changeFillColor(target);
+    expect(isComplexSpy).toHaveBeenCalled();
+  });
+
+  it('should call iscomplexshape', () => {
+    const keyboardEvent = new Event('keyup');
+    const spy = spyOn(component, 'isComplexShape');
+    component.onRightClick(keyboardEvent);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should call notCanvasAndColorApplicator', () => {
+    const keyboardEvent = new Event('keyup');
+    const spy = spyOn(component, 'notCanvasAndColorApplicator');
+    component.onRightClick(keyboardEvent);
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('should remove the element the cursor is on from the canvas', () => {
     const mouseEvent = new MouseEvent('eraser');
     const spy = spyOn(renderer, 'removeChild');
@@ -217,9 +255,10 @@ describe('DrawingSpaceComponent', () => {
 
   it('should not call prevent default', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.d});
+    const spy = spyOn(keyboardEvent, 'preventDefault');
     inputService.controlPressed = false;
     component.onKeyDown(keyboardEvent);
-    expect(keyboardEvent.preventDefault).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it('should call prevent default', () => {
@@ -440,8 +479,6 @@ describe('DrawingSpaceComponent', () => {
     expect(colorService.getBackgroundColor).toHaveBeenCalled();
   });
 
-
-
   it('should call penService mouse up', () => {
     const mouseEvent = new MouseEvent('click');
     component.selectedTool = TOOL.pen;
@@ -554,8 +591,12 @@ describe('DrawingSpaceComponent', () => {
 
   it('should call includingBox update', () => {
     const mouseEvent = new MouseEvent('mousedown');
-    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedShape = penService;
+    // const svg = renderer.createElement('id', 'svg') as SVGGraphicsElement;
+    // svg.setAttribute('id', 'svg');
+    // renderer.setAttribute(component.selectedShape, 'id', 'pen');
     component.selectedTool = TOOL.selector;
+    // component.selectedShape = penService;
     component.selectorAreaActive = true;
     component.onMouseDown(mouseEvent);
     expect(includingBoxService.update).toHaveBeenCalled();
@@ -627,10 +668,13 @@ describe('DrawingSpaceComponent', () => {
   });
 
   it('should set renderer attributes', () => {
+    const spy1 = spyOn(renderer, 'setAttribute');
+    const spy2 = spyOn(renderer, 'setStyle');
+    const spy3 = spyOn(component.canvas.nativeElement, 'insertAdjacentHTML');
     component.click();
-    expect(component.canvas.nativeElement.insertAdjacentHTML).toHaveBeenCalled();
-    expect(renderer.setAttribute).toHaveBeenCalled();
-    expect(renderer.setStyle).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
     expect(uploadService.backgroundColor).toEqual(EMPTY_STRING);
     expect(uploadService.height).toEqual(EMPTY_STRING);
     expect(uploadService.width).toEqual(EMPTY_STRING);

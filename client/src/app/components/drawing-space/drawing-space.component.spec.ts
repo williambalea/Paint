@@ -213,9 +213,10 @@ describe('DrawingSpaceComponent', () => {
 
   it('should not call prevent default', () => {
     const keyboardEvent = new KeyboardEvent('keydown', {key: KEY.d});
+    const spy = spyOn(keyboardEvent, 'preventDefault');
     inputService.controlPressed = false;
     component.onKeyDown(keyboardEvent);
-    expect(keyboardEvent.preventDefault).not.toHaveBeenCalled();
+    expect(spy).not.toHaveBeenCalled();
   });
 
   it('should call prevent default', () => {
@@ -543,8 +544,12 @@ describe('DrawingSpaceComponent', () => {
 
   it('should call includingBox update', () => {
     const mouseEvent = new MouseEvent('mousedown');
-    component.selectedShape = renderer.createElement('shape') as unknown as Shape;
+    component.selectedShape = penService;
+    // const svg = renderer.createElement('id', 'svg') as SVGGraphicsElement;
+    // svg.setAttribute('id', 'svg');
+    // renderer.setAttribute(component.selectedShape, 'id', 'pen');
     component.selectedTool = TOOL.selector;
+    // component.selectedShape = penService;
     component.selectorAreaActive = true;
     component.onMouseDown(mouseEvent);
     expect(includingBoxService.update).toHaveBeenCalled();
@@ -616,10 +621,13 @@ describe('DrawingSpaceComponent', () => {
   });
 
   it('should set renderer attributes', () => {
+    const spy1 = spyOn(renderer, 'setAttribute');
+    const spy2 = spyOn(renderer, 'setStyle');
+    const spy3 = spyOn(component.canvas.nativeElement, 'insertAdjacentHTML');
     component.click();
-    expect(component.canvas.nativeElement.insertAdjacentHTML).toHaveBeenCalled();
-    expect(renderer.setAttribute).toHaveBeenCalled();
-    expect(renderer.setStyle).toHaveBeenCalled();
+    expect(spy3).toHaveBeenCalled();
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).toHaveBeenCalled();
     expect(uploadService.backgroundColor).toEqual(EMPTY_STRING);
     expect(uploadService.height).toEqual(EMPTY_STRING);
     expect(uploadService.width).toEqual(EMPTY_STRING);

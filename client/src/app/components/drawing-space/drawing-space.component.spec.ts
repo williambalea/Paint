@@ -27,6 +27,7 @@ import { LineService } from './../../services/shapes/line.service';
 // import { UnsubscribeService } from './../../services/unsubscribe.service';
 import { DrawingSpaceComponent } from './drawing-space.component';
 import { Shape } from 'src/app/services/shapes/shape';
+//import { CommunicationsService } from 'src/app/services/communications.service';
 // import { NoShapeService } from 'src/app/services/shapes/no-shape.service';
 
 describe('DrawingSpaceComponent', () => {
@@ -51,6 +52,7 @@ describe('DrawingSpaceComponent', () => {
   let undoRedoService: UndoRedoService;
   // let unsubscribeService: UnsubscribeService;
   let includingBoxService: IncludingBoxService;
+  //let communicationService: CommunicationsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -74,6 +76,7 @@ describe('DrawingSpaceComponent', () => {
         provideAutoMock(TextService),
         provideAutoMock(DrawingSpaceComponent),
         provideAutoMock(PipetteService),
+        //provideAutoMock(CommunicationsService),
        // provideAutoMock(NoShapeService),
         HttpClient,
         HttpHandler,
@@ -103,6 +106,7 @@ describe('DrawingSpaceComponent', () => {
     eventEmitterService = TestBed.get(EventEmitterService);
     penService = TestBed.get(PenService);
     textService = TestBed.get(TextService);
+    //communicationService = TestBed.get(CommunicationsService);
     // lineService = TestBed.get(LineService);
 
     component.drawingBoard = new ElementRef(renderer.createElement('drawingBoard'));
@@ -201,6 +205,44 @@ describe('DrawingSpaceComponent', () => {
     inputService.shiftPressed = true;
     component.onKeyUp(keyboardEvent);
     expect(inputService.shiftPressed).not.toBeTruthy();
+  });
+
+  it('should empty poppedactions array', () => {
+    const keyboardEvent = new Event('keyup');
+    component.onLeftClick(keyboardEvent);
+    expect(undoRedoService.poppedActions).toEqual(ɵEMPTY_ARRAY);
+  });
+
+  it('should call changefillcolor and addaction', () => {
+    const keyboardEvent = new Event('keyup');
+    undoRedoService.undoIsStarted = true;
+    component.onLeftClick(keyboardEvent);
+    expect(component.changeFillColor).toHaveBeenCalled();
+    expect(undoRedoService.undoIsStarted).not.toBeTruthy();
+    expect(undoRedoService.addAction).toHaveBeenCalled();
+  });
+
+  it('should call isComplexShape', () => {
+    const target = document.createElement('target');
+    target.setAttribute('tagName', 'path');
+    target.id = 'pen';
+    const isComplexSpy = spyOn(component, 'isComplexShape');
+    component.changeFillColor(target);
+    expect(isComplexSpy).toHaveBeenCalled();
+  });
+
+  it('should call iscomplexshape', () => {
+    const keyboardEvent = new Event('keyup');
+    const spy = spyOn(component, 'isComplexShape');
+    component.onRightClick(keyboardEvent);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should call notCanvasAndColorApplicator', () => {
+    const keyboardEvent = new Event('keyup');
+    const spy = spyOn(component, 'notCanvasAndColorApplicator');
+    component.onRightClick(keyboardEvent);
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should remove the element the cursor is on from the canvas', () => {
@@ -430,6 +472,11 @@ describe('DrawingSpaceComponent', () => {
     component.selectedTool = TOOL.line;
     component.onwheel(wheelEvent);
     expect(inputService.changeStampAngle).not.toHaveBeenCalled();
+  });
+
+  it('should get background color when converting to json', () => {
+    component.convertSVGtoJSON();
+    expect(colorService.getBackgroundColor).toHaveBeenCalled();
   });
 
   it('should call penService mouse up', () => {
